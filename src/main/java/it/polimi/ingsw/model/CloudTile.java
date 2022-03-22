@@ -2,16 +2,10 @@ package it.polimi.ingsw.model;
 import java.util.*;
 
 //one for each player, contains MAX 3 students per cloud
-public class CloudTile implements StudentManager {
+public class CloudTile {
 
     private int tileID;
     private ArrayList<Student> students;
-
-    //returns the number of students of a given color passed as parameter
-    public int colorStudent(Color color){
-
-        return 0;
-    }
 
     //returns a string with the number and color of students on the tile, returns "empty" if there are none
     public String getStudent() {
