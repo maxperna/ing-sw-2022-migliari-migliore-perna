@@ -4,28 +4,52 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e76188c8-816a-46ba-ad97-be717e346efb" name="Changes" comment="Git test">
-      <change afterPath="$PROJECT_DIR$/Prova.txt" afterDir="false" />
+    <list default="true" id="e76188c8-816a-46ba-ad97-be717e346efb" name="Changes" comment="Aggiunta classi CloudTile, Pouch (implementazione singleton) e interfaccia StudentManager">
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/IslandTile.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/MotherNature.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProvaGIT" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/Pouch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/Pouch.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Rebase.Settings">
+    <option name="NEW_BASE" value="origin/Class_blueprint" />
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="Class_blueprint" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="26QVpjVba1Seld3aB8HHPEY07Fz" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -41,7 +65,7 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="e76188c8-816a-46ba-ad97-be717e346efb" name="Changes" comment="" />
+      <changelist id="e76188c8-816a-46ba-ad97-be717e346efb" name="Changes" comment="Git test" />
       <created>1647355981893</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -49,6 +73,16 @@
       <workItem from="1647355983322" duration="276000" />
       <workItem from="1647356556443" duration="730000" />
       <workItem from="1647373674062" duration="185000" />
+      <workItem from="1647799396934" duration="305000" />
+      <workItem from="1647849385078" duration="598000" />
+      <workItem from="1647859408969" duration="4354000" />
+      <workItem from="1647877831384" duration="372000" />
+      <workItem from="1647878275677" duration="210000" />
+      <workItem from="1647880889505" duration="1547000" />
+      <workItem from="1647882468012" duration="117000" />
+      <workItem from="1647884364639" duration="2199000" />
+      <workItem from="1647886997194" duration="98000" />
+      <workItem from="1647891606478" duration="818000" />
     </task>
     <task id="LOCAL-00001" summary="Git test">
       <created>1647356684514</created>
@@ -71,7 +105,49 @@
       <option name="project" value="LOCAL" />
       <updated>1647357126531</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Rimozione Classe Pawn in seguito a modifica UML">
+      <created>1647872597489</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1647872597489</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Rimozione Classe Pawn in seguito a modifica UML">
+      <created>1647878087274</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1647878087274</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Aggiunta Classe Tower">
+      <created>1647878353865</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1647878353865</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Aggiunta Classe CloudTile">
+      <created>1647881462105</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1647881462105</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Aggiornamento POM">
+      <created>1647881516472</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1647881516472</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Aggiunta classi CloudTile, Pouch (implementazione singleton) e interfaccia StudentManager">
+      <created>1647886531779</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1647886531779</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -88,7 +164,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="origin/Prova1" />
+                        <option value="Class_blueprint_Miglia" />
                       </list>
                     </value>
                   </entry>
@@ -99,10 +175,12 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Git test" />
-    <option name="LAST_COMMIT_MESSAGE" value="Git test" />
+    <MESSAGE value="Aggiunta Classe CloudTile" />
+    <MESSAGE value="Aggiornamento POM" />
+    <MESSAGE value="Aggiunta classi CloudTile, Pouch (implementazione singleton) e interfaccia StudentManager" />
+    <option name="LAST_COMMIT_MESSAGE" value="Aggiunta classi CloudTile, Pouch (implementazione singleton) e interfaccia StudentManager" />
   </component>
 </project>
