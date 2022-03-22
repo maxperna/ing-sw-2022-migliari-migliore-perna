@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e76188c8-816a-46ba-ad97-be717e346efb" name="Changes" comment="Aggiunta classi CloudTile, Pouch (implementazione singleton) e interfaccia StudentManager">
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/IslandTile.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/MotherNature.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/Pouch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/Pouch.java" afterDir="false" />
-    </list>
+    <list default="true" id="e76188c8-816a-46ba-ad97-be717e346efb" name="Changes" comment="Aggiornamento GitIgnore" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -30,7 +25,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="Class_blueprint" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -147,7 +142,14 @@
       <option name="project" value="LOCAL" />
       <updated>1647886531779</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Aggiornamento GitIgnore">
+      <created>1647951576448</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1647951576448</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -164,7 +166,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="Class_blueprint_Miglia" />
+                        <option value="Class_blueprint" />
                       </list>
                     </value>
                   </entry>
@@ -181,6 +183,7 @@
     <MESSAGE value="Aggiunta Classe CloudTile" />
     <MESSAGE value="Aggiornamento POM" />
     <MESSAGE value="Aggiunta classi CloudTile, Pouch (implementazione singleton) e interfaccia StudentManager" />
-    <option name="LAST_COMMIT_MESSAGE" value="Aggiunta classi CloudTile, Pouch (implementazione singleton) e interfaccia StudentManager" />
+    <MESSAGE value="Aggiornamento GitIgnore" />
+    <option name="LAST_COMMIT_MESSAGE" value="Aggiornamento GitIgnore" />
   </component>
 </project>
