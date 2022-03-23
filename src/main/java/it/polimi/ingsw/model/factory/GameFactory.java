@@ -1,10 +1,5 @@
 package it.polimi.ingsw.model.factory;
 
-import it.polimi.ingsw.model.factory.BoardCreator;
-import it.polimi.ingsw.model.factory.FourPlayerBoard;
-import it.polimi.ingsw.model.factory.ThreePlayersBoard;
-import it.polimi.ingsw.model.factory.TwoPlayersBoard;
-
 public class GameFactory {
 
     public BoardCreator createBoard(String selector){
@@ -16,7 +11,7 @@ public class GameFactory {
             case "ThreePlayers":
                 return new ThreePlayersBoard();
             case "FourPlayers":
-                return new FourPlayerBoard();
+                return new FoursPlayerBoard();
             default:
                 throw new IllegalArgumentException("Unknown selector "+selector);
         }

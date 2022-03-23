@@ -4,17 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e76188c8-816a-46ba-ad97-be717e346efb" name="Changes" comment="Aggiunta classe Game, prima implementazione di GameFactory">
+    <list default="true" id="e76188c8-816a-46ba-ad97-be717e346efb" name="Changes" comment="Merge di sicurezza per non creare casino con la nuova directory &quot;Factory&quot;">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/BoardCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/factory/BoardCreator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/FourPlayerBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/factory/FourPlayerBoard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/factory/GameFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/ThreePlayersBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/factory/ThreePlayersBoard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/TwoPlayersBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/factory/TwoPlayersBoard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/App.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/Game.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/Game.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/factory/FourPlayerBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/factory/FoursPlayerBoard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/factory/GameFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/factory/GameFactory.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,13 +23,21 @@
       </list>
     </option>
   </component>
+  <component name="Git.Merge.Settings">
+    <option name="BRANCH" value="Project_BluePrint_Miglia" />
+    <option name="OPTIONS">
+      <set>
+        <option value="SQUASH" />
+      </set>
+    </option>
+  </component>
   <component name="Git.Rebase.Settings">
     <option name="NEW_BASE" value="origin/Class_blueprint" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="Project_BluePrint" />
+        <entry key="$PROJECT_DIR$" value="Project_BluePrint_Miglia" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -85,6 +86,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.App" />
+        <item itemvalue="Application.App" />
       </list>
     </recent_temporary>
   </component>
@@ -116,6 +118,8 @@
       <workItem from="1648040412018" duration="30000" />
       <workItem from="1648058707581" duration="7457000" />
       <workItem from="1648067805369" duration="3221000" />
+      <workItem from="1648071423960" duration="8000" />
+      <workItem from="1648071578104" duration="447000" />
     </task>
     <task id="LOCAL-00001" summary="Git test">
       <created>1647356684514</created>
@@ -236,7 +240,14 @@
       <option name="project" value="LOCAL" />
       <updated>1648067887062</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Merge di sicurezza per non creare casino con la nuova directory &quot;Factory&quot;">
+      <created>1648071393415</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1648071393415</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -277,6 +288,7 @@
     <MESSAGE value="Aggiunta CloudTile, Color, MotherNature, Pouch, Student, StudentManager, Teacher, Tower" />
     <MESSAGE value="Aggiunta commenti JavaDoc" />
     <MESSAGE value="Aggiunta classe Game, prima implementazione di GameFactory" />
-    <option name="LAST_COMMIT_MESSAGE" value="Aggiunta classe Game, prima implementazione di GameFactory" />
+    <MESSAGE value="Merge di sicurezza per non creare casino con la nuova directory &quot;Factory&quot;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge di sicurezza per non creare casino con la nuova directory &quot;Factory&quot;" />
   </component>
 </project>

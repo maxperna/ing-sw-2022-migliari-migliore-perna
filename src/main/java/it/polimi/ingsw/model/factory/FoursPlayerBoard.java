@@ -1,8 +1,6 @@
 package it.polimi.ingsw.model.factory;
 
-import it.polimi.ingsw.model.factory.BoardCreator;
-
-public class FourPlayerBoard implements BoardCreator {
+public class FoursPlayerBoard implements BoardCreator {
 
     @Override
     public void newBoard() {
