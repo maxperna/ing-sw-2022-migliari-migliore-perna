@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 /**
- * Class student
+ * Class Student
  * @author Miglia
  */
 public class Student {

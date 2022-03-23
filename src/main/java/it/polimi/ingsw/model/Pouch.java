@@ -2,7 +2,10 @@ package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
 
-//Singleton, contains 130 students at the beginning of the game, the only way to call a Pouch is to use getInstance
+/**
+ * Class Pouch, Singleton, contains 130 students at the beginning of the game, the only way to call a Pouch is to use getInstance
+ * @author Miglia
+ */
 public class Pouch {
 
     private ArrayList<Student> students;
@@ -10,10 +13,16 @@ public class Pouch {
     //create an object of Pouch
     private static Pouch instance = null;
 
-    //private constructor so that we cannot instantiate the class
+    /**
+     * Constructor
+     * private so that we cannot instantiate the class
+     */
     private Pouch() {};
 
-    //returns the only available object
+    /**
+     * Getter, ensures that there will be only one Pouch
+     * @return Pouch
+     */
     public static Pouch getInstance() {
         if (instance == null)
             instance = new Pouch();
@@ -21,7 +30,9 @@ public class Pouch {
         return instance;
     }
 
-    //returns the number of students left inside the bag
+    /**
+     * @return number(int) of students left inside the bag
+     */
     public int getNumberOfStudents() {
 
         return 0;

@@ -1,7 +1,13 @@
 package it.polimi.ingsw.model;
 
-//returns the number of students of a given color passed as parameter
+/**
+ * Student Manager Interface
+ * @author Miglia
+ */
 public interface StudentManager {
-
+    /**
+     * @param color color of the students you want to count
+     * @return the number of students with the same color passed as parameter
+     */
     public int colorStudent(Color color);
 }

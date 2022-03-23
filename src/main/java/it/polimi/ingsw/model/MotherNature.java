@@ -1,6 +1,9 @@
 package it.polimi.ingsw.model;
 
-//Singleton, the only way to call MotherNature is to use getInstance
+/**
+ * Class MotherNature, Singleton, the only way to call MotherNature is to use getInstance
+ * @author Miglia
+ */
 public class MotherNature {
 
     private IslandTile tile;
@@ -8,10 +11,16 @@ public class MotherNature {
     //create an object of MotherNature
     private static MotherNature instance = null;
 
-    //private constructor so that we cannot instantiate the class
+    /**
+     * Constructor
+     * private so that we cannot instantiate the class
+     */
     private MotherNature() {};
 
-    //returns the only available object
+    /**
+     * Getter, ensures that there will be only one MotherNature
+     * @return MotherNature
+     */
     public static MotherNature getInstance() {
         if (instance == null)
             instance = new MotherNature();
@@ -19,7 +28,9 @@ public class MotherNature {
         return instance;
     }
 
-    //returns the tile mother nature is on
+    /**
+     * @return IslandTile MotherNature is on
+     */
     public IslandTile getTile() {
 
         return tile;
