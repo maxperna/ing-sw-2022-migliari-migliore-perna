@@ -1,8 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.factory.Card;
-
 import java.util.ArrayList;
 
 public class CardDeck {
