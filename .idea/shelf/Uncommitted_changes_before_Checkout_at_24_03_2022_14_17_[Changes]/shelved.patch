@@ -1,0 +1,40 @@
+Index: src/main/java/it/polimi/ingsw/model/CardDeck.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.polimi.ingsw.model;\r\n\r\npublic class CardDeck {\r\n}\r\n
+===================================================================
+diff --git a/src/main/java/it/polimi/ingsw/model/CardDeck.java b/src/main/java/it/polimi/ingsw/model/CardDeck.java
+--- a/src/main/java/it/polimi/ingsw/model/CardDeck.java	
++++ b/src/main/java/it/polimi/ingsw/model/CardDeck.java	
+@@ -1,4 +1,31 @@
+ package it.polimi.ingsw.model;
+ 
++import it.polimi.ingsw.*;
++
++import java.util.ArrayList;
++
+ public class CardDeck {
++
++    private DeckType deckID;
++    private ArrayList<Assistants> cards;
++    private Card lastCardUsed;
++
++    public ArrayList<Assistants> getRemainingCards(){
++        return cards;
++    }
++
++    public DeckType getDeckType(){
++        return this.deckID;
++    }
++
++    public Card getLastCard(){
++        return lastCardUsed;
++    }
++
++    public void removeCard(){
++
++    }
++
++    public CardDeck(){}
++
+ }

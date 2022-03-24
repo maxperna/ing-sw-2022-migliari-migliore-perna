@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e76188c8-816a-46ba-ad97-be717e346efb" name="Changes" comment="Created class IslandTile" />
+    <list default="true" id="e76188c8-816a-46ba-ad97-be717e346efb" name="Changes" comment="Created class IslandTile">
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/IslandTile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/IslandTile.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
