@@ -5,10 +5,10 @@ import java.util.ArrayList;
 public class CardDeck {
 
     private DeckType deckID;
-    private ArrayList<Assistants> cards;
+    private ArrayList<Card> cards;
     private Card lastCardUsed;
 
-    public ArrayList<Assistants> getRemainingCards(){
+    public ArrayList<Card> getRemainingCards(){
         return cards;
     }
 
