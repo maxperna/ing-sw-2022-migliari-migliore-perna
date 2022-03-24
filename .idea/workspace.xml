@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e76188c8-816a-46ba-ad97-be717e346efb" name="Changes" comment="Aggiunta CloudTile, Color, MotherNature, Pouch, Student, StudentManager, Teacher, Tower">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SuddivisioneClassi" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/CloudTile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/CloudTile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Color.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Color.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Student.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Student.java" afterDir="false" />
-    </list>
+    <list default="true" id="e76188c8-816a-46ba-ad97-be717e346efb" name="Changes" comment="Migliorameti su Game" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -225,6 +219,7 @@
     <MESSAGE value="Implementazione MVC" />
     <MESSAGE value="Classe TowerColor" />
     <MESSAGE value="Aggiunta CloudTile, Color, MotherNature, Pouch, Student, StudentManager, Teacher, Tower" />
-    <option name="LAST_COMMIT_MESSAGE" value="Aggiunta CloudTile, Color, MotherNature, Pouch, Student, StudentManager, Teacher, Tower" />
+    <MESSAGE value="Migliorameti su Game" />
+    <option name="LAST_COMMIT_MESSAGE" value="Migliorameti su Game" />
   </component>
 </project>
