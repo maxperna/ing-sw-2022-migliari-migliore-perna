@@ -1,0 +1,38 @@
+Index: src/main/java/it/polimi/ingsw/IslandTile.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.polimi.ingsw;\r\n\r\npublic class IslandTile {\r\n}\r\n
+===================================================================
+diff --git a/src/main/java/it/polimi/ingsw/IslandTile.java b/src/main/java/it/polimi/ingsw/IslandTile.java
+--- a/src/main/java/it/polimi/ingsw/IslandTile.java	
++++ b/src/main/java/it/polimi/ingsw/IslandTile.java	
+@@ -1,4 +1,12 @@
+ package it.polimi.ingsw;
+ 
++improt java.util.*
+ public class IslandTile {
++    private final int tileId;
++    private ArrayList<Student> students;        //Number of students on the island tile
++    private MotherNature motherNature;          //Reference to class MotherNature
++    private Tower tower;
++    private Player mostInfluencePlayer;         //Reference to the player with the most influence on the island
++
++    public IslandTile()
+ }
+Index: src/main/java/it/polimi/ingsw/Board.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.polimi.ingsw;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.HashMap;\r\nimport java.util.Map;\r\n\r\n//Class for board assigned to each player, made of 2 halls\r\npublic class Board {\r\n    private final int boardID;\r\n    private ArrayList<Student> studentsOutside;   //students which are in the outside hall\r\n    private Map<Color,ArrayList<Student>> lectureHall = new HashMap<Color,ArrayList<Student>>();      //students assigned to the inside hall\r\n    private Map<Color,Teacher> teachers = new HashMap<Color,Teacher>();         //teachers on the board\r\n    private ArrayList<Tower> towers;         //towers on the biard\r\n\r\n    public Board(int boardID){\r\n        this.boardID = boardID;\r\n    }\r\n\r\n    public int getBoardID() {\r\n        return boardID;\r\n    }\r\n    //Method to verify the presence of a teacher on the board\r\n    public boolean getTeachers(Color color){};\r\n    //Method to add a teacher to the board\r\n    public void addTeacher(Teacher teacher){};\r\n    //Method to remove a teacher to the board\r\n    public void removeTeacher(Teacher teacher){};\r\n    //Method to return the number of students for a given color passed as parameter\r\n    public int colorStudent(Color color){};\r\n    //Method to move students from the outside hall to the inside one\r\n    public void moveInside(){};\r\n    //Method to move student from outside hall to an island\r\n    public void moveToIsland(){};\r\n    //Method to check the influence for a given color passed as parameter\r\n    public boolean checkInfluence(Color color){};\r\n    //Method to move the tower away from the board, if no tower remains signal the end of the game\r\n    public void moveTower(){};\r\n    //Method to add tower to the board(i.e. after a tower switch on an island)\r\n    public void addTower(){};\r\n}\r\n
+===================================================================
+diff --git a/src/main/java/it/polimi/ingsw/Board.java b/src/main/java/it/polimi/ingsw/Board.java
+--- a/src/main/java/it/polimi/ingsw/Board.java	
++++ b/src/main/java/it/polimi/ingsw/Board.java	
+@@ -10,7 +10,7 @@
+     private ArrayList<Student> studentsOutside;   //students which are in the outside hall
+     private Map<Color,ArrayList<Student>> lectureHall = new HashMap<Color,ArrayList<Student>>();      //students assigned to the inside hall
+     private Map<Color,Teacher> teachers = new HashMap<Color,Teacher>();         //teachers on the board
+-    private ArrayList<Tower> towers;         //towers on the biard
++    private ArrayList<Tower> towers;         //towers on the board
+ 
+     public Board(int boardID){
+         this.boardID = boardID;
