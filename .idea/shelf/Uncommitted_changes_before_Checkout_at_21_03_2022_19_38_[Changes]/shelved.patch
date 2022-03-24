@@ -1,0 +1,172 @@
+Index: src/main/java/it/polimi/ingsw/Board.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.polimi.ingsw;\r\n\r\nimport java.util.ArrayList;\r\n\r\n//Class for board assigned to each player, made of 2 halls\r\npublic class Board {\r\n    private final int boardID;\r\n    private final Player player;        //The player who owns the board\r\n    private ArrayList<Student> studentsOutside;   //students which are in the outside hall\r\n    private ArrayList<Student> lectureHall;      //students assigned to the inside hall\r\n    private ArrayList<Teacher> teachers;         //teachers on the board\r\n    private ArrayList<Tower> towers;         //towers on the biard\r\n\r\n    public Board(int boardID,Player player){\r\n        this.boardID = boardID;\r\n        this.player = player;\r\n    }\r\n\r\n    public int getBoardID() {\r\n        return boardID;\r\n    }\r\n    //To verify method type and parameters\r\n    public ?? getTeachers(){};\r\n\r\n    public void addTeacher(Teacher teacher){};\r\n    public void removeTeacher(Teacher teacher){};\r\n    public void colorStudent(){};\r\n    public void moveInseide(){};\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/polimi/ingsw/Board.java b/src/main/java/it/polimi/ingsw/Board.java
+--- a/src/main/java/it/polimi/ingsw/Board.java	(revision 5970ca211145a779712ebdefb11f25a70cc0f547)
++++ b/src/main/java/it/polimi/ingsw/Board.java	(date 1647882562337)
+@@ -1,14 +1,16 @@
+ package it.polimi.ingsw;
+ 
+ import java.util.ArrayList;
++import java.util.HashMap;
++import java.util.Map;
+ 
+ //Class for board assigned to each player, made of 2 halls
+ public class Board {
+     private final int boardID;
+     private final Player player;        //The player who owns the board
+     private ArrayList<Student> studentsOutside;   //students which are in the outside hall
+-    private ArrayList<Student> lectureHall;      //students assigned to the inside hall
+-    private ArrayList<Teacher> teachers;         //teachers on the board
++    private Map<Color,ArrayList<Student>> lectureHall = new HashMap<Color,ArrayList<Student>>();      //students assigned to the inside hall
++    private Map<Color,Teacher> teachers = new HashMap<Color,Teacher>();         //teachers on the board
+     private ArrayList<Tower> towers;         //towers on the biard
+ 
+     public Board(int boardID,Player player){
+@@ -19,11 +21,22 @@
+     public int getBoardID() {
+         return boardID;
+     }
+-    //To verify method type and parameters
+-    public ?? getTeachers(){};
+-
++    //Method to verify the presence of a teacher on the board
++    public boolean getTeachers(Color color){};
++    //Method to add a teacher to the board
+     public void addTeacher(Teacher teacher){};
++    //Method to remove a teacher to the board
+     public void removeTeacher(Teacher teacher){};
+-    public void colorStudent(){};
+-    public void moveInseide(){};
++    //Method to return the number of students for a given color passed as parameter
++    public int colorStudent(Color color){};
++    //Method to move students from the outside hall to the inside one
++    public void moveInside(){};
++    //Method to move student from outside hall to an island
++    public void moveToIsland(){};
++    //Method to check the influence for a given color passed as parameter
++    public boolean checkInfluence(Color color){};
++    //Method to move the tower away from the board, if no tower remains signal the end of the game
++    public void moveTower(){};
++    //Method to add tower to the board(i.e. after a tower switch on an island)
++    public void addTower(){};
+ }
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"e76188c8-816a-46ba-ad97-be717e346efb\" name=\"Changes\" comment=\"Aggiunta Classe CloudTile\" />\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Enum\" />\r\n        <option value=\"Class\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Rebase.Settings\">\r\n    <option name=\"NEW_BASE\" value=\"origin/Class_blueprint\" />\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\r\n      <map>\r\n        <entry key=\"$PROJECT_DIR$\" value=\"main\" />\r\n      </map>\r\n    </option>\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"GitSEFilterConfiguration\">\r\n    <file-type-list>\r\n      <filtered-out-file-type name=\"LOCAL_BRANCH\" />\r\n      <filtered-out-file-type name=\"REMOTE_BRANCH\" />\r\n      <filtered-out-file-type name=\"TAG\" />\r\n      <filtered-out-file-type name=\"COMMIT_BY_MESSAGE\" />\r\n    </file-type-list>\r\n  </component>\r\n  <component name=\"MarkdownSettingsMigration\">\r\n    <option name=\"stateVersion\" value=\"1\" />\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"26QVpjVba1Seld3aB8HHPEY07Fz\" />\r\n  <component name=\"ProjectLevelVcsManager\">\r\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\r\n  </component>\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">\r\n    <property name=\"ASKED_SHARE_PROJECT_CONFIGURATION_FILES\" value=\"true\" />\r\n    <property name=\"RunOnceActivity.OpenProjectViewOnStart\" value=\"true\" />\r\n    <property name=\"RunOnceActivity.ShowReadmeOnStart\" value=\"true\" />\r\n    <property name=\"SHARE_PROJECT_CONFIGURATION_FILES\" value=\"true\" />\r\n    <property name=\"WebServerToolWindowFactoryState\" value=\"false\" />\r\n    <property name=\"last_opened_file_path\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"e76188c8-816a-46ba-ad97-be717e346efb\" name=\"Changes\" comment=\"Git test\" />\r\n      <created>1647355981893</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1647355981893</updated>\r\n      <workItem from=\"1647355983322\" duration=\"276000\" />\r\n      <workItem from=\"1647356556443\" duration=\"730000\" />\r\n      <workItem from=\"1647373674062\" duration=\"185000\" />\r\n      <workItem from=\"1647799396934\" duration=\"305000\" />\r\n      <workItem from=\"1647849385078\" duration=\"598000\" />\r\n      <workItem from=\"1647859408969\" duration=\"4354000\" />\r\n      <workItem from=\"1647877831384\" duration=\"372000\" />\r\n      <workItem from=\"1647878275677\" duration=\"210000\" />\r\n      <workItem from=\"1647880889505\" duration=\"323000\" />\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"Git test\">\r\n      <created>1647356684514</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1647356684514</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"Git test\">\r\n      <created>1647356871858</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1647356871858</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"Git test\">\r\n      <created>1647357126531</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1647357126531</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00004\" summary=\"Rimozione Classe Pawn in seguito a modifica UML\">\r\n      <created>1647872597489</created>\r\n      <option name=\"number\" value=\"00004\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1647872597489</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00005\" summary=\"Rimozione Classe Pawn in seguito a modifica UML\">\r\n      <created>1647878087274</created>\r\n      <option name=\"number\" value=\"00005\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1647878087274</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00006\" summary=\"Aggiunta Classe Tower\">\r\n      <created>1647878353865</created>\r\n      <option name=\"number\" value=\"00006\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1647878353865</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"7\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State>\r\n              <option name=\"FILTERS\">\r\n                <map>\r\n                  <entry key=\"branch\">\r\n                    <value>\r\n                      <list>\r\n                        <option value=\"Class_blueprint\" />\r\n                      </list>\r\n                    </value>\r\n                  </entry>\r\n                </map>\r\n              </option>\r\n            </State>\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"Git test\" />\r\n    <MESSAGE value=\"Aggiornamento POM\" />\r\n    <MESSAGE value=\"Aggiunta Classe CloudTile\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Aggiunta Classe CloudTile\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 5970ca211145a779712ebdefb11f25a70cc0f547)
++++ b/.idea/workspace.xml	(date 1647882016708)
+@@ -4,7 +4,14 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="e76188c8-816a-46ba-ad97-be717e346efb" name="Changes" comment="Aggiunta Classe CloudTile" />
++    <list default="true" id="e76188c8-816a-46ba-ad97-be717e346efb" name="Changes" comment="Implementazioni prime classi provvisorie">
++      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_20_03_22_18_42__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_20_03_22_18_42__Changes_.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_03_22_15_10__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_03_22_15_10__Changes_.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_03_22_15_12__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_03_22_15_12__Changes_.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_03_22_15_15__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_03_22_15_15__Changes_.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/Board.java" afterDir="false" />
++    </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+@@ -18,13 +25,10 @@
+       </list>
+     </option>
+   </component>
+-  <component name="Git.Rebase.Settings">
+-    <option name="NEW_BASE" value="origin/Class_blueprint" />
+-  </component>
+   <component name="Git.Settings">
+     <option name="RECENT_BRANCH_BY_REPOSITORY">
+       <map>
+-        <entry key="$PROJECT_DIR$" value="main" />
++        <entry key="$PROJECT_DIR$" value="Class_blueprint" />
+       </map>
+     </option>
+     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+@@ -41,9 +45,6 @@
+     <option name="stateVersion" value="1" />
+   </component>
+   <component name="ProjectId" id="26QVpjVba1Seld3aB8HHPEY07Fz" />
+-  <component name="ProjectLevelVcsManager">
+-    <ConfirmationsSetting value="2" id="Add" />
+-  </component>
+   <component name="ProjectViewState">
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+@@ -70,9 +71,6 @@
+       <workItem from="1647799396934" duration="305000" />
+       <workItem from="1647849385078" duration="598000" />
+       <workItem from="1647859408969" duration="4354000" />
+-      <workItem from="1647877831384" duration="372000" />
+-      <workItem from="1647878275677" duration="210000" />
+-      <workItem from="1647880889505" duration="323000" />
+     </task>
+     <task id="LOCAL-00001" summary="Git test">
+       <created>1647356684514</created>
+@@ -95,28 +93,7 @@
+       <option name="project" value="LOCAL" />
+       <updated>1647357126531</updated>
+     </task>
+-    <task id="LOCAL-00004" summary="Rimozione Classe Pawn in seguito a modifica UML">
+-      <created>1647872597489</created>
+-      <option name="number" value="00004" />
+-      <option name="presentableId" value="LOCAL-00004" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1647872597489</updated>
+-    </task>
+-    <task id="LOCAL-00005" summary="Rimozione Classe Pawn in seguito a modifica UML">
+-      <created>1647878087274</created>
+-      <option name="number" value="00005" />
+-      <option name="presentableId" value="LOCAL-00005" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1647878087274</updated>
+-    </task>
+-    <task id="LOCAL-00006" summary="Aggiunta Classe Tower">
+-      <created>1647878353865</created>
+-      <option name="number" value="00006" />
+-      <option name="presentableId" value="LOCAL-00006" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1647878353865</updated>
+-    </task>
+-    <option name="localTasksCounter" value="7" />
++    <option name="localTasksCounter" value="4" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+@@ -133,7 +110,7 @@
+                   <entry key="branch">
+                     <value>
+                       <list>
+-                        <option value="Class_blueprint" />
++                        <option value="Class_blueprint_max" />
+                       </list>
+                     </value>
+                   </entry>
+@@ -144,11 +121,10 @@
+         </entry>
+       </map>
+     </option>
++    <option name="oldMeFiltersMigrated" value="true" />
+   </component>
+   <component name="VcsManagerConfiguration">
+     <MESSAGE value="Git test" />
+-    <MESSAGE value="Aggiornamento POM" />
+-    <MESSAGE value="Aggiunta Classe CloudTile" />
+-    <option name="LAST_COMMIT_MESSAGE" value="Aggiunta Classe CloudTile" />
++    <option name="LAST_COMMIT_MESSAGE" value="Git test" />
+   </component>
+ </project>
+\ No newline at end of file
