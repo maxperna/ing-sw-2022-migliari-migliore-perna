@@ -1,0 +1,16 @@
+Index: src/main/java/it/polimi/ingsw/components/CardDeck.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.polimi.ingsw.components;\r\n\r\nimport it.polimi.ingsw.Assistants;\r\nimport it.polimi.ingsw.DeckType;\r\n\r\nimport java.util.ArrayList;\r\n\r\npublic class CardDeck {\r\n\r\n    private DeckType deckID;\r\n    private ArrayList<Assistants> cards;\r\n    private Card lastCardUsed;\r\n\r\n    public ArrayList<Assistants> getRemainingCards(){\r\n        return cards;\r\n    }\r\n\r\n    public DeckType getDeckType(){\r\n        return this.deckID;\r\n    }\r\n\r\n    public Card getLastCard(){\r\n        return lastCardUsed;\r\n    }\r\n\r\n    public void removeCard(){\r\n\r\n    }\r\n\r\n    public CardDeck(){}\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/polimi/ingsw/components/CardDeck.java b/src/main/java/it/polimi/ingsw/components/CardDeck.java
+--- a/src/main/java/it/polimi/ingsw/components/CardDeck.java	(revision 52f573255472c50bad07aedc99a4750315227e75)
++++ b/src/main/java/it/polimi/ingsw/components/CardDeck.java	(date 1648128041027)
+@@ -1,4 +1,4 @@
+-package it.polimi.ingsw.components;
++package it.polimi.ingsw.model;
+ 
+ import it.polimi.ingsw.Assistants;
+ import it.polimi.ingsw.DeckType;
