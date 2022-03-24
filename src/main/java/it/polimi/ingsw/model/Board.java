@@ -1,8 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.*;
-import it.polimi.ingsw.Player;
-
 
 import java.util.ArrayList;
 import java.util.Map;
