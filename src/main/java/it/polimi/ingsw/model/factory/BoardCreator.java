@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model.factory;
 
+import it.polimi.ingsw.model.Board;
+
 public interface BoardCreator {
-    void newBoard();
+    Board newBoard();
 
 }
