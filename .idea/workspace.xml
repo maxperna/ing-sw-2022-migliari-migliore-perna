@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e76188c8-816a-46ba-ad97-be717e346efb" name="Changes" comment="Merge di sicurezza per non creare casino con la nuova directory &quot;Factory&quot;">
+    <list default="true" id="e76188c8-816a-46ba-ad97-be717e346efb" name="Changes" comment="Aggiunta CloudTile, Color, MotherNature, Pouch, Student, StudentManager, Teacher, Tower">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/factory/FourPlayerBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/factory/FoursPlayerBoard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/factory/GameFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/factory/GameFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SuddivisioneClassi" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/CloudTile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/CloudTile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Color.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Color.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Student.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Student.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,18 +19,10 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Enum" />
         <option value="Interface" />
+        <option value="Enum" />
         <option value="Class" />
       </list>
-    </option>
-  </component>
-  <component name="Git.Merge.Settings">
-    <option name="BRANCH" value="Project_BluePrint_Miglia" />
-    <option name="OPTIONS">
-      <set>
-        <option value="SQUASH" />
-      </set>
     </option>
   </component>
   <component name="Git.Rebase.Settings">
@@ -37,7 +31,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="Project_BluePrint_Miglia" />
+        <entry key="$PROJECT_DIR$" value="Class_blueprint_Miglia" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -69,27 +63,6 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
-  <component name="RunManager">
-    <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.App" />
-      <module name="Eryantis" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="it.polimi.ingsw.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Application.App" />
-        <item itemvalue="Application.App" />
-      </list>
-    </recent_temporary>
-  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -114,12 +87,6 @@
       <workItem from="1647952827198" duration="376000" />
       <workItem from="1647959572842" duration="412000" />
       <workItem from="1647966671325" duration="1142000" />
-      <workItem from="1648034976308" duration="1439000" />
-      <workItem from="1648040412018" duration="30000" />
-      <workItem from="1648058707581" duration="7457000" />
-      <workItem from="1648067805369" duration="3221000" />
-      <workItem from="1648071423960" duration="8000" />
-      <workItem from="1648071578104" duration="447000" />
     </task>
     <task id="LOCAL-00001" summary="Git test">
       <created>1647356684514</created>
@@ -219,35 +186,7 @@
       <option name="project" value="LOCAL" />
       <updated>1647961319261</updated>
     </task>
-    <task id="LOCAL-00015" summary="Aggiunta commenti JavaDoc">
-      <created>1647969279987</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1647969279987</updated>
-    </task>
-    <task id="LOCAL-00016" summary="Aggiunta commenti JavaDoc">
-      <created>1648035938435</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1648035938435</updated>
-    </task>
-    <task id="LOCAL-00017" summary="Aggiunta classe Game, prima implementazione di GameFactory">
-      <created>1648067887062</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1648067887062</updated>
-    </task>
-    <task id="LOCAL-00018" summary="Merge di sicurezza per non creare casino con la nuova directory &quot;Factory&quot;">
-      <created>1648071393415</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1648071393415</updated>
-    </task>
-    <option name="localTasksCounter" value="19" />
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -286,9 +225,6 @@
     <MESSAGE value="Implementazione MVC" />
     <MESSAGE value="Classe TowerColor" />
     <MESSAGE value="Aggiunta CloudTile, Color, MotherNature, Pouch, Student, StudentManager, Teacher, Tower" />
-    <MESSAGE value="Aggiunta commenti JavaDoc" />
-    <MESSAGE value="Aggiunta classe Game, prima implementazione di GameFactory" />
-    <MESSAGE value="Merge di sicurezza per non creare casino con la nuova directory &quot;Factory&quot;" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merge di sicurezza per non creare casino con la nuova directory &quot;Factory&quot;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Aggiunta CloudTile, Color, MotherNature, Pouch, Student, StudentManager, Teacher, Tower" />
   </component>
 </project>

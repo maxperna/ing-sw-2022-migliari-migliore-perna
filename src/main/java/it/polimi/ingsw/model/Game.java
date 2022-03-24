@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.factory.BoardCreator;
 import it.polimi.ingsw.model.factory.GameFactory;
+import it.polimi.ingsw.model.factory.GameFieldCreator;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -15,7 +16,6 @@ public class Game {
     private ArrayList<Player> players;
     private  GameField gameField;
     private GameFactory gameFactory;
-    private String board;
 
     /**
      * Constructor
@@ -25,7 +25,7 @@ public class Game {
     }
 
 
-    public int startGame(String gameMode) {
+    public void startGame(String gameMode) {
 
         //Crea una nuova lista di giocatori
         this.players = new ArrayList<Player>();
@@ -35,24 +35,49 @@ public class Game {
 
         //Crea i giocatori, li inserisce nella lista e gli associa una board
         if (gameMode == null || gameMode.isEmpty())
-            return 0;
-        switch (gameMode) {
-            case "TwoPlayers":
-                BoardCreator boardCreator2 = this.gameFactory.createBoard(gameMode);
-                boardCreator2.newBoard();
-                return 2;
-            case "ThreePlayers":
-                BoardCreator boardCreator3 = this.gameFactory.createBoard(gameMode);
-                boardCreator3.newBoard();
-                return 3;
-            case "FourPlayers":
-                BoardCreator boardCreator4 = this.gameFactory.createBoard(gameMode);
-                boardCreator4.newBoard();
-                return 4;
-            default:
-                throw new IllegalArgumentException("Unknown selector " + gameMode);
+            throw new IllegalArgumentException("No GameMode selected");
+        else {
+            switch (gameMode) {
+                case "TwoPlayers":
+                    //aggiunge i giocatori alla lista di giocatori e associa ad ogni giocatore una Board
+                    for (int i = 0; i < 2; i++) {
+                        this.players.add(new Player());
+                        BoardCreator boardCreator2 = this.gameFactory.createBoard(gameMode);
+                        boardCreator2.newBoard();
+                    }
+                    System.out.println("numero di giocatori " + players.size());
+                    //Crea il GameField
+                    GameFieldCreator gameFieldCreator2 = this.gameFactory.createField(gameMode);
+                    gameFieldCreator2.newField();
+                    break;
+                case "ThreePlayers":
+                    //aggiunge i giocatori alla lista di giocatori e associa ad ogni giocatore una Board
+                    for (int i = 0; i < 3; i++) {
+                        this.players.add(new Player());
+                        BoardCreator boardCreator3 = this.gameFactory.createBoard(gameMode);
+                        boardCreator3.newBoard();
+                    }
+                    System.out.println("numero di giocatori " + players.size());
+                    //Crea il GameField
+                    GameFieldCreator gameFieldCreator3 = this.gameFactory.createField(gameMode);
+                    gameFieldCreator3.newField();
+                    break;
+                case "FourPlayers":
+                    //aggiunge i giocatori alla lista di giocatori e associa ad ogni giocatore una Board
+                    for (int i = 0; i < 4; i++) {
+                        this.players.add(new Player());
+                        BoardCreator boardCreator4 = this.gameFactory.createBoard(gameMode);
+                        boardCreator4.newBoard();
+                    }
+                    System.out.println("numero di giocatori " + players.size());
+                    //Crea il GameField
+                    GameFieldCreator gameFieldCreator4 = this.gameFactory.createField(gameMode);
+                    gameFieldCreator4.newField();
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unknown selector " + gameMode);
+            }
         }
-
     }
 
     /**
@@ -77,14 +102,5 @@ public class Game {
      */
     public GameFactory getGameFactory() {
         return gameFactory;
-    }
-
-
-    public String getBoard() {
-        return board;
-    }
-
-    public void setBoard(String board) {
-        this.board = board;
     }
 }

@@ -13,7 +13,10 @@ public class App
         Game game1 = new Game();
         System.out.println("GameID: "+game1.getGameID());
 
+        game1.startGame("TwoPlayers");
         game1.startGame("ThreePlayers");
+        game1.startGame("FourPlayers");
+
 
     }
 }
