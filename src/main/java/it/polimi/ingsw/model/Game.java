@@ -43,7 +43,7 @@ public class Game {
                     for (int i = 0; i < 2; i++) {
                         this.players.add(new Player());
                         BoardCreator boardCreator2 = this.gameFactory.createBoard(gameMode);
-                        boardCreator2.newBoard();
+                        this.players.get(i).setBoard(boardCreator2.newBoard());
                     }
                     System.out.println("numero di giocatori " + players.size());
                     //Crea il GameField
@@ -55,7 +55,7 @@ public class Game {
                     for (int i = 0; i < 3; i++) {
                         this.players.add(new Player());
                         BoardCreator boardCreator3 = this.gameFactory.createBoard(gameMode);
-                        boardCreator3.newBoard();
+                        this.players.get(i).setBoard(boardCreator3.newBoard());
                     }
                     System.out.println("numero di giocatori " + players.size());
                     //Crea il GameField
@@ -67,7 +67,7 @@ public class Game {
                     for (int i = 0; i < 4; i++) {
                         this.players.add(new Player());
                         BoardCreator boardCreator4 = this.gameFactory.createBoard(gameMode);
-                        boardCreator4.newBoard();
+                        this.players.get(i).setBoard(boardCreator4.newBoard());
                     }
                     System.out.println("numero di giocatori " + players.size());
                     //Crea il GameField
@@ -102,5 +102,13 @@ public class Game {
      */
     public GameFactory getGameFactory() {
         return gameFactory;
+    }
+
+    /**
+     * Getter
+     * @return The list of players in this match
+     */
+    public ArrayList<Player> getPlayers() {
+        return players;
     }
 }
