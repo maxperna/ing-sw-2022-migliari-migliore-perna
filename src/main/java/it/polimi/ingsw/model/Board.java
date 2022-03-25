@@ -1,54 +1,63 @@
 package it.polimi.ingsw.model;
 
-
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.UUID;
 
 
 public class Board implements StudentManager {
 
-    private int numberOfPlayer;
-    private int boardID;
-    private Player player;
+    private final int hallDimension;       //maximum number of player in the external hall depending on the num of players
+    private final UUID boardID;
+    private final Player player;
     private ArrayList<Student> studentsOutside;
     private Map<Color, Teacher> teachers;
     private ArrayList<Tower> towers;
 
-    public int getBoardID(){
+    //Private constructor used by the factory
+    private Board(Player player,int hallDimension){
+        this.player = player;
+        this.hallDimension = hallDimension;
+        this.boardID = UUID.randomUUID();         //thread safe auto generated ID
+    }
+
+    //Method used by the factory to create a new board
+    public static Board createBoard(Player player, int hallDimension){
+        return new Board(player,hallDimension);
+    }
+
+    public UUID getBoardID(){
         return this.boardID;
     }
 
-    public void getTeachers(){
-
+    public ArrayList<Student> getStudentsOutside(){
+        return studentsOutside;
     }
 
-    public void addTeachers(){
-
+    public Map<Color, Teacher> getTeachers() {
+        return teachers;
     }
 
-    public void removeTeacher(){
-
+    public ArrayList<Tower> getTowers() {
+        return towers;
     }
 
-    public void moveInside(){
+    //Method to get the presence of a teacher on the board
+    public boolean getTeachers(Color color){return true;}
+    //Method to add the teacher on the board
+    public void addTeachers(Teacher teacher){}
+    //Method to remove the teacher on the board
+    public void removeTeacher(Teacher teacher){}
+    //Method to move the student from the external hall to the internal one
+    public void moveInside(Student student){}
+    //Method to move the student from the board to the island
+    public void moveToIsland(Student student, IslandTile targetIsland){}
+    //Method to move a tower on an Island
+    public void moveTower(){}
+    //Method to add the tower on the board
+    public void addTower(){}
 
-    }
 
-    public void moveToIsland(){
-
-    }
-
-    public void moveTower(){
-
-    }
-
-    public void addTower(){
-
-    }
-
-    public Board(){
-
-    }
 
     public int colorStudent(Color color){
         return 0;
