@@ -73,8 +73,10 @@ public class Pouch {
      */
     public synchronized ArrayList<Student> randomDraw(int arrayListLength) {
         ArrayList<Student> studentsToBeMoved = new ArrayList<Student>();                   //new arrayList containing the number of students required
-        if (arrayListLength > this.getNumberOfStudents())                                  //checks that there are enough students in the pouch
-            throw new ArrayStoreException("Not enough students in the pouch");             //throws exception
+        if (arrayListLength > this.getNumberOfStudents()) {                                //checks that there are enough students in the pouch
+            ArrayList<Student> EmptyArray = new ArrayList<>();
+            return EmptyArray;
+        }
         else {
             for (int i = 0; i < arrayListLength; i++) {                                    //iterate until the number of required students is matched
                 studentsToBeMoved.add(students.get(0));                                    //add the 1st student from the students arraylist to the new arrayList
