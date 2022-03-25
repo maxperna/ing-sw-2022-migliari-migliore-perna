@@ -7,23 +7,23 @@ import java.util.UUID;
 
 public class Board implements StudentManager {
 
-    private final int hallDimension;       //maximum number of player in the external hall depending on the num of players
+    private final int hallDimension;       //maximum number of players in the external hall depending by the num of players
+    private final int numOfTower;        //maximum number of towers depending by the number of players
     private final UUID boardID;
-    private final Player player;
     private ArrayList<Student> studentsOutside;
     private Map<Color, Teacher> teachers;
     private ArrayList<Tower> towers;
 
     //Private constructor used by the factory
-    private Board(Player player,int hallDimension){
-        this.player = player;
+    private Board(int hallDimension,int numOfTower){
         this.hallDimension = hallDimension;
+        this.numOfTower = numOfTower;
         this.boardID = UUID.randomUUID();         //thread safe auto generated ID
     }
 
     //Method used by the factory to create a new board
-    public static Board createBoard(Player player, int hallDimension){
-        return new Board(player,hallDimension);
+    public static Board createBoard(int hallDimension,int numOfTower){
+        return new Board(hallDimension,numOfTower);
     }
 
     public UUID getBoardID(){

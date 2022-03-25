@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e76188c8-816a-46ba-ad97-be717e346efb" name="Changes" comment="Conformazione con UML">
+    <list default="true" id="e76188c8-816a-46ba-ad97-be717e346efb" name="Changes" comment="Implementazione blueprint classe Board con private constructor">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Board.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -252,6 +253,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Git test" />
@@ -267,6 +269,7 @@
     <MESSAGE value="Merge Miglia e Ale" />
     <MESSAGE value="Aggiunta RoundLogic" />
     <MESSAGE value="Conformazione con UML" />
-    <option name="LAST_COMMIT_MESSAGE" value="Conformazione con UML" />
+    <MESSAGE value="Implementazione blueprint classe Board con private constructor" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implementazione blueprint classe Board con private constructor" />
   </component>
 </project>
