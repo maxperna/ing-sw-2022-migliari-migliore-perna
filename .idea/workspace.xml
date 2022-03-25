@@ -4,11 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e76188c8-816a-46ba-ad97-be717e346efb" name="Changes" comment="Conformazione con UML">
+    <list default="true" id="e76188c8-816a-46ba-ad97-be717e346efb" name="Changes" comment="Ho dimenticato questi file">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/factory/BoardCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/factory/BoardCreator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/factory/FourPlayerBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/factory/FourPlayerBoard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/factory/TwoPlayersBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/factory/TwoPlayersBoard.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -227,7 +224,21 @@
       <option name="project" value="LOCAL" />
       <updated>1648130478557</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Modifiche a Game per gestire factory con i players">
+      <created>1648203188418</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1648203188418</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Ho dimenticato questi file">
+      <created>1648203212990</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1648203212990</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -270,6 +281,8 @@
     <MESSAGE value="Merge Miglia e Ale" />
     <MESSAGE value="Aggiunta RoundLogic" />
     <MESSAGE value="Conformazione con UML" />
-    <option name="LAST_COMMIT_MESSAGE" value="Conformazione con UML" />
+    <MESSAGE value="Modifiche a Game per gestire factory con i players" />
+    <MESSAGE value="Ho dimenticato questi file" />
+    <option name="LAST_COMMIT_MESSAGE" value="Ho dimenticato questi file" />
   </component>
 </project>
