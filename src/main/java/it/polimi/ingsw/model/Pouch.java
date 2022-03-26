@@ -94,7 +94,7 @@ public class Pouch {
     public int getColor(Color color) {
         int counter = 0, index = 0;
         while (index < this.getNumberOfStudents()) {
-            if (students.get(index).getColor() == color)
+            if (students.get(index).getColor().equals(color))
                 counter++;
             index++;
         }

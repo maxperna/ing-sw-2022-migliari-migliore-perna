@@ -1,5 +1,5 @@
 package it.polimi.ingsw.model;
-import it.polimi.ingsw.model.factory.BoardCreator;
+import it.polimi.ingsw.model.factory.*;
 import it.polimi.ingsw.model.factory.GameFactory;
 import it.polimi.ingsw.model.factory.GameFieldCreator;
 
@@ -13,7 +13,7 @@ import java.util.UUID;
 public class Game {
     public final static int maxPlayers = 4;
     private final UUID gameID;
-    private ArrayList<Player> players;
+    private ArrayList<Player> playersList;
     private  GameField gameField;
     private GameFactory gameFactory;
 
@@ -27,56 +27,96 @@ public class Game {
 
     public void startGame(String gameMode) {
 
+        int numberOfPlayers;
+        int numberOfDifferentTowers;
+
         //Crea una nuova lista di giocatori
-        this.players = new ArrayList<Player>();
+        this.playersList = new ArrayList<Player>();
 
         //Crea la fabbrica che verra utilizzata per generare le altri componenti del gioco
         this.gameFactory = new GameFactory();
+        BoardCreator boardCreator;
+        GameFieldCreator gameFieldCreator;
 
-        //Crea i giocatori, li inserisce nella lista e gli associa una board
         if (gameMode == null || gameMode.isEmpty())
             throw new IllegalArgumentException("No GameMode selected");
         else {
+            //setta la factory in base alla modalita di gioco selezionata
             switch (gameMode) {
                 case "TwoPlayers":
-                    //aggiunge i giocatori alla lista di giocatori e associa ad ogni giocatore una Board
-                    for (int i = 0; i < 2; i++) {
-                        this.players.add(new Player());
-                        BoardCreator boardCreator2 = this.gameFactory.createBoard(gameMode);
-                        this.players.get(i).setBoard(boardCreator2.newBoard());
+                    boardCreator = this.gameFactory.createBoard(gameMode);
+                    gameFieldCreator = this.gameFactory.createField(gameMode);
+                    numberOfPlayers = 2;
+
+                    for(int i = 0; i < numberOfPlayers; i++) {
+                        this.playersList.add(new Player());                                          //Aggiunge i players alla lista di giocatori
+                        if(i==0)
+                        this.playersList.get(i).setBoard(boardCreator.newBoard(TowerColor.BLACK));      //Crea una board e la assegna al giocatore appena creato
+                        if(i==1)
+                        this.playersList.get(i).setBoard(boardCreator.newBoard(TowerColor.WHITE));
                     }
-                    System.out.println("numero di giocatori " + players.size());
-                    //Crea il GameField
-                    GameFieldCreator gameFieldCreator2 = this.gameFactory.createField(gameMode);
-                    gameFieldCreator2.newField();
+
+                    for (Player player : playersList) {
+
+                        System.out.println("\n");
+                        for (int k = 0; k < player.getBoard().getTowers().size(); k++)
+                            System.out.println(player.getBoard().getTowers().get(k).getColor());
+                    }
+
                     break;
                 case "ThreePlayers":
-                    //aggiunge i giocatori alla lista di giocatori e associa ad ogni giocatore una Board
-                    for (int i = 0; i < 3; i++) {
-                        this.players.add(new Player());
-                        BoardCreator boardCreator3 = this.gameFactory.createBoard(gameMode);
-                        this.players.get(i).setBoard(boardCreator3.newBoard());
+                    boardCreator = this.gameFactory.createBoard(gameMode);
+                    gameFieldCreator = this.gameFactory.createField(gameMode);
+                    numberOfPlayers = 3;
+
+                    for(int i = 0; i < numberOfPlayers; i++) {
+                        this.playersList.add(new Player());                                          //Aggiunge i players alla lista di giocatori
+                        if(i==0)
+                            this.playersList.get(i).setBoard(boardCreator.newBoard(TowerColor.BLACK));      //Crea una board e la assegna al giocatore appena creato
+                        if(i==1)
+                            this.playersList.get(i).setBoard(boardCreator.newBoard(TowerColor.WHITE));
+                        if(i==2)
+                            this.playersList.get(i).setBoard(boardCreator.newBoard(TowerColor.GRAY));
                     }
-                    System.out.println("numero di giocatori " + players.size());
-                    //Crea il GameField
-                    GameFieldCreator gameFieldCreator3 = this.gameFactory.createField(gameMode);
-                    gameFieldCreator3.newField();
+
+                    for (Player player : playersList) {
+
+                        System.out.println("\n");
+                        for (int k = 0; k < player.getBoard().getTowers().size(); k++)
+                            System.out.println(player.getBoard().getTowers().get(k).getColor());
+                    }
+
+
                     break;
                 case "FourPlayers":
-                    //aggiunge i giocatori alla lista di giocatori e associa ad ogni giocatore una Board
-                    for (int i = 0; i < 4; i++) {
-                        this.players.add(new Player());
-                        BoardCreator boardCreator4 = this.gameFactory.createBoard(gameMode);
-                        this.players.get(i).setBoard(boardCreator4.newBoard());
+                    boardCreator = this.gameFactory.createBoard(gameMode);
+                    gameFieldCreator = this.gameFactory.createField(gameMode);
+                    numberOfPlayers = 4;
+
+                    for(int i = 0; i < numberOfPlayers; i++) {
+                        this.playersList.add(new Player());                                          //Aggiunge i players alla lista di giocatori
+                        if(i==0)
+                            this.playersList.get(i).setBoard(boardCreator.newBoard(TowerColor.BLACK));      //Crea una board e la assegna al giocatore appena creato
+                        if(i==1)
+                            this.playersList.get(i).setBoard(boardCreator.newBoard(TowerColor.WHITE));
+                        if(i==2 || i==3)
+                            this.playersList.get(i).setBoard(boardCreator.newBoard(TowerColor.TEAMMATE));
                     }
-                    System.out.println("numero di giocatori " + players.size());
-                    //Crea il GameField
-                    GameFieldCreator gameFieldCreator4 = this.gameFactory.createField(gameMode);
-                    gameFieldCreator4.newField();
+
+                    for (Player player : playersList) {
+
+                        System.out.println("\n");
+                        for (int k = 0; k < player.getBoard().getTowers().size(); k++)
+                            System.out.println(player.getBoard().getTowers().get(k).getColor());
+                    }
                     break;
                 default:
                     throw new IllegalArgumentException("Unknown selector " + gameMode);
             }
+
+            System.out.println("numero di giocatori " + playersList.size());
+            //Crea il GameField
+            gameFieldCreator.newField();
         }
     }
 
@@ -108,7 +148,7 @@ public class Game {
      * Getter
      * @return The list of players in this match
      */
-    public ArrayList<Player> getPlayers() {
-        return players;
+    public ArrayList<Player> getPlayersList() {
+        return playersList;
     }
 }

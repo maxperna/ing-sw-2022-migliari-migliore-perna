@@ -57,7 +57,13 @@ public class Board implements StudentManager {
     //Method to add the tower on the board
     public void addTower(){}
 
+    public void setStudentsOutside(ArrayList<Student> studentsOutside) {
+        this.studentsOutside = studentsOutside;
+    }
 
+    public void setTowers(ArrayList<Tower> towers) {
+        this.towers = towers;
+    }
 
     public int colorStudent(Color color){
         return 0;
