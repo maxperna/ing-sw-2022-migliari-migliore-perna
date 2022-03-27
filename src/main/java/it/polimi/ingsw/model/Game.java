@@ -27,50 +27,48 @@ public class Game {
 
     public void startGame(String gameMode) {
 
-        int numberOfPlayers;
-        int numberOfDifferentTowers;
-
-        //Crea una nuova lista di giocatori
-        this.playersList = new ArrayList<Player>();
-
-        //Crea la fabbrica che verra utilizzata per generare le altri componenti del gioco
-        this.gameFactory = new GameFactory();
-        StudentCreator playersCreator;
-        GameFieldCreator gameFieldCreator;
-
         if (gameMode == null || gameMode.isEmpty())
             throw new IllegalArgumentException("No GameMode selected");
+
         else {
+
+            //Crea una nuova lista di giocatori
+            this.playersList = new ArrayList<>();
+
+            //Crea la fabbrica che verra utilizzata per generare le altri componenti del gioco
+            this.gameFactory = new GameFactory();
+            StudentCreator playersCreator;
+            GameFieldCreator gameFieldCreator;
+
             //setta la factory in base alla modalita di gioco selezionata
-            switch (gameMode) {
-                case "TwoPlayers":
-                case "ThreePlayers":
+                switch (gameMode) {
+                    case "TwoPlayers":
+                    case "ThreePlayers":
+                    case "FourPlayers":
 
+                        playersCreator = this.gameFactory.createPlayers(gameMode);
+                        gameFieldCreator = this.gameFactory.createField(gameMode);
+                        break;
 
-                case "FourPlayers":
-                    playersCreator = this.gameFactory.createPlayers(gameMode);
-                    gameFieldCreator = this.gameFactory.createField(gameMode);
+                    default:
+                        throw new IllegalArgumentException("Unknown selector " + gameMode);
+                }
 
-                    this.playersList = playersCreator.createPlayers();
+                this.playersList = playersCreator.createPlayers();
 
-                    for (Player player : playersList) {
-                        System.out.println("-------- Player ----------------------------------------------------------------------------");
-                        for (int i = 0; i < player.getBoard().getStudentsOutside().size(); i++)
-                            System.out.println(player.getBoard().getStudentsOutside().get(i).getColor());
-                        for (int k = 0; k < player.getBoard().getTowers().size(); k++)
-                            System.out.println(player.getBoard().getTowers().get(k).getColor());
-                    }
+                //Printa i risultati - da eliminare
+                System.out.println("numero di giocatori " + playersList.size());
+                for (Player player : playersList) {
+                    System.out.println("-------- Player ----------------------------------------------------------------------------");
+                    for (int i = 0; i < player.getBoard().getStudentsOutside().size(); i++)
+                        System.out.println(player.getBoard().getStudentsOutside().get(i).getColor());
+                    for (int k = 0; k < player.getBoard().getTowers().size(); k++)
+                        System.out.println(player.getBoard().getTowers().get(k).getColor());
+                }
 
-                    break;
-
-                default:
-                    throw new IllegalArgumentException("Unknown selector " + gameMode);
+                //Crea il GameField
+                gameFieldCreator.newField();
             }
-
-            System.out.println("numero di giocatori " + playersList.size());
-            //Crea il GameField
-            gameFieldCreator.newField();
-        }
     }
 
     /**
