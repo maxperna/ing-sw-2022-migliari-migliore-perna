@@ -4,16 +4,16 @@ package it.polimi.ingsw.model.factory;
 
 public class GameFactory {
 
-    public BoardCreator createBoard(String selector){
+    public StudentCreator createPlayers(String selector){
         if (selector == null || selector.isEmpty())
             return null;
         switch (selector) {
             case "TwoPlayers":
-                return new TwoPlayersBoard();
+                return new TwoPlayers();
             case "ThreePlayers":
-                return new ThreePlayersBoard();
+                return new ThreePlayers();
             case "FourPlayers":
-                return new FourPlayerBoard();
+                return new FourPlayer();
             default:
                 throw new IllegalArgumentException("Unknown selector "+selector);
         }

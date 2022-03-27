@@ -35,7 +35,7 @@ public class Game {
 
         //Crea la fabbrica che verra utilizzata per generare le altri componenti del gioco
         this.gameFactory = new GameFactory();
-        BoardCreator boardCreator;
+        StudentCreator playersCreator;
         GameFieldCreator gameFieldCreator;
 
         if (gameMode == null || gameMode.isEmpty())
@@ -44,72 +44,25 @@ public class Game {
             //setta la factory in base alla modalita di gioco selezionata
             switch (gameMode) {
                 case "TwoPlayers":
-                    boardCreator = this.gameFactory.createBoard(gameMode);
-                    gameFieldCreator = this.gameFactory.createField(gameMode);
-                    numberOfPlayers = 2;
-
-                    for(int i = 0; i < numberOfPlayers; i++) {
-                        this.playersList.add(new Player());                                          //Aggiunge i players alla lista di giocatori
-                        if(i==0)
-                        this.playersList.get(i).setBoard(boardCreator.newBoard(TowerColor.BLACK));      //Crea una board e la assegna al giocatore appena creato
-                        if(i==1)
-                        this.playersList.get(i).setBoard(boardCreator.newBoard(TowerColor.WHITE));
-                    }
-
-                    for (Player player : playersList) {
-
-                        System.out.println("\n");
-                        for (int k = 0; k < player.getBoard().getTowers().size(); k++)
-                            System.out.println(player.getBoard().getTowers().get(k).getColor());
-                    }
-
-                    break;
                 case "ThreePlayers":
-                    boardCreator = this.gameFactory.createBoard(gameMode);
-                    gameFieldCreator = this.gameFactory.createField(gameMode);
-                    numberOfPlayers = 3;
-
-                    for(int i = 0; i < numberOfPlayers; i++) {
-                        this.playersList.add(new Player());                                          //Aggiunge i players alla lista di giocatori
-                        if(i==0)
-                            this.playersList.get(i).setBoard(boardCreator.newBoard(TowerColor.BLACK));      //Crea una board e la assegna al giocatore appena creato
-                        if(i==1)
-                            this.playersList.get(i).setBoard(boardCreator.newBoard(TowerColor.WHITE));
-                        if(i==2)
-                            this.playersList.get(i).setBoard(boardCreator.newBoard(TowerColor.GRAY));
-                    }
-
-                    for (Player player : playersList) {
-
-                        System.out.println("\n");
-                        for (int k = 0; k < player.getBoard().getTowers().size(); k++)
-                            System.out.println(player.getBoard().getTowers().get(k).getColor());
-                    }
 
 
-                    break;
                 case "FourPlayers":
-                    boardCreator = this.gameFactory.createBoard(gameMode);
+                    playersCreator = this.gameFactory.createPlayers(gameMode);
                     gameFieldCreator = this.gameFactory.createField(gameMode);
-                    numberOfPlayers = 4;
 
-                    for(int i = 0; i < numberOfPlayers; i++) {
-                        this.playersList.add(new Player());                                          //Aggiunge i players alla lista di giocatori
-                        if(i==0)
-                            this.playersList.get(i).setBoard(boardCreator.newBoard(TowerColor.BLACK));      //Crea una board e la assegna al giocatore appena creato
-                        if(i==1)
-                            this.playersList.get(i).setBoard(boardCreator.newBoard(TowerColor.WHITE));
-                        if(i==2 || i==3)
-                            this.playersList.get(i).setBoard(boardCreator.newBoard(TowerColor.TEAMMATE));
-                    }
+                    this.playersList = playersCreator.createPlayers();
 
                     for (Player player : playersList) {
-
-                        System.out.println("\n");
+                        System.out.println("-------- Player ----------------------------------------------------------------------------");
+                        for (int i = 0; i < player.getBoard().getStudentsOutside().size(); i++)
+                            System.out.println(player.getBoard().getStudentsOutside().get(i).getColor());
                         for (int k = 0; k < player.getBoard().getTowers().size(); k++)
                             System.out.println(player.getBoard().getTowers().get(k).getColor());
                     }
+
                     break;
+
                 default:
                     throw new IllegalArgumentException("Unknown selector " + gameMode);
             }
