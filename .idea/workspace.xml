@@ -4,13 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e76188c8-816a-46ba-ad97-be717e346efb" name="Changes" comment="Pulizia codice dopo FIxFactory">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/factory/FourPlayersFIeld.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/factory/FourPlayersFIeld.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/factory/ThreePlayersField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/factory/ThreePlayersField.java" afterDir="false" />
+    <list default="true" id="e76188c8-816a-46ba-ad97-be717e346efb" name="Changes" comment="Commentazione codice">
       <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/factory/TwoPlayersField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/factory/TwoPlayersField.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/Game.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/Game.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,6 +33,7 @@
     <option name="NEW_BASE" value="origin/Class_blueprint" />
   </component>
   <component name="Git.Settings">
+    <option name="PUSH_AUTO_UPDATE" value="true" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
         <entry key="$PROJECT_DIR$" value="Project_BluePrint" />
@@ -122,6 +118,9 @@
       <workItem from="1648286058142" duration="482000" />
       <workItem from="1648327864114" duration="11338000" />
       <workItem from="1648339494953" duration="3068000" />
+      <workItem from="1648344387815" duration="27000" />
+      <workItem from="1648375030210" duration="1020000" />
+      <workItem from="1648391673882" duration="2227000" />
     </task>
     <task id="LOCAL-00001" summary="Git test">
       <created>1647356684514</created>
@@ -270,7 +269,35 @@
       <option name="project" value="LOCAL" />
       <updated>1648343208093</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Ulteriore pulizia codice dopo FixFactory">
+      <created>1648343901007</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1648343901007</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Ulteriore pulizia codice dopo FixFactory">
+      <created>1648344030025</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1648344030025</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Commentazione codice">
+      <created>1648393556494</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1648393556494</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Commentazione codice">
+      <created>1648393730647</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1648393730647</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -287,7 +314,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="origin/Project_BluePrint" />
+                        <option value="Project_BluePrint" />
                       </list>
                     </value>
                   </entry>
@@ -317,6 +344,8 @@
     <MESSAGE value="Spostato logica per due giocatory da Game a Factory" />
     <MESSAGE value="FixFactory" />
     <MESSAGE value="Pulizia codice dopo FIxFactory" />
-    <option name="LAST_COMMIT_MESSAGE" value="Pulizia codice dopo FIxFactory" />
+    <MESSAGE value="Ulteriore pulizia codice dopo FixFactory" />
+    <MESSAGE value="Commentazione codice" />
+    <option name="LAST_COMMIT_MESSAGE" value="Commentazione codice" />
   </component>
 </project>

@@ -24,7 +24,11 @@ public class Game {
         this.gameID = UUID.randomUUID();
     }
 
-
+    /**
+     * startGame
+     * Method that set the game, creates a list of players and a game field
+     * @param gameMode used to select the set of rules to use
+     */
     public void startGame(String gameMode) {
 
         if (gameMode == null || gameMode.isEmpty())
@@ -37,7 +41,7 @@ public class Game {
 
             //Crea la fabbrica che verra utilizzata per generare le altri componenti del gioco
             this.gameFactory = new GameFactory();
-            StudentCreator playersCreator;
+            PlayerCreator playersCreator;
             GameFieldCreator gameFieldCreator;
 
             //setta la factory in base alla modalita di gioco selezionata

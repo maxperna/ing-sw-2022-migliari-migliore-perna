@@ -2,9 +2,19 @@ package it.polimi.ingsw.model.factory;
 
 
 
+/**
+ * Class GameFactory, it allows selecting which type of logic use to create the components of the game
+ * @author Miglia
+ */
 public class GameFactory {
 
-    public StudentCreator createPlayers(String selector){
+    /**
+     * createPlayers
+     * selects the method to implement in PlayerCreator
+     * @param selector used to select the set of rules to use
+     * @return a factory method of the chosen type
+     */
+    public PlayerCreator createPlayers(String selector){
         if (selector == null || selector.isEmpty())
             return null;
         switch (selector) {
@@ -19,6 +29,12 @@ public class GameFactory {
         }
     }
 
+    /**
+     * createField
+     * selects the method to implement in GameFieldCreator
+     * @param selector used to select the set of rules to use
+     * @return a factory method of the chosen type
+     */
     public GameFieldCreator createField(String selector){
         if (selector == null || selector.isEmpty())
             return null;

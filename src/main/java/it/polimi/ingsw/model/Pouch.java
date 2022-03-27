@@ -23,7 +23,7 @@ public class Pouch {
         this.students = new ArrayList<>();
         for (int i = 0; i < 26; i++) {
             Student student = new Student(Color.RED);
-            students.add(student);
+            students.add(new Student(Color.RED));
         }
         for (int i = 0; i < 26; i++) {
             Student student = new Student(Color.GREEN);
