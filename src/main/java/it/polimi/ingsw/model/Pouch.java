@@ -69,7 +69,7 @@ public class Pouch {
      * Method that provides an arrayList of students by selecting and then removing the first object in the arrayList
      *
      * @param arrayListLength
-     * @return (ArrayList<Student>) of objects to be moved outside the pouch
+     * @return ArrayList of objects to be moved outside the pouch
      */
     public synchronized ArrayList<Student> randomDraw(int arrayListLength) {
         ArrayList<Student> studentsToBeMoved = new ArrayList<Student>();                   //new arrayList containing the number of students required

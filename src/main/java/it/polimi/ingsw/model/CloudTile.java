@@ -20,7 +20,7 @@ public class CloudTile {
     }
 
     /**
-     * @return an ArrayList of three students on the cloud and deletes them from ArrayList<Student> students, returns null if there are none
+     * @return an ArrayList of three students on the cloud and deletes them from ArrayList of the cloud, returns null if there are none
      */
     public ArrayList<Student> moveStudents() {
 
