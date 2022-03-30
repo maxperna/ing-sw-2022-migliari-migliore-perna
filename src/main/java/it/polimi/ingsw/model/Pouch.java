@@ -68,7 +68,7 @@ public class Pouch {
     /**
      * Method that provides an arrayList of students by selecting and then removing the first object in the arrayList
      *
-     * @param arrayListLength
+     * @param arrayListLength (int), number of students inside the pouch
      * @return ArrayList of objects to be moved outside the pouch
      */
     public synchronized ArrayList<Student> randomDraw(int arrayListLength) {
@@ -88,7 +88,7 @@ public class Pouch {
 
     /**
      *
-     * @param color
+     * @param color (Color), an enum referring to the students' attribute Color
      * @return (int) counter that contains the number of objects inside pouch with the attribute Color
      */
     public int getColor(Color color) {

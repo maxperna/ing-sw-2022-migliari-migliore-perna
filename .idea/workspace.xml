@@ -4,17 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e76188c8-816a-46ba-ad97-be717e346efb" name="Changes" comment="Commentazione codice">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_21_03_2022_19_38_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_21_03_2022_19_38_[Changes]1/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_21_03_2022_19_38__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_21_03_2022_19_38__Changes_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_03_2022_17_52_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_03_2022_17_52__Changes_.xml" beforeDir="false" />
+    <list default="true" id="e76188c8-816a-46ba-ad97-be717e346efb" name="Changes" comment="Conformazione con UML">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/CloudTile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/CloudTile.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Pouch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Pouch.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/factory/TwoPlayersField.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/factory/TwoPlayersField.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,19 +22,10 @@
       </list>
     </option>
   </component>
-  <component name="Git.Merge.Settings">
-    <option name="BRANCH" value="FixFactory" />
-    <option name="OPTIONS">
-      <set>
-        <option value="SQUASH" />
-      </set>
-    </option>
-  </component>
   <component name="Git.Rebase.Settings">
     <option name="NEW_BASE" value="origin/Class_blueprint" />
   </component>
   <component name="Git.Settings">
-    <option name="PUSH_AUTO_UPDATE" value="true" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
         <entry key="$PROJECT_DIR$" value="Project_BluePrint" />
@@ -75,9 +58,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="extract.method.default.visibility" value="private" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RunManager">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -95,7 +76,6 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.App" />
         <item itemvalue="Application.App" />
       </list>
     </recent_temporary>
@@ -125,15 +105,6 @@
       <workItem from="1647959572842" duration="412000" />
       <workItem from="1647966671325" duration="1142000" />
       <workItem from="1648131807728" duration="1240000" />
-      <workItem from="1648286058142" duration="482000" />
-      <workItem from="1648327864114" duration="11338000" />
-      <workItem from="1648339494953" duration="3068000" />
-      <workItem from="1648344387815" duration="27000" />
-      <workItem from="1648375030210" duration="1020000" />
-      <workItem from="1648391673882" duration="2438000" />
-      <workItem from="1648395615261" duration="188000" />
-      <workItem from="1648478727895" duration="474000" />
-      <workItem from="1648489307523" duration="491000" />
     </task>
     <task id="LOCAL-00001" summary="Git test">
       <created>1647356684514</created>
@@ -254,70 +225,7 @@
       <option name="project" value="LOCAL" />
       <updated>1648130478557</updated>
     </task>
-    <task id="LOCAL-00018" summary="Creazione Board per giocatori">
-      <created>1648339187470</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1648339187470</updated>
-    </task>
-    <task id="LOCAL-00019" summary="Spostato logica per due giocatory da Game a Factory">
-      <created>1648341368814</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1648341368814</updated>
-    </task>
-    <task id="LOCAL-00020" summary="FixFactory">
-      <created>1648342967950</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1648342967950</updated>
-    </task>
-    <task id="LOCAL-00021" summary="Pulizia codice dopo FIxFactory">
-      <created>1648343208093</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1648343208093</updated>
-    </task>
-    <task id="LOCAL-00022" summary="Ulteriore pulizia codice dopo FixFactory">
-      <created>1648343901007</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1648343901007</updated>
-    </task>
-    <task id="LOCAL-00023" summary="Ulteriore pulizia codice dopo FixFactory">
-      <created>1648344030025</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1648344030025</updated>
-    </task>
-    <task id="LOCAL-00024" summary="Commentazione codice">
-      <created>1648393556494</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1648393556494</updated>
-    </task>
-    <task id="LOCAL-00025" summary="Commentazione codice">
-      <created>1648393730647</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1648393730647</updated>
-    </task>
-    <task id="LOCAL-00026" summary="Commentazione codice">
-      <created>1648394114951</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1648394114951</updated>
-    </task>
-    <option name="localTasksCounter" value="27" />
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -360,12 +268,6 @@
     <MESSAGE value="Merge Miglia e Ale" />
     <MESSAGE value="Aggiunta RoundLogic" />
     <MESSAGE value="Conformazione con UML" />
-    <MESSAGE value="Creazione Board per giocatori" />
-    <MESSAGE value="Spostato logica per due giocatory da Game a Factory" />
-    <MESSAGE value="FixFactory" />
-    <MESSAGE value="Pulizia codice dopo FIxFactory" />
-    <MESSAGE value="Ulteriore pulizia codice dopo FixFactory" />
-    <MESSAGE value="Commentazione codice" />
-    <option name="LAST_COMMIT_MESSAGE" value="Commentazione codice" />
+    <option name="LAST_COMMIT_MESSAGE" value="Conformazione con UML" />
   </component>
 </project>
