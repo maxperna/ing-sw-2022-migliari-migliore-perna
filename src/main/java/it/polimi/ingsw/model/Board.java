@@ -17,18 +17,13 @@ public class Board implements StudentManager {
     private int numOfTowers;  //number of towers on the board
 
     //Private constructor used by the factory
-    private Board(int hallDimension,int numOfTower,Color towerColor){       //num of towers is a parameter which depends on the num of players
-        this.hallDimension = hallDimension;           //hall dimension depends on the num of players
-        this.maxNumOfTowers = numOfTower;
-        this.towerColor = towerColor;
+    private Board(){       //num of towers is a parameter which depends on the num of players
         this.boardID = UUID.randomUUID();         //thread safe auto generated ID
-        this.lectureHall = new HashMap<Color,Integer>();
-
     }
 
     //Method used by the factory to create a new board
-    public static Board createBoard(int hallDimension,int numOfTower,Color towerColor){
-        return new Board(hallDimension,numOfTower,towerColor);
+    public static Board createBoard(){
+        return new Board();
     }
 
     public UUID getBoardID(){
