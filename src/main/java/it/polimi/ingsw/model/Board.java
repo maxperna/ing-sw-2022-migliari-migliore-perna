@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exceptions.*;
+
 import java.util.*;
 
 
@@ -55,18 +57,20 @@ public class Board implements StudentManager {
     }
     //Method to move the student from the external hall to the internal one
     public void moveInside(Color color) throws NotOnBoardException{     //Not on board da implementare
-        if(!studentsOutside.contains(color)) throw NotOnBoardException;
+        if(!studentsOutside.contains(color)) throw new NotOnBoardException();
         else{
+            studentsOutside.remove(color);
+            lectureHall.put(color,lectureHall.get(color)+1);       //add a student of a color after removing it
 
         }
     }
     //Method to move the student from the board to the island
     public void moveToIsland(Color color, IslandTile targetIsland) throws NotOnBoardException{
-        if(!studentsOutside.contains(color)) throw NotOnBoardException;
+        if(!studentsOutside.contains(color)) throw new NotOnBoardException();
     }
     //Method to move a tower on an Island
     public void moveTower() throws EndGameException{
-        if(numOfTowers==0) throw EndGameException;
+        if(numOfTowers==0) throw new EndGameException("Out of towers");
         else{
             numOfTowers--;
         }
@@ -81,7 +85,7 @@ public class Board implements StudentManager {
     }
 
     public void setTowers(int maxNumOfTowers) {
-        this.towers = maxNumOfTowers;
+        this.numOfTowers = maxNumOfTowers;
     }
 
     public int colorStudent(Color color){
