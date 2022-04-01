@@ -7,8 +7,8 @@ import java.util.*;
 
 public class Board implements StudentManager {
 
-    private int hallDimension;       //maximum number of players in the external hall depending by the num of players
-    private int maxNumOfTowers;        //maximum number of towers depending by the number of players
+    private final int hallDimension;       //maximum number of players in the external hall depending by the num of players
+    private final int maxNumOfTowers;        //maximum number of towers depending by the number of players
     private TowerColor towerColor;      //color of the towe on the board
     private final UUID boardID;
     private ArrayList<Color> studentsOutside;    //list of student in the outer room
@@ -17,13 +17,16 @@ public class Board implements StudentManager {
     private ArrayList<TowerColor> towers;  //number of towers on the board
 
     //Private constructor used by the factory
-    private Board(){       //num of towers is a parameter which depends on the num of players
+    private Board(int maxNumOfTowers, int hallDimension){       //num of towers is a parameter which depends on the num of players
         this.boardID = UUID.randomUUID();         //thread safe auto generated ID
+        this.maxNumOfTowers = maxNumOfTowers;
+        this.hallDimension = hallDimension;
+
     }
 
     //Method used by the factory to create a new board
-    public static Board createBoard(){
-        return new Board();
+    public static Board createBoard(int maxNumOfTower,int hallDimension){
+        return new Board(maxNumOfTower,hallDimension);
     }
 
     public UUID getBoardID(){
@@ -79,16 +82,8 @@ public class Board implements StudentManager {
         this.studentsOutside = studentsOutside;
     }
 
-    public void setTowers(int maxNumOfTowers) {
-        this.maxNumOfTowers = maxNumOfTowers;
-    }
-
     public void setTowerColor(TowerColor towerColor){
         this.towerColor = towerColor;
-    }
-
-    public void setHallDimension(int hallDimension){
-        this.hallDimension = hallDimension;
     }
 
     public int colorStudent(Color color){

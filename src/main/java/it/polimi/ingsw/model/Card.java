@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 import java.awt.*;
 
-
 //Class card, implementing his feature from a json file
 public class Card {
     private final int actionNumber;               //number which determinate the first player to move
