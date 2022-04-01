@@ -7,14 +7,14 @@ import java.util.*;
 
 public class Board implements StudentManager {
 
-    private final int hallDimension;       //maximum number of players in the external hall depending by the num of players
-    private final int maxNumOfTowers;        //maximum number of towers depending by the number of players
-    private final Color towerColor;      //color of the towe on the board
+    private int hallDimension;       //maximum number of players in the external hall depending by the num of players
+    private int maxNumOfTowers;        //maximum number of towers depending by the number of players
+    private TowerColor towerColor;      //color of the towe on the board
     private final UUID boardID;
     private ArrayList<Color> studentsOutside;    //list of student in the outer room
     private Map<Color,Integer> lectureHall;      //list of student for each color inside the main hall
     private Map<Color, Boolean> teachers;       //map to signal the presence of a teacher on the board
-    private int numOfTowers;  //number of towers on the board
+    private ArrayList<TowerColor> towers;  //number of towers on the board
 
     //Private constructor used by the factory
     private Board(){       //num of towers is a parameter which depends on the num of players
@@ -35,7 +35,7 @@ public class Board implements StudentManager {
     }
     //da modificare
     public int getNumOfTowers() {
-        return numOfTowers;
+        return towers.size();
     }
 
     //Method to get the presence of a teacher on the board
@@ -65,14 +65,14 @@ public class Board implements StudentManager {
     }
     //Method to move a tower on an Island
     public void moveTower() throws EndGameException{
-        if(numOfTowers==0) throw new EndGameException("Out of towers");
+        if(towers.size() == 0) throw new EndGameException("Out of towers");
         else{
-            numOfTowers--;
+            towers.remove(towerColor);
         }
     }              //throw an exception which signals the end of the game
     //Method to add the tower on the board
     public void addTower(){
-        numOfTowers++;
+        towers.add(towerColor);
     }
 
     public void setStudentsOutside(ArrayList<Color> studentsOutside) {
@@ -80,7 +80,15 @@ public class Board implements StudentManager {
     }
 
     public void setTowers(int maxNumOfTowers) {
-        this.numOfTowers = maxNumOfTowers;
+        this.maxNumOfTowers = maxNumOfTowers;
+    }
+
+    public void setTowerColor(TowerColor towerColor){
+        this.towerColor = towerColor;
+    }
+
+    public void setHallDimension(int hallDimension){
+        this.hallDimension = hallDimension;
     }
 
     public int colorStudent(Color color){
