@@ -11,9 +11,9 @@ import java.util.ArrayList;
  */
 public class TwoPlayers implements PlayerCreator {
 
-    private static final int maxStudentHall = 7;
-    private static final int maxTowers = 8;
-    private static final int numberOfPlayers = 2;
+    static final int maxStudentHall = 7;
+    static final int maxTowers = 8;
+    static final int numberOfPlayers = 2;
 
     /**
      * createPlayers

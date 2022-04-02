@@ -9,17 +9,19 @@ import java.util.UUID;
  * @author Miglia
  */
 public class Game {
+
     public final static int maxPlayers = 4;
     private final UUID gameID;
     private ArrayList<Player> playersList;
     private  GameField gameField;
-    private GameFactory gameFactory;
+    private final GameFactory gameFactory;
 
     /**
      * Constructor
      */
     public Game() {
         this.gameID = UUID.randomUUID();
+        this.gameFactory = new GameFactory();
     }
 
     /**
@@ -36,7 +38,6 @@ public class Game {
         this.playersList = new ArrayList <>();
 
         //Crea la fabbrica che verra utilizzata per generare le altri componenti del gioco
-        this.gameFactory = new GameFactory();
         PlayerCreator playersCreator;
         GameFieldCreator gameFieldCreator;
 
@@ -55,16 +56,6 @@ public class Game {
         }
 
         this.playersList = playersCreator.createPlayers();
-
-        //Printa i risultati - da eliminare
-        System.out.println("numero di giocatori " + playersList.size());
-        for (Player player : playersList) {
-            System.out.println("-------- Player ----------------------------------------------------------------------------");
-            for (int i = 0; i < player.getBoard().getStudentsOutside().size(); i++)
-                System.out.println(player.getBoard().getStudentsOutside().get(i));
-            for (int k = 0; k < player.getBoard().getTowers().size(); k++)
-                System.out.println(player.getBoard().getTowers().get(k));
-        }
 
         //Crea il GameField
         gameFieldCreator.newField();
