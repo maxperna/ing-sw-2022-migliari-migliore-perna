@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.factory;
 
+import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
 import it.polimi.ingsw.model.*;
 
 import java.util.ArrayList;
@@ -29,22 +30,23 @@ public class TwoPlayers implements PlayerCreator {
 
             //...viene creata una Board
             Board board = Board.createBoard(maxStudentHall,maxTowers);
-            board.setStudentsOutside(Pouch.getInstance().randomDraw(maxStudentHall));
+            try {
+                board.setStudentsOutside(Pouch.getInstance().randomDraw(maxStudentHall));
+            } catch (NotEnoughStudentsException e) {
+                e.printStackTrace();
+            }
 
             //...la lista delle torri di ogni giocatore viene popolata
-            ArrayList<Tower> listOfTowers = new ArrayList<>();
+            ArrayList<TowerColor> listOfTowers = new ArrayList<>();
             for (int j = 0; j < maxTowers; j++) {
 
-                TowerColor towerColor;
-
                 if(i == 0) {
-                    towerColor = TowerColor.BLACK;
+                    listOfTowers.add(TowerColor.BLACK);
                 }
                 else {
-                    towerColor = TowerColor.WHITE;
+                    listOfTowers.add(TowerColor.WHITE);
                 }
 
-                listOfTowers.add(new Tower(towerColor));
             }
             board.setTowers(listOfTowers);
 

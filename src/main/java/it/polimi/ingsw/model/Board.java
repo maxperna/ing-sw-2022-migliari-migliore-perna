@@ -82,8 +82,12 @@ public class Board implements StudentManager {
         this.studentsOutside = studentsOutside;
     }
 
-    public void setTowerColor(TowerColor towerColor){
-        this.towerColor = towerColor;
+    public ArrayList <TowerColor> getTowers() {
+        return towers;
+    }
+
+    public void setTowers(ArrayList <TowerColor> towers) {
+        this.towers = towers;
     }
 
     public int colorStudent(Color color){

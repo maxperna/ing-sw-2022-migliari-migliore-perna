@@ -35,7 +35,6 @@ public class Game {
         if (gameMode == null || gameMode.isEmpty())
             throw new IllegalArgumentException("No GameMode selected");
 
-        gameMode = gameMode.toUpperCase(Locale.ROOT);
         //Crea una nuova lista di giocatori
         this.playersList = new ArrayList <>();
 
@@ -46,9 +45,9 @@ public class Game {
 
         //setta la factory in base alla modalita di gioco selezionata
         switch (gameMode) {
-            case "TWOPLAYERS":
-            case "THREEPLAYERS":
-            case "FOURPLAYERS":
+            case "TwoPlayers":
+            case "ThreePlayers":
+            case "FourPlayers":
 
                 playersCreator = this.gameFactory.createPlayers(gameMode);
                 gameFieldCreator = this.gameFactory.createField(gameMode);
@@ -65,9 +64,9 @@ public class Game {
         for (Player player : playersList) {
             System.out.println("-------- Player ----------------------------------------------------------------------------");
             for (int i = 0; i < player.getBoard().getStudentsOutside().size(); i++)
-                System.out.println(player.getBoard().getStudentsOutside().get(i).getColor());
+                System.out.println(player.getBoard().getStudentsOutside().get(i));
             for (int k = 0; k < player.getBoard().getTowers().size(); k++)
-                System.out.println(player.getBoard().getTowers().get(k).getColor());
+                System.out.println(player.getBoard().getTowers().get(k));
         }
 
         //Crea il GameField

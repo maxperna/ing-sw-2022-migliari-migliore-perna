@@ -13,14 +13,4 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GameTest {
 
-
-
-    @ParameterizedTest
-    @MethodSource("gameModeList")
-    void startGame() {
-    }
-
-    private static List<String> gameModeList() {
-        return Arrays.asList()
-    }
 }
