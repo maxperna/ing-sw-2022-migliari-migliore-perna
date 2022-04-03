@@ -23,11 +23,11 @@ public class Card {
         return motherNatureControl;
     }
 
-    public Image getFrontImage() {
+    public String getFrontImage() {
         return frontImage;
     }
 
-    public Image getBackImage() {
+    public String getBackImage() {
         return backImage;
     }
 }

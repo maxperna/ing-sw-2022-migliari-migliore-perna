@@ -6,6 +6,9 @@ import java.io.FileReader;
 import java.util.ArrayList;
 
 
+/**Method to create a deck complete of 10 assistants cards
+ * @author Massimo
+ */
 
 public class CardDeck {
 
@@ -13,6 +16,9 @@ public class CardDeck {
     private ArrayList<Card> deck;
     private Card lastCardUsed;
 
+    /**CardDeck constructor, parse the 10 cards on a JSON file using GSON library for parse JSON file
+     * @param deckCharacter character of the player deck
+     */
     public CardDeck(DeckType deckCharacter) throws FileNotFoundException {
         this.deckCharacter = deckCharacter;
 
