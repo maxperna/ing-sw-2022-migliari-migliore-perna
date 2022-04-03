@@ -1,4 +1,6 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.CircularLinkedList;
+
+import it.polimi.ingsw.model.IslandTile;
 
 import java.util.ArrayList;
 

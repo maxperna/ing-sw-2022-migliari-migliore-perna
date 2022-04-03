@@ -13,7 +13,7 @@ public class IslandTile implements StudentManager {
     private final int tileID;
     private ArrayList<Color> students;
     private MotherNature motherNature;
-    private Tower tower;
+    private TowerColor tower;
     private String mostInfluencePlayer;
 
 
@@ -36,8 +36,8 @@ public class IslandTile implements StudentManager {
      * Method getTowerColor
      * @return color of placed tower
      */
-    public Tower getTowerColor(){
-        return this.tower/*.getColor()*/;
+    public TowerColor getTowerColor(){
+        return this.tower;
     }
 
     /**
@@ -66,7 +66,7 @@ public class IslandTile implements StudentManager {
 
     public int colorStudent(Color color){
         return 0;
-    };
+    }
 
 
 
