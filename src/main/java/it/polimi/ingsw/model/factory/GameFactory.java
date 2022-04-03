@@ -1,6 +1,12 @@
 package it.polimi.ingsw.model.factory;
 
 
+import it.polimi.ingsw.exceptions.NotEnoughElements;
+import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
+import it.polimi.ingsw.model.Color;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Class GameFactory, it allows selecting which type of logic use to create the components of the game
@@ -49,4 +55,24 @@ public class GameFactory {
                 throw new IllegalArgumentException("Unknown selector "+selector);
         }
     }
+
+    public static ArrayList <Color> drawFromPool(int arrayListLength, ArrayList<Color> arrayList) throws NotEnoughElements {
+
+
+        if (arrayList.isEmpty())
+            return null;
+
+        if (arrayListLength > arrayList.size())
+            throw new NotEnoughElements();
+
+        ArrayList<Color> randomDraw = new ArrayList<Color>();
+
+        Collections.shuffle(arrayList);
+        for (int i = 0; i < arrayListLength; i++) {
+            randomDraw.add(arrayList.remove(i)) ;
+        }
+
+        return randomDraw;
+    }
 }
+
