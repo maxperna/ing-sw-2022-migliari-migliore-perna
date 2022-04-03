@@ -1,0 +1,60 @@
+{
+    "deckType": {
+        "druid": 1,
+        "king": 2,
+        "witch": 3,
+        "sage": 4
+    },
+    "assistantProfile": [
+        {
+            "actionNumber": 1,
+            "motherNatureControl": 1,
+            "frontIMG": 2
+        },
+        {
+            "actionNumber": 2,
+            "motherNatureControl": 1,
+            "frontIMG": 2
+        },
+        {
+            "actionNumber": 3,
+            "motherNatureControl": 2,
+            "frontIMG": 2
+        },
+        {
+            "actionNumber": 4,
+            "motherNatureControl": 2,
+            "frontIMG": 2
+        },
+        {
+            "actionNumber": 5,
+            "motherNatureControl": 3,
+            "frontIMG": 2
+        },
+        {
+            "actionNumber": 6,
+            "motherNatureControl": 3,
+            "frontIMG": 2
+        },
+        {
+            "actionNumber": 7,
+            "motherNatureControl": 4,
+            "frontIMG": 2
+        },
+        {
+            "actionNumber": 8,
+            "motherNatureControl": 4,
+            "frontIMG": 2
+        },
+        {
+            "actionNumber": 9,
+            "motherNatureControl": 5,
+            "frontIMG": 2
+        },
+        {
+            "actionNumber": 10,
+            "motherNatureControl": 5,
+            "frontIMG": 2
+        }
+    ]
+}
