@@ -1,9 +1,9 @@
 {
     "deckType": {
-        "1": 1,
-        "2": 2,
-        "3": 3,
-        "4": 4
+        "druid": 1,
+        "king": 2,
+        "witch": 3,
+        "sage": 4
     },
     "assistantProfile": [
         {

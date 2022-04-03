@@ -1,35 +1,42 @@
 package it.polimi.ingsw.model;
-import com.google.gson.*;
-import com.google.gson.reflect.TypeToken;
 
+import com.google.gson.*;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+
 
 
 public class CardDeck {
 
-    private DeckType deckID;
+    private final DeckType deckCharacter;
     private ArrayList<Card> deck;
     private Card lastCardUsed;
 
-    Gson gson = new Gson();
+    public CardDeck(DeckType deckCharacter) throws FileNotFoundException {
+        this.deckCharacter = deckCharacter;
 
-    public CardDeck(DeckType deckID) throws FileNotFoundException {
+        //Creating a gson desarialization object
+        Gson gson = new Gson();
         //JSON reader from file
-        FileReader jsonParser = new FileReader("src/main/Assets/cardsJSON.json");
-        //Generating json reading target type object
-        Type assistantList = new TypeToken<Collection<Map<String,String>>>(){}.getType();
-        Collection<Map<String,String>> assistantProfile = gson.fromJson(jsonParser,assistantList);  //implement json file
+        FileReader cardJSON = new FileReader("src/main/Assets/cardsJSON.json");
+        //Generating a json element and relative json object
+        JsonElement cardJSONFile = JsonParser.parseReader(cardJSON);
+        JsonObject cardJSONObject = cardJSONFile.getAsJsonObject();
+        //Getting back IMG from first field of JSON file
+        String backIMGPath = cardJSONObject.get(this.deckCharacter.getCharactersName()).getAsString();
+        //Getting JSON array of assistant
+        JsonArray assistantsJSONArray = cardJSONObject.get("assistantProfile").getAsJsonArray();
 
-        //Generating deck
-        for(Map<String,String> assistant:assistantProfile){
-            Card newCard = new Card(assistant.get("actionNumber"),assistant.get("motherNatureControl"),assistant.get("frontIMG"),);
-            deck.add(newCard);
+        for(JsonElement assistantJSONElement: assistantsJSONArray){
+
+            //Getting the fields of the assistant one by one
+            JsonObject assistantJSONObject = assistantJSONElement.getAsJsonObject();
+            int assistantActionNumber = assistantJSONObject.get("actionNumber").getAsInt();
+            int assistantMNControl = assistantJSONObject.get("actionNumber").getAsInt();
+            String assistantFrontImage= assistantJSONObject.get("frontIMG").getAsString();
+
+            deck.add(new Card(assistantActionNumber,assistantMNControl,assistantFrontImage,backIMGPath));
         }
     }
 
@@ -38,7 +45,7 @@ public class CardDeck {
     }
 
     public DeckType getDeckType(){
-        return this.deckID;
+        return this.deckCharacter;
     }
 
     public Card getLastCard(){
@@ -48,7 +55,5 @@ public class CardDeck {
     public void removeCard(){
 
     }
-
-    public CardDeck(){}
 
 }
