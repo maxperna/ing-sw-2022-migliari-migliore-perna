@@ -5,10 +5,10 @@ import java.awt.*;
 public class Card {
     private final int actionNumber;               //number which determinate the first player to move
     private final int motherNatureControl;       //maximum number of step of mother nature
-    private final Image frontImage;
-    private final Image backImage;
+    private final String frontImage;               //path for front image
+    private final String backImage;                 //path for back image
 
-    public Card(int actionNumber, int motherNatureControl, Image frontImage, Image backImage){
+    public Card(int actionNumber, int motherNatureControl, String frontImage, String backImage){
         this.actionNumber = actionNumber;
         this.motherNatureControl = motherNatureControl;
         this.frontImage = frontImage;
