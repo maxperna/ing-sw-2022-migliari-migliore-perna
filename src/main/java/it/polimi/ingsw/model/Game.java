@@ -10,7 +10,7 @@ import java.util.UUID;
  */
 public class Game {
 
-    public final static int maxPlayers = 4;
+    public final static int maxTile = 12;
     private final UUID gameID;
     private ArrayList<Player> playersList;
     private  GameField gameField;

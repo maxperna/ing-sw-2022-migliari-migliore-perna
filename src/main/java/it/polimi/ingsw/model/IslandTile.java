@@ -10,8 +10,8 @@ import java.util.ArrayList;
  * @author Alessio Migliore
  */
 public class IslandTile implements StudentManager {
-    private static int tileID;
-    private ArrayList<Student> students;
+    private final int tileID;
+    private ArrayList<Color> students;
     private MotherNature motherNature;
     private Tower tower;
     private String mostInfluencePlayer;
@@ -56,9 +56,19 @@ public class IslandTile implements StudentManager {
         this.tileID=tileID;
     }
 
+    public void setStudents(ArrayList <Color> students) {
+        this.students = students;
+    }
+
+    public ArrayList <Color> getStudents() {
+        return students;
+    }
+
     public int colorStudent(Color color){
         return 0;
     };
+
+
 
 
 }
