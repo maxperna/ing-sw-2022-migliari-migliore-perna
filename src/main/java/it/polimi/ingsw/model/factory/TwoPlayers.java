@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.factory;
 
 import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
 import it.polimi.ingsw.model.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -38,7 +39,7 @@ public class TwoPlayers implements PlayerCreator {
         return playersCreated;
     }
 
-    public static Board generateTwoPlayersBlackBoard(UUID gameID) {
+    public static @NotNull Board generateTwoPlayersBlackBoard(UUID gameID) {
         //...viene creata una Board
         Board board = Board.createBoard(maxStudentHall, maxTowers);
         try {
@@ -57,7 +58,7 @@ public class TwoPlayers implements PlayerCreator {
         return board;
     }
 
-    public static Board generateTwoPlayersWhiteBoard (UUID gameID) {
+    public static @NotNull Board generateTwoPlayersWhiteBoard(UUID gameID) {
         //...viene creata una Board
         Board board = Board.createBoard(maxStudentHall, maxTowers);
         try {

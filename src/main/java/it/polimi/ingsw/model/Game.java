@@ -55,6 +55,7 @@ public class Game {
                 throw new IllegalArgumentException("Unknown selector " + gameMode);
         }
 
+        //Crea i giocatori
         this.playersList = playersCreator.createPlayers(this.gameID);
 
         //Crea il GameField

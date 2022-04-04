@@ -10,6 +10,5 @@ import java.util.UUID;
  * @author Miglia
  */
 public interface PlayerCreator {
-
     ArrayList<Player> createPlayers(UUID gameID);
 }

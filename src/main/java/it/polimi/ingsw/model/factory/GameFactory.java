@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameField;
 import it.polimi.ingsw.model.IslandTile;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -60,7 +61,7 @@ public class GameFactory {
         }
     }
 
-    public static ArrayList <Color> drawFromPool(int arrayListLength, ArrayList<Color> arrayList) throws NotEnoughElements {
+    public static ArrayList <Color> drawFromPool(int arrayListLength, @NotNull ArrayList<Color> arrayList) throws NotEnoughElements {
 
 
         if (arrayList.isEmpty())
@@ -79,7 +80,7 @@ public class GameFactory {
         return randomDraw;
     }
 
-    public static IslandList builtIslandList() {
+    public static @NotNull IslandList builtIslandList() {
 
         ArrayList<Color> studentToBePlaced = new ArrayList <>();
         for(int j = 0; j < 2; j++ )
