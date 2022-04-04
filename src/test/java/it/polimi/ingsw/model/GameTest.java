@@ -1,15 +1,11 @@
 package it.polimi.ingsw.model;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.Arrays;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class GameTest {
 
@@ -18,7 +14,7 @@ class GameTest {
     void shouldCreateGame(String gameModeList) {
 
         Game game = new Game();
-        game.startGame(gameModeList);
+        game.createGame(gameModeList);
         int numOfPlayers = 0;
 
         switch (gameModeList) {

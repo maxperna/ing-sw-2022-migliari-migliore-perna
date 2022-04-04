@@ -4,6 +4,7 @@ import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
 import it.polimi.ingsw.model.*;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * TwoPlayers class, part of the factory method, it contains the logic to create a three player's match
@@ -21,7 +22,7 @@ public class ThreePlayers implements PlayerCreator {
      * @return an ArrayList of 3 players, each one with a board that contains already Students and Towers
      */
     @Override
-    public ArrayList<Player> createPlayers() {
+    public ArrayList<Player> createPlayers(UUID gameID) {
 
         //Crea un nuovo array di giocatori che verra popolato e poi restituito
         ArrayList<Player> playersCreated = new ArrayList<>();
@@ -32,7 +33,7 @@ public class ThreePlayers implements PlayerCreator {
             //...viene creata una Board
             Board board = Board.createBoard(maxStudentHall, maxTowers);
             try {
-                board.setStudentsOutside(Pouch.getInstance().randomDraw(maxStudentHall));
+                board.setStudentsOutside(Pouch.getInstance(gameID).randomDraw(maxStudentHall));
             } catch (NotEnoughStudentsException e) {
                 e.printStackTrace();
             }

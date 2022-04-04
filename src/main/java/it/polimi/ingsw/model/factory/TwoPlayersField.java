@@ -1,50 +1,35 @@
 package it.polimi.ingsw.model.factory;
 
 import it.polimi.ingsw.CircularLinkedList.IslandList;
-import it.polimi.ingsw.exceptions.NotEnoughElements;
-import it.polimi.ingsw.model.Color;
-import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.IslandTile;
+import it.polimi.ingsw.model.CloudTile;
+import it.polimi.ingsw.model.GameField;
+import it.polimi.ingsw.model.Pouch;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.UUID;
 
 public class TwoPlayersField implements GameFieldCreator{
 
+    private static final int numOfPlayers = 2;
+
     @Override
-    public void newField() {
+    public GameField newField(UUID gameID) {
 
-        ArrayList<Color> studentToBePlaced = new ArrayList <>();
-        for(int j = 0; j < 2; j++ )
+        GameField gameField = GameField.newGameField();
+
+        ArrayList<CloudTile> cloudTileList = new ArrayList<>();
+
+        for (int i =0; i < numOfPlayers; i++)
         {
-            studentToBePlaced.add(Color.RED);
-            studentToBePlaced.add(Color.GREEN);
-            studentToBePlaced.add(Color.BLUE);
-            studentToBePlaced.add(Color.PINK);
-            studentToBePlaced.add(Color.YELLOW);
+            cloudTileList.add(new CloudTile());
         }
-        Collections.shuffle(studentToBePlaced);
 
-        int noStudentTile = (int) Math.floor(Math.random()*(6)+1);
+        IslandList islandList = GameFactory.builtIslandList();
 
-        IslandList islandList = new IslandList();
-        ArrayList<IslandTile>  islandTiles = new ArrayList<>();
-        for(int i = 1; i <= Game.maxTile; i++)
-        {
-            IslandTile tile = new IslandTile(i);
+        gameField.setIslands(islandList);
+        gameField.setPouch(Pouch.getInstance(gameID));
+        gameField.setCloudsTile(cloudTileList);
 
-            if((i != noStudentTile) & (i != noStudentTile*2)) {
-                try {
-                    tile.setStudents(GameFactory.drawFromPool(1, studentToBePlaced));
-                } catch (NotEnoughElements e) {
-                    e.printStackTrace();
-                }
-            }
-
-            islandTiles.add(tile);
-        }
-        islandList.addIslands(islandTiles);
-
-        System.out.println("ciao");
+        return gameField;
     }
 }
