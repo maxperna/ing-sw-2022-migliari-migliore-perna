@@ -1,13 +1,17 @@
 package it.polimi.ingsw.model.factory;
 
 import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
-import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.Pouch;
+import it.polimi.ingsw.model.TowerColor;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
 /**
  * TwoPlayers class, part of the factory method, it contains the logic to create a three player's match
+ *
  * @author Miglia
  */
 public class ThreePlayers implements PlayerCreator {
@@ -19,13 +23,14 @@ public class ThreePlayers implements PlayerCreator {
 
     /**
      * createPlayers
+     *
      * @return an ArrayList of 3 players, each one with a board that contains already Students and Towers
      */
     @Override
-    public ArrayList<Player> createPlayers(UUID gameID) {
+    public ArrayList <Player> createPlayers(UUID gameID) {
 
         //Crea un nuovo array di giocatori che verra popolato e poi restituito
-        ArrayList<Player> playersCreated = new ArrayList<>();
+        ArrayList <Player> playersCreated = new ArrayList <>();
 
         //per ogni giocatore...
         for (int i = 0; i < numberOfPlayers; i++) {
@@ -39,16 +44,14 @@ public class ThreePlayers implements PlayerCreator {
             }
 
             //...la lista delle torri di ogni giocatore viene popolata
-            ArrayList<TowerColor> listOfTowers = new ArrayList<>();
+            ArrayList <TowerColor> listOfTowers = new ArrayList <>();
             for (int j = 0; j < maxTowers; j++) {
 
                 if (i == 0) {
                     listOfTowers.add(TowerColor.BLACK);
-                }
-                else if(i==1) {
+                } else if (i == 1) {
                     listOfTowers.add(TowerColor.WHITE);
-                }
-                else {
+                } else {
                     listOfTowers.add(TowerColor.GRAY);
                 }
 

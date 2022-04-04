@@ -8,7 +8,7 @@ import it.polimi.ingsw.model.Pouch;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class FourPlayersFIeld implements GameFieldCreator{
+public class FourPlayersFIeld implements GameFieldCreator {
 
     private static final int numOfPlayers = 4;
 
@@ -17,10 +17,9 @@ public class FourPlayersFIeld implements GameFieldCreator{
 
         GameField gameField = GameField.newGameField();
 
-        ArrayList <CloudTile> cloudTileList = new ArrayList<>();
+        ArrayList <CloudTile> cloudTileList = new ArrayList <>();
 
-        for (int i =0; i < numOfPlayers; i++)
-        {
+        for (int i = 0; i < numOfPlayers; i++) {
             cloudTileList.add(new CloudTile());
         }
 

@@ -17,10 +17,9 @@ public class ThreePlayersField implements GameFieldCreator {
 
         GameField gameField = GameField.newGameField();
 
-        ArrayList <CloudTile> cloudTileList = new ArrayList<>();
+        ArrayList <CloudTile> cloudTileList = new ArrayList <>();
 
-        for (int i =0; i < numOfPlayers; i++)
-        {
+        for (int i = 0; i < numOfPlayers; i++) {
             cloudTileList.add(new CloudTile());
         }
 

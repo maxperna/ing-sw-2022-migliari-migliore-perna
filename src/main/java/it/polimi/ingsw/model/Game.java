@@ -1,20 +1,23 @@
 package it.polimi.ingsw.model;
+import it.polimi.ingsw.model.factory.GameFactory;
+import it.polimi.ingsw.model.factory.GameFieldCreator;
+import it.polimi.ingsw.model.factory.PlayerCreator;
 
-import it.polimi.ingsw.model.factory.*;
 import java.util.ArrayList;
 import java.util.UUID;
 
 /**
  * Class Game, every class created as its own unique gameID
+ *
  * @author Miglia
  */
 public class Game {
 
     public final static int maxTile = 12;
     private final UUID gameID;
-    private ArrayList<Player> playersList;
-    private  GameField gameField;
     private final GameFactory gameFactory;
+    private ArrayList <Player> playersList;
+    private GameField gameField;
 
     /**
      * Constructor
@@ -27,6 +30,7 @@ public class Game {
     /**
      * startGame
      * Method that set the game, creates a list of players and a game field
+     *
      * @param gameMode used to select the set of rules to use
      */
     public void createGame(String gameMode) {
@@ -65,6 +69,7 @@ public class Game {
 
     /**
      * Getter
+     *
      * @return unique ID
      */
     public UUID getGameID() {
@@ -73,6 +78,7 @@ public class Game {
 
     /**
      * Getter
+     *
      * @return the GameField of the match
      */
     public GameField getGameField() {
@@ -81,6 +87,7 @@ public class Game {
 
     /**
      * Getter
+     *
      * @return GameFactory
      */
     public GameFactory getGameFactory() {
@@ -89,9 +96,10 @@ public class Game {
 
     /**
      * Getter
+     *
      * @return The list of players in this match
      */
-    public ArrayList<Player> getPlayersList() {
+    public ArrayList <Player> getPlayersList() {
         return playersList;
     }
 }
