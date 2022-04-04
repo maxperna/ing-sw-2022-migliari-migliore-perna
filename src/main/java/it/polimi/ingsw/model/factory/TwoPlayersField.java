@@ -32,4 +32,5 @@ public class TwoPlayersField implements GameFieldCreator{
 
         return gameField;
     }
+
 }
