@@ -2,8 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 
 
 /**
@@ -13,7 +12,7 @@ import java.util.Collections;
 public class Pouch {
 
     private final ArrayList<Color> students;
-    private static Pouch instance = null;
+    private static Map <UUID,Pouch> currentInstantiated = new HashMap <>();
 
     /**
      * Constructor
@@ -37,11 +36,17 @@ public class Pouch {
      *
      * @return Pouch
      */
-    public static Pouch getInstance() {
-        if (instance == null)
-            instance = new Pouch();
+    public static Pouch getInstance(UUID gameID) {
+        if (currentInstantiated.get(gameID) == null) {
+            Pouch instance = new Pouch();
+            currentInstantiated.put(gameID,instance);
 
-        return instance;
+            return instance;
+        }
+        else
+        {
+            return currentInstantiated.get(gameID);
+        }
     }
 
     /**
@@ -52,7 +57,7 @@ public class Pouch {
      * @throws NotEnoughStudentsException there are less than the required elements in pouch
      */
     public synchronized ArrayList<Color> randomDraw(int arrayListLength) throws NotEnoughStudentsException {
-        ArrayList<Color> studentsToBeMoved = new ArrayList<Color>();                                                    //new arrayList containing the number of students required
+        ArrayList<Color> studentsToBeMoved = new ArrayList <>();                                                    //new arrayList containing the number of students required
 
         if (arrayListLength > students.size())                                                                          //checks that there are enough students in the pouch
             throw new NotEnoughStudentsException();

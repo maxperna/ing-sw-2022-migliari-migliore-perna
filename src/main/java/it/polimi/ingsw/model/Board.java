@@ -12,7 +12,7 @@ public class Board implements StudentManager {
 
     private final int hallDimension;       //maximum number of players in the external hall depending by the num of players
     private final int maxNumOfTowers;        //maximum number of towers depending by the number of players
-    private TowerColor towerColor;      //color of the towe on the board
+    private TowerColor towerColor;      //color of the tower on the board
     private final UUID boardID;
     private ArrayList<Color> studentsOutside;    //list of student in the outer room
     private Map<Color,Integer> lectureHall;      //list of student for each color inside the main hall
@@ -95,10 +95,11 @@ public class Board implements StudentManager {
     /**Method to move a tower from the hall to an island
      * @exception EndGameException exception thrown if there aren't any tower, make the game end
      */
-    public void moveTower() throws EndGameException{
+    public TowerColor moveTower() throws EndGameException{
         if(towers.size() == 0) throw new EndGameException("Out of towers");
         else{
             towers.remove(towerColor);
+            return this.towerColor;
         }
     }
 

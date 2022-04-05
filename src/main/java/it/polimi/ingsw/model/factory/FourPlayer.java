@@ -4,6 +4,10 @@ import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
 import it.polimi.ingsw.model.*;
 
 import java.util.ArrayList;
+import java.util.UUID;
+
+import static it.polimi.ingsw.model.factory.TwoPlayers.generateTwoPlayersBlackBoard;
+import static it.polimi.ingsw.model.factory.TwoPlayers.generateTwoPlayersWhiteBoard;
 
 /**
  * TwoPlayers class, part of the factory method, it contains the logic to create a four player's match
@@ -20,49 +24,27 @@ public class FourPlayer implements PlayerCreator {
      * @return an ArrayList of 4 players, each one with a board that contains already Students and Towers
      */
     @Override
-    public ArrayList<Player> createPlayers() {
+    public ArrayList<Player> createPlayers(UUID gameID) {
 
         //Crea un nuovo array di giocatori che verra popolato e poi restituito
         ArrayList<Player> playersCreated = new ArrayList<>();
 
-        //per i primi 2 giocatori...
-        for (int i = 0; i < numberOfPlayers/2; i++) {
+        //Crea ogni giocatore, gli associa una board popolata e poi lo inserce nella lista finale
+        Player player1 = new Player();
+        player1.setBoard(generateTwoPlayersBlackBoard(gameID));
+        playersCreated.add(player1);
 
-            //...viene creata una Board
-            Board board = Board.createBoard(maxStudentHall,maxTowers);
-            try {
-                board.setStudentsOutside(Pouch.getInstance().randomDraw(maxStudentHall));
-            } catch (NotEnoughStudentsException e) {
-                e.printStackTrace();
-            }
+        Player player2 = new Player();
+        player2.setBoard(generateTwoPlayersWhiteBoard(gameID));
+        playersCreated.add(player2);
 
-            //...la lista delle torri di ogni giocatore viene popolata
-            ArrayList<TowerColor> listOfTowers = new ArrayList<>();
-            for (int j = 0; j < maxTowers; j++) {
-
-                if(i == 0) {
-                    listOfTowers.add(TowerColor.BLACK);
-                }
-                else {
-                    listOfTowers.add(TowerColor.WHITE);
-                }
-
-            }
-            board.setTowers(listOfTowers);
-
-            //Crea il giocatore, gli associa la board appena creata e popolata e poi lo inserce nella lista finale
-            Player player = new Player();
-            player.setBoard(board);
-            playersCreated.add(player);
-        }
-
-        //pre gli altri due giocatori...
+        //per gli altri due giocatori...
         for (int k = 0; k < numberOfPlayers/2; k++) {
 
             //...viene creata una Board
             Board board = Board.createBoard(maxStudentHall,maxTowers);
             try {
-                board.setStudentsOutside(Pouch.getInstance().randomDraw(maxStudentHall));
+                board.setStudentsOutside(Pouch.getInstance(gameID).randomDraw(maxStudentHall));
             } catch (NotEnoughStudentsException e) {
                 e.printStackTrace();
             }

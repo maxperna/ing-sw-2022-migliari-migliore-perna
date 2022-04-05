@@ -29,7 +29,7 @@ public class Game {
      * Method that set the game, creates a list of players and a game field
      * @param gameMode used to select the set of rules to use
      */
-    public void startGame(String gameMode) {
+    public void createGame(String gameMode) {
 
         if (gameMode == null || gameMode.isEmpty())
             throw new IllegalArgumentException("No GameMode selected");
@@ -55,10 +55,10 @@ public class Game {
                 throw new IllegalArgumentException("Unknown selector " + gameMode);
         }
 
-        this.playersList = playersCreator.createPlayers();
+        this.playersList = playersCreator.createPlayers(this.gameID);
 
         //Crea il GameField
-        gameFieldCreator.newField();
+        this.gameField = gameFieldCreator.newField(this.gameID);
 
     }
 

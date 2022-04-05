@@ -15,7 +15,7 @@ import static it.polimi.ingsw.model.factory.TwoPlayers.*;
 
 class TwoPlayersTest {
 
-    @Test
+    /*@Test
     void shouldCreateTwoPlayers() {
 
         TwoPlayers twoPlayersFactory = new TwoPlayers();
@@ -50,5 +50,5 @@ class TwoPlayersTest {
         }
 
     }
-
+*/
 }

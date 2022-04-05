@@ -1,7 +1,9 @@
 package it.polimi.ingsw.model.factory;
 
+import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * Interface PlayerCreator, part of the factory method
@@ -9,5 +11,5 @@ import java.util.ArrayList;
  */
 public interface PlayerCreator {
 
-    ArrayList<Player> createPlayers();
+    ArrayList<Player> createPlayers(UUID gameID);
 }

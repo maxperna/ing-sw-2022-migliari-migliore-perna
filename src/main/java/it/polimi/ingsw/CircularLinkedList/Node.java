@@ -1,6 +1,7 @@
 package it.polimi.ingsw.CircularLinkedList;
 
 import it.polimi.ingsw.model.IslandTile;
+import it.polimi.ingsw.model.MotherNature;
 
 import java.util.ArrayList;
 
@@ -13,6 +14,8 @@ public class Node {
     public ArrayList<IslandTile> islands;                                                                               //each node contains an arraylist of islands, the arraylist initially contains only one island object, but it will add new islands
     private Node next=null;                                                                                             //whenever a MergeIsland is called
     private Node prev=null;
+    private String mostInfluencePlayer;
+    private MotherNature motherNature;
 
     /**
      * method to set the previous node of a given node in the linked list

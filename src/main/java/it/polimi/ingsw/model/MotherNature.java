@@ -39,8 +39,6 @@ public class MotherNature {
         {
             return currentInstantiated.get(gameID);
         }
-
-
     }
 
     public void moveMotherNature(){
