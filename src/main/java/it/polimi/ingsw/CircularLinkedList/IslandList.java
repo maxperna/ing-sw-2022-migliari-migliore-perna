@@ -93,23 +93,7 @@ public class IslandList {
      * @return Color containing dominant color
      */
     public Color getInfluence(Node node){                                                                               //method to check influence on an island or on merged islands
-        Color maxColor = null;                                                                                          //declare dominant color as null
-        int maxStudents = 0;                                                                                            //declare max students of dominant color as 0
-        int colorCounter = 0;
-        for(Color actualColor : Color.values()){                                                                        //iterates for all colors of students
-            for(int island=0; island<node.islands.size(); island++){                                                    //iterates for all islands in the node
-                ArrayList<Color> students = node.islands.get(island).getStudents();                                     //creates a local copy of all students in the visited island
-                for(int student=0; student<students.size(); student++){                                                 //iterates for all students in previously declared ArrayList
-                    if(students.get(student).equals(actualColor))                                                       //checks if the student's color matches with current color
-                        colorCounter++;                                                                                 //increases color counter for that color
-                }
-                if(maxStudents < colorCounter){                                                                         //updates dominant color and number of dominant students values
-                    maxStudents = colorCounter;
-                    maxColor = actualColor;
-                }
-            }
-        }
-        return maxColor;                                                                                                //returns the dominant color in the island
+        return node.getMostInfluence();                                                                                     //returns the dominant color in the island
     }
 }
 
