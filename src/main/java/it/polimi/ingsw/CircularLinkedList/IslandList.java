@@ -1,6 +1,5 @@
 package it.polimi.ingsw.CircularLinkedList;
 
-import it.polimi.ingsw.CircularLinkedList.Node;
 import it.polimi.ingsw.exceptions.EndGameException;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.IslandTile;
@@ -47,7 +46,7 @@ public class IslandList {
 
 
     /**
-     * method to merge islands, it transfer the ArrayList IslandTile from the node that we eliminate to the one we call the method on
+     * method to merge islands, it transfers the ArrayList IslandTile from the node that we eliminate to the one we call the method on
      * @param newMergedIsland is the island that remains in the linked list
      * @param islandToMerge is the island whose information is going to be moved inside the other island, this one will be cancelled by garbage collector
      * @throws EndGameException when there are exactly 3(?) islands left inside the list
@@ -90,27 +89,11 @@ public class IslandList {
 
     /**
      * method to get influence, missing the part that adds tower influence
-     * @param node is the island (or superisland) we want to know about
+     * @param node is the island (or super island) we want to know about
      * @return Color containing dominant color
      */
     public Color getInfluence(Node node){                                                                               //method to check influence on an island or on merged islands
-        Color maxColor = null;                                                                                          //declare dominant color as null
-        int maxStudents = 0;                                                                                            //declare max students of dominant color as 0
-        int colorCounter = 0;
-        for(Color actualColor : Color.values()){                                                                        //iterates for all colors of students
-            for(int island=0; island<node.islands.size(); island++){                                                    //iterates for all islands in the node
-                ArrayList<Color> students = node.islands.get(island).getStudents();                                     //creates a local copy of all students in the visited island
-                for(int student=0; student<students.size(); student++){                                                 //iterates for all students in previously declared ArrayList
-                    if(students.get(student).equals(actualColor))                                                       //checks if the student's color matches with current color
-                        colorCounter++;                                                                                 //increases color counter for that color
-                }
-                if(maxStudents < colorCounter){                                                                         //updates dominant color and number of dominant students values
-                    maxStudents = colorCounter;
-                    maxColor = actualColor;
-                }
-            }
-        }
-        return maxColor;                                                                                                //returns the dominant color in the island
+        return node.getMostInfluence();                                                                                     //returns the dominant color in the island
     }
 }
 

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.*;
+import it.polimi.ingsw.exceptions.EndGameException;
 
 import java.util.ArrayList;
 
@@ -29,7 +30,13 @@ public class IslandTile implements StudentManager {
      * Method setTower, updates the tower attribute after tower construction or substitution
      *
      */
-    public void setTower(){
+    public void setTower(Player activePlayer){
+        try{
+            this.tower = activePlayer.getBoard().moveTower();
+        }
+        catch (EndGameException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -38,18 +45,6 @@ public class IslandTile implements StudentManager {
      */
     public TowerColor getTowerColor(){
         return this.tower;
-    }
-
-    /**
-     * Method setMostInfluence, checks the color of the highest number of students placed on the island
-     *
-     */
-    public void setMostInfluencePlayer(){
-
-    }
-
-    public String getMostInfluencePlayer(){
-        return this.mostInfluencePlayer;
     }
 
     public IslandTile(int tileID){
