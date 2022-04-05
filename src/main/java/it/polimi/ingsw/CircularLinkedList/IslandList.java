@@ -21,8 +21,8 @@ public class IslandList {
      * @param islands that will be part of the nodes (the node can be seen as a superclass of IslandTile, containing all references and methods to make a DCLL)
      */
     public void addIslands(ArrayList<IslandTile> islands) {
-        for(int i=0; i<islands.size(); i++){
-            Node newIsland = new Node(islands.get(i));
+        for (IslandTile island : islands) {
+            Node newIsland = new Node(island);
             newIsland.setNextNode(this.head);                                                                           //insert new node before all the nodes in the linked list
             newIsland.setPreviousNode(null);
 
@@ -100,8 +100,8 @@ public class IslandList {
         for(Color actualColor : Color.values()){                                                                        //iterates for all colors of students
             for(int island=0; island<node.islands.size(); island++){                                                    //iterates for all islands in the node
                 ArrayList<Color> students = node.islands.get(island).getStudents();                                     //creates a local copy of all students in the visited island
-                for(int student=0; student<students.size(); student++){                                                 //iterates for all students in previously declared ArrayList
-                    if(students.get(student).equals(actualColor))                                                       //checks if the student's color matches with current color
+                for (Color color : students) {                                                 //iterates for all students in previously declared ArrayList
+                    if (color.equals(actualColor))                                                       //checks if the student's color matches with current color
                         colorCounter++;                                                                                 //increases color counter for that color
                 }
                 if(maxStudents < colorCounter){                                                                         //updates dominant color and number of dominant students values

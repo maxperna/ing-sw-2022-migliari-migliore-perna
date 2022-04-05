@@ -13,7 +13,7 @@ import java.util.UUID;
 public class MotherNature {
 
     private IslandTile currentIsland;      //current island whom mother nature is present on
-    private static Map<UUID,MotherNature> currentInstantiated = new HashMap<UUID,MotherNature>();       //game which have already instantiated a mother nature
+    private final static Map<UUID,MotherNature> currentInstantiated = new HashMap<UUID,MotherNature>();       //game which have already instantiated a mother nature
 
 
     /**
@@ -42,8 +42,13 @@ public class MotherNature {
 
 
     }
+
+    public void moveMotherNature(){
+
+    }
+
     /**
-     * @return IslandTile MotherNature is on
+     * @return IslandTile whom MotherNature is on
      */
     public IslandTile getTile() {
 
