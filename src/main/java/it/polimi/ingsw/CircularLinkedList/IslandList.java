@@ -1,6 +1,5 @@
 package it.polimi.ingsw.CircularLinkedList;
 
-import it.polimi.ingsw.CircularLinkedList.Node;
 import it.polimi.ingsw.exceptions.EndGameException;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.IslandTile;
@@ -47,7 +46,7 @@ public class IslandList {
 
 
     /**
-     * method to merge islands, it transfer the ArrayList IslandTile from the node that we eliminate to the one we call the method on
+     * method to merge islands, it transfers the ArrayList IslandTile from the node that we eliminate to the one we call the method on
      * @param newMergedIsland is the island that remains in the linked list
      * @param islandToMerge is the island whose information is going to be moved inside the other island, this one will be cancelled by garbage collector
      * @throws EndGameException when there are exactly 3(?) islands left inside the list
@@ -90,7 +89,7 @@ public class IslandList {
 
     /**
      * method to get influence, missing the part that adds tower influence
-     * @param node is the island (or superisland) we want to know about
+     * @param node is the island (or super island) we want to know about
      * @return Color containing dominant color
      */
     public Color getInfluence(Node node){                                                                               //method to check influence on an island or on merged islands
