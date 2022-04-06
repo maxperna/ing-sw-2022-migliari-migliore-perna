@@ -12,15 +12,14 @@ import java.util.ArrayList;
  * can be considered as a superclass of IslandTile that contains pointers to create the linked list
  */
 public class Node {
-    public ArrayList<IslandTile> islands;                                                                               //each node contains an arraylist of islands, the arraylist initially contains only one island object, but it will add new islands
-    private Node next = null;                                                                                             //whenever a MergeIsland is called
+    private ArrayList<IslandTile> islands;                                                                               //each node contains an arraylist of islands, the arraylist initially contains only one island object, but it will add new islands
+    private Node next = null;                                                                                           //whenever a MergeIsland is called
     private Node prev = null;
     private Color mostInfluencePlayer;
-    private MotherNature motherNature;
+    private boolean motherNature = false;
 
     /**
      * method to set the previous node of a given node in the linked list
-     *
      * @param prev is the node that has to point to the new node
      */
     public void setPreviousNode(Node prev) {
@@ -29,7 +28,6 @@ public class Node {
 
     /**
      * method to set the pointer to the next node in the list
-     *
      * @param next is the node that has to be pointed by the new node
      */
     public void setNextNode(Node next) {
@@ -38,7 +36,6 @@ public class Node {
 
     /**
      * constructor for the Node class
-     *
      * @param newIsland is the object that we insert in the ArrayList of IslandTile
      */
     public Node(IslandTile newIsland) {
@@ -75,7 +72,6 @@ public class Node {
 
     /**
      * method to add the island(s) of a Node inside another one, called to merge two islands (not tested)
-     *
      * @param islandsToBeAdded is an ArrayList of IslandTile that will be included in the ArrayList of the Node that will remain
      */
     public void addIslands(ArrayList<IslandTile> islandsToBeAdded) {
@@ -86,6 +82,10 @@ public class Node {
         this.mostInfluencePlayer = this.getMostInfluence();
     }
 
+    /**
+     * method to control the dominant color on an island
+     * @return the color of the highest amount of students on the island
+     */
     public Color getMostInfluence() {
         Color maxColor = null;                                                                                          //declare dominant color as null
         int maxStudents = 0;                                                                                            //declare max students of dominant color as 0
@@ -103,6 +103,20 @@ public class Node {
                 }
             }
         }
-        return maxColor;
+        return maxColor;                                                                                                //returns dominant color
+    }
+
+    /**
+     * method to set motherNature parameter when the island is visited
+     */
+    private void setMotherNature() {
+        this.motherNature = true;
+    }
+
+    /**
+     * method to reset motherNature flag when motherNature leaves
+     */
+    private void resetMotherNature(){
+        this.motherNature = false;
     }
 }
