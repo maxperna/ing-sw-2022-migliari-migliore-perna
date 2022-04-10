@@ -4,6 +4,7 @@ import it.polimi.ingsw.exceptions.EndGameException;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.IslandTile;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
 /**
@@ -93,7 +94,26 @@ public class IslandList {
      * @return Color containing dominant color
      */
     public Color getInfluence(Node node){                                                                               //method to check influence on an island or on merged islands
-        return node.getMostInfluence();                                                                                     //returns the dominant color in the island
+        return node.getMostInfluence();                                                                                 //returns the dominant color in the island
+    }
+
+    /**
+     * method to add a student to a given island
+     * @param islandID (0-11), identifies the island
+     * @param student to be added
+     * @throws InvalidParameterException when islandID is invalid
+     */
+    public void addStudent (int islandID, Color student) throws InvalidParameterException{                              //method that adds a single student to a specific IslandTIle
+        if(islandID <0 || islandID >11)                                                                                 //checks that the islandID is valid
+            throw new InvalidParameterException();
+
+        Node startingNode = this.head;                                                                                  //set the startingNode
+        while(startingNode.getNextNode() != head) {                                                                     //checks that we have nodes left to visit
+            for(IslandTile island : startingNode.getIslands()){                                                         //for loop to move through all the IslandTile in each node
+                if(island.getID() == islandID)
+                    island.addStudent(student);                                                                         //calls addStudent from IslandTile
+            }
+        }
     }
 }
 
