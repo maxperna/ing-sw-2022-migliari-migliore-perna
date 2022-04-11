@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-/**Class to create a single passing parameters to its constructor
+/**Class to create a single passing parameters to its constructor, card ID is given by action number(unique for each deck)
  * @author Massimo
  */
 public class Card {

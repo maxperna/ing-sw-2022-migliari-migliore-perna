@@ -10,10 +10,10 @@ import java.util.ArrayList;
  * Class IslandTile
  * @author Alessio Migliore
  */
-public class IslandTile implements StudentManager {
+public class IslandTile{
     private final int tileID;
     private ArrayList<Color> students;
-    private MotherNature motherNature;
+    private boolean motherNature;
     private TowerColor tower;
     private String mostInfluencePlayer;
 

@@ -1,12 +1,15 @@
 package it.polimi.ingsw.model;
 
 import com.google.gson.*;
+import it.polimi.ingsw.exceptions.EndGameException;
+import it.polimi.ingsw.exceptions.InexistentCard;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 
 
-/**Method to create a deck complete of 10 assistants cards
+/**Method to create a deck complete of 10 assistants cards and the method to use it
  * @author Massimo
  */
 
@@ -21,6 +24,7 @@ public class CardDeck {
      */
     public CardDeck(DeckType deckCharacter) throws FileNotFoundException {
         this.deckCharacter = deckCharacter;
+        this.lastCardUsed = null;
 
         //Creating a gson desarialization object
         Gson gson = new Gson();
@@ -46,6 +50,8 @@ public class CardDeck {
         }
     }
 
+    /**Get the current state of the deck
+     * */
     public ArrayList<Card> getRemainingCards(){
         return deck;
     }
@@ -54,11 +60,27 @@ public class CardDeck {
         return this.deckCharacter;
     }
 
+    /**Last card used by the player
+     */
     public Card getLastCard(){
         return lastCardUsed;
     }
 
-    public void removeCard(){
+
+    /**Method to play a card from the deck
+     * @param cardPlayed card choose to be played
+     * @exception EndGameException signal the end of the game if the deck is empty
+     * @exception InexistentCard exception thrown if played card is not present in the deck
+     * */
+    public void playCard(Card cardPlayed) throws InexistentCard, EndGameException {
+
+        if(deck.size()!= 0){           //check of the emptiness of the deck
+            if(deck.remove(cardPlayed)){      //check if the card is still in the deck
+                lastCardUsed = cardPlayed;
+            }
+            else throw new InexistentCard("Card not present");
+        }
+        else throw new EndGameException("Run out of cards");
 
     }
 

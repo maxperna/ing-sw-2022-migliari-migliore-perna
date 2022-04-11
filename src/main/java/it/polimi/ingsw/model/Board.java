@@ -19,23 +19,22 @@ public class Board implements StudentManager {
     private Map<Color, Boolean> teachers;       //map to signal the presence of a teacher on the board
     private ArrayList<TowerColor> towers;  //number of towers on the board
 
-    /**Private constructor used by the public factory, it is assigned a UUID to have a thread safe identifier
+    /**Constructor used by the public factory, it is assigned a UUID to have a thread safe identifier, it initialize
+     * the board as well with towers and student
      * @param maxNumOfTowers maximun num of towers on the board depends on the num of players
      * @param hallDimension dimension of the outside hall, depends on the num of player
+     * @param towerColor color of the towers assigned to the board
      */
-    private Board(int maxNumOfTowers, int hallDimension){
+    public Board(int maxNumOfTowers, int hallDimension, TowerColor towerColor){
         this.boardID = UUID.randomUUID();         //thread safe auto generated ID
         this.maxNumOfTowers = maxNumOfTowers;
         this.hallDimension = hallDimension;
+        this.towerColor = towerColor;
 
-    }
-
-    /**Public method used to call the private constructor
-     *  @param maxNumOfTowers maximun num of towers on the board depends on the num of players
-     *   @param hallDimension dimension of the outside hall, depends on the num of player
-     */
-    public static Board createBoard(int maxNumOfTowers,int hallDimension){
-        return new Board(maxNumOfTowers,hallDimension);
+        //Initiation of the towers
+        for(int i=0;i<this.maxNumOfTowers;i++){
+            towers.add(this.towerColor);
+        }
     }
 
     public UUID getBoardID(){
@@ -74,17 +73,23 @@ public class Board implements StudentManager {
     /**Method to move a student from the outer hall to the internal one
      * @param color color of the student to move
      * @exception NotOnBoardException exception thrown if it's tried to move an inexistent student
+     * @exception NotEnoughSpace exception thrown if a lecture hall has already the maximum possible num of student
      */
-    public void moveInside(Color color) throws NotOnBoardException{
+    public void moveInside(Color color) throws NotOnBoardException,NotEnoughSpace{
         if(!studentsOutside.contains(color)) throw new NotOnBoardException();
         else{
-            studentsOutside.remove(color);
-            lectureHall.put(color,lectureHall.get(color)+1);       //add a student of a color after removing it
+            //If the lecture hall of a given color is already full
+            if(lectureHall.get(color).equals(10)) throw new NotEnoughSpace();
+            else{
+                studentsOutside.remove(color);
+                lectureHall.put(color,lectureHall.get(color)+1);       //add a student of a color after removing it
+            }
+
 
         }
     }
 
-    /**Method to move a student from the outer hall to an island on the gamefield
+    /**Method to move a student from the outer hall to an island on the game field
      * @param color color of the student to move
      * @exception NotOnBoardException exception thrown if it's tried to move an inexistent student
      */
@@ -123,8 +128,11 @@ public class Board implements StudentManager {
         this.towers = towers;
     }
 
+    /**Method to check the student inside the lecture hall for influence check
+     * @param color color of the student I'm referring to
+     * */
     public int colorStudent(Color color){
-        return 0;
+        return lectureHall.get(color);
     }
 
 }
