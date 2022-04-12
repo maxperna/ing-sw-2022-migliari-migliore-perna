@@ -31,10 +31,32 @@ public class CloudTile {
         if(students.isEmpty())
             throw new EmptyCloudException();
         else {
-            ArrayList<Color> studentsReturned = new ArrayList<Color>();                                                 //creates an ArrayList in which all students are copied
+            ArrayList<Color> studentsReturned = new ArrayList<Color>();                                                     //creates an ArrayList in which all students are copied
             studentsReturned.addAll(students);
             students.removeAll(students);                                                                               //empties the ArrayList students
             return studentsReturned;                                                                                    //returns an ArrayList containing a copy of the previous students in ArrayList students
         }
     }
+
+    /**
+     * method used to set students on the cloudTile
+     * @param students is an arrayList of students that will be moved onto the cloud
+     */
+    public synchronized void rechargeCloud (ArrayList<Color> students){
+        this.students.addAll(students);
+    }
+
+    /**
+     * method that returns the ID of the cloud
+     * @return cloud ID
+     */
+    public int getTileID (){
+        return this.tileID;
+    }
+
+    /**
+     * constructor
+     */
+    public CloudTile(){};
+
 }

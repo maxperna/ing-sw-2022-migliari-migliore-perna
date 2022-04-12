@@ -18,10 +18,11 @@ public class IslandList {
 
     /**
      * method used to add all Nodes containing an ArrayList of IslandTiles in an initially doubly linked list, when the list has all 12 Nodes, the last element points to the end, making this list circular
+     *
      * @param islands that will be part of the nodes (the node can be seen as a superclass of IslandTile, containing all references and methods to make a DCLL)
      */
     public void addIslands(ArrayList<IslandTile> islands) {
-        for(int i=0; i<islands.size(); i++){
+        for (int i = 0; i < islands.size(); i++) {
             Node newIsland = new Node(islands.get(i));
             newIsland.setNextNode(this.head);                                                                           //insert new node before all the nodes in the linked list
             newIsland.setPreviousNode(null);
@@ -36,6 +37,7 @@ public class IslandList {
             if (counter == 11) {                                                                                        //counter.equals(11) gives problem since int is a primitive type, have to use this one I suppose
                 lastNode.setNextNode(head);
                 head.setPreviousNode(lastNode);                                                                         //if the linked list contains 12 elements, link the last element to the head, to make a circular linked list
+                head.setMotherNature();
             }
         }
     }
@@ -43,25 +45,28 @@ public class IslandList {
     /**
      * basic constructor
      */
-    public IslandList(){}
+    public IslandList() {
+    }
 
 
     /**
      * method to merge islands, it transfers the ArrayList IslandTile from the node that we eliminate to the one we call the method on
+     *
      * @param newMergedIsland is the island that remains in the linked list
-     * @param islandToMerge is the island whose information is going to be moved inside the other island, this one will be cancelled by garbage collector
+     * @param islandToMerge   is the island whose information is going to be moved inside the other island, this one will be cancelled by garbage collector
      * @throws EndGameException when there are exactly 3(?) islands left inside the list
      */
     public void mergeIslands(Node newMergedIsland, Node islandToMerge) throws EndGameException {                        //not "tested"
         newMergedIsland.addIslands(islandToMerge.getIslands());                                                         //instruction to add islands from the node we intend to merge to the final one
         newMergedIsland.setNextNode(islandToMerge.getNextNode());                                                       //new island's next node becomes merged island's next node
         newMergedIsland.getNextNode().setPreviousNode(newMergedIsland);                                                 //merged island's next node stores into previous node the pointer to the new node
-        if(this.islandCounter(this.head) == 3)
+        if (this.islandCounter(this.head) == 3)
             throw new EndGameException();
     }
 
     /**
      * method used to count elements inside a linked list (circular or not)
+     *
      * @param head receives in input the starting node of the list
      * @return counter, an int that contains the number of nodes inside the list
      */
@@ -77,7 +82,8 @@ public class IslandList {
     }
 
     /**
-     *method that returns the last node in a list (circular or not)
+     * method that returns the last node in a list (circular or not)
+     *
      * @param head receives in input the starting node of the list
      * @return the last node in the list received in input
      */
@@ -90,30 +96,52 @@ public class IslandList {
 
     /**
      * method to get influence, missing the part that adds tower influence
+     *
      * @param node is the island (or super island) we want to know about
      * @return Color containing dominant color
      */
-    public Color getInfluence(Node node){                                                                               //method to check influence on an island or on merged islands
+    public Color getInfluence(Node node) {                                                                              //method to check influence on an island or on merged islands
         return node.getMostInfluence();                                                                                 //returns the dominant color in the island
     }
 
     /**
      * method to add a student to a given island
+     *
      * @param islandID (0-11), identifies the island
-     * @param student to be added
+     * @param student  to be added
      * @throws InvalidParameterException when islandID is invalid
      */
-    public void addStudent (int islandID, Color student) throws InvalidParameterException{                              //method that adds a single student to a specific IslandTIle
-        if(islandID <0 || islandID >11)                                                                                 //checks that the islandID is valid
+    public void addStudent(int islandID, Color student) throws InvalidParameterException {                              //method that adds a single student to a specific IslandTIle
+        if (islandID < 0 || islandID > 11)                                                                              //checks that the islandID is valid
             throw new InvalidParameterException();
 
         Node startingNode = this.head;                                                                                  //set the startingNode
-        while(startingNode.getNextNode() != head) {                                                                     //checks that we have nodes left to visit
-            for(IslandTile island : startingNode.getIslands()){                                                         //for loop to move through all the IslandTile in each node
-                if(island.getID() == islandID)
+        while (startingNode.getNextNode() != head) {                                                                    //checks that we have nodes left to visit
+            for (IslandTile island : startingNode.getIslands()) {                                                       //for loop to move through all the IslandTile in each node
+                if (island.getID() == islandID)
                     island.addStudent(student);                                                                         //calls addStudent from IslandTile
             }
         }
+    }
+
+    /**
+     * method to get motherNature position based by which island has the motherNature flag set on
+     * @return a node containing motherNature
+     */
+    public Node getMotherNature() {
+        Node startingNode = this.head;
+        while (startingNode.getNextNode() != head && !startingNode.checkMotherNature()) {
+            startingNode = startingNode.getNextNode();
+        }
+        return startingNode;
+    }
+
+    /**
+     * method to get the starting point of the islandList
+     * @return
+     */
+    public Node getHead() {
+        return this.head;
     }
 }
 

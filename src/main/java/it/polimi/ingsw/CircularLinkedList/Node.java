@@ -2,7 +2,6 @@ package it.polimi.ingsw.CircularLinkedList;
 
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.IslandTile;
-import it.polimi.ingsw.model.MotherNature;
 
 import java.util.ArrayList;
 
@@ -12,7 +11,7 @@ import java.util.ArrayList;
  * can be considered as a superclass of IslandTile that contains pointers to create the linked list
  */
 public class Node {
-    private ArrayList<IslandTile> islands;                                                                               //each node contains an arraylist of islands, the arraylist initially contains only one island object, but it will add new islands
+    private ArrayList<IslandTile> islands;                                                                              //each node contains an arraylist of islands, the arraylist initially contains only one island object, but it will add new islands
     private Node next = null;                                                                                           //whenever a MergeIsland is called
     private Node prev = null;
     private Color mostInfluencePlayer;
@@ -50,7 +49,7 @@ public class Node {
     }
 
     /**
-     * @return the prevoius node pointed by this object
+     * @return the previous node pointed by this object
      */
     public Node getPreviousNode() {
         return this.prev;
@@ -78,6 +77,9 @@ public class Node {
         this.islands.addAll(0, islandsToBeAdded);
     }
 
+    /**
+     * method used to update mostInfluencePlayer on this Node by calling the method getMostInfluence
+     */
     public void setMostInfluencePlayer() {
         this.mostInfluencePlayer = this.getMostInfluence();
     }
@@ -109,14 +111,18 @@ public class Node {
     /**
      * method to set motherNature parameter when the island is visited
      */
-    private void setMotherNature() {
+    public void setMotherNature() {
         this.motherNature = true;
     }
 
     /**
      * method to reset motherNature flag when motherNature leaves
      */
-    private void resetMotherNature(){
+    public void resetMotherNature(){
         this.motherNature = false;
+    }
+
+    public boolean checkMotherNature() {
+        return motherNature;
     }
 }
