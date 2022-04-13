@@ -18,5 +18,6 @@ public class App
         GameManager.getInstance().startGame("ThreePlayers");
         GameManager.getInstance().startGame("FourPlayers");
 
+        int i = 0;
     }
 }
