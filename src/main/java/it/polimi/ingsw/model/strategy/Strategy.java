@@ -4,6 +4,6 @@ import it.polimi.ingsw.model.Game;
 
 public interface Strategy {
 
-    public Game generateGame();
+    Game generateGame();
 
 }

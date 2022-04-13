@@ -1,13 +1,8 @@
 package it.polimi.ingsw.model.strategy;
 
-import it.polimi.ingsw.CircularLinkedList.IslandList;
-import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
-import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.Game;
 
-import java.util.ArrayList;
-import java.util.UUID;
-
-public class ThreePlayers implements Strategy{
+public class ThreePlayers implements Strategy {
 
     static final int maxStudentHall = 9;
     static final int maxTowers = 6;
@@ -16,6 +11,6 @@ public class ThreePlayers implements Strategy{
     @Override
     public Game generateGame() {
 
-        return new Game(numberOfPlayers,maxTowers,maxStudentHall);
+        return new Game(numberOfPlayers, maxTowers, maxStudentHall);
     }
 }

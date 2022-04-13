@@ -1,8 +1,6 @@
 package it.polimi.ingsw.model;
-import it.polimi.ingsw.CircularLinkedList.IslandList;
-import it.polimi.ingsw.exceptions.NotEnoughElements;
-import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
 
+import it.polimi.ingsw.exceptions.NotEnoughElements;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -18,7 +16,7 @@ public class Game {
 
     public final static int maxTile = 12;
     private final UUID gameID;
-    private final ArrayList <Player> playersList;
+    private final ArrayList<Player> playersList;
     private final GameField gameField;
 
     /**
@@ -30,51 +28,48 @@ public class Game {
         this.gameField = new GameField(gameID, numberOfPlayers);
 
         //Crea un nuovo array di giocatori che verra popolato e poi restituito
-        ArrayList <Player> playersCreated = new ArrayList <>();
+        ArrayList<Player> playersCreated = new ArrayList<>();
 
         switch (numberOfPlayers) {
 
-            case 2:
-            {
+            case 2: {
 
                 //Crea ogni giocatore, gli associa una board popolata e poi lo inserce nella lista finale
-                Player player1 = new Player(new Board(gameID,maxStudentHall,maxTowers,TowerColor.BLACK));
+                Player player1 = new Player(new Board(gameID, maxStudentHall, maxTowers, TowerColor.BLACK));
                 playersCreated.add(player1);
 
-                Player player2 = new Player(new Board(gameID,maxStudentHall,maxTowers,TowerColor.WHITE));
+                Player player2 = new Player(new Board(gameID, maxStudentHall, maxTowers, TowerColor.WHITE));
                 playersCreated.add(player2);
 
                 break;
             }
 
-            case 3:
-            {
+            case 3: {
                 //Crea ogni giocatore, gli associa una board popolata e poi lo inserce nella lista finale
-                Player player1 = new Player(new Board(gameID,maxStudentHall,maxTowers,TowerColor.BLACK));
+                Player player1 = new Player(new Board(gameID, maxStudentHall, maxTowers, TowerColor.BLACK));
                 playersCreated.add(player1);
 
-                Player player2 = new Player(new Board(gameID,maxStudentHall,maxTowers,TowerColor.WHITE));
+                Player player2 = new Player(new Board(gameID, maxStudentHall, maxTowers, TowerColor.WHITE));
                 playersCreated.add(player2);
 
-                Player player3 = new Player(new Board(gameID,maxStudentHall,maxTowers,TowerColor.GRAY));
+                Player player3 = new Player(new Board(gameID, maxStudentHall, maxTowers, TowerColor.GRAY));
                 playersCreated.add(player3);
 
                 break;
             }
 
-            case 4:
-            {
+            case 4: {
                 //Crea ogni giocatore, gli associa una board popolata e poi lo inserce nella lista finale
-                Player player1 = new Player(new Board(gameID,maxStudentHall,maxTowers,TowerColor.BLACK));
+                Player player1 = new Player(new Board(gameID, maxStudentHall, maxTowers, TowerColor.BLACK));
                 playersCreated.add(player1);
 
-                Player player2 = new Player(new Board(gameID,maxStudentHall,maxTowers,TowerColor.WHITE));
+                Player player2 = new Player(new Board(gameID, maxStudentHall, maxTowers, TowerColor.WHITE));
                 playersCreated.add(player2);
 
-                Player player3 = new Player(new Board(gameID,maxStudentHall,maxTowers,player2.getBoard().getTowers().get(0),player2.getBoard().getTowers()));
+                Player player3 = new Player(new Board(gameID, maxStudentHall, maxTowers, player2.getBoard().getTowers().get(0), player2.getBoard().getTowers()));
                 playersCreated.add(player3);
 
-                Player player4 = new Player(new Board(gameID,maxStudentHall,maxTowers,player1.getBoard().getTowers().get(0),player1.getBoard().getTowers()));
+                Player player4 = new Player(new Board(gameID, maxStudentHall, maxTowers, player1.getBoard().getTowers().get(0), player1.getBoard().getTowers()));
                 playersCreated.add(player4);
 
                 break;
@@ -89,7 +84,7 @@ public class Game {
     }
 
 
-    public static ArrayList <Color> drawFromPool(int arrayListLength, @NotNull ArrayList <Color> arrayList) throws NotEnoughElements {
+    public static ArrayList<Color> drawFromPool(int arrayListLength, @NotNull ArrayList<Color> arrayList) throws NotEnoughElements {
 
 
         if (arrayList.isEmpty())
@@ -98,7 +93,7 @@ public class Game {
         if (arrayListLength > arrayList.size())
             throw new NotEnoughElements();
 
-        ArrayList <Color> randomDraw = new ArrayList <>();
+        ArrayList<Color> randomDraw = new ArrayList<>();
 
         Collections.shuffle(arrayList);
         for (int i = 0; i < arrayListLength; i++) {
@@ -132,7 +127,7 @@ public class Game {
      *
      * @return The list of players in this match
      */
-    public ArrayList <Player> getPlayersList() {
+    public ArrayList<Player> getPlayersList() {
         return playersList;
     }
 }

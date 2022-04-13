@@ -4,9 +4,6 @@ import it.polimi.ingsw.model.Game;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class GameManager {
 
@@ -15,7 +12,7 @@ public class GameManager {
 
     private GameManager() {
 
-        this.gamesList = new ArrayList <>();
+        this.gamesList = new ArrayList<>();
     }
 
     public synchronized static GameManager getInstance() {
@@ -32,8 +29,7 @@ public class GameManager {
 
         switch (gameMode) {
 
-            case "TwoPlayers":
-            {
+            case "TwoPlayers": {
                 selector = new Selector(new TwoPlayers());
                 break;
             }
@@ -43,8 +39,7 @@ public class GameManager {
                 break;
             }
 
-            case "ThreePlayers":
-            {
+            case "ThreePlayers": {
                 selector = new Selector(new ThreePlayers());
                 break;
             }
@@ -57,7 +52,7 @@ public class GameManager {
         gamesList.add(game);
     }
 
-    public ArrayList <Game> getGamesList() {
+    public ArrayList<Game> getGamesList() {
         return gamesList;
     }
 }

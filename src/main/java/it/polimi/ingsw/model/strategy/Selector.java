@@ -4,7 +4,7 @@ import it.polimi.ingsw.model.Game;
 
 public class Selector {
 
-    private Strategy strategy;
+    private final Strategy strategy;
 
     public Selector(Strategy strategy) {
 

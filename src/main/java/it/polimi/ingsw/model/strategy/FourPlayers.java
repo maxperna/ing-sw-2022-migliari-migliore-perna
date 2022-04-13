@@ -11,7 +11,7 @@ public class FourPlayers implements Strategy {
     @Override
     public Game generateGame() {
 
-        return new Game(numberOfPlayers,maxTowers,maxStudentHall);
+        return new Game(numberOfPlayers, maxTowers, maxStudentHall);
 
     }
 }
