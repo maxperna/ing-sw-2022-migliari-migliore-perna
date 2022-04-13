@@ -10,37 +10,67 @@ import java.util.*;
 */
 public class Board implements StudentManager {
 
-    private final int hallDimension;       //maximum number of players in the external hall depending by the num of players
-    private final int maxNumOfTowers;        //maximum number of towers depending by the number of players
-    private TowerColor towerColor;      //color of the tower on the board
-    private final UUID boardID;
+    private final int maxStudentHall;
+    private final int maxTowers;
+    private final TowerColor towerColor;
+    private final UUID gameID;
     private ArrayList<Color> studentsOutside;    //list of student in the outer room
     private Map<Color,Integer> lectureHall;      //list of student for each color inside the main hall
     private Map<Color, Boolean> teachers;       //map to signal the presence of a teacher on the board
     private ArrayList<TowerColor> towers;  //number of towers on the board
 
-    /**Private constructor used by the public factory, it is assigned a UUID to have a thread safe identifier
-     * @param maxNumOfTowers maximun num of towers on the board depends on the num of players
-     * @param hallDimension dimension of the outside hall, depends on the num of player
-     */
-    private Board(int maxNumOfTowers, int hallDimension){
-        this.boardID = UUID.randomUUID();         //thread safe auto generated ID
-        this.maxNumOfTowers = maxNumOfTowers;
-        this.hallDimension = hallDimension;
+
+    public Board(UUID gameID, int maxStudentHall, int maxTowers, TowerColor towerColor){
+
+        this.gameID = gameID;         //thread safe auto generated ID
+        this.maxStudentHall = maxStudentHall;
+        this.maxTowers = maxTowers;
+        this.lectureHall = new HashMap<>();
+        this.teachers = new HashMap<>();
+        this.towerColor = towerColor;
+
+        try {
+            this.studentsOutside = Pouch.getInstance(gameID).randomDraw(maxStudentHall);
+        } catch (NotEnoughStudentsException e) {
+            e.printStackTrace();
+        }
+
+        //...la lista delle torri di ogni giocatore viene popolata
+        ArrayList <TowerColor> listOfTowers = new ArrayList <>();
+        for (int j = 0; j < maxTowers; j++) {
+            listOfTowers.add(towerColor);
+        }
+        this.towers = listOfTowers;
 
     }
 
-    /**Public method used to call the private constructor
-     *  @param maxNumOfTowers maximun num of towers on the board depends on the num of players
-     *   @param hallDimension dimension of the outside hall, depends on the num of player
-     */
-    public static Board createBoard(int maxNumOfTowers,int hallDimension){
-        return new Board(maxNumOfTowers,hallDimension);
+    public Board(UUID gameID, int maxStudentHall, int maxTowers, TowerColor towerColor, ArrayList<TowerColor> towers){
+
+        this.gameID = gameID;         //thread safe auto generated ID
+        this.maxStudentHall = maxStudentHall;
+        this.maxTowers = maxTowers;
+        this.lectureHall = new HashMap<>();
+        this.teachers = new HashMap<>();
+        this.towerColor = towerColor;
+        this.towers = towers;
+
+        try {
+            this.studentsOutside = Pouch.getInstance(gameID).randomDraw(maxStudentHall);
+        } catch (NotEnoughStudentsException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
-    public UUID getBoardID(){
-        return this.boardID;
-    }
+//    /**Public method used to call the private constructor
+//     *  @param maxNumOfTowers maximun num of towers on the board depends on the num of players
+//     *   @param hallDimension dimension of the outside hall, depends on the num of player
+//     */
+//    public static Board createBoard(int maxNumOfTowers,int hallDimension){
+//        return new Board(maxNumOfTowers,hallDimension);
+//    }
+
 
     public ArrayList<Color> getStudentsOutside(){
         return studentsOutside;
@@ -126,5 +156,7 @@ public class Board implements StudentManager {
     public int colorStudent(Color color){
         return 0;
     }
+
+
 
 }

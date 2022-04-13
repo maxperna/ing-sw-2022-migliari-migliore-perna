@@ -2,124 +2,87 @@ package it.polimi.ingsw.model;
 
 
 import it.polimi.ingsw.CircularLinkedList.IslandList;
-import it.polimi.ingsw.CircularLinkedList.Node;
-import it.polimi.ingsw.exceptions.EndGameException;
-import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
+import it.polimi.ingsw.exceptions.NotEnoughElements;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
+import java.util.UUID;
 
 public class GameField{
 
-    private IslandList islands;                                                                                         //arrayList of nodes containing initially a single island each
-    private Pouch pouch;
-    private ArrayList<CloudTile> cloudsTile;
+    private final IslandList islands;
+    private int numberOfIslands;
+    private final Pouch pouch;
+    private final ArrayList<CloudTile> cloudsTile;
 
-    private  GameField() {}
+    public  GameField(UUID gameID, int numberOfPlayers) {
 
-    public static GameField newGameField() {
-        return new GameField();
-    }
+        this.pouch = Pouch.getInstance(gameID);
 
-    /**
-     * method that calls mergeIsland from islandList
-     * @param newMergedIsland is the node with motherNature flag
-     * @param islandToMerge is the previous or next island that will be merged into newMergeIsland
-     */
-    public void mergeIsland(Node newMergedIsland, Node islandToMerge){                                                  //method that calls mergeIsland from islandList
-        try{
-            islands.mergeIslands(newMergedIsland, islandToMerge);
+        ArrayList <CloudTile> cloudTileList = new ArrayList <>();
+        for (int i = 0; i < numberOfPlayers; i++) {
+            cloudTileList.add(new CloudTile());
         }
-        catch (EndGameException e) {                                                                                    //catches exception if there are 3 islands and end the game
-            e.printStackTrace();
+        this.cloudsTile = cloudTileList;
+
+        ArrayList <Color> studentToBePlaced = new ArrayList <>();
+        for (int j = 0; j < 2; j++) {
+            studentToBePlaced.add(Color.RED);
+            studentToBePlaced.add(Color.GREEN);
+            studentToBePlaced.add(Color.BLUE);
+            studentToBePlaced.add(Color.PINK);
+            studentToBePlaced.add(Color.YELLOW);
         }
+        Collections.shuffle(studentToBePlaced);
 
+        int noStudentTile = (int) Math.floor(Math.random() * (6) + 1);
 
-    }
+        IslandList islandList = new IslandList();
+        ArrayList <IslandTile> islandTiles = new ArrayList <>();
+        for (int i = 1; i <= Game.maxTile; i++) {
+            IslandTile tile = new IslandTile(i);
 
-    /**
-     * method to extract students and refill cloud
-     * @param cloudID is the identifier of the cloud that is actually empty
-     */
-    public void rechargeCloud(int cloudID){                                                                             //method to recharge a specific cloud
-        for(CloudTile cloud : cloudsTile){                                                                              //move through cloudsTile
-            if(cloud.getTileID() == cloudID){
+            if ((i != noStudentTile) & (i != noStudentTile * 2)) {
                 try {
-                    ArrayList<Color> newStudents = pouch.randomDraw(3);                                     //randomly draws a given number of students and puts them in an arraylist
-                    cloud.rechargeCloud(newStudents);                                                                   //moves students to the selected cloud
-                } catch (NotEnoughStudentsException e) {
+                    tile.setStudents(Game.drawFromPool(1, studentToBePlaced));
+                } catch (NotEnoughElements e) {
                     e.printStackTrace();
                 }
             }
+
+            islandTiles.add(tile);
         }
+
+        islandList.addIslands(islandTiles);
+        this.islands = islandList;
+
     }
 
-    /**
-     * method to move motherNature by a given number of islands
-     * @param move is an int that is retrieved from the card number and is the max number of moves allowed
-     */
-    public void moveMotherNature(int move){                                                                             //method to move motherNature
-        Node head = islands.getMotherNature();                                                                          //get actual motherNature position
-        islands.getMotherNature().resetMotherNature();                                                                  //reset motherNature flag in actual island
-        for(int index = 0; index < move; index++) {                                                                     //move through the islandList till the move number is matched
-            head = head.getNextNode();
-        }
-        head.setMotherNature();                                                                                         //set motherNature flag
+    public void mergeIsland(){
+
     }
 
-    /**
-     * method the get the islandList
-     * @return the islandList
-     */
+    public void rechargeCloud(){
+
+    }
+
+    public void moveMotherNature(){
+
+    }
+
     public IslandList getIslands() {
         return islands;
     }
 
-    /**
-     * method to set the islandList
-     * @param islands
-     */
-    public void setIslands(IslandList islands) {
-        this.islands = islands;
-    }
 
-    /**
-     * method to get the pouch object
-     * @return pouch
-     */
     public Pouch getPouch() {
         return pouch;
     }
 
-    /**
-     * method to set this game's pouch
-     * @param pouch
-     */
-    public void setPouch(Pouch pouch) {
-        this.pouch = pouch;
-    }
 
-    /**
-     * method used to get the cloudTiles
-     * @return an arraylist of cloudTiles
-     */
     public ArrayList <CloudTile> getCloudsTile() {
         return cloudsTile;
     }
 
-    /**
-     * method used to set the cloudTiles
-     * @param cloudsTile is an arrayList of cloudTile
-     */
-    public void setCloudsTile(ArrayList <CloudTile> cloudsTile) {
-        this.cloudsTile = cloudsTile;
-    }
-
-    /**
-     * method used to get the number of actual nodes in the islandList
-     * @return an int
-     */
-    public int getNumberOfIslands() {
-        return  islands.islandCounter(islands.getHead());
-    }
 }

@@ -77,6 +77,10 @@ public class IslandTile implements StudentManager {
     public void addStudent(Color student) {
         students.add(student);
     }
+
+    public void setStudents(ArrayList <Color> students) {
+        this.students = students;
+    }
 }
 
 
