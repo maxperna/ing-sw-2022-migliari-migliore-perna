@@ -17,31 +17,24 @@ import java.util.UUID;
 public class Game {
 
     public final static int maxTile = 12;
-    private final int maxStudentHall = 6;
-    private final int maxTowers = 6;
-    private final int numberOfPlayers = 2;
     private final UUID gameID;
-    private ArrayList <Player> playersList;
-    private GameField gameField;
+    private final ArrayList <Player> playersList;
+    private final GameField gameField;
 
     /**
      * Constructor
      */
-    public Game(String gameMode) {
+    public Game(int numberOfPlayers, int maxTowers, int maxStudentHall) {
 
         this.gameID = UUID.randomUUID();
         this.gameField = new GameField(gameID, numberOfPlayers);
 
-        if (gameMode == null || gameMode.isEmpty())
-            throw new IllegalArgumentException("No GameMode selected");
-
-
         //Crea un nuovo array di giocatori che verra popolato e poi restituito
         ArrayList <Player> playersCreated = new ArrayList <>();
 
-        switch (gameMode) {
+        switch (numberOfPlayers) {
 
-            case "TwoPlayers":
+            case 2:
             {
 
                 //Crea ogni giocatore, gli associa una board popolata e poi lo inserce nella lista finale
@@ -54,7 +47,7 @@ public class Game {
                 break;
             }
 
-            case "ThreePlayers":
+            case 3:
             {
                 //Crea ogni giocatore, gli associa una board popolata e poi lo inserce nella lista finale
                 Player player1 = new Player(new Board(gameID,maxStudentHall,maxTowers,TowerColor.BLACK));
@@ -69,7 +62,7 @@ public class Game {
                 break;
             }
 
-            case "FourPlayers":
+            case 4:
             {
                 //Crea ogni giocatore, gli associa una board popolata e poi lo inserce nella lista finale
                 Player player1 = new Player(new Board(gameID,maxStudentHall,maxTowers,TowerColor.BLACK));
@@ -81,14 +74,14 @@ public class Game {
                 Player player3 = new Player(new Board(gameID,maxStudentHall,maxTowers,player2.getBoard().getTowers().get(0),player2.getBoard().getTowers()));
                 playersCreated.add(player3);
 
-                Player player4 = new Player(new Board(gameID,maxStudentHall,maxTowers,player1.getBoard().getTowers().get(0),player3.getBoard().getTowers()));
+                Player player4 = new Player(new Board(gameID,maxStudentHall,maxTowers,player1.getBoard().getTowers().get(0),player1.getBoard().getTowers()));
                 playersCreated.add(player4);
 
                 break;
             }
 
             default:
-                throw new IllegalArgumentException("Unknown selector " + gameMode);
+                throw new IllegalArgumentException("Unknown number of players");
         }
 
         //Crea una nuova lista di giocatori
