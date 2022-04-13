@@ -2,21 +2,61 @@ package it.polimi.ingsw.model;
 
 
 import it.polimi.ingsw.CircularLinkedList.IslandList;
+import it.polimi.ingsw.exceptions.NotEnoughElements;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
+import java.util.UUID;
 
 public class GameField{
 
-    private IslandList islands;
+    private final IslandList islands;
     private int numberOfIslands;
-    private Pouch pouch;
-    private ArrayList<CloudTile> cloudsTile;
+    private final Pouch pouch;
+    private final ArrayList<CloudTile> cloudsTile;
 
-    private  GameField() {}
+    public  GameField(UUID gameID, int numberOfPlayers) {
 
-    public static GameField newGameField() {
-        return new GameField();
+        this.pouch = Pouch.getInstance(gameID);
+
+        ArrayList <CloudTile> cloudTileList = new ArrayList <>();
+        for (int i = 0; i < numberOfPlayers; i++) {
+            cloudTileList.add(new CloudTile());
+        }
+        this.cloudsTile = cloudTileList;
+
+        ArrayList <Color> studentToBePlaced = new ArrayList <>();
+        for (int j = 0; j < 2; j++) {
+            studentToBePlaced.add(Color.RED);
+            studentToBePlaced.add(Color.GREEN);
+            studentToBePlaced.add(Color.BLUE);
+            studentToBePlaced.add(Color.PINK);
+            studentToBePlaced.add(Color.YELLOW);
+        }
+        Collections.shuffle(studentToBePlaced);
+
+        int noStudentTile = (int) Math.floor(Math.random() * (6) + 1);
+
+        IslandList islandList = new IslandList();
+        ArrayList <IslandTile> islandTiles = new ArrayList <>();
+        for (int i = 1; i <= Game.maxTile; i++) {
+            IslandTile tile = new IslandTile(i);
+
+            if ((i != noStudentTile) & (i != noStudentTile * 2)) {
+                try {
+                    tile.setStudents(Game.drawFromPool(1, studentToBePlaced));
+                } catch (NotEnoughElements e) {
+                    e.printStackTrace();
+                }
+            }
+
+            islandTiles.add(tile);
+        }
+
+        islandList.addIslands(islandTiles);
+        this.islands = islandList;
+
     }
 
     public void mergeIsland(){
@@ -35,23 +75,14 @@ public class GameField{
         return islands;
     }
 
-    public void setIslands(IslandList islands) {
-        this.islands = islands;
-    }
 
     public Pouch getPouch() {
         return pouch;
     }
 
-    public void setPouch(Pouch pouch) {
-        this.pouch = pouch;
-    }
 
     public ArrayList <CloudTile> getCloudsTile() {
         return cloudsTile;
     }
 
-    public void setCloudsTile(ArrayList <CloudTile> cloudsTile) {
-        this.cloudsTile = cloudsTile;
-    }
 }

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.factory.TwoPlayers;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -17,8 +17,6 @@ class GameTest {
     @MethodSource("gameModeList")
     void shouldCreateGame(String gameModeList) {
 
-        Game game = new Game();
-        game.createGame(gameModeList);
         int numOfPlayers = 0;
 
         switch (gameModeList) {
@@ -34,13 +32,13 @@ class GameTest {
                 numOfPlayers = 4;
                 break;
         }
+
+        Game game = new Game(gameModeList);
+
         assertNotEquals(0, numOfPlayers);
 
         //Check gameID
         assertNotNull(game.getGameID());
-
-        //Check gameFactory
-        assertNotNull(game.getGameFactory());
 
         //Check players
         assertEquals(numOfPlayers, game.getPlayersList().size());
@@ -49,7 +47,6 @@ class GameTest {
             assertNotNull(currentPlayer.getBoard());
             assertNotNull(currentPlayer.getBoard().getTowers());
             assertNotNull(currentPlayer.getBoard().getStudentsOutside());
-            assertNotNull(currentPlayer.getBoard().getBoardID());
         }
 
         //Check gameField

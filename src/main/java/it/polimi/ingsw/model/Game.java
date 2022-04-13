@@ -1,9 +1,12 @@
 package it.polimi.ingsw.model;
-import it.polimi.ingsw.model.factory.GameFactory;
-import it.polimi.ingsw.model.factory.GameFieldCreator;
-import it.polimi.ingsw.model.factory.PlayerCreator;
+import it.polimi.ingsw.CircularLinkedList.IslandList;
+import it.polimi.ingsw.exceptions.NotEnoughElements;
+import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.UUID;
 
 /**
@@ -14,57 +17,102 @@ import java.util.UUID;
 public class Game {
 
     public final static int maxTile = 12;
+    private final int maxStudentHall = 6;
+    private final int maxTowers = 6;
+    private final int numberOfPlayers = 2;
     private final UUID gameID;
-    private final GameFactory gameFactory;
     private ArrayList <Player> playersList;
     private GameField gameField;
 
     /**
      * Constructor
      */
-    public Game() {
-        this.gameID = UUID.randomUUID();
-        this.gameFactory = new GameFactory();
-    }
+    public Game(String gameMode) {
 
-    /**
-     * startGame
-     * Method that set the game, creates a list of players and a game field
-     *
-     * @param gameMode used to select the set of rules to use
-     */
-    public void createGame(String gameMode) {
+        this.gameID = UUID.randomUUID();
+        this.gameField = new GameField(gameID, numberOfPlayers);
 
         if (gameMode == null || gameMode.isEmpty())
             throw new IllegalArgumentException("No GameMode selected");
 
-        //Crea una nuova lista di giocatori
-        this.playersList = new ArrayList <>();
 
-        //Crea la fabbrica che verra utilizzata per generare le altri componenti del gioco
-        PlayerCreator playersCreator;
-        GameFieldCreator gameFieldCreator;
+        //Crea un nuovo array di giocatori che verra popolato e poi restituito
+        ArrayList <Player> playersCreated = new ArrayList <>();
 
-        //setta la factory in base alla modalita di gioco selezionata
         switch (gameMode) {
-            case "TwoPlayers":
-            case "ThreePlayers":
-            case "FourPlayers":
 
-                playersCreator = this.gameFactory.createPlayers(gameMode);
-                gameFieldCreator = this.gameFactory.createField(gameMode);
+            case "TwoPlayers":
+            {
+
+                //Crea ogni giocatore, gli associa una board popolata e poi lo inserce nella lista finale
+                Player player1 = new Player(new Board(gameID,maxStudentHall,maxTowers,TowerColor.BLACK));
+                playersCreated.add(player1);
+
+                Player player2 = new Player(new Board(gameID,maxStudentHall,maxTowers,TowerColor.WHITE));
+                playersCreated.add(player2);
+
                 break;
+            }
+
+            case "ThreePlayers":
+            {
+                //Crea ogni giocatore, gli associa una board popolata e poi lo inserce nella lista finale
+                Player player1 = new Player(new Board(gameID,maxStudentHall,maxTowers,TowerColor.BLACK));
+                playersCreated.add(player1);
+
+                Player player2 = new Player(new Board(gameID,maxStudentHall,maxTowers,TowerColor.WHITE));
+                playersCreated.add(player2);
+
+                Player player3 = new Player(new Board(gameID,maxStudentHall,maxTowers,TowerColor.GRAY));
+                playersCreated.add(player3);
+
+                break;
+            }
+
+            case "FourPlayers":
+            {
+                //Crea ogni giocatore, gli associa una board popolata e poi lo inserce nella lista finale
+                Player player1 = new Player(new Board(gameID,maxStudentHall,maxTowers,TowerColor.BLACK));
+                playersCreated.add(player1);
+
+                Player player2 = new Player(new Board(gameID,maxStudentHall,maxTowers,TowerColor.WHITE));
+                playersCreated.add(player2);
+
+                Player player3 = new Player(new Board(gameID,maxStudentHall,maxTowers,player2.getBoard().getTowers().get(0),player2.getBoard().getTowers()));
+                playersCreated.add(player3);
+
+                Player player4 = new Player(new Board(gameID,maxStudentHall,maxTowers,player1.getBoard().getTowers().get(0),player3.getBoard().getTowers()));
+                playersCreated.add(player4);
+
+                break;
+            }
 
             default:
                 throw new IllegalArgumentException("Unknown selector " + gameMode);
         }
 
-        //Crea i giocatori
-        this.playersList = playersCreator.createPlayers(this.gameID);
+        //Crea una nuova lista di giocatori
+        this.playersList = playersCreated;
+    }
 
-        //Crea il GameField
-        this.gameField = gameFieldCreator.newField(this.gameID);
 
+    public static ArrayList <Color> drawFromPool(int arrayListLength, @NotNull ArrayList <Color> arrayList) throws NotEnoughElements {
+
+
+        if (arrayList.isEmpty())
+            return null;
+
+        if (arrayListLength > arrayList.size())
+            throw new NotEnoughElements();
+
+        ArrayList <Color> randomDraw = new ArrayList <>();
+
+        Collections.shuffle(arrayList);
+        for (int i = 0; i < arrayListLength; i++) {
+            randomDraw.add(arrayList.remove(i));
+        }
+
+        return randomDraw;
     }
 
     /**
@@ -85,14 +133,6 @@ public class Game {
         return gameField;
     }
 
-    /**
-     * Getter
-     *
-     * @return GameFactory
-     */
-    public GameFactory getGameFactory() {
-        return gameFactory;
-    }
 
     /**
      * Getter
