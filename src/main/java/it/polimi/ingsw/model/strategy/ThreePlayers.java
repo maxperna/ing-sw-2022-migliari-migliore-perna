@@ -9,9 +9,9 @@ import java.util.UUID;
 
 public class ThreePlayers implements Strategy{
 
-    private static final int maxStudentHall = 9;
-    private static final int maxTowers = 6;
-    private static final int numberOfPlayers = 3;
+    static final int maxStudentHall = 9;
+    static final int maxTowers = 6;
+    static final int numberOfPlayers = 3;
 
     @Override
     public Game generateGame() {
