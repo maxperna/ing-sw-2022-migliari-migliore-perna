@@ -1,8 +1,13 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.exceptions.EndGameException;
+import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
+import it.polimi.ingsw.exceptions.NotOnBoardException;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 /**Implementation of the player board, handling all the movements of the students from the outside hall to the
 *island or the inner hall or from the cloud tile to the outside hall

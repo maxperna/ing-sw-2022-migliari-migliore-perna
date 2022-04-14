@@ -1,7 +1,8 @@
 package it.polimi.ingsw.model;
+
 import it.polimi.ingsw.exceptions.EmptyCloudException;
 
-import java.util.*;
+import java.util.ArrayList;
 
 /**
  * Class Cloud Tile, one for each player, contains MAX 3 students

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.strategy;
 
 import it.polimi.ingsw.model.Game;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static it.polimi.ingsw.model.strategy.ThreePlayers.*;
@@ -9,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class ThreePlayersTest {
 
+    @DisplayName("Testing ThreePlayers strategy...")
     @Test
     void ShouldGenerateThreePlayersGame() {
 

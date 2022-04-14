@@ -1,5 +1,4 @@
 package it.polimi.ingsw.model;
-import java.awt.*;
 
 //Class card, implementing his feature from a json file
 public class Card {

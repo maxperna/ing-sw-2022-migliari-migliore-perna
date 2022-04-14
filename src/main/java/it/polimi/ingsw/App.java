@@ -1,8 +1,6 @@
 package it.polimi.ingsw;
-import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.strategy.FourPlayers;
+
 import it.polimi.ingsw.model.strategy.GameManager;
-import it.polimi.ingsw.model.strategy.Selector;
 
 
 /**
