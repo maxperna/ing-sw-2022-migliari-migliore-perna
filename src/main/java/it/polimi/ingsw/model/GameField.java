@@ -6,7 +6,6 @@ import it.polimi.ingsw.exceptions.NotEnoughElements;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.UUID;
 
 public class GameField{

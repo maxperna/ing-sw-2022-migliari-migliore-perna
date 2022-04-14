@@ -1,8 +1,6 @@
 package it.polimi.ingsw.model;
 
 
-import it.polimi.ingsw.model.*;
-
 import java.util.UUID;
 
 public class Player {
