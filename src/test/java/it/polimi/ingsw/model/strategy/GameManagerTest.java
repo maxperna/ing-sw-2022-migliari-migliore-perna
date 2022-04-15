@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.strategy;
 
+import it.polimi.ingsw.model.GameManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

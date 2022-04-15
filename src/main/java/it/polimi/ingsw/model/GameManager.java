@@ -1,6 +1,9 @@
-package it.polimi.ingsw.model.strategy;
+package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.strategy.FourPlayers;
+import it.polimi.ingsw.model.strategy.Selector;
+import it.polimi.ingsw.model.strategy.ThreePlayers;
+import it.polimi.ingsw.model.strategy.TwoPlayers;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
