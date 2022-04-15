@@ -1,6 +1,6 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.model.strategy.GameManager;
+import it.polimi.ingsw.model.GameManager;
 
 
 /**
