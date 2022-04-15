@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import com.google.gson.*;
+import it.polimi.ingsw.exceptions.InexistentCard;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 public class CardDeck {
 
     private final DeckType deckCharacter;
-    private ArrayList<Card> deck;
+    private ArrayList<Card> deck = new ArrayList<>();
     private Card lastCardUsed;
 
     /**CardDeck constructor, parse the 10 cards on a JSON file using GSON library for parse JSON file
@@ -43,7 +44,7 @@ public class CardDeck {
             int assistantMNControl = assistantJSONObject.get("actionNumber").getAsInt();
             String assistantFrontImage= assistantJSONObject.get("frontIMG").getAsString();
 
-            deck.add(new Card(assistantActionNumber,assistantMNControl,assistantFrontImage,backIMGPath));
+            this.deck.add(new Card(assistantActionNumber,assistantMNControl,assistantFrontImage,backIMGPath));
         }
     }
 
@@ -59,8 +60,11 @@ public class CardDeck {
         return lastCardUsed;
     }
 
-    public void removeCard(){
-
+    public Card playCard(Card cardToPlay) throws InexistentCard {
+        if(deck.remove(cardToPlay)){
+            lastCardUsed = cardToPlay;
+            return cardToPlay;
+        }
+        else throw new InexistentCard("Card is not in the deck");
     }
-
 }

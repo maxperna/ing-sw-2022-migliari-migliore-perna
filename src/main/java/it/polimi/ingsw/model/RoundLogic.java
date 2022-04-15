@@ -84,8 +84,12 @@ public class RoundLogic {
     }
     public void endRound(){
         this.cardsPlayed.clear();
+        this.roundID++;
     }
 
+    public void setRoundID(int roundID){
+        this.roundID = roundID;
+    }
     public Player getActivePlayer(){
         return this.activePlayer;
     }
