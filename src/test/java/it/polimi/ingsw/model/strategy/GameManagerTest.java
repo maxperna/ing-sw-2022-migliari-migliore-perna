@@ -107,7 +107,7 @@ class GameManagerTest {
     }
 
     @ParameterizedTest
-    @CsvSource({"TwoPlayers,100", "ThreePlayers,0", "FourPlayers,0"})
+    @CsvSource({"TwoPlayers,100", "ThreePlayers,0", "FourPlayers,1"})
     void getGame(String gameMode, int index) {
 
         try {

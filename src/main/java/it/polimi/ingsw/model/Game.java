@@ -15,16 +15,15 @@ import java.util.UUID;
 public class Game {
 
     public final static int maxTile = 12;
+    public final int NUM_OF_PLAYERS;
     private final UUID gameID;
     private final ArrayList<Player> playersList;
     private final GameField gameField;
 
-    public final int NUM_OF_PLAYERS;
-
     /**
      * Constructor
      */
-    public Game(int numberOfPlayers, int maxTowers, int maxStudentHall) {
+    public Game(int numberOfPlayers, int numberOfTowers, int numberOfStudentHall) {
 
         this.gameID = UUID.randomUUID();
         this.gameField = new GameField(gameID, numberOfPlayers);
@@ -38,10 +37,10 @@ public class Game {
             case 2: {
 
                 //Crea ogni giocatore, gli associa una board popolata e poi lo inserce nella lista finale
-                Player player1 = new Player(new Board(gameID, maxStudentHall, maxTowers, TowerColor.BLACK));
+                Player player1 = new Player(new Board(gameID, numberOfStudentHall, numberOfTowers, TowerColor.BLACK));
                 playersCreated.add(player1);
 
-                Player player2 = new Player(new Board(gameID, maxStudentHall, maxTowers, TowerColor.WHITE));
+                Player player2 = new Player(new Board(gameID, numberOfStudentHall, numberOfTowers, TowerColor.WHITE));
                 playersCreated.add(player2);
 
                 break;
@@ -49,13 +48,13 @@ public class Game {
 
             case 3: {
                 //Crea ogni giocatore, gli associa una board popolata e poi lo inserce nella lista finale
-                Player player1 = new Player(new Board(gameID, maxStudentHall, maxTowers, TowerColor.BLACK));
+                Player player1 = new Player(new Board(gameID, numberOfStudentHall, numberOfTowers, TowerColor.BLACK));
                 playersCreated.add(player1);
 
-                Player player2 = new Player(new Board(gameID, maxStudentHall, maxTowers, TowerColor.WHITE));
+                Player player2 = new Player(new Board(gameID, numberOfStudentHall, numberOfTowers, TowerColor.WHITE));
                 playersCreated.add(player2);
 
-                Player player3 = new Player(new Board(gameID, maxStudentHall, maxTowers, TowerColor.GRAY));
+                Player player3 = new Player(new Board(gameID, numberOfStudentHall, numberOfTowers, TowerColor.GRAY));
                 playersCreated.add(player3);
 
                 break;
@@ -63,16 +62,16 @@ public class Game {
 
             case 4: {
                 //Crea ogni giocatore, gli associa una board popolata e poi lo inserce nella lista finale
-                Player player1 = new Player(new Board(gameID, maxStudentHall, maxTowers, TowerColor.BLACK));
+                Player player1 = new Player(new Board(gameID, numberOfStudentHall, numberOfTowers, TowerColor.BLACK));
                 playersCreated.add(player1);
 
-                Player player2 = new Player(new Board(gameID, maxStudentHall, maxTowers, TowerColor.WHITE));
+                Player player2 = new Player(new Board(gameID, numberOfStudentHall, numberOfTowers, TowerColor.WHITE));
                 playersCreated.add(player2);
 
-                Player player3 = new Player(new Board(gameID, maxStudentHall, maxTowers, player2.getBoard().getTowers().get(0), player2.getBoard().getTowers()));
+                Player player3 = new Player(new Board(gameID, numberOfStudentHall, numberOfTowers, player2.getBoard().getTowers().get(0), player2.getBoard().getTowers()));
                 playersCreated.add(player3);
 
-                Player player4 = new Player(new Board(gameID, maxStudentHall, maxTowers, player1.getBoard().getTowers().get(0), player1.getBoard().getTowers()));
+                Player player4 = new Player(new Board(gameID, numberOfStudentHall, numberOfTowers, player1.getBoard().getTowers().get(0), player1.getBoard().getTowers()));
                 playersCreated.add(player4);
 
                 break;
@@ -89,9 +88,8 @@ public class Game {
 
     public static ArrayList<Color> drawFromPool(int arrayListLength, @NotNull ArrayList<Color> arrayList) throws NotEnoughElements {
 
-
         if (arrayList.isEmpty())
-            return null;
+            return new ArrayList<>();
 
         if (arrayListLength > arrayList.size())
             throw new NotEnoughElements();
@@ -100,7 +98,7 @@ public class Game {
 
         Collections.shuffle(arrayList);
         for (int i = 0; i < arrayListLength; i++) {
-            randomDraw.add(arrayList.remove(i));
+            randomDraw.add(arrayList.remove(0));
         }
 
         return randomDraw;

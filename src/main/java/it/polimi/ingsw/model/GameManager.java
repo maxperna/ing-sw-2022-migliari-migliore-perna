@@ -61,7 +61,7 @@ public class GameManager {
 
     public Game getGame(int i) {
 
-        if(GameManager.getInstance().getGamesList().size() <= i)
+        if (GameManager.getInstance().getGamesList().size() <= i)
             throw new ArrayIndexOutOfBoundsException();
 
         return GameManager.getInstance().getGamesList().get(i);
