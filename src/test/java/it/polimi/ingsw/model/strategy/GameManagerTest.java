@@ -1,9 +1,12 @@
 package it.polimi.ingsw.model.strategy;
 
+import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameManager;
+import it.polimi.ingsw.model.Player;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
@@ -26,20 +29,60 @@ class GameManagerTest {
 
         for (int i = 0; i < GameManager.getInstance().getGamesList().size(); i++) {
 
-            switch(GameManager.getInstance().getGamesList().get(i).getPlayersList().size()) {
+            //ChecksGameField
+            assertNotNull(GameManager.getInstance().getGame(i).getGameField());
+
+            switch(GameManager.getInstance().getGame(i).getPlayersList().size()) {
 
                 case 2: {
-                    assertEquals(TwoPlayers.numberOfPlayers, GameManager.getInstance().getGamesList().get(i).getPlayersList().size());
+
+                    //Checks Players
+                    assertEquals(TwoPlayers.numberOfPlayers, GameManager.getInstance().getGame(i).getPlayersList().size());
+
+                    for(Player currentPlayer : GameManager.getInstance().getGame(i).getPlayersList())
+                    {
+                        assertEquals(TwoPlayers.maxStudentHall, currentPlayer.getBoard().getStudentsOutside().size());
+                        assertEquals(TwoPlayers.maxTowers, currentPlayer.getBoard().getTowers().size());
+                    }
+
+                    //Checks CloudTile
+                    assertEquals(TwoPlayers.numberOfPlayers, GameManager.getInstance().getGame(i).getGameField().getCloudsTile().size());
+
                     break;
                 }
 
                 case 4: {
-                    assertEquals(FourPlayers.numberOfPlayers, GameManager.getInstance().getGamesList().get(i).getPlayersList().size());
+
+                    //Checks Players
+                    assertEquals(FourPlayers.numberOfPlayers, GameManager.getInstance().getGame(i).getPlayersList().size());
+
+                    for(Player currentPlayer : GameManager.getInstance().getGame(i).getPlayersList())
+                    {
+                        assertEquals(FourPlayers.maxStudentHall, currentPlayer.getBoard().getStudentsOutside().size());
+                        assertEquals(FourPlayers.maxTowers, currentPlayer.getBoard().getTowers().size());
+                    }
+
+                    //Checks CloudTile
+                    assertEquals(FourPlayers.numberOfPlayers, GameManager.getInstance().getGame(i).getGameField().getCloudsTile().size());
+
+
                     break;
                 }
 
                 case 3: {
-                    assertEquals(ThreePlayers.numberOfPlayers, GameManager.getInstance().getGamesList().get(i).getPlayersList().size());
+
+                    //Checks Players
+                    assertEquals(ThreePlayers.numberOfPlayers, GameManager.getInstance().getGame(i).getPlayersList().size());
+
+                    for(Player currentPlayer : GameManager.getInstance().getGame(i).getPlayersList())
+                    {
+                        assertEquals(ThreePlayers.maxStudentHall, currentPlayer.getBoard().getStudentsOutside().size());
+                        assertEquals(ThreePlayers.maxTowers, currentPlayer.getBoard().getTowers().size());
+                    }
+
+                    //Checks CloudTile
+                    assertEquals(ThreePlayers.numberOfPlayers, GameManager.getInstance().getGame(i).getGameField().getCloudsTile().size());
+
                     break;
                 }
 
@@ -63,8 +106,24 @@ class GameManagerTest {
         assertNotNull(GameManager.getInstance().getGamesList());
     }
 
+    @ParameterizedTest
+    @CsvSource({"TwoPlayers,100", "ThreePlayers,0", "FourPlayers,1"})
+    void getGame(String gameMode, int index) {
+
+        try {
+            Game game = GameManager.getInstance().getGame(index);
+            assertNotNull(game);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Index out of bound");
+        }
+
+        GameManager.getInstance().startGame(gameMode);
+    }
+
     private static Stream<String> gameModeList() {
 
         return Stream.of("TwoPlayers", "ThreePlayers", "FourPlayers", "...");
     }
+
+
 }
