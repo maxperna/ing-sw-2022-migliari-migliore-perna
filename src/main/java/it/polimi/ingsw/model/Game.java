@@ -19,6 +19,8 @@ public class Game {
     private final ArrayList<Player> playersList;
     private final GameField gameField;
 
+    public final int NUM_OF_PLAYERS;
+
     /**
      * Constructor
      */
@@ -26,6 +28,7 @@ public class Game {
 
         this.gameID = UUID.randomUUID();
         this.gameField = new GameField(gameID, numberOfPlayers);
+        this.NUM_OF_PLAYERS = numberOfPlayers;
 
         //Crea un nuovo array di giocatori che verra popolato e poi restituito
         ArrayList<Player> playersCreated = new ArrayList<>();
