@@ -162,6 +162,7 @@ public class Board implements StudentManager {
         return 0;
     }
 
-
-
+    public TowerColor getTowerColor() {
+        return towerColor;
+    }
 }

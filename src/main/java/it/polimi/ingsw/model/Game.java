@@ -193,10 +193,36 @@ public class Game {
         }
     }
 
-    /**Method used to check influence on an island tile
+    /**Method used to check influence on an island tile and setting the player with most influence on the island (if existing)
      * @param islandToCheck island to check the influence over
      * */
     public void checkIslandInfluence(IslandTile islandToCheck){
+        HashMap<Player,Integer> temporaryInfluenceCounter = new HashMap<>();  //temporary influence counter
 
+        for(Color colorStudent: islandToCheck.getStudents()){
+            Player playerToCheck = influenceMap.get(colorStudent).getPlayer();
+            //If player to check is null no one ha still the influence on that color
+            if(playerToCheck!=null){
+                int influenceOfPlayer = islandToCheck.colorStudent(colorStudent);       //temp variable storing the number of student of the same color
+                //Check if there is a tower, if true add another point of influence
+                if(playerToCheck.getBoard().getTowerColor().equals(islandToCheck.getTowerColor()))
+                    influenceOfPlayer++;
+                if(temporaryInfluenceCounter.containsKey(playerToCheck)){
+                    temporaryInfluenceCounter.put(playerToCheck,influenceOfPlayer);
+                }
+                else{
+                    temporaryInfluenceCounter.put(playerToCheck,temporaryInfluenceCounter.get(playerToCheck)+influenceOfPlayer);
+                }
+            }
+            //If the temporary influence counter is empty no one has influence
+            if(!temporaryInfluenceCounter.isEmpty()){
+                //check the player with most influence
+                Player maxInfluencePlayer = temporaryInfluenceCounter.entrySet().stream().max((val1,val2)->
+                        val1.getValue()>val2.getValue()?1 : -1).get().getKey();
+
+                islandToCheck.setMostInfluencePlayer(maxInfluencePlayer);
+            }
+
+        }
     }
 }

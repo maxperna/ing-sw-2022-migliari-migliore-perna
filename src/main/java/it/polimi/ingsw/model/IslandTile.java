@@ -64,10 +64,12 @@ public class IslandTile implements StudentManager {
      */
     public int colorStudent(Color color){
         int colorCounter = 0;
-        for (Color student : students) {                                           //iterates for all students
+        if(students.contains(color)) {
+            for (Color student : students) {                                           //iterates for all students
                 if (student.equals(color))                                          //checks if the student's color matches with given color
                     colorCounter++;                                                 //increases color counter for that color
             }
+        }
         return colorCounter;
     }
 
@@ -81,6 +83,10 @@ public class IslandTile implements StudentManager {
 
     public void setStudents(ArrayList <Color> students) {
         this.students = students;
+    }
+
+    public void setMostInfluencePlayer(Player mostInfluencePlayer) {
+        this.mostInfluencePlayer = mostInfluencePlayer;
     }
 }
 
