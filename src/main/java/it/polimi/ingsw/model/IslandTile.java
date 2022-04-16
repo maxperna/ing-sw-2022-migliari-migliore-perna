@@ -13,7 +13,7 @@ public class IslandTile implements StudentManager {
     private final int tileID;
     private ArrayList<Color> students;
     private TowerColor tower;
-    private String mostInfluencePlayer;
+    private Player mostInfluencePlayer;
 
 
     /**
@@ -47,7 +47,7 @@ public class IslandTile implements StudentManager {
 
     /**
      * constructor
-     * @param tileID
+     * @param tileID ID to assign to island tile
      */
     public IslandTile(int tileID){
         this.tileID=tileID;
@@ -60,20 +60,20 @@ public class IslandTile implements StudentManager {
     /**
      * method to count students of a given color inside an island
      * @param color color of the students you want to count
-     * @return
+     * @return the number of students of a given color
      */
     public int colorStudent(Color color){
         int colorCounter = 0;
-        for (Color student : this.getStudents()) {                                                                      //iterates for all students
-                if (students.equals(color))                                                                             //checks if the student's color matches with given color
-                    colorCounter++;                                                                                     //increases color counter for that color
+        for (Color student : students) {                                           //iterates for all students
+                if (student.equals(color))                                          //checks if the student's color matches with given color
+                    colorCounter++;                                                 //increases color counter for that color
             }
         return colorCounter;
     }
 
     /**
      * method to add student
-     * @param student
+     * @param student pawn to add on the island
      */
     public void addStudent(Color student) {
         students.add(student);

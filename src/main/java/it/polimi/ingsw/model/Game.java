@@ -47,7 +47,7 @@ public class Game {
     private final ArrayList<Player> playersList;
     private final GameField gameField;
     public final int NUM_OF_PLAYERS;
-    private HashMap<Color,Pair<Object,Integer>> influenceMap;
+    private HashMap<Color,Pair<Player,Integer>> influenceMap;
 
     /**
      * Constructor
@@ -115,7 +115,7 @@ public class Game {
 
         //Initialization of influence map, at the beginning player with most influence is null
         for(Color color : Color.values()){
-                Pair<Object, Integer> internalPair = new Pair<>(null,0);
+                Pair<Player, Integer> internalPair = new Pair<>(null,0);
                 influenceMap.put(color,internalPair);
             }
 
@@ -176,14 +176,27 @@ public class Game {
      * */
     public void checkInfluence(Player activePlayer, Color colorToCheck){
         int numOfCheckedStudent = activePlayer.getBoard().colorStudent(colorToCheck);
-        if(numOfCheckedStudent>influenceMap.get(colorToCheck).getNumOfStudents()){
+
+        //if no one has ever played the color to check
+        if(influenceMap.get(colorToCheck).getPlayer()==null){
+            influenceMap.get(colorToCheck).setPlayer(activePlayer);
+            influenceMap.get(colorToCheck).setNumOfStudents(numOfCheckedStudent);
+        } else if(numOfCheckedStudent>influenceMap.get(colorToCheck).getNumOfStudents()){
+
             //Add and remove the teacher from the involved player
-            influenceMap.get(colorToCheck).getPlayer().getBoard();
+            influenceMap.get(colorToCheck).getPlayer().getBoard().removeTeacher(colorToCheck);
             activePlayer.getBoard().addTeachers(colorToCheck);
             //Update influence map data
             influenceMap.get(colorToCheck).setPlayer(activePlayer);
             influenceMap.get(colorToCheck).setNumOfStudents(numOfCheckedStudent);
 
         }
+    }
+
+    /**Method used to check influence on an island tile
+     * @param islandToCheck island to check the influence over
+     * */
+    public void checkIslandInfluence(IslandTile islandToCheck){
+
     }
 }
