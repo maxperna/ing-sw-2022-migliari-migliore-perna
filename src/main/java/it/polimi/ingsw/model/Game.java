@@ -11,7 +11,7 @@ import java.util.UUID;
  */
 public class Game {
 
-    public final static int maxTile = 12;
+    public final static int MAX_TILE = 12;
     public final int NUM_OF_PLAYERS;
     private final UUID gameID;
     private final ArrayList<Player> playersList;

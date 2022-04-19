@@ -39,7 +39,7 @@ public class GameField{
 
         IslandList islandList = new IslandList();
         ArrayList <IslandTile> islandTiles = new ArrayList <>();
-        for (int i = 1; i <= Game.maxTile; i++) {
+        for (int i = 1; i <= Game.MAX_TILE; i++) {
             IslandTile tile = new IslandTile(i);
 
             if ((i != noStudentTile) & (i != noStudentTile * 2)) {
