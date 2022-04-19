@@ -16,7 +16,7 @@ public class Game {
     private final ArrayList<Player> playersList;
     private final GameField gameField;
     public final int NUM_OF_PLAYERS;
-    private HashMap<Color,Pair<Player,Integer>> influenceMap;
+    private final HashMap<Color,Pair<Player,Integer>> influenceMap = new HashMap<>();
 
     /**
      * Constructor

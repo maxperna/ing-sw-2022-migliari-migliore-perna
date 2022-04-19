@@ -10,8 +10,8 @@ import java.util.*;
 public class RoundLogic {
     private final Game currentGame;   //game associated to round logic
     private int roundID;     //specific round roundLogic is referring to
-    private Map<Card,Player> cardsPlayed = new HashMap<>();
-    private Queue<Player> playersOrders = new LinkedList<>();  //Players order is a FIFO structure
+    private final Map<Card,Player> cardsPlayed = new HashMap<>();
+    private final Queue<Player> playersOrders = new LinkedList<>();  //Players order is a FIFO structure
     private Player lastRoundFirstPlayer;       //first player to play last round, used to define the starting point of the round
     private Player activePlayer;     //current active player
 
