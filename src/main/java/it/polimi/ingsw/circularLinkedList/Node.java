@@ -125,6 +125,4 @@ public class Node {
     public boolean checkMotherNature() {
         return motherNature;
     }
-
-
 }

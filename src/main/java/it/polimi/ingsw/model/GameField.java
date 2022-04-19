@@ -9,7 +9,6 @@ import it.polimi.ingsw.exceptions.NotEnoughElements;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Random;
 import java.util.UUID;
 
 public class GameField{
@@ -23,16 +22,12 @@ public class GameField{
 
         this.pouch = Pouch.getInstance(gameID);
 
-        int noStudentTile;
-
-        //Creates CloudTile
         ArrayList <CloudTile> cloudTileList = new ArrayList <>();
         for (int i = 0; i < numberOfPlayers; i++) {
             cloudTileList.add(new CloudTile(i));
         }
         this.cloudTiles = cloudTileList;
 
-        //Creates the students that will be placed on the field
         ArrayList <Color> studentToBePlaced = new ArrayList <>();
         for (int j = 0; j < 2; j++) {
             studentToBePlaced.add(Color.RED);
@@ -43,10 +38,8 @@ public class GameField{
         }
         Collections.shuffle(studentToBePlaced);
 
-        //Selects one random tile
-        noStudentTile = (int) Math.floor(Math.random() * (6) + 1);
+        int noStudentTile = (int) Math.floor(Math.random() * (6) + 1);
 
-        //Puts the initial students on the tiles, leaving out two tiles, one for mother nature and one empty
         IslandList islandList = new IslandList();
         ArrayList <IslandTile> islandTiles = new ArrayList <>();
         for (int i = 1; i <= Game.MAX_TILE; i++) {
@@ -58,19 +51,12 @@ public class GameField{
                 } catch (NotEnoughElements e) {
                     e.printStackTrace();
                 }
-
             }
 
             islandTiles.add(tile);
         }
 
         islandList.addIslands(islandTiles);
-
-        Random r = new Random();
-        int randInt = r.nextInt((noStudentTile * 2) - noStudentTile) + noStudentTile;
-
-        islandList.moveToIsland(noStudentTile).setMotherNature();
-        //islandList.
         this.islands = islandList;
 
     }
@@ -112,9 +98,8 @@ public class GameField{
         this.numberOfIslands = numberOfIslands-1;
     }
 
-    public Node moveToIsland(int ID) {
-
-        return islands.moveToIsland(ID);
+    public void moveToIsland(int ID) {
+        islands.moveToIsland(ID);
     }
 
 }
