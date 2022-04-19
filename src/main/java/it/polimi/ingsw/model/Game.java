@@ -1,10 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.exceptions.NotEnoughElements;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -15,33 +11,6 @@ import java.util.UUID;
  */
 public class Game {
 
-    /**Class used for define a new type of data for influence map(tuple)
-     * */
-    public static class Pair<Player,Integer>{
-        private  Player player;
-        private Integer numOfStudents;
-
-        Pair(Player x, Integer y){
-            this.player = x;
-            this.numOfStudents = y;
-        }
-
-        public void setPlayer(Player player) {
-            this.player = player;
-        }
-
-        public void setNumOfStudents(Integer numOfStudents) {
-            this.numOfStudents = numOfStudents;
-        }
-
-        public Player getPlayer() {
-            return player;
-        }
-
-        public Integer getNumOfStudents() {
-            return numOfStudents;
-        }
-    }
     public final static int maxTile = 12;
     private final UUID gameID;
     private final ArrayList<Player> playersList;
@@ -51,6 +20,9 @@ public class Game {
 
     /**
      * Constructor
+     * @param numberOfPlayers number of players in the match
+     * @param maxTowers number of towers for each player
+     * @param maxStudentHall number of students for each player at the beginning of the game
      */
     public Game(int numberOfPlayers, int maxTowers, int maxStudentHall) {
 
@@ -122,25 +94,6 @@ public class Game {
     }
 
 
-    public static ArrayList<Color> drawFromPool(int arrayListLength, @NotNull ArrayList<Color> arrayList) throws NotEnoughElements {
-
-
-        if (arrayList.isEmpty())
-            return null;
-
-        if (arrayListLength > arrayList.size())
-            throw new NotEnoughElements();
-
-        ArrayList<Color> randomDraw = new ArrayList<>();
-
-        Collections.shuffle(arrayList);
-        for (int i = 0; i < arrayListLength; i++) {
-            randomDraw.add(arrayList.remove(i));
-        }
-
-        return randomDraw;
-    }
-
     /**
      * Getter
      *
@@ -159,7 +112,6 @@ public class Game {
         return gameField;
     }
 
-
     /**
      * Getter
      *
@@ -167,6 +119,34 @@ public class Game {
      */
     public ArrayList<Player> getPlayersList() {
         return playersList;
+    }
+
+    /**Class used for define a new type of data for influence map(tuple)
+     * */
+    public static class Pair<Player,Integer>{
+        private  Player player;
+        private Integer numOfStudents;
+
+        Pair(Player x, Integer y){
+            this.player = x;
+            this.numOfStudents = y;
+        }
+
+        public void setPlayer(Player player) {
+            this.player = player;
+        }
+
+        public void setNumOfStudents(Integer numOfStudents) {
+            this.numOfStudents = numOfStudents;
+        }
+
+        public Player getPlayer() {
+            return player;
+        }
+
+        public Integer getNumOfStudents() {
+            return numOfStudents;
+        }
     }
 
     /**Method used to check influence over inside hall of a player, it automatically set the teacher on the board if

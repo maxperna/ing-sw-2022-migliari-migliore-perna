@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exceptions.NotEnoughElements;
 import it.polimi.ingsw.model.strategy.FourPlayers;
 import it.polimi.ingsw.model.strategy.Selector;
 import it.polimi.ingsw.model.strategy.ThreePlayers;
@@ -7,17 +8,29 @@ import it.polimi.ingsw.model.strategy.TwoPlayers;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
+/**
+ * Class GameManager, singleton.
+ * stores and creates new instances of Game class
+ * @author Miglia
+ */
 public class GameManager {
 
     private static GameManager gameManager = null;
     private final ArrayList<Game> gamesList;
 
+    /**
+     * Private constructor
+     */
     private GameManager() {
-
         this.gamesList = new ArrayList<>();
     }
 
+    /**
+     * Method used to get the only instance of gameManager
+     * @return GameManager instance
+     */
     public synchronized static GameManager getInstance() {
 
         if (gameManager == null)
@@ -26,6 +39,11 @@ public class GameManager {
         return gameManager;
     }
 
+
+    /**
+     * Method used to initialize the games
+     * @param gameMode used to select the number of player in the game
+     */
     public synchronized void startGame(@NotNull String gameMode) {
 
         Selector selector;
@@ -55,10 +73,19 @@ public class GameManager {
         gamesList.add(game);
     }
 
+    /**
+     * Getter
+     * @return The list of games currently active
+     */
     public ArrayList<Game> getGamesList() {
         return gamesList;
     }
 
+    /**
+     * Getter
+     * @param i index in the gameList
+     * @return game selected
+     */
     public Game getGame(int i) {
 
         if (GameManager.getInstance().getGamesList().size() <= i)
@@ -66,5 +93,30 @@ public class GameManager {
 
         return GameManager.getInstance().getGamesList().get(i);
 
+    }
+
+    /**
+     * Method used to draw a random poll of students from an Array passed as parameter, used to initialize the game.
+     * @param arrayListLength length of the array that will be created, must be lower than the length of the array passed as parameter
+     * @param arrayList ArrayList of Color
+     * @return an ArrayList of "arrayListLength" dimensions in random order
+     */
+    public static ArrayList<Color> drawFromPool(int arrayListLength, @NotNull ArrayList<Color> arrayList) throws NotEnoughElements {
+
+
+        if (arrayList.isEmpty())
+            return new ArrayList<>();
+
+        if (arrayListLength > arrayList.size())
+            throw new NotEnoughElements();
+
+        ArrayList<Color> randomDraw = new ArrayList<>();
+
+        Collections.shuffle(arrayList);
+        for (int i = 0; i < arrayListLength; i++) {
+            randomDraw.add(arrayList.remove(i));
+        }
+
+        return randomDraw;
     }
 }

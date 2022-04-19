@@ -44,7 +44,7 @@ public class GameField{
 
             if ((i != noStudentTile) & (i != noStudentTile * 2)) {
                 try {
-                    tile.setStudents(Game.drawFromPool(1, studentToBePlaced));
+                    tile.setStudents(GameManager.drawFromPool(1, studentToBePlaced));
                 } catch (NotEnoughElements e) {
                     e.printStackTrace();
                 }
