@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 
-import it.polimi.ingsw.CircularLinkedList.IslandList;
+import it.polimi.ingsw.circularLinkedList.IslandList;
 import it.polimi.ingsw.exceptions.NotEnoughElements;
 
 import java.util.ArrayList;

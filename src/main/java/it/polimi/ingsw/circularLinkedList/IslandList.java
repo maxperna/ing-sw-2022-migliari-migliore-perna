@@ -1,4 +1,4 @@
-package it.polimi.ingsw.CircularLinkedList;
+package it.polimi.ingsw.circularLinkedList;
 
 import it.polimi.ingsw.exceptions.EndGameException;
 import it.polimi.ingsw.model.Color;
