@@ -37,7 +37,6 @@ public class IslandList {
             if (counter == 11) {                                                                                        //counter.equals(11) gives problem since int is a primitive type, have to use this one I suppose
                 lastNode.setNextNode(head);
                 head.setPreviousNode(lastNode);                                                                         //if the linked list contains 12 elements, link the last element to the head, to make a circular linked list
-                head.setMotherNature();
             }
         }
     }

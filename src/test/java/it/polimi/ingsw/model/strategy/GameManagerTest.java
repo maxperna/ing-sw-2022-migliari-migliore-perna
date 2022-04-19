@@ -53,6 +53,8 @@ class GameManagerTest {
     @MethodSource("gameModeList")
     void startGame(String gameMode) {
 
+
+
         try {
             GameManager.getInstance().startGame(gameMode);
             assertNotNull(GameManager.getInstance().getGamesList());
@@ -64,6 +66,17 @@ class GameManagerTest {
 
             //ChecksGameField
             assertNotNull(GameManager.getInstance().getGame(i).getGameField());
+
+//            int motherNatureTile = -1;
+//            //CheckMotherNature
+//            for (int j = 1; j <= Game.MAX_TILE; j ++) {
+//
+//                if (GameManager.getInstance().getGame(i).getGameField().moveToIsland(j).checkMotherNature())
+//                    motherNatureTile = j;
+//
+//            }
+//
+//            assertEquals(0, GameManager.getInstance().getGame(i).getGameField().moveToIsland(motherNatureTile).getIslands().get(0).getStudents().size());
 
             switch (GameManager.getInstance().getGame(i).getPlayersList().size()) {
 
