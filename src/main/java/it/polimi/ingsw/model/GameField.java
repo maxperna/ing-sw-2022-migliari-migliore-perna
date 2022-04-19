@@ -60,7 +60,7 @@ public class GameField{
 
     }
 
-    public void mergeIsland(Node newMergedIsland, Node islandToBeMerged){
+    public void mergeIsland(int newMergedIsland, int islandToBeMerged){
         try {
             islands.mergeIslands(newMergedIsland, islandToBeMerged);
             this.decreaseIslands();

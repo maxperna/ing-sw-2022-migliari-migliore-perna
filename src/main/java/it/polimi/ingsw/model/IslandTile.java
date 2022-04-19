@@ -11,7 +11,7 @@ import java.util.ArrayList;
  */
 public class IslandTile implements StudentManager {
     private final int tileID;
-    private ArrayList<Color> students;
+    private ArrayList<Color> students = new ArrayList<>();
     private TowerColor tower;
     private Player mostInfluencePlayer;
 

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class CloudTile {
 
     private int tileID;
-    private ArrayList<Color> students;
+    private ArrayList<Color> students = new ArrayList<>();
 
     /**
      * @return an Arraylist of Color that represents students on the cloud

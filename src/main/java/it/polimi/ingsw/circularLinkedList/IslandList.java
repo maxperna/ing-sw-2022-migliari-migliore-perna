@@ -56,10 +56,12 @@ public class IslandList {
      * @param islandToMerge   is the island whose information is going to be moved inside the other island, this one will be cancelled by garbage collector
      * @throws EndGameException when there are exactly 3(?) islands left inside the list
      */
-    public void mergeIslands(Node newMergedIsland, Node islandToMerge) throws EndGameException {                        //not "tested"
-        newMergedIsland.addIslands(islandToMerge.getIslands());                                                         //instruction to add islands from the node we intend to merge to the final one
-        newMergedIsland.setNextNode(islandToMerge.getNextNode());                                                       //new island's next node becomes merged island's next node
-        newMergedIsland.getNextNode().setPreviousNode(newMergedIsland);                                                 //merged island's next node stores into previous node the pointer to the new node
+    public void mergeIslands(int newMergedIsland, int islandToMerge) throws EndGameException {                          //not "tested"
+        Node newIsland = this.moveToIsland(newMergedIsland);
+        Node oldIsland = this.moveToIsland(islandToMerge);
+        newIsland.addIslands(oldIsland.getIslands());                                                                   //instruction to add islands from the node we intend to merge to the final one
+        newIsland.setNextNode(oldIsland.getNextNode());                                                                 //new island's next node becomes merged island's next node
+        newIsland.getNextNode().setPreviousNode(newIsland);                                                             //merged island's next node stores into previous node the pointer to the new node
         if (this.islandCounter(this.head) == 3)
             throw new EndGameException();
     }
@@ -112,7 +114,7 @@ public class IslandList {
      * @throws InvalidParameterException when islandID is invalid
      */
     public void addStudent(int islandID, Color student) throws InvalidParameterException {                              //method that adds a single student to a specific IslandTIle
-        if (islandID < 0 || islandID > 11)                                                                              //checks that the islandID is valid
+        if (islandID < 1 || islandID > 12)                                                                              //checks that the islandID is valid
             throw new InvalidParameterException();
 
         Node startingNode = this.head;                                                                                  //set the startingNode
@@ -172,7 +174,9 @@ public class IslandList {
      * @param ID is the identifier for the island Tile
      * @return a Node containing the selected island Tile
      */
-    public Node moveToIsland(int ID) {
+    public Node moveToIsland(int ID) throws InvalidParameterException{
+        if(ID>12 || ID<1)
+            throw new InvalidParameterException();
         Node startingNode = this.head;
         boolean found=false;
         int index=0;
