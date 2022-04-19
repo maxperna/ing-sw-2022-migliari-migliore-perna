@@ -12,17 +12,18 @@ import java.util.UUID;
 public class Game {
 
     public final static int maxTile = 12;
+    public final int NUM_OF_PLAYERS;
     private final UUID gameID;
     private final ArrayList<Player> playersList;
     private final GameField gameField;
-    public final int NUM_OF_PLAYERS;
-    private final HashMap<Color,Pair<Player,Integer>> influenceMap = new HashMap<>();
+    private final HashMap<Color, Pair<Player, Integer>> influenceMap = new HashMap<>();
 
     /**
      * Constructor
+     *
      * @param numberOfPlayers number of players in the match
-     * @param maxTowers number of towers for each player
-     * @param maxStudentHall number of students for each player at the beginning of the game
+     * @param maxTowers       number of towers for each player
+     * @param maxStudentHall  number of students for each player at the beginning of the game
      */
     public Game(int numberOfPlayers, int maxTowers, int maxStudentHall) {
 
@@ -86,10 +87,10 @@ public class Game {
         this.playersList = playersCreated;
 
         //Initialization of influence map, at the beginning player with most influence is null
-        for(Color color : Color.values()){
-                Pair<Player, Integer> internalPair = new Pair<>(null,0);
-                influenceMap.put(color,internalPair);
-            }
+        for (Color color : Color.values()) {
+            Pair<Player, Integer> internalPair = new Pair<>(null, 0);
+            influenceMap.put(color, internalPair);
+        }
 
     }
 
@@ -121,47 +122,21 @@ public class Game {
         return playersList;
     }
 
-    /**Class used for define a new type of data for influence map(tuple)
-     * */
-    public static class Pair<Player,Integer>{
-        private  Player player;
-        private Integer numOfStudents;
-
-        Pair(Player x, Integer y){
-            this.player = x;
-            this.numOfStudents = y;
-        }
-
-        public void setPlayer(Player player) {
-            this.player = player;
-        }
-
-        public void setNumOfStudents(Integer numOfStudents) {
-            this.numOfStudents = numOfStudents;
-        }
-
-        public Player getPlayer() {
-            return player;
-        }
-
-        public Integer getNumOfStudents() {
-            return numOfStudents;
-        }
-    }
-
-    /**Method used to check influence over inside hall of a player, it automatically set the teacher on the board if
+    /**
+     * Method used to check influence over inside hall of a player, it automatically set the teacher on the board if
      * needed
+     *
      * @param activePlayer player who has changed the number of student
      * @param colorToCheck color to check the influence over
-     * */
-    public void checkInfluence(Player activePlayer, Color colorToCheck){
+     */
+    public void checkInfluence(Player activePlayer, Color colorToCheck) {
         int numOfCheckedStudent = activePlayer.getBoard().colorStudent(colorToCheck);
 
         //if no one has ever played the color to check
-        if(influenceMap.get(colorToCheck).getPlayer()==null){
+        if (influenceMap.get(colorToCheck).getPlayer() == null) {
             influenceMap.get(colorToCheck).setPlayer(activePlayer);
             influenceMap.get(colorToCheck).setNumOfStudents(numOfCheckedStudent);
-        } else if(numOfCheckedStudent>influenceMap.get(colorToCheck).getNumOfStudents()){
+        } else if (numOfCheckedStudent > influenceMap.get(colorToCheck).getNumOfStudents()) {
 
             //Add and remove the teacher from the involved player
             influenceMap.get(colorToCheck).getPlayer().getBoard().removeTeacher(colorToCheck);
@@ -173,36 +148,66 @@ public class Game {
         }
     }
 
-    /**Method used to check influence on an island tile and setting the player with most influence on the island (if existing)
+    /**
+     * Method used to check influence on an island tile and setting the player with most influence on the island (if existing)
+     *
      * @param islandToCheck island to check the influence over
-     * */
-    public void checkIslandInfluence(IslandTile islandToCheck){
-        HashMap<Player,Integer> temporaryInfluenceCounter = new HashMap<>();  //temporary influence counter
+     */
+    public void checkIslandInfluence(IslandTile islandToCheck) {
+        HashMap<Player, Integer> temporaryInfluenceCounter = new HashMap<>();  //temporary influence counter
 
-        for(Color colorStudent: islandToCheck.getStudents()){
+        for (Color colorStudent : islandToCheck.getStudents()) {
             Player playerToCheck = influenceMap.get(colorStudent).getPlayer();
             //If player to check is null no one ha still the influence on that color
-            if(playerToCheck!=null){
+            if (playerToCheck != null) {
                 int influenceOfPlayer = islandToCheck.colorStudent(colorStudent);       //temp variable storing the number of student of the same color
                 //Check if there is a tower, if true add another point of influence
-                if(playerToCheck.getBoard().getTowerColor().equals(islandToCheck.getTowerColor()))
+                if (playerToCheck.getBoard().getTowerColor().equals(islandToCheck.getTowerColor()))
                     influenceOfPlayer++;
-                if(temporaryInfluenceCounter.containsKey(playerToCheck)){
-                    temporaryInfluenceCounter.put(playerToCheck,influenceOfPlayer);
-                }
-                else{
-                    temporaryInfluenceCounter.put(playerToCheck,temporaryInfluenceCounter.get(playerToCheck)+influenceOfPlayer);
+                if (temporaryInfluenceCounter.containsKey(playerToCheck)) {
+                    temporaryInfluenceCounter.put(playerToCheck, influenceOfPlayer);
+                } else {
+                    temporaryInfluenceCounter.put(playerToCheck, temporaryInfluenceCounter.get(playerToCheck) + influenceOfPlayer);
                 }
             }
             //If the temporary influence counter is empty no one has influence
-            if(!temporaryInfluenceCounter.isEmpty()){
+            if (!temporaryInfluenceCounter.isEmpty()) {
                 //check the player with most influence
-                Player maxInfluencePlayer = temporaryInfluenceCounter.entrySet().stream().max((val1,val2)->
-                        val1.getValue()>val2.getValue()?1 : -1).get().getKey();
+                Player maxInfluencePlayer = temporaryInfluenceCounter.entrySet().stream().max((val1, val2) ->
+                        val1.getValue() > val2.getValue() ? 1 : -1).get().getKey();
 
                 islandToCheck.setMostInfluencePlayer(maxInfluencePlayer);
             }
 
+        }
+    }
+
+    /**
+     * Class used for define a new type of data for influence map(tuple)
+     */
+    public static class Pair<Player, Integer> {
+        private Player player;
+        private Integer numOfStudents;
+
+        Pair(Player x, Integer y) {
+            this.player = x;
+            this.numOfStudents = y;
+        }
+
+        public Player getPlayer() {
+            return player;
+        }
+
+        public void setPlayer(Player player) {
+            this.player = player;
+        }
+
+        public Integer getNumOfStudents() {
+            return numOfStudents;
+        }
+
+        public void setNumOfStudents(Integer numOfStudents) {
+            this.numOfStudents = numOfStudents;
         }
     }
 }
