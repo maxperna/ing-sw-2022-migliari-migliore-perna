@@ -6,6 +6,7 @@ import it.polimi.ingsw.circularLinkedList.Node;
 import it.polimi.ingsw.exceptions.EndGameException;
 import it.polimi.ingsw.exceptions.NotEnoughElements;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.UUID;
@@ -60,7 +61,9 @@ public class GameField{
 
     }
 
-    public void mergeIsland(int newMergedIsland, int islandToBeMerged){
+    public void mergeIsland(int newMergedIsland, int islandToBeMerged) throws InvalidParameterException {
+        if (newMergedIsland < 1 || newMergedIsland > 12 || islandToBeMerged < 1 || islandToBeMerged > 12)               //checks that the islandID is valid
+            throw new InvalidParameterException();
         try {
             islands.mergeIslands(newMergedIsland, islandToBeMerged);
             this.decreaseIslands();
