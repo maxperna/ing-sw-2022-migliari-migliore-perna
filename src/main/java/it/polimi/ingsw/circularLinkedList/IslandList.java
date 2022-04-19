@@ -129,8 +129,8 @@ public class IslandList {
      * @return a node containing motherNature
      */
     public Node getMotherNature() {
-        Node startingNode = this.head;
-        while (startingNode.getNextNode() != head && !startingNode.checkMotherNature()) {
+        Node startingNode = this.head;                                                                                  //starting from the head node
+        while (startingNode.getNextNode() != head && !startingNode.checkMotherNature()) {                               //iterate through all the list until we find the node with motherNature on
             startingNode = startingNode.getNextNode();
         }
         return startingNode;
@@ -142,6 +142,29 @@ public class IslandList {
      */
     public Node getHead() {
         return this.head;
+    }
+
+    /**
+     * method used to move motherNature, can be used to randomly select the starting island
+     * @param moves number of islands that motherNature will move through
+     */
+    public void moveMotherNature(int moves) {
+        Node head = this.getMotherNature();                                                                             //starting from the head, it will have the motherNature flag on
+        head.resetMotherNature();                                                                                       //reset the motherNature flag
+        for(int index = 0; index<moves; index++) {                                                                      //move until we reach the desired island
+            head = head.getNextNode();
+        }
+        head.setMotherNature();                                                                                         //set motherNature flag on
+    }
+
+    /**
+     * method used to get dominant color of a given islandTile, calls the same method inside the Node
+     * @param node island of interest
+     * @return the dominant color
+     */
+    public Color getMostInfluence(Node node) {
+        Color mostInfluence = this.getMotherNature().getMostInfluence();
+        return mostInfluence;
     }
 }
 
