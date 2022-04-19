@@ -184,7 +184,9 @@ public class IslandList {
             while(index<startingNode.getIslands().size() && !found){                                                    //iterates through all the islands
                 if (startingNode.getIslands().get(index).getID() == ID)
                     found = true;
+                index++;
             }
+            startingNode = startingNode.getNextNode();
         }
         return startingNode;                                                                                            //returns the node containing the island that matches the given ID
     }
