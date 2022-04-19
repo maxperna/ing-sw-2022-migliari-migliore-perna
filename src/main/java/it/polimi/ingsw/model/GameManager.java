@@ -114,7 +114,7 @@ public class GameManager {
 
         Collections.shuffle(arrayList);
         for (int i = 0; i < arrayListLength; i++) {
-            randomDraw.add(arrayList.remove(i));
+            randomDraw.add(arrayList.remove(0));
         }
 
         return randomDraw;
