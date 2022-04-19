@@ -95,4 +95,8 @@ public class GameField{
         this.numberOfIslands = numberOfIslands-1;
     }
 
+    public void moveToIsland(int ID) {
+        islands.moveToIsland(ID);
+    }
+
 }
