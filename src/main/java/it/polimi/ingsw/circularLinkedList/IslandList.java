@@ -166,5 +166,23 @@ public class IslandList {
         Color mostInfluence = this.getMotherNature().getMostInfluence();
         return mostInfluence;
     }
+
+    /**
+     * method used to get the Node containing the island Tile with a given islandID
+     * @param ID is the identifier for the island Tile
+     * @return a Node containing the selected island Tile
+     */
+    public Node moveToIsland(int ID) {
+        Node startingNode = this.head;
+        boolean found=false;
+        int index=0;
+        while (startingNode.getNextNode() != head && !found) {                                                          //iterates through all the nodes
+            while(index<startingNode.getIslands().size() && !found){                                                    //iterates through all the islands
+                if (startingNode.getIslands().get(index).getID() == ID)
+                    found = true;
+            }
+        }
+        return startingNode;                                                                                            //returns the node containing the island that matches the given ID
+    }
 }
 
