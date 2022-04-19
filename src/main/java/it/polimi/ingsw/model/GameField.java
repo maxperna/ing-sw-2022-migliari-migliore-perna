@@ -2,6 +2,8 @@ package it.polimi.ingsw.model;
 
 
 import it.polimi.ingsw.circularLinkedList.IslandList;
+import it.polimi.ingsw.circularLinkedList.Node;
+import it.polimi.ingsw.exceptions.EndGameException;
 import it.polimi.ingsw.exceptions.NotEnoughElements;
 
 import java.util.ArrayList;
@@ -11,9 +13,9 @@ import java.util.UUID;
 public class GameField{
 
     private final IslandList islands;
-    private int numberOfIslands;
+    private int numberOfIslands = 12;
     private final Pouch pouch;
-    private final ArrayList<CloudTile> cloudsTile;
+    private final ArrayList<CloudTile> cloudTiles;
 
     public  GameField(UUID gameID, int numberOfPlayers) {
 
@@ -21,9 +23,9 @@ public class GameField{
 
         ArrayList <CloudTile> cloudTileList = new ArrayList <>();
         for (int i = 0; i < numberOfPlayers; i++) {
-            cloudTileList.add(new CloudTile());
+            cloudTileList.add(new CloudTile(i));
         }
-        this.cloudsTile = cloudTileList;
+        this.cloudTiles = cloudTileList;
 
         ArrayList <Color> studentToBePlaced = new ArrayList <>();
         for (int j = 0; j < 2; j++) {
@@ -58,16 +60,21 @@ public class GameField{
 
     }
 
-    public void mergeIsland(){
-
+    public void mergeIsland(Node newMergedIsland, Node islandToBeMerged){
+        try {
+            islands.mergeIslands(newMergedIsland, islandToBeMerged);
+            this.decreaseIslands();
+        } catch (EndGameException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void rechargeCloud(){
-
+    public void rechargeCloud(ArrayList<Color> students, int ID){
+        cloudTiles.get(ID).rechargeCloud(students);
     }
 
-    public void moveMotherNature(){
-
+    public void moveMotherNature(int moves){
+        islands.moveMotherNature(moves);
     }
 
     public IslandList getIslands() {
@@ -81,7 +88,11 @@ public class GameField{
 
 
     public ArrayList <CloudTile> getCloudsTile() {
-        return cloudsTile;
+        return cloudTiles;
+    }
+
+    public void decreaseIslands() {
+        this.numberOfIslands = numberOfIslands-1;
     }
 
 }

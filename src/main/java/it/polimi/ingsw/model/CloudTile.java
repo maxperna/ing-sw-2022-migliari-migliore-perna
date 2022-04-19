@@ -58,6 +58,8 @@ public class CloudTile {
     /**
      * constructor
      */
-    public CloudTile(){};
+    public CloudTile(int ID){
+        this.tileID = ID;
+    };
 
 }

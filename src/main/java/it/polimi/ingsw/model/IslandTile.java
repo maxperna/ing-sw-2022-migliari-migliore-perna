@@ -75,7 +75,7 @@ public class IslandTile implements StudentManager {
 
     /**
      * method to add student
-     * @param student pawn to add on the island
+     * @param student pawn to be added on the island
      */
     public void addStudent(Color student) {
         students.add(student);
