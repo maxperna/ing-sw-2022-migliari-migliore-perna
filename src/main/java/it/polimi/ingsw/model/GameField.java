@@ -2,7 +2,6 @@ package it.polimi.ingsw.model;
 
 
 import it.polimi.ingsw.circularLinkedList.IslandList;
-import it.polimi.ingsw.circularLinkedList.Node;
 import it.polimi.ingsw.exceptions.EndGameException;
 import it.polimi.ingsw.exceptions.NotEnoughElements;
 
@@ -57,6 +56,15 @@ public class GameField{
         }
 
         islandList.addIslands(islandTiles);
+
+        //choose a random number between the two possibilities
+        ArrayList<Integer> randomFromSet = new ArrayList<>();
+        randomFromSet.add(noStudentTile);
+        randomFromSet.add(noStudentTile * 2);
+        Collections.shuffle(randomFromSet);
+
+        islandList.getIsland(randomFromSet.get(0)).setMotherNature();
+
         this.islands = islandList;
 
     }
@@ -99,7 +107,7 @@ public class GameField{
     }
 
     public void moveToIsland(int ID) {
-        islands.moveToIsland(ID);
+        islands.getIsland(ID);
     }
 
 }

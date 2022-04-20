@@ -65,6 +65,9 @@ class GameManagerTest {
             //ChecksGameField
             assertNotNull(GameManager.getInstance().getGame(i).getGameField());
 
+            //ChecksMotherNature
+
+
             switch (GameManager.getInstance().getGame(i).getPlayersList().size()) {
 
                 case 2: {
