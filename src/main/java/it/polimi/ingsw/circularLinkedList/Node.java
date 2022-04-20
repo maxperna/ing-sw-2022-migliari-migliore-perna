@@ -65,7 +65,7 @@ public class Node {
     /**
      * @return the ArrayList of islands, used when addIslands is called by mergeIslands
      */
-    public ArrayList<IslandTile> getIslands() {
+    public ArrayList<IslandTile> getIslandsTile() {
         return this.islands;
     }
 

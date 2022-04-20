@@ -59,7 +59,7 @@ public class IslandList {
     public void mergeIslands(int newMergedIsland, int islandToMerge) throws EndGameException {                          //not "tested"
         Node newIsland = this.getIsland(newMergedIsland);
         Node oldIsland = this.getIsland(islandToMerge);
-        newIsland.addIslands(oldIsland.getIslands());                                                                   //instruction to add islands from the node we intend to merge to the final one
+        newIsland.addIslands(oldIsland.getIslandsTile());                                                                   //instruction to add islands from the node we intend to merge to the final one
         newIsland.setNextNode(oldIsland.getNextNode());                                                                 //new island's next node becomes merged island's next node
         newIsland.getNextNode().setPreviousNode(newIsland);                                                             //merged island's next node stores into previous node the pointer to the new node
         if (this.islandCounter(this.head) == 3)
@@ -119,7 +119,7 @@ public class IslandList {
 
         Node startingNode = this.head;                                                                                  //set the startingNode
         while (startingNode.getNextNode() != head) {                                                                    //checks that we have nodes left to visit
-            for (IslandTile island : startingNode.getIslands()) {                                                       //for loop to move through all the IslandTile in each node
+            for (IslandTile island : startingNode.getIslandsTile()) {                                                       //for loop to move through all the IslandTile in each node
                 if (island.getID() == islandID)
                     island.addStudent(student);                                                                         //calls addStudent from IslandTile
             }
@@ -181,8 +181,8 @@ public class IslandList {
         boolean found=false;
         int index=0;
         while (startingNode.getNextNode() != head && !found) {                                                          //iterates through all the nodes
-            while(index<startingNode.getIslands().size() && !found){                                                    //iterates through all the islands
-                if (startingNode.getIslands().get(index).getID() == ID)
+            while(index<startingNode.getIslandsTile().size() && !found){                                                    //iterates through all the islands
+                if (startingNode.getIslandsTile().get(index).getID() == ID)
                     found = true;
                 index++;
             }

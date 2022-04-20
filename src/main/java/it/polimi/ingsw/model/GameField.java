@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 
 import it.polimi.ingsw.circularLinkedList.IslandList;
+import it.polimi.ingsw.circularLinkedList.Node;
 import it.polimi.ingsw.exceptions.EndGameException;
 import it.polimi.ingsw.exceptions.NotEnoughElements;
 
@@ -44,7 +45,7 @@ public class GameField{
         for (int i = 1; i <= Game.MAX_TILE; i++) {
             IslandTile tile = new IslandTile(i);
 
-            if ((i != noStudentTile) & (i != noStudentTile * 2)) {
+            if ((i != noStudentTile) & (i != noStudentTile + 6)) {
                 try {
                     tile.setStudents(GameManager.drawFromPool(1, studentToBePlaced));
                 } catch (NotEnoughElements e) {
@@ -60,7 +61,7 @@ public class GameField{
         //choose a random number between the two possibilities
         ArrayList<Integer> randomFromSet = new ArrayList<>();
         randomFromSet.add(noStudentTile);
-        randomFromSet.add(noStudentTile * 2);
+        randomFromSet.add(noStudentTile + 6);
         Collections.shuffle(randomFromSet);
 
         islandList.getIsland(randomFromSet.get(0)).setMotherNature();
@@ -88,7 +89,7 @@ public class GameField{
         islands.moveMotherNature(moves);
     }
 
-    public IslandList getIslands() {
+    public IslandList getIslandList() {
         return islands;
     }
 
@@ -106,8 +107,8 @@ public class GameField{
         this.numberOfIslands = numberOfIslands-1;
     }
 
-    public void moveToIsland(int ID) {
-        islands.getIsland(ID);
+    public Node getIsland(int ID) {
+        return islands.getIsland(ID);
     }
 
 }
