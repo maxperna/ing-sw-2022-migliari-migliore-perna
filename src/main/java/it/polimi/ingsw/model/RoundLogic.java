@@ -32,7 +32,7 @@ public class RoundLogic {
 
     /**Method to define round order after the preparation phase comparing played cards action number
      * */
-    public void defineRoundOrders(){
+    private void defineRoundOrders(){
 
         //sorting the list from the highest action number to the lowest for a matter comfort
         List<Card> roundCards = new ArrayList<>(cardsPlayed.keySet());
@@ -56,6 +56,11 @@ public class RoundLogic {
         if(!this.cardsPlayed.containsKey(playedCard))
             this.cardsPlayed.put(playedCard,player);
         else throw new CardAlreadyPlayed("Another player already used this card");
+
+        //All players have played their cards
+        if(cardsPlayed.size()==currentGame.NUM_OF_PLAYERS){
+            defineRoundOrders();
+        }
     }
 
     /**Method to set a random players order during the first round of the game or an order based on the last first player
@@ -72,7 +77,7 @@ public class RoundLogic {
                 randomNumber = (randomNumber+1)%currentGame.NUM_OF_PLAYERS;
             }
         }
-        //branch to generate playing order during game base on last round first player
+        //branch to generate playing order during game based on last round first player
         else{
             int index = currentGame.getPlayersList().indexOf(lastRoundFirstPlayer);
             while(this.playersOrders.size()!=currentGame.NUM_OF_PLAYERS){
@@ -92,5 +97,9 @@ public class RoundLogic {
     }
     public Player getActivePlayer(){
         return this.activePlayer;
+    }
+
+    public Queue<Player> getPlayersOrders() {
+        return playersOrders;
     }
 }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import com.google.gson.*;
+import it.polimi.ingsw.exceptions.EndGameException;
 import it.polimi.ingsw.exceptions.InexistentCard;
 
 import java.io.FileNotFoundException;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 public class CardDeck {
 
     private final DeckType deckCharacter;
-    private ArrayList<Card> deck = new ArrayList<>();
+    private final ArrayList<Card> deck = new ArrayList<>();
     private Card lastCardUsed;
 
     /**CardDeck constructor, parse the 10 cards on a JSON file using GSON library for parse JSON file
@@ -26,13 +27,15 @@ public class CardDeck {
 
         //Creating a gson desarialization object
         Gson gson = new Gson();
+
         //JSON reader from file
         FileReader cardJSON = new FileReader("src/main/Assets/cardsJSON.json");
         //Generating a json element and relative json object
         JsonElement cardJSONFile = JsonParser.parseReader(cardJSON);
         JsonObject cardJSONObject = cardJSONFile.getAsJsonObject();
         //Getting back IMG from first field of JSON file
-        String backIMGPath = cardJSONObject.get(this.deckCharacter.getCharactersName()).getAsString();
+        JsonObject backIMG = cardJSONObject.get("deckType").getAsJsonObject();
+        String backIMGPath = backIMG.get(this.deckCharacter.getCharactersName()).getAsString();
         //Getting JSON array of assistant
         JsonArray assistantsJSONArray = cardJSONObject.get("assistantProfile").getAsJsonArray();
 
@@ -60,7 +63,9 @@ public class CardDeck {
         return lastCardUsed;
     }
 
-    public Card playCard(Card cardToPlay) throws InexistentCard {
+    public Card playCard(Card cardToPlay) throws InexistentCard, EndGameException {
+        if(deck.size()==0)
+            throw new EndGameException("No more cards in the deck");
         if(deck.remove(cardToPlay)){
             lastCardUsed = cardToPlay;
             return cardToPlay;

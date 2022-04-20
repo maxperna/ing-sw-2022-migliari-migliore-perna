@@ -58,7 +58,6 @@ public class GameField{
 
         islandList.addIslands(islandTiles);
         this.islands = islandList;
-
     }
 
     public void mergeIsland(int newMergedIsland, int islandToBeMerged) throws InvalidParameterException {
