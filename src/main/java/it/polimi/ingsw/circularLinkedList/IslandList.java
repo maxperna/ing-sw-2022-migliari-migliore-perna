@@ -177,7 +177,9 @@ public class IslandList {
     public Node getIsland(int ID) throws InvalidParameterException{
         if(ID>12 || ID<1)
             throw new InvalidParameterException();
-        Node startingNode = this.head;
+        head = this.getMotherNature();
+        Node startingNode = head;
+        startingNode.resetMotherNature();
         boolean found=false;
         int index=0;
         while (startingNode.getNextNode() != head && !found) {                                                          //iterates through all the nodes
@@ -188,6 +190,7 @@ public class IslandList {
             }
             startingNode = startingNode.getNextNode();
         }
+        startingNode.setMotherNature();
         return startingNode;                                                                                            //returns the node containing the island that matches the given ID
     }
 }
