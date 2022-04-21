@@ -23,7 +23,7 @@ public class IslandList {
      */
     public void addIslands(ArrayList<IslandTile> islands) {
         for (int i = 0; i < islands.size(); i++) {
-            Node newIsland = new Node(islands.get(i));
+            Node newIsland = new Node(islands.get(islands.size()-1-i));
             newIsland.setNextNode(this.head);                                                                           //insert new node before all the nodes in the linked list
             newIsland.setPreviousNode(null);
 
@@ -57,9 +57,9 @@ public class IslandList {
      * @throws EndGameException when there are exactly 3(?) islands left inside the list
      */
     public void mergeIslands(int newMergedIsland, int islandToMerge) throws EndGameException {                          //not "tested"
-        Node newIsland = this.moveToIsland(newMergedIsland);
-        Node oldIsland = this.moveToIsland(islandToMerge);
-        newIsland.addIslands(oldIsland.getIslands());                                                                   //instruction to add islands from the node we intend to merge to the final one
+        Node newIsland = this.getIslandNode(newMergedIsland);
+        Node oldIsland = this.getIslandNode(islandToMerge);
+        newIsland.addIslands(oldIsland.getIslandTiles());                                                                   //instruction to add islands from the node we intend to merge to the final one
         newIsland.setNextNode(oldIsland.getNextNode());                                                                 //new island's next node becomes merged island's next node
         newIsland.getNextNode().setPreviousNode(newIsland);                                                             //merged island's next node stores into previous node the pointer to the new node
         if (this.islandCounter(this.head) == 3)
@@ -76,11 +76,11 @@ public class IslandList {
         int counter = 0;                                                                                                //counter variable to count the number of nodes inside the linked list
         Node startingNode = head;                                                                                       //new node to move through the linked list
 
-        while (startingNode.getNextNode() != null && startingNode.getNextNode() != head) {                              //cycle to move through the linked list, used to check number of nodes inside the list with counter variable
+        while (startingNode.getNextNode() != null && !startingNode.getNextNode().equals(head)) {                              //cycle to move through the linked list, used to check number of nodes inside the list with counter variable
             counter++;
             startingNode = startingNode.getNextNode();
         }
-        return counter;
+        return counter++;
     }
 
     /**
@@ -119,7 +119,7 @@ public class IslandList {
 
         Node startingNode = this.head;                                                                                  //set the startingNode
         while (startingNode.getNextNode() != head) {                                                                    //checks that we have nodes left to visit
-            for (IslandTile island : startingNode.getIslands()) {                                                       //for loop to move through all the IslandTile in each node
+            for (IslandTile island : startingNode.getIslandTiles()) {                                                       //for loop to move through all the IslandTile in each node
                 if (island.getID() == islandID)
                     island.addStudent(student);                                                                         //calls addStudent from IslandTile
             }
@@ -150,7 +150,7 @@ public class IslandList {
      * method used to move motherNature, can be used to randomly select the starting island
      * @param moves number of islands that motherNature will move through
      */
-    public void moveMotherNature(int moves) {
+    public void moveMotherNatureWithGivenMoves(int moves) {
         Node head = this.getMotherNature();                                                                             //starting from the head, it will have the motherNature flag on
         head.resetMotherNature();                                                                                       //reset the motherNature flag
         for(int index = 0; index<moves; index++) {                                                                      //move until we reach the desired island
@@ -170,23 +170,86 @@ public class IslandList {
     }
 
     /**
-     * method used to get the Node containing the island Tile with a given islandID
+     * method used to set motherNature flag of the node that contains the islandTile that matches the given ID
      * @param ID is the identifier for the island Tile
      * @return a Node containing the selected island Tile
      */
-    public Node moveToIsland(int ID) throws InvalidParameterException{
+    public void moveMotherNatureToIslandTile(int ID) throws InvalidParameterException{
         if(ID>12 || ID<1)
             throw new InvalidParameterException();
-        Node startingNode = this.head;
+        head = this.getMotherNature();
+        Node startingNode = head;
+        startingNode.resetMotherNature();
         boolean found=false;
         int index=0;
         while (startingNode.getNextNode() != head && !found) {                                                          //iterates through all the nodes
-            while(index<startingNode.getIslands().size() && !found){                                                    //iterates through all the islands
-                if (startingNode.getIslands().get(index).getID() == ID)
+            while(index<startingNode.getIslandTiles().size()){                                                //iterates through all the islands
+                if (startingNode.getIslandTiles().get(index).getID() == ID)
                     found = true;
+                index++;
             }
+            if(found)
+                break;
+            index = 0;
+            startingNode = startingNode.getNextNode();
+        }
+        startingNode.setMotherNature();
+    }
+
+    /**
+     * method used to get the node containing the islandTile that matches the given ID
+     * @param ID is the ID of the given islandTile
+     * @return the node containing the said islandTile
+     * @throws InvalidParameterException when ID in out of range 1-12
+     */
+    public Node getIslandNode(int ID) throws InvalidParameterException{
+        if(ID>12 || ID<1)
+            throw new InvalidParameterException();
+        head = this.getMotherNature();
+        Node startingNode = head;
+        boolean found=false;
+        int index=0;
+        while (startingNode.getNextNode() != head && !found) {                                                          //iterates through all the nodes
+            while(index<startingNode.getIslandTiles().size()){                                                //iterates through all the islands
+                if (startingNode.getIslandTiles().get(index).getID() == ID)
+                    found = true;
+                index++;
+            }
+            if(found)
+                break;
+            index = 0;
+            startingNode = startingNode.getNextNode();
         }
         return startingNode;                                                                                            //returns the node containing the island that matches the given ID
     }
+
+    /**
+     * method used to get the arrayList of islandTile containing the islandTile that matches the given ID
+     * @param ID
+     * @return
+     * @throws InvalidParameterException when ID is out of range 1-12
+     */
+    public ArrayList<IslandTile> getArrayListOfIslandTile(int ID) throws InvalidParameterException{
+        if(ID>12 || ID<1)
+            throw new InvalidParameterException();
+        head = this.getMotherNature();
+        Node startingNode = head;
+        boolean found=false;
+        int index=0;
+        while (startingNode.getNextNode() != head && !found) {
+            while(index<startingNode.getIslandTiles().size()){
+                if (startingNode.getIslandTiles().get(index).getID() == ID)
+                    found = true;
+                index++;
+            }
+            if(found)
+                break;
+            index = 0;
+            startingNode = startingNode.getNextNode();
+        }
+        return startingNode.getIslandTiles();
+    }
 }
+
+
 

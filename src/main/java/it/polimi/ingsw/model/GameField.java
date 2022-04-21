@@ -60,6 +60,12 @@ public class GameField{
         this.islands = islandList;
     }
 
+    /**
+     * method used to call mergeIsland giving 2 islandID
+     * @param newMergedIsland ID of the remaining island
+     * @param islandToBeMerged ID of the island that will be merged into the remaining one
+     * @throws InvalidParameterException when ID is not in range 1-12
+     */
     public void mergeIsland(int newMergedIsland, int islandToBeMerged) throws InvalidParameterException {
         if (newMergedIsland < 1 || newMergedIsland > 12 || islandToBeMerged < 1 || islandToBeMerged > 12)               //checks that the islandID is valid
             throw new InvalidParameterException();
@@ -71,15 +77,35 @@ public class GameField{
         }
     }
 
-    public void rechargeCloud(ArrayList<Color> students, int ID){
-        cloudTiles.get(ID).rechargeCloud(students);
+    /**
+     * method used to recharge a cloud given its ID and an arrayList of students
+     * @param students will be moved inside the cloud
+     * @param cloudID is the ID of the cloudTile that will be recharged
+     */
+    public void rechargeCloud (ArrayList<Color> students, int cloudID) throws InvalidParameterException{
+        if(cloudID<0 || cloudID>=this.cloudTiles.size())
+            throw new InvalidParameterException();
+        else
+            cloudTiles.get(cloudID).rechargeCloud(students);
     }
 
-    public void moveMotherNature(int moves){
-        islands.moveMotherNature(moves);
+    /**
+     * method that moves MotherNature to an island that is at a certain number of moves apart from the previous position
+     * @param moves
+     */
+    public void moveMotherNatureWithGivenMoves(int moves){
+        islands.moveMotherNatureWithGivenMoves(moves);
     }
 
-    public IslandList getIslands() {
+    /**
+     * method that moves motherNature to a specified island
+     * @param islandID
+     */
+    public void moveMotherNatureToAGivenIsland (int islandID) {
+        islands.moveMotherNatureToIslandTile(islandID);
+    }
+
+    public IslandList getIslandList() {
         return islands;
     }
 
@@ -97,8 +123,38 @@ public class GameField{
         this.numberOfIslands = numberOfIslands-1;
     }
 
-    public void moveToIsland(int ID) {
-        islands.moveToIsland(ID);
+    /**
+     * method that returns the Node that contains the islandTile with the given ID
+     * @param islandTileID
+     * @return
+     */
+    public Node getIslandNode(int islandTileID) {
+        return islands.getIslandNode(islandTileID);
+    }
+
+    /**
+     * method that returns the islandTile that matches the given ID
+     * @param islandTileID
+     * @return
+     */
+    public ArrayList<IslandTile> getArrayListOfIslandTile(int islandTileID) {
+        return this.getIslandList().getArrayListOfIslandTile(islandTileID);
+    }
+
+    /**
+     * method that returns the ArrayList of islandTile inside the node with motherNature on
+     * @return
+     */
+    public ArrayList<IslandTile> getMotherNatureArrayList() {
+        return this.getIslandList().getMotherNature().getIslandTiles();
+    }
+
+    /**
+     * method that returns the Node containing motherNature
+     * @return
+     */
+    public Node getMotherNatureNode() {
+        return this.getIslandList().getMotherNature();
     }
 
 }

@@ -56,68 +56,95 @@ class GameManagerTest {
         try {
             GameManager.getInstance().startGame(gameMode);
             assertNotNull(GameManager.getInstance().getGamesList());
-        } catch (IllegalArgumentException e) {
-            System.out.println("Illegal argument " + "'" + gameMode + "'");
-        }
 
-        for (int i = 0; i < GameManager.getInstance().getGamesList().size(); i++) {
+            for (int i = 0; i < GameManager.getInstance().getGamesList().size(); i++) {
 
-            //ChecksGameField
-            assertNotNull(GameManager.getInstance().getGame(i).getGameField());
+                int motherNatureTile = 0;
 
-            switch (GameManager.getInstance().getGame(i).getPlayersList().size()) {
+                //ChecksGameField
+                assertNotNull(GameManager.getInstance().getGame(i).getGameField());
 
-                case 2: {
 
-                    //Checks Players
-                    assertEquals(TwoPlayers.numberOfPlayers, GameManager.getInstance().getGame(i).getPlayersList().size());
+//                //ChecksMotherNature
+//                ArrayList<Integer> counter = new ArrayList<>();
+//                for(int j = 1; j <= Game.MAX_TILE; j ++)
+//                {
+//
+//                    if(GameManager.getInstance().getGame(i).getGameField().getIsland(j).checkMotherNature()) {
+//                        motherNatureTile = j;
+//                    }
+//
+//                    if(GameManager.getInstance().getGame(i).getGameField().getIsland(j).getIslandsTile().get(0).getStudents().size() == 0)
+//                        counter.add(j);
+//                }
+//
+//
+//                if(motherNatureTile == 0)
+//                    System.out.println("MotherNature not Found\n");
+//
+//                if(motherNatureTile <= 6)
+//                    assertEquals(0, GameManager.getInstance().getGame(i).getGameField().getIsland(motherNatureTile + 6).getIslandsTile().get(0).getStudents().size());
+//
+//                if(motherNatureTile > 6)
+//                    assertEquals(0, GameManager.getInstance().getGame(i).getGameField().getIsland(motherNatureTile - 6).getIslandsTile().get(0).getStudents().size());
 
-                    for (Player currentPlayer : GameManager.getInstance().getGame(i).getPlayersList()) {
-                        assertEquals(TwoPlayers.maxStudentHall, currentPlayer.getBoard().getStudentsOutside().size());
-                        assertEquals(TwoPlayers.maxTowers, currentPlayer.getBoard().getTowers().size());
+
+                switch (GameManager.getInstance().getGame(i).getPlayersList().size()) {
+
+                    case 2: {
+
+                        //Checks Players
+                        assertEquals(TwoPlayers.numberOfPlayers, GameManager.getInstance().getGame(i).getPlayersList().size());
+
+                        for (Player currentPlayer : GameManager.getInstance().getGame(i).getPlayersList()) {
+                            assertEquals(TwoPlayers.maxStudentHall, currentPlayer.getBoard().getStudentsOutside().size());
+                            assertEquals(TwoPlayers.maxTowers, currentPlayer.getBoard().getTowers().size());
+                        }
+
+                        //Checks CloudTile
+                        assertEquals(TwoPlayers.numberOfPlayers, GameManager.getInstance().getGame(i).getGameField().getCloudsTile().size());
+
+                        break;
                     }
 
-                    //Checks CloudTile
-                    assertEquals(TwoPlayers.numberOfPlayers, GameManager.getInstance().getGame(i).getGameField().getCloudsTile().size());
+                    case 4: {
 
-                    break;
-                }
+                        //Checks Players
+                        assertEquals(FourPlayers.numberOfPlayers, GameManager.getInstance().getGame(i).getPlayersList().size());
 
-                case 4: {
+                        for (Player currentPlayer : GameManager.getInstance().getGame(i).getPlayersList()) {
+                            assertEquals(FourPlayers.maxStudentHall, currentPlayer.getBoard().getStudentsOutside().size());
+                            assertEquals(FourPlayers.maxTowers, currentPlayer.getBoard().getTowers().size());
+                        }
 
-                    //Checks Players
-                    assertEquals(FourPlayers.numberOfPlayers, GameManager.getInstance().getGame(i).getPlayersList().size());
+                        //Checks CloudTile
+                        assertEquals(FourPlayers.numberOfPlayers, GameManager.getInstance().getGame(i).getGameField().getCloudsTile().size());
 
-                    for (Player currentPlayer : GameManager.getInstance().getGame(i).getPlayersList()) {
-                        assertEquals(FourPlayers.maxStudentHall, currentPlayer.getBoard().getStudentsOutside().size());
-                        assertEquals(FourPlayers.maxTowers, currentPlayer.getBoard().getTowers().size());
+
+                        break;
                     }
 
-                    //Checks CloudTile
-                    assertEquals(FourPlayers.numberOfPlayers, GameManager.getInstance().getGame(i).getGameField().getCloudsTile().size());
+                    case 3: {
 
+                        //Checks Players
+                        assertEquals(ThreePlayers.numberOfPlayers, GameManager.getInstance().getGame(i).getPlayersList().size());
 
-                    break;
-                }
+                        for (Player currentPlayer : GameManager.getInstance().getGame(i).getPlayersList()) {
+                            assertEquals(ThreePlayers.maxStudentHall, currentPlayer.getBoard().getStudentsOutside().size());
+                            assertEquals(ThreePlayers.maxTowers, currentPlayer.getBoard().getTowers().size());
+                        }
 
-                case 3: {
+                        //Checks CloudTile
+                        assertEquals(ThreePlayers.numberOfPlayers, GameManager.getInstance().getGame(i).getGameField().getCloudsTile().size());
 
-                    //Checks Players
-                    assertEquals(ThreePlayers.numberOfPlayers, GameManager.getInstance().getGame(i).getPlayersList().size());
-
-                    for (Player currentPlayer : GameManager.getInstance().getGame(i).getPlayersList()) {
-                        assertEquals(ThreePlayers.maxStudentHall, currentPlayer.getBoard().getStudentsOutside().size());
-                        assertEquals(ThreePlayers.maxTowers, currentPlayer.getBoard().getTowers().size());
+                        break;
                     }
 
-                    //Checks CloudTile
-                    assertEquals(ThreePlayers.numberOfPlayers, GameManager.getInstance().getGame(i).getGameField().getCloudsTile().size());
-
-                    break;
                 }
 
             }
-
+        } catch (IllegalArgumentException e) {
+            System.out.println("Illegal argument " + "'" + gameMode + "'");
         }
 
     }
