@@ -16,6 +16,7 @@ public class Node {
     private Node prev = null;
     private Color mostInfluencePlayer;
     private boolean motherNature = false;
+    public int ID; //da togliere, solo per il test
 
     /**
      * method to set the previous node of a given node in the linked list
@@ -37,9 +38,10 @@ public class Node {
      * constructor for the Node class
      * @param newIsland is the object that we insert in the ArrayList of IslandTile
      */
-    public Node(IslandTile newIsland) {
+    public Node(IslandTile newIsland, int ID) {
         islands = new ArrayList<>();
         islands.add(newIsland);
+        this.ID = ID; //da togliere, solo per il test
     }
 
     /**

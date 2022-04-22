@@ -23,7 +23,7 @@ public class IslandList {
      */
     public void addIslands(ArrayList<IslandTile> islands) {
         for (int i = 0; i < islands.size(); i++) {
-            Node newIsland = new Node(islands.get(islands.size()-1-i));
+            Node newIsland = new Node(islands.get(islands.size()-1-i), islands.size()-i);  //secondo parametro da togliere, solo per il test
             newIsland.setNextNode(this.head);                                                                           //insert new node before all the nodes in the linked list
             newIsland.setPreviousNode(null);
 
@@ -56,7 +56,9 @@ public class IslandList {
      * @param islandToMerge   is the island whose information is going to be moved inside the other island, this one will be cancelled by garbage collector
      * @throws EndGameException when there are exactly 3(?) islands left inside the list
      */
-    public void mergeIslands(int newMergedIsland, int islandToMerge) throws EndGameException {                          //not "tested"
+    public void mergeIslands (int newMergedIsland, int islandToMerge) throws EndGameException, InvalidParameterException {                          //not "tested"
+        if(!(this.getIslandNode(newMergedIsland).getNextNode().equals(this.getIslandNode(islandToMerge)) || this.getIslandNode(newMergedIsland).getPreviousNode().equals(this.getIslandNode(islandToMerge))))
+            throw new InvalidParameterException();
         Node newIsland = this.getIslandNode(newMergedIsland);
         Node oldIsland = this.getIslandNode(islandToMerge);
         newIsland.addIslands(oldIsland.getIslandTiles());                                                                   //instruction to add islands from the node we intend to merge to the final one
