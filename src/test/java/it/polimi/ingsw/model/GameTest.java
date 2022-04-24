@@ -11,8 +11,6 @@ class GameTest {
 
         Game game = new Game(2, 1, 1);
 
-
-
         assertNotNull(game.getGameID());
     }
 
