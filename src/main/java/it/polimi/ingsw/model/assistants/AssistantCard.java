@@ -1,14 +1,13 @@
 package it.polimi.ingsw.model.assistants;
 
-public class AssistantCard extends Assistant{
+/**Interface defying the behavior of an assistant card
+*@Author Massimo
+*/
+public interface AssistantCard {
 
-    @Override
-    public void ApplyEffect() {
+    public void useCard();
 
-    }
+    public void endEffect();
 
-    @Override
-    public void EndEffect() {
-
-    }
+    public int getCost();
 }

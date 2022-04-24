@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exceptions.CardAlreadyPlayed;
 import it.polimi.ingsw.model.strategy.ThreePlayers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,33 +12,67 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class RoundLogicTest{
 
-    @Test
+    private static final ThreePlayers gameGenerator = new ThreePlayers();
+    private static final Game gameParameter = gameGenerator.generateGame();
+
+
+
     @DisplayName("Testing round orders generators")
     @ParameterizedTest
-    @MethodSource("testParameters")
-    public void RoundOrderTest(){
+    @MethodSource("roundOrderTestParameters")
+    public void RoundOrderTest(RoundLogic roundTest,ArrayList<Player> playersTest, ArrayList<Board> boardsTest, ArrayList<Card> cardsTest){
 
+        int i = 0; //index variable
+        //test round orders
+        for(Player player: playersTest){
+            try {
+                roundTest.setPlayedCard(cardsTest.get(i), player);
+            }
+            catch(CardAlreadyPlayed e){
+                e.printStackTrace();
+                fail();
+            }
+            i++;
+        }
+        //Verify round orders
+        Queue<Player> playerCorrectOrder = new LinkedList<>();
+        playerCorrectOrder.add(playersTest.get(1));
+        playerCorrectOrder.add(playersTest.get(0));
+        playerCorrectOrder.add(playersTest.get(2));
+
+        assertEquals(playerCorrectOrder,roundTest.getPlayersOrders());
 
     }
 
-    private static Stream<Arguments> testParameters() {
+    @Test
+    public void GeneratePlayingOrderTest(){
+        RoundLogic roundTest = new RoundLogic(gameParameter);
+        roundTest.generatePlayingOrder();
+       Queue<Player> playersOrders =  roundTest.getPlayersOrders();
+
+    }
+
+
+    private static Stream<Arguments> roundOrderTestParameters() {
         //Game instance test
         //RoundLogic test instance
 
         //Cards set for test
-        Card card1 = new Card(1, 2, "a", "b");
-        Card card2 = new Card(4, 2, "a", "b");
+        Card card1 = new Card(4, 2, "a", "b");
+        Card card2 = new Card(1, 2, "a", "b");
         Card card3 = new Card(7, 2, "a", "b");
 
         ArrayList<Card> cardParameters = new ArrayList<>();
         Collections.addAll(cardParameters, card1, card2, card3);
 
-        ThreePlayers gameGenerator = new ThreePlayers();
-        Game gameParameter = gameGenerator.generateGame();
         RoundLogic roundLogicTest = new RoundLogic(gameParameter);
 
         ArrayList<Player> playersParameters = gameParameter.getPlayersList();
@@ -48,14 +83,11 @@ public class RoundLogicTest{
         }
 
         return Stream.of(
-                Arguments.of(gameParameter),
-                Arguments.of(roundLogicTest),
-                Arguments.of(playersParameters),
-                Arguments.of(boardsParameters),
-                Arguments.of(cardParameters)
+                Arguments.of(roundLogicTest,playersParameters,boardsParameters,cardParameters)
         );
 
     }
+
 }
 
 

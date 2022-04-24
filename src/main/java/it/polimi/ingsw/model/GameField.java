@@ -17,6 +17,7 @@ public class GameField{
     private int numberOfIslands = 12;
     private final Pouch pouch;
     private final ArrayList<CloudTile> cloudTiles;
+    private int coins = 20;    //num of coin
 
     public  GameField(UUID gameID, int numberOfPlayers) {
 
@@ -161,6 +162,13 @@ public class GameField{
         return this.getIslandList().getMotherNature().getIslandTiles();
     }
 
+    /**Method that modify the amount of coin on the gamefield due to a draw by a player
+     * @param quantity amount of money to add or remove
+     * */
+    public void setCoins(int quantity){
+        this.coins = this.coins + quantity;
+    }
+
     /**
      * method that returns the Node containing motherNature
      * @return
@@ -168,5 +176,11 @@ public class GameField{
     public Node getMotherNatureNode() {
         return this.getIslandList().getMotherNature();
     }
+
+    public int getCoins() {
+        return coins;
+    }
+
+
 
 }

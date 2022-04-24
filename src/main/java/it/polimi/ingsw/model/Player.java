@@ -9,11 +9,13 @@ public class Player {
     private final UUID playerID;
     private Board board;
     private CardDeck deck;
+    private int numOfCoin;
 
     public Player (Board board) {
 
         this.playerID = UUID.randomUUID();
         this.board = board;
+        this.numOfCoin = 1;
     }
 
     public String getNickname(){
@@ -34,6 +36,10 @@ public class Player {
     public void setDeck()
     {
 
+    }
+
+    public void addCoin(int quantity){
+        this.numOfCoin = this.numOfCoin + quantity;
     }
 
 }

@@ -33,7 +33,7 @@ public class Game {
 
         //Crea un nuovo array di giocatori che verra popolato e poi restituito
         ArrayList<Player> playersCreated = new ArrayList<>();
-
+        this.gameField.setCoins(-numberOfPlayers);
         switch (numberOfPlayers) {
 
             case 2: {

@@ -20,8 +20,8 @@ public class Board implements StudentManager {
     private final TowerColor towerColor;
     private final UUID gameID;
     private ArrayList<Color> studentsOutside;    //list of student in the outer room
-    private Map<Color,Integer> lectureHall;      //list of student for each color inside the main hall
-    private Map<Color, Boolean> teachers;       //map to signal the presence of a teacher on the board
+    private final Map<Color,Integer> lectureHall = new HashMap<>();      //list of student for each color inside the main hall
+    private final Map<Color, Boolean> teachers = new HashMap<>();       //map to signal the presence of a teacher on the board
     private ArrayList<TowerColor> towers;  //number of towers on the board
 
 
@@ -30,8 +30,6 @@ public class Board implements StudentManager {
         this.gameID = gameID;         //thread safe auto generated ID
         this.maxStudentHall = maxStudentHall;
         this.maxTowers = maxTowers;
-        this.lectureHall = new HashMap<>();
-        this.teachers = new HashMap<>();
         this.towerColor = towerColor;
 
         try {
@@ -54,8 +52,6 @@ public class Board implements StudentManager {
         this.gameID = gameID;         //thread safe auto generated ID
         this.maxStudentHall = maxStudentHall;
         this.maxTowers = maxTowers;
-        this.lectureHall = new HashMap<>();
-        this.teachers = new HashMap<>();
         this.towerColor = towerColor;
         this.towers = towers;
 
@@ -115,6 +111,10 @@ public class Board implements StudentManager {
         else{
             studentsOutside.remove(color);
             lectureHall.put(color,lectureHall.get(color)+1);       //add a student of a color after removing it
+            /*Coin add if on 3,6,9th space
+            if(lectureHall.get(color)%3==0 && lectureHall.get(color)!=0){
+                observer for add coin
+            }*/
 
         }
     }
@@ -125,6 +125,11 @@ public class Board implements StudentManager {
      */
     public void moveToIsland(Color color, IslandTile targetIsland) throws NotOnBoardException{
         if(!studentsOutside.contains(color)) throw new NotOnBoardException();
+        else{
+            studentsOutside.remove(color);
+            targetIsland.addStudent(color);
+        }
+
     }
 
     /**Method to move a tower from the hall to an island

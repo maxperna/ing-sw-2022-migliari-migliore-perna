@@ -10,8 +10,8 @@ import java.util.*;
 public class RoundLogic {
     private final Game currentGame;   //game associated to round logic
     private int roundID;     //specific round roundLogic is referring to
-    private final Map<Card,Player> cardsPlayed = new HashMap<>();
-    private final Queue<Player> playersOrders = new LinkedList<>();  //Players order is a FIFO structure
+    private final Map<Integer,Player> cardsPlayed = new HashMap<>();
+    private final Queue<Player> playersOrders = new LinkedList<>();  //Players order is a FIFO structure(both for playing orders and action phase)
     private Player lastRoundFirstPlayer;       //first player to play last round, used to define the starting point of the round
     private Player activePlayer;     //current active player
 
@@ -33,28 +33,25 @@ public class RoundLogic {
     /**Method to define round order after the preparation phase comparing played cards action number
      * */
     private void defineRoundOrders(){
-
+        playersOrders.clear();
         //sorting the list from the highest action number to the lowest for a matter comfort
-        List<Card> roundCards = new ArrayList<>(cardsPlayed.keySet());
-        roundCards.sort((a1, a2) -> {
-            if (a1.getActionNumber()>a2.getActionNumber()) return 1;
-            else return 0;
-        });
+        List<Integer> roundCards = new ArrayList<>(cardsPlayed.keySet());
+        Collections.sort(roundCards);
 
-        for(Card card:roundCards){
+        for(Integer card:roundCards){
             this.playersOrders.add(cardsPlayed.get(card));
         }
 
     }
 
-    /**Method to keep track of the played card during a round preparation phase
+    /**Method to keep track of the played card during a round preparation phase, inserting by their action number
      * @param playedCard card used by a certain player
      * @param player player who used the card
      * @exception CardAlreadyPlayed if a player try to use a card already used by another player within the same round
      */
     public void setPlayedCard(Card playedCard,Player player) throws CardAlreadyPlayed {
-        if(!this.cardsPlayed.containsKey(playedCard))
-            this.cardsPlayed.put(playedCard,player);
+        if(!this.cardsPlayed.containsKey(playedCard.getActionNumber()))
+            this.cardsPlayed.put(playedCard.getActionNumber(),player);
         else throw new CardAlreadyPlayed("Another player already used this card");
 
         //All players have played their cards
