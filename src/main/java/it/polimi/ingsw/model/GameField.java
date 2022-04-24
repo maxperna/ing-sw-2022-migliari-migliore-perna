@@ -22,12 +22,14 @@ public class GameField{
 
         this.pouch = Pouch.getInstance(gameID);
 
+        //creates cloudTiles
         ArrayList <CloudTile> cloudTileList = new ArrayList <>();
         for (int i = 0; i < numberOfPlayers; i++) {
             cloudTileList.add(new CloudTile(i));
         }
         this.cloudTiles = cloudTileList;
 
+        //Initialize students on the board
         ArrayList <Color> studentToBePlaced = new ArrayList <>();
         for (int j = 0; j < 2; j++) {
             studentToBePlaced.add(Color.RED);
@@ -40,12 +42,13 @@ public class GameField{
 
         int noStudentTile = (int) Math.floor(Math.random() * (6) + 1);
 
+        //sets the two island without students with a random number
         IslandList islandList = new IslandList();
         ArrayList <IslandTile> islandTiles = new ArrayList <>();
         for (int i = 1; i <= Game.MAX_TILE; i++) {
             IslandTile tile = new IslandTile(i);
 
-            if ((i != noStudentTile) & (i != noStudentTile * 2)) {
+            if ((i != noStudentTile) & (i != noStudentTile +6)) {
                 try {
                     tile.setStudents(GameManager.drawFromPool(1, studentToBePlaced));
                 } catch (NotEnoughElements e) {
@@ -56,7 +59,16 @@ public class GameField{
             islandTiles.add(tile);
         }
 
+        //sets mother nature randomly in one of the two islands without students
+        ArrayList<Integer> randomSelection = new ArrayList<>();
+        randomSelection.add(noStudentTile);
+        randomSelection.add(noStudentTile + 6);
+        Collections.shuffle(randomSelection);
+
         islandList.addIslands(islandTiles);
+
+        islandList.getIslandNode(randomSelection.get(0)).setMotherNature();
+
         this.islands = islandList;
     }
 

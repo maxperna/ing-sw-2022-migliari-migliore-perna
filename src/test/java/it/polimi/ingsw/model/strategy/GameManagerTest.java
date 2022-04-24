@@ -65,28 +65,23 @@ class GameManagerTest {
                 assertNotNull(GameManager.getInstance().getGame(i).getGameField());
 
 
-//                //ChecksMotherNature
-//                ArrayList<Integer> counter = new ArrayList<>();
-//                for(int j = 1; j <= Game.MAX_TILE; j ++)
-//                {
-//
-//                    if(GameManager.getInstance().getGame(i).getGameField().getIsland(j).checkMotherNature()) {
-//                        motherNatureTile = j;
-//                    }
-//
-//                    if(GameManager.getInstance().getGame(i).getGameField().getIsland(j).getIslandsTile().get(0).getStudents().size() == 0)
-//                        counter.add(j);
-//                }
-//
-//
-//                if(motherNatureTile == 0)
-//                    System.out.println("MotherNature not Found\n");
-//
-//                if(motherNatureTile <= 6)
-//                    assertEquals(0, GameManager.getInstance().getGame(i).getGameField().getIsland(motherNatureTile + 6).getIslandsTile().get(0).getStudents().size());
-//
-//                if(motherNatureTile > 6)
-//                    assertEquals(0, GameManager.getInstance().getGame(i).getGameField().getIsland(motherNatureTile - 6).getIslandsTile().get(0).getStudents().size());
+                //ChecksMotherNature
+
+                for(int j = 1; j <= Game.MAX_TILE; j ++)
+                {
+                    if(GameManager.getInstance().getGame(i).getGameField().getIslandNode(j).checkMotherNature())
+                        motherNatureTile = j;
+
+                }
+
+                if(motherNatureTile == 0)
+                    System.out.println("MotherNature not Found\n");
+
+                if(motherNatureTile <= 6)
+                    assertEquals(0, GameManager.getInstance().getGame(i).getGameField().getArrayListOfIslandTile(motherNatureTile + 6).get(0).getStudents().size());
+
+                if(motherNatureTile > 6)
+                    assertEquals(0, GameManager.getInstance().getGame(i).getGameField().getArrayListOfIslandTile(motherNatureTile - 6).get(0).getStudents().size());
 
 
                 switch (GameManager.getInstance().getGame(i).getPlayersList().size()) {
@@ -181,7 +176,7 @@ class GameManagerTest {
     @MethodSource("provideParameters")
     void shouldDrawFromPool(int testNumber, ArrayList<Color> sampleArray) {
 
-        System.out.println("testNUmber: " + testNumber + " Array: " + sampleArray + "\n");
+        //System.out.println("testNUmber: " + testNumber + " Array: " + sampleArray + "\n");
 
         ArrayList<Color> draw;
         ArrayList<Color> testArray = new ArrayList<>(sampleArray);
