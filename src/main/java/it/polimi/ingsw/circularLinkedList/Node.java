@@ -1,5 +1,6 @@
 package it.polimi.ingsw.circularLinkedList;
 
+import it.polimi.ingsw.exceptions.StoppedIslandException;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.IslandTile;
 
@@ -16,7 +17,8 @@ public class Node {
     private Node prev = null;
     private Color mostInfluencePlayer;
     private boolean motherNature = false;
-    public int ID; //da togliere, solo per il test
+    private boolean stop=false;
+    private int ID;                                                                                                     //da togliere, solo per il test
 
     /**
      * method to set the previous node of a given node in the linked list
@@ -83,31 +85,39 @@ public class Node {
      * method used to update mostInfluencePlayer on this Node by calling the method getMostInfluence
      */
     public void setMostInfluencePlayer() {
-        this.mostInfluencePlayer = this.getMostInfluence();
+        try {
+            this.mostInfluencePlayer = this.getMostInfluence();
+        } catch (StoppedIslandException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
      * method to control the dominant color on an island
      * @return the color of the highest amount of students on the island
      */
-    public Color getMostInfluence() {
-        Color maxColor = null;                                                                                          //declare dominant color as null
-        int maxStudents = 0;                                                                                            //declare max students of dominant color as 0
-        int colorCounter = 0;
-        for (Color actualColor : Color.values()) {                                                                      //iterates for all colors of students
-            for (int island = 0; island < this.islands.size(); island++) {                                              //iterates for all islands in the node
-                ArrayList<Color> students = this.islands.get(island).getStudents();                                     //creates a local copy of all students in the visited island
-                for (int student = 0; student < students.size(); student++) {                                           //iterates for all students in previously declared ArrayList
-                    if (students.get(student).equals(actualColor))                                                      //checks if the student's color matches with current color
-                        colorCounter++;                                                                                 //increases color counter for that color
-                }
-                if (maxStudents < colorCounter) {                                                                       //updates dominant color and number of dominant students values
-                    maxStudents = colorCounter;
-                    maxColor = actualColor;
+    public Color getMostInfluence() throws StoppedIslandException {
+        if(!this.isStopped()) {
+            Color maxColor = null;                                                                                          //declare dominant color as null
+            int maxStudents = 0;                                                                                            //declare max students of dominant color as 0
+            int colorCounter = 0;
+            for (Color actualColor : Color.values()) {                                                                      //iterates for all colors of students
+                for (int island = 0; island < this.islands.size(); island++) {                                              //iterates for all islands in the node
+                    ArrayList<Color> students = this.islands.get(island).getStudents();                                     //creates a local copy of all students in the visited island
+                    for (int student = 0; student < students.size(); student++) {                                           //iterates for all students in previously declared ArrayList
+                        if (students.get(student).equals(actualColor))                                                      //checks if the student's color matches with current color
+                            colorCounter++;                                                                                 //increases color counter for that color
+                    }
+                    if (maxStudents < colorCounter) {                                                                       //updates dominant color and number of dominant students values
+                        maxStudents = colorCounter;
+                        maxColor = actualColor;
+                    }
                 }
             }
+            return maxColor;                                                                                            //returns dominant color
         }
-        return maxColor;                                                                                                //returns dominant color
+        else throw new StoppedIslandException();
+
     }
 
     /**
@@ -126,5 +136,17 @@ public class Node {
 
     public boolean checkMotherNature() {
         return motherNature;
+    }
+
+    public int getNodeID() {
+        return this.ID;
+    }
+
+    public boolean isStopped() {
+        return this.stop;
+    }
+
+    public void stopIsland() {
+        this.stop = true;
     }
 }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.circularLinkedList;
 
 import it.polimi.ingsw.exceptions.EndGameException;
+import it.polimi.ingsw.exceptions.StoppedIslandException;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.IslandTile;
 
@@ -21,9 +22,9 @@ public class IslandList {
      *
      * @param islands that will be part of the nodes (the node can be seen as a superclass of IslandTile, containing all references and methods to make a DCLL)
      */
-    public void addIslands(ArrayList<IslandTile> islands) {
+    private void addIslands(ArrayList<IslandTile> islands) {
         for (int i = 0; i < islands.size(); i++) {
-            Node newIsland = new Node(islands.get(islands.size()-1-i), islands.size()-i);  //secondo parametro da togliere, solo per il test
+            Node newIsland = new Node(islands.get(islands.size()-1-i), islands.size()-i);                           //secondo parametro da togliere, solo per il test
             newIsland.setNextNode(this.head);                                                                           //insert new node before all the nodes in the linked list
             newIsland.setPreviousNode(null);
 
@@ -44,7 +45,8 @@ public class IslandList {
     /**
      * basic constructor
      */
-    public IslandList() {
+    public IslandList(ArrayList<IslandTile> islands) {
+        this.addIslands(islands);
     }
 
 
@@ -60,9 +62,10 @@ public class IslandList {
             throw new InvalidParameterException();
         Node newIsland = this.getIslandNode(newMergedIsland);
         Node oldIsland = this.getIslandNode(islandToMerge);
-        newIsland.addIslands(oldIsland.getIslandTiles());                                                                   //instruction to add islands from the node we intend to merge to the final one
+        newIsland.addIslands(oldIsland.getIslandTiles());                                                               //instruction to add islands from the node we intend to merge to the final one
         newIsland.setNextNode(oldIsland.getNextNode());                                                                 //new island's next node becomes merged island's next node
         newIsland.getNextNode().setPreviousNode(newIsland);                                                             //merged island's next node stores into previous node the pointer to the new node
+
         if (this.islandCounter(this.head) == 3)
             throw new EndGameException();
     }
@@ -104,7 +107,12 @@ public class IslandList {
      * @return Color containing dominant color
      */
     public Color getInfluence(Node node) {                                                                              //method to check influence on an island or on merged islands
-        return node.getMostInfluence();                                                                                 //returns the dominant color in the island
+        try {
+            return node.getMostInfluence();                                                                                 //returns the dominant color in the island
+        } catch (StoppedIslandException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -166,7 +174,13 @@ public class IslandList {
      * @return the dominant color
      */
     public Color getMostInfluence(Node node) {
-        Color mostInfluence = this.getMotherNature().getMostInfluence();
+
+        Color mostInfluence = null;
+        try {
+            mostInfluence = this.getMotherNature().getMostInfluence();
+        } catch (StoppedIslandException e) {
+            e.printStackTrace();
+        }
         return mostInfluence;
     }
 
@@ -250,6 +264,8 @@ public class IslandList {
         }
         return startingNode.getIslandTiles();
     }
+
+
 }
 
 
