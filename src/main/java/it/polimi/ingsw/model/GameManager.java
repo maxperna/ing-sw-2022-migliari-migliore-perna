@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * Class GameManager, singleton.
+ * Class GameManager, singleton
  * stores and creates new instances of Game class
  *
  * @author Miglia
