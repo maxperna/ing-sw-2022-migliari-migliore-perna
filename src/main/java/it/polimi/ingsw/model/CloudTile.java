@@ -17,7 +17,7 @@ public class CloudTile {
      * @return an Arraylist of Color that represents students on the cloud
      * @throws EmptyCloudException when there are no students on the cloud
      */
-    public ArrayList<Color> getStudent() throws EmptyCloudException{
+    public ArrayList<Color> getStudents() throws EmptyCloudException{
         if(students.isEmpty())
             throw new EmptyCloudException();
         else

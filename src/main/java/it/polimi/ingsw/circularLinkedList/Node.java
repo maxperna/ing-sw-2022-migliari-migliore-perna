@@ -102,17 +102,18 @@ public class Node {
             int maxStudents = 0;                                                                                            //declare max students of dominant color as 0
             int colorCounter = 0;
             for (Color actualColor : Color.values()) {                                                                      //iterates for all colors of students
-                for (int island = 0; island < this.islands.size(); island++) {                                              //iterates for all islands in the node
-                    ArrayList<Color> students = this.islands.get(island).getStudents();                                     //creates a local copy of all students in the visited island
-                    for (int student = 0; student < students.size(); student++) {                                           //iterates for all students in previously declared ArrayList
-                        if (students.get(student).equals(actualColor))                                                      //checks if the student's color matches with current color
-                            colorCounter++;                                                                                 //increases color counter for that color
-                    }
-                    if (maxStudents < colorCounter) {                                                                       //updates dominant color and number of dominant students values
-                        maxStudents = colorCounter;
-                        maxColor = actualColor;
+                for (IslandTile island : this.islands) {                                              //iterates for all islands in the node//creates a local copy of all students in the visited island
+                    for (Color actualStudent : island.getStudents()) {                                           //iterates for all students in previously declared ArrayList
+                        if (actualStudent.equals(actualColor)) {
+                            colorCounter++;                                                             //checks if the student's color matches with current color
+                        }                                                       //increases color counter for that color
                     }
                 }
+                if (maxStudents < colorCounter) {                                                                       //updates dominant color and number of dominant students values
+                    maxStudents = colorCounter;
+                    maxColor = actualColor;
+                }
+                colorCounter=0;
             }
             return maxColor;                                                                                            //returns dominant color
         }

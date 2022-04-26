@@ -122,6 +122,9 @@ public class GameManager {
             throw new ArrayIndexOutOfBoundsException();
 
         return GameManager.getInstance().getGamesList().get(i);
+    }
 
+    public void setNull() {
+        gameManager = null;
     }
 }

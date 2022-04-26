@@ -85,8 +85,8 @@ public class IslandTile implements StudentManager {
         this.students = students;
     }
 
-    public void setMostInfluencePlayer(Player mostInfluencePlayer) {
-        this.mostInfluencePlayer = mostInfluencePlayer;
+    public void setMostInfluencePlayer(Player player) {
+        this.mostInfluencePlayer = player;
     }
 }
 

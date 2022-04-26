@@ -35,7 +35,6 @@ public class Game {
         ArrayList<Player> playersCreated = new ArrayList<>();
         this.gameField.setCoins(-numberOfPlayers);
         switch (numberOfPlayers) {
-
             case 2: {
 
                 //Crea ogni giocatore, gli associa una board popolata e poi lo inserce nella lista finale

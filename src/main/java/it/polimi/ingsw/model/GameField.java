@@ -44,7 +44,7 @@ public class GameField{
         int noStudentTile = (int) Math.floor(Math.random() * (6) + 1);
 
         //sets the two island without students with a random number
-        IslandList islandList = new IslandList();
+
         ArrayList <IslandTile> islandTiles = new ArrayList <>();
         for (int i = 1; i <= Game.MAX_TILE; i++) {
             IslandTile tile = new IslandTile(i);
@@ -59,6 +59,7 @@ public class GameField{
 
             islandTiles.add(tile);
         }
+        IslandList islandList = new IslandList(islandTiles);
 
         //sets mother nature randomly in one of the two islands without students
         ArrayList<Integer> randomSelection = new ArrayList<>();
@@ -66,7 +67,7 @@ public class GameField{
         randomSelection.add(noStudentTile + 6);
         Collections.shuffle(randomSelection);
 
-        islandList.addIslands(islandTiles);
+        //islandList.addIslands(islandTiles);
 
         islandList.getIslandNode(randomSelection.get(0)).setMotherNature();
 
@@ -79,15 +80,9 @@ public class GameField{
      * @param islandToBeMerged ID of the island that will be merged into the remaining one
      * @throws InvalidParameterException when ID is not in range 1-12
      */
-    public void mergeIsland(int newMergedIsland, int islandToBeMerged) throws InvalidParameterException {
-        if (newMergedIsland < 1 || newMergedIsland > 12 || islandToBeMerged < 1 || islandToBeMerged > 12)               //checks that the islandID is valid
-            throw new InvalidParameterException();
-        try {
+    public void mergeIsland(int newMergedIsland, int islandToBeMerged) throws InvalidParameterException, EndGameException {
             islands.mergeIslands(newMergedIsland, islandToBeMerged);
             this.decreaseIslands();
-        } catch (EndGameException e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -132,26 +127,26 @@ public class GameField{
         return cloudTiles;
     }
 
-    public void decreaseIslands() {
+    private void decreaseIslands() {
         this.numberOfIslands = numberOfIslands-1;
     }
 
     /**
      * method that returns the Node that contains the islandTile with the given ID
-     * @param islandTileID
+     * @param islandID
      * @return
      */
-    public Node getIslandNode(int islandTileID) {
-        return islands.getIslandNode(islandTileID);
+    public Node getIslandNode(int islandID) {
+        return islands.getIslandNode(islandID);
     }
 
     /**
      * method that returns the islandTile that matches the given ID
-     * @param islandTileID
+     * @param islandID
      * @return
      */
-    public ArrayList<IslandTile> getArrayListOfIslandTile(int islandTileID) {
-        return this.getIslandList().getArrayListOfIslandTile(islandTileID);
+    public ArrayList<IslandTile> getArrayListOfIslandTile(int islandID) {
+        return this.getIslandList().getArrayListOfIslandTile(islandID);
     }
 
     /**
@@ -183,4 +178,7 @@ public class GameField{
 
 
 
+    public boolean isStopped (int islandID) {
+        return this.getIslandList().getIslandNode(islandID).isStopped();
+    }
 }

@@ -32,7 +32,7 @@ public class IslandList {
                 head.setPreviousNode(newIsland);                                                                        //if linked list is not empty, link the head node to the new node
 
             head = newIsland;                                                                                           //set the new node as the head of the list
-            int counter = this.islandCounter(head);
+            int counter = this.islandCounter();
             Node lastNode = this.lastNode(head);
 
             if (counter == 11) {                                                                                        //counter.equals(11) gives problem since int is a primitive type, have to use this one I suppose
@@ -65,20 +65,17 @@ public class IslandList {
         newIsland.addIslands(oldIsland.getIslandTiles());                                                               //instruction to add islands from the node we intend to merge to the final one
         newIsland.setNextNode(oldIsland.getNextNode());                                                                 //new island's next node becomes merged island's next node
         newIsland.getNextNode().setPreviousNode(newIsland);                                                             //merged island's next node stores into previous node the pointer to the new node
-
-        if (this.islandCounter(this.head) == 3)
+        if (this.islandCounter()<=3)
             throw new EndGameException();
     }
 
     /**
      * method used to count elements inside a linked list (circular or not)
-     *
-     * @param head receives in input the starting node of the list
      * @return counter, an int that contains the number of nodes inside the list
      */
-    public int islandCounter(Node head) {
+    public int islandCounter() {
         int counter = 0;                                                                                                //counter variable to count the number of nodes inside the linked list
-        Node startingNode = head;                                                                                       //new node to move through the linked list
+        Node startingNode = this.head;                                                                                       //new node to move through the linked list
 
         while (startingNode.getNextNode() != null && !startingNode.getNextNode().equals(head)) {                              //cycle to move through the linked list, used to check number of nodes inside the list with counter variable
             counter++;
@@ -101,23 +98,7 @@ public class IslandList {
     }
 
     /**
-     * method to get influence, missing the part that adds tower influence
-     *
-     * @param node is the island (or super island) we want to know about
-     * @return Color containing dominant color
-     */
-    public Color getInfluence(Node node) {                                                                              //method to check influence on an island or on merged islands
-        try {
-            return node.getMostInfluence();                                                                                 //returns the dominant color in the island
-        } catch (StoppedIslandException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    /**
      * method to add a student to a given island
-     *
      * @param islandID (0-11), identifies the island
      * @param student  to be added
      * @throws InvalidParameterException when islandID is invalid
@@ -125,12 +106,18 @@ public class IslandList {
     public void addStudent(int islandID, Color student) throws InvalidParameterException {                              //method that adds a single student to a specific IslandTIle
         if (islandID < 1 || islandID > 12)                                                                              //checks that the islandID is valid
             throw new InvalidParameterException();
-
-        Node startingNode = this.head;                                                                                  //set the startingNode
-        while (startingNode.getNextNode() != head) {                                                                    //checks that we have nodes left to visit
+        boolean found = false;
+        Node startingNode = this.head;
+        while (startingNode.getNextNode() != head || !found) {                                                                    //checks that we have nodes left to visit
             for (IslandTile island : startingNode.getIslandTiles()) {                                                       //for loop to move through all the IslandTile in each node
-                if (island.getID() == islandID)
-                    island.addStudent(student);                                                                         //calls addStudent from IslandTile
+                if (island.getID() == islandID){
+                    island.addStudent(student);
+                    System.out.println("Found");
+                    found = true;
+                }
+                else
+                    System.out.println("Not found");
+                startingNode=startingNode.getNextNode();
             }
         }
     }
@@ -151,7 +138,7 @@ public class IslandList {
      * method to get the starting point of the islandList
      * @return
      */
-    public Node getHead() {
+    public Node getHeadNode() {
         return this.head;
     }
 
@@ -174,10 +161,9 @@ public class IslandList {
      * @return the dominant color
      */
     public Color getMostInfluence(Node node) {
-
         Color mostInfluence = null;
         try {
-            mostInfluence = this.getMotherNature().getMostInfluence();
+            mostInfluence = node.getMostInfluence();
         } catch (StoppedIslandException e) {
             e.printStackTrace();
         }
@@ -213,12 +199,12 @@ public class IslandList {
 
     /**
      * method used to get the node containing the islandTile that matches the given ID
-     * @param ID is the ID of the given islandTile
+     * @param islandID is the ID of the given islandTile
      * @return the node containing the said islandTile
      * @throws InvalidParameterException when ID in out of range 1-12
      */
-    public Node getIslandNode(int ID) throws InvalidParameterException{
-        if(ID>12 || ID<1)
+    public Node getIslandNode(int islandID) throws InvalidParameterException{
+        if(islandID>12 || islandID<1)
             throw new InvalidParameterException();
         head = this.getMotherNature();
         Node startingNode = head;
@@ -226,7 +212,7 @@ public class IslandList {
         int index=0;
         while (startingNode.getNextNode() != head && !found) {                                                          //iterates through all the nodes
             while(index<startingNode.getIslandTiles().size()){                                                //iterates through all the islands
-                if (startingNode.getIslandTiles().get(index).getID() == ID)
+                if (startingNode.getIslandTiles().get(index).getID() == islandID)
                     found = true;
                 index++;
             }
@@ -240,12 +226,12 @@ public class IslandList {
 
     /**
      * method used to get the arrayList of islandTile containing the islandTile that matches the given ID
-     * @param ID
-     * @return
+     * @param islandID
+     * @return  the ArrayList containing the given islandID
      * @throws InvalidParameterException when ID is out of range 1-12
      */
-    public ArrayList<IslandTile> getArrayListOfIslandTile(int ID) throws InvalidParameterException{
-        if(ID>12 || ID<1)
+    public ArrayList<IslandTile> getArrayListOfIslandTile(int islandID) throws InvalidParameterException{
+        if(islandID>12 || islandID<1)
             throw new InvalidParameterException();
         head = this.getMotherNature();
         Node startingNode = head;
@@ -253,7 +239,7 @@ public class IslandList {
         int index=0;
         while (startingNode.getNextNode() != head && !found) {
             while(index<startingNode.getIslandTiles().size()){
-                if (startingNode.getIslandTiles().get(index).getID() == ID)
+                if (startingNode.getIslandTiles().get(index).getID() == islandID)
                     found = true;
                 index++;
             }
