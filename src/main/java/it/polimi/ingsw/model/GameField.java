@@ -45,21 +45,19 @@ public class GameField{
 
         //sets the two island without students with a random number
 
-        ArrayList <IslandTile> islandTiles = new ArrayList <>();
+        ArrayList <Color> students = new ArrayList <>();
         for (int i = 1; i <= Game.MAX_TILE; i++) {
-            IslandTile tile = new IslandTile(i);
-
             if ((i != noStudentTile) & (i != noStudentTile +6)) {
                 try {
-                    tile.setStudents(GameManager.drawFromPool(1, studentToBePlaced));
+                    students.add(GameManager.drawFromPool(1, studentToBePlaced).get(0));
                 } catch (NotEnoughElements e) {
                     e.printStackTrace();
                 }
             }
-
-            islandTiles.add(tile);
-        }
-        IslandList islandList = new IslandList(islandTiles);
+                else
+                students.add(Color.BLACK);
+            }
+        IslandList islandList = new IslandList(students);
 
         //sets mother nature randomly in one of the two islands without students
         ArrayList<Integer> randomSelection = new ArrayList<>();
@@ -80,10 +78,10 @@ public class GameField{
      * @param islandToBeMerged ID of the island that will be merged into the remaining one
      * @throws InvalidParameterException when ID is not in range 1-12
      */
-    public void mergeIsland(int newMergedIsland, int islandToBeMerged) throws InvalidParameterException, EndGameException {
+    /*public void mergeIsland(int newMergedIsland, int islandToBeMerged) throws InvalidParameterException, EndGameException {
             islands.mergeIslands(newMergedIsland, islandToBeMerged);
             this.decreaseIslands();
-    }
+    }*/
 
     /**
      * method used to recharge a cloud given its ID and an arrayList of students
@@ -102,15 +100,19 @@ public class GameField{
      * @param moves
      */
     public void moveMotherNatureWithGivenMoves(int moves){
-        islands.moveMotherNatureWithGivenMoves(moves);
+        try {
+            islands.moveMotherNatureWithGivenMoves(moves);
+        } catch (EndGameException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
      * method that moves motherNature to a specified island
-     * @param islandID
+     * @param nodeID
      */
-    public void moveMotherNatureToAGivenIsland (int islandID) {
-        islands.moveMotherNatureToIslandTile(islandID);
+    public void moveMotherNatureToNode (int nodeID) {
+        islands.moveMotherNatureToNodeID(nodeID);
     }
 
     public IslandList getIslandList() {
@@ -133,28 +135,19 @@ public class GameField{
 
     /**
      * method that returns the Node that contains the islandTile with the given ID
-     * @param islandID
+     * @param nodeID
      * @return
      */
-    public Node getIslandNode(int islandID) {
-        return islands.getIslandNode(islandID);
+    public Node getIslandNode(int nodeID) {
+        return islands.getIslandNode(nodeID);
     }
 
     /**
-     * method that returns the islandTile that matches the given ID
-     * @param islandID
+     * method that returns the ArrayList of students inside the node with motherNature on
      * @return
      */
-    public ArrayList<IslandTile> getArrayListOfIslandTile(int islandID) {
-        return this.getIslandList().getArrayListOfIslandTile(islandID);
-    }
-
-    /**
-     * method that returns the ArrayList of islandTile inside the node with motherNature on
-     * @return
-     */
-    public ArrayList<IslandTile> getMotherNatureArrayList() {
-        return this.getIslandList().getMotherNature().getIslandTiles();
+    public ArrayList<Color> getMotherNatureArrayList() {
+        return this.getIslandList().getMotherNature().getStudents();
     }
 
     /**Method that modify the amount of coin on the gamefield due to a draw by a player
@@ -176,9 +169,11 @@ public class GameField{
         return coins;
     }
 
-
-
     public boolean isStopped (int islandID) {
         return this.getIslandList().getIslandNode(islandID).isStopped();
+    }
+
+    public int getIslandID(int islandID) {
+        return this.getIslandList().getIslandNode(islandID).getNodeID();
     }
 }

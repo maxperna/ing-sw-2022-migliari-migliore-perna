@@ -1,8 +1,10 @@
 package it.polimi.ingsw.circularLinkedList;
 
+import it.polimi.ingsw.exceptions.EndGameException;
 import it.polimi.ingsw.exceptions.StoppedIslandException;
 import it.polimi.ingsw.model.Color;
-import it.polimi.ingsw.model.IslandTile;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.TowerColor;
 
 import java.util.ArrayList;
 
@@ -12,12 +14,14 @@ import java.util.ArrayList;
  * can be considered as a superclass of IslandTile that contains pointers to create the linked list
  */
 public class Node {
-    private ArrayList<IslandTile> islands;                                                                              //each node contains an arraylist of islands, the arraylist initially contains only one island object, but it will add new islands
+    private ArrayList<Color> students = new ArrayList<>();                                                                                  //each node contains an arraylist of islands, the arraylist initially contains only one island object, but it will add new islands
     private Node next = null;                                                                                           //whenever a MergeIsland is called
     private Node prev = null;
-    private Color mostInfluencePlayer;
+    private Player mostInfluencePlayer;
+    private TowerColor tower = TowerColor.BLACK;
     private boolean motherNature = false;
     private boolean stop=false;
+    private int towerCounter=0;
     private int ID;                                                                                                     //da togliere, solo per il test
 
     /**
@@ -38,19 +42,17 @@ public class Node {
 
     /**
      * constructor for the Node class
-     * @param newIsland is the object that we insert in the ArrayList of IslandTile
+     * @param ID is the nodeID
+     * @param student is the arrayList of students that will be added to the node
      */
-    public Node(IslandTile newIsland, int ID) {
-        islands = new ArrayList<>();
-        islands.add(newIsland);
+    public Node(int ID, Color student) {
+        this.students.add(student);
         this.ID = ID; //da togliere, solo per il test
     }
 
     /**
      * basic constructor
      */
-    public Node() {
-    }
 
     /**
      * @return the previous node pointed by this object
@@ -69,28 +71,10 @@ public class Node {
     /**
      * @return the ArrayList of islands, used when addIslands is called by mergeIslands
      */
-    public ArrayList<IslandTile> getIslandTiles() {
-        return this.islands;
+    public ArrayList<Color> getStudents() {
+        return this.students;
     }
 
-    /**
-     * method to add the island(s) of a Node inside another one, called to merge two islands (not tested)
-     * @param islandsToBeAdded is an ArrayList of IslandTile that will be included in the ArrayList of the Node that will remain
-     */
-    public void addIslands(ArrayList<IslandTile> islandsToBeAdded) {
-        this.islands.addAll(0, islandsToBeAdded);
-    }
-
-    /**
-     * method used to update mostInfluencePlayer on this Node by calling the method getMostInfluence
-     */
-    public void setMostInfluencePlayer() {
-        try {
-            this.mostInfluencePlayer = this.getMostInfluence();
-        } catch (StoppedIslandException e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * method to control the dominant color on an island
@@ -101,14 +85,15 @@ public class Node {
             Color maxColor = null;                                                                                          //declare dominant color as null
             int maxStudents = 0;                                                                                            //declare max students of dominant color as 0
             int colorCounter = 0;
-            for (Color actualColor : Color.values()) {                                                                      //iterates for all colors of students
-                for (IslandTile island : this.islands) {                                              //iterates for all islands in the node//creates a local copy of all students in the visited island
-                    for (Color actualStudent : island.getStudents()) {                                           //iterates for all students in previously declared ArrayList
+            for (Color actualColor : Color.values()) {                                                                  //iterates for all colors of students//iterates for all islands in the node//creates a local copy of all students in the visited island
+                if(actualColor == Color.BLACK)
+                    break;
+                    for (Color actualStudent : students) {
+                        //iterates for all students in previously declared ArrayList
                         if (actualStudent.equals(actualColor)) {
                             colorCounter++;                                                             //checks if the student's color matches with current color
                         }                                                       //increases color counter for that color
                     }
-                }
                 if (maxStudents < colorCounter) {                                                                       //updates dominant color and number of dominant students values
                     maxStudents = colorCounter;
                     maxColor = actualColor;
@@ -149,5 +134,66 @@ public class Node {
 
     public void stopIsland() {
         this.stop = true;
+    }
+
+    /**
+     * Method setTower, updates the tower attribute after tower construction or substitution
+     *
+     */
+    public void setTower(Player activePlayer){
+        try{
+            this.tower = activePlayer.getBoard().moveTower();
+        }
+        catch (EndGameException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Method getTowerColor
+     * @return color of placed tower
+     */
+    public TowerColor getTowerColor(){
+        return this.tower;
+    }
+
+    /**
+     * method to count students of a given color inside an island
+     * @param color color of the students you want to count
+     * @return the number of students of a given color
+     */
+    public int getStudentsOfColor(Color color){
+        int colorCounter = 0;
+        if(students.contains(color)) {
+            for (Color student : students) {                                           //iterates for all students
+                if (student.equals(color))                                          //checks if the student's color matches with given color
+                    colorCounter++;                                                 //increases color counter for that color
+            }
+        }
+        return colorCounter;
+    }
+
+    /**
+     * method to add student
+     * @param student pawn to be added on the island
+     */
+    public void addStudent(Color student) {
+        students.add(student);
+    }
+
+    public void setMostInfluencePlayer(Player player) {
+        this.mostInfluencePlayer = player;
+    }
+
+    public void mergeStudents(ArrayList<Color> students) {
+        this.students.addAll(students);
+    }
+
+    public Player getMostInfluencePlayer() {
+        return mostInfluencePlayer;
+    }
+
+    public void decreaseNodeID() {
+        ID--;
     }
 }
