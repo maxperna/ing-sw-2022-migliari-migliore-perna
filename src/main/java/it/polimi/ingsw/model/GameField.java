@@ -57,7 +57,7 @@ public class GameField{
                 else
                 students.add(Color.BLACK);
             }
-        IslandList islandList = new IslandList(students);
+        IslandList islandList = new IslandList();
 
         //sets mother nature randomly in one of the two islands without students
         ArrayList<Integer> randomSelection = new ArrayList<>();

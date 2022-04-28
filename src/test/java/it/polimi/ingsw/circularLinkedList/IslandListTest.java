@@ -3,13 +3,16 @@ package it.polimi.ingsw.circularLinkedList;
 import it.polimi.ingsw.exceptions.EndGameException;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.GameManager;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import java.security.InvalidParameterException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class IslandListTest {
 
@@ -55,11 +58,7 @@ class IslandListTest {
         GameManager game = GameManager.getInstance();
         game.startGame("TwoPlayers");
         game.getGame(0).getGameField().getIslandNode(islandID).setMostInfluencePlayer(game.getGame(0).getPlayersList().get(0));
-        try {
-            game.getGame(0).getGameField().getIslandList().moveMotherNatureToNodeID(islandID);
-        } catch (EndGameException e) {
-            e.printStackTrace();
-        }
+        game.getGame(0).getGameField().getIslandList().moveMotherNatureToNodeID(islandID);
         assertEquals(expected, game.getGame(0).getGameField().getMotherNatureNode().getNodeID());
         game.setNull();
     }
@@ -108,11 +107,7 @@ class IslandListTest {
         game.startGame("TwoPlayers");
         game.getGame(0).getGameField().getIslandNode(next).setMostInfluencePlayer(game.getGame(0).getPlayersList().get(0));
         game.getGame(0).getGameField().getIslandNode(input).setMostInfluencePlayer(game.getGame(0).getPlayersList().get(0));
-        try {
-            game.getGame(0).getGameField().moveMotherNatureToNode(input);
-        } catch (EndGameException e) {
-            e.printStackTrace();
-        }
+        game.getGame(0).getGameField().moveMotherNatureToNode(input);
         System.out.println(game.getGame(0).getGameField().getIslandList().islandCounter());
         assertEquals(next, game.getGame(0).getGameField().getIslandNode(input).getNextNode().getNodeID());
         System.out.println("Next node passed");
@@ -161,6 +156,6 @@ class IslandListTest {
     void getHead () {
         GameManager game = GameManager.getInstance();
         game.startGame("TwoPlayers");
-        assertEquals(game.getGame(0).getGameField().getIslandList().head, game.getGame(0).getGameField().getIslandList().getHeadNode());
+        assertEquals(game.getGame(0).getGameField().getIslandList().getHeadNode(), game.getGame(0).getGameField().getIslandList().getHeadNode());
     }
 }

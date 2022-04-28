@@ -14,8 +14,16 @@ import java.util.ArrayList;
 
 
 public class IslandList {
-    Node head;
+    private Node head;
     int counter = 0;
+
+    /**
+     * basic constructor
+     */
+    public IslandList() {
+        this.head = null;
+    }
+
 
     /**
      * method used to add a Node in an initially doubly linked list, when the list has all 12 Nodes, the last element points to the end, making this list circular
@@ -23,7 +31,8 @@ public class IslandList {
      * @param student that will be part of the nodes (the node can be seen as a superclass of IslandTile, containing all references and methods to make a DCLL)
      */
     private void addIslandNode(Color student, int nodeID) {
-            Node newIsland = new Node(nodeID, student);
+
+            Node newIsland = new Node(nodeID);
             newIsland.setNextNode(this.head);                                                                           //insert new node before all the nodes in the linked list
             newIsland.setPreviousNode(null);
 
@@ -37,15 +46,6 @@ public class IslandList {
                 lastNode.setNextNode(head);
                 head.setPreviousNode(lastNode);                                                                         //if the linked list contains 12 elements, link the last element to the head, to make a circular linked list
             }
-    }
-
-    /**
-     * basic constructor
-     */
-    public IslandList(ArrayList<Color> students) {
-        for(int index=0; index<students.size(); index++) {
-            this.addIslandNode(students.get(12-index-1), 12-index);
-        }
     }
 
 
@@ -252,6 +252,7 @@ public class IslandList {
         Node startingNode = this.getMotherNature();
         return startingNode.getStudents();
     }
+
 }
 
 
