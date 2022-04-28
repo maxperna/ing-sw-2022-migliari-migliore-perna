@@ -14,15 +14,16 @@ import java.util.ArrayList;
  * can be considered as a superclass of IslandTile that contains pointers to create the linked list
  */
 public class Node {
-    private ArrayList<Color> students = new ArrayList<>();                                                                                  //each node contains an arraylist of islands, the arraylist initially contains only one island object, but it will add new islands
-    private Node next;                                                                                           //whenever a MergeIsland is called
-    private Node prev;
+    private int ID;
+    private boolean motherNature;
+    private ArrayList<Color> students;                                                                                  //each node contains an arraylist of islands, the arraylist initially contains only one island object, but it will add new islands
     private Player mostInfluencePlayer;
     public TowerColor tower;
-    private boolean motherNature;
     private boolean stop;
     private int towerCounter;
-    private int ID;                                                                                                     //da togliere, solo per il test
+    private Node next;                                                                                           //whenever a MergeIsland is called
+    private Node prev;
+                                                                                                  //da togliere, solo per il test
 
     /**
      * method to set the previous node of a given node in the linked list
@@ -44,6 +45,18 @@ public class Node {
      * constructor for the Node class
      * @param ID is the nodeID
      */
+    public Node(int ID, ArrayList<Color> students) {
+        this.ID = ID;
+        this.next = null;
+        this.prev = null;
+        this.mostInfluencePlayer = null;
+        this.tower = TowerColor.EMPTY;
+        this.motherNature = false;
+        this.stop = false;
+        this.towerCounter = 0;
+        this.students = students;
+    }
+
     public Node(int ID) {
         this.ID = ID;
         this.next = null;
@@ -53,11 +66,8 @@ public class Node {
         this.motherNature = false;
         this.stop = false;
         this.towerCounter = 0;
+        this.students = new ArrayList<>();
     }
-
-    /**
-     * basic constructor
-     */
 
     /**
      * @return the previous node pointed by this object
@@ -97,9 +107,9 @@ public class Node {
                         //iterates for all students in previously declared ArrayList
                         if (actualStudent.equals(actualColor)) {
                             colorCounter++;                                                             //checks if the student's color matches with current color
-                        }                                                       //increases color counter for that color
+                        }                                                                               //increases color counter for that color
                     }
-                if (maxStudents < colorCounter) {                                                                       //updates dominant color and number of dominant students values
+                if (maxStudents < colorCounter) {                                                       //updates dominant color and number of dominant students values
                     maxStudents = colorCounter;
                     maxColor = actualColor;
                 }

@@ -1,11 +1,14 @@
 package it.polimi.ingsw.circularLinkedList;
 
 import it.polimi.ingsw.exceptions.EndGameException;
+import it.polimi.ingsw.exceptions.NotEnoughElements;
 import it.polimi.ingsw.exceptions.StoppedIslandException;
 import it.polimi.ingsw.model.Color;
+import it.polimi.ingsw.model.GameManager;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * @author Alessio Migliore
@@ -14,28 +17,46 @@ import java.util.ArrayList;
 
 
 public class IslandList {
-    Node head;
+    private Node head;
 
     /**
      * basic constructor
      */
-    public IslandList(int dim, ArrayList<Color> students) {
-        for(int nodeID=dim; nodeID>0; nodeID--) {
-            Node newIsland = new Node(nodeID);
-            newIsland.addStudent(students.get(nodeID-1));
-            newIsland.setNextNode(this.head);                                                                           //insert new node before all the nodes in the linked list
-            newIsland.setPreviousNode(null);
+    public IslandList(int dim) {
 
-            if (head != null)
-                head.setPreviousNode(newIsland);                                                                        //if linked list is not empty, link the head node to the new node
+        //random number for noStudentTile
+        int noStudentTile = (int) Math.floor(Math.random() * (6) + 1);
 
-            head = newIsland;                                                                                           //set the new node as the head of the list
-            Node lastNode = this.lastNode(head);
-            if (this.head.getNodeID() == 1) {                                                                                        //counter.equals(11) gives problem since int is a primitive type, have to use this one I suppose
-                lastNode.setNextNode(head);
-                head.setPreviousNode(lastNode);                                                                         //if the linked list contains 12 elements, link the last element to the head, to make a circular linked list
+        //array of students for initialising the game
+        ArrayList <Color> studentToBePlaced = new ArrayList <>();
+        for (int j = 0; j < 2; j++) {
+            studentToBePlaced.add(Color.RED);
+            studentToBePlaced.add(Color.GREEN);
+            studentToBePlaced.add(Color.BLUE);
+            studentToBePlaced.add(Color.PINK);
+            studentToBePlaced.add(Color.YELLOW);
+        }
+
+        for(int i = 1; i <= dim; i++) {
+
+            addNote(i);
+
+            if ((i != noStudentTile) & (i != noStudentTile + 6)) {
+                try {
+                    getIslandNode(i).getStudents().addAll(GameManager.drawFromPool(1,studentToBePlaced));
+                } catch (NotEnoughElements e) {
+                    e.printStackTrace();
+                }
             }
         }
+
+        //sets mother nature randomly in one of the two islands without students
+        ArrayList<Integer> randomSelection = new ArrayList<>();
+        randomSelection.add(noStudentTile);
+        randomSelection.add(noStudentTile + 6);
+        Collections.shuffle(randomSelection);
+
+        this.getIslandNode(randomSelection.get(0)).setMotherNature();
     }
 
 
@@ -220,11 +241,11 @@ public class IslandList {
      * @return the node with given ID
      * @throws InvalidParameterException when ID in out of range 1-12
      */
-    public Node getIslandNode(int nodeID) throws InvalidParameterException{
-        if(nodeID>islandCounter() || nodeID<1)
-            throw new InvalidParameterException();
+    public Node getIslandNode(int nodeID) {
+
         Node actualNode = this.getHeadNode();
-        while(actualNode.getNodeID()!=nodeID) {
+
+        while(actualNode.getNodeID() != nodeID) {
             actualNode = actualNode.getNextNode();
         }
                                                                                                                         //returns the node containing the island that matches the given ID
@@ -242,6 +263,28 @@ public class IslandList {
             throw new InvalidParameterException();
         Node startingNode = this.getMotherNature();
         return startingNode.getStudents();
+    }
+
+    private void addNote(int nodeID) {
+
+        Node tail;
+        Node newNode = new Node(nodeID);
+
+        if (head == null) {
+            head = newNode;
+            head.setNextNode(head);
+            head.setPreviousNode(head);
+        }
+        else {
+            tail = head.getPreviousNode(); //always the last node
+
+            newNode.setPreviousNode(tail);
+            newNode.setNextNode(head);
+
+            head.setPreviousNode(newNode);
+            tail.setNextNode(newNode);
+        }
+
     }
 }
 

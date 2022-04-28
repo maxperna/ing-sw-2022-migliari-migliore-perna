@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.circularLinkedList.IslandList;
+import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
@@ -12,11 +15,16 @@ import java.util.UUID;
 public class Game {
 
     public final static int MAX_TILE = 12;
+    public final static int INIT_COINS = 20;
     public final int NUM_OF_PLAYERS;
     private final UUID gameID;
     private final ArrayList<Player> playersList;
-    private final GameField gameField;
+    private final IslandList gameField;
+    private final Pouch pouch;
+    private final ArrayList<CloudTile> cloudTiles;
     private final HashMap<Color, Pair<Player, Integer>> influenceMap = new HashMap<>();
+
+    private int coins;
 
     /**
      * Constructor
@@ -28,12 +36,21 @@ public class Game {
     public Game(int numberOfPlayers, int maxTowers, int maxStudentHall) {
 
         this.gameID = UUID.randomUUID();
-        this.gameField = new GameField(gameID, numberOfPlayers);
+        this.gameField = new IslandList(12);
         this.NUM_OF_PLAYERS = numberOfPlayers;
+        this.pouch = Pouch.getInstance(gameID);
+        this.coins = INIT_COINS;
+
+        //creates cloudTiles
+        ArrayList <CloudTile> cloudTileList = new ArrayList <>();
+        for (int i = 0; i < numberOfPlayers; i++) {
+            cloudTileList.add(new CloudTile(i));
+        }
+        this.cloudTiles = cloudTileList;
+
 
         //Crea un nuovo array di giocatori che verra popolato e poi restituito
         ArrayList<Player> playersCreated = new ArrayList<>();
-        this.gameField.setCoins(-numberOfPlayers);
         switch (numberOfPlayers) {
             case 2: {
 
@@ -108,7 +125,7 @@ public class Game {
      *
      * @return the GameField of the match
      */
-    public GameField getGameField() {
+    public IslandList getGameField() {
         return gameField;
     }
 
@@ -119,6 +136,37 @@ public class Game {
      */
     public ArrayList<Player> getPlayersList() {
         return playersList;
+    }
+
+    /**
+     * method used to recharge a cloud given its ID and an arrayList of students
+     */
+    public void rechargeClouds() {
+
+       for(int i = 0; i < NUM_OF_PLAYERS; i++)
+       {
+           try {
+               cloudTiles.get(i).setStudents(Pouch.getInstance(gameID).randomDraw(3));
+           } catch (NotEnoughStudentsException e) {
+               throw new RuntimeException(e);
+           }
+       }
+    }
+
+    public ArrayList<CloudTile> getCloudTiles() {
+        return cloudTiles;
+    }
+
+    public HashMap<Color, Pair<Player, Integer>> getInfluenceMap() {
+        return influenceMap;
+    }
+
+    public int getCoins() {
+        return coins;
+    }
+
+    public void setCoins(int coins) {
+        this.coins = coins;
     }
 
     /**

@@ -10,8 +10,16 @@ import java.util.ArrayList;
  */
 public class CloudTile {
 
-    private int tileID;
-    private ArrayList<Color> students = new ArrayList<>();
+    private final int tileID;
+    private ArrayList<Color> students;
+
+    /**
+     * constructor
+     */
+    public CloudTile(int ID){
+        this.tileID = ID;
+        this.students = new ArrayList<>();
+    };
 
     /**
      * @return an Arraylist of Color that represents students on the cloud
@@ -40,14 +48,6 @@ public class CloudTile {
     }
 
     /**
-     * method used to set students on the cloudTile
-     * @param students is an arrayList of students that will be moved onto the cloud
-     */
-    public synchronized void rechargeCloud (ArrayList<Color> students){
-        this.students.addAll(students);
-    }
-
-    /**
      * method that returns the ID of the cloud
      * @return cloud ID
      */
@@ -55,11 +55,7 @@ public class CloudTile {
         return this.tileID;
     }
 
-    /**
-     * constructor
-     */
-    public CloudTile(int ID){
-        this.tileID = ID;
-    };
-
+    public void setStudents(ArrayList<Color> students) {
+        this.students = students;
+    }
 }
