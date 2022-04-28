@@ -42,4 +42,8 @@ public class Player {
         this.numOfCoin = this.numOfCoin + quantity;
     }
 
+    public TowerColor getTowerColor() {
+        return this.board.getTowerColor();
+    }
+
 }
