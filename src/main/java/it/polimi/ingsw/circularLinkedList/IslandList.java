@@ -4,6 +4,7 @@ import it.polimi.ingsw.exceptions.EndGameException;
 import it.polimi.ingsw.exceptions.NotEnoughElements;
 import it.polimi.ingsw.exceptions.StoppedIslandException;
 import it.polimi.ingsw.model.Color;
+import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameManager;
 
 import java.security.InvalidParameterException;
@@ -22,7 +23,7 @@ public class IslandList {
     /**
      * basic constructor
      */
-    public IslandList(int dim) {
+    public IslandList() {
 
         //random number for noStudentTile
         int noStudentTile = (int) Math.floor(Math.random() * (6) + 1);
@@ -37,7 +38,8 @@ public class IslandList {
             studentToBePlaced.add(Color.YELLOW);
         }
 
-        for(int i = 1; i <= dim; i++) {
+        //Creates the list with dim elements
+        for(int i = 1; i <= Game.MAX_TILE; i++) {
 
             addNote(i);
 
@@ -55,7 +57,6 @@ public class IslandList {
         randomSelection.add(noStudentTile);
         randomSelection.add(noStudentTile + 6);
         Collections.shuffle(randomSelection);
-
         this.getIslandNode(randomSelection.get(0)).setMotherNature();
     }
 

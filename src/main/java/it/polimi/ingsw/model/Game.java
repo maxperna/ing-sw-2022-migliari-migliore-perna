@@ -36,7 +36,7 @@ public class Game {
     public Game(int numberOfPlayers, int maxTowers, int maxStudentHall) {
 
         this.gameID = UUID.randomUUID();
-        this.gameField = new IslandList(12);
+        this.gameField = new IslandList();
         this.NUM_OF_PLAYERS = numberOfPlayers;
         this.pouch = Pouch.getInstance(gameID);
         this.coins = INIT_COINS;
