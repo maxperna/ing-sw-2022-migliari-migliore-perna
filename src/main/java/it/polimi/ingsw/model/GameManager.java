@@ -72,7 +72,7 @@ public class GameManager {
      *
      * @param gameMode used to select the number of player in the game
      */
-    public synchronized void startGame(@NotNull String gameMode) {
+    public synchronized Game startGame(@NotNull String gameMode) {
 
         Selector selector;
 
@@ -99,6 +99,7 @@ public class GameManager {
 
         Game game = selector.CreateGame();
         gamesList.add(game);
+        return game;
     }
 
     /**

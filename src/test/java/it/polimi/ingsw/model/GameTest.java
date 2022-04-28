@@ -1,11 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.circularLinkedList.IslandList;
-import it.polimi.ingsw.circularLinkedList.Node;
-import it.polimi.ingsw.exceptions.NotEnoughElements;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -18,5 +13,15 @@ class GameTest {
 
         assertNotNull(game.getGameID());
     }
+
+    @Test
+    void shouldRechargeCloud() {
+
+        Game game2P = GameManager.getInstance().startGame("TwoPlayers");
+
+        game2P.rechargeClouds();
+    }
+
+
 
 }
