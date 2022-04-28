@@ -49,7 +49,7 @@ public class Node {
         this.next = null;
         this.prev = null;
         this.mostInfluencePlayer = null;
-        this.tower = TowerColor.BLACK;
+        this.tower = TowerColor.EMPTY;
         this.motherNature = false;
         this.stop = false;
         this.towerCounter = 0;
@@ -167,7 +167,7 @@ public class Node {
      * @param color color of the students you want to count
      * @return the number of students of a given color
      */
-    public int getStudentsOfColor(Color color){
+    public int getColorInfluence(Color color){
         int colorCounter = 0;
         if(students.contains(color)) {
             for (Color student : students) {                                           //iterates for all students

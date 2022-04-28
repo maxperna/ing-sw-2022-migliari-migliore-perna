@@ -3,6 +3,7 @@ package it.polimi.ingsw.circularLinkedList;
 import it.polimi.ingsw.exceptions.EndGameException;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.GameManager;
+import it.polimi.ingsw.model.TowerColor;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
@@ -127,6 +128,9 @@ class IslandListTest {
     void mergeIslandsTestShouldReturnEndGameException(int input){
         GameManager game = GameManager.getInstance();
         game.startGame("TwoPlayers");
+        for(int i=1; i<13; i++) {
+            game.getGame(0).getGameField().getIslandList().getIslandNode(i).tower = TowerColor.BLACK;
+        }
         for(int i =1; i<13; i++) {
             game.getGame(0).getGameField().getIslandNode(input).setMostInfluencePlayer(game.getGame(0).getPlayersList().get(0));
         }

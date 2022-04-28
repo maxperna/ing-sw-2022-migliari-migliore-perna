@@ -15,17 +15,14 @@ import java.util.ArrayList;
 
 public class IslandList {
     Node head;
-    int counter = 0;
 
     /**
-     * method used to add a Node in an initially doubly linked list, when the list has all 12 Nodes, the last element points to the end, making this list circular
-     *
-     * @param student that will be part of the nodes (the node can be seen as a superclass of IslandTile, containing all references and methods to make a DCLL)
+     * basic constructor
      */
-    private void addIslandNode(Color student, int nodeID) {
+    public IslandList(int dim, ArrayList<Color> students) {
+        for(int nodeID=dim; nodeID>0; nodeID--) {
             Node newIsland = new Node(nodeID);
-            newIsland.addStudent(student);
-            newIsland.addStudent(student);
+            newIsland.addStudent(students.get(nodeID-1));
             newIsland.setNextNode(this.head);                                                                           //insert new node before all the nodes in the linked list
             newIsland.setPreviousNode(null);
 
@@ -34,19 +31,10 @@ public class IslandList {
 
             head = newIsland;                                                                                           //set the new node as the head of the list
             Node lastNode = this.lastNode(head);
-            counter++;
-            if (counter == 12) {                                                                                        //counter.equals(11) gives problem since int is a primitive type, have to use this one I suppose
+            if (this.head.getNodeID() == 1) {                                                                                        //counter.equals(11) gives problem since int is a primitive type, have to use this one I suppose
                 lastNode.setNextNode(head);
                 head.setPreviousNode(lastNode);                                                                         //if the linked list contains 12 elements, link the last element to the head, to make a circular linked list
             }
-    }
-
-    /**
-     * basic constructor
-     */
-    public IslandList(ArrayList<Color> students) {
-        for(int index=0; index<students.size(); index++) {
-            this.addIslandNode(students.get(12-index-1), 12-index);
         }
     }
 
@@ -59,7 +47,6 @@ public class IslandList {
      * @throws EndGameException when there are exactly 3(?) islands left inside the list
      */
     public void mergeIslands (int newMergedIsland, int islandToMerge) throws EndGameException, InvalidParameterException {
-        System.out.println("Merging islands "+newMergedIsland+ " and " +islandToMerge);//not "tested"
         Node newIsland = this.getIslandNode(newMergedIsland);
         Node oldIsland = this.getIslandNode(islandToMerge);
         if(this.islandCounter() == 3)
@@ -76,25 +63,19 @@ public class IslandList {
             newIsland.mergeStudents(oldIsland.getStudents());                                                               //instruction to add islands from the node we intend to merge to the final one
             newIsland.setNextNode(oldIsland.getNextNode());                                                                 //new island's next node becomes merged island's next node
             newIsland.getNextNode().setPreviousNode(newIsland);                                                             //merged island's next node stores into previous node the pointer to the new node
-            if(newIsland.getNodeID()>oldIsland.getNodeID()) {
+            if(newIsland.getNodeID()>oldIsland.getNodeID())
                 newIsland.decreaseNodeID();
-                System.out.println(1);
-            }
-            else
-                System.out.println(2);
-            System.out.println("Number of islands: " +this.islandCounter());
+
             if (this.islandCounter()<=3)
                 throw new EndGameException();
 
             Node currIsland = newIsland;
             while(currIsland.getNextNode().getNodeID()!=1) {
-                System.out.println("Decreasing node " + currIsland.getNextNode().getNodeID());
                 currIsland.getNextNode().decreaseNodeID();
                 currIsland = currIsland.getNextNode();
 
             }
         }
-        System.out.println("Number of islands: " +this.islandCounter());
         if(newIsland.getTowerColor().equals(newIsland.getNextNode().getTowerColor())) {
             if(newIsland.getNodeID()>newIsland.getNextNode().getNodeID())
                 mergeIslands(newIsland.getNextNode().getNodeID(), newIsland.getNodeID());
@@ -224,17 +205,11 @@ public class IslandList {
         actualNode = this.getIslandNode(nodeID);
         actualNode.setMotherNature();                                                                                   //set motherNature flag on
         actualNode.setTower(actualNode.getMostInfluencePlayer());
-        if(this.getIslandNode(nodeID).getTowerColor().equals(this.getIslandNode(nodeID).getNextNode().getTowerColor())) {
-            //if(this.getIslandNode(nodeID).getNodeID()>this.getIslandNode(nodeID).getNextNode().getNodeID())
-                //mergeIslands(this.getIslandNode(nodeID).getNextNode().getNodeID(), this.getIslandNode(nodeID).getNodeID());
-            //else
+        if(this.getIslandNode(nodeID).getTowerColor().equals(this.getIslandNode(nodeID).getNextNode().getTowerColor()))
                 mergeIslands(this.getIslandNode(nodeID).getNodeID(), this.getIslandNode(nodeID).getNextNode().getNodeID());
-        }
+
         else if(this.getIslandNode(nodeID).getTowerColor().equals(this.getIslandNode(nodeID).getPreviousNode().getTowerColor())) {
-            //if(this.getIslandNode(nodeID).getNodeID()>this.getIslandNode(nodeID).getPreviousNode().getNodeID())
                 mergeIslands(this.getIslandNode(nodeID).getPreviousNode().getNodeID(), this.getIslandNode(nodeID).getNodeID());
-            //else
-              //  mergeIslands(this.getIslandNode(nodeID).getNodeID(), this.getIslandNode(nodeID).getPreviousNode().getNodeID());
         }
 
     }
