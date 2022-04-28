@@ -57,7 +57,7 @@ public class GameField{
                 else
                 students.add(Color.BLACK);
             }
-        IslandList islandList = new IslandList();
+        IslandList islandList = new IslandList(students);
 
         //sets mother nature randomly in one of the two islands without students
         ArrayList<Integer> randomSelection = new ArrayList<>();
@@ -111,7 +111,7 @@ public class GameField{
      * method that moves motherNature to a specified island
      * @param nodeID
      */
-    public void moveMotherNatureToNode (int nodeID) {
+    public void moveMotherNatureToNode (int nodeID) throws EndGameException {
         islands.moveMotherNatureToNodeID(nodeID);
     }
 
