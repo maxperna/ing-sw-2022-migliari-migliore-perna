@@ -14,14 +14,14 @@ import java.util.ArrayList;
  * can be considered as a superclass of IslandTile that contains pointers to create the linked list
  */
 public class Node {
-    private ArrayList<Color> students = new ArrayList<>();                                                                                  //each node contains an arraylist of islands, the arraylist initially contains only one island object, but it will add new islands
-    private Node next = null;                                                                                           //whenever a MergeIsland is called
-    private Node prev = null;
+    private final ArrayList<Color> students;                                                                                  //each node contains an arraylist of islands, the arraylist initially contains only one island object, but it will add new islands
+    private Node next;                                                                                           //whenever a MergeIsland is called
+    private Node prev;
     private Player mostInfluencePlayer;
-    private TowerColor tower = TowerColor.BLACK;
-    private boolean motherNature = false;
-    private boolean stop=false;
-    private int towerCounter=0;
+    private TowerColor tower;
+    private boolean motherNature;
+    private boolean stop;
+    private int towerCounter;
     private int ID;                                                                                                     //da togliere, solo per il test
 
     /**
@@ -43,16 +43,19 @@ public class Node {
     /**
      * constructor for the Node class
      * @param ID is the nodeID
-     * @param student is the arrayList of students that will be added to the node
      */
-    public Node(int ID, Color student) {
-        this.students.add(student);
-        this.ID = ID; //da togliere, solo per il test
-    }
+    public Node(int ID) {
 
-    /**
-     * basic constructor
-     */
+        this.ID = ID;
+        this.students = new ArrayList<>();
+        this.next = null;
+        this.prev = null;
+        this.mostInfluencePlayer = null;
+        this.tower = TowerColor.EMPTY;
+        this.motherNature = false;
+        this.stop = false;
+        this.towerCounter = 0;
+    }
 
     /**
      * @return the previous node pointed by this object

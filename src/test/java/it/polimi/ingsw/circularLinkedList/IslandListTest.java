@@ -3,14 +3,16 @@ package it.polimi.ingsw.circularLinkedList;
 import it.polimi.ingsw.exceptions.EndGameException;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.GameManager;
-import it.polimi.ingsw.model.Player;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import java.security.InvalidParameterException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class IslandListTest {
 
@@ -154,6 +156,6 @@ class IslandListTest {
     void getHead () {
         GameManager game = GameManager.getInstance();
         game.startGame("TwoPlayers");
-        assertEquals(game.getGame(0).getGameField().getIslandList().head, game.getGame(0).getGameField().getIslandList().getHeadNode());
+        assertEquals(game.getGame(0).getGameField().getIslandList().getHeadNode(), game.getGame(0).getGameField().getIslandList().getHeadNode());
     }
 }
