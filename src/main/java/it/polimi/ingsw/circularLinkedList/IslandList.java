@@ -56,39 +56,46 @@ public class IslandList {
      * @param islandToMerge   is the island whose information is going to be moved inside the other island, this one will be cancelled by garbage collector
      * @throws EndGameException when there are exactly 3(?) islands left inside the list
      */
-    private void mergeIslands (int newMergedIsland, int islandToMerge) throws EndGameException, InvalidParameterException {
-        System.out.println("Merging islands "+newMergedIsland+ " and " +islandToMerge);//not "tested"
-        if(this.islandCounter() == 3)
-            throw new EndGameException();
-        if(!(this.getIslandNode(newMergedIsland).getNextNode().equals(this.getIslandNode(islandToMerge)) || this.getIslandNode(newMergedIsland).getPreviousNode().equals(this.getIslandNode(islandToMerge))))
-            throw new InvalidParameterException();
+    public void mergeIslands (int newMergedIsland, int islandToMerge) throws EndGameException, InvalidParameterException {
         Node newIsland = this.getIslandNode(newMergedIsland);
         Node oldIsland = this.getIslandNode(islandToMerge);
-        newIsland.mergeStudents(oldIsland.getStudents());                                                               //instruction to add islands from the node we intend to merge to the final one
-        newIsland.setNextNode(oldIsland.getNextNode());                                                                 //new island's next node becomes merged island's next node
-        newIsland.getNextNode().setPreviousNode(newIsland);                                                             //merged island's next node stores into previous node the pointer to the new node
-        if(newIsland.getNodeID()>oldIsland.getNodeID())
-            newIsland.decreaseNodeID();
-        if (this.islandCounter()<=3)
+        if(this.islandCounter() == 3)
             throw new EndGameException();
-        Node currIsland = newIsland;
-        while(currIsland.getNextNode().getNodeID()!=1) {
-            currIsland.getNextNode().decreaseNodeID();
-            currIsland = currIsland.getNextNode();
+        if(islandToMerge == 1) {
+            newIsland = this.getIslandNode(islandToMerge);
+            oldIsland = this.getIslandNode(newMergedIsland);
+            newIsland.mergeStudents(oldIsland.getStudents());
+            newIsland.setPreviousNode(oldIsland.getPreviousNode());
+        }
+        else {
+            if(!(this.getIslandNode(newMergedIsland).getNextNode().equals(this.getIslandNode(islandToMerge)) || this.getIslandNode(newMergedIsland).getPreviousNode().equals(this.getIslandNode(islandToMerge))))
+                throw new InvalidParameterException();
+            newIsland.mergeStudents(oldIsland.getStudents());                                                               //instruction to add islands from the node we intend to merge to the final one
+            newIsland.setNextNode(oldIsland.getNextNode());                                                                 //new island's next node becomes merged island's next node
+            newIsland.getNextNode().setPreviousNode(newIsland);                                                             //merged island's next node stores into previous node the pointer to the new node
+            if(newIsland.getNodeID()>oldIsland.getNodeID())
+                newIsland.decreaseNodeID();
+
+            if (this.islandCounter()<=3)
+                throw new EndGameException();
+
+            Node currIsland = newIsland;
+            while(currIsland.getNextNode().getNodeID()!=1) {
+                currIsland.getNextNode().decreaseNodeID();
+                currIsland = currIsland.getNextNode();
+            }
         }
         if(newIsland.getTowerColor().equals(newIsland.getNextNode().getTowerColor())) {
-            try {
+            if(newIsland.getNodeID()>newIsland.getNextNode().getNodeID())
+                mergeIslands(newIsland.getNextNode().getNodeID(), newIsland.getNodeID());
+            else
                 mergeIslands(newIsland.getNodeID(), newIsland.getNextNode().getNodeID());
-            } catch (EndGameException e) {
-                e.printStackTrace();
-            }
         }
         else if(newIsland.getTowerColor().equals(newIsland.getPreviousNode().getTowerColor())) {
-            try {
+            if(newIsland.getNodeID()>newIsland.getPreviousNode().getNodeID())
+                mergeIslands(newIsland.getPreviousNode().getNodeID(), newIsland.getNodeID());
+            else
                 mergeIslands(newIsland.getNodeID(), newIsland.getPreviousNode().getNodeID());
-            } catch (EndGameException e) {
-                e.printStackTrace();
-            }
         }
     }
 
@@ -166,18 +173,16 @@ public class IslandList {
         actualNode.setMotherNature();                                                                                   //set motherNature flag on
         actualNode.setTower(actualNode.getMostInfluencePlayer());
         if(actualNode.getTowerColor().equals(actualNode.getNextNode().getTowerColor())) {
-            try {
+            if(actualNode.getNodeID()>actualNode.getNextNode().getNodeID())
+                mergeIslands(actualNode.getNextNode().getNodeID(), actualNode.getNodeID());
+            else
                 mergeIslands(actualNode.getNodeID(), actualNode.getNextNode().getNodeID());
-            } catch (EndGameException e) {
-                e.printStackTrace();
-            }
         }
-        else if(actualNode.getTowerColor().equals(actualNode.getNextNode().getTowerColor())) {
-            try {
+        else if(actualNode.getTowerColor().equals(actualNode.getPreviousNode().getTowerColor())) {
+            if(actualNode.getNodeID()>actualNode.getPreviousNode().getNodeID())
+                mergeIslands(actualNode.getPreviousNode().getNodeID(), actualNode.getNodeID());
+            else
                 mergeIslands(actualNode.getNodeID(), actualNode.getPreviousNode().getNodeID());
-            } catch (EndGameException e) {
-                e.printStackTrace();
-            }
         }
     }
 
@@ -201,7 +206,7 @@ public class IslandList {
      * @param nodeID is the identifier for the island Tile
      * @return a Node containing the selected island Tile
      */
-    public void moveMotherNatureToNodeID(int nodeID) throws InvalidParameterException{
+    public void moveMotherNatureToNodeID(int nodeID) throws InvalidParameterException, EndGameException{
         if(nodeID>this.islandCounter() || nodeID<1)
             throw new InvalidParameterException();
         Node actualNode = this.getMotherNature();
@@ -209,20 +214,12 @@ public class IslandList {
         actualNode = this.getIslandNode(nodeID);
         actualNode.setMotherNature();                                                                                   //set motherNature flag on
         actualNode.setTower(actualNode.getMostInfluencePlayer());
-        if(actualNode.getTowerColor().equals(actualNode.getNextNode().getTowerColor())) {
-            try {
-                mergeIslands(actualNode.getNodeID(), actualNode.getNextNode().getNodeID());
-            } catch (EndGameException e) {
-                e.printStackTrace();
-            }
-        }
-        if(actualNode.getTowerColor().equals(actualNode.getPreviousNode().getTowerColor())) {
-            try {
-                mergeIslands(actualNode.getPreviousNode().getNodeID(), actualNode.getNodeID());
-            } catch (EndGameException e) {
-                e.printStackTrace();
-            }
-        }
+        if(this.getIslandNode(nodeID).getTowerColor().equals(this.getIslandNode(nodeID).getNextNode().getTowerColor()))
+                mergeIslands(this.getIslandNode(nodeID).getNodeID(), this.getIslandNode(nodeID).getNextNode().getNodeID());
+
+        else if(this.getIslandNode(nodeID).getTowerColor().equals(this.getIslandNode(nodeID).getPreviousNode().getTowerColor()))
+                mergeIslands(this.getIslandNode(nodeID).getPreviousNode().getNodeID(), this.getIslandNode(nodeID).getNodeID());
+
 
     }
 

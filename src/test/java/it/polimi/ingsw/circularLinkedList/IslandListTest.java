@@ -3,7 +3,6 @@ package it.polimi.ingsw.circularLinkedList;
 import it.polimi.ingsw.exceptions.EndGameException;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.GameManager;
-import it.polimi.ingsw.model.Player;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -56,7 +55,11 @@ class IslandListTest {
         GameManager game = GameManager.getInstance();
         game.startGame("TwoPlayers");
         game.getGame(0).getGameField().getIslandNode(islandID).setMostInfluencePlayer(game.getGame(0).getPlayersList().get(0));
-        game.getGame(0).getGameField().getIslandList().moveMotherNatureToNodeID(islandID);
+        try {
+            game.getGame(0).getGameField().getIslandList().moveMotherNatureToNodeID(islandID);
+        } catch (EndGameException e) {
+            e.printStackTrace();
+        }
         assertEquals(expected, game.getGame(0).getGameField().getMotherNatureNode().getNodeID());
         game.setNull();
     }
@@ -105,7 +108,11 @@ class IslandListTest {
         game.startGame("TwoPlayers");
         game.getGame(0).getGameField().getIslandNode(next).setMostInfluencePlayer(game.getGame(0).getPlayersList().get(0));
         game.getGame(0).getGameField().getIslandNode(input).setMostInfluencePlayer(game.getGame(0).getPlayersList().get(0));
-        game.getGame(0).getGameField().moveMotherNatureToNode(input);
+        try {
+            game.getGame(0).getGameField().moveMotherNatureToNode(input);
+        } catch (EndGameException e) {
+            e.printStackTrace();
+        }
         System.out.println(game.getGame(0).getGameField().getIslandList().islandCounter());
         assertEquals(next, game.getGame(0).getGameField().getIslandNode(input).getNextNode().getNodeID());
         System.out.println("Next node passed");

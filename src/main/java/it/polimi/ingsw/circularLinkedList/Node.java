@@ -14,11 +14,11 @@ import java.util.ArrayList;
  * can be considered as a superclass of IslandTile that contains pointers to create the linked list
  */
 public class Node {
-    private ArrayList<Color> students = new ArrayList<>();                                                                                  //each node contains an arraylist of islands, the arraylist initially contains only one island object, but it will add new islands
+    private ArrayList<Color> students = new ArrayList<>();                                                              //each node contains an arraylist of islands, the arraylist initially contains only one island object, but it will add new islands
     private Node next = null;                                                                                           //whenever a MergeIsland is called
     private Node prev = null;
     private Player mostInfluencePlayer;
-    private TowerColor tower = TowerColor.BLACK;
+    public TowerColor tower;
     private boolean motherNature = false;
     private boolean stop=false;
     private int towerCounter=0;
@@ -195,5 +195,8 @@ public class Node {
 
     public void decreaseNodeID() {
         ID--;
+    }
+    public void setTower() {
+        this.tower = TowerColor.BLACK;
     }
 }
