@@ -36,9 +36,9 @@ public class Game {
     public Game(int numberOfPlayers, int maxTowers, int maxStudentHall) {
 
         this.gameID = UUID.randomUUID();
-        this.gameField = new IslandList();
         this.NUM_OF_PLAYERS = numberOfPlayers;
         this.pouch = Pouch.getInstance(gameID);
+        this.gameField = new IslandList();
         this.coins = INIT_COINS;
 
         //creates cloudTiles

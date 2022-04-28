@@ -21,7 +21,7 @@ public class IslandList {
     private Node head;
 
     /**
-     * basic constructor
+     * constructor
      */
     public IslandList() {
 
@@ -257,13 +257,16 @@ public class IslandList {
      * method used to get the arrayList of students inside the node that matches the given ID
      * @param nodeID
      * @return  the ArrayList containing the given islandID
-     * @throws InvalidParameterException when ID is out of range 1-12
      */
-    public ArrayList<Color> getStudentsFromIslandNode(int nodeID) throws InvalidParameterException{
-        if(nodeID>this.islandCounter() || nodeID<1)
-            throw new InvalidParameterException();
-        Node startingNode = this.getMotherNature();
-        return startingNode.getStudents();
+    public ArrayList<Color> getStudentsFromIslandNode(int nodeID) {
+
+        Node actualNode = this.getHeadNode();
+
+        while(actualNode.getNodeID() != nodeID) {
+            actualNode = actualNode.getNextNode();
+        }
+        //returns the node containing the island that matches the given ID
+        return actualNode.getStudents();
     }
 
     private void addNote(int nodeID) {

@@ -64,15 +64,6 @@ public class Board implements StudentManager {
 
     }
 
-//    /**Public method used to call the private constructor
-//     *  @param maxNumOfTowers maximun num of towers on the board depends on the num of players
-//     *   @param hallDimension dimension of the outside hall, depends on the num of player
-//     */
-//    public static Board createBoard(int maxNumOfTowers,int hallDimension){
-//        return new Board(maxNumOfTowers,hallDimension);
-//    }
-
-
     public ArrayList<Color> getStudentsOutside(){
         return studentsOutside;
     }
