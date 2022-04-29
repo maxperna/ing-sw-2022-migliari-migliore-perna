@@ -22,7 +22,7 @@ public class Game {
     private final IslandList gameField;
     private final Pouch pouch;
     private final ArrayList<CloudTile> cloudTiles;
-    private final HashMap<Color, Pair<Player, Integer>> influenceMap = new HashMap<>();
+    private static final HashMap<Color, Pair<Player, Integer>> influenceMap = new HashMap<>(); //mapping the influence of every player
 
     private int coins;
 
@@ -37,7 +37,7 @@ public class Game {
 
         this.gameID = UUID.randomUUID();
         this.NUM_OF_PLAYERS = numberOfPlayers;
-        this.pouch = Pouch.getInstance(gameID);
+        this.pouch = new Pouch();
         this.gameField = new IslandList();
         this.coins = INIT_COINS;
 
@@ -146,7 +146,7 @@ public class Game {
        for(int i = 0; i < NUM_OF_PLAYERS; i++)
        {
            try {
-               cloudTiles.get(i).setStudents(Pouch.getInstance(gameID).randomDraw(3));
+               cloudTiles.get(i).setStudents(this.pouch.randomDraw(3));
            } catch (NotEnoughStudentsException e) {
                throw new RuntimeException(e);
            }
@@ -157,9 +157,6 @@ public class Game {
         return cloudTiles;
     }
 
-    public HashMap<Color, Pair<Player, Integer>> getInfluenceMap() {
-        return influenceMap;
-    }
 
     public int getCoins() {
         return coins;
@@ -185,7 +182,7 @@ public class Game {
             influenceMap.get(colorToCheck).setNumOfStudents(numOfCheckedStudent);
         } else if (numOfCheckedStudent > influenceMap.get(colorToCheck).getNumOfStudents()) {
 
-            //Add and remove the teacher from the involved player
+            //Add and remove the teacher from the involved players
             influenceMap.get(colorToCheck).getPlayer().getBoard().removeTeacher(colorToCheck);
             activePlayer.getBoard().addTeachers(colorToCheck);
             //Update influence map data
@@ -229,6 +226,10 @@ public class Game {
         }
     }
 
+    public HashMap<Color, Pair<it.polimi.ingsw.model.Player, java.lang.Integer>> getInfluenceMap(){
+        return influenceMap;
+    }
+
     /**
      * Class used for define a new type of data for influence map(tuple)
      */
@@ -256,5 +257,7 @@ public class Game {
         public void setNumOfStudents(Integer numOfStudents) {
             this.numOfStudents = numOfStudents;
         }
+
     }
+
 }

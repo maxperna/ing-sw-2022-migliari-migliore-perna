@@ -1,22 +1,25 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exceptions.CardAlreadyPlayed;
+import it.polimi.ingsw.model.Card;
+import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.Player;
 
 import java.util.*;
 
 /**Class to handle all the logic inside a round such as the playing orders and to set the current active player
  * @author Massimo
  * */
-public class RoundLogic {
+public class PreparationPhaseLogic {
     private final Game currentGame;   //game associated to round logic
     private int roundID;     //specific round roundLogic is referring to
-    private final Map<Integer,Player> cardsPlayed = new HashMap<>();
+    private final Map<Integer, Player> cardsPlayed = new HashMap<>();
     private final Queue<Player> playersOrders = new LinkedList<>();  //Players order is a FIFO structure(both for playing orders and action phase)
     private Player lastRoundFirstPlayer;       //first player to play last round, used to define the starting point of the round
     private Player activePlayer;     //current active player
 
     //Default constructor
-    public RoundLogic(Game currentGame){
+    public PreparationPhaseLogic(Game currentGame){
         this.currentGame = currentGame;
     }
 
@@ -49,7 +52,7 @@ public class RoundLogic {
      * @param player player who used the card
      * @exception CardAlreadyPlayed if a player try to use a card already used by another player within the same round
      */
-    public void setPlayedCard(Card playedCard,Player player) throws CardAlreadyPlayed {
+    public void setPlayedCard(Card playedCard, Player player) throws CardAlreadyPlayed {
         if(!this.cardsPlayed.containsKey(playedCard.getActionNumber()))
             this.cardsPlayed.put(playedCard.getActionNumber(),player);
         else throw new CardAlreadyPlayed("Another player already used this card");

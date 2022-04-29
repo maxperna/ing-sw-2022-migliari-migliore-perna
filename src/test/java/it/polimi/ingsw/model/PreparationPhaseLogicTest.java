@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.PreparationPhaseLogic;
 import it.polimi.ingsw.exceptions.CardAlreadyPlayed;
 import it.polimi.ingsw.model.strategy.ThreePlayers;
 import org.junit.jupiter.api.DisplayName;
@@ -7,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 
-import it.polimi.ingsw.model.strategy.ThreePlayers.*;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class RoundLogicTest{
+public class PreparationPhaseLogicTest {
 
     private static final ThreePlayers gameGenerator = new ThreePlayers();
     private static final Game gameParameter = gameGenerator.generateGame();
@@ -28,7 +28,7 @@ public class RoundLogicTest{
     @DisplayName("Testing round orders generators")
     @ParameterizedTest
     @MethodSource("roundOrderTestParameters")
-    public void RoundOrderTest(RoundLogic roundTest,ArrayList<Player> playersTest, ArrayList<Board> boardsTest, ArrayList<Card> cardsTest){
+    public void RoundOrderTest(PreparationPhaseLogic roundTest, ArrayList<Player> playersTest, ArrayList<Board> boardsTest, ArrayList<Card> cardsTest){
 
         int i = 0; //index variable
         //test round orders
@@ -54,7 +54,7 @@ public class RoundLogicTest{
 
     @Test
     public void GeneratePlayingOrderTest(){
-        RoundLogic roundTest = new RoundLogic(gameParameter);
+        PreparationPhaseLogic roundTest = new PreparationPhaseLogic(gameParameter);
         roundTest.generatePlayingOrder();
        Queue<Player> playersOrders =  roundTest.getPlayersOrders();
 
@@ -63,7 +63,7 @@ public class RoundLogicTest{
 
     private static Stream<Arguments> roundOrderTestParameters() {
         //Game instance test
-        //RoundLogic test instance
+        //PreparationPhaseLogic test instance
 
         //Cards set for test
         Card card1 = new Card(4, 2, "a", "b");
@@ -73,7 +73,7 @@ public class RoundLogicTest{
         ArrayList<Card> cardParameters = new ArrayList<>();
         Collections.addAll(cardParameters, card1, card2, card3);
 
-        RoundLogic roundLogicTest = new RoundLogic(gameParameter);
+        PreparationPhaseLogic preparationPhaseLogicTest = new PreparationPhaseLogic(gameParameter);
 
         ArrayList<Player> playersParameters = gameParameter.getPlayersList();
         ArrayList<Board> boardsParameters = new ArrayList<>();
@@ -83,7 +83,7 @@ public class RoundLogicTest{
         }
 
         return Stream.of(
-                Arguments.of(roundLogicTest,playersParameters,boardsParameters,cardParameters)
+                Arguments.of(preparationPhaseLogicTest,playersParameters,boardsParameters,cardParameters)
         );
 
     }

@@ -1,8 +1,11 @@
 package it.polimi.ingsw.model.assistants;
 
+import it.polimi.ingsw.exceptions.NotEnoughCoin;
+import it.polimi.ingsw.model.Player;
+
 public class Assistant9 implements AssistantCard{
     @Override
-    public void useCard() {
+    public void useCard(Player user) throws NotEnoughCoin {
 
     }
 

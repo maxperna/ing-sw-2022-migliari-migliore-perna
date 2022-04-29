@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model.assistants;
 
+import it.polimi.ingsw.model.Game;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -10,14 +12,17 @@ import java.util.Random;
  * */
 public class AssistantFactory {
 
+    private final Game currentGame;
     private static AssistantFactory instance = null;
     ArrayList<AssistantCard> calledAssistant;   //assistant already generated
 
-    private AssistantFactory(){}
+    private AssistantFactory(Game currentGame){
+        this.currentGame = currentGame;
+    }
 
-    public static AssistantFactory createFactory(){
+    public static AssistantFactory createFactory(Game currentGame){
         if(instance == null)
-            instance = new AssistantFactory();
+            instance = new AssistantFactory(currentGame);
 
         return instance;
     }
@@ -41,10 +46,10 @@ public class AssistantFactory {
 
             switch (randomDraw){
                 case 0:
-                    generatedCard = new Assistant1();
+                    generatedCard = new Assistant1(this.currentGame);
                     break;
                 case 1:
-                    generatedCard = new Assistant2();
+                    generatedCard = new Assistant2(this.currentGame);
                     break;
                 case 2:
                     generatedCard = new Assistant3();
@@ -59,7 +64,7 @@ public class AssistantFactory {
                     generatedCard = new Assistant6();
                     break;
                 case 6:
-                    generatedCard = new Assistant7();
+                    generatedCard = new Assistant7(this.currentGame);
                     break;
                 case 7:
                     generatedCard = new Assistant8();

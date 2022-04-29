@@ -12,14 +12,8 @@ import java.util.*;
  */
 public class Pouch {
 
-    private ArrayList<Color> students = new ArrayList<>();
-    private static Map <UUID,Pouch> currentInstantiated = new HashMap <>();
-
-    /**
-     * Constructor
-     * private so that we cannot instantiate the class, creates all students objects in an ArrayList and then shuffles it
-     */
-    private Pouch() {                                                                                                   //creates an instance of Pouch
+    private final ArrayList<Color> students = new ArrayList<>();
+    public Pouch() {                                                                                                   //creates an instance of Pouch
 
         for (int i = 0; i < 24; i++) {
             students.add(Color.RED);
@@ -31,22 +25,6 @@ public class Pouch {
         Collections.shuffle(students);                                                                                  //method to shuffle the students arraylist
     }
 
-    /**
-     * Getter, ensures that there will be only one Pouch
-     * @return Pouch
-     */
-    public static Pouch getInstance(UUID gameID) {
-        if (currentInstantiated.get(gameID) == null) {
-            Pouch instance = new Pouch();
-            currentInstantiated.put(gameID,instance);
-
-            return instance;
-        }
-        else
-        {
-            return currentInstantiated.get(gameID);
-        }
-    }
 
     /**
      * Method that provides an arrayList of students by selecting and then removing the first object in the arrayList

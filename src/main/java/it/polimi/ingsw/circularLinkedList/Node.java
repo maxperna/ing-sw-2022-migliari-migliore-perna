@@ -90,37 +90,6 @@ public class Node {
         return this.students;
     }
 
-
-    /**
-     * method to control the dominant color on an island
-     * @return the color of the highest amount of students on the island
-     */
-    public Color getMostInfluence() throws StoppedIslandException {
-        if(!this.isStopped()) {
-            Color maxColor = null;                                                                                          //declare dominant color as null
-            int maxStudents = 0;                                                                                            //declare max students of dominant color as 0
-            int colorCounter = 0;
-            for (Color actualColor : Color.values()) {                                                                  //iterates for all colors of students//iterates for all islands in the node//creates a local copy of all students in the visited island
-                if(actualColor == Color.BLACK)
-                    break;
-                    for (Color actualStudent : students) {
-                        //iterates for all students in previously declared ArrayList
-                        if (actualStudent.equals(actualColor)) {
-                            colorCounter++;                                                             //checks if the student's color matches with current color
-                        }                                                                               //increases color counter for that color
-                    }
-                if (maxStudents < colorCounter) {                                                       //updates dominant color and number of dominant students values
-                    maxStudents = colorCounter;
-                    maxColor = actualColor;
-                }
-                colorCounter=0;
-            }
-            return maxColor;                                                                                            //returns dominant color
-        }
-        else throw new StoppedIslandException();
-
-    }
-
     /**
      * method to set motherNature parameter when the island is visited
      */

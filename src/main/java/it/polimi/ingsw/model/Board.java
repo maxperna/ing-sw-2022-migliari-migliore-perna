@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.EndGameException;
+import it.polimi.ingsw.exceptions.NotEnoughSpace;
 import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
 import it.polimi.ingsw.exceptions.NotOnBoardException;
 
@@ -121,6 +122,21 @@ public class Board implements StudentManager {
             targetIsland.addStudent(color);
         }
 
+    }
+
+    public ArrayList<Color> moveFromOutsideRoom(ArrayList<Color> colorToRemove) throws NotOnBoardException{
+        if(!studentsOutside.containsAll(colorToRemove)) throw new NotOnBoardException();
+        else{
+            studentsOutside.removeAll(colorToRemove);
+            return colorToRemove;
+        }
+    }
+
+    public void addStudentOutsideRoom(ArrayList<Color> studentToAdd) throws NotEnoughSpace {
+        if(studentsOutside.size()+ studentToAdd.size()> maxStudentHall) throw new NotEnoughSpace();
+        else{
+            studentsOutside.addAll(studentToAdd);
+        }
     }
 
     /**Method to move a tower from the hall to an island

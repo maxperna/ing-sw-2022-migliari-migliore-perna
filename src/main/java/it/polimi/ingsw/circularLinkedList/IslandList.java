@@ -217,7 +217,6 @@ public class IslandList {
     /**
      * method used to set motherNature flag of the node that contains the islandTile that matches the given ID
      * @param nodeID is the identifier for the island Tile
-     * @return a Node containing the selected island Tile
      */
     public void moveMotherNatureToNodeID(int nodeID) throws InvalidParameterException, EndGameException{
         if(nodeID>this.islandCounter() || nodeID<1)
