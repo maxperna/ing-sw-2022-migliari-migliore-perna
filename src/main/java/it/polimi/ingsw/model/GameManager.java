@@ -21,6 +21,8 @@ public class GameManager {
     private static GameManager gameManager = null;
     private final ArrayList<Game> gamesList;
 
+
+
     /**
      * Private constructor
      */
