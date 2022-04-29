@@ -2,7 +2,6 @@ package it.polimi.ingsw.circularLinkedList;
 
 import it.polimi.ingsw.exceptions.EndGameException;
 import it.polimi.ingsw.exceptions.NotEnoughElements;
-import it.polimi.ingsw.exceptions.StoppedIslandException;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameManager;
@@ -229,6 +228,23 @@ public class IslandList {
             tail.setNextNode(newNode);
         }
     }
+
+    /**
+     * method used to get the arrayList of students inside the node that matches the given ID
+     * @param nodeID
+     * @return  the ArrayList containing the given islandID
+     */
+    public ArrayList<Color> getStudentsFromIslandNode(int nodeID) {
+
+        Node actualNode = this.getHeadNode();
+
+        while(actualNode.getNodeID() != nodeID) {
+            actualNode = actualNode.getNextNode();
+        }
+        //returns the node containing the island that matches the given ID
+        return actualNode.getStudents();
+    }
+
 
     /**
      * method used to check towerColor on next and previous islands of a declared one, if one of them matches with islandID towerColor, calls merge()
