@@ -125,11 +125,14 @@ public class Node {
      *
      */
     public void setTower(Player activePlayer){
-        try{
-            this.tower = activePlayer.getBoard().moveTower();
-        }
-        catch (EndGameException e) {
-            e.printStackTrace();
+        if(mostInfluencePlayer != null) {
+            try{
+                this.tower = activePlayer.getBoard().moveTower();
+            }
+            catch (EndGameException e) {
+                e.printStackTrace();
+            }
+            towerCounter++;
         }
     }
 
@@ -179,5 +182,13 @@ public class Node {
 
     public void decreaseNodeID() {
         ID--;
+    }
+
+    public int getNumberOfTowers() {
+        return this.towerCounter;
+    }
+
+    public void mergeTowers(int towers) {
+        this.towerCounter+=towers;
     }
 }
