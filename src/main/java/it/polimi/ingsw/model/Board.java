@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.circularLinkedList.Node;
 import it.polimi.ingsw.exceptions.EndGameException;
 import it.polimi.ingsw.exceptions.NotEnoughSpace;
 import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
@@ -111,7 +112,7 @@ public class Board implements StudentManager {
      * @param color color of the student to move
      * @exception NotOnBoardException exception thrown if it's tried to move an inexistent student
      */
-    public void moveToIsland(Color color, IslandTile targetIsland) throws NotOnBoardException{
+    public void moveToIsland(Color color, Node targetIsland) throws NotOnBoardException{
         if(!studentsOutside.contains(color)) throw new NotOnBoardException();
         else{
             studentsOutside.remove(color);
