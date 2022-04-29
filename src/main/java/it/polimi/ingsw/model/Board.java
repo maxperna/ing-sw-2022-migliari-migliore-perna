@@ -8,7 +8,6 @@ import it.polimi.ingsw.exceptions.NotOnBoardException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 /**Implementation of the player board, handling all the movements of the students from the outside hall to the
 *island or the inner hall or from the cloud tile to the outside hall
@@ -19,22 +18,20 @@ public class Board implements StudentManager {
     private final int maxStudentHall;
     private final int maxTowers;
     private final TowerColor towerColor;
-    private final UUID gameID;
     private ArrayList<Color> studentsOutside;    //list of student in the outer room
     private final Map<Color,Integer> lectureHall = new HashMap<>();      //list of student for each color inside the main hall
     private final Map<Color, Boolean> teachers = new HashMap<>();       //map to signal the presence of a teacher on the board
     private ArrayList<TowerColor> towers;  //number of towers on the board
 
 
-    public Board(UUID gameID, int maxStudentHall, int maxTowers, TowerColor towerColor){
+    public Board(Pouch pouch, int maxStudentHall, int maxTowers, TowerColor towerColor){
 
-        this.gameID = gameID;         //thread safe auto generated ID
         this.maxStudentHall = maxStudentHall;
         this.maxTowers = maxTowers;
         this.towerColor = towerColor;
 
         try {
-            this.studentsOutside = Pouch.getInstance(gameID).randomDraw(maxStudentHall);
+            this.studentsOutside = pouch.randomDraw(maxStudentHall);
         } catch (NotEnoughStudentsException e) {
             e.printStackTrace();
         }
@@ -48,16 +45,15 @@ public class Board implements StudentManager {
 
     }
 
-    public Board(UUID gameID, int maxStudentHall, int maxTowers, TowerColor towerColor, ArrayList<TowerColor> towers){
+    public Board(Pouch pouch, int maxStudentHall, int maxTowers, TowerColor towerColor, ArrayList<TowerColor> towers){
 
-        this.gameID = gameID;         //thread safe auto generated ID
         this.maxStudentHall = maxStudentHall;
         this.maxTowers = maxTowers;
         this.towerColor = towerColor;
         this.towers = towers;
 
         try {
-            this.studentsOutside = Pouch.getInstance(gameID).randomDraw(maxStudentHall);
+            this.studentsOutside = pouch.randomDraw(maxStudentHall);
         } catch (NotEnoughStudentsException e) {
             e.printStackTrace();
         }
