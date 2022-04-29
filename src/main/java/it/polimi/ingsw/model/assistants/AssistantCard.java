@@ -16,7 +16,7 @@ public interface AssistantCard {
     default void useCard(Player userPlayer) throws NotEnoughCoin{};
     default void useCard(Player userPlayer, ArrayList<Color> studentsToSwap) throws NotEnoughCoin{};
 
-    void useCard(Player user, ArrayList<Color> studentToSwapBoard, ArrayList<Color> studentToSwapCard) throws NotEnoughCoin, IllegalMove;
+    default void useCard(Player user, ArrayList<Color> studentToSwapBoard, ArrayList<Color> studentToSwapCard) throws NotEnoughCoin, IllegalMove{};
 
     public void endEffect();
 

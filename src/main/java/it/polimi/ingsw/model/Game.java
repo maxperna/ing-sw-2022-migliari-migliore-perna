@@ -138,9 +138,10 @@ public class Game {
         return playersList;
     }
 
-    /**
-     * method used to recharge a cloud given its ID and an arrayList of students
-     */
+    public Pouch getPouch() {
+        return pouch;
+    }
+
     public void rechargeClouds() {
 
        for(int i = 0; i < NUM_OF_PLAYERS; i++)
@@ -257,7 +258,6 @@ public class Game {
         public void setNumOfStudents(Integer numOfStudents) {
             this.numOfStudents = numOfStudents;
         }
-
     }
 
 }

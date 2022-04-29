@@ -17,7 +17,7 @@ public class Assistant7 implements AssistantCard{
     public Assistant7(Game currentGame){
         this.currentGame = currentGame;
         try{
-            studentsOnCard.addAll(currentGame.getGameField().getPouch().randomDraw(6));
+            studentsOnCard.addAll(currentGame.getPouch().randomDraw(6));
         }
         catch (NotEnoughStudentsException e){
             e.printStackTrace();
