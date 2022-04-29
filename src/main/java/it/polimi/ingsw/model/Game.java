@@ -55,10 +55,10 @@ public class Game {
             case 2: {
 
                 //Crea ogni giocatore, gli associa una board popolata e poi lo inserce nella lista finale
-                Player player1 = new Player(new Board(gameID, maxStudentHall, maxTowers, TowerColor.BLACK));
+                Player player1 = new Player(new Board(this.pouch, maxStudentHall, maxTowers, TowerColor.BLACK));
                 playersCreated.add(player1);
 
-                Player player2 = new Player(new Board(gameID, maxStudentHall, maxTowers, TowerColor.WHITE));
+                Player player2 = new Player(new Board(pouch, maxStudentHall, maxTowers, TowerColor.WHITE));
                 playersCreated.add(player2);
 
                 break;
@@ -66,13 +66,13 @@ public class Game {
 
             case 3: {
                 //Crea ogni giocatore, gli associa una board popolata e poi lo inserce nella lista finale
-                Player player1 = new Player(new Board(gameID, maxStudentHall, maxTowers, TowerColor.BLACK));
+                Player player1 = new Player(new Board(this.pouch, maxStudentHall, maxTowers, TowerColor.BLACK));
                 playersCreated.add(player1);
 
-                Player player2 = new Player(new Board(gameID, maxStudentHall, maxTowers, TowerColor.WHITE));
+                Player player2 = new Player(new Board(this.pouch, maxStudentHall, maxTowers, TowerColor.WHITE));
                 playersCreated.add(player2);
 
-                Player player3 = new Player(new Board(gameID, maxStudentHall, maxTowers, TowerColor.GRAY));
+                Player player3 = new Player(new Board(this.pouch, maxStudentHall, maxTowers, TowerColor.GRAY));
                 playersCreated.add(player3);
 
                 break;
@@ -80,16 +80,16 @@ public class Game {
 
             case 4: {
                 //Crea ogni giocatore, gli associa una board popolata e poi lo inserce nella lista finale
-                Player player1 = new Player(new Board(gameID, maxStudentHall, maxTowers, TowerColor.BLACK));
+                Player player1 = new Player(new Board(this.pouch, maxStudentHall, maxTowers, TowerColor.BLACK));
                 playersCreated.add(player1);
 
-                Player player2 = new Player(new Board(gameID, maxStudentHall, maxTowers, TowerColor.WHITE));
+                Player player2 = new Player(new Board(this.pouch, maxStudentHall, maxTowers, TowerColor.WHITE));
                 playersCreated.add(player2);
 
-                Player player3 = new Player(new Board(gameID, maxStudentHall, maxTowers, player2.getBoard().getTowers().get(0), player2.getBoard().getTowers()));
+                Player player3 = new Player(new Board(this.pouch, maxStudentHall, maxTowers, player2.getBoard().getTowers().get(0), player2.getBoard().getTowers()));
                 playersCreated.add(player3);
 
-                Player player4 = new Player(new Board(gameID, maxStudentHall, maxTowers, player1.getBoard().getTowers().get(0), player1.getBoard().getTowers()));
+                Player player4 = new Player(new Board(this.pouch, maxStudentHall, maxTowers, player1.getBoard().getTowers().get(0), player1.getBoard().getTowers()));
                 playersCreated.add(player4);
 
                 break;
