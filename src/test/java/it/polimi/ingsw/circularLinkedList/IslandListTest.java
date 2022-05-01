@@ -21,7 +21,6 @@ class IslandListTest {
         GameManager game = GameManager.getInstance();
         game.startGame("TwoPlayers");
         assertEquals(expected, game.getGame(0).getGameField().getIslandNode(nodeID).getNodeID());
-        game.setNull();
     }
 
     @DisplayName("Testing getNextNode method...")
@@ -89,9 +88,9 @@ class IslandListTest {
         GameManager game = GameManager.getInstance();
         game.startGame("TwoPlayers");
         game.getGame(0).getGameField().getIslandNode(input).setMostInfluencePlayer(game.getGame(0).getPlayersList().get(0));
-        game.getGame(0).getGameField().getIslandNode(input).tower = TowerColor.BLACK;
+        game.getGame(0).getGameField().getIslandNode(input).setTowerTest(TowerColor.BLACK);
         game.getGame(0).getGameField().getIslandNode(input).getNextNode().setMostInfluencePlayer(game.getGame(0).getPlayersList().get(0));
-        game.getGame(0).getGameField().getIslandNode(input).getNextNode().tower = TowerColor.BLACK;
+        game.getGame(0).getGameField().getIslandNode(input).getNextNode().setTowerTest(TowerColor.BLACK);
         game.getGame(0).getGameField().moveMotherNatureToNodeID(input);
         if(input == 12)
             input=1;
@@ -107,9 +106,9 @@ class IslandListTest {
         GameManager game = GameManager.getInstance();
         game.startGame("TwoPlayers");
         game.getGame(0).getGameField().getIslandNode(input).setMostInfluencePlayer(game.getGame(0).getPlayersList().get(0));
-        game.getGame(0).getGameField().getIslandNode(input).tower = TowerColor.BLACK;
+        game.getGame(0).getGameField().getIslandNode(input).setTowerTest(TowerColor.BLACK);
         game.getGame(0).getGameField().getIslandNode(input).getPreviousNode().setMostInfluencePlayer(game.getGame(0).getPlayersList().get(0));
-        game.getGame(0).getGameField().getIslandNode(input).getPreviousNode().tower = TowerColor.BLACK;
+        game.getGame(0).getGameField().getIslandNode(input).getPreviousNode().setTowerTest(TowerColor.BLACK);
         game.getGame(0).getGameField().moveMotherNatureToNodeID(input);
         if(input == 12)
             input--;
@@ -125,7 +124,7 @@ class IslandListTest {
         GameManager game = GameManager.getInstance();
         game.startGame("TwoPlayers");
         for(int i=1; i<13; i++) {
-            game.getGame(0).getGameField().getIslandNode(i).tower = TowerColor.BLACK;
+            game.getGame(0).getGameField().getIslandNode(i).setTowerTest(TowerColor.BLACK);
         }
         for(int i =1; i<13; i++) {
             game.getGame(0).getGameField().getIslandNode(input).setMostInfluencePlayer(game.getGame(0).getPlayersList().get(0));
@@ -149,6 +148,36 @@ class IslandListTest {
             assertEquals(4, game.getGame(0).getGameField().getIslandNode(ID).getColorInfluence(Color.RED));
         else
             assertEquals(3, game.getGame(0).getGameField().getIslandNode(ID).getColorInfluence(Color.RED));
+        game.setNull();
     }
 
+    @DisplayName("Testing mergeIsland method with a node, its next one and its previous one...")
+    @ParameterizedTest
+    @CsvSource ({"1 ,10, 2", "2, 10, 2", "3, 1, 3", "4, 2, 4", "5, 3, 5", "6, 4, 6", "7, 5, 7", "8, 6, 8", "9, 7, 9", "10, 8, 10", "11, 9, 1", "12, 10, 2"})
+    void mergeIslandsOnNextAndPreviousNodeTest(int input, int previous, int next) throws EndGameException {
+        GameManager game = GameManager.getInstance();
+        game.setNull();
+        game = GameManager.getInstance();
+        game.startGame("TwoPlayers");
+        game.getGame(0).getGameField().getIslandNode(input).setMostInfluencePlayer(game.getGame(0).getPlayersList().get(0));
+        game.getGame(0).getGameField().getIslandNode(input).setTowerTest(TowerColor.BLACK);
+        game.getGame(0).getGameField().getIslandNode(input).getNextNode().setMostInfluencePlayer(game.getGame(0).getPlayersList().get(0));
+        game.getGame(0).getGameField().getIslandNode(input).getNextNode().setTowerTest(TowerColor.BLACK);
+        game.getGame(0).getGameField().getIslandNode(input).getPreviousNode().setMostInfluencePlayer(game.getGame(0).getPlayersList().get(0));
+        game.getGame(0).getGameField().getIslandNode(input).getPreviousNode().setTowerTest(TowerColor.BLACK);
+        game.getGame(0).getGameField().moveMotherNatureToNodeID(input);
+        if(input == 1) {
+            assertEquals(next, game.getGame(0).getGameField().getIslandNode(input).getNextNode().getNodeID());
+            assertEquals(previous, game.getGame(0).getGameField().getIslandNode(input).getPreviousNode().getNodeID());
+        }
+        else if(input==12){
+            assertEquals(next, game.getGame(0).getGameField().getIslandNode(1).getNextNode().getNodeID());
+            assertEquals(previous, game.getGame(0).getGameField().getIslandNode(1).getPreviousNode().getNodeID());
+        }
+        else {
+            assertEquals(next, game.getGame(0).getGameField().getIslandNode(input-1).getNextNode().getNodeID());
+            assertEquals(previous, game.getGame(0).getGameField().getIslandNode(input-1).getPreviousNode().getNodeID());
+        }
+        game.setNull();
+    }
 }

@@ -5,6 +5,7 @@ import it.polimi.ingsw.exceptions.StoppedIslandException;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.TowerColor;
+import org.jetbrains.annotations.TestOnly;
 
 import java.util.ArrayList;
 
@@ -16,14 +17,14 @@ import java.util.ArrayList;
 public class Node {
     private int ID;
     private boolean motherNature;
-    private ArrayList<Color> students;                                                                                  //each node contains an arraylist of islands, the arraylist initially contains only one island object, but it will add new islands
+    private ArrayList<Color> students;
     private Player mostInfluencePlayer;
-    public TowerColor tower;
+    private TowerColor tower;
     private boolean stop;
     private int towerCounter;
-    private Node next;                                                                                           //whenever a MergeIsland is called
+    private Node next;
     private Node prev;
-                                                                                                  //da togliere, solo per il test
+
 
     /**
      * method to set the previous node of a given node in the linked list
@@ -124,10 +125,10 @@ public class Node {
      * Method setTower, updates the tower attribute after tower construction or substitution
      *
      */
-    public void setTower(Player activePlayer){
+    public void setTower(){
         if(mostInfluencePlayer != null) {
             try{
-                this.tower = activePlayer.getBoard().moveTower();
+                this.tower = mostInfluencePlayer.getBoard().moveTower();
             }
             catch (EndGameException e) {
                 e.printStackTrace();
@@ -191,4 +192,10 @@ public class Node {
     public void mergeTowers(int towers) {
         this.towerCounter+=towers;
     }
+
+    @TestOnly
+    public void setTowerTest (TowerColor color) {
+        this.tower = color;
+    }
+
 }
