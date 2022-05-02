@@ -1,7 +1,6 @@
-package it.polimi.ingsw.circularLinkedList;
+package it.polimi.ingsw.gameField;
 
 import it.polimi.ingsw.exceptions.EndGameException;
-import it.polimi.ingsw.exceptions.StoppedIslandException;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.TowerColor;

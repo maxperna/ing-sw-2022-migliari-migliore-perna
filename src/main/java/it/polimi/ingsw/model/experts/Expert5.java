@@ -1,18 +1,18 @@
-package it.polimi.ingsw.model.assistants;
+package it.polimi.ingsw.model.experts;
 
-import it.polimi.ingsw.circularLinkedList.Node;
+import it.polimi.ingsw.gameField.Node;
 import it.polimi.ingsw.exceptions.IllegalMove;
 import it.polimi.ingsw.exceptions.NotEnoughCoin;
 import it.polimi.ingsw.model.Player;
 
 import java.util.ArrayList;
 
-public class Assistant5 implements AssistantCard{
+public class Expert5 implements ExpertCard {
     private int stopAvailable;
     private final ArrayList<Node> stoppedIsland = new ArrayList<>();
     private int cost = 2;
 
-    public Assistant5(){
+    public Expert5(){
         this.stopAvailable = 4;
     }
     @Override

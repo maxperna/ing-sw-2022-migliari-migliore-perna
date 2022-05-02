@@ -1,8 +1,7 @@
-package it.polimi.ingsw.circularLinkedList;
+package it.polimi.ingsw.gameField;
 
 import it.polimi.ingsw.model.GameManager;
 import it.polimi.ingsw.model.TowerColor;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

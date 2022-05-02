@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.assistants;
+package it.polimi.ingsw.model.experts;
 
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Color;
@@ -7,13 +7,13 @@ import it.polimi.ingsw.model.Player;
 
 import java.util.ArrayList;
 
-public class Assistant7 implements AssistantCard{
+public class Expert7 implements ExpertCard {
 
     private int cost = 1;
     private final ArrayList<Color> studentsOnCard = new ArrayList<>();
 
 
-    public Assistant7(Game currentGame){
+    public Expert7(Game currentGame){
         try{
             studentsOnCard.addAll(currentGame.getPouch().randomDraw(6));
         }
@@ -32,8 +32,8 @@ public class Assistant7 implements AssistantCard{
             if(studentToSwapBoard.size()!=studentToSwapCard.size())
                 throw new IllegalMove("Not the same number of student");
             try {
-                this.studentsOnCard.addAll(user.getBoard().moveFromOutsideRoom(studentToSwapBoard));
-                user.getBoard().addStudentOutsideRoom(studentToSwapBoard);
+                this.studentsOnCard.addAll(user.getBoard().moveFromEntryRoom(studentToSwapBoard));
+                user.getBoard().addStudentsEntryRoom(studentToSwapBoard);
                 this.studentsOnCard.removeAll(studentToSwapCard);
 
             }

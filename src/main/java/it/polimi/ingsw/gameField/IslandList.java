@@ -1,4 +1,4 @@
-package it.polimi.ingsw.circularLinkedList;
+package it.polimi.ingsw.gameField;
 
 import it.polimi.ingsw.exceptions.EndGameException;
 import it.polimi.ingsw.exceptions.NotEnoughElements;

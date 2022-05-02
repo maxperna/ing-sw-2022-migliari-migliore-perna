@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.assistants;
+package it.polimi.ingsw.model.experts;
 
 import it.polimi.ingsw.model.Game;
 
@@ -10,27 +10,27 @@ import java.util.Random;
  * called returns the three already generated
  * @author  Massimo
  * */
-public class AssistantFactory {
+public class ExpertsFactory {
 
     private final Game currentGame;
-    private static AssistantFactory instance = null;
-    ArrayList<AssistantCard> calledAssistant;   //assistant already generated
+    private static ExpertsFactory instance = null;
+    ArrayList<ExpertCard> calledAssistant;   //assistant already generated
 
-    private AssistantFactory(Game currentGame){
+    private ExpertsFactory(Game currentGame){
         this.currentGame = currentGame;
     }
 
-    public static AssistantFactory createFactory(Game currentGame){
+    public static ExpertsFactory createFactory(Game currentGame){
         if(instance == null)
-            instance = new AssistantFactory(currentGame);
+            instance = new ExpertsFactory(currentGame);
 
         return instance;
     }
     /**Assistant card drawer to pick randomly three assistant cards generating three different random number from 0 to 11,
      *
-     * @return an array list of three AssistantCard
+     * @return an array list of three ExpertCard
      * */
-    private ArrayList<AssistantCard> generateAssistant(){
+    private ArrayList<ExpertCard> generateAssistant(){
 
         calledAssistant = new ArrayList<>();
         ArrayList<Integer> numbersGenerated = new ArrayList<>();     //list containing numbers already generated
@@ -42,44 +42,44 @@ public class AssistantFactory {
             }while(numbersGenerated.contains(randomDraw));         //check if the number is not already in the list
             numbersGenerated.add(randomDraw);
 
-            AssistantCard generatedCard;
+            ExpertCard generatedCard;
 
             switch (randomDraw){
                 case 0:
-                    generatedCard = new Assistant1(this.currentGame);
+                    generatedCard = new Expert1(this.currentGame);
                     break;
                 case 1:
-                    generatedCard = new Assistant2(this.currentGame);
+                    generatedCard = new Expert2(this.currentGame);
                     break;
                 case 2:
-                    generatedCard = new Assistant3(this.currentGame);
+                    generatedCard = new Expert3(this.currentGame);
                     break;
                 case 3:
-                    generatedCard = new Assistant4();
+                    generatedCard = new Expert4();
                     break;
                 case 4:
-                    generatedCard = new Assistant5();
+                    generatedCard = new Expert5();
                     break;
                 case 5:
-                    generatedCard = new Assistant6(this.currentGame);
+                    generatedCard = new Expert6(this.currentGame);
                     break;
                 case 6:
-                    generatedCard = new Assistant7(this.currentGame);
+                    generatedCard = new Expert7(this.currentGame);
                     break;
                 case 7:
-                    generatedCard = new Assistant8();
+                    generatedCard = new Expert8();
                     break;
                 case 8:
-                    generatedCard = new Assistant9();
+                    generatedCard = new Expert9();
                     break;
                 case 9:
-                    generatedCard = new Assistant10();
+                    generatedCard = new Expert10();
                     break;
                 case 10:
-                    generatedCard = new Assistant11();
+                    generatedCard = new Expert11(this.currentGame);
                     break;
                 case 11:
-                    generatedCard = new Assistant12();
+                    generatedCard = new Expert12(this.currentGame);
                     break;
                 default:
                     generatedCard = null;
@@ -91,9 +91,9 @@ public class AssistantFactory {
     }
 
     /**Method to implements singleton
-     * @return a list of three AssistantCard or call the generator if it doesn't exist
+     * @return a list of three ExpertCard or call the generator if it doesn't exist
      * */
-    public ArrayList<AssistantCard> drawAssistant(){
+    public ArrayList<ExpertCard> drawAssistant(){
         if(calledAssistant == null){
             return generateAssistant();
         }

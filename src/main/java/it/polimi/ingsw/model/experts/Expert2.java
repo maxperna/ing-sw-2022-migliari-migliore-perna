@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.assistants;
+package it.polimi.ingsw.model.experts;
 
 import it.polimi.ingsw.exceptions.NotEnoughCoin;
 import it.polimi.ingsw.model.Color;
@@ -11,7 +11,7 @@ import java.util.HashMap;
  * with the same number of student
  * @author Massimo
  * */
-public class Assistant2 implements AssistantCard {
+public class Expert2 implements ExpertCard {
     private int cost = 2;
     private final String IMG = "";
     private final Game currentGame;
@@ -19,7 +19,7 @@ public class Assistant2 implements AssistantCard {
     private final HashMap<Player,Color> affectedPlayer = new HashMap<>();   //hashmap to keep track of the affected players
     private Player usingPlayer = null;     //variable to track the current user of the card
 
-    public Assistant2(Game currentGame){
+    public Expert2(Game currentGame){
         this.currentGame = currentGame;
     }
     @Override

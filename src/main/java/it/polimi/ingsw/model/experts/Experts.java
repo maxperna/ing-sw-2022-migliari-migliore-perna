@@ -1,6 +1,6 @@
-package it.polimi.ingsw.model.assistants;
+package it.polimi.ingsw.model.experts;
 
-public enum Assistants {
+public enum Experts {
     MOVE_TO_ISLAND,    //Take a student on this card and place on an island of your choice, then draw another one
     SAME_INFLUENCE_CONTROL, //During this turn you can take control of profs even with the same number of student
     ISLAND_CHOOSE_MOTHER_NATURE, //Chose an island and resolve it as if MotherN were moved there(move it normally anyway)

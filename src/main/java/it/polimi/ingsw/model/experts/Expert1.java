@@ -1,6 +1,6 @@
-package it.polimi.ingsw.model.assistants;
+package it.polimi.ingsw.model.experts;
 
-import it.polimi.ingsw.circularLinkedList.Node;
+import it.polimi.ingsw.gameField.Node;
 import it.polimi.ingsw.exceptions.NotEnoughCoin;
 import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
 import it.polimi.ingsw.model.Color;
@@ -9,13 +9,13 @@ import it.polimi.ingsw.model.Player;
 
 import java.util.ArrayList;
 
-public class Assistant1 implements AssistantCard {
+public class Expert1 implements ExpertCard {
     private final ArrayList<Color> studentsOnCard = new ArrayList<>();
     private int cost = 1;
     private final String IMG = "";            //front image of the card
     private final Game currentGame;
 
-    public Assistant1(Game currentGame){
+    public Expert1(Game currentGame){
         this.currentGame = currentGame;
         try{
             this.studentsOnCard.addAll(this.currentGame.getPouch().randomDraw(4));

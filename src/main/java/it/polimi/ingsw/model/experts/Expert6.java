@@ -1,16 +1,15 @@
-package it.polimi.ingsw.model.assistants;
+package it.polimi.ingsw.model.experts;
 
-import it.polimi.ingsw.circularLinkedList.Node;
 import it.polimi.ingsw.exceptions.NotEnoughCoin;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 
-public class Assistant6 implements AssistantCard{
+public class Expert6 implements ExpertCard {
 
     private int cost = 3;
     private final Game currentGame;
 
-    public Assistant6(Game currentGame){
+    public Expert6(Game currentGame){
         this.currentGame = currentGame;
     }
     @Override

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.circularLinkedList.Node;
+import it.polimi.ingsw.gameField.Node;
 import it.polimi.ingsw.exceptions.EndGameException;
 import it.polimi.ingsw.exceptions.NotEnoughSpace;
 import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
@@ -17,12 +17,13 @@ import java.util.Map;
 public class Board implements StudentManager {
 
     private final int maxStudentHall;
+    private final int MAX_DIM_INSIDE = 10;    //maximum students on the internal hall
     private final int maxTowers;
     private final TowerColor towerColor;
     private Integer numberOfTowers;  //number of towers on the board
     private Player teamMate;
-    private ArrayList<Color> studentsOutside;    //list of student in the outer room
-    private final Map<Color,Integer> lectureHall = new HashMap<>();      //list of student for each color inside the main hall
+    private ArrayList<Color> entryRoom;    //list of student in the outer room
+    private final Map<Color,Integer> diningRoom = new HashMap<>();      //list of student for each color inside the main hall
     private final Map<Color, Boolean> teachers = new HashMap<>();       //map to signal the presence of a teacher on the board
 
 
@@ -35,7 +36,7 @@ public class Board implements StudentManager {
         this.numberOfTowers = numberOfTowers;
 
         try {
-            this.studentsOutside = pouch.randomDraw(maxStudentHall);
+            this.entryRoom = pouch.randomDraw(maxStudentHall);
         } catch (NotEnoughStudentsException e) {
             e.printStackTrace();
         }
@@ -51,18 +52,16 @@ public class Board implements StudentManager {
         this.teamMate = teamMate;
 
         try {
-            this.studentsOutside = pouch.randomDraw(maxStudentHall);
+            this.entryRoom = pouch.randomDraw(maxStudentHall);
         } catch (NotEnoughStudentsException e) {
             e.printStackTrace();
         }
 
 
     }
-
-    public ArrayList<Color> getStudentsOutside(){
-        return studentsOutside;
+    public ArrayList<Color> getEntryRoom(){
+        return entryRoom;
     }
-    //da modificare
     public Integer getNumOfTowers() {
         return numberOfTowers;
     }
@@ -92,11 +91,12 @@ public class Board implements StudentManager {
      * @param color color of the student to move
      * @exception NotOnBoardException exception thrown if it's tried to move an inexistent student
      */
-    public void moveInside(Color color) throws NotOnBoardException{
-        if(!studentsOutside.contains(color)) throw new NotOnBoardException();
+    public void moveEntryToDiningRoom(Color color) throws NotOnBoardException,NotEnoughSpace{
+        if(!entryRoom.contains(color)) throw new NotOnBoardException();
+        if(diningRoom.get(color)==10) throw new NotEnoughSpace();
         else{
-            studentsOutside.remove(color);
-            lectureHall.put(color,lectureHall.get(color)+1);       //add a student of a color after removing it
+            entryRoom.remove(color);
+            diningRoom.put(color, diningRoom.get(color)+1);       //add a student of a color after removing it
             /*Coin add if on 3,6,9th space
             if(lectureHall.get(color)%3==0 && lectureHall.get(color)!=0){
                 observer for add coin
@@ -110,29 +110,60 @@ public class Board implements StudentManager {
      * @exception NotOnBoardException exception thrown if it's tried to move an inexistent student
      */
     public void moveToIsland(Color color, Node targetIsland) throws NotOnBoardException{
-        if(!studentsOutside.contains(color)) throw new NotOnBoardException();
+        if(!entryRoom.contains(color)) throw new NotOnBoardException();
         else{
-            studentsOutside.remove(color);
+            entryRoom.remove(color);
             targetIsland.addStudent(color);
         }
 
     }
 
-    public ArrayList<Color> moveFromOutsideRoom(ArrayList<Color> colorToRemove) throws NotOnBoardException{
-        if(!studentsOutside.containsAll(colorToRemove)) throw new NotOnBoardException();
+    /**Method to remove students from the outside room
+     * @param colorToRemove array list of student to move
+     * @return the student removed
+     * */
+    public ArrayList<Color> moveFromEntryRoom(ArrayList<Color> colorToRemove) throws NotOnBoardException{
+        if(!entryRoom.containsAll(colorToRemove)) throw new NotOnBoardException();
         else{
-            studentsOutside.removeAll(colorToRemove);
+            entryRoom.removeAll(colorToRemove);
             return colorToRemove;
         }
     }
 
-    /**Method to add students on the outside room
-     * @param studentToAdd list of student to add
+    /**Method to remove students from the outside room
+     * @param colorToRemove array list of student to move
+     * @return the student removed
      * */
-    public void addStudentOutsideRoom(ArrayList<Color> studentToAdd) throws NotEnoughSpace {
-        if(studentsOutside.size()+ studentToAdd.size()> maxStudentHall) throw new NotEnoughSpace();
+    public ArrayList<Color> moveFromDiningRoom(ArrayList<Color> colorToRemove) throws NotOnBoardException{
+        ArrayList<Color>  colorToReturn = new ArrayList<>();
+        for(Color color:colorToRemove) {
+            if (diningRoom.get(color)==0) throw new NotOnBoardException();
+            else {
+                diningRoom.put(color, diningRoom.get(color)-1);
+                colorToReturn.add(color);
+            }
+        }
+        return colorToReturn;
+    }
+
+    /**Method to add students on the outside room
+     * @param studentsToAdd list of student to add
+     * */
+    public void addStudentsEntryRoom(ArrayList<Color> studentsToAdd) throws NotEnoughSpace {
+        if(entryRoom.size()+ studentsToAdd.size()> maxStudentHall) throw new NotEnoughSpace();
         else{
-            studentsOutside.addAll(studentToAdd);
+            entryRoom.addAll(studentsToAdd);
+        }
+    }
+
+    /**Method to add studnet to the inside hall from external sources
+     * @param studentsToAdd array list of students to add*/
+    public void addStudentsDiningRoom(ArrayList<Color> studentsToAdd) throws NotEnoughSpace{
+        for(Color color:studentsToAdd){
+            if(diningRoom.get(color)+1 > MAX_DIM_INSIDE)
+                throw new NotEnoughSpace();
+            else
+                diningRoom.put(color,diningRoom.get(color)+1);
         }
     }
 
@@ -155,8 +186,8 @@ public class Board implements StudentManager {
 
     /**Method to move student from the cloud tile to outer hall
      */
-    public void setStudentsOutside(ArrayList<Color> studentsOutside) {
-        this.studentsOutside = studentsOutside;
+    public void setEntryRoom(ArrayList<Color> entryRoom) {
+        this.entryRoom = entryRoom;
     }
 
     public int colorStudent(Color color){

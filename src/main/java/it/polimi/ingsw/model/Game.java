@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.circularLinkedList.IslandList;
-import it.polimi.ingsw.circularLinkedList.Node;
+import it.polimi.ingsw.gameField.IslandList;
+import it.polimi.ingsw.gameField.Node;
 import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
 
 import java.util.ArrayList;

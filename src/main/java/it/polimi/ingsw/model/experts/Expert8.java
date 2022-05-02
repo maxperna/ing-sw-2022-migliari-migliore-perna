@@ -1,9 +1,11 @@
-package it.polimi.ingsw.model.assistants;
+package it.polimi.ingsw.model.experts;
 
 import it.polimi.ingsw.exceptions.NotEnoughCoin;
 import it.polimi.ingsw.model.Player;
 
-public class Assistant9 implements AssistantCard{
+public class Expert8 implements ExpertCard {
+
+    private int cost = 2;
     @Override
     public void useCard(Player user) throws NotEnoughCoin {
 

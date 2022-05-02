@@ -8,7 +8,7 @@ import static it.polimi.ingsw.model.strategy.FourPlayers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-class FourPlayersTestNew {
+class FourPlayersTestNew{
 
     @DisplayName("Testing FourPlayer strategy...")
     @Test
@@ -24,7 +24,7 @@ class FourPlayersTestNew {
 
         //Check board
         for (int i = 0; i < numberOfPlayers; i++) {
-            assertEquals(maxStudentHall, game.getPlayersList().get(i).getBoard().getStudentsOutside().size());
+            assertEquals(maxStudentHall, game.getPlayersList().get(i).getBoard().getEntryRoom().size());
             assertEquals(maxTowers, game.getPlayersList().get(i).getBoard().getNumOfTowers());
         }
 

@@ -91,7 +91,7 @@ class GameManagerTest {
                         assertEquals(TwoPlayers.numberOfPlayers, GameManager.getInstance().getGame(i).getPlayersList().size());
 
                         for (Player currentPlayer : GameManager.getInstance().getGame(i).getPlayersList()) {
-                            assertEquals(TwoPlayers.maxStudentHall, currentPlayer.getBoard().getStudentsOutside().size());
+                            assertEquals(TwoPlayers.maxStudentHall, currentPlayer.getBoard().getEntryRoom().size());
                             assertEquals(TwoPlayers.maxTowers, currentPlayer.getBoard().getNumOfTowers());
                         }
 
@@ -107,7 +107,7 @@ class GameManagerTest {
                         assertEquals(FourPlayers.numberOfPlayers, GameManager.getInstance().getGame(i).getPlayersList().size());
 
                         for (Player currentPlayer : GameManager.getInstance().getGame(i).getPlayersList()) {
-                            assertEquals(FourPlayers.maxStudentHall, currentPlayer.getBoard().getStudentsOutside().size());
+                            assertEquals(FourPlayers.maxStudentHall, currentPlayer.getBoard().getEntryRoom().size());
                             assertEquals(FourPlayers.maxTowers, currentPlayer.getBoard().getNumOfTowers());
                         }
 
@@ -124,7 +124,7 @@ class GameManagerTest {
                         assertEquals(ThreePlayers.numberOfPlayers, GameManager.getInstance().getGame(i).getPlayersList().size());
 
                         for (Player currentPlayer : GameManager.getInstance().getGame(i).getPlayersList()) {
-                            assertEquals(ThreePlayers.maxStudentHall, currentPlayer.getBoard().getStudentsOutside().size());
+                            assertEquals(ThreePlayers.maxStudentHall, currentPlayer.getBoard().getEntryRoom().size());
                             assertEquals(ThreePlayers.maxTowers, currentPlayer.getBoard().getNumOfTowers());
                         }
 

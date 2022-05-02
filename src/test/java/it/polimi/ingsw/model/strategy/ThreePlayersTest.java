@@ -24,7 +24,7 @@ class ThreePlayersTest {
         //Check board
         for (int i = 0; i < numberOfPlayers; i++) {
 
-            assertEquals(maxStudentHall, game.getPlayersList().get(i).getBoard().getStudentsOutside().size());
+            assertEquals(maxStudentHall, game.getPlayersList().get(i).getBoard().getEntryRoom().size());
             assertEquals(maxTowers, game.getPlayersList().get(i).getBoard().getNumOfTowers());
         }
     }
