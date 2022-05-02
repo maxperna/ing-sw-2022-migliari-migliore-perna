@@ -1,0 +1,45 @@
+package it.polimi.ingsw.model.experts;
+
+import it.polimi.ingsw.exceptions.NotEnoughCoin;
+import it.polimi.ingsw.exceptions.NotEnoughSpace;
+import it.polimi.ingsw.exceptions.NotOnBoardException;
+import it.polimi.ingsw.model.Color;
+import it.polimi.ingsw.model.Player;
+
+import java.util.ArrayList;
+
+public class Expert10 implements ExpertCard {
+
+    private int cost = 1;
+    @Override
+    public void useCard(Player user, ArrayList<Color> studentInside, ArrayList<Color> studentOutside) throws NotEnoughCoin,IllegalArgumentException {
+        if(user.getNumOfCoin()<cost){
+            throw new NotEnoughCoin();
+        }
+        else{
+            user.addCoin(-cost);
+            this.cost++;
+
+            try {
+                ArrayList<Color> colorOutside = new ArrayList<>(user.getBoard().moveFromEntryRoom(studentOutside));   //removing students from the outside
+                ArrayList<Color> colorInside = new ArrayList<>(user.getBoard().moveFromDiningRoom(studentInside));      //removing students from the inside
+
+                user.getBoard().addStudentsEntryRoom(colorInside);
+                user.getBoard().addStudentsDiningRoom(colorOutside);
+            }
+            catch (NotEnoughSpace | NotOnBoardException e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void endEffect() {
+
+    }
+
+    @Override
+    public int getCost() {
+        return this.cost;
+    }
+}
