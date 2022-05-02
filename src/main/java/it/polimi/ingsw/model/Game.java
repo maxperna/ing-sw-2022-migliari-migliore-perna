@@ -86,10 +86,10 @@ public class Game {
                 Player player2 = new Player(new Board(this.pouch, maxStudentHall, maxTowers, TowerColor.WHITE));
                 playersCreated.add(player2);
 
-                Player player3 = new Player(new Board(this.pouch, maxStudentHall, maxTowers, player2.getBoard().getTowers().get(0), player2.getBoard().getTowers()));
+                Player player3 = new Player(new Board(this.pouch, maxStudentHall, player2.getBoard().getNumOfTowers(), player2.getTowerColor(), player2));
                 playersCreated.add(player3);
 
-                Player player4 = new Player(new Board(this.pouch, maxStudentHall, maxTowers, player1.getBoard().getTowers().get(0), player1.getBoard().getTowers()));
+                Player player4 = new Player(new Board(this.pouch, maxStudentHall, player1.getBoard().getNumOfTowers(), player1.getTowerColor(), player1));
                 playersCreated.add(player4);
 
                 break;

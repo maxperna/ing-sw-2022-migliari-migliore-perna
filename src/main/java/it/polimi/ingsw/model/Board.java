@@ -19,17 +19,20 @@ public class Board implements StudentManager {
     private final int maxStudentHall;
     private final int maxTowers;
     private final TowerColor towerColor;
+    private Integer numberOfTowers;  //number of towers on the board
+    private Player teamMate;
     private ArrayList<Color> studentsOutside;    //list of student in the outer room
     private final Map<Color,Integer> lectureHall = new HashMap<>();      //list of student for each color inside the main hall
     private final Map<Color, Boolean> teachers = new HashMap<>();       //map to signal the presence of a teacher on the board
-    private ArrayList<TowerColor> towers;  //number of towers on the board
 
 
-    public Board(Pouch pouch, int maxStudentHall, int maxTowers, TowerColor towerColor){
+
+    public Board(Pouch pouch, int maxStudentHall, Integer numberOfTowers, TowerColor towerColor){
 
         this.maxStudentHall = maxStudentHall;
-        this.maxTowers = maxTowers;
+        this.maxTowers = numberOfTowers;
         this.towerColor = towerColor;
+        this.numberOfTowers = numberOfTowers;
 
         try {
             this.studentsOutside = pouch.randomDraw(maxStudentHall);
@@ -37,21 +40,15 @@ public class Board implements StudentManager {
             e.printStackTrace();
         }
 
-        //...la lista delle torri di ogni giocatore viene popolata
-        ArrayList <TowerColor> listOfTowers = new ArrayList <>();
-        for (int j = 0; j < maxTowers; j++) {
-            listOfTowers.add(towerColor);
-        }
-        this.towers = listOfTowers;
-
     }
 
-    public Board(Pouch pouch, int maxStudentHall, int maxTowers, TowerColor towerColor, ArrayList<TowerColor> towers){
+    public Board(Pouch pouch, int maxStudentHall, Integer numberOfTowers, TowerColor towerColor, Player teamMate){
 
         this.maxStudentHall = maxStudentHall;
-        this.maxTowers = maxTowers;
+        this.maxTowers = numberOfTowers;
         this.towerColor = towerColor;
-        this.towers = towers;
+        this.numberOfTowers = numberOfTowers;
+        this.teamMate = teamMate;
 
         try {
             this.studentsOutside = pouch.randomDraw(maxStudentHall);
@@ -66,8 +63,8 @@ public class Board implements StudentManager {
         return studentsOutside;
     }
     //da modificare
-    public int getNumOfTowers() {
-        return towers.size();
+    public Integer getNumOfTowers() {
+        return numberOfTowers;
     }
 
     /**Method to get the presence of a teacher of a given on the board
@@ -140,31 +137,23 @@ public class Board implements StudentManager {
      * @exception EndGameException exception thrown if there aren't any tower, make the game end
      */
     public TowerColor moveTower() throws EndGameException{
-        if(towers.size() == 0) throw new EndGameException("Out of towers");
+        if(numberOfTowers == 0) throw new EndGameException("Out of towers");
         else{
-            towers.remove(towerColor);
-            return this.towerColor;
+            numberOfTowers --;
+            return getTowerColor();
         }
     }
 
     /**Method to add a tower to the hall
      */
     public void addTower(){
-        towers.add(towerColor);
+        numberOfTowers++;
     }
 
     /**Method to move student from the cloud tile to outer hall
      */
     public void setStudentsOutside(ArrayList<Color> studentsOutside) {
         this.studentsOutside = studentsOutside;
-    }
-
-    public ArrayList <TowerColor> getTowers() {
-        return towers;
-    }
-
-    public void setTowers(ArrayList <TowerColor> towers) {
-        this.towers = towers;
     }
 
     public int colorStudent(Color color){
