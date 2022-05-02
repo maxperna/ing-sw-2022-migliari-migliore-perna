@@ -12,6 +12,8 @@ public class Expert7 implements ExpertCard {
     private int cost = 1;
     private final ArrayList<Color> studentsOnCard = new ArrayList<>();
 
+    private final String IMG = "";            //front image of the card
+
 
     public Expert7(Game currentGame){
         try{

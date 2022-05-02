@@ -11,9 +11,9 @@ public interface Strategy {
 
     /**
      * Method used to generate a new game
-     *
+     * @param expertMode boolean to select the expert modality
      * @return a Game class initialized for a set number of players
      */
-    Game generateGame();
+    Game generateGame(boolean expertMode);
 
 }

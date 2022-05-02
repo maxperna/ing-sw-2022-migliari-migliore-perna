@@ -16,7 +16,7 @@ class PouchTest {
     @CsvSource ({"1", "10", "106"})
     void randomDraw(int input) {
         GameManager game = GameManager.getInstance();
-        game.startGame("TwoPlayers");
+        game.startGame("TwoPlayers",false);
         ArrayList<Color> students = new ArrayList<>();
         try {
             students.addAll(game.getGame(0).getPouch().randomDraw(input));
@@ -32,7 +32,7 @@ class PouchTest {
     @CsvSource ({"1", "10", "106"})
     void randomDrawShouldThrowException(int input) {
         GameManager game = GameManager.getInstance();
-        game.startGame("TwoPlayers");
+        game.startGame("TwoPlayers",false);
 
         if(input == 106) {
             assertThrows(NotEnoughStudentsException.class, () -> {
@@ -52,7 +52,7 @@ class PouchTest {
         GameManager game = GameManager.getInstance();
         game.setNull();
         game = GameManager.getInstance();
-        game.startGame("TwoPlayers");
+        game.startGame("TwoPlayers",false);
         ArrayList<Color> students = new ArrayList<>();
         students.add(Color.RED);
         game.getGame(0).getPouch().addStudents(students);

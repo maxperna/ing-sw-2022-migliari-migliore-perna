@@ -4,6 +4,9 @@ import it.polimi.ingsw.exceptions.NotEnoughCoin;
 import it.polimi.ingsw.model.Player;
 
 public class Expert4 implements ExpertCard {
+
+    private final int cost = 1;
+    private final String IMG = "";            //front image of the card
     @Override
     public void useCard(Player user) throws NotEnoughCoin {
 
@@ -16,6 +19,6 @@ public class Expert4 implements ExpertCard {
 
     @Override
     public int getCost() {
-        return 0;
+        return this.cost;
     }
 }

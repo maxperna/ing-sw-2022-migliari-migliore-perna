@@ -24,9 +24,9 @@ public class Selector {
      *
      * @return a Game class initialized with the selected strategy
      */
-    public Game CreateGame() {
+    public Game CreateGame(boolean expertMode) {
 
-        return strategy.generateGame();
+        return strategy.generateGame(expertMode);
 
     }
 

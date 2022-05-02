@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.Player;
 public class Expert8 implements ExpertCard {
 
     private int cost = 2;
+    private final String IMG = "";            //front image of the card
     @Override
     public void useCard(Player user) throws NotEnoughCoin {
 
@@ -18,6 +19,6 @@ public class Expert8 implements ExpertCard {
 
     @Override
     public int getCost() {
-        return 0;
+        return this.cost;
     }
 }

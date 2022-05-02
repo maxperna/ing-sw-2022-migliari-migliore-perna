@@ -12,6 +12,7 @@ import java.util.Collections;
 public class Expert12 implements ExpertCard {
     private int cost = 3;
     private final Game currentGame;
+    private final String IMG = "";            //front image of the card
 
     public Expert12(Game currentGame){
         this.currentGame = currentGame;

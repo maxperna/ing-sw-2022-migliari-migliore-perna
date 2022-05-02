@@ -71,10 +71,10 @@ public class GameManager {
 
     /**
      * Method used to initialize the games
-     *
      * @param gameMode used to select the number of player in the game
+     * @param expertMode selector for expert mode
      */
-    public synchronized Game startGame(@NotNull String gameMode) {
+    public synchronized Game startGame(@NotNull String gameMode, boolean expertMode) {
 
         Selector selector;
 
@@ -99,7 +99,7 @@ public class GameManager {
                 throw new IllegalArgumentException("Unknown selector " + gameMode);
         }
 
-        Game game = selector.CreateGame();
+        Game game = selector.CreateGame(expertMode);
         gamesList.add(game);
         return game;
     }

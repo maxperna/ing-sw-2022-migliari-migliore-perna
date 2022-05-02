@@ -19,9 +19,9 @@ public class FourPlayers implements Strategy {
      * @return a Game class initialized for four players
      */
     @Override
-    public Game generateGame() {
+    public Game generateGame(boolean expertMode) {
 
-        return new Game(numberOfPlayers, maxTowers, maxStudentHall);
+        return new Game(numberOfPlayers, maxTowers, maxStudentHall,expertMode);
 
     }
 }

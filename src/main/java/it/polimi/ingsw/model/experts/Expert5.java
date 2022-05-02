@@ -12,6 +12,8 @@ public class Expert5 implements ExpertCard {
     private final ArrayList<Node> stoppedIsland = new ArrayList<>();
     private int cost = 2;
 
+    private final String IMG = "";            //front image of the card
+
     public Expert5(){
         this.stopAvailable = 4;
     }

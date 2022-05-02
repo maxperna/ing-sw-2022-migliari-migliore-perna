@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.experts;
 
+import it.polimi.ingsw.exceptions.IllegalMove;
 import it.polimi.ingsw.gameField.Node;
 import it.polimi.ingsw.exceptions.NotEnoughCoin;
 import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
@@ -25,23 +26,22 @@ public class Expert1 implements ExpertCard {
         }
     }
     @Override
-    public void useCard(Player user, Node targetIsland) throws NotEnoughCoin{
+    public void useCard(Player user, Node targetIsland,Color colorToSwap) throws NotEnoughCoin, IllegalMove {
         if(user.getNumOfCoin()<this.cost){
             throw new NotEnoughCoin("You cant afford this card");
         }
         else{
             user.addCoin(-this.cost);
             this.cost++;
-            Color colorToSwap = null;     //input, color to move on the island
-            //COLOR INPUT
-            studentsOnCard.remove(colorToSwap);
-            targetIsland.addStudent(colorToSwap);
-            try {
-                studentsOnCard.addAll(currentGame.getPouch().randomDraw(1));
+            if(studentsOnCard.remove(colorToSwap)) {
+                targetIsland.addStudent(colorToSwap);
+                try {
+                    studentsOnCard.addAll(currentGame.getPouch().randomDraw(1));
+                } catch (NotEnoughStudentsException e) {
+                    e.printStackTrace();
+                }
             }
-            catch (NotEnoughStudentsException e){
-                e.printStackTrace();
-            }
+            else throw new IllegalMove("Student not on card");
 
         }
     }
@@ -54,5 +54,9 @@ public class Expert1 implements ExpertCard {
     @Override
     public int getCost() {
         return cost;
+    }
+
+    public ArrayList<Color> getStudentsOnCard(){
+        return studentsOnCard;
     }
 }

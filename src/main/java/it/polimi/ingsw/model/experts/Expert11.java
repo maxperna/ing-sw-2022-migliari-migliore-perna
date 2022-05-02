@@ -17,6 +17,8 @@ public class Expert11 implements ExpertCard {
     private final Game currentGame;
     private final ArrayList<Color> studentsOnCard = new ArrayList<>();
 
+    private final String IMG = "";            //front image of the card
+
     public Expert11(Game currentGame){
         this.currentGame = currentGame;
 

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class Expert10 implements ExpertCard {
 
     private int cost = 1;
+    private final String IMG = "";            //front image of the card
     @Override
     public void useCard(Player user, ArrayList<Color> studentInside, ArrayList<Color> studentOutside) throws NotEnoughCoin,IllegalArgumentException {
         if(user.getNumOfCoin()<cost){

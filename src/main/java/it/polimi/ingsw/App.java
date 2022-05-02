@@ -12,9 +12,9 @@ public class App
     public static void main( String[] args )
     {
 
-        GameManager.getInstance().startGame("TwoPlayers");
-        GameManager.getInstance().startGame("ThreePlayers");
-        GameManager.getInstance().startGame("FourPlayers");
+        GameManager.getInstance().startGame("TwoPlayers",false);
+        GameManager.getInstance().startGame("ThreePlayers",false);
+        GameManager.getInstance().startGame("FourPlayers",false);
 
         int i = 0;
     }

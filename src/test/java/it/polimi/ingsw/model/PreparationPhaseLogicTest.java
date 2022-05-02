@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class PreparationPhaseLogicTest {
 
     private static final ThreePlayers gameGenerator = new ThreePlayers();
-    private static final Game gameParameter = gameGenerator.generateGame();
+    private static final Game gameParameter = gameGenerator.generateGame(false);
 
 
 

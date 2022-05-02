@@ -9,6 +9,8 @@ public class Expert3 implements ExpertCard {
 
     private final Game currentGame;
     private int cost = 3;
+    private final String IMG = "";            //front image of the card
+
     public Expert3(Game currentGame){
         this.currentGame = currentGame;
     }

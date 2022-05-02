@@ -15,7 +15,7 @@ class FourPlayersTestNew{
     void shouldGenerateFourPlayersGame() {
 
         FourPlayers fourPlayers = new FourPlayers();
-        Game game = fourPlayers.generateGame();
+        Game game = fourPlayers.generateGame(false);
 
         assertNotNull(game);
 

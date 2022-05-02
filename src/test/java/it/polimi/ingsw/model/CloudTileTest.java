@@ -18,7 +18,7 @@ class CloudTileTest {
     @Test
     void getStudentsShouldThorwException(){
         GameManager game = GameManager.getInstance();
-        game.startGame("TwoPlayers");
+        game.startGame("TwoPlayers",false);
         assertThrows(EmptyCloudException.class, () -> {
             game.getGame(0).getCloudTiles().get(0).getStudents();
         });
@@ -29,7 +29,7 @@ class CloudTileTest {
     @Test
     void moveStudents() throws EmptyCloudException {
         GameManager game = GameManager.getInstance();
-        game.startGame("TwoPlayers");
+        game.startGame("TwoPlayers",false);
         ArrayList<Color> students = new ArrayList<>();
         try {
             students.addAll(game.getGame(0).getPouch().randomDraw(3));
@@ -49,7 +49,7 @@ class CloudTileTest {
     @CsvSource ({"0", "1", "2", "3"})
     void getTileID(int ID) {
         GameManager game = GameManager.getInstance();
-        game.startGame("FourPlayers");
+        game.startGame("FourPlayers",false);
         assertEquals(ID, game.getGame(0).getCloudTiles().get(ID).getTileID());
     }
 
@@ -57,7 +57,7 @@ class CloudTileTest {
     @Test
     void setStudents() throws EmptyCloudException {
         GameManager game = GameManager.getInstance();
-        game.startGame("TwoPlayers");
+        game.startGame("TwoPlayers",false);
         ArrayList<Color> students = new ArrayList<>();
         try {
            students.addAll(game.getGame(0).getPouch().randomDraw(3));

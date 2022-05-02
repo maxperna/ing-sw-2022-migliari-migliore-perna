@@ -15,7 +15,7 @@ class TwoPlayersTest {
     void ShouldCreateTwoPlayersGame() {
 
         TwoPlayers twoPlayers = new TwoPlayers();
-        Game game = twoPlayers.generateGame();
+        Game game = twoPlayers.generateGame(false);
 
         assertNotNull(game);
 

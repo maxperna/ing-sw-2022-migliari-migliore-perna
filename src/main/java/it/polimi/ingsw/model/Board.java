@@ -17,7 +17,7 @@ import java.util.Map;
 public class Board implements StudentManager {
 
     private final int maxStudentHall;
-    private final int MAX_DIM_INSIDE = 10;    //maximum students on the internal hall
+    private final int MAX_DIM_INSIDE = 10;    //maximum students on the dining room
     private final int maxTowers;
     private final TowerColor towerColor;
     private Integer numberOfTowers;  //number of towers on the board
@@ -26,33 +26,37 @@ public class Board implements StudentManager {
     private final Map<Color,Integer> diningRoom = new HashMap<>();      //list of student for each color inside the main hall
     private final Map<Color, Boolean> teachers = new HashMap<>();       //map to signal the presence of a teacher on the board
 
+    private final Game currentGame;
 
 
-    public Board(Pouch pouch, int maxStudentHall, Integer numberOfTowers, TowerColor towerColor){
+
+    public Board(Game currentGame, int maxStudentHall, Integer numberOfTowers, TowerColor towerColor){
 
         this.maxStudentHall = maxStudentHall;
         this.maxTowers = numberOfTowers;
         this.towerColor = towerColor;
         this.numberOfTowers = numberOfTowers;
+        this.currentGame = currentGame;
 
         try {
-            this.entryRoom = pouch.randomDraw(maxStudentHall);
+            this.entryRoom = currentGame.getPouch().randomDraw(maxStudentHall);
         } catch (NotEnoughStudentsException e) {
             e.printStackTrace();
         }
 
     }
 
-    public Board(Pouch pouch, int maxStudentHall, Integer numberOfTowers, TowerColor towerColor, Player teamMate){
+    public Board(Game currentGame, int maxStudentHall, Integer numberOfTowers, TowerColor towerColor, Player teamMate){
 
         this.maxStudentHall = maxStudentHall;
         this.maxTowers = numberOfTowers;
         this.towerColor = towerColor;
         this.numberOfTowers = numberOfTowers;
         this.teamMate = teamMate;
+        this.currentGame = currentGame;
 
         try {
-            this.entryRoom = pouch.randomDraw(maxStudentHall);
+            this.entryRoom = currentGame.getPouch().randomDraw(maxStudentHall);
         } catch (NotEnoughStudentsException e) {
             e.printStackTrace();
         }
@@ -97,10 +101,11 @@ public class Board implements StudentManager {
         else{
             entryRoom.remove(color);
             diningRoom.put(color, diningRoom.get(color)+1);       //add a student of a color after removing it
-            /*Coin add if on 3,6,9th space
-            if(lectureHall.get(color)%3==0 && lectureHall.get(color)!=0){
-                observer for add coin
-            }*/
+            //Coin add if on 3,6,9th space
+            if(diningRoom.get(color)%3==0 && diningRoom.get(color)!=0){
+                Player playerToAdd = currentGame.getBoardAssignations().get(this);
+                currentGame.coinHandler(playerToAdd,1);
+            }
 
         }
     }

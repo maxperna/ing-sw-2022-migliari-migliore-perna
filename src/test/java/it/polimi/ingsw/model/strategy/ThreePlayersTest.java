@@ -14,7 +14,7 @@ class ThreePlayersTest {
     @Test
     void ShouldGenerateThreePlayersGame() {
         ThreePlayers threePlayers = new ThreePlayers();
-        Game game = threePlayers.generateGame();
+        Game game = threePlayers.generateGame(false);
 
         assertNotNull(game);
 

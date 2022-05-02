@@ -3,6 +3,8 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.gameField.IslandList;
 import it.polimi.ingsw.gameField.Node;
 import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
+import it.polimi.ingsw.model.experts.ExpertCard;
+import it.polimi.ingsw.model.experts.ExpertsFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,16 +18,19 @@ import java.util.UUID;
 public class Game {
 
     public final static int MAX_TILE = 12;
-    public final static int INIT_COINS = 20;
+    public final boolean EXPERT_MODE;       //set to true if expert mode is selected
     public final int NUM_OF_PLAYERS;
     private final UUID gameID;
     private final ArrayList<Player> playersList;
+
+    private final HashMap<Board,Player> boardAssignations = new HashMap<>();    //Map to keep track of boards assignations
     private final IslandList gameField;
     private final Pouch pouch;
     private final ArrayList<CloudTile> cloudTiles;
     private static final HashMap<Color, Pair<Player, Integer>> influenceMap = new HashMap<>(); //mapping the influence of every player
 
-    private int coins;
+    private final ArrayList<ExpertCard> expertsCard = new ArrayList<>();
+    public int coins = 20;
 
     /**
      * Constructor
@@ -34,13 +39,13 @@ public class Game {
      * @param maxTowers       number of towers for each player
      * @param maxStudentHall  number of students for each player at the beginning of the game
      */
-    public Game(int numberOfPlayers, int maxTowers, int maxStudentHall) {
+    public Game(int numberOfPlayers, int maxTowers, int maxStudentHall,boolean expertMode) {
 
         this.gameID = UUID.randomUUID();
         this.NUM_OF_PLAYERS = numberOfPlayers;
         this.pouch = new Pouch();
         this.gameField = new IslandList();
-        this.coins = INIT_COINS;
+        this.EXPERT_MODE = expertMode;
 
         //creates cloudTiles
         ArrayList <CloudTile> cloudTileList = new ArrayList <>();
@@ -52,46 +57,66 @@ public class Game {
 
         //Crea un nuovo array di giocatori che verra popolato e poi restituito
         ArrayList<Player> playersCreated = new ArrayList<>();
+        Board createdBoard;      //container variable to keep the created board for each player
+
         switch (numberOfPlayers) {
             case 2: {
 
                 //Crea ogni giocatore, gli associa una board popolata e poi lo inserce nella lista finale
-                Player player1 = new Player(new Board(this.pouch, maxStudentHall, maxTowers, TowerColor.BLACK));
+                createdBoard = new Board(this, maxStudentHall, maxTowers, TowerColor.BLACK);
+                Player player1 = new Player(createdBoard);
                 playersCreated.add(player1);
+                boardAssignations.put(createdBoard,player1);
 
-                Player player2 = new Player(new Board(pouch, maxStudentHall, maxTowers, TowerColor.WHITE));
+                createdBoard = new Board(this, maxStudentHall, maxTowers, TowerColor.WHITE);
+                Player player2 = new Player(createdBoard);
                 playersCreated.add(player2);
+                boardAssignations.put(createdBoard,player2);
 
                 break;
             }
 
             case 3: {
                 //Crea ogni giocatore, gli associa una board popolata e poi lo inserce nella lista finale
-                Player player1 = new Player(new Board(this.pouch, maxStudentHall, maxTowers, TowerColor.BLACK));
+                createdBoard = new Board(this, maxStudentHall, maxTowers, TowerColor.BLACK);
+                Player player1 = new Player(createdBoard);
                 playersCreated.add(player1);
+                boardAssignations.put(createdBoard,player1);
 
-                Player player2 = new Player(new Board(this.pouch, maxStudentHall, maxTowers, TowerColor.WHITE));
+                createdBoard = new Board(this, maxStudentHall, maxTowers, TowerColor.WHITE);
+                Player player2 = new Player(createdBoard);
                 playersCreated.add(player2);
+                boardAssignations.put(createdBoard,player2);
 
-                Player player3 = new Player(new Board(this.pouch, maxStudentHall, maxTowers, TowerColor.GRAY));
+                new Board(this, maxStudentHall, maxTowers, TowerColor.GRAY);
+                Player player3 = new Player(createdBoard);
                 playersCreated.add(player3);
+                boardAssignations.put(createdBoard,player3);
 
                 break;
             }
 
             case 4: {
                 //Crea ogni giocatore, gli associa una board popolata e poi lo inserce nella lista finale
-                Player player1 = new Player(new Board(this.pouch, maxStudentHall, maxTowers, TowerColor.BLACK));
+                createdBoard = new Board(this, maxStudentHall, maxTowers, TowerColor.BLACK);
+                Player player1 = new Player(createdBoard);
                 playersCreated.add(player1);
+                boardAssignations.put(createdBoard,player1);
 
-                Player player2 = new Player(new Board(this.pouch, maxStudentHall, maxTowers, TowerColor.WHITE));
+                createdBoard=new Board(this, maxStudentHall, maxTowers, TowerColor.WHITE);
+                Player player2 = new Player(createdBoard);
                 playersCreated.add(player2);
+                boardAssignations.put(createdBoard,player2);
 
-                Player player3 = new Player(new Board(this.pouch, maxStudentHall, player2.getBoard().getNumOfTowers(), player2.getTowerColor(), player2));
+                createdBoard = new Board(this, maxStudentHall, player2.getBoard().getNumOfTowers(), player2.getTowerColor(), player2);
+                Player player3 = new Player(createdBoard);
                 playersCreated.add(player3);
+                boardAssignations.put(createdBoard,player3);
 
-                Player player4 = new Player(new Board(this.pouch, maxStudentHall, player1.getBoard().getNumOfTowers(), player1.getTowerColor(), player1));
+                createdBoard = new Board(this, maxStudentHall, player1.getBoard().getNumOfTowers(), player1.getTowerColor(), player1);
+                Player player4 = new Player(createdBoard);
                 playersCreated.add(player4);
+                boardAssignations.put(createdBoard,player4);
 
                 break;
             }
@@ -107,6 +132,18 @@ public class Game {
         for (Color color : Color.values()) {
             Pair<Player, Integer> internalPair = new Pair<>(null, 0);
             influenceMap.put(color, internalPair);
+        }
+
+        //ONLY IF EXPERT MODE IS SELECTED
+        if(EXPERT_MODE) {
+            //Initial coin assignment
+            for (Player player : this.playersList) {
+                this.coinHandler(player, 1);          //assign the initial coin to every player
+            }
+
+            //Expert cards drawing
+            ExpertsFactory expertsDrawer = ExpertsFactory.createFactory(this);
+            this.expertsCard.addAll(expertsDrawer.drawAssistant());
         }
 
     }
@@ -139,6 +176,10 @@ public class Game {
         return playersList;
     }
 
+    public HashMap<Board, Player> getBoardAssignations() {
+        return boardAssignations;
+    }
+
     public Pouch getPouch() {
         return pouch;
     }
@@ -163,6 +204,11 @@ public class Game {
     public int getCoins() {
         return coins;
     }
+
+    public ArrayList<ExpertCard> getExpertsCard() {
+        return expertsCard;
+    }
+
 
     public void setCoins(int coins) {
         this.coins = coins;
@@ -230,6 +276,8 @@ public class Game {
         }
     }
 
+    /**Getter of the influence map, an HashMap containing the color as key and a tuple of the student with that
+     * influence and the number of student it has in his dining room*/
     public HashMap<Color, Pair<it.polimi.ingsw.model.Player, java.lang.Integer>> getInfluenceMap(){
         return influenceMap;
     }
@@ -263,4 +311,14 @@ public class Game {
         }
     }
 
+    /**Method handling the coin in the expert mode, it transfers coins from the common reserve of the game to each player
+     * personal reserve, passing a positive quantity will add coins to player taking them by the common reserve, passing
+     * a negative quantity will do the vice-versa.
+     * @param player to whom add/remove the money
+     * @param quantity number of coin to transfer/remove */
+
+    public void coinHandler(Player player,int quantity){
+        this.coins = this.coins - quantity;
+        player.addCoin(quantity);
+    };
 }

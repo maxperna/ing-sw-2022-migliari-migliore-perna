@@ -19,7 +19,7 @@ class IslandListTest {
     @CsvSource({"1,1", "2,2", "3,3", "4,4", "5,5", "6,6", "7,7", "8,8", "9,9", "10,10", "11,11", "12,12"})
     void getIslandNodeShouldReturnCorrect(int nodeID, int expected) {
         GameManager game = GameManager.getInstance();
-        game.startGame("TwoPlayers");
+        game.startGame("TwoPlayers",false);
         assertEquals(expected, game.getGame(0).getGameField().getIslandNode(nodeID).getNodeID());
     }
 
@@ -28,7 +28,7 @@ class IslandListTest {
     @CsvSource({"1,2", "2, 3", "3, 4", "4, 5", "5, 6", "6,7", "7,8", "8,9", "9,10", "10,11", "11,12", "12,1"})
     void getNextIslandNodeShouldReturnCorrect(int islandID, int expected) {
         GameManager game = GameManager.getInstance();
-        game.startGame("TwoPlayers");
+        game.startGame("TwoPlayers",false);
         assertEquals(expected, game.getGame(0).getGameField().getIslandNode(islandID).getNextNode().getNodeID());
     }
 
@@ -38,7 +38,7 @@ class IslandListTest {
     @CsvSource({"1,12", "2,1", "3,2", "4,3", "5,4", "6,5", "7,6", "8,7", "9,8", "10,9", "11,10", "12,11"})
     void getPreviousIslandNodeShouldReturnCorrect() {
         GameManager game = GameManager.getInstance();
-        game.startGame("TwoPlayers");
+        game.startGame("TwoPlayers",false);
         for(int i=1; i<=12; i++) {
             if (i == 1)
                 assertEquals(12, game.getGame(0).getGameField().getIslandNode(i).getPreviousNode().getNodeID());
@@ -53,7 +53,7 @@ class IslandListTest {
     @CsvSource({"1,1", "2,2", "3,3", "4,4", "5,5", "6,6", "7,7", "8,8", "9,9", "10,10", "11,11", "12,12"})
     void moveMotherNatureToIslandTileTest(int islandID, int expected) throws EndGameException {
         GameManager game = GameManager.getInstance();
-        game.startGame("TwoPlayers");
+        game.startGame("TwoPlayers",false);
         game.getGame(0).getGameField().getIslandNode(islandID).setMostInfluencePlayer(game.getGame(0).getPlayersList().get(0));
         game.getGame(0).getGameField().moveMotherNatureToNodeID(islandID);
         assertEquals(expected, game.getGame(0).getGameField().getMotherNature().getNodeID());
@@ -65,7 +65,7 @@ class IslandListTest {
     @CsvSource({"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"})
     void moveMotherNatureByMoves(int moves) {
         GameManager game = GameManager.getInstance();
-        game.startGame("TwoPlayers");
+        game.startGame("TwoPlayers",false);
         int motherNaturePosition = game.getGame(0).getGameField().getMotherNature().getNodeID();
         motherNaturePosition = (motherNaturePosition+moves)%12;
         if(motherNaturePosition==0)
@@ -86,7 +86,7 @@ class IslandListTest {
     @CsvSource ({"1 ,11, 2", "2, 1, 3", "3, 2, 4", "4, 3, 5", "5, 4, 6", "6, 5, 7", "7, 6, 8", "8, 7, 9", "9, 8, 10", "10, 9, 11", "11, 10, 1", "12, 11, 2"})
     void mergeIslandsOnNextNodeTest(int input, int previous, int next) throws EndGameException {
         GameManager game = GameManager.getInstance();
-        game.startGame("TwoPlayers");
+        game.startGame("TwoPlayers",false);
         game.getGame(0).getGameField().getIslandNode(input).setMostInfluencePlayer(game.getGame(0).getPlayersList().get(0));
         game.getGame(0).getGameField().getIslandNode(input).setTowerTest(TowerColor.BLACK);
         game.getGame(0).getGameField().getIslandNode(input).getNextNode().setMostInfluencePlayer(game.getGame(0).getPlayersList().get(0));
@@ -104,7 +104,7 @@ class IslandListTest {
     @CsvSource ({"1 ,11, 2", "2, 1, 3", "3, 2, 4", "4, 3, 5", "5, 4, 6", "6, 5, 7", "7, 6, 8", "8, 7, 9", "9, 8, 10", "10, 9, 11", "11, 10, 1", "12, 10, 1"})
     void mergeIslandsOnPreviousNodeTest(int input, int previous, int next) throws EndGameException {
         GameManager game = GameManager.getInstance();
-        game.startGame("TwoPlayers");
+        game.startGame("TwoPlayers",false);
         game.getGame(0).getGameField().getIslandNode(input).setMostInfluencePlayer(game.getGame(0).getPlayersList().get(0));
         game.getGame(0).getGameField().getIslandNode(input).setTowerTest(TowerColor.BLACK);
         game.getGame(0).getGameField().getIslandNode(input).getPreviousNode().setMostInfluencePlayer(game.getGame(0).getPlayersList().get(0));
@@ -122,7 +122,7 @@ class IslandListTest {
     @CsvSource ({"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"})
     void mergeIslandsTestShouldReturnEndGameException(int input){
         GameManager game = GameManager.getInstance();
-        game.startGame("TwoPlayers");
+        game.startGame("TwoPlayers",false);
         for(int i=1; i<13; i++) {
             game.getGame(0).getGameField().getIslandNode(i).setTowerTest(TowerColor.BLACK);
         }
@@ -140,7 +140,7 @@ class IslandListTest {
     @CsvSource ({"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"})
     void addThreeStudents (int ID) {
         GameManager game = GameManager.getInstance();
-        game.startGame("TwoPlayers");
+        game.startGame("TwoPlayers",false);
         game.getGame(0).getGameField().addStudent(ID, Color.RED);
         game.getGame(0).getGameField().addStudent(ID, Color.RED);
         game.getGame(0).getGameField().addStudent(ID, Color.RED);
@@ -158,7 +158,7 @@ class IslandListTest {
         GameManager game = GameManager.getInstance();
         game.setNull();
         game = GameManager.getInstance();
-        game.startGame("TwoPlayers");
+        game.startGame("TwoPlayers",false);
         game.getGame(0).getGameField().getIslandNode(input).setMostInfluencePlayer(game.getGame(0).getPlayersList().get(0));
         game.getGame(0).getGameField().getIslandNode(input).setTowerTest(TowerColor.BLACK);
         game.getGame(0).getGameField().getIslandNode(input).getNextNode().setMostInfluencePlayer(game.getGame(0).getPlayersList().get(0));

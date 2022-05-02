@@ -15,6 +15,7 @@ public interface ExpertCard {
 
     default void useCard(Player userPlayer) throws NotEnoughCoin{};
     default void useCard(Player userPlayer, Node targetIsland) throws NotEnoughCoin, IllegalMove {};
+    default void useCard(Player userPlayer,Node targetIsland, Color student) throws NotEnoughCoin,IllegalMove{};
     default void useCard(Player userPlayer, Color studentToAdd) throws NotEnoughCoin,IllegalMove{};
 
     default void useCard(Player user, ArrayList<Color> studentToSwapBoard, ArrayList<Color> studentToSwapCard) throws NotEnoughCoin, IllegalMove{};
