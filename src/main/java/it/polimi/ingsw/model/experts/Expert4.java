@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.Player;
 
 public class Expert4 implements ExpertCard {
 
-    private final int cost = 1;
+    private int cost = 1;
     private final String IMG = "";            //front image of the card
     @Override
     public void useCard(Player user) throws NotEnoughCoin {
