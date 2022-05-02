@@ -1,18 +1,18 @@
 package it.polimi.ingsw.assistants;
 
 public class AssistantFactoryTest {
-//    AssistantFactory factoryTest = AssistantFactory.createFactory();
+//    ExpertsFactory factoryTest = ExpertsFactory.createFactory();
 //
 //    @Test
 //    public void drawAssistantTest(){
-//        //check for five times if duplicates happen and if AssistantFactory is actually a singleton
+//        //check for five times if duplicates happen and if ExpertsFactory is actually a singleton
 //        for(int i=0;i<5;i++){
-//            ArrayList<AssistantCard> testCards = factoryTest.drawAssistant();
-//            ArrayList<AssistantCard> oldTestCards = new ArrayList<>();    //old iteration card list
+//            ArrayList<ExpertCard> testCards = factoryTest.drawAssistant();
+//            ArrayList<ExpertCard> oldTestCards = new ArrayList<>();    //old iteration card list
 //
 //            //Getting the classes of the generated cards in order to check possible duplicates
 //            ArrayList<Object> testCardsClass = new ArrayList<>();
-//            for(AssistantCard card: testCards){
+//            for(ExpertCard card: testCards){
 //                testCardsClass.add(card.getClass());
 //            }
 //            //generate a set to delete duplicates in testCards (set only contains unique elements)
