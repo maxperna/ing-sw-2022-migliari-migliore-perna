@@ -92,7 +92,7 @@ class GameManagerTest {
 
                         for (Player currentPlayer : GameManager.getInstance().getGame(i).getPlayersList()) {
                             assertEquals(TwoPlayers.maxStudentHall, currentPlayer.getBoard().getStudentsOutside().size());
-                            assertEquals(TwoPlayers.maxTowers, currentPlayer.getBoard().getTowers().size());
+                            assertEquals(TwoPlayers.maxTowers, currentPlayer.getBoard().getNumOfTowers());
                         }
 
                         //Checks CloudTile
@@ -108,7 +108,7 @@ class GameManagerTest {
 
                         for (Player currentPlayer : GameManager.getInstance().getGame(i).getPlayersList()) {
                             assertEquals(FourPlayers.maxStudentHall, currentPlayer.getBoard().getStudentsOutside().size());
-                            assertEquals(FourPlayers.maxTowers, currentPlayer.getBoard().getTowers().size());
+                            assertEquals(FourPlayers.maxTowers, currentPlayer.getBoard().getNumOfTowers());
                         }
 
                         //Checks CloudTile
@@ -125,7 +125,7 @@ class GameManagerTest {
 
                         for (Player currentPlayer : GameManager.getInstance().getGame(i).getPlayersList()) {
                             assertEquals(ThreePlayers.maxStudentHall, currentPlayer.getBoard().getStudentsOutside().size());
-                            assertEquals(ThreePlayers.maxTowers, currentPlayer.getBoard().getTowers().size());
+                            assertEquals(ThreePlayers.maxTowers, currentPlayer.getBoard().getNumOfTowers());
                         }
 
                         //Checks CloudTile

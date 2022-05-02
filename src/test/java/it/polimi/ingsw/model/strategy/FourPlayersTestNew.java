@@ -25,11 +25,11 @@ class FourPlayersTestNew {
         //Check board
         for (int i = 0; i < numberOfPlayers; i++) {
             assertEquals(maxStudentHall, game.getPlayersList().get(i).getBoard().getStudentsOutside().size());
-            assertEquals(maxTowers, game.getPlayersList().get(i).getBoard().getTowers().size());
+            assertEquals(maxTowers, game.getPlayersList().get(i).getBoard().getNumOfTowers());
         }
 
         //Check teamMate
-        assertEquals(game.getPlayersList().get(0).getBoard().getTowers(), game.getPlayersList().get(3).getBoard().getTowers());
-        assertEquals(game.getPlayersList().get(1).getBoard().getTowers(), game.getPlayersList().get(2).getBoard().getTowers());
+        assertEquals(game.getPlayersList().get(0).getBoard().getNumOfTowers(), game.getPlayersList().get(3).getBoard().getNumOfTowers());
+        assertEquals(game.getPlayersList().get(1).getBoard().getNumOfTowers(), game.getPlayersList().get(2).getBoard().getNumOfTowers());
     }
 }
