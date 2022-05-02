@@ -52,7 +52,7 @@ public class AssistantFactory {
                     generatedCard = new Assistant2(this.currentGame);
                     break;
                 case 2:
-                    generatedCard = new Assistant3();
+                    generatedCard = new Assistant3(this.currentGame);
                     break;
                 case 3:
                     generatedCard = new Assistant4();
@@ -61,7 +61,7 @@ public class AssistantFactory {
                     generatedCard = new Assistant5();
                     break;
                 case 5:
-                    generatedCard = new Assistant6();
+                    generatedCard = new Assistant6(this.currentGame);
                     break;
                 case 6:
                     generatedCard = new Assistant7(this.currentGame);

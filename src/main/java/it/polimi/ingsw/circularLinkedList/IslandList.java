@@ -269,6 +269,14 @@ public class IslandList {
                 merge(islandID, this.getIslandNode(islandID).getPreviousNode().getNodeID());                                                                                                                                                        //calls the merge() method if the given island has a match with the previous one and the previous one is the tail
         }
     }
+
+    public void ignoreTower(){
+        Node nextNode = head;
+        while(nextNode.getNextNode()!=head){
+            nextNode.changeIgnoreTower();
+            nextNode = nextNode.getNextNode();
+        }
+    }
 }
 
 

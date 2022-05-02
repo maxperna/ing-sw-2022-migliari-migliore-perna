@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.circularLinkedList.IslandList;
+import it.polimi.ingsw.circularLinkedList.Node;
 import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
 
 import java.util.ArrayList;
@@ -198,32 +199,34 @@ public class Game {
      *
      * @param islandToCheck island to check the influence over
      */
-    public void checkIslandInfluence(IslandTile islandToCheck) {
+    public void checkIslandInfluence(Node islandToCheck) {
         HashMap<Player, Integer> temporaryInfluenceCounter = new HashMap<>();  //temporary influence counter
-
-        for (Color colorStudent : islandToCheck.getStudents()) {
-            Player playerToCheck = influenceMap.get(colorStudent).getPlayer();
-            //If player to check is null no one ha still the influence on that color
-            if (playerToCheck != null) {
-                int influenceOfPlayer = islandToCheck.colorStudent(colorStudent);       //temp variable storing the number of student of the same color
-                //Check if there is a tower, if true add another point of influence
-                if (playerToCheck.getBoard().getTowerColor().equals(islandToCheck.getTowerColor()))
-                    influenceOfPlayer++;
-                if (temporaryInfluenceCounter.containsKey(playerToCheck)) {
-                    temporaryInfluenceCounter.put(playerToCheck, influenceOfPlayer);
-                } else {
-                    temporaryInfluenceCounter.put(playerToCheck, temporaryInfluenceCounter.get(playerToCheck) + influenceOfPlayer);
+        //if island has a deny card on it influence haven't to be calculated
+        if(!islandToCheck.isStopped()) {
+            for (Color colorStudent : islandToCheck.getStudents()) {
+                Player playerToCheck = influenceMap.get(colorStudent).getPlayer();
+                //If player to check is null no one ha still the influence on that color
+                if (playerToCheck != null) {
+                    int influenceOfPlayer = islandToCheck.getColorInfluence(colorStudent);       //temp variable storing the number of student of the same color
+                    //Check if there is a tower, if true add another point of influence
+                    if (playerToCheck.getBoard().getTowerColor().equals(islandToCheck.getTowerColor()))
+                        influenceOfPlayer = influenceOfPlayer + islandToCheck.getNumberOfTowers();
+                    if (temporaryInfluenceCounter.containsKey(playerToCheck)) {
+                        temporaryInfluenceCounter.put(playerToCheck, influenceOfPlayer);
+                    } else {
+                        temporaryInfluenceCounter.put(playerToCheck, temporaryInfluenceCounter.get(playerToCheck) + influenceOfPlayer);
+                    }
                 }
-            }
-            //If the temporary influence counter is empty no one has influence
-            if (!temporaryInfluenceCounter.isEmpty()) {
-                //check the player with most influence
-                Player maxInfluencePlayer = temporaryInfluenceCounter.entrySet().stream().max((val1, val2) ->
-                        val1.getValue() > val2.getValue() ? 1 : -1).get().getKey();
+                //If the temporary influence counter is empty no one has influence
+                if (!temporaryInfluenceCounter.isEmpty()) {
+                    //check the player with most influence
+                    Player maxInfluencePlayer = temporaryInfluenceCounter.entrySet().stream().max((val1, val2) ->
+                            val1.getValue() > val2.getValue() ? 1 : -1).get().getKey();
 
-                islandToCheck.setMostInfluencePlayer(maxInfluencePlayer);
-            }
+                    islandToCheck.setMostInfluencePlayer(maxInfluencePlayer);
+                }
 
+            }
         }
     }
 

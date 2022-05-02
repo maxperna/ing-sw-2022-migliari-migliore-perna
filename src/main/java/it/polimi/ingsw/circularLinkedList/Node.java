@@ -17,13 +17,14 @@ import java.util.ArrayList;
 public class Node {
     private int ID;
     private boolean motherNature;
-    private ArrayList<Color> students;
+    private final ArrayList<Color> students;
     private Player mostInfluencePlayer;
     private TowerColor tower;
-    private boolean stop;
+    private boolean stop;            //put to true if stopped by assistant card #5
     private int towerCounter;
     private Node next;
     private Node prev;
+    private boolean ignoreTower;
 
 
     /**
@@ -186,16 +187,24 @@ public class Node {
     }
 
     public int getNumberOfTowers() {
-        return this.towerCounter;
+        if(!ignoreTower)
+                return this.towerCounter;
+        else
+            return 0;
     }
 
     public void mergeTowers(int towers) {
         this.towerCounter+=towers;
     }
 
+    public void changeIgnoreTower(){
+        ignoreTower = !ignoreTower;
+    }
+
     @TestOnly
     public void setTowerTest (TowerColor color) {
         this.tower = color;
     }
+
 
 }

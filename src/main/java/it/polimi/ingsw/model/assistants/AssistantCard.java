@@ -1,9 +1,9 @@
 package it.polimi.ingsw.model.assistants;
 
+import it.polimi.ingsw.circularLinkedList.Node;
 import it.polimi.ingsw.exceptions.IllegalMove;
 import it.polimi.ingsw.exceptions.NotEnoughCoin;
 import it.polimi.ingsw.model.Color;
-import it.polimi.ingsw.model.IslandTile;
 import it.polimi.ingsw.model.Player;
 
 import java.util.ArrayList;
@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public interface AssistantCard {
 
     default void useCard(Player userPlayer) throws NotEnoughCoin{};
+    default void useCard(Player userPlayer, Node targetIsland) throws NotEnoughCoin, IllegalMove {};
     default void useCard(Player userPlayer, ArrayList<Color> studentsToSwap) throws NotEnoughCoin{};
 
     default void useCard(Player user, ArrayList<Color> studentToSwapBoard, ArrayList<Color> studentToSwapCard) throws NotEnoughCoin, IllegalMove{};

@@ -126,6 +126,9 @@ public class Board implements StudentManager {
         }
     }
 
+    /**Method to add students on the outside room
+     * @param studentToAdd list of student to add
+     * */
     public void addStudentOutsideRoom(ArrayList<Color> studentToAdd) throws NotEnoughSpace {
         if(studentsOutside.size()+ studentToAdd.size()> maxStudentHall) throw new NotEnoughSpace();
         else{

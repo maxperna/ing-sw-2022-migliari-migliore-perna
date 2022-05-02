@@ -47,7 +47,7 @@ public class Player {
     }
 
     public int getNumOfCoin(){
-        return getNumOfCoin();
+        return numOfCoin;
     }
 
 }

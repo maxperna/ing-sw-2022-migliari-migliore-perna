@@ -9,13 +9,11 @@ import java.util.ArrayList;
 
 public class Assistant7 implements AssistantCard{
 
-    private final Game currentGame;
     private int cost = 1;
     private final ArrayList<Color> studentsOnCard = new ArrayList<>();
 
 
     public Assistant7(Game currentGame){
-        this.currentGame = currentGame;
         try{
             studentsOnCard.addAll(currentGame.getPouch().randomDraw(6));
         }
