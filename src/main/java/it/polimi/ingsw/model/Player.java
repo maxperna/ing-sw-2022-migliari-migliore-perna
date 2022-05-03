@@ -1,13 +1,22 @@
 package it.polimi.ingsw.model;
 
 
-import it.polimi.ingsw.model.*;
+import java.util.UUID;
 
 public class Player {
 
-    private final String nickname= "...";
+    private final String nickname = "...";
+    private final UUID playerID;
     private Board board;
     private CardDeck deck;
+    private int numOfCoin;
+
+    public Player (Board board) {
+
+        this.playerID = UUID.randomUUID();
+        this.board = board;
+        this.numOfCoin = 1;
+    }
 
     public String getNickname(){
         return this.nickname;
@@ -29,7 +38,16 @@ public class Player {
 
     }
 
-
-    public Player(){
+    public void addCoin(int quantity){
+        this.numOfCoin = this.numOfCoin + quantity;
     }
+
+    public TowerColor getTowerColor() {
+        return this.board.getTowerColor();
+    }
+
+    public int getNumOfCoin(){
+        return numOfCoin;
+    }
+
 }

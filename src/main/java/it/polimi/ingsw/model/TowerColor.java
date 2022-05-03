@@ -8,5 +8,6 @@ public enum TowerColor {
     WHITE,
     BLACK,
     GRAY,
-    TEAMMATE
+
+    EMPTY
 }

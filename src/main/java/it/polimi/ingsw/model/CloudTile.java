@@ -1,7 +1,8 @@
 package it.polimi.ingsw.model;
+
 import it.polimi.ingsw.exceptions.EmptyCloudException;
 
-import java.util.*;
+import java.util.ArrayList;
 
 /**
  * Class Cloud Tile, one for each player, contains MAX 3 students
@@ -9,14 +10,22 @@ import java.util.*;
  */
 public class CloudTile {
 
-    private int tileID;
+    private final int tileID;
     private ArrayList<Color> students;
+
+    /**
+     * constructor
+     */
+    public CloudTile(int ID){
+        this.tileID = ID;
+        this.students = new ArrayList<>();
+    };
 
     /**
      * @return an Arraylist of Color that represents students on the cloud
      * @throws EmptyCloudException when there are no students on the cloud
      */
-    public ArrayList<Color> getStudent() throws EmptyCloudException{
+    public ArrayList<Color> getStudents() throws EmptyCloudException{
         if(students.isEmpty())
             throw new EmptyCloudException();
         else
@@ -31,10 +40,22 @@ public class CloudTile {
         if(students.isEmpty())
             throw new EmptyCloudException();
         else {
-            ArrayList<Color> studentsReturned = new ArrayList<Color>();                                                 //creates an ArrayList in which all students are copied
+            ArrayList<Color> studentsReturned = new ArrayList<Color>();                                                     //creates an ArrayList in which all students are copied
             studentsReturned.addAll(students);
             students.removeAll(students);                                                                               //empties the ArrayList students
             return studentsReturned;                                                                                    //returns an ArrayList containing a copy of the previous students in ArrayList students
         }
+    }
+
+    /**
+     * method that returns the ID of the cloud
+     * @return cloud ID
+     */
+    public int getTileID (){
+        return this.tileID;
+    }
+
+    public void setStudents(ArrayList<Color> students) {
+        this.students = students;
     }
 }
