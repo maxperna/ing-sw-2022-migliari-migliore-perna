@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 public class AssistantFactoryTest {
 
-    Game test = GameManager.getInstance().startGame("TwoPlayers",false);
+    Game test = GameManager.getInstance().initGame("TwoPlayers",false);
     ExpertsFactory factoryTest = ExpertsFactory.createFactory(test);
         @Test
         public void drawAssistantTest(){

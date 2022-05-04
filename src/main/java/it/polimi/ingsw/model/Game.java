@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
 import it.polimi.ingsw.gameField.IslandList;
 import it.polimi.ingsw.gameField.Node;
-import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
 import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.model.experts.ExpertsFactory;
 
@@ -22,13 +22,11 @@ public class Game {
     public final int NUM_OF_PLAYERS;
     private final UUID gameID;
     private final ArrayList<Player> playersList;
-
     private final HashMap<Board,Player> boardAssignations = new HashMap<>();    //Map to keep track of boards assignations
     private final IslandList gameField;
     private final Pouch pouch;
     private final ArrayList<CloudTile> cloudTiles;
     private static final HashMap<Color, Pair<Player, Integer>> influenceMap = new HashMap<>(); //mapping the influence of every player
-
     private final ArrayList<ExpertCard> expertsCard = new ArrayList<>();
     public int coins = 20;
 
@@ -321,4 +319,5 @@ public class Game {
         this.coins = this.coins - quantity;
         player.addCoin(quantity);
     };
+
 }

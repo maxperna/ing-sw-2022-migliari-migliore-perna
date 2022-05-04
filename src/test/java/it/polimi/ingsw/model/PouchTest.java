@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.exceptions.EndGameException;
 import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -8,7 +7,8 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class PouchTest {
 
@@ -16,7 +16,7 @@ class PouchTest {
     @CsvSource ({"1", "10", "106"})
     void randomDraw(int input) {
         GameManager game = GameManager.getInstance();
-        game.startGame("TwoPlayers",false);
+        game.initGame("TwoPlayers",false);
         ArrayList<Color> students = new ArrayList<>();
         try {
             students.addAll(game.getGame(0).getPouch().randomDraw(input));
@@ -32,7 +32,7 @@ class PouchTest {
     @CsvSource ({"1", "10", "106"})
     void randomDrawShouldThrowException(int input) {
         GameManager game = GameManager.getInstance();
-        game.startGame("TwoPlayers",false);
+        game.initGame("TwoPlayers",false);
 
         if(input == 106) {
             assertThrows(NotEnoughStudentsException.class, () -> {
@@ -52,7 +52,7 @@ class PouchTest {
         GameManager game = GameManager.getInstance();
         game.setNull();
         game = GameManager.getInstance();
-        game.startGame("TwoPlayers",false);
+        game.initGame("TwoPlayers",false);
         ArrayList<Color> students = new ArrayList<>();
         students.add(Color.RED);
         game.getGame(0).getPouch().addStudents(students);
