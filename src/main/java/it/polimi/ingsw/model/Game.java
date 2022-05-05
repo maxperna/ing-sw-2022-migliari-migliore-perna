@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.experts.ExpertsFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -15,13 +16,13 @@ import java.util.UUID;
  *
  * @author Miglia
  */
-public class Game {
+public class Game   {
 
     public final static int MAX_TILE = 12;
     public final boolean EXPERT_MODE;       //set to true if expert mode is selected
     public final int NUM_OF_PLAYERS;
     private final UUID gameID;
-    private final ArrayList<Player> playersList;
+    private final HashMap<Integer, Player> playersList;
     private final HashMap<Board,Player> boardAssignations = new HashMap<>();    //Map to keep track of boards assignations
     private final IslandList gameField;
     private final Pouch pouch;
@@ -54,7 +55,7 @@ public class Game {
 
 
         //Crea un nuovo array di giocatori che verra popolato e poi restituito
-        ArrayList<Player> playersCreated = new ArrayList<>();
+        HashMap<Integer, Player> playersCreated = new HashMap<>();
         Board createdBoard;      //container variable to keep the created board for each player
 
         switch (numberOfPlayers) {
@@ -63,12 +64,12 @@ public class Game {
                 //Crea ogni giocatore, gli associa una board popolata e poi lo inserce nella lista finale
                 createdBoard = new Board(this, maxStudentHall, maxTowers, TowerColor.BLACK);
                 Player player1 = new Player(createdBoard);
-                playersCreated.add(player1);
+                playersCreated.put(1, player1);
                 boardAssignations.put(createdBoard,player1);
 
                 createdBoard = new Board(this, maxStudentHall, maxTowers, TowerColor.WHITE);
                 Player player2 = new Player(createdBoard);
-                playersCreated.add(player2);
+                playersCreated.put(2, player2);
                 boardAssignations.put(createdBoard,player2);
 
                 break;
@@ -78,17 +79,17 @@ public class Game {
                 //Crea ogni giocatore, gli associa una board popolata e poi lo inserce nella lista finale
                 createdBoard = new Board(this, maxStudentHall, maxTowers, TowerColor.BLACK);
                 Player player1 = new Player(createdBoard);
-                playersCreated.add(player1);
+                playersCreated.put(1, player1);
                 boardAssignations.put(createdBoard,player1);
 
                 createdBoard = new Board(this, maxStudentHall, maxTowers, TowerColor.WHITE);
                 Player player2 = new Player(createdBoard);
-                playersCreated.add(player2);
+                playersCreated.put(2, player2);
                 boardAssignations.put(createdBoard,player2);
 
                 new Board(this, maxStudentHall, maxTowers, TowerColor.GRAY);
                 Player player3 = new Player(createdBoard);
-                playersCreated.add(player3);
+                playersCreated.put(3, player3);
                 boardAssignations.put(createdBoard,player3);
 
                 break;
@@ -98,22 +99,22 @@ public class Game {
                 //Crea ogni giocatore, gli associa una board popolata e poi lo inserce nella lista finale
                 createdBoard = new Board(this, maxStudentHall, maxTowers, TowerColor.BLACK);
                 Player player1 = new Player(createdBoard);
-                playersCreated.add(player1);
+                playersCreated.put(1, player1);
                 boardAssignations.put(createdBoard,player1);
 
                 createdBoard=new Board(this, maxStudentHall, maxTowers, TowerColor.WHITE);
                 Player player2 = new Player(createdBoard);
-                playersCreated.add(player2);
+                playersCreated.put(2, player2);
                 boardAssignations.put(createdBoard,player2);
 
                 createdBoard = new Board(this, maxStudentHall, player2.getBoard().getNumOfTowers(), player2.getTowerColor(), player2);
                 Player player3 = new Player(createdBoard);
-                playersCreated.add(player3);
+                playersCreated.put(3, player3);
                 boardAssignations.put(createdBoard,player3);
 
                 createdBoard = new Board(this, maxStudentHall, player1.getBoard().getNumOfTowers(), player1.getTowerColor(), player1);
                 Player player4 = new Player(createdBoard);
-                playersCreated.add(player4);
+                playersCreated.put(4, player4);
                 boardAssignations.put(createdBoard,player4);
 
                 break;
@@ -135,8 +136,8 @@ public class Game {
         //ONLY IF EXPERT MODE IS SELECTED
         if(EXPERT_MODE) {
             //Initial coin assignment
-            for (Player player : this.playersList) {
-                this.coinHandler(player, 1);          //assign the initial coin to every player
+            for (Map.Entry<Integer,Player> entry : playersList.entrySet()) {
+                this.coinHandler(entry.getValue(), 1);          //assign the initial coin to every player
             }
 
             //Expert cards drawing
@@ -170,8 +171,8 @@ public class Game {
      *
      * @return The list of players in this match
      */
-    public ArrayList<Player> getPlayersList() {
-        return playersList;
+    public Player getPlayerFromMap(int ID) {
+        return playersList.get(ID);
     }
 
     public HashMap<Board, Player> getBoardAssignations() {
@@ -318,6 +319,6 @@ public class Game {
     public void coinHandler(Player player,int quantity){
         this.coins = this.coins - quantity;
         player.addCoin(quantity);
-    };
+    }
 
 }

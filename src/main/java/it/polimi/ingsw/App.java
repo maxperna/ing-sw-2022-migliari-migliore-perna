@@ -11,7 +11,6 @@ public class App
 {
     public static void main(String[] args )
     {
-        GameController gameController = new GameController();
-        gameController.initGame(args[0], Boolean.parseBoolean(args[1]));
+        GameController gameController = new GameController("TwoPlayers", Boolean.FALSE);
     }
 }
