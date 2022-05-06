@@ -21,11 +21,19 @@ public class GameController {
 
         this.game = GameManager.getInstance().initGame(gameMode, expertMode);
         this.viewMap = Collections.synchronizedMap(new HashMap<>());
-        this.currentPlayer = game.getPlayerFromMap(1);
+        this.currentPlayer = game.getPlayersList().get(0);
         this.gameState = GameState.LOGIN;
     }
 
+    public void onMessageReceived (String message) {
 
+        VirtualView virtualView = viewMap.get(currentPlayer.getPlayerID());
+
+        switch (gameState)  {
+            case LOGIN:
+
+        }
+    }
 
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
