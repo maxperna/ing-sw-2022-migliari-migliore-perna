@@ -11,6 +11,7 @@ public class Player {
     private CardDeck deck;
     private int numOfCoin;
 
+
     public Player (Board board) {
 
         this.playerID = UUID.randomUUID();
@@ -38,6 +39,8 @@ public class Player {
 
     }
 
+    /**Method to modify the amount of coin of a player
+     * @param quantity amount to add(if +) or subtract (if -)*/
     public void addCoin(int quantity){
         this.numOfCoin = this.numOfCoin + quantity;
     }
@@ -49,5 +52,7 @@ public class Player {
     public int getNumOfCoin(){
         return numOfCoin;
     }
+
+
 
 }

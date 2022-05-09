@@ -58,7 +58,7 @@ public class ExpertsFactory {
                     generatedCard = new Expert4();
                     break;
                 case 4:
-                    generatedCard = new Expert5();
+                    generatedCard = new Expert5(this.currentGame);
                     break;
                 case 5:
                     generatedCard = new Expert6(this.currentGame);
@@ -67,13 +67,13 @@ public class ExpertsFactory {
                     generatedCard = new Expert7(this.currentGame);
                     break;
                 case 7:
-                    generatedCard = new Expert8();
+                    generatedCard = new Expert8(currentGame);
                     break;
                 case 8:
-                    generatedCard = new Expert9();
+                    generatedCard = new Expert9(this.currentGame);
                     break;
                 case 9:
-                    generatedCard = new Expert10();
+                    generatedCard = new Expert10(currentGame);
                     break;
                 case 10:
                     generatedCard = new Expert11(this.currentGame);

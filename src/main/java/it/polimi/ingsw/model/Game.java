@@ -29,8 +29,12 @@ public class Game {
     private final ArrayList<CloudTile> cloudTiles;
     private static final HashMap<Color, Pair<Player, Integer>> influenceMap = new HashMap<>(); //mapping the influence of every player
 
+    //ONLY EXPERTS MODE
     private final ArrayList<ExpertCard> expertsCard = new ArrayList<>();
     public int coins = 20;
+
+    private Color colorToIgnore = null;
+    private Player playerHavingPlusTwo = null;       //player which have +2 influence if expert 8 is played
 
     /**
      * Constructor
@@ -251,8 +255,8 @@ public class Game {
         if(!islandToCheck.isStopped()) {
             for (Color colorStudent : islandToCheck.getStudents()) {
                 Player playerToCheck = influenceMap.get(colorStudent).getPlayer();
-                //If player to check is null no one ha still the influence on that color
-                if (playerToCheck != null) {
+                //If player to check is null no one ha still the influence on that color or the color is ignored
+                if (playerToCheck != null && !colorStudent.equals(colorToIgnore)) {
                     int influenceOfPlayer = islandToCheck.getColorInfluence(colorStudent);       //temp variable storing the number of student of the same color
                     //Check if there is a tower, if true add another point of influence
                     if (playerToCheck.getBoard().getTowerColor().equals(islandToCheck.getTowerColor()))
@@ -263,18 +267,42 @@ public class Game {
                         temporaryInfluenceCounter.put(playerToCheck, temporaryInfluenceCounter.get(playerToCheck) + influenceOfPlayer);
                     }
                 }
-                //If the temporary influence counter is empty no one has influence
-                if (!temporaryInfluenceCounter.isEmpty()) {
-                    //check the player with most influence
-                    Player maxInfluencePlayer = temporaryInfluenceCounter.entrySet().stream().max((val1, val2) ->
-                            val1.getValue() > val2.getValue() ? 1 : -1).get().getKey();
-
-                    islandToCheck.setMostInfluencePlayer(maxInfluencePlayer);
-                }
-
             }
         }
+        //Setting plus two influence to player, only expert mode
+        if(playerHavingPlusTwo!=null){
+
+            Integer influenceToAdd = temporaryInfluenceCounter.get(playerHavingPlusTwo);
+            if(influenceToAdd == null)
+                influenceToAdd = 2;
+            else
+                influenceToAdd = influenceToAdd +2;
+
+            temporaryInfluenceCounter.put(playerHavingPlusTwo,influenceToAdd);
+        }
+        //If the temporary influence counter is empty no one has influence
+        if (!temporaryInfluenceCounter.isEmpty()) {
+            //check the player with most influence
+            Player maxInfluencePlayer = temporaryInfluenceCounter.entrySet().stream().max((val1, val2) ->
+                    val1.getValue() > val2.getValue() ? 1 : -1).get().getKey();
+
+            islandToCheck.setMostInfluencePlayer(maxInfluencePlayer);
+        }
     }
+
+
+    /**Only expert mode, setter used for set the color to ignore in the influence calculus if Expert9 is played
+     * @param colorToIgnore color which I don't consider*/
+    public void setIgnoredColor(Color colorToIgnore){
+        this.colorToIgnore = colorToIgnore;
+    }
+
+    /**Only expert mode, setter used to apply effect of expert8
+     * @param player who played the card*/
+    public void setPlayerHavingPlusTwo(Player player){
+        this.playerHavingPlusTwo = player;
+    }
+
 
     /**Getter of the influence map, an HashMap containing the color as key and a tuple of the student with that
      * influence and the number of student it has in his dining room*/

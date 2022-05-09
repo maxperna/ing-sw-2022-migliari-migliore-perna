@@ -31,7 +31,7 @@ public class Expert1 implements ExpertCard {
             throw new NotEnoughCoin("You cant afford this card");
         }
         else{
-            user.addCoin(-this.cost);
+            currentGame.coinHandler(user,this.cost);
             this.cost++;
             if(studentsOnCard.remove(colorToSwap)) {
                 targetIsland.addStudent(colorToSwap);

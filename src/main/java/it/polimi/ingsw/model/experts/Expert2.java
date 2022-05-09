@@ -28,7 +28,7 @@ public class Expert2 implements ExpertCard {
             throw new NotEnoughCoin("You cant afford this card");
         }
         else{
-            user.addCoin(-this.cost);
+            currentGame.coinHandler(user,this.cost);
             this.cost++;
             this.usingPlayer = user;
             //Effect
