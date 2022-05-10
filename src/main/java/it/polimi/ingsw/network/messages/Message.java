@@ -1,7 +1,5 @@
 package it.polimi.ingsw.network.messages;
 
-import it.polimi.ingsw.model.Player;
-
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -10,14 +8,14 @@ import java.util.UUID;
 public class Message implements Serializable {
     UUID identifier = UUID.randomUUID();
     private final MessageType type;
-    private final Player senderPlayer;
+    private final String senderPlayer;
 
-    public Message(MessageType type, Player senderPlayer){
+    public Message(MessageType type, String senderPlayer){
         this.type = type;
         this.senderPlayer = senderPlayer;
     }
 
-    public Player getSenderPlayer() {
+    public String getSenderPlayer() {
         return senderPlayer;
     }
 
