@@ -34,6 +34,11 @@ public class Player {
     }
 
 
+    /**Method to play a card from the player personal deck
+     * @param cardToPlay card the player wants to play
+     * @throws InexistentCard is the card is not present in the deck
+     * @throws EndGameException if the deck is empty
+     * */
     public Card playCard(Card cardToPlay) throws InexistentCard, EndGameException {
         if(deck.getRemainingCards().size()==0)
             throw new EndGameException("No more cards in the deck");

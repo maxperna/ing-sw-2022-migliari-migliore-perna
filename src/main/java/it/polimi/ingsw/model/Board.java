@@ -47,7 +47,9 @@ public class Board implements StudentManager {
 
     }
 
-    /**Method to set the teammate on the board only if it has not been set yet*/
+    /**Method to set the teammate on the board only if it has not been set yet and to add reference to the common tower
+     * in 4 players game
+     * @param teamMate players to set as teammate*/
     public void setTeamMate(Player teamMate){
         if(this.teamMate == null && currentGame.NUM_OF_PLAYERS ==4) {
             this.teamMate = teamMate;

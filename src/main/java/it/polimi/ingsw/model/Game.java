@@ -106,6 +106,7 @@ public class Game {
     /**Method to add the player to the current game and automatically set the team mate
      * @param nickname nickname of the player
      * @param assistant assistant deck chosen
+     * @param towerColor tower color on the board chosen
      */
     public void addPlayer(String nickname,DeckType assistant, TowerColor towerColor) throws FileNotFoundException {
         this.playersList.add(new Player(nickname,assistant,towerColor,this));
