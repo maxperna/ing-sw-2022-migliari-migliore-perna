@@ -22,7 +22,7 @@ public class Game {
     public final int NUM_OF_PLAYERS;
     public final int MAX_NUM_OF_TOWERS;
     public final int MAX_STUDENTS_ENTRANCE;
-    public final ArrayList<TowerColor> TOWER_COLORS_AVAILABLE;
+    private final ArrayList<TowerColor> TOWER_COLORS_AVAILABLE;
     private final UUID gameID;
     private final ArrayList<Player> playersList;
 
@@ -107,11 +107,18 @@ public class Game {
      * @param nickname nickname of the player
      * @param assistant assistant deck chosen
      */
-    public void addPlayer(String nickname,DeckType assistant) throws FileNotFoundException {
-        this.playersList.add(new Player(nickname,assistant,this));
-        if(NUM_OF_PLAYERS == 4 && playersList.size()==4){
-            playersList.get(0).getBoard().setTeamMate(playersList.get(2));
-            playersList.get(1).getBoard().setTeamMate(playersList.get(3));
+    public void addPlayer(String nickname,DeckType assistant, TowerColor towerColor) throws FileNotFoundException {
+        this.playersList.add(new Player(nickname,assistant,towerColor,this));
+        //Team formation
+        if(NUM_OF_PLAYERS == 4 && playersList.size() == 4){
+            for(Player player:playersList){
+                for(Player playerTeamMate :playersList){
+                    if(playerTeamMate.getTowerColor().equals(player.getTowerColor())) {
+                        player.getBoard().setTeamMate(playerTeamMate);
+                        break;
+                    }
+                }
+            }
         }
     }
 
@@ -307,6 +314,10 @@ public class Game {
 
     public ArrayList<ExpertCard> getExpertsCard() {
         return expertsCard;
+    }
+
+    public ArrayList<TowerColor> getTOWER_COLORS_AVAILABLE(){
+        return TOWER_COLORS_AVAILABLE;
     }
 
 }

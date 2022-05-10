@@ -18,7 +18,6 @@ public class Board implements StudentManager {
 
     private final int maxStudentHall;
     private final int MAX_DIM_INSIDE = 10;    //maximum students on the dining room
-    private final int maxTowers;
     private final TowerColor towerColor;
     private Integer numberOfTowers;  //number of towers on the board
     private final Player owner;
@@ -31,11 +30,12 @@ public class Board implements StudentManager {
 
 
 
-    public Board(Game currentGame,Player owner){
+    public Board(Game currentGame,Player owner,TowerColor towerColor){
 
         this.maxStudentHall = currentGame.MAX_STUDENTS_ENTRANCE;
-        this.maxTowers = currentGame.MAX_NUM_OF_TOWERS;
-        this.towerColor = currentGame.TOWER_COLORS_AVAILABLE.remove(0);
+        this.numberOfTowers = currentGame.MAX_NUM_OF_TOWERS;
+        this.towerColor = towerColor;
+
         this.currentGame = currentGame;
         this.owner = owner;
 
@@ -49,8 +49,10 @@ public class Board implements StudentManager {
 
     /**Method to set the teammate on the board only if it has not been set yet*/
     public void setTeamMate(Player teamMate){
-        if(this.teamMate == null)
+        if(this.teamMate == null && currentGame.NUM_OF_PLAYERS ==4) {
             this.teamMate = teamMate;
+            this.numberOfTowers = teamMate.getBoard().numberOfTowers;
+        }
     }
     public ArrayList<Color> getEntryRoom(){
         return entryRoom;

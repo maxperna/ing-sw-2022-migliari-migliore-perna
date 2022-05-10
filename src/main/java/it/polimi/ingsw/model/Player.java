@@ -12,15 +12,16 @@ public class Player {
     private final String nickname;
     private final Board board;
     private final CardDeck deck;
+
     private int numOfCoin;
 
 
 
-    public Player (String nickname,DeckType assistant, Game gameInfo) throws FileNotFoundException {
+    public Player (String nickname,DeckType assistant,TowerColor towerColor, Game gameInfo) throws FileNotFoundException {
 
       this.nickname = nickname;
       this.deck = new CardDeck(assistant);
-      this.board = new Board(gameInfo,this);
+      this.board = new Board(gameInfo,this,towerColor);
     }
 
     public String getNickname(){
