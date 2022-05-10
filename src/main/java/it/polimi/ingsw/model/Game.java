@@ -212,6 +212,14 @@ public class Game {
         this.coins = coins;
     }
 
+    public void addPlayerNickName (String nickName){
+        for (Player currentPlayer : playersList) {
+
+            if(currentPlayer.getNickname() == null)
+                currentPlayer.setNickname(nickName);
+        }
+    }
+
     /**
      * Method used to check influence over inside hall of a player, it automatically set the teacher on the board if
      * needed

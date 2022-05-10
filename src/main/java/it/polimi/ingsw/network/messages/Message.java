@@ -5,7 +5,7 @@ import java.util.UUID;
 
 /**Abstract class defining the blueprint for a network message
  * @author Massimo*/
-public class Message implements Serializable {
+public abstract class Message implements Serializable {
     UUID identifier = UUID.randomUUID();
     private final MessageType type;
     private final String senderPlayer;

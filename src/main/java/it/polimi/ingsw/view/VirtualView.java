@@ -9,7 +9,6 @@ public class VirtualView implements View {
 
     @Override
     public void askNickName() {
-
     }
 
 

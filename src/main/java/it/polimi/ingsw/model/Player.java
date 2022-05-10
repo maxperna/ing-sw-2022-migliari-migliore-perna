@@ -7,7 +7,6 @@ public class Player {
 
     private String nickname;
     private Board board;
-
     private final UUID playerID;
     private CardDeck deck;
     private int numOfCoin;
@@ -16,6 +15,7 @@ public class Player {
 
         this.playerID = UUID.randomUUID();
         this.board = board;
+        this.nickname = null;
         this.numOfCoin = 1;
     }
 
