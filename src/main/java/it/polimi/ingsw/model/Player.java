@@ -12,7 +12,6 @@ public class Player {
     private final String nickname;
     private final Board board;
     private final CardDeck deck;
-    private final Game gameInfo;
     private int numOfCoin;
 
 
@@ -22,7 +21,6 @@ public class Player {
       this.nickname = nickname;
       this.deck = new CardDeck(assistant);
       this.board = new Board(gameInfo,this);
-      this.gameInfo = gameInfo;
     }
 
     public String getNickname(){
