@@ -114,11 +114,11 @@ public class Board implements StudentManager {
      * @param color color of the student to move
      * @exception NotOnBoardException exception thrown if it's tried to move an inexistent student
      */
-    public void moveToIsland(Color color, Node targetIsland) throws NotOnBoardException{
+    public void moveToIsland(Color color, int nodeID) throws NotOnBoardException{
         if(!entryRoom.contains(color)) throw new NotOnBoardException();
         else{
             entryRoom.remove(color);
-            targetIsland.addStudent(color);
+            currentGame.getGameField().getIslandNode(nodeID).addStudent(color);
         }
 
     }

@@ -12,7 +12,6 @@ import java.util.*;
  * */
 public class PreparationPhaseLogic {
     private final Game currentGame;   //game associated to round logic
-    private int roundID;     //specific round roundLogic is referring to
     private final Map<Integer, Player> cardsPlayed = new HashMap<>();
     private final Queue<Player> playersOrders = new LinkedList<>();  //Players order is a FIFO structure(both for playing orders and action phase)
     private Player lastRoundFirstPlayer;       //first player to play last round, used to define the starting point of the round
@@ -87,14 +86,9 @@ public class PreparationPhaseLogic {
         }
 
     }
-    public void endRound(){
-        this.cardsPlayed.clear();
-        this.roundID++;
-    }
 
-    public void setRoundID(int roundID){
-        this.roundID = roundID;
-    }
+
+
     public Player getActivePlayer(){
         return this.activePlayer;
     }
