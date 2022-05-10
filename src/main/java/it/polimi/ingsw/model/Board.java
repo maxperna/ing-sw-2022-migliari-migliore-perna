@@ -21,6 +21,7 @@ public class Board implements StudentManager {
     private final int maxTowers;
     private final TowerColor towerColor;
     private Integer numberOfTowers;  //number of towers on the board
+    private final Player owner;
     private Player teamMate;
     private ArrayList<Color> entryRoom;    //list of student in the outer room
     private final Map<Color,Integer> diningRoom = new HashMap<>();      //list of student for each color inside the main hall
@@ -30,13 +31,13 @@ public class Board implements StudentManager {
 
 
 
-    public Board(Game currentGame, int maxStudentHall, Integer numberOfTowers, TowerColor towerColor){
+    public Board(Game currentGame,Player owner){
 
-        this.maxStudentHall = maxStudentHall;
-        this.maxTowers = numberOfTowers;
-        this.towerColor = towerColor;
-        this.numberOfTowers = numberOfTowers;
+        this.maxStudentHall = currentGame.MAX_STUDENTS_ENTRANCE;
+        this.maxTowers = currentGame.MAX_NUM_OF_TOWERS;
+        this.towerColor = currentGame.TOWER_COLORS_AVAILABLE.remove(0);
         this.currentGame = currentGame;
+        this.owner = owner;
 
         try {
             this.entryRoom = currentGame.getPouch().randomDraw(maxStudentHall);
@@ -46,22 +47,10 @@ public class Board implements StudentManager {
 
     }
 
-    public Board(Game currentGame, int maxStudentHall, Integer numberOfTowers, TowerColor towerColor, Player teamMate){
-
-        this.maxStudentHall = maxStudentHall;
-        this.maxTowers = numberOfTowers;
-        this.towerColor = towerColor;
-        this.numberOfTowers = numberOfTowers;
-        this.teamMate = teamMate;
-        this.currentGame = currentGame;
-
-        try {
-            this.entryRoom = currentGame.getPouch().randomDraw(maxStudentHall);
-        } catch (NotEnoughStudentsException e) {
-            e.printStackTrace();
-        }
-
-
+    /**Method to set the teammate on the board only if it has not been set yet*/
+    public void setTeamMate(Player teamMate){
+        if(this.teamMate == null)
+            this.teamMate = teamMate;
     }
     public ArrayList<Color> getEntryRoom(){
         return entryRoom;
@@ -103,8 +92,7 @@ public class Board implements StudentManager {
             diningRoom.put(color, diningRoom.get(color)+1);       //add a student of a color after removing it
             //Coin add if on 3,6,9th space
             if(diningRoom.get(color)%3==0 && diningRoom.get(color)!=0){
-                Player playerToAdd = currentGame.getBoardAssignations().get(this);
-                currentGame.coinHandler(playerToAdd,1);
+                currentGame.coinHandler(owner,1);
             }
 
         }

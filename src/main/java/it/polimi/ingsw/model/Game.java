@@ -6,9 +6,8 @@ import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
 import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.model.experts.ExpertsFactory;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.UUID;
+import java.io.FileNotFoundException;
+import java.util.*;
 
 /**
  * Class Game, every class created as its own unique gameID
@@ -18,12 +17,15 @@ import java.util.UUID;
 public class Game {
 
     public final static int MAX_TILE = 12;
+    //GAME PARAMETERS
     public final boolean EXPERT_MODE;       //set to true if expert mode is selected
     public final int NUM_OF_PLAYERS;
+    public final int MAX_NUM_OF_TOWERS;
+    public final int MAX_STUDENTS_ENTRANCE;
+    public final ArrayList<TowerColor> TOWER_COLORS_AVAILABLE;
     private final UUID gameID;
     private final ArrayList<Player> playersList;
 
-    private final HashMap<Board,Player> boardAssignations = new HashMap<>();    //Map to keep track of boards assignations
     private final IslandList gameField;
     private final Pouch pouch;
     private final ArrayList<CloudTile> cloudTiles;
@@ -37,13 +39,12 @@ public class Game {
     private Player playerHavingPlusTwo = null;       //player which have +2 influence if expert 8 is played
 
     /**
-     * Constructor
+     * Constructor, initializes the game parameters
      *
      * @param numberOfPlayers number of players in the match
-     * @param maxTowers       number of towers for each player
-     * @param maxStudentHall  number of students for each player at the beginning of the game
+     * @param expertMode used to set the expert mode
      */
-    public Game(int numberOfPlayers, int maxTowers, int maxStudentHall,boolean expertMode) {
+    public Game(int numberOfPlayers, boolean expertMode) {
 
         this.gameID = UUID.randomUUID();
         this.NUM_OF_PLAYERS = numberOfPlayers;
@@ -52,75 +53,30 @@ public class Game {
         this.EXPERT_MODE = expertMode;
 
         //creates cloudTiles
-        ArrayList <CloudTile> cloudTileList = new ArrayList <>();
+        this.cloudTiles = new ArrayList <>();
         for (int i = 0; i < numberOfPlayers; i++) {
-            cloudTileList.add(new CloudTile(i));
+            this.cloudTiles.add(new CloudTile(i));
         }
-        this.cloudTiles = cloudTileList;
 
-
-        //Crea un nuovo array di giocatori che verra popolato e poi restituito
-        ArrayList<Player> playersCreated = new ArrayList<>();
-        Board createdBoard;      //container variable to keep the created board for each player
-
+        this.playersList = new ArrayList<>();
+        List<TowerColor> towerColors = new ArrayList<>(Arrays.asList(TowerColor.BLACK,TowerColor.WHITE));
         switch (numberOfPlayers) {
-            case 2: {
+            case 2:
 
-                //Crea ogni giocatore, gli associa una board popolata e poi lo inserce nella lista finale
-                createdBoard = new Board(this, maxStudentHall, maxTowers, TowerColor.BLACK);
-                Player player1 = new Player(createdBoard);
-                playersCreated.add(player1);
-                boardAssignations.put(createdBoard,player1);
+            case 4: {
 
-                createdBoard = new Board(this, maxStudentHall, maxTowers, TowerColor.WHITE);
-                Player player2 = new Player(createdBoard);
-                playersCreated.add(player2);
-                boardAssignations.put(createdBoard,player2);
+
+                this.MAX_NUM_OF_TOWERS = 8;
+                this.MAX_STUDENTS_ENTRANCE = 7;
 
                 break;
             }
 
             case 3: {
-                //Crea ogni giocatore, gli associa una board popolata e poi lo inserce nella lista finale
-                createdBoard = new Board(this, maxStudentHall, maxTowers, TowerColor.BLACK);
-                Player player1 = new Player(createdBoard);
-                playersCreated.add(player1);
-                boardAssignations.put(createdBoard,player1);
+                this.MAX_NUM_OF_TOWERS = 6;
+                this.MAX_STUDENTS_ENTRANCE = 9;
+                towerColors.add(TowerColor.GRAY);
 
-                createdBoard = new Board(this, maxStudentHall, maxTowers, TowerColor.WHITE);
-                Player player2 = new Player(createdBoard);
-                playersCreated.add(player2);
-                boardAssignations.put(createdBoard,player2);
-
-                new Board(this, maxStudentHall, maxTowers, TowerColor.GRAY);
-                Player player3 = new Player(createdBoard);
-                playersCreated.add(player3);
-                boardAssignations.put(createdBoard,player3);
-
-                break;
-            }
-
-            case 4: {
-                //Crea ogni giocatore, gli associa una board popolata e poi lo inserce nella lista finale
-                createdBoard = new Board(this, maxStudentHall, maxTowers, TowerColor.BLACK);
-                Player player1 = new Player(createdBoard);
-                playersCreated.add(player1);
-                boardAssignations.put(createdBoard,player1);
-
-                createdBoard=new Board(this, maxStudentHall, maxTowers, TowerColor.WHITE);
-                Player player2 = new Player(createdBoard);
-                playersCreated.add(player2);
-                boardAssignations.put(createdBoard,player2);
-
-                createdBoard = new Board(this, maxStudentHall, player2.getBoard().getNumOfTowers(), player2.getTowerColor(), player2);
-                Player player3 = new Player(createdBoard);
-                playersCreated.add(player3);
-                boardAssignations.put(createdBoard,player3);
-
-                createdBoard = new Board(this, maxStudentHall, player1.getBoard().getNumOfTowers(), player1.getTowerColor(), player1);
-                Player player4 = new Player(createdBoard);
-                playersCreated.add(player4);
-                boardAssignations.put(createdBoard,player4);
 
                 break;
             }
@@ -128,9 +84,7 @@ public class Game {
             default:
                 throw new IllegalArgumentException("Unknown number of players");
         }
-
-        //Creates a new list of player
-        this.playersList = playersCreated;
+        this.TOWER_COLORS_AVAILABLE = new ArrayList<>(towerColors);
 
         //Initialization of influence map, at the beginning player with most influence is null
         for (Color color : Color.values()) {
@@ -141,9 +95,6 @@ public class Game {
         //ONLY IF EXPERT MODE IS SELECTED
         if(EXPERT_MODE) {
             //Initial coin assignment
-            for (Player player : this.playersList) {
-                this.coinHandler(player, 1);          //assign the initial coin to every player
-            }
 
             //Expert cards drawing
             ExpertsFactory expertsDrawer = ExpertsFactory.createFactory(this);
@@ -152,42 +103,21 @@ public class Game {
 
     }
 
-
-    /**
-     * Getter
-     *
-     * @return unique ID
+    /**Method to add the player to the current game and automatically set the team mate
+     * @param nickname nickname of the player
+     * @param assistant assistant deck chosen
      */
-    public UUID getGameID() {
-        return gameID;
+    public void addPlayer(String nickname,DeckType assistant) throws FileNotFoundException {
+        this.playersList.add(new Player(nickname,assistant,this));
+        if(NUM_OF_PLAYERS == 4 && playersList.size()==4){
+            playersList.get(0).getBoard().setTeamMate(playersList.get(2));
+            playersList.get(1).getBoard().setTeamMate(playersList.get(3));
+        }
     }
 
-    /**
-     * Getter
-     *
-     * @return the GameField of the match
-     */
-    public IslandList getGameField() {
-        return gameField;
-    }
 
-    /**
-     * Getter
-     *
-     * @return The list of players in this match
-     */
-    public ArrayList<Player> getPlayersList() {
-        return playersList;
-    }
-
-    public HashMap<Board, Player> getBoardAssignations() {
-        return boardAssignations;
-    }
-
-    public Pouch getPouch() {
-        return pouch;
-    }
-
+    /**Method to recharge the clouds tile at the beginning of every action phase
+     * */
     public void rechargeClouds() {
 
        for(int i = 0; i < NUM_OF_PLAYERS; i++)
@@ -200,23 +130,6 @@ public class Game {
        }
     }
 
-    public ArrayList<CloudTile> getCloudTiles() {
-        return cloudTiles;
-    }
-
-
-    public int getCoins() {
-        return coins;
-    }
-
-    public ArrayList<ExpertCard> getExpertsCard() {
-        return expertsCard;
-    }
-
-
-    public void setCoins(int coins) {
-        this.coins = coins;
-    }
 
     /**
      * Method used to check influence over inside hall of a player, it automatically set the teacher on the board if
@@ -348,5 +261,52 @@ public class Game {
     public void coinHandler(Player player,int quantity){
         this.coins = this.coins - quantity;
         player.addCoin(quantity);
-    };
+    }
+
+
+    //GETTER SECTION
+    /**
+     * Getter
+     *
+     * @return unique ID
+     */
+    public UUID getGameID() {
+        return gameID;
+    }
+
+    /**
+     * Getter
+     *
+     * @return the GameField of the match
+     */
+    public IslandList getGameField() {
+        return gameField;
+    }
+
+    /**
+     * Getter
+     *
+     * @return The list of players in this match
+     */
+    public ArrayList<Player> getPlayersList() {
+        return playersList;
+    }
+
+
+    public Pouch getPouch() {
+        return pouch;
+    }
+
+    public ArrayList<CloudTile> getCloudTiles() {
+        return cloudTiles;
+    }
+
+    public int getCoins() {
+        return coins;
+    }
+
+    public ArrayList<ExpertCard> getExpertsCard() {
+        return expertsCard;
+    }
+
 }
