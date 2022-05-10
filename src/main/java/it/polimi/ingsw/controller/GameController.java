@@ -31,9 +31,10 @@ public class GameController {
 
         switch (gameState)  {
             case LOGIN:
-
+                virtualView.askNickName();
         }
     }
+
 
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
@@ -47,4 +48,7 @@ public class GameController {
         this.currentPlayer = currentPlayer;
     }
 
+    public Game getGame() {
+        return game;
+    }
 }
