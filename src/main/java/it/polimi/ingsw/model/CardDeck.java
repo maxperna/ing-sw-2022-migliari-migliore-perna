@@ -51,6 +51,12 @@ public class CardDeck {
         }
     }
 
+    public void playCard(Card cardPlayed) throws InexistentCard {
+        if(!deck.remove(cardPlayed))
+            throw new InexistentCard();
+        lastCardUsed = cardPlayed;
+    }
+
     public ArrayList<Card> getRemainingCards(){
         return deck;
     }
@@ -63,13 +69,5 @@ public class CardDeck {
         return lastCardUsed;
     }
 
-    public Card playCard(Card cardToPlay) throws InexistentCard, EndGameException {
-        if(deck.size()==0)
-            throw new EndGameException("No more cards in the deck");
-        if(deck.remove(cardToPlay)){
-            lastCardUsed = cardToPlay;
-            return cardToPlay;
-        }
-        else throw new InexistentCard("Card is not in the deck");
-    }
+
 }

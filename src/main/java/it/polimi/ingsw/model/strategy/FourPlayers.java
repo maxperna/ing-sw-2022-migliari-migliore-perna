@@ -21,7 +21,7 @@ public class FourPlayers implements Strategy {
     @Override
     public Game generateGame(boolean expertMode) {
 
-        return new Game(numberOfPlayers, maxTowers, maxStudentHall,expertMode);
+        return new Game(numberOfPlayers,expertMode);
 
     }
 }
