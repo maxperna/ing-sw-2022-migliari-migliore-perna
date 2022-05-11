@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
 import it.polimi.ingsw.gameField.IslandList;
 import it.polimi.ingsw.gameField.Node;
-import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
 import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.model.experts.ExpertsFactory;
 
@@ -18,7 +18,7 @@ public class Game {
 
     public final static int MAX_TILE = 12;
     //GAME PARAMETERS
-    public final boolean EXPERT_MODE;       //set to true if expert mode is selected
+    private final boolean EXPERT_MODE;       //set to true if expert mode is selected
     public final int NUM_OF_PLAYERS;
     public final int MAX_NUM_OF_TOWERS;
     public final int MAX_STUDENTS_ENTRANCE;
@@ -44,12 +44,14 @@ public class Game {
      * @param numberOfPlayers number of players in the match
      * @param expertMode used to set the expert mode
      */
-    public Game(int numberOfPlayers, boolean expertMode) {
+    public Game(int numberOfPlayers, boolean expertMode, int maxNumberOfTowers, int maxStudentEntrance) {
 
         this.gameID = UUID.randomUUID();
         this.NUM_OF_PLAYERS = numberOfPlayers;
         this.pouch = new Pouch();
         this.gameField = new IslandList();
+        this.MAX_NUM_OF_TOWERS = maxNumberOfTowers;
+        this.MAX_STUDENTS_ENTRANCE = maxStudentEntrance;
         this.EXPERT_MODE = expertMode;
 
         //creates cloudTiles
@@ -58,32 +60,12 @@ public class Game {
             this.cloudTiles.add(new CloudTile(i));
         }
 
+        //creates array of availableColor for the Players to choose
         this.playersList = new ArrayList<>();
         List<TowerColor> towerColors = new ArrayList<>(Arrays.asList(TowerColor.BLACK,TowerColor.WHITE));
-        switch (numberOfPlayers) {
-            case 2:
+        if(numberOfPlayers == 3)
+            towerColors.add(TowerColor.GRAY);
 
-            case 4: {
-
-
-                this.MAX_NUM_OF_TOWERS = 8;
-                this.MAX_STUDENTS_ENTRANCE = 7;
-
-                break;
-            }
-
-            case 3: {
-                this.MAX_NUM_OF_TOWERS = 6;
-                this.MAX_STUDENTS_ENTRANCE = 9;
-                towerColors.add(TowerColor.GRAY);
-
-
-                break;
-            }
-
-            default:
-                throw new IllegalArgumentException("Unknown number of players");
-        }
         this.TOWER_COLORS_AVAILABLE = new ArrayList<>(towerColors);
 
         //Initialization of influence map, at the beginning player with most influence is null
@@ -137,7 +119,6 @@ public class Game {
            }
        }
     }
-
 
     /**
      * Method used to check influence over inside hall of a player, it automatically set the teacher on the board if

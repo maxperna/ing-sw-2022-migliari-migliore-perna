@@ -1,10 +1,7 @@
 package it.polimi.ingsw.model.strategy;
 
 import it.polimi.ingsw.exceptions.NotEnoughElements;
-import it.polimi.ingsw.model.Color;
-import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.GameManager;
-import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -12,6 +9,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.stream.Stream;
@@ -54,8 +52,29 @@ class GameManagerTest {
     void startGame(String gameMode) {
 
         try {
-            GameManager.getInstance().startGame(gameMode,false);
+            Game currentGame = GameManager.getInstance().startGame(gameMode,false);
             assertNotNull(GameManager.getInstance().getGamesList());
+
+            switch (currentGame.NUM_OF_PLAYERS)
+            {
+                case 2:
+                    currentGame.addPlayer("Piero", DeckType.DRUID, TowerColor.WHITE);
+                    currentGame.addPlayer("Gianna", DeckType.SAGE, TowerColor.BLACK);
+                    break;
+
+                case 3:
+                    currentGame.addPlayer("Piero", DeckType.DRUID, TowerColor.WHITE);
+                    currentGame.addPlayer("Gianna", DeckType.SAGE, TowerColor.BLACK);
+                    currentGame.addPlayer("Pino", DeckType.WITCH, TowerColor.GRAY);
+                    break;
+
+                case 4:
+                    currentGame.addPlayer("Piero", DeckType.DRUID, TowerColor.WHITE);
+                    currentGame.addPlayer("Gianna", DeckType.SAGE, TowerColor.BLACK);
+                    currentGame.addPlayer("Piero2", DeckType.KING, TowerColor.WHITE);
+                    currentGame.addPlayer("Gianna2", DeckType.WITCH, TowerColor.BLACK);
+                    break;
+            }
 
             for (int i = 0; i < GameManager.getInstance().getGamesList().size(); i++) {
 
@@ -83,7 +102,7 @@ class GameManagerTest {
                     assertEquals(0, GameManager.getInstance().getGame(i).getGameField().getStudentsFromIslandNode(motherNatureTile - 6).size());
 
 
-                switch (GameManager.getInstance().getGame(i).getPlayersList().size()) {
+                switch (GameManager.getInstance().getGame(i).NUM_OF_PLAYERS) {
 
                     case 2: {
 
@@ -139,6 +158,8 @@ class GameManagerTest {
             }
         } catch (IllegalArgumentException e) {
             System.out.println("Illegal argument " + "'" + gameMode + "'");
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
         }
 
     }

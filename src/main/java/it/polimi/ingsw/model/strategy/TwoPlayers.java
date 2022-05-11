@@ -21,7 +21,7 @@ public class TwoPlayers implements Strategy {
     @Override
     public Game generateGame(boolean expertMode) {
 
-        return new Game(numberOfPlayers,expertMode);
+        return new Game(numberOfPlayers,expertMode,maxTowers,maxStudentHall);
 
     }
 }
