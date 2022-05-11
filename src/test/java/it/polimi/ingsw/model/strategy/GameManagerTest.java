@@ -130,6 +130,10 @@ class GameManagerTest {
                             assertEquals(FourPlayers.maxTowers, currentPlayer.getBoard().getNumOfTowers());
                         }
 
+                        //Check teamMate
+                        assertEquals(GameManager.getInstance().getGame(i).getPlayersList().get(0).getBoard().getNumOfTowers(), GameManager.getInstance().getGame(i).getPlayersList().get(3).getBoard().getNumOfTowers());
+                        assertEquals(GameManager.getInstance().getGame(i).getPlayersList().get(1).getBoard().getNumOfTowers(), GameManager.getInstance().getGame(i).getPlayersList().get(2).getBoard().getNumOfTowers());
+
                         //Checks CloudTile
                         assertEquals(FourPlayers.numberOfPlayers, GameManager.getInstance().getGame(i).getCloudTiles().size());
 
