@@ -1,5 +1,7 @@
 package it.polimi.ingsw.gameField;
 
+import it.polimi.ingsw.model.DeckType;
+import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameManager;
 import it.polimi.ingsw.model.TowerColor;
 import org.junit.jupiter.api.DisplayName;
@@ -7,7 +9,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.io.FileNotFoundException;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 class NodeTest {
 
@@ -81,12 +86,20 @@ class NodeTest {
     @DisplayName("Testing setTower and getTower method...")
     @Test
     void setTower() {
-        GameManager game = GameManager.getInstance();
-        game.startGame("TwoPlayers",false);
-        for(int ID = 1; ID<13; ID++) {
-            game.getGame(0).getGameField().getIslandNode(ID).setMostInfluencePlayer(game.getGame(0).getPlayersList().get(0));
-            game.getGame(0).getGameField().getIslandNode(ID).setTowerTest(TowerColor.BLACK);
-            assertEquals(TowerColor.BLACK, game.getGame(0).getGameField().getIslandNode(ID).getTowerColor());
+        try {
+            Game game = GameManager.getInstance().startGame("TwoPlayers",false);
+
+            game.addPlayer("Piero", DeckType.DRUID, TowerColor.WHITE);
+            game.addPlayer("Gianna", DeckType.SAGE, TowerColor.BLACK);
+
+            for(int ID = 1; ID<13; ID++) {
+                game.getGameField().getIslandNode(ID).setMostInfluencePlayer(game.getPlayersList().get(0));
+                game.getGameField().getIslandNode(ID).setTowerTest(TowerColor.BLACK);
+                assertEquals(TowerColor.BLACK, game.getGameField().getIslandNode(ID).getTowerColor());
+            }
+
+        } catch (FileNotFoundException e) {
+            fail();
         }
     }
 }

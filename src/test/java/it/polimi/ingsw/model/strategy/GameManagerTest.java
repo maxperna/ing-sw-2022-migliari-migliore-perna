@@ -14,8 +14,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 class GameManagerTest {
 
@@ -83,7 +82,6 @@ class GameManagerTest {
                 //ChecksGameField
                 assertNotNull(GameManager.getInstance().getGame(i).getGameField());
 
-
                 //Checks where MotherNature is
                 for(int j = 1; j <= Game.MAX_TILE; j ++)
                 {
@@ -92,8 +90,10 @@ class GameManagerTest {
 
                 }
 
-                if(motherNatureTile == 0)
+                if(motherNatureTile == 0) {
                     System.out.println("MotherNature not Found\n");
+                    fail();
+                }
 
                 if(motherNatureTile <= 6)
                     assertEquals(0, GameManager.getInstance().getGame(i).getGameField().getStudentsFromIslandNode(motherNatureTile + 6).size());
@@ -130,6 +130,10 @@ class GameManagerTest {
                             assertEquals(FourPlayers.maxTowers, currentPlayer.getBoard().getNumOfTowers());
                         }
 
+                        //Check teamMate
+                        assertEquals(GameManager.getInstance().getGame(i).getPlayersList().get(0).getBoard().getNumOfTowers(), GameManager.getInstance().getGame(i).getPlayersList().get(3).getBoard().getNumOfTowers());
+                        assertEquals(GameManager.getInstance().getGame(i).getPlayersList().get(1).getBoard().getNumOfTowers(), GameManager.getInstance().getGame(i).getPlayersList().get(2).getBoard().getNumOfTowers());
+
                         //Checks CloudTile
                         assertEquals(FourPlayers.numberOfPlayers, GameManager.getInstance().getGame(i).getCloudTiles().size());
 
@@ -156,10 +160,11 @@ class GameManagerTest {
                 }
 
             }
+
         } catch (IllegalArgumentException e) {
             System.out.println("Illegal argument " + "'" + gameMode + "'");
         } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            fail();
         }
 
     }
