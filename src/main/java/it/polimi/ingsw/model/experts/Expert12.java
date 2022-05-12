@@ -23,7 +23,7 @@ public class Expert12 implements ExpertCard {
         if(user.getNumOfCoin()<cost) throw new NotEnoughCoin();
 
         else{
-            user.addCoin(-this.cost);
+            currentGame.coinHandler(user,this.cost);
             this.cost++;
             //Temporary list
             ArrayList<Color> colorToList = new ArrayList<>(Collections.singleton(colorToRemove));        //transform color to list as parameter adjustment

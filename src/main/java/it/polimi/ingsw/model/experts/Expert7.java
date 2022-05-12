@@ -11,11 +11,13 @@ public class Expert7 implements ExpertCard {
 
     private int cost = 1;
     private final ArrayList<Color> studentsOnCard = new ArrayList<>();
+    private final Game currentGame;
 
     private final String IMG = "";            //front image of the card
 
 
     public Expert7(Game currentGame){
+        this.currentGame = currentGame;
         try{
             studentsOnCard.addAll(currentGame.getPouch().randomDraw(6));
         }
@@ -29,7 +31,7 @@ public class Expert7 implements ExpertCard {
             throw new NotEnoughCoin("You cant afford this card");
         }
         else{
-            user.addCoin(-this.cost);
+            currentGame.coinHandler(user,this.cost);
             this.cost++;
             if(studentToSwapBoard.size()!=studentToSwapCard.size())
                 throw new IllegalMove("Not the same number of student");

@@ -4,6 +4,7 @@ import it.polimi.ingsw.exceptions.NotEnoughCoin;
 import it.polimi.ingsw.exceptions.NotEnoughSpace;
 import it.polimi.ingsw.exceptions.NotOnBoardException;
 import it.polimi.ingsw.model.Color;
+import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 
 import java.util.ArrayList;
@@ -12,13 +13,18 @@ public class Expert10 implements ExpertCard {
 
     private int cost = 1;
     private final String IMG = "";            //front image of the card
+    private final Game currentGame;
+
+    public Expert10(Game currentGame){
+        this.currentGame = currentGame;
+    }
     @Override
     public void useCard(Player user, ArrayList<Color> studentInside, ArrayList<Color> studentOutside) throws NotEnoughCoin,IllegalArgumentException {
         if(user.getNumOfCoin()<cost){
             throw new NotEnoughCoin();
         }
         else{
-            user.addCoin(-cost);
+            currentGame.coinHandler(user,this.cost);
             this.cost++;
 
             try {

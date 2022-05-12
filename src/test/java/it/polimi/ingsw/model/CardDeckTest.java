@@ -5,18 +5,16 @@ import it.polimi.ingsw.exceptions.InexistentCard;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-
 import java.io.FileNotFoundException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
-
 public class CardDeckTest {
 
     @DisplayName("Test deck consistency creation")
     @Test
-    void testDeckCreation() throws EndGameException{
+    void testDeckCreation() throws EndGameException {
         DeckType parameter = DeckType.DRUID;
 
         try{
@@ -26,9 +24,9 @@ public class CardDeckTest {
             assertEquals(deck.getDeckType(),parameter);
             assertEquals(deck.getRemainingCards().get(3).getBackImage(),"1");   //1 stand for druid
             try{
-                Card lastCard = deck.playCard(deck.getRemainingCards().get(6)); //play a card and remove it
-                assertEquals(lastCard.getActionNumber(),7);            //check if the removed card is correct
-                assertEquals(lastCard,deck.getLastCard());            //check if the last card is counted
+                deck.playCard(deck.getRemainingCards().get(6)); //play a card and remove it
+                assertEquals(deck.getLastCard().getActionNumber(),7);            //check if the removed card is correct
+                assertEquals(deck.getLastCard(),deck.getLastCard());            //check if the last card is counted
                 assertEquals(deck.getRemainingCards().size(),9);     //check on the removal
 
             }
@@ -53,8 +51,8 @@ public class CardDeckTest {
         try{
             //check card one by one
             for(int i=0;i<=deck.getRemainingCards().size();i++){
-                Card cardPlayed = deck.playCard(deck.getRemainingCards().get(0));
-                assertEquals(cardPlayed.getActionNumber(),i+1);
+                deck.playCard(deck.getRemainingCards().get(0));
+                assertEquals(deck.getLastCard().getActionNumber(),i+1);
 
             }
         }

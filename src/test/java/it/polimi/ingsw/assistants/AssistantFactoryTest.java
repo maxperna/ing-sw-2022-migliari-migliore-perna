@@ -14,13 +14,13 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 public class AssistantFactoryTest {
 
-    Game test = GameManager.getInstance().initGame("TwoPlayers",false);
+    Game test = GameManager.getInstance().startGame("TwoPlayers",true);
     ExpertsFactory factoryTest = ExpertsFactory.createFactory(test);
         @Test
         public void drawAssistantTest(){
         //check for five times if duplicates happen and if ExpertsFactory is actually a singleton
         for(int i=0;i<5;i++){
-            ArrayList<ExpertCard> testCards = factoryTest.drawAssistant();
+            ArrayList<ExpertCard> testCards = factoryTest.drawExperts();
             ArrayList<ExpertCard> oldTestCards = new ArrayList<>();    //old iteration card list
 
             //Getting the classes of the generated cards in order to check possible duplicates

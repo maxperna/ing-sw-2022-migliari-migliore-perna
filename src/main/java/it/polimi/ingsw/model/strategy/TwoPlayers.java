@@ -1,6 +1,10 @@
 package it.polimi.ingsw.model.strategy;
 
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.TowerColor;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Class TwoPlayers, used by the Strategy for creating two players games
@@ -21,7 +25,9 @@ public class TwoPlayers implements Strategy {
     @Override
     public Game generateGame(boolean expertMode) {
 
-        return new Game(numberOfPlayers, maxTowers, maxStudentHall,expertMode);
+        ArrayList<TowerColor> towerColors = new ArrayList<>(Arrays.asList(TowerColor.BLACK,TowerColor.WHITE));
+
+        return new Game(numberOfPlayers,expertMode,maxTowers,maxStudentHall, towerColors);
 
     }
 }

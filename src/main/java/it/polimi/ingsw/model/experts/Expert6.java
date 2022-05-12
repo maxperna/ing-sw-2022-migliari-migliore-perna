@@ -18,8 +18,8 @@ public class Expert6 implements ExpertCard {
         if (user.getNumOfCoin() < this.cost) {
             throw new NotEnoughCoin("You cant afford this card");
         } else {
+            currentGame.coinHandler(user,this.cost);
             this.cost++;
-            user.addCoin(-this.cost);
             currentGame.getGameField().ignoreTower();
 
         }

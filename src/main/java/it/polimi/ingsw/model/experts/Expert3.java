@@ -20,7 +20,7 @@ public class Expert3 implements ExpertCard {
             throw new NotEnoughCoin("You cant afford this card");
         }
         else{
-            this.cost++;
+            currentGame.coinHandler(user,this.cost);
             user.addCoin(-this.cost);
             currentGame.checkIslandInfluence(targetIsland);
         }

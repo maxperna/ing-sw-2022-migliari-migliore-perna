@@ -24,17 +24,17 @@ class PouchTest {
             e.printStackTrace();
         }
         assertEquals(input, students.size());
-        assertEquals(106-input, game.getGame(0).getPouch().remainingStudents());
+        assertEquals(120-input, game.getGame(0).getPouch().remainingStudents());
         game.setNull();
     }
 
     @ParameterizedTest
-    @CsvSource ({"1", "10", "106"})
+    @CsvSource ({"1", "10", "120"})
     void randomDrawShouldThrowException(int input) {
         GameManager game = GameManager.getInstance();
         game.initGame("TwoPlayers",false);
 
-        if(input == 106) {
+        if(input == 120) {
             assertThrows(NotEnoughStudentsException.class, () -> {
                 game.getGame(0).getPouch().randomDraw(input);
             });
@@ -56,7 +56,7 @@ class PouchTest {
         ArrayList<Color> students = new ArrayList<>();
         students.add(Color.RED);
         game.getGame(0).getPouch().addStudents(students);
-        assertEquals(107, game.getGame(0).getPouch().remainingStudents());
+        assertEquals(121, game.getGame(0).getPouch().remainingStudents());
     }
 
 }

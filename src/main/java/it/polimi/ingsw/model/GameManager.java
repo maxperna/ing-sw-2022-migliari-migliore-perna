@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.strategy.ThreePlayers;
 import it.polimi.ingsw.model.strategy.TwoPlayers;
 import org.jetbrains.annotations.NotNull;
 
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -127,7 +128,7 @@ public class GameManager {
         return GameManager.getInstance().getGamesList().get(i);
     }
 
-    public void setNull() {
+    public static void setNull() {
         gameManager = null;
     }
 

@@ -30,7 +30,7 @@ public class ExpertsFactory {
      *
      * @return an array list of three ExpertCard
      * */
-    private ArrayList<ExpertCard> generateAssistant(){
+    private ArrayList<ExpertCard> generateExperts(){
 
         calledAssistant = new ArrayList<>();
         ArrayList<Integer> numbersGenerated = new ArrayList<>();     //list containing numbers already generated
@@ -38,7 +38,7 @@ public class ExpertsFactory {
         for(int i=0;i<3;i++){
             int randomDraw;
             do{
-                randomDraw = randomGenerator.nextInt(13);
+                randomDraw = randomGenerator.nextInt(12);
             }while(numbersGenerated.contains(randomDraw));         //check if the number is not already in the list
             numbersGenerated.add(randomDraw);
 
@@ -58,7 +58,7 @@ public class ExpertsFactory {
                     generatedCard = new Expert4();
                     break;
                 case 4:
-                    generatedCard = new Expert5();
+                    generatedCard = new Expert5(this.currentGame);
                     break;
                 case 5:
                     generatedCard = new Expert6(this.currentGame);
@@ -67,13 +67,13 @@ public class ExpertsFactory {
                     generatedCard = new Expert7(this.currentGame);
                     break;
                 case 7:
-                    generatedCard = new Expert8();
+                    generatedCard = new Expert8(currentGame);
                     break;
                 case 8:
-                    generatedCard = new Expert9();
+                    generatedCard = new Expert9(this.currentGame);
                     break;
                 case 9:
-                    generatedCard = new Expert10();
+                    generatedCard = new Expert10(currentGame);
                     break;
                 case 10:
                     generatedCard = new Expert11(this.currentGame);
@@ -93,9 +93,9 @@ public class ExpertsFactory {
     /**Method to implements singleton
      * @return a list of three ExpertCard or call the generator if it doesn't exist
      * */
-    public ArrayList<ExpertCard> drawAssistant(){
+    public ArrayList<ExpertCard> drawExperts(){
         if(calledAssistant == null){
-            return generateAssistant();
+            return generateExperts();
         }
         else return calledAssistant;
     }

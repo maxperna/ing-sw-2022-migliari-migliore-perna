@@ -1,10 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.gameField.Node;
-import it.polimi.ingsw.exceptions.EndGameException;
-import it.polimi.ingsw.exceptions.NotEnoughSpace;
-import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
-import it.polimi.ingsw.exceptions.NotOnBoardException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,25 +15,27 @@ public class Board implements StudentManager {
 
     private final int maxStudentHall;
     private final int MAX_DIM_INSIDE = 10;    //maximum students on the dining room
-    private final int maxTowers;
-    private final TowerColor towerColor;
+    private TowerColor towerColor;
     private Integer numberOfTowers;  //number of towers on the board
+    private final Player owner;
     private Player teamMate;
     private ArrayList<Color> entryRoom;    //list of student in the outer room
     private final Map<Color,Integer> diningRoom = new HashMap<>();      //list of student for each color inside the main hall
     private final Map<Color, Boolean> teachers = new HashMap<>();       //map to signal the presence of a teacher on the board
-
     private final Game currentGame;
 
 
 
-    public Board(Game currentGame, int maxStudentHall, Integer numberOfTowers, TowerColor towerColor){
+    public Board(Game currentGame,Player owner,TowerColor towerColor) {
 
-        this.maxStudentHall = maxStudentHall;
-        this.maxTowers = numberOfTowers;
+        this.maxStudentHall = currentGame.MAX_STUDENTS_ENTRANCE;
+        this.numberOfTowers = currentGame.MAX_NUM_OF_TOWERS;
         this.towerColor = towerColor;
-        this.numberOfTowers = numberOfTowers;
+
+
+
         this.currentGame = currentGame;
+        this.owner = owner;
 
         try {
             this.entryRoom = currentGame.getPouch().randomDraw(maxStudentHall);
@@ -46,22 +45,14 @@ public class Board implements StudentManager {
 
     }
 
-    public Board(Game currentGame, int maxStudentHall, Integer numberOfTowers, TowerColor towerColor, Player teamMate){
-
-        this.maxStudentHall = maxStudentHall;
-        this.maxTowers = numberOfTowers;
-        this.towerColor = towerColor;
-        this.numberOfTowers = numberOfTowers;
-        this.teamMate = teamMate;
-        this.currentGame = currentGame;
-
-        try {
-            this.entryRoom = currentGame.getPouch().randomDraw(maxStudentHall);
-        } catch (NotEnoughStudentsException e) {
-            e.printStackTrace();
+    /**Method to set the teammate on the board only if it has not been set yet and to add reference to the common tower
+     * in 4 players game
+     * @param teamMate players to set as teammate*/
+    public void setTeamMate(Player teamMate){
+        if(this.teamMate == null && currentGame.NUM_OF_PLAYERS ==4) {
+            this.teamMate = teamMate;
+            this.numberOfTowers = teamMate.getBoard().numberOfTowers;
         }
-
-
     }
     public ArrayList<Color> getEntryRoom(){
         return entryRoom;
@@ -103,8 +94,7 @@ public class Board implements StudentManager {
             diningRoom.put(color, diningRoom.get(color)+1);       //add a student of a color after removing it
             //Coin add if on 3,6,9th space
             if(diningRoom.get(color)%3==0 && diningRoom.get(color)!=0){
-                Player playerToAdd = currentGame.getBoardAssignations().get(this);
-                currentGame.coinHandler(playerToAdd,1);
+                currentGame.coinHandler(owner,1);
             }
 
         }

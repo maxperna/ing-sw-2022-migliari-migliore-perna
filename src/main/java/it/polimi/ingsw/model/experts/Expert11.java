@@ -34,7 +34,7 @@ public class Expert11 implements ExpertCard {
         if(user.getNumOfCoin()<this.cost)
             throw new NotEnoughCoin();
         else{
-            user.addCoin(-cost);
+            currentGame.coinHandler(user,this.cost);
             this.cost++;
 
             if (!studentsOnCard.contains(colorToAdd)) throw new IllegalMove("Student is not on card");

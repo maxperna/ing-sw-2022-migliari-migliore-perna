@@ -9,7 +9,7 @@ class GameTest {
     @Test
     void getGameID() {
 
-        Game game = new Game(2, 1, 1,false);
+        Game game = GameManager.getInstance().startGame("TwoPlayers",false);
 
         assertNotNull(game.getGameID());
     }
