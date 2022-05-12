@@ -51,9 +51,13 @@ public class CardDeck {
         }
     }
 
-    public void playCard(Card cardPlayed) throws InexistentCard {
-        if(!deck.remove(cardPlayed))
+    public void playCard(Card cardPlayed) throws InexistentCard,EndGameException {
+        if(!deck.remove(cardPlayed)){
+            if(deck.size()==0)
+                throw new EndGameException();
             throw new InexistentCard();
+        }
+
         lastCardUsed = cardPlayed;
     }
 
