@@ -14,8 +14,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 class GameManagerTest {
 
@@ -163,7 +162,7 @@ class GameManagerTest {
         } catch (IllegalArgumentException e) {
             System.out.println("Illegal argument " + "'" + gameMode + "'");
         } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            fail();
         }
 
     }
