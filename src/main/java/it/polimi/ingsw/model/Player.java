@@ -38,18 +38,8 @@ public class Player {
      * @throws EndGameException if the deck is empty
      * */
     public Card playCard(Card cardToPlay) throws InexistentCard, EndGameException {
-        if(deck.getRemainingCards().size()==0)
-            throw new EndGameException("No more cards in the deck");
-        else {
-            try{
-                deck.playCard(cardToPlay);
-                return cardToPlay;
-            }catch (InexistentCard e){
-                throw new InexistentCard();
-            }
-
-
-        }
+        deck.playCard(cardToPlay);
+        return cardToPlay;
     }
 
     /**Method to modify the amount of coin of a player
