@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.exceptions.NotEnoughElements;
 import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
 import it.polimi.ingsw.gameField.IslandList;
 import it.polimi.ingsw.gameField.Node;
@@ -78,7 +77,7 @@ public class Game {
 
             //Expert cards drawing
             ExpertsFactory expertsDrawer = ExpertsFactory.createFactory(this);
-            this.expertsCard.addAll(expertsDrawer.drawAssistant());
+            this.expertsCard.addAll(expertsDrawer.drawExperts());
         }
 
     }

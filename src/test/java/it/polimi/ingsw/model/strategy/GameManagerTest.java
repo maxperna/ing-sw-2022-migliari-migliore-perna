@@ -49,7 +49,7 @@ class GameManagerTest {
     @ParameterizedTest
     @MethodSource("gameModeList")
     void startGame(String gameMode) {
-
+        GameManager.setNull();
         try {
             Game currentGame = GameManager.getInstance().startGame(gameMode,false);
             assertNotNull(GameManager.getInstance().getGamesList());
@@ -73,6 +73,8 @@ class GameManagerTest {
                     currentGame.addPlayer("Piero2", DeckType.KING, TowerColor.WHITE);
                     currentGame.addPlayer("Gianna2", DeckType.WITCH, TowerColor.BLACK);
                     break;
+
+
             }
 
             for (int i = 0; i < GameManager.getInstance().getGamesList().size(); i++) {
