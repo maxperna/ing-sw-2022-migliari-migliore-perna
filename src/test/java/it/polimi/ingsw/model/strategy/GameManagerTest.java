@@ -82,7 +82,6 @@ class GameManagerTest {
                 //ChecksGameField
                 assertNotNull(GameManager.getInstance().getGame(i).getGameField());
 
-
                 //Checks where MotherNature is
                 for(int j = 1; j <= Game.MAX_TILE; j ++)
                 {
@@ -91,8 +90,10 @@ class GameManagerTest {
 
                 }
 
-                if(motherNatureTile == 0)
+                if(motherNatureTile == 0) {
                     System.out.println("MotherNature not Found\n");
+                    fail();
+                }
 
                 if(motherNatureTile <= 6)
                     assertEquals(0, GameManager.getInstance().getGame(i).getGameField().getStudentsFromIslandNode(motherNatureTile + 6).size());
@@ -159,6 +160,7 @@ class GameManagerTest {
                 }
 
             }
+
         } catch (IllegalArgumentException e) {
             System.out.println("Illegal argument " + "'" + gameMode + "'");
         } catch (FileNotFoundException e) {
