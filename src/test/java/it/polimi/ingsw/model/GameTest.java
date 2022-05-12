@@ -17,7 +17,7 @@ class GameTest {
     @Test
     void shouldRechargeCloud() {
 
-        Game game2P = GameManager.getInstance().startGame("TwoPlayers",false);
+        Game game2P = GameManager.getInstance().initGame("TwoPlayers",false);
 
         game2P.rechargeClouds();
     }

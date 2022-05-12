@@ -1,6 +1,6 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.model.GameManager;
+import it.polimi.ingsw.controller.GameController;
 
 
 /**
@@ -9,13 +9,9 @@ import it.polimi.ingsw.model.GameManager;
  */
 public class App 
 {
-    public static void main( String[] args )
+    public static void main(String[] args )
     {
+        GameController gameController = new GameController("TwoPlayers", Boolean.FALSE);
 
-        GameManager.getInstance().startGame("TwoPlayers",false);
-        GameManager.getInstance().startGame("ThreePlayers",false);
-        GameManager.getInstance().startGame("FourPlayers",false);
-
-        int i = 0;
     }
 }

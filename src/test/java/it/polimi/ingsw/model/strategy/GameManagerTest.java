@@ -1,7 +1,10 @@
 package it.polimi.ingsw.model.strategy;
 
 import it.polimi.ingsw.exceptions.NotEnoughElements;
-import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.Color;
+import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.GameManager;
+import it.polimi.ingsw.model.Player;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -9,12 +12,12 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class GameManagerTest {
 
@@ -51,29 +54,8 @@ class GameManagerTest {
     void startGame(String gameMode) {
 
         try {
-            Game currentGame = GameManager.getInstance().startGame(gameMode,false);
+            GameManager.getInstance().initGame(gameMode,false);
             assertNotNull(GameManager.getInstance().getGamesList());
-
-            switch (currentGame.NUM_OF_PLAYERS)
-            {
-                case 2:
-                    currentGame.addPlayer("Piero", DeckType.DRUID, TowerColor.WHITE);
-                    currentGame.addPlayer("Gianna", DeckType.SAGE, TowerColor.BLACK);
-                    break;
-
-                case 3:
-                    currentGame.addPlayer("Piero", DeckType.DRUID, TowerColor.WHITE);
-                    currentGame.addPlayer("Gianna", DeckType.SAGE, TowerColor.BLACK);
-                    currentGame.addPlayer("Pino", DeckType.WITCH, TowerColor.GRAY);
-                    break;
-
-                case 4:
-                    currentGame.addPlayer("Piero", DeckType.DRUID, TowerColor.WHITE);
-                    currentGame.addPlayer("Gianna", DeckType.SAGE, TowerColor.BLACK);
-                    currentGame.addPlayer("Piero2", DeckType.KING, TowerColor.WHITE);
-                    currentGame.addPlayer("Gianna2", DeckType.WITCH, TowerColor.BLACK);
-                    break;
-            }
 
             for (int i = 0; i < GameManager.getInstance().getGamesList().size(); i++) {
 
@@ -81,6 +63,7 @@ class GameManagerTest {
 
                 //ChecksGameField
                 assertNotNull(GameManager.getInstance().getGame(i).getGameField());
+
 
                 //Checks where MotherNature is
                 for(int j = 1; j <= Game.MAX_TILE; j ++)
@@ -90,10 +73,8 @@ class GameManagerTest {
 
                 }
 
-                if(motherNatureTile == 0) {
+                if(motherNatureTile == 0)
                     System.out.println("MotherNature not Found\n");
-                    fail();
-                }
 
                 if(motherNatureTile <= 6)
                     assertEquals(0, GameManager.getInstance().getGame(i).getGameField().getStudentsFromIslandNode(motherNatureTile + 6).size());
@@ -102,7 +83,7 @@ class GameManagerTest {
                     assertEquals(0, GameManager.getInstance().getGame(i).getGameField().getStudentsFromIslandNode(motherNatureTile - 6).size());
 
 
-                switch (GameManager.getInstance().getGame(i).NUM_OF_PLAYERS) {
+                switch (GameManager.getInstance().getGame(i).getPlayersList().size()) {
 
                     case 2: {
 
@@ -130,10 +111,6 @@ class GameManagerTest {
                             assertEquals(FourPlayers.maxTowers, currentPlayer.getBoard().getNumOfTowers());
                         }
 
-                        //Check teamMate
-                        assertEquals(GameManager.getInstance().getGame(i).getPlayersList().get(0).getBoard().getNumOfTowers(), GameManager.getInstance().getGame(i).getPlayersList().get(3).getBoard().getNumOfTowers());
-                        assertEquals(GameManager.getInstance().getGame(i).getPlayersList().get(1).getBoard().getNumOfTowers(), GameManager.getInstance().getGame(i).getPlayersList().get(2).getBoard().getNumOfTowers());
-
                         //Checks CloudTile
                         assertEquals(FourPlayers.numberOfPlayers, GameManager.getInstance().getGame(i).getCloudTiles().size());
 
@@ -160,11 +137,8 @@ class GameManagerTest {
                 }
 
             }
-
         } catch (IllegalArgumentException e) {
             System.out.println("Illegal argument " + "'" + gameMode + "'");
-        } catch (FileNotFoundException e) {
-            fail();
         }
 
     }
@@ -194,7 +168,7 @@ class GameManagerTest {
             System.out.println("Index out of bound");
         }
 
-        GameManager.getInstance().startGame(gameMode,false);
+        GameManager.getInstance().initGame(gameMode,false);
     }
 
     @ParameterizedTest

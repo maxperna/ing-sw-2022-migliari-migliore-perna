@@ -13,11 +13,15 @@ import java.util.ArrayList;
 */
 public interface ExpertCard {
 
+    //1
     default void useCard(Player userPlayer) throws NotEnoughCoin{};
+    //2
     default void useCard(Player userPlayer, Node targetIsland) throws NotEnoughCoin, IllegalMove {};
+    //3
     default void useCard(Player userPlayer,Node targetIsland, Color student) throws NotEnoughCoin,IllegalMove{};
+    //4
     default void useCard(Player userPlayer, Color studentToAdd) throws NotEnoughCoin,IllegalMove{};
-
+    //5
     default void useCard(Player user, ArrayList<Color> studentToSwapBoard, ArrayList<Color> studentToSwapCard) throws NotEnoughCoin, IllegalMove{};
 
     public void endEffect();

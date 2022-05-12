@@ -74,7 +74,7 @@ public class GameManager {
      * @param gameMode used to select the number of player in the game
      * @param expertMode selector for expert mode
      */
-    public synchronized Game startGame(@NotNull String gameMode, boolean expertMode) {
+    public synchronized Game initGame(@NotNull String gameMode, boolean expertMode) {
 
         Selector selector;
 
@@ -130,4 +130,6 @@ public class GameManager {
     public void setNull() {
         gameManager = null;
     }
+
+
 }
