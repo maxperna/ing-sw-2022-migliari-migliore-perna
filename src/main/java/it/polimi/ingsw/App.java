@@ -17,16 +17,16 @@ public class App
     public static void main( String[] args )
     {
         try {
-            Game twoPlayersGame = GameManager.getInstance().startGame("TwoPlayers", false);
+            Game twoPlayersGame = GameManager.getInstance().initGame("TwoPlayers", false);
             twoPlayersGame.addPlayer("Piero", DeckType.DRUID, TowerColor.WHITE);
             twoPlayersGame.addPlayer("Gianna", DeckType.SAGE, TowerColor.BLACK);
 
-            Game threePlayersGame = GameManager.getInstance().startGame("ThreePlayers", false);
+            Game threePlayersGame = GameManager.getInstance().initGame("ThreePlayers", false);
             threePlayersGame.addPlayer("Piero", DeckType.DRUID, TowerColor.WHITE);
             threePlayersGame.addPlayer("Gianna", DeckType.SAGE, TowerColor.BLACK);
             threePlayersGame.addPlayer("Pino", DeckType.WITCH, TowerColor.GRAY);
 
-            Game fourPLayersGame = GameManager.getInstance().startGame("FourPlayers", false);
+            Game fourPLayersGame = GameManager.getInstance().initGame("FourPlayers", false);
             fourPLayersGame.addPlayer("Piero", DeckType.DRUID, TowerColor.WHITE);
             fourPLayersGame.addPlayer("Gianna", DeckType.SAGE, TowerColor.BLACK);
             fourPLayersGame.addPlayer("Piero2", DeckType.KING, TowerColor.WHITE);

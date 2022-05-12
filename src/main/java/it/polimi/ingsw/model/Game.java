@@ -105,6 +105,16 @@ public class Game {
         }
     }
 
+    public Player getPlayerByNickName (String nickName) {
+
+        for(Player currentPlayer : playersList) {
+            if(currentPlayer.getNickname().equals(nickName))
+                return currentPlayer;
+        }
+
+        throw new RuntimeException("Player does not exist");
+    }
+
 
     /**Method to recharge the clouds tile at the beginning of every action phase
      * */

@@ -14,12 +14,21 @@ public class Player {
     private int numOfCoin;
 
 
-
-    public Player (String nickname,DeckType assistant,TowerColor towerColor, Game gameInfo) throws FileNotFoundException{
+    public Player (String nickname,DeckType assistant,TowerColor towerColor, Game gameInfo) {
 
       this.nickname = nickname;
-      this.deck = new CardDeck(assistant);
-      this.board = new Board(gameInfo,this,towerColor);
+        try {
+            this.deck = new CardDeck(assistant);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        this.board = new Board(gameInfo,this,towerColor);
+    }
+
+    public Player () {
+        this.nickname = "Default";
+        this.board = null;
+        this.deck = null;
     }
 
     public String getNickname(){
