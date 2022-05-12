@@ -18,14 +18,13 @@ public class Game {
 
     public final static int MAX_TILE = 12;
     //GAME PARAMETERS
+    private final UUID gameID;
     private final boolean EXPERT_MODE;       //set to true if expert mode is selected
     public final int NUM_OF_PLAYERS;
     public final int MAX_NUM_OF_TOWERS;
     public final int MAX_STUDENTS_ENTRANCE;
     private final ArrayList<TowerColor> TOWER_COLORS_AVAILABLE;
-    private final UUID gameID;
     private final ArrayList<Player> playersList;
-
     private final IslandList gameField;
     private final Pouch pouch;
     private final ArrayList<CloudTile> cloudTiles;
@@ -34,7 +33,6 @@ public class Game {
     //ONLY EXPERTS MODE
     private final ArrayList<ExpertCard> expertsCard = new ArrayList<>();
     public int coins = 20;
-
     private Color colorToIgnore = null;
     private Player playerHavingPlusTwo = null;       //player which have +2 influence if expert 8 is played
 
