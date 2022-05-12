@@ -106,9 +106,9 @@ class IslandListTest {
             game.addPlayer("Piero", DeckType.DRUID, TowerColor.WHITE);
             game.addPlayer("Gianna", DeckType.SAGE, TowerColor.BLACK);
 
-            game.getGameField().getIslandNode(input).setMostInfluencePlayer(game.getPlayersList().get(0));
+            game.getGameField().getIslandNode(input).setMostInfluencePlayer(game.getPlayersList().get(1));
             game.getGameField().getIslandNode(input).setTowerTest(TowerColor.BLACK);
-            game.getGameField().getIslandNode(input).getNextNode().setMostInfluencePlayer(game.getPlayersList().get(0));
+            game.getGameField().getIslandNode(input).getNextNode().setMostInfluencePlayer(game.getPlayersList().get(1));
             game.getGameField().getIslandNode(input).getNextNode().setTowerTest(TowerColor.BLACK);
             game.getGameField().moveMotherNatureToNodeID(input);
             if(input == 12)
@@ -133,9 +133,9 @@ class IslandListTest {
             game.addPlayer("Piero", DeckType.DRUID, TowerColor.WHITE);
             game.addPlayer("Gianna", DeckType.SAGE, TowerColor.BLACK);
 
-            game.getGameField().getIslandNode(input).setMostInfluencePlayer(game.getPlayersList().get(0));
+            game.getGameField().getIslandNode(input).setMostInfluencePlayer(game.getPlayersList().get(1));
             game.getGameField().getIslandNode(input).setTowerTest(TowerColor.BLACK);
-            game.getGameField().getIslandNode(input).getPreviousNode().setMostInfluencePlayer(game.getPlayersList().get(0));
+            game.getGameField().getIslandNode(input).getPreviousNode().setMostInfluencePlayer(game.getPlayersList().get(1));
             game.getGameField().getIslandNode(input).getPreviousNode().setTowerTest(TowerColor.BLACK);
             game.getGameField().moveMotherNatureToNodeID(input);
             if(input == 12)
@@ -159,12 +159,15 @@ class IslandListTest {
             game.addPlayer("Piero", DeckType.DRUID, TowerColor.WHITE);
             game.addPlayer("Gianna", DeckType.SAGE, TowerColor.BLACK);
 
+            for(int i =1; i<13; i++) {
+                game.getGameField().getIslandNode(i).setMostInfluencePlayer(game.getPlayersList().get(1));              //setting the mostInfluencePlayer as the player with the BLACK towers
+            }
+
             for(int i=1; i<13; i++) {
                 game.getGameField().getIslandNode(i).setTowerTest(TowerColor.BLACK);
             }
-            for(int i =1; i<13; i++) {
-                game.getGameField().getIslandNode(input).setMostInfluencePlayer(game.getPlayersList().get(0));
-            }
+
+            System.out.println(game.getPlayersList().get(0).getNickname());
                 assertThrows(EndGameException.class, () -> {
                     game.getGameField().moveMotherNatureToNodeID(input);
                 });
@@ -203,11 +206,11 @@ class IslandListTest {
             game.addPlayer("Gianna", DeckType.SAGE, TowerColor.BLACK);
 
             game.getGameField().getIslandNode(input).setMostInfluencePlayer(game.getPlayersList().get(0));
-            game.getGameField().getIslandNode(input).setTowerTest(TowerColor.BLACK);
+            game.getGameField().getIslandNode(input).setTower();
             game.getGameField().getIslandNode(input).getNextNode().setMostInfluencePlayer(game.getPlayersList().get(0));
-            game.getGameField().getIslandNode(input).getNextNode().setTowerTest(TowerColor.BLACK);
+            game.getGameField().getIslandNode(input).getNextNode().setTower();
             game.getGameField().getIslandNode(input).getPreviousNode().setMostInfluencePlayer(game.getPlayersList().get(0));
-            game.getGameField().getIslandNode(input).getPreviousNode().setTowerTest(TowerColor.BLACK);
+            game.getGameField().getIslandNode(input).getPreviousNode().setTower();
             game.getGameField().moveMotherNatureToNodeID(input);
             if(input == 1) {
                 assertEquals(next, game.getGameField().getIslandNode(input).getNextNode().getNodeID());
