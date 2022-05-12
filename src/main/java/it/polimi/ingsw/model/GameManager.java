@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.exceptions.NotEnoughElements;
 import it.polimi.ingsw.model.strategy.FourPlayers;
 import it.polimi.ingsw.model.strategy.Selector;
@@ -21,6 +22,7 @@ public class GameManager {
 
     private static GameManager gameManager = null;
     private final ArrayList<Game> gamesList;
+    private final ArrayList<GameController> controllerList;
 
 
 
@@ -29,6 +31,7 @@ public class GameManager {
      */
     private GameManager() {
         this.gamesList = new ArrayList<>();
+        this.controllerList = new ArrayList<>();
     }
 
     /**
@@ -104,6 +107,7 @@ public class GameManager {
         gamesList.add(game);
         return game;
     }
+
 
     /**
      * Getter

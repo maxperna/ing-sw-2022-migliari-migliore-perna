@@ -28,14 +28,13 @@ public class GameController {
 
         this.game = null;
         this.viewMap = Collections.synchronizedMap(new HashMap<>());
-        this.currentPlayer = new Player();
-        this.viewMap.put("Default",new VirtualView());
+        this.currentPlayer = null;
         this.gameState = GameState.LOGIN;
     }
 
     public void onMessageReceived (Message receivedMessage) {
 
-        VirtualView virtualView = viewMap.get(currentPlayer.getNickname());
+        VirtualView virtualView = viewMap.get(receivedMessage.getSenderPlayer());
 
         switch (gameState)  {
             case LOGIN:
@@ -44,7 +43,7 @@ public class GameController {
                 break;
 
             case INIT:
-                viewMap.remove("Default");
+
                 break;
         }
     }
