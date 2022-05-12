@@ -88,8 +88,11 @@ public class Game {
      * @param assistant assistant deck chosen
      * @param towerColor tower color on the board chosen
      */
-    public void addPlayer(String nickname,DeckType assistant, TowerColor towerColor) throws FileNotFoundException {
-        this.playersList.add(new Player(nickname,assistant,towerColor,this));
+    public void addPlayer(String nickname,DeckType assistant, TowerColor towerColor) throws FileNotFoundException{
+        if(TOWER_COLORS_AVAILABLE.remove(towerColor))
+            this.playersList.add(new Player(nickname,assistant,towerColor,this));
+        else
+            throw new FileNotFoundException("Color already taken");        //color already taken
         //Team formation
         if(NUM_OF_PLAYERS == 4 && playersList.size() == 4){
             for(Player player:playersList){
@@ -210,18 +213,6 @@ public class Game {
         return influenceMap;
     }
 
-    public TowerColor getA_TOWER_FROM_COLORS_AVAILABLE(TowerColor towerColor) throws NotEnoughElements {
-
-        for (int i = 0; i < TOWER_COLORS_AVAILABLE.size(); i++) {
-            if (towerColor.equals(TOWER_COLORS_AVAILABLE.get(i)))
-            {
-                return TOWER_COLORS_AVAILABLE.remove(i);
-            }
-
-        }
-        throw new NotEnoughElements("The chosen color does not exists");
-    }
-
     /**
      * Class used for define a new type of data for influence map(tuple)
      */
@@ -308,7 +299,8 @@ public class Game {
         return expertsCard;
     }
 
-
-
+    public ArrayList<TowerColor> getTOWER_COLORS_AVAILABLE() {
+        return TOWER_COLORS_AVAILABLE;
+    }
 }
 

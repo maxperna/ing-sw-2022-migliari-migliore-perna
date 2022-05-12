@@ -30,12 +30,8 @@ public class Board implements StudentManager {
 
         this.maxStudentHall = currentGame.MAX_STUDENTS_ENTRANCE;
         this.numberOfTowers = currentGame.MAX_NUM_OF_TOWERS;
+        this.towerColor = towerColor;
 
-        try {
-            this.towerColor = currentGame.getA_TOWER_FROM_COLORS_AVAILABLE(towerColor);
-        } catch (NotEnoughElements e) {
-            e.printStackTrace();
-        }
 
 
         this.currentGame = currentGame;
