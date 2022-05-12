@@ -5,19 +5,17 @@ import it.polimi.ingsw.exceptions.EndGameException;
 import it.polimi.ingsw.exceptions.InexistentCard;
 
 import java.io.FileNotFoundException;
-import java.util.UUID;
 
 public class Player {
 
     private final String nickname;
     private final Board board;
     private final CardDeck deck;
-
     private int numOfCoin;
 
 
 
-    public Player (String nickname,DeckType assistant,TowerColor towerColor, Game gameInfo) throws FileNotFoundException {
+    public Player (String nickname,DeckType assistant,TowerColor towerColor, Game gameInfo) throws FileNotFoundException{
 
       this.nickname = nickname;
       this.deck = new CardDeck(assistant);

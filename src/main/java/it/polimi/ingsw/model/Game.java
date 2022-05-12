@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exceptions.NotEnoughElements;
 import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
 import it.polimi.ingsw.gameField.IslandList;
 import it.polimi.ingsw.gameField.Node;
@@ -7,7 +8,9 @@ import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.model.experts.ExpertsFactory;
 
 import java.io.FileNotFoundException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.UUID;
 
 /**
  * Class Game, every class created as its own unique gameID
@@ -42,7 +45,7 @@ public class Game {
      * @param numberOfPlayers number of players in the match
      * @param expertMode used to set the expert mode
      */
-    public Game(int numberOfPlayers, boolean expertMode, int maxNumberOfTowers, int maxStudentEntrance) {
+    public Game(int numberOfPlayers, boolean expertMode, int maxNumberOfTowers, int maxStudentEntrance, ArrayList<TowerColor> towerColorAvailable) {
 
         this.gameID = UUID.randomUUID();
         this.NUM_OF_PLAYERS = numberOfPlayers;
@@ -60,11 +63,8 @@ public class Game {
 
         //creates array of availableColor for the Players to choose
         this.playersList = new ArrayList<>();
-        List<TowerColor> towerColors = new ArrayList<>(Arrays.asList(TowerColor.BLACK,TowerColor.WHITE));
-        if(numberOfPlayers == 3)
-            towerColors.add(TowerColor.GRAY);
 
-        this.TOWER_COLORS_AVAILABLE = new ArrayList<>(towerColors);
+        this.TOWER_COLORS_AVAILABLE = towerColorAvailable;
 
         //Initialization of influence map, at the beginning player with most influence is null
         for (Color color : Color.values()) {
@@ -210,6 +210,18 @@ public class Game {
         return influenceMap;
     }
 
+    public TowerColor getA_TOWER_FROM_COLORS_AVAILABLE(TowerColor towerColor) throws NotEnoughElements {
+
+        for (int i = 0; i < TOWER_COLORS_AVAILABLE.size(); i++) {
+            if (towerColor.equals(TOWER_COLORS_AVAILABLE.get(i)))
+            {
+                return TOWER_COLORS_AVAILABLE.remove(i);
+            }
+
+        }
+        throw new NotEnoughElements("The chosen color does not exists");
+    }
+
     /**
      * Class used for define a new type of data for influence map(tuple)
      */
@@ -296,8 +308,7 @@ public class Game {
         return expertsCard;
     }
 
-    public ArrayList<TowerColor> getTOWER_COLORS_AVAILABLE(){
-        return TOWER_COLORS_AVAILABLE;
-    }
+
 
 }
+
