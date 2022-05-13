@@ -5,6 +5,11 @@ import it.polimi.ingsw.model.TowerColor;
 
 import java.util.UUID;
 
+/**
+ * Class CreatePlayerMessage, the client sends this message to create a player in the game.
+ *  It contains the parameters to create a Player.
+ * @author Miglia
+ */
 public class CreatePlayerMessage extends  Message{
 
     UUID identifier = UUID.randomUUID();

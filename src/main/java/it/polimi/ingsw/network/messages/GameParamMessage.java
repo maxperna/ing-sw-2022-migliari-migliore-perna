@@ -1,5 +1,10 @@
 package it.polimi.ingsw.network.messages;
 
+/**
+ * Class GameParamMessage, the client sends this message to create a game.
+ *  It contains the parameters to create a Game.
+ * @author Miglia
+ */
 public class GameParamMessage extends Message{
 
     private final int numOfPlayers;

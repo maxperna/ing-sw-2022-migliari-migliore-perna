@@ -15,7 +15,11 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static it.polimi.ingsw.network.messages.MessageType.*;
-
+/**
+ * Class GameController
+ *
+ * @author Miglia
+ */
 public class GameController {
 
     private Game game;
@@ -24,7 +28,9 @@ public class GameController {
     private PreparationPhaseLogic preparationPhaseLogic;
     private GameState gameState;
 
-
+    /**
+     * Constructor, creates a GameController without any game.
+     */
     public GameController() {
 
         this.game = null;
@@ -33,18 +39,22 @@ public class GameController {
         this.gameState = GameState.LOGIN;
     }
 
+    /**
+     * method to manage the received messages
+     * @param receivedMessage received message
+     */
     public void onMessageReceived (Message receivedMessage) {
 
         VirtualView virtualView = viewMap.get(receivedMessage.getSenderPlayer());
 
         switch (gameState)  {
-            case LOGIN:
+            case LOGIN: //creates the game
                 if(receivedMessage.getType()== GAMEPARAM)
                     gameCreation(receivedMessage);
                 nextState();
                 break;
 
-            case CREATE_PLAYERS:
+            case CREATE_PLAYERS: //adds players to the game
                 playersCreationState(receivedMessage);
                 //sends updated list of remaining items to the other players
                 Stream<Player> notLoggedPlayers =
@@ -64,12 +74,15 @@ public class GameController {
         }
     }
 
+    /**
+     * method to manage the switch between game states
+     */
     private void nextState() {
 
         GameState nextState = gameState;
 
         switch (gameState)  {
-            case LOGIN:
+            case LOGIN: //verifies that all the VirtualViews are set
 
                 if(viewMap.size() == game.NUM_OF_PLAYERS) {
                     broadcast(new EndLogInMessage());
@@ -77,7 +90,7 @@ public class GameController {
                 }
                 break;
 
-            case CREATE_PLAYERS:
+            case CREATE_PLAYERS: //verifies that all the Players are created
                 if(game.getPlayersList().size() == game.NUM_OF_PLAYERS) {
                     nextState = GameState.INIT;
                 }
@@ -90,6 +103,10 @@ public class GameController {
         gameState = nextState;
     }
 
+    /**
+     * method that creates the game
+     * @param receivedMessage, must be a GameParam message, contains the game parameters
+     */
     private void gameCreation(Message receivedMessage) {
 
         int numOfPlayers = ((GameParamMessage) receivedMessage).getNumOfPlayers();
@@ -99,6 +116,10 @@ public class GameController {
 
     }
 
+    /**
+     * method that creates players
+     * @param receivedMessage, must be a CreatePlayerMessage, contains the player parameters
+     */
     private void playersCreationState(Message receivedMessage){
         try {
             if (receivedMessage.getType() == PLAYER_CREATION) {
@@ -116,6 +137,11 @@ public class GameController {
 
     }
 
+    /**
+     * method that associates a virtual view and a nickname
+     * @param nickName nickname of the player
+     * @param virtualView virtual view of the player
+     */
     public void logInHandler(String nickName, VirtualView virtualView) {
 
         if(viewMap.isEmpty()) {
@@ -131,6 +157,10 @@ public class GameController {
         }
     }
 
+    /**
+     * method to convert int in gameMode
+     * @param numOfPlayers number of players
+     */
     private String fromIntToGameMode(int numOfPlayers) {
         switch (numOfPlayers) {
             case 2:
@@ -156,6 +186,10 @@ public class GameController {
         return !viewMap.containsKey(nickname);
     }
 
+    /**
+     * method to send a broadCast Message
+     * @param messageToSend message to broadCast
+     */
     private void broadcast(Message messageToSend) {
 
         for (String nickname : viewMap.keySet()){

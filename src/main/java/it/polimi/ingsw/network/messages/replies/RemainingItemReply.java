@@ -8,6 +8,11 @@ import it.polimi.ingsw.network.messages.MessageType;
 import java.util.ArrayList;
 import java.util.UUID;
 
+/**
+ * Class RemainingItemReply, the controller sends this message to all the players that are still not have been created.
+ *  It contains a list of the remaining items.
+ * @author Miglia
+ */
 public class RemainingItemReply extends Message {
 
     UUID identifier = UUID.randomUUID();
