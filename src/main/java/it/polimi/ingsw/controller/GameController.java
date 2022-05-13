@@ -25,7 +25,7 @@ public class GameController {
     private Game game;
     private final Map<String,VirtualView> viewMap;
     private Player currentPlayer;
-    private PreparationPhaseLogic preparationPhaseLogic;
+    private TurnLogic turnLogic;
     private GameState gameState;
 
     /**
@@ -67,8 +67,8 @@ public class GameController {
                 break;
 
             case INIT:
-                preparationPhaseLogic.generatePlayingOrder();
-                setCurrentPlayer(preparationPhaseLogic.getActivePlayer());
+                turnLogic.generatePlayingOrder();
+                setCurrentPlayer(turnLogic.getActivePlayer());
 
                 break;
         }
@@ -112,7 +112,7 @@ public class GameController {
         int numOfPlayers = ((GameParamMessage) receivedMessage).getNumOfPlayers();
         boolean expertMode = ((GameParamMessage) receivedMessage).isExpertMode();
         game = GameManager.getInstance().initGame(fromIntToGameMode(numOfPlayers), expertMode);
-        setPreparationPhaseLogic(new PreparationPhaseLogic(game));
+        setTurnLogic(new TurnLogic(game));
 
     }
 
@@ -209,12 +209,12 @@ public class GameController {
         this.currentPlayer = currentPlayer;
     }
 
-    public PreparationPhaseLogic getPreparationPhaseLogic() {
-        return preparationPhaseLogic;
+    public TurnLogic getTurnLogic() {
+        return turnLogic;
     }
 
-    public void setPreparationPhaseLogic(PreparationPhaseLogic preparationPhaseLogic) {
-        this.preparationPhaseLogic = preparationPhaseLogic;
+    public void setTurnLogic(TurnLogic turnLogic) {
+        this.turnLogic = turnLogic;
     }
 
     public Game getGame() {
