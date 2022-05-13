@@ -24,7 +24,6 @@ public class GameController {
 
     private Game game;
     private final Map<String,VirtualView> viewMap;
-    private Player currentPlayer;
     private TurnLogic turnLogic;
     private GameState gameState;
 
@@ -35,7 +34,6 @@ public class GameController {
 
         this.game = null;
         this.viewMap = Collections.synchronizedMap(new HashMap<>());
-        this.currentPlayer = null;
         this.gameState = GameState.LOGIN;
     }
 
@@ -68,7 +66,7 @@ public class GameController {
 
             case INIT:
                 turnLogic.generatePlayingOrder();
-                setCurrentPlayer(turnLogic.getActivePlayer());
+
 
                 break;
         }
@@ -199,14 +197,6 @@ public class GameController {
     }
     public GameState getGameState() {
         return gameState;
-    }
-
-    public Player getCurrentPlayer() {
-        return currentPlayer;
-    }
-
-    public void setCurrentPlayer(Player currentPlayer) {
-        this.currentPlayer = currentPlayer;
     }
 
     public TurnLogic getTurnLogic() {
