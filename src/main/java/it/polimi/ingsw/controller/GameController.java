@@ -22,7 +22,7 @@ public class GameController {
     private final Map<String,VirtualView> viewMap;
     private Player currentPlayer;
     private int numOfPlayers;
-    private PreparationPhaseLogic preparationPhaseLogic;
+    private TurnLogic turnLogic;
     private GameState gameState;
 
 
@@ -67,8 +67,8 @@ public class GameController {
 
             case LOGIN:
                 if(game.getPlayersList().size() == game.NUM_OF_PLAYERS) {
-                    preparationPhaseLogic.generatePlayingOrder();
-                    setCurrentPlayer(preparationPhaseLogic.getActivePlayer());
+                    turnLogic.generatePlayingOrder();
+                    setCurrentPlayer(turnLogic.getActivePlayer());
                     nextState = GameState.INIT;
                 }
                 break;
@@ -88,7 +88,7 @@ public class GameController {
         try {
             if (receivedMessage.getType() == EXPERTMODE) {
                 game = GameManager.getInstance().initGame(fromIntToGameMode(numOfPlayers), ((FirstLoginMessage) receivedMessage).isExpertMode());
-                setPreparationPhaseLogic(new PreparationPhaseLogic(game));
+                setPreparationPhaseLogic(new TurnLogic(game));
             }
             else if (receivedMessage.getType() == LOGIN) {
                 game.addPlayer(receivedMessage.getSenderPlayer(), ((LogInMessage) receivedMessage).getChosenDeckType(), ((LogInMessage) receivedMessage).getChosenTowerColor());
@@ -155,12 +155,12 @@ public class GameController {
         this.currentPlayer = currentPlayer;
     }
 
-    public PreparationPhaseLogic getPreparationPhaseLogic() {
-        return preparationPhaseLogic;
+    public TurnLogic getPreparationPhaseLogic() {
+        return turnLogic;
     }
 
-    public void setPreparationPhaseLogic(PreparationPhaseLogic preparationPhaseLogic) {
-        this.preparationPhaseLogic = preparationPhaseLogic;
+    public void setPreparationPhaseLogic(TurnLogic turnLogic) {
+        this.turnLogic = turnLogic;
     }
 
     public Game getGame() {
