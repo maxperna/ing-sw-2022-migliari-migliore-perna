@@ -46,7 +46,7 @@ public class GameController {
 
             case LOGIN:
                 loginState(receivedMessage);
-                virtualView.remainingTowerAndDeck( );
+                virtualView.remainingTowerAndDeck(game.getAVAILABLE_TOWER_COLOR(), game.getAVAILABLE_DECK_TYPE());
                 nextState();
                 break;
 
