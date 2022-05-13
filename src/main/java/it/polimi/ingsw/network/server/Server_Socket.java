@@ -1,12 +1,10 @@
 package it.polimi.ingsw.network.server;
 
-import it.polimi.ingsw.model.DeckType;
-import it.polimi.ingsw.model.TowerColor;
-import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.messages.Message;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.net.Socket;
 
 public class Server_Socket implements Runnable{
     private final Server server;
@@ -28,7 +26,17 @@ public class Server_Socket implements Runnable{
         }
 
         while(!Thread.currentThread().isInterrupted()){
-//            try{}catch{}
+            try{
+                Socket client = socketServer.accept();
+                client.setSoTimeout(5000);
+
+                ClientHandler clientHandler = new ClientHandler(this,client);
+                Thread clientThread = new Thread(clientHandler,"handler"+clientHandler.getClass().getName());
+                clientThread.start();
+
+            }catch(IOException e){
+                Server.LOGGER.severe("Problem accepting connection");
+            }
         }
     }
 
@@ -41,14 +49,12 @@ public class Server_Socket implements Runnable{
         server.addClient(nickname,clientHandler);
     }
 
-    /**Method used to add a new player to the game
-     * @param assistant chosen assistant at the login
-     * @param towerColor chosen tower color at the login*/
-    public void addPlayer(DeckType assistant, TowerColor towerColor){}
 
     /**Method used to notify the reception of a message from the client
      * @param receivedMessage message received from the client*/
-    public void receiveMessage(Message receivedMessage){}
+    public void receiveMessage(Message receivedMessage){
+        server.receivedMessage(receivedMessage);
+    }
 
     /**Method used to disconnect a client from the sercer
      * @param clientToDisconnect client to disconnect from the server*/

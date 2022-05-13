@@ -2,6 +2,8 @@ package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.controller.GameState;
+import it.polimi.ingsw.network.client.Client;
+import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.view.VirtualView;
 
 import java.net.ServerSocket;
@@ -27,7 +29,7 @@ public class Server{
 
     public void addClient(String nickname, ClientHandler clientHandler){
         VirtualView newVW = new VirtualView(clientHandler);
-        if(gameController.getGameState().equals(GameState.LOGIN)){
+        if(gameController.getGameState().equals(GameState.CONNECT)){
             if(gameController.checkNicknameValidity(nickname)){
                 virtualViewMap.put(clientHandler,newVW);
                 gameController.logInHandler(nickname,newVW);
@@ -39,7 +41,11 @@ public class Server{
         }
     }
 
-
+    /**Method that handles the reception of a new message from the client
+     * @param receivedMessage message sent by the server*/
+    public void receivedMessage(Message receivedMessage){
+        gameController.onMessageReceived(receivedMessage);
+    }
 
 
 
