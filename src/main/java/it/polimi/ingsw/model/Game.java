@@ -22,7 +22,6 @@ public class Game {
     public final static int MAX_TILE = 12;
     //GAME PARAMETERS
     private final UUID gameID;
-    private final boolean EXPERT_MODE;       //set to true if expert mode is selected
     public final int NUM_OF_PLAYERS;
     public final int MAX_NUM_OF_TOWERS;
     public final int MAX_STUDENTS_ENTRANCE;
@@ -54,7 +53,7 @@ public class Game {
         this.gameField = new IslandList();
         this.MAX_NUM_OF_TOWERS = maxNumberOfTowers;
         this.MAX_STUDENTS_ENTRANCE = maxStudentEntrance;
-        this.EXPERT_MODE = expertMode;
+        //set to true if expert mode is selected
 
         this.AVAILABLE_DECK_TYPE = new ArrayList<>();
         Collections.addAll(AVAILABLE_DECK_TYPE,DeckType.DRUID,DeckType.KING,DeckType.SAGE,DeckType.WITCH);
@@ -77,7 +76,7 @@ public class Game {
         }
 
         //ONLY IF EXPERT MODE IS SELECTED
-        if(EXPERT_MODE) {
+        if(expertMode) {
             //Initial coin assignment
 
             //Expert cards drawing
