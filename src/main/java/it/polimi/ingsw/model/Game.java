@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.experts.ExpertsFactory;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -21,11 +22,11 @@ public class Game {
     public final static int MAX_TILE = 12;
     //GAME PARAMETERS
     private final UUID gameID;
-    private final boolean EXPERT_MODE;       //set to true if expert mode is selected
     public final int NUM_OF_PLAYERS;
     public final int MAX_NUM_OF_TOWERS;
     public final int MAX_STUDENTS_ENTRANCE;
-    private final ArrayList<TowerColor> TOWER_COLORS_AVAILABLE;
+    private final ArrayList<TowerColor> AVAILABLE_TOWER_COLOR;
+    private final ArrayList<DeckType> AVAILABLE_DECK_TYPE;
     private final ArrayList<Player> playersList;
     private final IslandList gameField;
     private final Pouch pouch;
@@ -52,7 +53,10 @@ public class Game {
         this.gameField = new IslandList();
         this.MAX_NUM_OF_TOWERS = maxNumberOfTowers;
         this.MAX_STUDENTS_ENTRANCE = maxStudentEntrance;
-        this.EXPERT_MODE = expertMode;
+        //set to true if expert mode is selected
+
+        this.AVAILABLE_DECK_TYPE = new ArrayList<>();
+        Collections.addAll(AVAILABLE_DECK_TYPE,DeckType.DRUID,DeckType.KING,DeckType.SAGE,DeckType.WITCH);
 
         //creates cloudTiles
         this.cloudTiles = new ArrayList <>();
@@ -63,7 +67,7 @@ public class Game {
         //creates array of availableColor for the Players to choose
         this.playersList = new ArrayList<>();
 
-        this.TOWER_COLORS_AVAILABLE = towerColorAvailable;
+        this.AVAILABLE_TOWER_COLOR = towerColorAvailable;
 
         //Initialization of influence map, at the beginning player with most influence is null
         for (Color color : Color.values()) {
@@ -72,7 +76,7 @@ public class Game {
         }
 
         //ONLY IF EXPERT MODE IS SELECTED
-        if(EXPERT_MODE) {
+        if(expertMode) {
             //Initial coin assignment
 
             //Expert cards drawing
@@ -88,10 +92,10 @@ public class Game {
      * @param towerColor tower color on the board chosen
      */
     public void addPlayer(String nickname,DeckType assistant, TowerColor towerColor) throws FileNotFoundException{
-        if(TOWER_COLORS_AVAILABLE.remove(towerColor))
+        if(AVAILABLE_TOWER_COLOR.remove(towerColor) && AVAILABLE_DECK_TYPE.remove(assistant))
             this.playersList.add(new Player(nickname,assistant,towerColor,this));
         else
-            throw new FileNotFoundException("Color already taken");        //color already taken
+            throw new FileNotFoundException("Color or assistant already taken");        //color already taken
         //Team formation
         if(NUM_OF_PLAYERS == 4 && playersList.size() == 4){
             for(Player player:playersList){
@@ -105,29 +109,19 @@ public class Game {
         }
     }
 
-    public Player getPlayerByNickName (String nickName) {
-
-        for(Player currentPlayer : playersList) {
-            if(currentPlayer.getNickname().equals(nickName))
-                return currentPlayer;
-        }
-
-        throw new RuntimeException("Player does not exist");
-    }
-
 
     /**Method to recharge the clouds tile at the beginning of every action phase
      * */
     public void rechargeClouds() {
 
-       for(int i = 0; i < NUM_OF_PLAYERS; i++)
-       {
-           try {
-               cloudTiles.get(i).setStudents(this.pouch.randomDraw(3));
-           } catch (NotEnoughStudentsException e) {
-               throw new RuntimeException(e);
-           }
-       }
+        for(int i = 0; i < NUM_OF_PLAYERS; i++)
+        {
+            try {
+                cloudTiles.get(i).setStudents(this.pouch.randomDraw(3));
+            } catch (NotEnoughStudentsException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     /**
@@ -308,8 +302,11 @@ public class Game {
         return expertsCard;
     }
 
-    public ArrayList<TowerColor> getTOWER_COLORS_AVAILABLE() {
-        return TOWER_COLORS_AVAILABLE;
+    public ArrayList<TowerColor> getAVAILABLE_TOWER_COLOR() {
+        return AVAILABLE_TOWER_COLOR;
+    }
+
+    public ArrayList<DeckType> getAVAILABLE_DECK_TYPE() {
+        return AVAILABLE_DECK_TYPE;
     }
 }
-

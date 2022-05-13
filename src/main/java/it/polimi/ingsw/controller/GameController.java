@@ -117,6 +117,26 @@ public class GameController {
         }
     }
 
+    /**Check if a nickname is already taken
+     * @param nickname nickname to verify the validity of
+     * @return {@code true} if the choice is valid or {@code false} if is already taken
+     */
+    public boolean checkNicknameValidity(String nickname){
+        return !viewMap.containsKey(nickname);
+    }
+
+    /**Check if a nickname is already taken
+     * @param colorChosen colorChosen to verify the validity of
+     * @return {@code true} if the choice is valid or {@code false} if is already taken
+     */
+    public boolean checkTowerValidity(TowerColor colorChosen){
+        return game.getAVAILABLE_TOWER_COLOR().contains(colorChosen);
+    }
+
+    public boolean checkAssistantValidity(DeckType assistantChosen){
+        return game.getAVAILABLE_DECK_TYPE().contains(assistantChosen);
+    }
+
     public GameState getGameState() {
         return gameState;
     }

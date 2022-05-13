@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.server;
 
+import it.polimi.ingsw.network.client.ClientSocket;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 
@@ -53,12 +54,14 @@ public class ClientHandler implements Runnable{
     /**Client messages listening handler
      * @throws IOException if the are problem with the socket*/
     private void handleClientConnection() throws IOException{
+
         try{
             while(!Thread.currentThread().isInterrupted()) {
                 //Synchronization on the input
                 synchronized (inputLock) {
                     Message receivedMessage = (Message) input.readObject();
                     if (receivedMessage.getType() == MessageType.FIRST_LOGIN)
+//                        serverSocket.addClient(message.getNick,this);
                         return;
 //                  serverSocket.addClient(message.getNick,m.getColorTowe,m.getassistant,this);
                     else {
