@@ -6,7 +6,7 @@ public enum MessageType {
 
     NUMOFPLAYERS_REQUEST,
     NUMOFPLAYERS,
-    FIRST_LOGIN,
+    EXPERTMODE,
     LOGIN,
     LOGIN_REPLY,
 }

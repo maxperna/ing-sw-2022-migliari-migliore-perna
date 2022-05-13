@@ -58,7 +58,7 @@ public class ClientHandler implements Runnable{
                 //Synchronization on the input
                 synchronized (inputLock) {
                     Message receivedMessage = (Message) input.readObject();
-                    if (receivedMessage.getType() == MessageType.FIRST_LOGIN)
+                    if (receivedMessage.getType() == MessageType.EXPERTMODE)
                         return;
 //                  serverSocket.addClient(message.getNick,m.getColorTowe,m.getassistant,this);
                     else {

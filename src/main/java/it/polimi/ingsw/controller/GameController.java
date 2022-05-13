@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import static it.polimi.ingsw.network.messages.MessageType.FIRST_LOGIN;
+import static it.polimi.ingsw.network.messages.MessageType.EXPERTMODE;
 import static it.polimi.ingsw.network.messages.MessageType.LOGIN;
 
 public class GameController {
@@ -43,8 +43,10 @@ public class GameController {
                 connectState(receivedMessage);
                 nextState();
                 break;
+
             case LOGIN:
                 loginState(receivedMessage);
+                virtualView.remainingTowerAndDeck( );
                 nextState();
                 break;
 
@@ -84,8 +86,8 @@ public class GameController {
 
     private void loginState(Message receivedMessage){
         try {
-            if (receivedMessage.getType() == FIRST_LOGIN) {
-                game = GameManager.getInstance().initGame(((FirstLoginMessage) receivedMessage).getGameMode(), ((FirstLoginMessage) receivedMessage).isExpertMode());
+            if (receivedMessage.getType() == EXPERTMODE) {
+                game = GameManager.getInstance().initGame(fromIntToGameMode(numOfPlayers), ((FirstLoginMessage) receivedMessage).isExpertMode());
                 setPreparationPhaseLogic(new PreparationPhaseLogic(game));
             }
             else if (receivedMessage.getType() == LOGIN) {
@@ -117,6 +119,21 @@ public class GameController {
         }
     }
 
+    private String fromIntToGameMode(int numOfPlayers) {
+        switch (numOfPlayers) {
+            case 2:
+                return "TwoPlayers";
+
+            case 3:
+                return "ThreePlayers";
+
+            case 4:
+                return "FourPlayers";
+
+            default:
+                return "Unknown";
+        }
+    }
     public GameState getGameState() {
         return gameState;
     }

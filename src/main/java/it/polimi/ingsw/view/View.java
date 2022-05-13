@@ -11,9 +11,7 @@ public interface View {
 
     void askNumberOfPlayers();
 
-    void askParamGame(String senderPlayer, String gameMode, boolean expertMode);
-
-    void remainingTowerAndDeck(String nickname, ArrayList<TowerColor> remainingTowers, ArrayList<DeckType> remainingDecks);
+    void remainingTowerAndDeck(ArrayList<TowerColor> remainingTowers, ArrayList<DeckType> remainingDecks);
 
     void disconnect();
 }
