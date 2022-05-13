@@ -4,8 +4,8 @@ package it.polimi.ingsw.network.messages;
  * @author Massimo*/
 public enum MessageType {
 
-    CONNECT,
-    CONNECT_REPLY,
+    NUMOFPLAYERS_REQUEST,
+    NUMOFPLAYERS,
     FIRST_LOGIN,
     LOGIN,
     LOGIN_REPLY,

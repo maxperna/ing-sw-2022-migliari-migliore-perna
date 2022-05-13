@@ -25,17 +25,16 @@ class GameControllerTest {
     public void controllerShouldWorkExpert(String gameMode) {
 
         boolean expertMode = true;
-        GameController gameController = new GameController(gameMode, expertMode);
+        GameController gameController = new GameController();
 
-        gameController.onMessageReceived(new FirstLoginMessage("Gianni", gameMode, expertMode, TowerColor.WHITE, DeckType.DRUID ));
-        gameController.onMessageReceived(new LogInMessage("Beppe", TowerColor.BLACK, DeckType.SAGE));
+
     }
 
     @ParameterizedTest
     @MethodSource("gameModeList")
     public void controllerShouldWork(String gameMode) {
 
-        GameController gameController = new GameController(gameMode, false);
+        GameController gameController = new GameController();
     }
 
 }

@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.messages.FirstLoginMessage;
 import it.polimi.ingsw.network.messages.LogInMessage;
 import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.messages.PlayersNumberMessage;
 import it.polimi.ingsw.view.VirtualView;
 
 import java.io.FileNotFoundException;
@@ -20,16 +21,17 @@ public class GameController {
     private Game game;
     private final Map<String,VirtualView> viewMap;
     private Player currentPlayer;
+    private int numOfPlayers;
     private PreparationPhaseLogic preparationPhaseLogic;
     private GameState gameState;
 
 
-    public GameController(String gameMode, boolean expertMode) {
+    public GameController() {
 
         this.game = null;
         this.viewMap = Collections.synchronizedMap(new HashMap<>());
         this.currentPlayer = null;
-        this.gameState = GameState.LOGIN;
+        this.gameState = GameState.CONNECT;
     }
 
     public void onMessageReceived (Message receivedMessage) {
@@ -37,6 +39,10 @@ public class GameController {
         VirtualView virtualView = viewMap.get(receivedMessage.getSenderPlayer());
 
         switch (gameState)  {
+            case CONNECT:
+                connectState(receivedMessage);
+                nextState();
+                break;
             case LOGIN:
                 loginState(receivedMessage);
                 nextState();
@@ -53,6 +59,10 @@ public class GameController {
         GameState nextState = gameState;
 
         switch (gameState)  {
+            case CONNECT:
+                nextState = GameState.LOGIN;
+                break;
+
             case LOGIN:
                 if(game.getPlayersList().size() == game.NUM_OF_PLAYERS) {
                     preparationPhaseLogic.generatePlayingOrder();
@@ -68,17 +78,18 @@ public class GameController {
         gameState = nextState;
     }
 
+    private void connectState(Message receivedMessage) {
+        setNumOfPlayers(((PlayersNumberMessage) receivedMessage).getNumOfPlayers());
+    }
+
     private void loginState(Message receivedMessage){
         try {
             if (receivedMessage.getType() == FIRST_LOGIN) {
                 game = GameManager.getInstance().initGame(((FirstLoginMessage) receivedMessage).getGameMode(), ((FirstLoginMessage) receivedMessage).isExpertMode());
-                game.addPlayer(receivedMessage.getSenderPlayer(), ((FirstLoginMessage) receivedMessage).getChosenDeckType(), ((FirstLoginMessage) receivedMessage).getChosenTowerColor());
-                viewMap.put(receivedMessage.getSenderPlayer(), new VirtualView());
                 setPreparationPhaseLogic(new PreparationPhaseLogic(game));
             }
             else if (receivedMessage.getType() == LOGIN) {
                 game.addPlayer(receivedMessage.getSenderPlayer(), ((LogInMessage) receivedMessage).getChosenDeckType(), ((LogInMessage) receivedMessage).getChosenTowerColor());
-                viewMap.put(receivedMessage.getSenderPlayer(), new VirtualView());
             }
             else
                 throw new InvalidParameterException();
@@ -89,11 +100,25 @@ public class GameController {
     }
 
     private void initState(Message receivedMessage){
-        viewMap.remove("Default");
+
     }
 
-    public void setGameState(GameState gameState) {
-        this.gameState = gameState;
+    public void logInHandler(String nickName, VirtualView virtualView) {
+
+        if(viewMap.isEmpty()) {
+            viewMap.put(nickName, virtualView);
+            viewMap.get(nickName).askNumberOfPlayers();
+        }
+        else if (viewMap.size() <= numOfPlayers) {
+            viewMap.put(nickName, virtualView);
+        }
+        else {
+            virtualView.disconnect();
+        }
+    }
+
+    public GameState getGameState() {
+        return gameState;
     }
 
     public Player getCurrentPlayer() {
@@ -114,5 +139,13 @@ public class GameController {
 
     public Game getGame() {
         return game;
+    }
+
+    public int getNumOfPlayers() {
+        return numOfPlayers;
+    }
+
+    public void setNumOfPlayers(int numOfPlayers) {
+        this.numOfPlayers = numOfPlayers;
     }
 }
