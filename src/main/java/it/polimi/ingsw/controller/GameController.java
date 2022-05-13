@@ -134,6 +134,15 @@ public class GameController {
                 return "Unknown";
         }
     }
+
+
+    /**Check if a nickname is already taken
+     * @param nickname nickname to verify the validity of
+     * @return {@code true} if the choice is valid or {@code false} if is already taken
+     */
+    public boolean checkNicknameValidity(String nickname){
+        return !viewMap.containsKey(nickname);
+    }
     public GameState getGameState() {
         return gameState;
     }
