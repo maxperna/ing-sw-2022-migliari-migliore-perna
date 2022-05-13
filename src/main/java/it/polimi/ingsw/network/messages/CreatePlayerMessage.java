@@ -5,14 +5,14 @@ import it.polimi.ingsw.model.TowerColor;
 
 import java.util.UUID;
 
-public class LogInMessage extends  Message{
+public class CreatePlayerMessage extends  Message{
 
     UUID identifier = UUID.randomUUID();
     private final TowerColor chosenTowerColor;
     private final DeckType chosenDeckType;
 
-    public LogInMessage(String senderPlayer, TowerColor chosenTowerColor, DeckType chosenDeckType) {
-        super(MessageType.LOGIN, senderPlayer);
+    public CreatePlayerMessage(String senderPlayer, TowerColor chosenTowerColor, DeckType chosenDeckType) {
+        super(MessageType.PLAYER_CREATION, senderPlayer);
         this.chosenTowerColor = chosenTowerColor;
         this.chosenDeckType = chosenDeckType;
     }

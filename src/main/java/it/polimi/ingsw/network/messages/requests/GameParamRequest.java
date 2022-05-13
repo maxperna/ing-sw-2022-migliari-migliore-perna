@@ -3,11 +3,11 @@ package it.polimi.ingsw.network.messages.requests;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 
-public class PlayersNumberRequest extends Message {
+public class GameParamRequest extends Message {
 
-    public PlayersNumberRequest() {
+    public GameParamRequest() {
 
-        super(MessageType.NUMOFPLAYERS_REQUEST,"Sono Beppe Sala");
+        super(MessageType.GAMEPARAM_REQUEST,"Sono Beppe Sala");
 
     }
 }

@@ -1,27 +1,26 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.network.messages.FirstLoginMessage;
-import it.polimi.ingsw.network.messages.LogInMessage;
+import it.polimi.ingsw.network.messages.CreatePlayerMessage;
+import it.polimi.ingsw.network.messages.EndLogInMessage;
 import it.polimi.ingsw.network.messages.Message;
-import it.polimi.ingsw.network.messages.PlayersNumberMessage;
+import it.polimi.ingsw.network.messages.GameParamMessage;
+import it.polimi.ingsw.network.messages.replies.RemainingItemReply;
 import it.polimi.ingsw.view.VirtualView;
 
 import java.io.FileNotFoundException;
 import java.security.InvalidParameterException;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import static it.polimi.ingsw.network.messages.MessageType.EXPERTMODE;
-import static it.polimi.ingsw.network.messages.MessageType.LOGIN;
+import static it.polimi.ingsw.network.messages.MessageType.*;
 
 public class GameController {
 
     private Game game;
     private final Map<String,VirtualView> viewMap;
     private Player currentPlayer;
-    private int numOfPlayers;
     private PreparationPhaseLogic preparationPhaseLogic;
     private GameState gameState;
 
@@ -31,7 +30,7 @@ public class GameController {
         this.game = null;
         this.viewMap = Collections.synchronizedMap(new HashMap<>());
         this.currentPlayer = null;
-        this.gameState = GameState.CONNECT;
+        this.gameState = GameState.LOGIN;
     }
 
     public void onMessageReceived (Message receivedMessage) {
@@ -39,18 +38,27 @@ public class GameController {
         VirtualView virtualView = viewMap.get(receivedMessage.getSenderPlayer());
 
         switch (gameState)  {
-            case CONNECT:
-                connectState(receivedMessage);
+            case LOGIN:
+                if(receivedMessage.getType()== GAMEPARAM)
+                    gameCreation(receivedMessage);
                 nextState();
                 break;
 
-            case LOGIN:
-                loginState(receivedMessage);
-                virtualView.remainingTowerAndDeck(game.getAVAILABLE_TOWER_COLOR(), game.getAVAILABLE_DECK_TYPE());
+            case CREATE_PLAYERS:
+                playersCreationState(receivedMessage);
+                //sends updated list of remaining items to the other players
+                Stream<Player> notLoggedPlayers =
+                game.getPlayersList().stream().filter(name -> !viewMap.containsKey(name.getNickname()));
+                List<Player> sendTo = notLoggedPlayers.collect(Collectors.toList());
+                for (Player player : sendTo)
+                    viewMap.get(player.getNickname()).getClientHandler().sendMessage(new RemainingItemReply(game.getAVAILABLE_TOWER_COLOR(), game.getAVAILABLE_DECK_TYPE()));
+
                 nextState();
                 break;
 
             case INIT:
+                preparationPhaseLogic.generatePlayingOrder();
+                setCurrentPlayer(preparationPhaseLogic.getActivePlayer());
 
                 break;
         }
@@ -61,14 +69,16 @@ public class GameController {
         GameState nextState = gameState;
 
         switch (gameState)  {
-            case CONNECT:
-                nextState = GameState.LOGIN;
+            case LOGIN:
+
+                if(viewMap.size() == game.NUM_OF_PLAYERS) {
+                    broadcast(new EndLogInMessage());
+                    nextState = GameState.CREATE_PLAYERS;
+                }
                 break;
 
-            case LOGIN:
+            case CREATE_PLAYERS:
                 if(game.getPlayersList().size() == game.NUM_OF_PLAYERS) {
-                    preparationPhaseLogic.generatePlayingOrder();
-                    setCurrentPlayer(preparationPhaseLogic.getActivePlayer());
                     nextState = GameState.INIT;
                 }
                 break;
@@ -80,18 +90,19 @@ public class GameController {
         gameState = nextState;
     }
 
-    private void connectState(Message receivedMessage) {
-        setNumOfPlayers(((PlayersNumberMessage) receivedMessage).getNumOfPlayers());
+    private void gameCreation(Message receivedMessage) {
+
+        int numOfPlayers = ((GameParamMessage) receivedMessage).getNumOfPlayers();
+        boolean expertMode = ((GameParamMessage) receivedMessage).isExpertMode();
+        game = GameManager.getInstance().initGame(fromIntToGameMode(numOfPlayers), expertMode);
+        setPreparationPhaseLogic(new PreparationPhaseLogic(game));
+
     }
 
-    private void loginState(Message receivedMessage){
+    private void playersCreationState(Message receivedMessage){
         try {
-            if (receivedMessage.getType() == EXPERTMODE) {
-                game = GameManager.getInstance().initGame(fromIntToGameMode(numOfPlayers), ((FirstLoginMessage) receivedMessage).isExpertMode());
-                setPreparationPhaseLogic(new PreparationPhaseLogic(game));
-            }
-            else if (receivedMessage.getType() == LOGIN) {
-                game.addPlayer(receivedMessage.getSenderPlayer(), ((LogInMessage) receivedMessage).getChosenDeckType(), ((LogInMessage) receivedMessage).getChosenTowerColor());
+            if (receivedMessage.getType() == PLAYER_CREATION) {
+                game.addPlayer(receivedMessage.getSenderPlayer(), ((CreatePlayerMessage) receivedMessage).getChosenDeckType(), ((CreatePlayerMessage) receivedMessage).getChosenTowerColor());
             }
             else
                 throw new InvalidParameterException();
@@ -109,10 +120,11 @@ public class GameController {
 
         if(viewMap.isEmpty()) {
             viewMap.put(nickName, virtualView);
-            viewMap.get(nickName).askNumberOfPlayers();
+            viewMap.get(nickName).askGameParam();
         }
-        else if (viewMap.size() <= numOfPlayers) {
+        else if (viewMap.size() <= game.NUM_OF_PLAYERS) {
             viewMap.put(nickName, virtualView);
+
         }
         else {
             virtualView.disconnect();
@@ -143,6 +155,14 @@ public class GameController {
     public boolean checkNicknameValidity(String nickname){
         return !viewMap.containsKey(nickname);
     }
+
+    private void broadcast(Message messageToSend) {
+
+        for (String nickname : viewMap.keySet()){
+            viewMap.get(nickname).getClientHandler().sendMessage(messageToSend);
+        }
+
+    }
     public GameState getGameState() {
         return gameState;
     }
@@ -167,11 +187,4 @@ public class GameController {
         return game;
     }
 
-    public int getNumOfPlayers() {
-        return numOfPlayers;
-    }
-
-    public void setNumOfPlayers(int numOfPlayers) {
-        this.numOfPlayers = numOfPlayers;
-    }
 }

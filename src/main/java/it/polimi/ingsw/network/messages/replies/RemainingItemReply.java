@@ -8,15 +8,15 @@ import it.polimi.ingsw.network.messages.MessageType;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class LogInReply extends Message {
+public class RemainingItemReply extends Message {
 
     UUID identifier = UUID.randomUUID();
 
     private final ArrayList<TowerColor> remainingTowers;
     private final ArrayList<DeckType> reamingDecks;
 
-    public LogInReply( ArrayList<TowerColor> remainingTowers, ArrayList<DeckType> remainingDecks) {
-        super(MessageType.LOGIN_REPLY, "Sono Beppe Sala");
+    public RemainingItemReply(ArrayList<TowerColor> remainingTowers, ArrayList<DeckType> remainingDecks) {
+        super(MessageType.REMAINING_ITEM, "Sono Beppe Sala");
         this.remainingTowers = remainingTowers;
         this.reamingDecks = remainingDecks;
     }

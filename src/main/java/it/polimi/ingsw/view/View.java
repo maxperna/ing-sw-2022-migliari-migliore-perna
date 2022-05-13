@@ -9,7 +9,7 @@ public interface View {
 
     void printText(String text);
 
-    void askNumberOfPlayers();
+    void askGameParam();
 
     void remainingTowerAndDeck(ArrayList<TowerColor> remainingTowers, ArrayList<DeckType> remainingDecks);
 
