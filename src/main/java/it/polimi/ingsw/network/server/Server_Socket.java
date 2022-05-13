@@ -56,7 +56,4 @@ public class Server_Socket implements Runnable{
         server.receivedMessage(receivedMessage);
     }
 
-    /**Method used to disconnect a client from the sercer
-     * @param clientToDisconnect client to disconnect from the server*/
-    public void disconnectClient(ClientHandler clientToDisconnect){}
 }

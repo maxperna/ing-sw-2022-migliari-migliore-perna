@@ -11,4 +11,6 @@ public enum MessageType {
     PLAYER_CREATION, //Param to create Players
     REMAINING_ITEM, //Sends to other players the remaining items (Deck and Tower)
 
+
+
 }
