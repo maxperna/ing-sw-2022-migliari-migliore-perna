@@ -3,6 +3,10 @@ package it.polimi.ingsw.network.messages;
 /**Enum to define message type
  * @author Massimo*/
 public enum MessageType {
+
+    CONNECT,
+    CONNECT_REPLY,
     FIRST_LOGIN,
-    LOGIN
+    LOGIN,
+    LOGIN_REPLY,
 }
