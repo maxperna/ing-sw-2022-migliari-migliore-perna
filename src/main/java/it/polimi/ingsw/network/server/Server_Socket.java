@@ -32,16 +32,23 @@ public class Server_Socket implements Runnable{
         }
     }
 
-    /**Method used to login a new player
-     * @param nickname nickname of the new player
+
+
+    /**Method to initialize connection with the server using only nickname in order to generate the linked virtual view
+     * @param nickname nickname chosen
+     * @param clientHandler client handler associated to the player*/
+    public void addClient(String nickname,ClientHandler clientHandler){
+        server.addClient(nickname,clientHandler);
+    }
+
+    /**Method used to add a new player to the game
      * @param assistant chosen assistant at the login
-     * @param towerColor chosen tower color at the login
-     * @param clientHandler associated client handler*/
-    public void addClient(String nickname, DeckType assistant, TowerColor towerColor, ClientHandler clientHandler){}
+     * @param towerColor chosen tower color at the login*/
+    public void addPlayer(DeckType assistant, TowerColor towerColor){}
 
     /**Method used to notify the reception of a message from the client
-     * @param reiceivedMessage message received from the client*/
-    public void receiveMessage(Message reiceivedMessage){}
+     * @param receivedMessage message received from the client*/
+    public void receiveMessage(Message receivedMessage){}
 
     /**Method used to disconnect a client from the sercer
      * @param clientToDisconnect client to disconnect from the server*/
