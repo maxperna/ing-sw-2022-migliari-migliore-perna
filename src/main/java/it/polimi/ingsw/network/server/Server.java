@@ -29,7 +29,7 @@ public class Server{
 
     public void addClient(String nickname, ClientHandler clientHandler){
         VirtualView newVW = new VirtualView(clientHandler);
-        if(gameController.getGameState().equals(GameState.CONNECT)){
+        if(gameController.getGameState().equals(GameState.LOGIN)){
             if(gameController.checkNicknameValidity(nickname)){
                 virtualViewMap.put(clientHandler,newVW);
                 gameController.logInHandler(nickname,newVW);
