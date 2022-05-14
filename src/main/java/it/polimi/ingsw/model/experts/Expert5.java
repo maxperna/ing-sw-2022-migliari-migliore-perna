@@ -9,14 +9,17 @@ import it.polimi.ingsw.model.Player;
 import java.util.ArrayList;
 
 public class Expert5 implements ExpertCard {
+
+    private final ExpertID ID = ExpertID.NODE_ID;
     private int stopAvailable;
-    private final ArrayList<Node> stoppedIsland = new ArrayList<>();
+    private final ArrayList<Node> stoppedIsland;
     private int cost = 2;
     private final Game currentGame;
 
     private final String IMG = "";            //front image of the card
 
     public Expert5(Game currentGame){
+        this.stoppedIsland = new ArrayList<>();
         this.stopAvailable = 4;
         this.currentGame = currentGame;
     }
@@ -42,8 +45,25 @@ public class Expert5 implements ExpertCard {
         stopAvailable++;
     }
 
+    /**Method to see the list of current stopped island
+     * @return an ArrayList of Nodes*/
+    public ArrayList<Node> getStoppedIsland() {
+        return stoppedIsland;
+    }
+
+    /**Method to get how many stop remain on the card
+     * @return the number of available stop*/
+    public int getStopAvailable() {
+        return stopAvailable;
+    }
+
     @Override
     public int getCost() {
         return this.cost;
+    }
+
+    @Override
+    public ExpertID getExpType(){
+        return ID;
     }
 }

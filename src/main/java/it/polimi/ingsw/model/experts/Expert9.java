@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.Player;
 
 public class Expert9 implements ExpertCard {
 
+    private final ExpertID ID = ExpertID.COLOR;
     private int cost = 3;
     private final String IMG = "";            //front image of the card
     private final Game currentGame;
@@ -35,5 +36,10 @@ public class Expert9 implements ExpertCard {
     @Override
     public int getCost() {
         return 0;
+    }
+
+    @Override
+    public ExpertID getExpType(){
+        return ID;
     }
 }

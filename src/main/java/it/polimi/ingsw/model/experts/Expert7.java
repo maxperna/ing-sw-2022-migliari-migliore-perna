@@ -9,8 +9,9 @@ import java.util.ArrayList;
 
 public class Expert7 implements ExpertCard {
 
+    private final ExpertID ID = ExpertID.TWO_LIST_COLOR;
     private int cost = 1;
-    private final ArrayList<Color> studentsOnCard = new ArrayList<>();
+    private final ArrayList<Color> studentsOnCard;
     private final Game currentGame;
 
     private final String IMG = "";            //front image of the card
@@ -18,6 +19,7 @@ public class Expert7 implements ExpertCard {
 
     public Expert7(Game currentGame){
         this.currentGame = currentGame;
+        this.studentsOnCard = new ArrayList<>();
         try{
             studentsOnCard.addAll(currentGame.getPouch().randomDraw(6));
         }
@@ -58,7 +60,14 @@ public class Expert7 implements ExpertCard {
         return this.cost;
     }
 
+    /**Method to get which students are on card
+     * @return an ArrayList of colors*/
     public ArrayList<Color> getStudentsOnCard() {
         return studentsOnCard;
+    }
+
+    @Override
+    public ExpertID getExpType(){
+        return ID;
     }
 }

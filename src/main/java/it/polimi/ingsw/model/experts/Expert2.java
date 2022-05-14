@@ -5,22 +5,27 @@ import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**Class implementing assistant card 2 having the following effect: during this turn you can take control of profs even
  * with the same number of student
  * @author Massimo
  * */
 public class Expert2 implements ExpertCard {
+
+    private final ExpertID ID = ExpertID.USER_ONLY;
     private int cost = 2;
     private final String IMG = "";
     private final Game currentGame;
 
-    private final HashMap<Player,Color> affectedPlayer = new HashMap<>();   //hashmap to keep track of the affected players
+    private final ConcurrentHashMap<Player,Color> affectedPlayer;   //hashmap to keep track of the affected players
     private Player usingPlayer = null;     //variable to track the current user of the card
 
     public Expert2(Game currentGame){
         this.currentGame = currentGame;
+        this.affectedPlayer = new ConcurrentHashMap<>();
     }
     @Override
     public void useCard(Player user) throws NotEnoughCoin {
@@ -62,5 +67,10 @@ public class Expert2 implements ExpertCard {
     @Override
     public int getCost() {
         return this.cost;
+    }
+
+    @Override
+    public ExpertID getExpType(){
+        return ID;
     }
 }

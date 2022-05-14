@@ -11,6 +11,9 @@ import it.polimi.ingsw.model.Player;
 import java.util.ArrayList;
 
 public class Expert1 implements ExpertCard {
+
+
+    private final ExpertID ID = ExpertID.NODE_ID_COLOR;
     private final ArrayList<Color> studentsOnCard = new ArrayList<>();
     private int cost = 1;
     private final String IMG = "";            //front image of the card
@@ -47,16 +50,21 @@ public class Expert1 implements ExpertCard {
     }
 
     @Override
-    public void endEffect() {
-
-    }
+    public void endEffect() {}
 
     @Override
     public int getCost() {
         return cost;
     }
 
+    /**Method to get which students are on card
+     * @return an ArrayList of colors*/
     public ArrayList<Color> getStudentsOnCard(){
         return studentsOnCard;
+    }
+
+    @Override
+    public ExpertID getExpType(){
+        return ID;
     }
 }

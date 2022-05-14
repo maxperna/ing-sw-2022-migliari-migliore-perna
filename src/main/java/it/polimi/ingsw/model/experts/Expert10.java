@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 public class Expert10 implements ExpertCard {
 
+    private final ExpertID ID = ExpertID.TWO_LIST_COLOR;
     private int cost = 1;
     private final String IMG = "";            //front image of the card
     private final Game currentGame;
@@ -48,5 +49,10 @@ public class Expert10 implements ExpertCard {
     @Override
     public int getCost() {
         return this.cost;
+    }
+
+    @Override
+    public ExpertID getExpType(){
+        return ID;
     }
 }
