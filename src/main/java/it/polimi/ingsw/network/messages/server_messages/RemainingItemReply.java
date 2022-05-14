@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.messages.replies;
+package it.polimi.ingsw.network.messages.server_messages;
 
 import it.polimi.ingsw.model.DeckType;
 import it.polimi.ingsw.model.TowerColor;
@@ -32,5 +32,19 @@ public class RemainingItemReply extends Message {
 
     public ArrayList<DeckType> getReamingDecks() {
         return reamingDecks;
+    }
+
+    public static class ExpertCardPlay extends Message {
+        UUID identifier = UUID.randomUUID();
+        private final int expertToPlay;
+
+        public ExpertCardPlay(String user, int expertToPlay){
+            super(MessageType.PLAY_EXPERT_CARD, user);
+            this.expertToPlay = expertToPlay;
+        }
+
+        public int getExpertToPlay() {
+            return expertToPlay;
+        }
     }
 }

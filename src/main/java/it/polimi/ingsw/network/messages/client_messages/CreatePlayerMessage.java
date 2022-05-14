@@ -1,7 +1,9 @@
-package it.polimi.ingsw.network.messages;
+package it.polimi.ingsw.network.messages.client_messages;
 
 import it.polimi.ingsw.model.DeckType;
 import it.polimi.ingsw.model.TowerColor;
+import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.messages.MessageType;
 
 import java.util.UUID;
 
@@ -10,7 +12,7 @@ import java.util.UUID;
  *  It contains the parameters to create a Player.
  * @author Miglia
  */
-public class CreatePlayerMessage extends  Message{
+public class CreatePlayerMessage extends Message {
 
     UUID identifier = UUID.randomUUID();
     private final TowerColor chosenTowerColor;

@@ -1,11 +1,11 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.network.messages.CreatePlayerMessage;
-import it.polimi.ingsw.network.messages.EndLogInMessage;
+import it.polimi.ingsw.network.messages.client_messages.CreatePlayerMessage;
+import it.polimi.ingsw.network.messages.server_messages.EndLogInMessage;
 import it.polimi.ingsw.network.messages.Message;
-import it.polimi.ingsw.network.messages.GameParamMessage;
-import it.polimi.ingsw.network.messages.replies.RemainingItemReply;
+import it.polimi.ingsw.network.messages.server_messages.GameParamMessage;
+import it.polimi.ingsw.network.messages.server_messages.RemainingItemReply;
 import it.polimi.ingsw.view.VirtualView;
 
 import java.io.FileNotFoundException;

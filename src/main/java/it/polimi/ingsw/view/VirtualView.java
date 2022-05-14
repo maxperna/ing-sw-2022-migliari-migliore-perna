@@ -2,7 +2,7 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.model.DeckType;
 import it.polimi.ingsw.model.TowerColor;
-import it.polimi.ingsw.network.messages.requests.GameParamRequest;
+import it.polimi.ingsw.network.messages.client_messages.GameParamRequest;
 import it.polimi.ingsw.network.server.ClientHandler;
 
 import java.util.ArrayList;
