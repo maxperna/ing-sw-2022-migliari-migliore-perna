@@ -13,14 +13,16 @@ import java.util.Collections;
 
 public class Expert11 implements ExpertCard {
 
+    private final ExpertID ID = ExpertID.NODE_ID_COLOR;
     private int cost = 2;
     private final Game currentGame;
-    private final ArrayList<Color> studentsOnCard = new ArrayList<>();
+    private final ArrayList<Color> studentsOnCard;
 
     private final String IMG = "";            //front image of the card
 
     public Expert11(Game currentGame){
         this.currentGame = currentGame;
+        this.studentsOnCard = new ArrayList<>();
 
         try {
             this.studentsOnCard.addAll(currentGame.getPouch().randomDraw(4));
@@ -62,7 +64,14 @@ public class Expert11 implements ExpertCard {
         return this.cost;
     }
 
+    /**Method to get which students are on card
+     * @return an ArrayList of colors*/
     public ArrayList<Color> getStudentsOnCard(){
         return this.studentsOnCard;
+    }
+
+    @Override
+    public ExpertID getExpType(){
+        return ID;
     }
 }

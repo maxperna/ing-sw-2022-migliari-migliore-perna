@@ -1,6 +1,10 @@
 package it.polimi.ingsw.model.strategy;
 
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.TowerColor;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Class ThreePlayers, used by the Strategy for creating three players games
@@ -21,6 +25,8 @@ public class ThreePlayers implements Strategy {
     @Override
     public Game generateGame(boolean expertMode) {
 
-        return new Game(numberOfPlayers,expertMode,maxTowers,maxStudentHall);
+        ArrayList<TowerColor> towerColors = new ArrayList<>(Arrays.asList(TowerColor.BLACK,TowerColor.WHITE,TowerColor.GRAY));
+
+        return new Game(numberOfPlayers,expertMode,maxTowers,maxStudentHall, towerColors);
     }
 }

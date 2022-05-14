@@ -1,16 +1,18 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.exceptions.CardAlreadyPlayed;
+import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Card;
+import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 
+import java.security.InvalidParameterException;
 import java.util.*;
 
 /**Class to handle all the logic inside a round such as the playing orders and to set the current active player
  * @author Massimo
  * */
-public class PreparationPhaseLogic {
+public class TurnLogic {
     private final Game currentGame;   //game associated to round logic
     private final Map<Integer, Player> cardsPlayed = new HashMap<>();
     private final Queue<Player> playersOrders = new LinkedList<>();  //Players order is a FIFO structure(both for playing orders and action phase)
@@ -18,7 +20,7 @@ public class PreparationPhaseLogic {
     private Player activePlayer;     //current active player
 
     //Default constructor
-    public PreparationPhaseLogic(Game currentGame){
+    public TurnLogic(Game currentGame){
         this.currentGame = currentGame;
     }
 
@@ -96,4 +98,62 @@ public class PreparationPhaseLogic {
     public Queue<Player> getPlayersOrders() {
         return playersOrders;
     }
+
+    //ACTION PHASE PART
+
+    public void moveStudentOnBoard(Player player, Color color){
+        try {
+            player.getBoard().moveEntryToDiningRoom(color);
+        } catch (NotOnBoardException | NotEnoughSpace e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void moveStudentToIsland(Player player, Color color, int nodeID){
+        try {
+            player.getBoard().moveToIsland(color,nodeID);
+        } catch (NotOnBoardException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**Method to move mother nature over the island list
+     * */
+    public void moveMotherNature(Player player,int islandID){
+        try {
+            currentGame.getGameField().moveMotherNatureToNodeID(islandID);
+        }
+        catch(InvalidParameterException | EndGameException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void chooseCloudTile(Player player,int cloudID){
+        try {
+            ArrayList<Color> pickedStudents = new ArrayList<>(currentGame.getCloudTiles().get(cloudID).getStudents());
+            player.getBoard().addStudentsEntryRoom(pickedStudents);
+        }
+        catch (EmptyCloudException | NotEnoughSpace e){
+            e.printStackTrace();
+        }
+
+    }
+
+    public void playAssistantCard(Player player){
+
+    }
+
+    public void playAssistantCard(Player player,int nodeId){
+
+    }
 }
+
+
+
+
+
+
+
+
+
+

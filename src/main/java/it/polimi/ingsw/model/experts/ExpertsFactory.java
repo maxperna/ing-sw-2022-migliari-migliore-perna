@@ -30,7 +30,7 @@ public class ExpertsFactory {
      *
      * @return an array list of three ExpertCard
      * */
-    private ArrayList<ExpertCard> generateAssistant(){
+    private ArrayList<ExpertCard> generateExperts(){
 
         calledAssistant = new ArrayList<>();
         ArrayList<Integer> numbersGenerated = new ArrayList<>();     //list containing numbers already generated
@@ -38,7 +38,7 @@ public class ExpertsFactory {
         for(int i=0;i<3;i++){
             int randomDraw;
             do{
-                randomDraw = randomGenerator.nextInt(13);
+                randomDraw = randomGenerator.nextInt(12);
             }while(numbersGenerated.contains(randomDraw));         //check if the number is not already in the list
             numbersGenerated.add(randomDraw);
 
@@ -93,9 +93,9 @@ public class ExpertsFactory {
     /**Method to implements singleton
      * @return a list of three ExpertCard or call the generator if it doesn't exist
      * */
-    public ArrayList<ExpertCard> drawAssistant(){
+    public ArrayList<ExpertCard> drawExperts(){
         if(calledAssistant == null){
-            return generateAssistant();
+            return generateExperts();
         }
         else return calledAssistant;
     }

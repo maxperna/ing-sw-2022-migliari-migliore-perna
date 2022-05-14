@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.Player;
 
 public class Expert3 implements ExpertCard {
 
+    private final ExpertID ID = ExpertID.NODE_ID;
     private final Game currentGame;
     private int cost = 3;
     private final String IMG = "";            //front image of the card
@@ -21,7 +22,7 @@ public class Expert3 implements ExpertCard {
         }
         else{
             currentGame.coinHandler(user,this.cost);
-            user.addCoin(-this.cost);
+            this.cost++;
             currentGame.checkIslandInfluence(targetIsland);
         }
     }
@@ -34,5 +35,10 @@ public class Expert3 implements ExpertCard {
     @Override
     public int getCost() {
         return this.cost;
+    }
+
+    @Override
+    public ExpertID getExpType(){
+        return ID;
     }
 }

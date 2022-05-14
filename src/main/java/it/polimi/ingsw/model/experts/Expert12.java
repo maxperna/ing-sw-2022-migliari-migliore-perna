@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Expert12 implements ExpertCard {
+
+    private final ExpertID ID = ExpertID.COLOR;
     private int cost = 3;
     private final Game currentGame;
     private final String IMG = "";            //front image of the card
@@ -52,6 +54,11 @@ public class Expert12 implements ExpertCard {
 
     @Override
     public int getCost() {
-        return 0;
+        return cost;
+    }
+
+    @Override
+    public ExpertID getExpType(){
+        return ID;
     }
 }

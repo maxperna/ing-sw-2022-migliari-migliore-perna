@@ -1,8 +1,17 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.model.DeckType;
+import it.polimi.ingsw.model.TowerColor;
+
+import java.util.ArrayList;
+
 public interface View {
 
-    public void printText(String text);
+    void printText(String text);
 
-    public void askNickName();
+    void askGameParam();
+
+    void remainingTowerAndDeck(ArrayList<TowerColor> remainingTowers, ArrayList<DeckType> remainingDecks);
+
+    void disconnect();
 }

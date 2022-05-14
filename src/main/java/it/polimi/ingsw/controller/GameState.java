@@ -1,5 +1,7 @@
 package it.polimi.ingsw.controller;
 
 public enum GameState {
-    LOGIN
+    LOGIN, //creates the game
+    CREATE_PLAYERS, //creates players
+    INIT
 }
