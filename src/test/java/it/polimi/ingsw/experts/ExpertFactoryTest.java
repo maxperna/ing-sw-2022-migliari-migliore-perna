@@ -1,4 +1,4 @@
-package it.polimi.ingsw.assistants;
+package it.polimi.ingsw.experts;
 
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameManager;
@@ -12,12 +12,12 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
-public class AssistantFactoryTest {
+public class ExpertFactoryTest {
 
     Game test = GameManager.getInstance().initGame("TwoPlayers",true);
     ExpertsFactory factoryTest = ExpertsFactory.createFactory(test);
         @Test
-        public void drawAssistantTest(){
+        public void drawExpertTest(){
         //check for five times if duplicates happen and if ExpertsFactory is actually a singleton
         for(int i=0;i<5;i++){
             ArrayList<ExpertCard> testCards = factoryTest.drawExperts();
