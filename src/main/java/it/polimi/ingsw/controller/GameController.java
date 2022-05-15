@@ -151,7 +151,7 @@ public class GameController {
                     nextState = GameState.ACTION_PHASE;
                 }
                 else
-
+                    viewMap.get(turnLogic.nextActivePlayer().getNickname()).showCurrentPlayer(turnLogic.getActivePlayer().getNickname());
                 break;
         }
         gameState = nextState;
