@@ -72,7 +72,7 @@ public class GameController {
 
                 if(receivedMessage.getType() == CHARGECLOUD) {
                     for (String nickname : viewMap.keySet()){
-                        virtualView.showChargedClouds(game.rechargeClouds());
+                        viewMap.get(nickname).showChargedClouds(game.rechargeClouds());
                     }
                 }
                 else if (receivedMessage.getType() == PLAY_ASSISTANT_CARD) {
