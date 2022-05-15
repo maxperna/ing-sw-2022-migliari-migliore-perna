@@ -28,9 +28,9 @@ public class TurnLogic {
         this.currentPhase = "PREPARATION";       //Always start in preparation phase
     }
 
-    /**Method to set the current active player after the preparation phase or the action phase
+    /**Method to get the next current active player after the preparation phase or the action phase
      */
-    public Player currentActivePlayer(){
+    public Player nextActivePlayer(){
         if(playersOrders.size() == currentGame.NUM_OF_PLAYERS){
             this.lastRoundFirstPlayer = playersOrders.peek();
         }
