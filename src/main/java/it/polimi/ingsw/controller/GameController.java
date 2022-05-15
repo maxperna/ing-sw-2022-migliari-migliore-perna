@@ -1,16 +1,18 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.network.messages.client_messages.CreatePlayerMessage;
 import it.polimi.ingsw.network.messages.server_messages.EndLogInMessage;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.server_messages.GameParamMessage;
-import it.polimi.ingsw.network.messages.server_messages.RemainingItemReply;
+import it.polimi.ingsw.network.messages.server_messages.StartPreparationPhaseMessage;
 import it.polimi.ingsw.view.VirtualView;
 
 import java.io.FileNotFoundException;
 import java.security.InvalidParameterException;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -47,7 +49,7 @@ public class GameController {
 
         switch (gameState)  {
             case LOGIN: //creates the game
-                if(receivedMessage.getType()== GAMEPARAM)
+                if(receivedMessage.getType() == GAMEPARAM)
                     gameCreation(receivedMessage);
                 nextState();
                 break;
@@ -59,14 +61,16 @@ public class GameController {
                 game.getPlayersList().stream().filter(name -> !viewMap.containsKey(name.getNickname()));
                 List<Player> sendTo = notLoggedPlayers.collect(Collectors.toList());
                 for (Player player : sendTo)
-                    viewMap.get(player.getNickname()).getClientHandler().sendMessage(new RemainingItemReply(game.getAVAILABLE_TOWER_COLOR(), game.getAVAILABLE_DECK_TYPE()));
+                    viewMap.get(player.getNickname()).remainingTowerAndDeck(game.getAVAILABLE_TOWER_COLOR(), game.getAVAILABLE_DECK_TYPE());
 
                 nextState();
                 break;
 
-            case INIT:
-                turnLogic.generatePlayingOrder();
+            case PREPARATION_PHASE:
 
+                if(receivedMessage.getType() == CHARGECLOUD) {
+
+                }
 
                 break;
         }
@@ -90,11 +94,32 @@ public class GameController {
 
             case CREATE_PLAYERS: //verifies that all the Players are created
                 if(game.getPlayersList().size() == game.NUM_OF_PLAYERS) {
-                    nextState = GameState.INIT;
+                    //sets first player
+                    turnLogic.generatePlayingOrder();
+                    //sends to each player the current situation on the board, giving also a coin if expert mode is on
+                    for(Player currentPlayer : game.getPlayersList())
+                    {
+                        VirtualView currentView = viewMap.get(currentPlayer.getNickname());
+                        ArrayList<Color> currentEntranceHall = currentPlayer.getBoard().getEntryRoom();
+                        if(game.isExpertMode())
+                            game.coinHandler(currentPlayer, 1);
+
+                        currentView.initPlayer(game.MAX_NUM_OF_TOWERS, currentEntranceHall);
+
+                        //sends to the first player a current player message
+                        if(currentPlayer.getNickname().equals(turnLogic.getActivePlayer().getNickname()))
+                            currentView.currentPlayer(currentPlayer.getNickname());
+                    }
+
+                    //broadcast the end of the preparationPhase
+                    broadcast(new StartPreparationPhaseMessage());
+
+                    nextState = GameState.PREPARATION_PHASE;
                 }
                 break;
 
-            case INIT:
+            case PREPARATION_PHASE:
+
 
                 break;
         }

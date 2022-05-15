@@ -58,4 +58,5 @@ public class CloudTile {
     public void setStudents(ArrayList<Color> students) {
         this.students = students;
     }
+
 }

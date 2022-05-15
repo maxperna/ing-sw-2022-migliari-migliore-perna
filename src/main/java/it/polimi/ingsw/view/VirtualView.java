@@ -1,8 +1,12 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.DeckType;
 import it.polimi.ingsw.model.TowerColor;
 import it.polimi.ingsw.network.messages.client_messages.GameParamRequest;
+import it.polimi.ingsw.network.messages.server_messages.CurrentPlayerMessage;
+import it.polimi.ingsw.network.messages.server_messages.PlayerInitMessage;
+import it.polimi.ingsw.network.messages.server_messages.RemainingItemReply;
 import it.polimi.ingsw.network.server.ClientHandler;
 
 import java.util.ArrayList;
@@ -44,7 +48,17 @@ public class VirtualView implements View {
      */
     @Override
     public void remainingTowerAndDeck(ArrayList<TowerColor> remainingTowers, ArrayList<DeckType> remainingDecks) {
+        clientHandler.sendMessage(new RemainingItemReply(remainingTowers, remainingDecks));
+    }
 
+    @Override
+    public void initPlayer(int numberOfTowers, ArrayList<Color> entranceHall) {
+        clientHandler.sendMessage(new PlayerInitMessage(numberOfTowers, entranceHall));
+    }
+
+    @Override
+    public void currentPlayer(String currentPlayer) {
+        clientHandler.sendMessage(new CurrentPlayerMessage(currentPlayer));
     }
     @Override
     public void disconnect() {

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.DeckType;
 import it.polimi.ingsw.model.TowerColor;
 
@@ -12,6 +13,10 @@ public interface View {
     void askGameParam();
 
     void remainingTowerAndDeck(ArrayList<TowerColor> remainingTowers, ArrayList<DeckType> remainingDecks);
+
+    void initPlayer(int numberOfTowers, ArrayList<Color> entranceHall);
+
+    void currentPlayer(String currentPlayer);
 
     void disconnect();
 }

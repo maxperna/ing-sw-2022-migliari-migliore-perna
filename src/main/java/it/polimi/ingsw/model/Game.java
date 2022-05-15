@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exceptions.EmptyCloudException;
 import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
 import it.polimi.ingsw.gameField.IslandList;
 import it.polimi.ingsw.gameField.Node;
@@ -33,6 +34,7 @@ public class Game {
     private final ArrayList<CloudTile> cloudTiles;
     private static final HashMap<Color, Pair<Player, Integer>> influenceMap = new HashMap<>(); //mapping the influence of every player
 
+    private final boolean expertMode;
     //ONLY EXPERTS MODE
     private final ArrayList<ExpertCard> expertsCard = new ArrayList<>();
     public int coins = 20;
@@ -53,6 +55,7 @@ public class Game {
         this.gameField = new IslandList();
         this.MAX_NUM_OF_TOWERS = maxNumberOfTowers;
         this.MAX_STUDENTS_ENTRANCE = maxStudentEntrance;
+        this.expertMode = expertMode;
         //set to true if expert mode is selected
 
         this.AVAILABLE_DECK_TYPE = new ArrayList<>();
@@ -112,16 +115,27 @@ public class Game {
 
     /**Method to recharge the clouds tile at the beginning of every action phase
      * */
-    public void rechargeClouds() {
+    public HashMap<Integer, ArrayList<Color>> rechargeClouds() {
 
-        for(int i = 0; i < NUM_OF_PLAYERS; i++)
-        {
-            try {
-                cloudTiles.get(i).setStudents(this.pouch.randomDraw(3));
-            } catch (NotEnoughStudentsException e) {
-                throw new RuntimeException(e);
+        try {
+
+            HashMap<Integer, ArrayList<Color>> updatedClouds = new HashMap<>();
+            for(int i = 0; i < NUM_OF_PLAYERS; i++) {
+
+                if (NUM_OF_PLAYERS == 3)
+                    cloudTiles.get(i).setStudents(this.pouch.randomDraw(4));
+                else
+                    cloudTiles.get(i).setStudents(this.pouch.randomDraw(3));
+
+                updatedClouds.put(i, cloudTiles.get(i).getStudents());
+
             }
+            return updatedClouds;
+
+        } catch (NotEnoughStudentsException | EmptyCloudException e) {
+            throw new RuntimeException(e);
         }
+
     }
 
     /**
@@ -296,6 +310,10 @@ public class Game {
 
     public int getCoins() {
         return coins;
+    }
+
+    public boolean isExpertMode() {
+        return expertMode;
     }
 
     public ArrayList<ExpertCard> getExpertsCard() {

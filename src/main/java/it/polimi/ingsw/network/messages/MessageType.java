@@ -14,6 +14,12 @@ public enum MessageType {
     /**Request for player creation parameters*/
     PLAYER_CREATION,
     /**Sends to other players the remaining items (Deck and Tower)*/
+    PLAYER_INIT,
+    /**Contains the info of the player at the beginning of the game*/
+    CURRENT_PLAYER,
+    /**Contains the info of the next player that will play*/
+    CHARGECLOUD,
+    /**Contains the info of the clouds at the beginning of preparationPhase*/
     REMAINING_ITEM,
     /**Move a student from board to island*/
     MOVE_TO_ISLAND,
