@@ -29,6 +29,7 @@ public class ClientController {
     private String nickname;
 
     private final ExecutorService actionQueue;
+    private int maximumMNStep;       //used to check directly if a MN movement is legit
 
     public ClientController(View view){
         this.view = view;
@@ -80,11 +81,17 @@ public class ClientController {
     /**Method used to play an assistant card
      * @param playedCard selected card to play*/
     public void playAssistantCard(AssistantCard playedCard){
+        maximumMNStep = playedCard.getMotherNatureControl();
          client.sendMessage(new AssistantCardMessage(nickname,playedCard));
     }
 
     public void moveMotherNature(int numberOfSteps){
-        client.sendMessage(new MoveMotherNatureMessage(nickname,numberOfSteps));
+        if(numberOfSteps>maximumMNStep)
+            return;
+
+            //Show error message
+        else
+            client.sendMessage(new MoveMotherNatureMessage(nickname,numberOfSteps));
     }
 
 

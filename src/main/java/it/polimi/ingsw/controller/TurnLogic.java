@@ -18,6 +18,7 @@ public class TurnLogic {
     private final Queue<Player> playersOrders;  //Players order is a FIFO structure(both for playing orders and action phase)
     private Player lastRoundFirstPlayer;       //first player to play last round, used to define the starting point of the round
     private Player activePlayer;     //current active player
+    private String currentPhase;
 
     //Default constructor
     public TurnLogic(Game currentGame){
@@ -37,9 +38,10 @@ public class TurnLogic {
     }
 
 
-    /**Method to define round order after the preparation phase comparing played cards action number
+    /**Method to define round order in the action phase comparing played cards action number
      * */
-    private void defineRoundOrders(){
+    private void defineActionPhaseOrders(){
+        switchPhase();
         playersOrders.clear();
         //sorting the list from the highest action number to the lowest for a matter comfort
         List<Integer> roundCards = new ArrayList<>(cardsPlayed.keySet());
@@ -57,6 +59,7 @@ public class TurnLogic {
      * @exception CardAlreadyPlayed if a player try to use a card already used by another player within the same round
      */
     public void setPlayedCard(AssistantCard playedAssistantCard, Player player) throws CardAlreadyPlayed, InexistentCard, EndGameException {
+        switchPhase();
         if(!this.cardsPlayed.containsKey(playedAssistantCard.getActionNumber())) {
             this.cardsPlayed.put(playedAssistantCard.getActionNumber(), player);
             player.playCard(playedAssistantCard);
@@ -65,14 +68,15 @@ public class TurnLogic {
 
         //All players have played their cards
         if(cardsPlayed.size()==currentGame.NUM_OF_PLAYERS){
-            defineRoundOrders();
+            defineActionPhaseOrders();
         }
     }
 
     /**Method to set a random players order during the first round of the game or an order based on the last first player
      * on the previous round( always in anticlockwise sense)
      * */
-    public void generatePlayingOrder(){
+    public void generatePreparationPhaseOrder(){
+        switchPhase();
         //branch to generate a casual order, if lastRoundFirstPlayer is null no round has been already played
         if(lastRoundFirstPlayer == null){
             Random randomGenerator = new Random();
@@ -94,7 +98,21 @@ public class TurnLogic {
 
     }
 
+    /**Method to switch the current phase (from preparation to action or vice-versa)*/
+    private void switchPhase(){
+        if(currentPhase.equals("PREPARATION"))
+            currentPhase = "ACTION";
+        else
+        {
+            currentPhase = "PREPARATION";
+            cardsPlayed.clear();
+        }
 
+    }
+
+    public String getCurrentPhase(){
+        return currentPhase;
+    }
 
     public Player getActivePlayer(){
         return this.activePlayer;
@@ -148,7 +166,7 @@ public class TurnLogic {
 
     }
 
-    public void playAssistantCard(Player player){
+    public void playExpertCard(Player player){
 
     }
 

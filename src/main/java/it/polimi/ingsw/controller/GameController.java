@@ -113,7 +113,7 @@ public class GameController {
             case CREATE_PLAYERS: //verifies that all the Players are created
                 if(game.getPlayersList().size() == game.NUM_OF_PLAYERS) {
                     //sets first player
-                    turnLogic.generatePlayingOrder();
+                    turnLogic.generatePreparationPhaseOrder();
                     //sends to each player the current situation on the board, giving also a coin if expert mode is on
                     for(Player currentPlayer : game.getPlayersList())
                     {
