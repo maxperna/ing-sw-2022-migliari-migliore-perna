@@ -25,11 +25,12 @@ public class TurnLogic {
         this.currentGame = currentGame;
         this.cardsPlayed = new HashMap<>();
         this.playersOrders = new LinkedList<>();
+        this.currentPhase = "PREPARATION";       //Always start in preparation phase
     }
 
     /**Method to set the current active player after the preparation phase or the action phase
      */
-    public Player nextActivePlayer(){
+    public Player currentActivePlayer(){
         if(playersOrders.size() == currentGame.NUM_OF_PLAYERS){
             this.lastRoundFirstPlayer = playersOrders.peek();
         }
@@ -59,7 +60,6 @@ public class TurnLogic {
      * @exception CardAlreadyPlayed if a player try to use a card already used by another player within the same round
      */
     public void setPlayedCard(AssistantCard playedAssistantCard, Player player) throws CardAlreadyPlayed, InexistentCard, EndGameException {
-        switchPhase();
         if(!this.cardsPlayed.containsKey(playedAssistantCard.getActionNumber())) {
             this.cardsPlayed.put(playedAssistantCard.getActionNumber(), player);
             player.playCard(playedAssistantCard);
@@ -76,7 +76,6 @@ public class TurnLogic {
      * on the previous round( always in anticlockwise sense)
      * */
     public void generatePreparationPhaseOrder(){
-        switchPhase();
         //branch to generate a casual order, if lastRoundFirstPlayer is null no round has been already played
         if(lastRoundFirstPlayer == null){
             Random randomGenerator = new Random();
@@ -103,11 +102,13 @@ public class TurnLogic {
         if(currentPhase.equals("PREPARATION"))
             currentPhase = "ACTION";
         else
-        {
             currentPhase = "PREPARATION";
-            cardsPlayed.clear();
-        }
+    }
 
+    /**Method to end current turn and start a new one*/
+    public void endTurn(){
+        playersOrders.clear();
+        cardsPlayed.clear();
     }
 
     public String getCurrentPhase(){
