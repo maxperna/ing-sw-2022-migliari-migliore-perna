@@ -55,9 +55,11 @@ public class TurnLogic {
      * @param player player who used the card
      * @exception CardAlreadyPlayed if a player try to use a card already used by another player within the same round
      */
-    public void setPlayedCard(AssistantCard playedAssistantCard, Player player) throws CardAlreadyPlayed {
-        if(!this.cardsPlayed.containsKey(playedAssistantCard.getActionNumber()))
-            this.cardsPlayed.put(playedAssistantCard.getActionNumber(),player);
+    public void setPlayedCard(AssistantCard playedAssistantCard, Player player) throws CardAlreadyPlayed, InexistentCard, EndGameException {
+        if(!this.cardsPlayed.containsKey(playedAssistantCard.getActionNumber())) {
+            this.cardsPlayed.put(playedAssistantCard.getActionNumber(), player);
+            player.playCard(playedAssistantCard);
+        }
         else throw new CardAlreadyPlayed("Another player already used this card");
 
         //All players have played their cards
@@ -149,7 +151,7 @@ public class TurnLogic {
 
     }
 
-    public void playAssistantCard(Player player,int nodeId){
+    public void playExpertCard(Player player,int nodeId){
 
     }
 }
