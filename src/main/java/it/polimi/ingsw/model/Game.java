@@ -25,7 +25,7 @@ public class Game {
     private final UUID gameID;
     public final int NUM_OF_PLAYERS;
     public final int MAX_NUM_OF_TOWERS;
-    public final boolean EXP_MODE
+    public final boolean EXP_MODE;
     public final int MAX_STUDENTS_ENTRANCE;
     private final ArrayList<TowerColor> AVAILABLE_TOWER_COLOR;
     private final ArrayList<DeckType> AVAILABLE_DECK_TYPE;
@@ -308,12 +308,16 @@ public class Game {
         return cloudTiles;
     }
 
+
+    public Player getPlayerByNickName(String nickName) {
+        for (Player currentPlayer : playersList) {
+            if(currentPlayer.getNickname().equals(nickName))
+                return currentPlayer;
+        }
+        throw new RuntimeException("PlayerNonTrovato");
+    }
     public int getCoins() {
         return coins;
-    }
-
-    public boolean isExpertMode() {
-        return expertMode;
     }
 
     public ArrayList<ExpertCard> getExpertsCard() {

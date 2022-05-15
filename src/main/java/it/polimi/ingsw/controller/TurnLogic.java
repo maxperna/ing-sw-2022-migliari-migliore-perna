@@ -28,11 +28,12 @@ public class TurnLogic {
 
     /**Method to set the current active player after the preparation phase or the action phase
      */
-    public void changeActivePlayer(){
+    public Player nextActivePlayer(){
         if(playersOrders.size() == currentGame.NUM_OF_PLAYERS){
             this.lastRoundFirstPlayer = playersOrders.peek();
         }
         this.activePlayer = playersOrders.remove();
+        return activePlayer;
     }
 
 

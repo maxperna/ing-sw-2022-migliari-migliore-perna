@@ -1,12 +1,14 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.exceptions.CardAlreadyPlayed;
+import it.polimi.ingsw.exceptions.EndGameException;
+import it.polimi.ingsw.exceptions.InexistentCard;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.Color;
+import it.polimi.ingsw.network.messages.client_messages.AssistantCardMessage;
 import it.polimi.ingsw.network.messages.client_messages.CreatePlayerMessage;
-import it.polimi.ingsw.network.messages.server_messages.EndLogInMessage;
+import it.polimi.ingsw.network.messages.server_messages.*;
 import it.polimi.ingsw.network.messages.Message;
-import it.polimi.ingsw.network.messages.server_messages.GameParamMessage;
-import it.polimi.ingsw.network.messages.server_messages.StartPreparationPhaseMessage;
 import it.polimi.ingsw.view.VirtualView;
 
 import java.io.FileNotFoundException;
@@ -61,7 +63,7 @@ public class GameController {
                 game.getPlayersList().stream().filter(name -> !viewMap.containsKey(name.getNickname()));
                 List<Player> sendTo = notLoggedPlayers.collect(Collectors.toList());
                 for (Player player : sendTo)
-                    viewMap.get(player.getNickname()).remainingTowerAndDeck(game.getAVAILABLE_TOWER_COLOR(), game.getAVAILABLE_DECK_TYPE());
+                    viewMap.get(player.getNickname()).showRemainingTowerAndDeck(game.getAVAILABLE_TOWER_COLOR(), game.getAVAILABLE_DECK_TYPE());
 
                 nextState();
                 break;
@@ -69,7 +71,23 @@ public class GameController {
             case PREPARATION_PHASE:
 
                 if(receivedMessage.getType() == CHARGECLOUD) {
+                    for (String nickname : viewMap.keySet()){
+                        virtualView.showChargedClouds(game.rechargeClouds());
+                    }
+                }
+                else if (receivedMessage.getType() == PLAY_ASSISTANT_CARD) {
 
+                    Player currentPlayer = game.getPlayerByNickName(receivedMessage.getSenderPlayer());
+
+                    try {
+                        turnLogic.setPlayedCard(((AssistantCardMessage)receivedMessage).getPlayedCard(), currentPlayer);
+                    } catch (CardAlreadyPlayed e) {
+                        throw new RuntimeException("CardAlreadyPlayed");
+                    } catch (InexistentCard e) {
+                        throw new RuntimeException("Card not found");
+                    } catch (EndGameException e) {
+                        throw new RuntimeException("Card not found");
+                    }
                 }
 
                 break;
@@ -87,7 +105,7 @@ public class GameController {
             case LOGIN: //verifies that all the VirtualViews are set
 
                 if(viewMap.size() == game.NUM_OF_PLAYERS) {
-                    broadcast(new EndLogInMessage());
+                    broadcast("All players logged");
                     nextState = GameState.CREATE_PLAYERS;
                 }
                 break;
@@ -101,18 +119,18 @@ public class GameController {
                     {
                         VirtualView currentView = viewMap.get(currentPlayer.getNickname());
                         ArrayList<Color> currentEntranceHall = currentPlayer.getBoard().getEntryRoom();
-                        if(game.isExpertMode())
+                        if(game.EXP_MODE)
                             game.coinHandler(currentPlayer, 1);
 
-                        currentView.initPlayer(game.MAX_NUM_OF_TOWERS, currentEntranceHall);
+                        currentView.showInitPlayer(game.MAX_NUM_OF_TOWERS, currentEntranceHall);
 
                         //sends to the first player a current player message
                         if(currentPlayer.getNickname().equals(turnLogic.getActivePlayer().getNickname()))
-                            currentView.currentPlayer(currentPlayer.getNickname());
+                            currentView.showCurrentPlayer(currentPlayer.getNickname());
                     }
 
-                    //broadcast the end of the preparationPhase
-                    broadcast(new StartPreparationPhaseMessage());
+                    //broadcast the start of the preparationPhase
+                    broadcast("PreparationPhase started");
 
                     nextState = GameState.PREPARATION_PHASE;
                 }
@@ -211,12 +229,12 @@ public class GameController {
 
     /**
      * method to send a broadCast Message
-     * @param messageToSend message to broadCast
+     * @param genericMessage message to broadCast
      */
-    private void broadcast(Message messageToSend) {
+    private void broadcast(String genericMessage) {
 
         for (String nickname : viewMap.keySet()){
-            viewMap.get(nickname).getClientHandler().sendMessage(messageToSend);
+            viewMap.get(nickname).showGenericMessage(genericMessage);
         }
 
     }

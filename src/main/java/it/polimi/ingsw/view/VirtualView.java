@@ -4,12 +4,11 @@ import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.DeckType;
 import it.polimi.ingsw.model.TowerColor;
 import it.polimi.ingsw.network.messages.client_messages.GameParamRequest;
-import it.polimi.ingsw.network.messages.server_messages.CurrentPlayerMessage;
-import it.polimi.ingsw.network.messages.server_messages.PlayerInitMessage;
-import it.polimi.ingsw.network.messages.server_messages.RemainingItemReply;
+import it.polimi.ingsw.network.messages.server_messages.*;
 import it.polimi.ingsw.network.server.ClientHandler;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Class VirtualView, one for each player
@@ -47,19 +46,30 @@ public class VirtualView implements View {
      * @param remainingDecks list of the remaining deckTypes
      */
     @Override
-    public void remainingTowerAndDeck(ArrayList<TowerColor> remainingTowers, ArrayList<DeckType> remainingDecks) {
+    public void showRemainingTowerAndDeck(ArrayList<TowerColor> remainingTowers, ArrayList<DeckType> remainingDecks) {
         clientHandler.sendMessage(new RemainingItemReply(remainingTowers, remainingDecks));
     }
 
     @Override
-    public void initPlayer(int numberOfTowers, ArrayList<Color> entranceHall) {
+    public void showInitPlayer(int numberOfTowers, ArrayList<Color> entranceHall) {
         clientHandler.sendMessage(new PlayerInitMessage(numberOfTowers, entranceHall));
     }
 
     @Override
-    public void currentPlayer(String currentPlayer) {
+    public void showChargedClouds(HashMap<Integer, ArrayList<Color>> chargedClouds) {
+        clientHandler.sendMessage(new ChargedCloudsMessage(chargedClouds));
+    }
+
+    @Override
+    public void showCurrentPlayer(String currentPlayer) {
         clientHandler.sendMessage(new CurrentPlayerMessage(currentPlayer));
     }
+
+    @Override
+    public void showGenericMessage(String genericMessage) {
+        clientHandler.sendMessage(new GenericMessage(genericMessage));
+    }
+
     @Override
     public void disconnect() {
         clientHandler.disconnect();

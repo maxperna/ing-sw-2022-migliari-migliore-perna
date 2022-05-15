@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.DeckType;
 import it.polimi.ingsw.model.TowerColor;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public interface View {
 
@@ -12,11 +13,15 @@ public interface View {
 
     void askGameParam();
 
-    void remainingTowerAndDeck(ArrayList<TowerColor> remainingTowers, ArrayList<DeckType> remainingDecks);
+    void showRemainingTowerAndDeck(ArrayList<TowerColor> remainingTowers, ArrayList<DeckType> remainingDecks);
 
-    void initPlayer(int numberOfTowers, ArrayList<Color> entranceHall);
+    void showInitPlayer(int numberOfTowers, ArrayList<Color> entranceHall);
 
-    void currentPlayer(String currentPlayer);
+    void showChargedClouds(HashMap<Integer, ArrayList<Color>> chargedClouds);
+
+    void showCurrentPlayer(String currentPlayer);
+
+    void showGenericMessage(String genericMessage);
 
     void disconnect();
 }
