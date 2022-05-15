@@ -1,11 +1,16 @@
 package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.model.DeckType;
-import it.polimi.ingsw.model.TowerColor;
-import it.polimi.ingsw.network.messages.FirstLoginMessage;
-import it.polimi.ingsw.network.messages.LogInMessage;
+import it.polimi.ingsw.gameField.IslandList;
+import it.polimi.ingsw.gameField.Node;
+import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.network.messages.CreatePlayerMessage;
+import it.polimi.ingsw.network.messages.EndLogInMessage;
+import it.polimi.ingsw.network.messages.GameParamMessage;
+import java.lang.Math;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Cli implements View{
@@ -14,6 +19,7 @@ public class Cli implements View{
     ArrayList<String> players;
     ArrayList<DeckType> deckAvailable;
     ArrayList<TowerColor> towerAvailable;
+    String clientPlayer;
 
 
     public Cli () {
@@ -119,6 +125,7 @@ public class Cli implements View{
         }while(!nickname.equals(""));
 
         players.add(nickname);                                                                                          //adding the nickname to a list to check for uniqueness of following nicknames
+        clientPlayer = nickname;
 
         if(players.size() == 1) {                                                                                       //if it's the first player, ask for game mode and expert mode
             String expertMode;
@@ -129,14 +136,6 @@ public class Cli implements View{
                     System.out.println("Invalid parameter");
             }while(!(numOfPlayers == 2 || numOfPlayers == 3 || numOfPlayers == 4));
 
-            switch(numOfPlayers) {                                                                                      //switch used to convert the value provided by the player to a string
-                case 2: gameMode = "TwoPlayers";
-                    break;
-                case 3: gameMode = "ThreePlayers";
-                    break;
-                case 4: gameMode = "FourPlayers";
-            }
-
             do {
                 System.out.print("Do you want to play in expert mode? [Y/N] ");
                 expertMode = scan.next();
@@ -144,7 +143,7 @@ public class Cli implements View{
                     System.out.println("Invalid parameter");
             }while(!(expertMode.contains("Y") || expertMode.contains("N")));
 
-            if(expertMode.contains("Y"))
+            if(expertMode.contains("Y") && !expertMode.contains("N"))
                 expert = true;
         }
 
@@ -207,29 +206,50 @@ public class Cli implements View{
 
         deckAvailable.remove(deck);
 
+        listener.notifyListener(new CreatePlayerMessage(nickname, towerColor, deck));
         if(players.size() == 1)                                                                                         //if it's the first player, send a FirstLoginMessage containing all the info required to start the game
-            listener.notifyListener(new FirstLoginMessage(nickname, gameMode, expert, towerColor, deck));
-        else
-            listener.notifyListener(new LogInMessage(nickname, towerColor, deck));
+            listener.notifyListener(new GameParamMessage(nickname, numOfPlayers, expert));
+        listener.notifyListener(new EndLogInMessage());
     }
 
 
     @Override
-    public void askMoveToBoard() {
+    public void askMoveTo() {
         String studentToBeMoved;
-        System.out.print("Choose the student you want to move to your board: ");
-        studentToBeMoved = scan.next();
-        //call to moveStudentToBoard method
-    }
-
-    @Override
-    public void askMoveToIsland() {
-        String studentToBeMoved;
+        String destination;
         String islandID;
-        System.out.print("Choose the student you want to move: ");
-        studentToBeMoved = scan.next();
-        System.out.print("Choose the island you want to move your student in: ");
-        islandID = scan.next();
+        int lastIslandID;
+        ArrayList<Color> studentsAvailable;
+        //method to get info player students
+        do {
+            System.out.print("Choose the student by writing its color: " +studentsAvailable.toString() );
+            studentToBeMoved = scan.next();
+            if(!studentsAvailable.contains(studentToBeMoved))
+                System.out.println("Invalid input");
+        }while (!studentsAvailable.contains(studentToBeMoved));
+
+        do {
+            System.out.println("Where do you want to move your student? [BOARD], [ISLAND]");
+            destination = scan.next();
+            if(!(destination.contains("BOARD") || destination.contains("ISLAND")))
+                System.out.println("Invalid input");
+        } while(!(destination.contains("BOARD") || destination.contains("ISLAND")));
+
+        if(destination.contains("BOARD"))
+            //listener.notify;
+        if(destination.contains("ISLAND")) {
+            do {
+                System.out.print("Available islands: ");
+                for(int i=1; i<=lastIslandID; i++)
+                    System.out.print("["+i+"]"+" ");
+                System.out.print("Choose the island of destination: ");
+                islandID = scan.next();
+                if(Integer.parseInt(islandID) < 1 || Integer.parseInt(islandID) > lastIslandID)
+                    System.out.println("Invalid input");
+            }while (Integer.parseInt(islandID) < 1 || Integer.parseInt(islandID) > lastIslandID);
+            //listener.notify;
+        }
+
     }
 
     @Override
@@ -239,12 +259,51 @@ public class Cli implements View{
 
     @Override
     public void askCardToPlay() {
-        System.out.print("Insert the ID of the card you want to play: ");
+        int chosenCard;
+        ArrayList<Integer> availableCards = new ArrayList<>();
+        for(int i=1; i<11; i++)
+            availableCards.add(i);
+        do {
+            System.out.print("These are the available cards ID and the maximum number of moves allowed: ");
+            for(int n : availableCards)
+                System.out.print("["+availableCards.get(n)+"]"+"[" +(int)Math.ceil((double)(availableCards.get(n))/2)+ ", ");
+            System.out.print("Insert the ID of the card you want to play: ");
+            chosenCard = Integer.parseInt(scan.next());
+            if(!availableCards.contains(chosenCard))
+                System.out.println("Invalid input");
+        } while(!availableCards.contains(chosenCard));
+        availableCards.remove(chosenCard);
+        //listener;
     }
 
     @Override
     public void askIslandInfo() {
-        System.out.print("Insert the ID of the island you want ot get the info from: ");
+        int lastIslandID;
+        int ID;
+        Node island;
+        do {
+            System.out.println("Choose the island of your interest: ");
+            //method to get last island ID
+            ID = Integer.parseInt(scan.next());
+            if (ID < 0 || ID > lastIslandID)
+                System.out.println("Invalid input");
+        } while(ID < 0 || ID > lastIslandID);
+        //listener.notifyListener()
+        //method to get islandInfo
+        System.out.println("The chosen island has the following students: ");
+        for(Color color : Color.values()) {
+            if(island.getColorInfluence(color) == 1)
+                System.out.print(island.getColorInfluence(color)+ " "+ color+ " student, ");
+            System.out.print(island.getColorInfluence(color)+ " "+ color+ " students, ");
+        }
+        System.out.println();
+        if(island.getTowerColor().equals(TowerColor.EMPTY))
+            System.out.println("There are no towers on this island");
+        else if(island.getNumberOfTowers()>1)
+            System.out.println("There are " +island.getNumberOfTowers() + " " +island.getTowerColor()+" towers on this island");
+        else
+            System.out.println("There is a " +island.getTowerColor()+" tower on this island");
+
     }
 
     @Override
@@ -289,16 +348,62 @@ public class Cli implements View{
 
     @Override
     public void chooseCloud() {
-        System.out.print("Choose the student you want to move to your board: ");
+        int chosenCloud;
+        ArrayList<CloudTile> cloudsAvailable;
+        //method to get info on clouds
+        do {
+            for(CloudTile cloud : cloudsAvailable)
+                System.out.println("Cloud number " +cloud.getTileID()+ "contains the following students: " +cloud.getStudents().toString());
+            System.out.println("Chose the cloud by writing its number: " +cloudsAvailable.toString() );
+            chosenCloud = Integer.parseInt(scan.next());
+            if(!cloudsAvailable.contains(chosenCloud))
+                System.out.println("Invalid input");
+        }while (!cloudsAvailable.contains(chosenCloud));
+        cloudsAvailable.remove(chosenCloud);
+        //listener.notify;
     }
 
     @Override
-    public void chooseMotherNatureMoves() {
-        System.out.print("Choose the student you want to move to your board: ");
+    public void chooseMotherNatureMoves(int moves) {
+        int chosenMove;
+        do {
+            System.out.print("Available moves: ");
+            for(int i=1; i<=moves; i++)
+                System.out.print("["+i+"]"+" ");
+            System.out.print("Choose the number of moves for mother nature: ");
+            chosenMove = Integer.parseInt(scan.next());
+            if(chosenMove < 1 || chosenMove > moves)
+                System.out.println("Invalid input");
+        }while (chosenMove < 1 || chosenMove > moves);
+        //listener.notifyListener(new MoveMotherNatureMessage(clientPlayer, chosenMove));
     }
 
     @Override
     public void chooseMotherNaturePosition() {
-        System.out.print("Choose the student you want to move to your board: ");
+        int lastIslandID;
+        int ID;
+        do {
+            System.out.println("Choose the island of your interest: ");
+            //method to get last island ID
+            ID = Integer.parseInt(scan.next());
+            if (ID < 0 || ID > lastIslandID)
+                System.out.println("Invalid input");
+        } while(ID < 0 || ID > lastIslandID);
+        //listener.notifyListener()
+    }
+
+    public void getPlayerInfo() {
+        String chosenPlayer;
+        Player player;
+        do {
+            System.out.println("Choose which player you want to inspect by writing its name: " + players.toString());
+            chosenPlayer = scan.next();
+            if(!players.contains(chosenPlayer))
+                System.out.println("Invalid input");
+        }while(!players.toString().contains(chosenPlayer));
+        //listener.notify(nickname)
+        //method to retrieve player info
+        System.out.println("Player " +chosenPlayer+ "has the following students in its entry room: " +player.getBoard().getEntryRoom().toString());
+        System.out.println("Player " +chosenPlayer+ "has the following teachers in its hall: " +player.getBoard().getTeacher(); //change
     }
 }
