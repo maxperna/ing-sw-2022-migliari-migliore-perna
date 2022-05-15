@@ -253,7 +253,7 @@ public class Cli implements View{
     }
 
     @Override
-    public void useAssistantEffect() {
+    public void useExpertEffect() {
         System.out.print("Insert the ID of the Assistant you want to use [1, 2, 3]: ");
     }
 
