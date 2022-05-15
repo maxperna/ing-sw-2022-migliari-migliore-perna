@@ -1,8 +1,6 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.*;
-import it.polimi.ingsw.gameField.Node;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +13,7 @@ public class Board implements StudentManager {
 
     private final int maxStudentHall;
     private final int MAX_DIM_INSIDE = 10;    //maximum students on the dining room
-    private TowerColor towerColor;
+    private final TowerColor towerColor;
     private Integer numberOfTowers;  //number of towers on the board
     private final Player owner;
     private Player teamMate;
@@ -84,7 +82,7 @@ public class Board implements StudentManager {
 
     /**Method to move a student from the outer hall to the internal one
      * @param color color of the student to move
-     * @exception NotOnBoardException exception thrown if it's tried to move an inexistent student
+     * @exception NotOnBoardException exception thrown if it's tried to move a not existent student
      */
     public void moveEntryToDiningRoom(Color color) throws NotOnBoardException,NotEnoughSpace{
         if(!entryRoom.contains(color)) throw new NotOnBoardException();
@@ -100,9 +98,9 @@ public class Board implements StudentManager {
         }
     }
 
-    /**Method to move a student from the outer hall to an island on the gamefield
+    /**Method to move a student from the outer hall to an island on the game field
      * @param color color of the student to move
-     * @exception NotOnBoardException exception thrown if it's tried to move an inexistent student
+     * @exception NotOnBoardException exception thrown if it's tried to move a not existent student
      */
     public void moveToIsland(Color color, int nodeID) throws NotOnBoardException{
         if(!entryRoom.contains(color)) throw new NotOnBoardException();
@@ -151,7 +149,7 @@ public class Board implements StudentManager {
         }
     }
 
-    /**Method to add studnet to the inside hall from external sources
+    /**Method to add student to the inside hall from external sources
      * @param studentsToAdd array list of students to add*/
     public void addStudentsDiningRoom(ArrayList<Color> studentsToAdd) throws NotEnoughSpace{
         for(Color color:studentsToAdd){
