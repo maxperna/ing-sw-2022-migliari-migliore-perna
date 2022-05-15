@@ -10,7 +10,7 @@ import java.io.FileNotFoundException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
-public class CardDeckTest {
+public class AssistantCardDeckTest {
 
     @DisplayName("Test deck consistency creation")
     @Test

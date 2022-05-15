@@ -42,13 +42,13 @@ public class Player {
 
 
     /**Method to play a card from the player personal deck
-     * @param cardToPlay card the player wants to play
+     * @param assistantCardToPlay card the player wants to play
      * @throws InexistentCard is the card is not present in the deck
      * @throws EndGameException if the deck is empty
      * */
-    public Card playCard(Card cardToPlay) throws InexistentCard, EndGameException {
-        deck.playCard(cardToPlay);
-        return cardToPlay;
+    public AssistantCard playCard(AssistantCard assistantCardToPlay) throws InexistentCard, EndGameException {
+        deck.playCard(assistantCardToPlay);
+        return assistantCardToPlay;
     }
 
     /**Method to modify the amount of coin of a player

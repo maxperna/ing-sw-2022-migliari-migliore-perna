@@ -1,7 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exceptions.*;
-import it.polimi.ingsw.model.Card;
+import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
@@ -14,14 +14,16 @@ import java.util.*;
  * */
 public class TurnLogic {
     private final Game currentGame;   //game associated to round logic
-    private final Map<Integer, Player> cardsPlayed = new HashMap<>();
-    private final Queue<Player> playersOrders = new LinkedList<>();  //Players order is a FIFO structure(both for playing orders and action phase)
+    private final Map<Integer, Player> cardsPlayed;
+    private final Queue<Player> playersOrders;  //Players order is a FIFO structure(both for playing orders and action phase)
     private Player lastRoundFirstPlayer;       //first player to play last round, used to define the starting point of the round
     private Player activePlayer;     //current active player
 
     //Default constructor
     public TurnLogic(Game currentGame){
         this.currentGame = currentGame;
+        this.cardsPlayed = new HashMap<>();
+        this.playersOrders = new LinkedList<>();
     }
 
     /**Method to set the current active player after the preparation phase or the action phase
@@ -49,13 +51,13 @@ public class TurnLogic {
     }
 
     /**Method to keep track of the played card during a round preparation phase, inserting by their action number
-     * @param playedCard card used by a certain player
+     * @param playedAssistantCard card used by a certain player
      * @param player player who used the card
      * @exception CardAlreadyPlayed if a player try to use a card already used by another player within the same round
      */
-    public void setPlayedCard(Card playedCard, Player player) throws CardAlreadyPlayed {
-        if(!this.cardsPlayed.containsKey(playedCard.getActionNumber()))
-            this.cardsPlayed.put(playedCard.getActionNumber(),player);
+    public void setPlayedCard(AssistantCard playedAssistantCard, Player player) throws CardAlreadyPlayed {
+        if(!this.cardsPlayed.containsKey(playedAssistantCard.getActionNumber()))
+            this.cardsPlayed.put(playedAssistantCard.getActionNumber(),player);
         else throw new CardAlreadyPlayed("Another player already used this card");
 
         //All players have played their cards
@@ -97,6 +99,10 @@ public class TurnLogic {
 
     public Queue<Player> getPlayersOrders() {
         return playersOrders;
+    }
+
+    public Map<Integer, Player> getCardsPlayed() {
+        return cardsPlayed;
     }
 
     //ACTION PHASE PART

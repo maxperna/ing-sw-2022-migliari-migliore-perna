@@ -1,0 +1,21 @@
+package it.polimi.ingsw.network.messages.client_messages;
+
+import it.polimi.ingsw.model.AssistantCard;
+import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.messages.MessageType;
+
+import java.util.UUID;
+
+public class AssistantCardMessage extends Message {
+    UUID identifier = UUID.randomUUID();
+    private final AssistantCard playedCard;
+
+    public AssistantCardMessage(String senderPlayer,AssistantCard playedCard){
+        super(MessageType.PLAY_ASSISTANT_CARD,senderPlayer);
+        this.playedCard = playedCard;
+    }
+
+    public AssistantCard getPlayedCard(){
+        return playedCard;
+    }
+}

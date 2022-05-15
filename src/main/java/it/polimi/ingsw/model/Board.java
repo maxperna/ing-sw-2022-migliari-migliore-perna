@@ -93,7 +93,7 @@ public class Board implements StudentManager {
             entryRoom.remove(color);
             diningRoom.put(color, diningRoom.get(color)+1);       //add a student of a color after removing it
             //Coin add if on 3,6,9th space
-            if(diningRoom.get(color)%3==0 && diningRoom.get(color)!=0){
+            if(diningRoom.get(color)%3==0 && diningRoom.get(color)!=0 && currentGame.EXP_MODE){
                 currentGame.coinHandler(owner,1);
             }
 

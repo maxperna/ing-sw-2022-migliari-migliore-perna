@@ -25,6 +25,7 @@ public class Game {
     private final UUID gameID;
     public final int NUM_OF_PLAYERS;
     public final int MAX_NUM_OF_TOWERS;
+    public final boolean EXP_MODE
     public final int MAX_STUDENTS_ENTRANCE;
     private final ArrayList<TowerColor> AVAILABLE_TOWER_COLOR;
     private final ArrayList<DeckType> AVAILABLE_DECK_TYPE;
@@ -34,7 +35,6 @@ public class Game {
     private final ArrayList<CloudTile> cloudTiles;
     private static final HashMap<Color, Pair<Player, Integer>> influenceMap = new HashMap<>(); //mapping the influence of every player
 
-    private final boolean expertMode;
     //ONLY EXPERTS MODE
     private final ArrayList<ExpertCard> expertsCard = new ArrayList<>();
     public int coins = 20;
@@ -55,7 +55,7 @@ public class Game {
         this.gameField = new IslandList();
         this.MAX_NUM_OF_TOWERS = maxNumberOfTowers;
         this.MAX_STUDENTS_ENTRANCE = maxStudentEntrance;
-        this.expertMode = expertMode;
+        this.EXP_MODE = expertMode;
         //set to true if expert mode is selected
 
         this.AVAILABLE_DECK_TYPE = new ArrayList<>();
