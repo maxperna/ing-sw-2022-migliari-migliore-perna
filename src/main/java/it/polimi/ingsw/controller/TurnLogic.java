@@ -139,11 +139,11 @@ public class TurnLogic {
 
     }
 
-    public void playAssistantCard(Player player){
+    public void playExpertCard(Player player){
 
     }
 
-    public void playAssistantCard(Player player,int nodeId){
+    public void playExpertCard(Player player,int nodeId){
 
     }
 }
