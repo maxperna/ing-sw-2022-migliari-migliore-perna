@@ -68,8 +68,7 @@ public class GameController {
                 nextState();
                 break;
 
-            case PREPARATION_PHASE:
-
+            case PREPARATION_PHASE: //PreparationPhase logic
                 if(receivedMessage.getType() == CHARGECLOUD) {
                     for (String nickname : viewMap.keySet()){
                         viewMap.get(nickname).showChargedClouds(game.rechargeClouds());
@@ -89,9 +88,17 @@ public class GameController {
                         throw new RuntimeException("Card not found");
                     }
                 }
+                nextState();
+                break;
+
+            case ACTION_PHASE: //ActionPhaseLogic
+                if(receivedMessage.getType() == MOVE_TO_ISLAND) {
+
+                }
 
                 break;
         }
+
     }
 
     /**
@@ -138,6 +145,12 @@ public class GameController {
 
             case PREPARATION_PHASE:
 
+                if(turnLogic.getCardsPlayed().size() == game.NUM_OF_PLAYERS) {
+                    broadcast("Start ActionPhase");
+                    viewMap.get(turnLogic.getActivePlayer().getNickname()).showCurrentPlayer(turnLogic.getActivePlayer().getNickname());
+                    nextState = GameState.ACTION_PHASE;
+                }
+                else
 
                 break;
         }
