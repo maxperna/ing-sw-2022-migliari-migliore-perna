@@ -3,10 +3,13 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.exceptions.CardAlreadyPlayed;
 import it.polimi.ingsw.exceptions.EndGameException;
 import it.polimi.ingsw.exceptions.InexistentCard;
+import it.polimi.ingsw.exceptions.NotEnoughSpace;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.network.messages.client_messages.AssistantCardMessage;
 import it.polimi.ingsw.network.messages.client_messages.CreatePlayerMessage;
+import it.polimi.ingsw.network.messages.client_messages.MovedStudentsBoard;
+import it.polimi.ingsw.network.messages.client_messages.MovedStudentsIslands;
 import it.polimi.ingsw.network.messages.server_messages.*;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.view.VirtualView;
@@ -92,10 +95,40 @@ public class GameController {
                 break;
 
             case ACTION_PHASE: //ActionPhaseLogic
-                if(receivedMessage.getType() == MOVE_TO_ISLAND) {
 
+                if(receivedMessage.getType() == MOVE_TO_ISLAND) {
+                    HashMap<Integer, ArrayList<Color>> studentsMoved = ((MovedStudentsIslands)receivedMessage).getMovedStudents();
+
+                    for(int nodeID : studentsMoved.keySet()) {
+                        for(Color currentColor : studentsMoved.get(nodeID))
+                         game.getGameField().getIslandNode(nodeID).addStudent(currentColor);
+                    }
                 }
 
+                if(receivedMessage.getType() == MOVE_TO_DINING) {
+                    String nickName = receivedMessage.getSenderPlayer();
+                    ArrayList<Color> studentsMoved = ((MovedStudentsBoard)receivedMessage).getMovedStudents();
+                    List<Color> teachers = new ArrayList<>();
+                    try {
+                        game.getPlayerByNickName(nickName).getBoard().addStudentsDiningRoom(studentsMoved);
+                    } catch (NotEnoughSpace e) {
+                        throw new RuntimeException("Not enough Space");
+                    }
+
+                    for(Color currentColor : studentsMoved) {
+                        game.checkInfluence(game.getPlayerByNickName(nickName), currentColor);
+                        if(game.getPlayerByNickName(nickName).getBoard().getTeacher(currentColor))
+                            teachers.add(currentColor);
+                    }
+
+                    virtualView.updateTeachers(teachers);
+                }
+
+                if(receivedMessage.getType() == PLAY_EXPERT_CARD) {
+                    //Questo greve
+                }
+
+                nextState();
                 break;
         }
 
@@ -153,6 +186,8 @@ public class GameController {
                 else
                     viewMap.get(turnLogic.nextActivePlayer().getNickname()).showCurrentPlayer(turnLogic.getActivePlayer().getNickname());
                 break;
+
+            case ACTION_PHASE:
         }
         gameState = nextState;
     }
@@ -185,10 +220,6 @@ public class GameController {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-    }
-
-    private void initState(Message receivedMessage){
-
     }
 
     /**

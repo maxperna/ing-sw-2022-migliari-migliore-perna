@@ -30,6 +30,8 @@ public enum MessageType {
     /**Play expert card*/
     PLAY_EXPERT_CARD,
     /**Send an object recognized by ID*/
+    UPDATE_TEACHERS,
+    /**Send a lis of a player Teachers*/
     ID_SELECTION,
     /**Move mother nature on a selected island*/
     MOVE_MOTHER_NATURE,

@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.TowerColor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public interface View {
 
@@ -21,6 +22,7 @@ public interface View {
 
     void showCurrentPlayer(String currentPlayer);
 
+    void updateTeachers(List<Color> teacherList);
     void showGenericMessage(String genericMessage);
 
     void disconnect();

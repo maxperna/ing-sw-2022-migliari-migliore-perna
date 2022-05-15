@@ -9,6 +9,7 @@ import it.polimi.ingsw.network.server.ClientHandler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Class VirtualView, one for each player
@@ -63,6 +64,11 @@ public class VirtualView implements View {
     @Override
     public void showCurrentPlayer(String currentPlayer) {
         clientHandler.sendMessage(new CurrentPlayerMessage(currentPlayer));
+    }
+
+    @Override
+    public void updateTeachers(List<Color> teacherList) {
+        clientHandler.sendMessage(new TeacherListMessage(teacherList));
     }
 
     @Override

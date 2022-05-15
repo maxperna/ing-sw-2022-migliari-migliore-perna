@@ -264,7 +264,6 @@ public class Game {
      * a negative quantity will do the vice-versa.
      * @param player to whom add/remove the money
      * @param quantity number of coin to transfer/remove */
-
     public void coinHandler(Player player,int quantity){
         this.coins = this.coins - quantity;
         player.addCoin(quantity);
