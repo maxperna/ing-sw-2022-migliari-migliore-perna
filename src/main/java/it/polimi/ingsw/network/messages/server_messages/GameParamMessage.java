@@ -1,11 +1,14 @@
-package it.polimi.ingsw.network.messages;
+package it.polimi.ingsw.network.messages.server_messages;
+
+import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.messages.MessageType;
 
 /**
  * Class GameParamMessage, the client sends this message to create a game.
  *  It contains the parameters to create a Game.
  * @author Miglia
  */
-public class GameParamMessage extends Message{
+public class GameParamMessage extends Message {
 
     private final int numOfPlayers;
     private final boolean expertMode;

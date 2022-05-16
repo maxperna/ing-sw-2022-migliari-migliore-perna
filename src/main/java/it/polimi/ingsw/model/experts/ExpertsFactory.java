@@ -55,7 +55,7 @@ public class ExpertsFactory {
                     generatedCard = new Expert3(this.currentGame);
                     break;
                 case 3:
-                    generatedCard = new Expert4();
+                    generatedCard = new Expert4(currentGame);
                     break;
                 case 4:
                     generatedCard = new Expert5(this.currentGame);

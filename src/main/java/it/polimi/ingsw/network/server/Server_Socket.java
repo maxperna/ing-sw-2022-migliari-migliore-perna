@@ -56,4 +56,7 @@ public class Server_Socket implements Runnable{
         server.receivedMessage(receivedMessage);
     }
 
+
+    public void disconnectClient(ClientHandler clientHandler) {
+    }
 }
