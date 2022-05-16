@@ -17,7 +17,7 @@ public interface View {
     void showRemainingTowerAndDeck(ArrayList<TowerColor> remainingTowers, ArrayList<DeckType> remainingDecks);
 
     void showInitPlayer(int numberOfTowers, ArrayList<Color> entranceHall);
-
+    //void showGameField(HashMap<Integer, Tuple2<TowerColor, List<Color>>>);
     void showChargedClouds(HashMap<Integer, ArrayList<Color>> chargedClouds);
 
     void showCurrentPlayer(String currentPlayer);

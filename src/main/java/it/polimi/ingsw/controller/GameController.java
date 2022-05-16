@@ -1,9 +1,6 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.exceptions.CardAlreadyPlayed;
-import it.polimi.ingsw.exceptions.EndGameException;
-import it.polimi.ingsw.exceptions.InexistentCard;
-import it.polimi.ingsw.exceptions.NotEnoughSpace;
+import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.network.messages.client_messages.AssistantCardMessage;
@@ -97,11 +94,17 @@ public class GameController {
             case ACTION_PHASE: //ActionPhaseLogic
 
                 if(receivedMessage.getType() == MOVE_TO_ISLAND) {
+                    String nickName = receivedMessage.getSenderPlayer();
                     HashMap<Integer, ArrayList<Color>> studentsMoved = ((MovedStudentsIslands)receivedMessage).getMovedStudents();
 
                     for(int nodeID : studentsMoved.keySet()) {
-                        for(Color currentColor : studentsMoved.get(nodeID))
-                         game.getGameField().getIslandNode(nodeID).addStudent(currentColor);
+                        for(Color currentColor : studentsMoved.get(nodeID)) {
+                            try {
+                                game.getPlayerByNickName(nickName).getBoard().moveToIsland(currentColor, nodeID);
+                            } catch (NotOnBoardException e) {
+                                throw new RuntimeException("Student not found");
+                            }
+                        }
                     }
                 }
 
@@ -109,19 +112,20 @@ public class GameController {
                     String nickName = receivedMessage.getSenderPlayer();
                     ArrayList<Color> studentsMoved = ((MovedStudentsBoard)receivedMessage).getMovedStudents();
                     List<Color> teachers = new ArrayList<>();
-                    try {
-                        game.getPlayerByNickName(nickName).getBoard().addStudentsDiningRoom(studentsMoved);
-                    } catch (NotEnoughSpace e) {
-                        throw new RuntimeException("Not enough Space");
-                    }
 
                     for(Color currentColor : studentsMoved) {
-                        game.checkInfluence(game.getPlayerByNickName(nickName), currentColor);
-                        if(game.getPlayerByNickName(nickName).getBoard().getTeacher(currentColor))
+
+                        try {
+                            game.getPlayerByNickName(nickName).getBoard().moveEntryToDiningRoom(currentColor);
+                        } catch (NotOnBoardException | NotEnoughSpace e) {
+                            throw new RuntimeException("Student not found or not enoughSpace");
+                        }
+
+                        if(game.checkInfluence(game.getPlayerByNickName(nickName), currentColor))
                             teachers.add(currentColor);
                     }
 
-                    virtualView.updateTeachers(teachers);
+
                 }
 
                 if(receivedMessage.getType() == PLAY_EXPERT_CARD) {
@@ -159,6 +163,7 @@ public class GameController {
                     {
                         VirtualView currentView = viewMap.get(currentPlayer.getNickname());
                         ArrayList<Color> currentEntranceHall = currentPlayer.getBoard().getEntryRoom();
+
                         if(game.EXP_MODE)
                             game.coinHandler(currentPlayer, 1);
 
