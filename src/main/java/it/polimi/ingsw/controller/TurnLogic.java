@@ -17,7 +17,6 @@ public class TurnLogic {
     private final Map<Integer, Player> cardsPlayed;
     private final Queue<Player> playersOrders;  //Players order is a FIFO structure(both for playing orders and action phase)
     private Player lastRoundFirstPlayer;       //first player to play last round, used to define the starting point of the round
-    private Player activePlayer;     //current active player
     private String currentPhase;
 
     //Default constructor
