@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.experts;
 
-import it.polimi.ingsw.exceptions.NotEnoughCoin;
+import it.polimi.ingsw.exceptions.NotEnoughCoins;
 import it.polimi.ingsw.exceptions.NotOnBoardException;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Game;
@@ -21,8 +21,8 @@ public class Expert12 implements ExpertCard {
     }
 
     @Override
-    public void useCard(Player user, Color colorToRemove) throws NotEnoughCoin {
-        if(user.getNumOfCoin()<cost) throw new NotEnoughCoin();
+    public void useCard(Player user, Color colorToRemove) throws NotEnoughCoins {
+        if(user.getNumOfCoin()<cost) throw new NotEnoughCoins();
 
         else{
             currentGame.coinHandler(user,this.cost);

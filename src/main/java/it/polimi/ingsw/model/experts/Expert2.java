@@ -1,11 +1,10 @@
 package it.polimi.ingsw.model.experts;
 
-import it.polimi.ingsw.exceptions.NotEnoughCoin;
+import it.polimi.ingsw.exceptions.NotEnoughCoins;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -28,9 +27,9 @@ public class Expert2 implements ExpertCard {
         this.affectedPlayer = new ConcurrentHashMap<>();
     }
     @Override
-    public void useCard(Player user) throws NotEnoughCoin {
+    public void useCard(Player user) throws NotEnoughCoins {
         if(user.getNumOfCoin()<this.cost){
-            throw new NotEnoughCoin("You cant afford this card");
+            throw new NotEnoughCoins("You cant afford this card");
         }
         else{
             currentGame.coinHandler(user,this.cost);

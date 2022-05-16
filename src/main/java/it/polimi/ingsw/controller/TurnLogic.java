@@ -29,13 +29,19 @@ public class TurnLogic {
     }
 
     /**Method to get the next current active player after the preparation phase or the action phase
+     * @return next active player or {@code null} if the queue is empty
      */
     public Player nextActivePlayer(){
         if(playersOrders.size() == currentGame.NUM_OF_PLAYERS){
             this.lastRoundFirstPlayer = playersOrders.peek();
         }
-        this.activePlayer = playersOrders.remove();
-        return activePlayer;
+        try {
+            playersOrders.remove();
+        }
+        catch (NoSuchElementException e){
+            return null;
+        }
+        return getActivePlayer();
     }
 
 
@@ -116,7 +122,7 @@ public class TurnLogic {
     }
 
     public Player getActivePlayer(){
-        return this.activePlayer;
+        return playersOrders.peek();
     }
 
     public Queue<Player> getPlayersOrders() {
@@ -167,13 +173,17 @@ public class TurnLogic {
 
     }
 
-    public void playExpertCard(Player player){
+    public void playExpertCard(Player player){}
 
-    }
+    public void playExpertCard(Player player,int nodeId){}
 
-    public void playExpertCard(Player player,int nodeId){
+    public void playExpertCard(Player player,int nodeId,Color studentColor){}
 
-    }
+    public void playExpertCard(Player player, Color student){}
+
+    public void playExpertCard(Player player, ArrayList<Color> studentSet1, ArrayList<Color> studentSet2){}
+
+
 }
 
 

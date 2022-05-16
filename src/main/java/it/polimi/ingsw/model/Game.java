@@ -167,9 +167,10 @@ public class Game {
     /**
      * Method used to check influence on an island tile and setting the player with most influence on the island (if existing)
      *
-     * @param islandToCheck island to check the influence over
+     * @param nodeID island id to check the influence over
      */
-    public void checkIslandInfluence(Node islandToCheck) {
+    public void checkIslandInfluence(int nodeID) {
+        Node islandToCheck = gameField.getIslandNode(nodeID);
         HashMap<Player, Integer> temporaryInfluenceCounter = new HashMap<>();  //temporary influence counter
         //if island has a deny card on it influence haven't to be calculated
         if(!islandToCheck.isStopped()) {

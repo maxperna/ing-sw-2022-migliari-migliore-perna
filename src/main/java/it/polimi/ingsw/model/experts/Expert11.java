@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.experts;
 
 import it.polimi.ingsw.exceptions.IllegalMove;
-import it.polimi.ingsw.exceptions.NotEnoughCoin;
+import it.polimi.ingsw.exceptions.NotEnoughCoins;
 import it.polimi.ingsw.exceptions.NotEnoughSpace;
 import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
 import it.polimi.ingsw.model.Color;
@@ -13,7 +13,7 @@ import java.util.Collections;
 
 public class Expert11 implements ExpertCard {
 
-    private final ExpertID ID = ExpertID.NODE_ID_COLOR;
+    private final ExpertID ID = ExpertID.COLOR;
     private int cost = 2;
     private final Game currentGame;
     private final ArrayList<Color> studentsOnCard;
@@ -32,9 +32,9 @@ public class Expert11 implements ExpertCard {
         }
     }
     @Override
-    public void useCard(Player user,Color colorToAdd) throws NotEnoughCoin, IllegalMove {
+    public void useCard(Player user,Color colorToAdd) throws NotEnoughCoins, IllegalMove {
         if(user.getNumOfCoin()<this.cost)
-            throw new NotEnoughCoin();
+            throw new NotEnoughCoins();
         else{
             currentGame.coinHandler(user,this.cost);
             this.cost++;

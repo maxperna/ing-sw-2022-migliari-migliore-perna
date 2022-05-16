@@ -2,7 +2,7 @@ package it.polimi.ingsw.model.experts;
 
 import it.polimi.ingsw.exceptions.IllegalMove;
 import it.polimi.ingsw.gameField.Node;
-import it.polimi.ingsw.exceptions.NotEnoughCoin;
+import it.polimi.ingsw.exceptions.NotEnoughCoins;
 import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Game;
@@ -10,6 +10,9 @@ import it.polimi.ingsw.model.Player;
 
 import java.util.ArrayList;
 
+/**Class implementing Expert1:
+ * @author Massimo
+ * */
 public class Expert1 implements ExpertCard {
 
 
@@ -29,14 +32,15 @@ public class Expert1 implements ExpertCard {
         }
     }
     @Override
-    public void useCard(Player user, Node targetIsland,Color colorToSwap) throws NotEnoughCoin, IllegalMove {
+    public void useCard(Player user, int nodeID,Color colorToSwap) throws NotEnoughCoins, IllegalMove {
         if(user.getNumOfCoin()<this.cost){
-            throw new NotEnoughCoin("You cant afford this card");
+            throw new NotEnoughCoins("You cant afford this card");
         }
         else{
             currentGame.coinHandler(user,this.cost);
             this.cost++;
             if(studentsOnCard.remove(colorToSwap)) {
+                Node targetIsland = currentGame.getGameField().getIslandNode(nodeID);
                 targetIsland.addStudent(colorToSwap);
                 try {
                     studentsOnCard.addAll(currentGame.getPouch().randomDraw(1));

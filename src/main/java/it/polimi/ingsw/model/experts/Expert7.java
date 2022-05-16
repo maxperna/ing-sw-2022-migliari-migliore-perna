@@ -28,9 +28,9 @@ public class Expert7 implements ExpertCard {
         }
     }
     @Override
-    public void useCard(Player user,ArrayList<Color> studentToSwapBoard, ArrayList<Color> studentToSwapCard) throws NotEnoughCoin,IllegalMove {
+    public void useCard(Player user,ArrayList<Color> studentToSwapBoard, ArrayList<Color> studentToSwapCard) throws NotEnoughCoins,IllegalMove {
         if(user.getNumOfCoin()<this.cost){
-            throw new NotEnoughCoin("You cant afford this card");
+            throw new NotEnoughCoins("You cant afford this card");
         }
         else{
             currentGame.coinHandler(user,this.cost);

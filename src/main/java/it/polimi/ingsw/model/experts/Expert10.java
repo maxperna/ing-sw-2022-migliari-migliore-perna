@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.experts;
 
-import it.polimi.ingsw.exceptions.NotEnoughCoin;
+import it.polimi.ingsw.exceptions.NotEnoughCoins;
 import it.polimi.ingsw.exceptions.NotEnoughSpace;
 import it.polimi.ingsw.exceptions.NotOnBoardException;
 import it.polimi.ingsw.model.Color;
@@ -20,9 +20,9 @@ public class Expert10 implements ExpertCard {
         this.currentGame = currentGame;
     }
     @Override
-    public void useCard(Player user, ArrayList<Color> studentInside, ArrayList<Color> studentOutside) throws NotEnoughCoin,IllegalArgumentException {
+    public void useCard(Player user, ArrayList<Color> studentInside, ArrayList<Color> studentOutside) throws NotEnoughCoins,IllegalArgumentException {
         if(user.getNumOfCoin()<cost){
-            throw new NotEnoughCoin();
+            throw new NotEnoughCoins();
         }
         else{
             currentGame.coinHandler(user,this.cost);

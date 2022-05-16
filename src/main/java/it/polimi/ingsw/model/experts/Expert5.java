@@ -2,7 +2,7 @@ package it.polimi.ingsw.model.experts;
 
 import it.polimi.ingsw.gameField.Node;
 import it.polimi.ingsw.exceptions.IllegalMove;
-import it.polimi.ingsw.exceptions.NotEnoughCoin;
+import it.polimi.ingsw.exceptions.NotEnoughCoins;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 
@@ -24,13 +24,14 @@ public class Expert5 implements ExpertCard {
         this.currentGame = currentGame;
     }
     @Override
-    public void useCard(Player user, Node targetIsland) throws NotEnoughCoin, IllegalMove {
+    public void useCard(Player user, int nodeID) throws NotEnoughCoins, IllegalMove {
         if(user.getNumOfCoin()<cost){
-            throw new NotEnoughCoin();
+            throw new NotEnoughCoins();
         }
         else if(stopAvailable>0){
             currentGame.coinHandler(user,this.cost);
             this.cost++;
+            Node targetIsland = currentGame.getGameField().getIslandNode(nodeID);
             targetIsland.stopIsland();
             stopAvailable--;
             stoppedIsland.add(targetIsland);

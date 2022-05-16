@@ -212,7 +212,10 @@ public class GameController {
     private void playersCreationState(Message receivedMessage){
         try {
             if (receivedMessage.getType() == PLAYER_CREATION) {
-                game.addPlayer(receivedMessage.getSenderPlayer(), ((CreatePlayerMessage) receivedMessage).getChosenDeckType(), ((CreatePlayerMessage) receivedMessage).getChosenTowerColor());
+                String nick = receivedMessage.getSenderPlayer();
+                DeckType DT = ((CreatePlayerMessage) receivedMessage).getChosenDeckType();
+                TowerColor TC = ((CreatePlayerMessage) receivedMessage).getChosenTowerColor();
+                game.addPlayer(nick,DT,TC);
             }
             else
                 throw new InvalidParameterException();
@@ -261,7 +264,6 @@ public class GameController {
                 return "Unknown";
         }
     }
-
 
     /**Check if a nickname is already taken
      * @param nickname nickname to verify the validity of

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.experts;
 
-import it.polimi.ingsw.exceptions.NotEnoughCoin;
+import it.polimi.ingsw.exceptions.NotEnoughCoins;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 
@@ -15,8 +15,8 @@ public class Expert4 implements ExpertCard {
         this.currentGame = currentGame;
     }
     @Override
-    public void useCard(Player user) throws NotEnoughCoin {
-        if(user.getNumOfCoin()<cost) throw new NotEnoughCoin();
+    public void useCard(Player user) throws NotEnoughCoins {
+        if(user.getNumOfCoin()<cost) throw new NotEnoughCoins();
         else{
             currentGame.coinHandler(user,this.cost);
             this.cost++;
