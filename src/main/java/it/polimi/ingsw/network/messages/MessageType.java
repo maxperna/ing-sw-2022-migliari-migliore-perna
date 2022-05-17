@@ -32,6 +32,7 @@ public enum MessageType {
     /**Send an object recognized by ID*/
     UPDATE_TEACHERS,
     /**Send a lis of a player Teachers*/
+    GAME_FIELD,
     ID_SELECTION,
     /**Move mother nature on a selected island*/
     MOVE_MOTHER_NATURE,

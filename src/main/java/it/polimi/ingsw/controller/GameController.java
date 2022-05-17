@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.gameField.Node;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.network.messages.client_messages.AssistantCardMessage;
@@ -158,6 +159,12 @@ public class GameController {
                 if(game.getPlayersList().size() == game.NUM_OF_PLAYERS) {
                     //sets first player
                     turnLogic.generatePreparationPhaseOrder();
+                    //generates a GameFieldMap
+                    Map<Integer, Node> gameFieldMap = new HashMap<>();
+                    for (int i = 1; i <= game.getGameField().size(); i++) {
+                        gameFieldMap.put(i, game.getGameField().getIslandNode(i));
+                    }
+
                     //sends to each player the current situation on the board, giving also a coin if expert mode is on
                     for(Player currentPlayer : game.getPlayersList())
                     {
@@ -167,7 +174,11 @@ public class GameController {
                         if(game.EXP_MODE)
                             game.coinHandler(currentPlayer, 1);
 
+                        //message for init the player
                         currentView.showInitPlayer(game.MAX_NUM_OF_TOWERS, currentEntranceHall);
+
+                        //sends the gameField to each Player
+                        currentView.showGameField(gameFieldMap);
 
                         //sends to the first player a current player message
                         if(currentPlayer.getNickname().equals(turnLogic.getActivePlayer().getNickname()))

@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.TowerColor;
 import org.jetbrains.annotations.TestOnly;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -13,17 +14,17 @@ import java.util.ArrayList;
  * class Node, used to create a doubly circular linked list of nodes, each node contains an Arraylist of islands, initially created with only 1 island
  * can be considered as a superclass of IslandTile that contains pointers to create the linked list
  */
-public class Node {
+public class Node implements Serializable {
     private int ID;
     private boolean motherNature;
     private final ArrayList<Color> students;
     private Player mostInfluencePlayer;
     private TowerColor tower;
-    private boolean stop;            //put to true if stopped by assistant card #5
+    transient private boolean stop;            //put to true if stopped by assistant card #5
     private int towerCounter;
-    private Node next;
-    private Node prev;
-    private boolean ignoreTower;
+    transient private Node next;
+    transient private Node prev;
+    transient private boolean ignoreTower;
 
 
     /**

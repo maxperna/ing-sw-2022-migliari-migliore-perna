@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.gameField.Node;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.DeckType;
 import it.polimi.ingsw.model.TowerColor;
@@ -8,8 +9,8 @@ import it.polimi.ingsw.network.messages.server_messages.*;
 import it.polimi.ingsw.network.server.ClientHandler;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Class VirtualView, one for each player
@@ -57,8 +58,13 @@ public class VirtualView implements View {
     }
 
     @Override
-    public void showChargedClouds(HashMap<Integer, ArrayList<Color>> chargedClouds) {
+    public void showChargedClouds(Map<Integer, ArrayList<Color>> chargedClouds) {
         clientHandler.sendMessage(new ChargedCloudsMessage(chargedClouds));
+    }
+
+    @Override
+    public void showGameField(Map<Integer, Node> gameFieldMap) {
+        clientHandler.sendMessage(new GameFieldMessage(gameFieldMap));
     }
 
     @Override

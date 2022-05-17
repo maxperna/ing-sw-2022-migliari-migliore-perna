@@ -277,6 +277,10 @@ public class IslandList {
             nextNode = nextNode.getNextNode();
         }
     }
+
+    public int size(){
+        return head.getPreviousNode().getNodeID();
+    }
 }
 
 
