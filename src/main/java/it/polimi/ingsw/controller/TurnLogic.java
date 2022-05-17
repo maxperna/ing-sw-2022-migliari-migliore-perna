@@ -105,9 +105,10 @@ public class TurnLogic {
             currentPhase = "ACTION";
             defineActionPhaseOrders();
         }
-
-        else
+        else {
             currentPhase = "PREPARATION";
+            generatePreparationPhaseOrder();
+        }
     }
 
     /**Method to end current turn and start a new one*/

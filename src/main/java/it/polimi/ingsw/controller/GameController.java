@@ -4,10 +4,7 @@ import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.gameField.Node;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.Color;
-import it.polimi.ingsw.network.messages.client_messages.AssistantCardMessage;
-import it.polimi.ingsw.network.messages.client_messages.CreatePlayerMessage;
-import it.polimi.ingsw.network.messages.client_messages.MovedStudentsBoard;
-import it.polimi.ingsw.network.messages.client_messages.MovedStudentsIslands;
+import it.polimi.ingsw.network.messages.client_messages.*;
 import it.polimi.ingsw.network.messages.server_messages.*;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.view.VirtualView;
@@ -48,7 +45,7 @@ public class GameController {
      */
     public void onMessageReceived (Message receivedMessage) {
 
-        VirtualView virtualView = viewMap.get(receivedMessage.getSenderPlayer());
+        String senderPlayer = receivedMessage.getSenderPlayer();
 
         switch (gameState)  {
             case LOGIN: //creates the game
@@ -82,7 +79,7 @@ public class GameController {
 
                 if (receivedMessage.getType() == PLAY_ASSISTANT_CARD) {
 
-                    Player currentPlayer = game.getPlayerByNickName(receivedMessage.getSenderPlayer());
+                    Player currentPlayer = game.getPlayerByNickName(senderPlayer);
 
                     try {
                         //plays the card
@@ -102,49 +99,61 @@ public class GameController {
             case ACTION_PHASE: //ActionPhaseLogic
 
                 if(receivedMessage.getType() == MOVE_TO_ISLAND) {
-                    String nickName = receivedMessage.getSenderPlayer();
+
                     Map<Integer, ArrayList<Color>> studentsMoved = ((MovedStudentsIslands)receivedMessage).getMovedStudents();
 
                     for(int nodeID : studentsMoved.keySet()) {
                         for(Color currentColor : studentsMoved.get(nodeID)) {
                             try {
-                                game.getPlayerByNickName(nickName).getBoard().moveToIsland(currentColor, nodeID);
+                                game.getPlayerByNickName(senderPlayer).getBoard().moveToIsland(currentColor, nodeID);
                             } catch (NotOnBoardException e) {
                                 throw new RuntimeException("Student not found");
                             }
                         }
                     }
+
+
                 }
 
                 if(receivedMessage.getType() == MOVE_TO_DINING) {
-                    String nickName = receivedMessage.getSenderPlayer();
                     ArrayList<Color> studentsMoved = ((MovedStudentsBoard)receivedMessage).getMovedStudents();
-                    List<Color> teachers = new ArrayList<>();
 
                     for(Color currentColor : studentsMoved) {
-
                         try {
-                            game.getPlayerByNickName(nickName).getBoard().moveEntryToDiningRoom(currentColor);
+                            game.getPlayerByNickName(senderPlayer).getBoard().moveEntryToDiningRoom(currentColor);
+                            game.checkInfluence(game.getPlayerByNickName(senderPlayer), currentColor);
                         } catch (NotOnBoardException | NotEnoughSpace e) {
                             throw new RuntimeException("Student not found or not enoughSpace");
                         }
-
-                        if(game.checkInfluence(game.getPlayerByNickName(nickName), currentColor))
-                            teachers.add(currentColor);
                     }
 
+                    for (String nickName : viewMap.keySet()) {
+                        viewMap.get(nickName).updateTeachers(game.getPlayerByNickName(nickName).getBoard().getTeachers());
+                    }
+                }
 
+                if(receivedMessage.getType() == MOVE_MOTHER_NATURE){
+                    int motherNatureSteps = ((MoveMotherNatureMessage)receivedMessage).getNumOfSteps();
+                    try {
+                        game.getGameField().moveMotherNatureWithGivenMoves(motherNatureSteps);
+
+                    } catch (EndGameException e) {
+                        throw new RuntimeException("EndGame");
+
+                    } finally {
+
+                        Map<Integer, Node> gameFieldMap = generateGameFieldMap();
+                        for (String nickName : viewMap.keySet()) {
+                            viewMap.get(nickName).showGameField(gameFieldMap);
+                        }
+                        nextState();
+                    }
                 }
 
                 if(receivedMessage.getType() == PLAY_EXPERT_CARD) {
                     //Questo greve
                 }
 
-                if(receivedMessage.getType() == MOVE_MOTHER_NATURE){
-                    //Ora tocca a te
-                }
-
-                nextState();
                 break;
         }
 
@@ -172,10 +181,7 @@ public class GameController {
                     //sets first player
                     turnLogic.generatePreparationPhaseOrder();
                     //generates a GameFieldMap
-                    Map<Integer, Node> gameFieldMap = new HashMap<>();
-                    for (int i = 1; i <= game.getGameField().size(); i++) {
-                        gameFieldMap.put(i, game.getGameField().getIslandNode(i));
-                    }
+                    Map<Integer, Node> gameFieldMap = generateGameFieldMap();
 
                     //sends to each player the current situation on the board, giving also a coin if expert mode is on and the GameFieldMap
                     for(Player currentPlayer : game.getPlayersList())
@@ -207,9 +213,9 @@ public class GameController {
             case PREPARATION_PHASE:
 
                 if(turnLogic.getCardsPlayed().size() == game.NUM_OF_PLAYERS) {
-                    broadcast("Start ActionPhase");
                     //Switches turnLogic in actionPhase
                     turnLogic.switchPhase();
+                    broadcast("Start ActionPhase");
                     viewMap.get(turnLogic.getActivePlayer().getNickname()).showCurrentPlayer(turnLogic.getActivePlayer().getNickname());
                     nextState = GameState.ACTION_PHASE;
                 }
@@ -222,6 +228,18 @@ public class GameController {
                 break;
 
             case ACTION_PHASE:
+
+                if(turnLogic.nextActivePlayer() == null)
+                {
+                    turnLogic.switchPhase();
+                    broadcast("Start PreparationPhase");
+                    viewMap.get(turnLogic.getActivePlayer().getNickname()).showCurrentPlayer(turnLogic.getActivePlayer().getNickname());
+                    nextState = GameState.PREPARATION_PHASE;
+                }
+                else
+                    viewMap.get(turnLogic.nextActivePlayer().getNickname()).showCurrentPlayer(turnLogic.getActivePlayer().getNickname());
+
+                break;
         }
         gameState = nextState;
     }
@@ -272,7 +290,6 @@ public class GameController {
         }
         else if (viewMap.size() <= game.NUM_OF_PLAYERS) {
             viewMap.put(nickName, virtualView);
-
         }
         else {
             virtualView.disconnect();
@@ -320,6 +337,14 @@ public class GameController {
     }
     public GameState getGameState() {
         return gameState;
+    }
+
+    private Map<Integer, Node> generateGameFieldMap() {
+        Map<Integer, Node> gameFieldMap = new HashMap<>();
+        for (int i = 1; i <= game.getGameField().size(); i++) {
+            gameFieldMap.put(i, game.getGameField().getIslandNode(i));
+        }
+        return gameFieldMap;
     }
 
     public TurnLogic getTurnLogic() {

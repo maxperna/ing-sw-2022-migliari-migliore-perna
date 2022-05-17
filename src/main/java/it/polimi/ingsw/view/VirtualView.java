@@ -73,7 +73,7 @@ public class VirtualView implements View {
     }
 
     @Override
-    public void updateTeachers(List<Color> teacherList) {
+    public void updateTeachers(Map<Color, Boolean> teacherList) {
         clientHandler.sendMessage(new TeacherListMessage(teacherList));
     }
 

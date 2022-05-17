@@ -23,7 +23,7 @@ public interface View {
 
     void showCurrentPlayer(String currentPlayer);
 
-    void updateTeachers(List<Color> teacherList);
+    void updateTeachers(Map<Color, Boolean> teacherList);
     void showGenericMessage(String genericMessage);
 
     void disconnect();

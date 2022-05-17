@@ -183,6 +183,10 @@ public class Board implements StudentManager {
         this.entryRoom = entryRoom;
     }
 
+    public Map<Color, Boolean> getTeachers() {
+        return teachers;
+    }
+
     public int colorStudent(Color color){
         return 0;
     }
