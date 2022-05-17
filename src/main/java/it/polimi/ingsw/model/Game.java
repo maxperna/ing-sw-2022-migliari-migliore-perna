@@ -8,10 +8,7 @@ import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.model.experts.ExpertsFactory;
 
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Class Game, every class created as its own unique gameID
@@ -115,11 +112,11 @@ public class Game {
 
     /**Method to recharge the clouds tile at the beginning of every action phase
      * */
-    public HashMap<Integer, ArrayList<Color>> rechargeClouds() {
+    public Map<Integer, ArrayList<Color>> rechargeClouds() {
 
         try {
 
-            HashMap<Integer, ArrayList<Color>> updatedClouds = new HashMap<>();
+            Map<Integer, ArrayList<Color>> updatedClouds = new HashMap<>();
             for(int i = 0; i < NUM_OF_PLAYERS; i++) {
 
                 if (NUM_OF_PLAYERS == 3)

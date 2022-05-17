@@ -71,10 +71,7 @@ public class TurnLogic {
         }
         else throw new CardAlreadyPlayed("Another player already used this card");
 
-        //All players have played their cards
-        if(cardsPlayed.size()==currentGame.NUM_OF_PLAYERS){
-            defineActionPhaseOrders();
-        }
+
     }
 
     /**Method to set a random players order during the first round of the game or an order based on the last first player
@@ -103,9 +100,12 @@ public class TurnLogic {
     }
 
     /**Method to switch the current phase (from preparation to action or vice-versa)*/
-    private void switchPhase(){
-        if(currentPhase.equals("PREPARATION"))
+    public void switchPhase(){
+        if(currentPhase.equals("PREPARATION")){
             currentPhase = "ACTION";
+            defineActionPhaseOrders();
+        }
+
         else
             currentPhase = "PREPARATION";
     }

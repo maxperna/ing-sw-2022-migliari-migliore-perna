@@ -58,6 +58,7 @@ public class GameController {
                 break;
 
             case CREATE_PLAYERS: //adds players to the game
+
                 playersCreationState(receivedMessage);
                 //sends updated list of remaining items to the other players
                 Stream<Player> notLoggedPlayers =
@@ -65,28 +66,34 @@ public class GameController {
                 List<Player> sendTo = notLoggedPlayers.collect(Collectors.toList());
                 for (Player player : sendTo)
                     viewMap.get(player.getNickname()).showRemainingTowerAndDeck(game.getAVAILABLE_TOWER_COLOR(), game.getAVAILABLE_DECK_TYPE());
-
                 nextState();
                 break;
 
             case PREPARATION_PHASE: //PreparationPhase logic
+
                 if(receivedMessage.getType() == CHARGECLOUD) {
+                    //Charge clouds
+                    Map<Integer, ArrayList<Color>> chargedCloudsMap = game.rechargeClouds();
+                    //Sends the updated Clouds to all players
                     for (String nickname : viewMap.keySet()){
-                        viewMap.get(nickname).showChargedClouds(game.rechargeClouds());
+                        viewMap.get(nickname).showChargedClouds(chargedCloudsMap);
                     }
                 }
-                else if (receivedMessage.getType() == PLAY_ASSISTANT_CARD) {
+
+                if (receivedMessage.getType() == PLAY_ASSISTANT_CARD) {
 
                     Player currentPlayer = game.getPlayerByNickName(receivedMessage.getSenderPlayer());
 
                     try {
+                        //plays the card
                         turnLogic.setPlayedCard(((AssistantCardMessage)receivedMessage).getPlayedCard(), currentPlayer);
+
                     } catch (CardAlreadyPlayed e) {
                         throw new RuntimeException("CardAlreadyPlayed");
                     } catch (InexistentCard e) {
                         throw new RuntimeException("Card not found");
                     } catch (EndGameException e) {
-                        throw new RuntimeException("Card not found");
+                        throw new RuntimeException("EndGame");
                     }
                 }
                 nextState();
@@ -96,7 +103,7 @@ public class GameController {
 
                 if(receivedMessage.getType() == MOVE_TO_ISLAND) {
                     String nickName = receivedMessage.getSenderPlayer();
-                    HashMap<Integer, ArrayList<Color>> studentsMoved = ((MovedStudentsIslands)receivedMessage).getMovedStudents();
+                    Map<Integer, ArrayList<Color>> studentsMoved = ((MovedStudentsIslands)receivedMessage).getMovedStudents();
 
                     for(int nodeID : studentsMoved.keySet()) {
                         for(Color currentColor : studentsMoved.get(nodeID)) {
@@ -133,6 +140,10 @@ public class GameController {
                     //Questo greve
                 }
 
+                if(receivedMessage.getType() == MOVE_MOTHER_NATURE){
+                    //Ora tocca a te
+                }
+
                 nextState();
                 break;
         }
@@ -156,6 +167,7 @@ public class GameController {
                 break;
 
             case CREATE_PLAYERS: //verifies that all the Players are created
+
                 if(game.getPlayersList().size() == game.NUM_OF_PLAYERS) {
                     //sets first player
                     turnLogic.generatePreparationPhaseOrder();
@@ -165,7 +177,7 @@ public class GameController {
                         gameFieldMap.put(i, game.getGameField().getIslandNode(i));
                     }
 
-                    //sends to each player the current situation on the board, giving also a coin if expert mode is on
+                    //sends to each player the current situation on the board, giving also a coin if expert mode is on and the GameFieldMap
                     for(Player currentPlayer : game.getPlayersList())
                     {
                         VirtualView currentView = viewMap.get(currentPlayer.getNickname());
@@ -196,11 +208,17 @@ public class GameController {
 
                 if(turnLogic.getCardsPlayed().size() == game.NUM_OF_PLAYERS) {
                     broadcast("Start ActionPhase");
+                    //Switches turnLogic in actionPhase
+                    turnLogic.switchPhase();
                     viewMap.get(turnLogic.getActivePlayer().getNickname()).showCurrentPlayer(turnLogic.getActivePlayer().getNickname());
                     nextState = GameState.ACTION_PHASE;
                 }
-                else
-                    viewMap.get(turnLogic.nextActivePlayer().getNickname()).showCurrentPlayer(turnLogic.getActivePlayer().getNickname());
+                else {
+                    //Sends to the next player a message
+                    Player nextPlayerAction = turnLogic.nextActivePlayer();
+                    if(nextPlayerAction != null)
+                        viewMap.get(turnLogic.getActivePlayer().getNickname()).showCurrentPlayer(turnLogic.getActivePlayer().getNickname());
+                }
                 break;
 
             case ACTION_PHASE:
