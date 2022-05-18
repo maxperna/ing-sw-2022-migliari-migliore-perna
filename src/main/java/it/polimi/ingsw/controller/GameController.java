@@ -9,6 +9,8 @@ import it.polimi.ingsw.network.messages.server_messages.*;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.view.VirtualView;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.FileNotFoundException;
 import java.security.InvalidParameterException;
 import java.util.*;
@@ -22,7 +24,7 @@ import static it.polimi.ingsw.network.messages.MessageType.*;
  *
  * @author Miglia
  */
-public class GameController {
+public class GameController implements PropertyChangeListener {
 
     private Game game;
     private final Map<String,VirtualView> viewMap;
@@ -70,11 +72,7 @@ public class GameController {
 
                 if(receivedMessage.getType() == CHARGECLOUD) {
                     //Charge clouds
-                    Map<Integer, ArrayList<Color>> chargedCloudsMap = game.rechargeClouds();
-                    //Sends the updated Clouds to all players
-                    for (String nickname : viewMap.keySet()){
-                        viewMap.get(nickname).showChargedClouds(chargedCloudsMap);
-                    }
+                    game.rechargeClouds();
                 }
 
                 if (receivedMessage.getType() == PLAY_ASSISTANT_CARD) {
@@ -202,6 +200,8 @@ public class GameController {
                         if(currentPlayer.getNickname().equals(turnLogic.getActivePlayer().getNickname()))
                             currentView.showCurrentPlayer(currentPlayer.getNickname());
                     }
+
+                    setListeners();
 
                     //broadcast the start of the preparationPhase
                     broadcast("PreparationPhase started");
@@ -359,4 +359,27 @@ public class GameController {
         return game;
     }
 
+    @Override
+    public void propertyChange(PropertyChangeEvent event) {
+
+        if(event.getPropertyName().equals("CloudUpdate")) {
+            for (String nickName : viewMap.keySet()) {
+                viewMap.get(nickName).showClouds(game.getCloudTiles());
+            }
+        }
+    }
+
+    public void setListeners() {
+
+        for(CloudTile currentCloud : game.getCloudTiles()) {
+            currentCloud.addPropertyChangeListener(this);
+        }
+    }
+
+    public void removeListeners() {
+
+        for(CloudTile currentCloud : game.getCloudTiles()) {
+            currentCloud.removePropertyChangeListener(this);
+        }
+    }
 }

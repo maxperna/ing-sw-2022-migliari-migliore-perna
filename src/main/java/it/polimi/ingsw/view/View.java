@@ -1,12 +1,12 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.gameField.Node;
+import it.polimi.ingsw.model.CloudTile;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.DeckType;
 import it.polimi.ingsw.model.TowerColor;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public interface View {
@@ -19,7 +19,7 @@ public interface View {
 
     void showInitPlayer(int numberOfTowers, ArrayList<Color> entranceHall);
     void showGameField(Map<Integer, Node> gameFieldMap);
-    void showChargedClouds(Map<Integer, ArrayList<Color>> chargedClouds);
+    void showClouds(ArrayList<CloudTile> newClouds);
 
     void showCurrentPlayer(String currentPlayer);
 

@@ -2,16 +2,20 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.EmptyCloudException;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Class Cloud Tile, one for each player, contains MAX 3 students
  * @author Alessio Migliore
  */
-public class CloudTile {
+public class CloudTile implements Serializable {
 
     private final int tileID;
     private ArrayList<Color> students;
+    final transient private PropertyChangeSupport support;
 
     /**
      * constructor
@@ -19,16 +23,13 @@ public class CloudTile {
     public CloudTile(int ID){
         this.tileID = ID;
         this.students = new ArrayList<>();
-    };
+        this.support = new PropertyChangeSupport(this);
+    }
 
     /**
      * @return an Arraylist of Color that represents students on the cloud
-     * @throws EmptyCloudException when there are no students on the cloud
      */
-    public ArrayList<Color> getStudents() throws EmptyCloudException{
-        if(students.isEmpty())
-            throw new EmptyCloudException();
-        else
+    public ArrayList<Color> getStudents(){
             return students;
     }
 
@@ -40,9 +41,12 @@ public class CloudTile {
         if(students.isEmpty())
             throw new EmptyCloudException();
         else {
-            ArrayList<Color> studentsReturned = new ArrayList<Color>();                                                     //creates an ArrayList in which all students are copied
-            studentsReturned.addAll(students);
-            students.removeAll(students);                                                                               //empties the ArrayList students
+            ArrayList<Color> studentsReturned = new ArrayList<>();  //creates an ArrayList in which all students are copied
+
+            for(int i = 0; i < students.size(); i++)
+                studentsReturned.add(students.remove(i));                                                                               //empties the ArrayList students
+
+            support.firePropertyChange("CloudUpdate", studentsReturned, students);
             return studentsReturned;                                                                                    //returns an ArrayList containing a copy of the previous students in ArrayList students
         }
     }
@@ -56,7 +60,15 @@ public class CloudTile {
     }
 
     public void setStudents(ArrayList<Color> students) {
+        support.firePropertyChange("CloudUpdate", this.students, students);
         this.students = students;
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        support.addPropertyChangeListener(listener);
+    }
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        support.removePropertyChangeListener(listener);
     }
 
 }

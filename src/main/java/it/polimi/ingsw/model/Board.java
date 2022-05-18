@@ -1,9 +1,13 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.*;
+
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**Implementation of the player board, handling all the movements of the students from the outside hall to the
 *island or the inner hall or from the cloud tile to the outside hall
@@ -12,7 +16,6 @@ import java.util.Map;
 public class Board implements StudentManager {
 
     private final int maxStudentHall;
-    private final int MAX_DIM_INSIDE = 10;    //maximum students on the dining room
     private final TowerColor towerColor;
     private Integer numberOfTowers;  //number of towers on the board
     private final Player owner;
@@ -21,7 +24,7 @@ public class Board implements StudentManager {
     private final Map<Color,Integer> diningRoom = new HashMap<>();      //list of student for each color inside the main hall
     private final Map<Color, Boolean> teachers = new HashMap<>();       //map to signal the presence of a teacher on the board
     private final Game currentGame;
-
+    private final PropertyChangeSupport support;
 
 
     public Board(Game currentGame,Player owner,TowerColor towerColor) {
@@ -29,8 +32,6 @@ public class Board implements StudentManager {
         this.maxStudentHall = currentGame.MAX_STUDENTS_ENTRANCE;
         this.numberOfTowers = currentGame.MAX_NUM_OF_TOWERS;
         this.towerColor = towerColor;
-
-
 
         this.currentGame = currentGame;
         this.owner = owner;
@@ -41,6 +42,7 @@ public class Board implements StudentManager {
             e.printStackTrace();
         }
 
+        this.support = new PropertyChangeSupport(this);
     }
 
     /**Method to set the teammate on the board only if it has not been set yet and to add reference to the common tower
@@ -107,6 +109,7 @@ public class Board implements StudentManager {
         else{
             entryRoom.remove(color);
             currentGame.getGameField().getIslandNode(nodeID).addStudent(color);
+
         }
 
     }
@@ -153,6 +156,8 @@ public class Board implements StudentManager {
      * @param studentsToAdd array list of students to add*/
     public void addStudentsDiningRoom(ArrayList<Color> studentsToAdd) throws NotEnoughSpace{
         for(Color color:studentsToAdd){
+            //maximum students on the dining room
+            int MAX_DIM_INSIDE = 10;
             if(diningRoom.get(color)+1 > MAX_DIM_INSIDE)
                 throw new NotEnoughSpace();
             else
@@ -193,5 +198,12 @@ public class Board implements StudentManager {
 
     public TowerColor getTowerColor() {
         return towerColor;
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        support.addPropertyChangeListener(listener);
+    }
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        support.removePropertyChangeListener(listener);
     }
 }

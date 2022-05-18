@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import java.io.Serializable;
+
 /**
  * Enum for the colors of Teacher and Student
  * @author Miglia
@@ -9,5 +11,5 @@ public enum Color {
     BLUE,
     GREEN,
     PINK,
-    YELLOW;
+    YELLOW
 }

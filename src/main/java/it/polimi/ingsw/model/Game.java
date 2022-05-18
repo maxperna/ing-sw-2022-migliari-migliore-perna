@@ -7,6 +7,8 @@ import it.polimi.ingsw.gameField.Node;
 import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.model.experts.ExpertsFactory;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.FileNotFoundException;
 import java.util.*;
 
@@ -32,6 +34,7 @@ public class Game {
     private final ArrayList<CloudTile> cloudTiles;
     private static final HashMap<Color, Pair<Player, Integer>> influenceMap = new HashMap<>(); //mapping the influence of every player
 
+    private final PropertyChangeSupport support;
     //ONLY EXPERTS MODE
     private final ArrayList<ExpertCard> expertsCard = new ArrayList<>();
     public int coins = 20;
@@ -52,6 +55,7 @@ public class Game {
         this.gameField = new IslandList();
         this.MAX_NUM_OF_TOWERS = maxNumberOfTowers;
         this.MAX_STUDENTS_ENTRANCE = maxStudentEntrance;
+
         this.EXP_MODE = expertMode;
         //set to true if expert mode is selected
 
@@ -84,6 +88,7 @@ public class Game {
             this.expertsCard.addAll(expertsDrawer.drawExperts());
         }
 
+        this.support = new PropertyChangeSupport(this);
     }
 
     /**Method to add the player to the current game and automatically set the team mate
@@ -112,12 +117,12 @@ public class Game {
 
     /**Method to recharge the clouds tile at the beginning of every action phase
      * */
-    public Map<Integer, ArrayList<Color>> rechargeClouds() {
+    public void rechargeClouds() {
 
         try {
 
             Map<Integer, ArrayList<Color>> updatedClouds = new HashMap<>();
-            for(int i = 0; i < NUM_OF_PLAYERS; i++) {
+            for(int i = 1; i <= NUM_OF_PLAYERS; i++) {
 
                 if (NUM_OF_PLAYERS == 3)
                     cloudTiles.get(i).setStudents(this.pouch.randomDraw(4));
@@ -127,9 +132,8 @@ public class Game {
                 updatedClouds.put(i, cloudTiles.get(i).getStudents());
 
             }
-            return updatedClouds;
 
-        } catch (NotEnoughStudentsException | EmptyCloudException e) {
+        } catch (NotEnoughStudentsException e) {
             throw new RuntimeException(e);
         }
 
@@ -163,7 +167,6 @@ public class Game {
             influenceMap.get(colorToCheck).setPlayer(activePlayer);
             influenceMap.get(colorToCheck).setNumOfStudents(numOfCheckedStudent);
             return true;
-
         }
         return false;
     }
@@ -334,5 +337,13 @@ public class Game {
 
     public ArrayList<DeckType> getAVAILABLE_DECK_TYPE() {
         return AVAILABLE_DECK_TYPE;
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        support.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        support.removePropertyChangeListener(listener);
     }
 }
