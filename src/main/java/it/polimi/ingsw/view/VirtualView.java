@@ -78,6 +78,11 @@ public class VirtualView implements View {
     }
 
     @Override
+    public void updateNode(Node updatedNode) {
+        clientHandler.sendMessage(new UpdateNodeMessage(updatedNode));
+    }
+
+    @Override
     public void showGenericMessage(String genericMessage) {
         clientHandler.sendMessage(new GenericMessage(genericMessage));
     }

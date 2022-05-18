@@ -20,10 +20,9 @@ public interface View {
     void showInitPlayer(int numberOfTowers, ArrayList<Color> entranceHall);
     void showGameField(Map<Integer, Node> gameFieldMap);
     void showClouds(ArrayList<CloudTile> newClouds);
-
     void showCurrentPlayer(String currentPlayer);
-
     void updateTeachers(Map<Color, Boolean> teacherList);
+    void updateNode(Node updatedNode);
     void showGenericMessage(String genericMessage);
 
     void disconnect();

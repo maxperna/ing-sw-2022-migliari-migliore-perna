@@ -1,6 +1,9 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.gameField.IslandList;
+import it.polimi.ingsw.gameField.Node;
+import it.polimi.ingsw.network.messages.server_messages.GameFieldMessage;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -73,6 +76,7 @@ public class Board implements StudentManager {
      */
     public void addTeachers(Color color){
         teachers.put(color,true);
+        support.firePropertyChange("UpdateTeacher", false, true);
     }
 
     /**Method to remove a teacher from the board
@@ -80,6 +84,7 @@ public class Board implements StudentManager {
      */
     public void removeTeacher(Color color){
         teachers.put(color, false);
+        support.firePropertyChange("UpdateTeacher", true, false);
     }
 
     /**Method to move a student from the outer hall to the internal one
@@ -108,6 +113,7 @@ public class Board implements StudentManager {
         if(!entryRoom.contains(color)) throw new NotOnBoardException();
         else{
             entryRoom.remove(color);
+
             currentGame.getGameField().getIslandNode(nodeID).addStudent(color);
 
         }

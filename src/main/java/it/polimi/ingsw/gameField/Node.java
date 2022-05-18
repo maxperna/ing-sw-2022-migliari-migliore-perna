@@ -6,6 +6,8 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.TowerColor;
 import org.jetbrains.annotations.TestOnly;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -25,6 +27,7 @@ public class Node implements Serializable {
     transient private Node next;
     transient private Node prev;
     transient private boolean ignoreTower;
+    transient private final PropertyChangeSupport support;
 
 
     /**
@@ -43,22 +46,6 @@ public class Node implements Serializable {
         this.next = next;
     }
 
-    /**
-     * constructor for the Node class
-     * @param ID is the nodeID
-     */
-    public Node(int ID, ArrayList<Color> students) {
-        this.ID = ID;
-        this.next = null;
-        this.prev = null;
-        this.mostInfluencePlayer = null;
-        this.tower = TowerColor.EMPTY;
-        this.motherNature = false;
-        this.stop = false;
-        this.towerCounter = 0;
-        this.students = students;
-    }
-
     public Node(int ID) {
         this.ID = ID;
         this.next = null;
@@ -69,6 +56,7 @@ public class Node implements Serializable {
         this.stop = false;
         this.towerCounter = 0;
         this.students = new ArrayList<>();
+        this.support = new PropertyChangeSupport(this);
     }
 
     /**
@@ -97,6 +85,7 @@ public class Node implements Serializable {
      */
     public void setMotherNature() {
         this.motherNature = true;
+        support.firePropertyChange("UpdateNode " + ID, false, true);
     }
 
     /**
@@ -104,6 +93,7 @@ public class Node implements Serializable {
      */
     public void resetMotherNature(){
         this.motherNature = false;
+        support.firePropertyChange("UpdateNode " + ID, true, false);
     }
 
     public boolean checkMotherNature() {
@@ -126,15 +116,14 @@ public class Node implements Serializable {
      * Method setTower, updates the tower attribute after tower construction or substitution
      *
      */
-    public void setTower(){
+    public void setTower() throws EndGameException {
+
         if(mostInfluencePlayer != null) {
-            try{
-                this.tower = mostInfluencePlayer.getBoard().moveTower();
-            }
-            catch (EndGameException e) {
-                e.printStackTrace();
-            }
+            int oldCounter = towerCounter;
+            this.tower = mostInfluencePlayer.getBoard().moveTower();
             towerCounter++;
+
+            support.firePropertyChange("UpdateNode " + ID, oldCounter, towerCounter);
         }
     }
 
@@ -167,7 +156,9 @@ public class Node implements Serializable {
      * @param student pawn to be added on the island
      */
     public void addStudent(Color student) {
+        ArrayList<Color> oldStudents = new ArrayList<>(students);
         students.add(student);
+        support.firePropertyChange("UpdateNode " + ID, oldStudents, students);
     }
 
     public void setMostInfluencePlayer(Player player) {
@@ -206,5 +197,11 @@ public class Node implements Serializable {
         this.tower = color;
     }
 
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        support.addPropertyChangeListener(listener);
+    }
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        support.removePropertyChangeListener(listener);
+    }
 
 }
