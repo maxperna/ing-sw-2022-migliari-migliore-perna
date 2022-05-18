@@ -98,36 +98,27 @@ public class GameController implements PropertyChangeListener {
 
                 if(receivedMessage.getType() == MOVE_TO_ISLAND) {
 
-                    Map<Integer, ArrayList<Color>> studentsMoved = ((MovedStudentsIslands)receivedMessage).getMovedStudents();
+                    Color currentColor = ((MovedStudentToIsland)receivedMessage).getMovedStudent();
+                    int islandID = ((MovedStudentToIsland)receivedMessage).getTargetIsland();
 
-                    for(int nodeID : studentsMoved.keySet()) {
-                        for(Color currentColor : studentsMoved.get(nodeID)) {
-                            try {
-                                game.getPlayerByNickName(senderPlayer).getBoard().moveToIsland(currentColor, nodeID);
-                            } catch (NotOnBoardException e) {
-                                throw new RuntimeException("Student not found");
-                            }
-                        }
+                    try {
+                        game.getPlayerByNickName(senderPlayer).getBoard().moveToIsland(currentColor, islandID);
+                    } catch (NotOnBoardException e) {
+                        throw new RuntimeException("Student not found");
                     }
-
 
                 }
 
                 if(receivedMessage.getType() == MOVE_TO_DINING) {
-                    ArrayList<Color> studentsMoved = ((MovedStudentsBoard)receivedMessage).getMovedStudents();
+                    Color studentMoved = ((MovedStudentToBoard)receivedMessage).getMovedStudent();
 
-                    for(Color currentColor : studentsMoved) {
                         try {
-                            game.getPlayerByNickName(senderPlayer).getBoard().moveEntryToDiningRoom(currentColor);
-                            game.checkInfluence(game.getPlayerByNickName(senderPlayer), currentColor);
+                            game.getPlayerByNickName(senderPlayer).getBoard().moveEntryToDiningRoom(studentMoved);
+                            game.checkInfluence(game.getPlayerByNickName(senderPlayer), studentMoved);
                         } catch (NotOnBoardException | NotEnoughSpace e) {
                             throw new RuntimeException("Student not found or not enoughSpace");
                         }
-                    }
 
-                    for (String nickName : viewMap.keySet()) {
-                        viewMap.get(nickName).updateTeachers(game.getPlayerByNickName(nickName).getBoard().getTeachers());
-                    }
                 }
 
                 if(receivedMessage.getType() == MOVE_MOTHER_NATURE){
@@ -362,9 +353,26 @@ public class GameController implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent event) {
 
-        if(event.getPropertyName().equals("CloudUpdate")) {
+        if(event.getPropertyName().equals("UpdateCloud")) {
             for (String nickName : viewMap.keySet()) {
                 viewMap.get(nickName).showClouds(game.getCloudTiles());
+            }
+        }
+
+        if(event.getPropertyName().contains("UpdateNode")) {
+
+            String value = event.getPropertyName();
+            String intValue = value.replaceAll("\\D", "");
+            int nodeID = Integer.parseInt(intValue);
+
+            for (String nickName : viewMap.keySet()) {
+                viewMap.get(nickName).updateNode(game.getGameField().getIslandNode(nodeID));
+            }
+        }
+
+        if(event.getPropertyName().equals("UpdateTeacher")) {
+            for (String nickName : viewMap.keySet()) {
+                viewMap.get(nickName).updateTeachers(game.getPlayerByNickName(nickName).getBoard().getTeachers());
             }
         }
     }
@@ -374,12 +382,20 @@ public class GameController implements PropertyChangeListener {
         for(CloudTile currentCloud : game.getCloudTiles()) {
             currentCloud.addPropertyChangeListener(this);
         }
+
+        for(int i = 1; i < game.getGameField().size(); i ++) {
+            game.getGameField().getIslandNode(i).addPropertyChangeListener(this);
+        }
     }
 
     public void removeListeners() {
 
         for(CloudTile currentCloud : game.getCloudTiles()) {
             currentCloud.removePropertyChangeListener(this);
+        }
+
+        for(int i = 1; i < game.getGameField().size(); i ++) {
+            game.getGameField().getIslandNode(i).removePropertyChangeListener(this);
         }
     }
 }
