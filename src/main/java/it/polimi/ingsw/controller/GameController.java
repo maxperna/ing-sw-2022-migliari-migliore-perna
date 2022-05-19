@@ -208,12 +208,15 @@ public class GameController implements PropertyChangeListener {
                     PlayExpertCard2 castedMessage1 = (PlayExpertCard2) message;
                     turnLogic.playExpertCard(player, castedMessage1.getNodeID(), playedCard);
                 case 3:
+                    assert message instanceof PlayExpertCard3;
                     PlayExpertCard3 castedMessage2 = (PlayExpertCard3) message;
                     turnLogic.playExpertCard(player, castedMessage2.getNodeID(), castedMessage2.getStudent(), playedCard);
                 case 4:
+                    assert message instanceof PlayExpertCard4;
                     PlayExpertCard4 castedMessage3 = (PlayExpertCard4) message;
                     turnLogic.playExpertCard(player, castedMessage3.getStudent(), playedCard);
                 case 5:
+                    assert message instanceof PlayExpertCard5;
                     PlayExpertCard5 castedMessage4 = (PlayExpertCard5) message;
                     turnLogic.playExpertCard(player, castedMessage4.getStudents1(), castedMessage4.getStudents2(), playedCard);
             }
@@ -491,6 +494,8 @@ public class GameController implements PropertyChangeListener {
         }
 
         game.addPropertyChangeListener(this);
+
+        game.getGameField().addPropertyChangeListener(this);
     }
 
     public void removeListeners() {
@@ -508,5 +513,7 @@ public class GameController implements PropertyChangeListener {
         }
 
         game.removePropertyChangeListener(this);
+
+        game.getGameField().removePropertyChangeListener(this);
     }
 }

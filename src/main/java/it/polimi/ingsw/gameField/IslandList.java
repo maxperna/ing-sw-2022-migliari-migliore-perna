@@ -7,6 +7,8 @@ import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameManager;
 import it.polimi.ingsw.model.TowerColor;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,6 +22,7 @@ import java.util.Collections;
 public class IslandList {
     private Node head;
     private boolean changed;
+    private final PropertyChangeSupport support;
 
     /**
      * constructor
@@ -60,6 +63,8 @@ public class IslandList {
         randomSelection.add(noStudentTile + 6);
         Collections.shuffle(randomSelection);
         this.getIslandNode(randomSelection.get(0)).setMotherNature();
+
+        this.support = new PropertyChangeSupport(this);
     }
 
 
@@ -252,7 +257,7 @@ public class IslandList {
      * @param islandID
      * @throws EndGameException from merge()
      */
-    public boolean mergeIslands(int islandID) throws EndGameException {
+    public void mergeIslands(int islandID) throws EndGameException {
         changed = false;
         if(this.getIslandNode(islandID).getTowerColor().equals(this.getIslandNode(islandID).getNextNode().getTowerColor()) && !this.getIslandNode(islandID).getTowerColor().equals(TowerColor.EMPTY)) {                                             //checks if the next node has the same towerColor of a given node, except EMPTY
             if(islandID > this.getIslandNode(islandID).getNextNode().getNodeID()) {                                                                                                                                                                 //checks which island has the larger ID, so that it calls the method with the correct order of parameters to avoid large and redundant merge() method
@@ -273,7 +278,9 @@ public class IslandList {
                 merge(islandID, this.getIslandNode(islandID).getPreviousNode().getNodeID());                                                                                                                                                        //calls the merge() method if the given island has a match with the previous one and the previous one is the tail
         }
 
-        return changed;
+        if(changed)
+            support.firePropertyChange("Merge", false, true);
+
     }
 
     public void ignoreTower(){
@@ -282,6 +289,17 @@ public class IslandList {
             nextNode.changeIgnoreTower();
             nextNode = nextNode.getNextNode();
         }
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        support.addPropertyChangeListener(listener);
+    }
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        support.removePropertyChangeListener(listener);
+    }
+
+    public int size() {
+        return head.getPreviousNode().getNodeID();
     }
 }
 
