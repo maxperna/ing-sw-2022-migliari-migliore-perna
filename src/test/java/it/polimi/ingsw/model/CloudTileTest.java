@@ -38,9 +38,6 @@ class CloudTileTest {
         }
         game.getGame(0).getCloudTiles().get(0).setStudents(students);
         game.getGame(0).getCloudTiles().get(0).moveStudents();
-        assertThrows(EmptyCloudException.class, () -> {
-            game.getGame(0).getCloudTiles().get(0).moveStudents();
-        });
         game.setNull();
     }
 
