@@ -168,9 +168,9 @@ class IslandListTest {
             }
 
             System.out.println(game.getPlayersList().get(0).getNickname());
-                assertThrows(EndGameException.class, () -> {
-                    game.getGameField().moveMotherNatureToNodeID(input);
-                });
+            assertThrows(EndGameException.class, () -> {
+                game.getGameField().moveMotherNatureToNodeID(input);
+            });
             GameManager.getInstance().setNull();
 
         } catch (FileNotFoundException e) {
