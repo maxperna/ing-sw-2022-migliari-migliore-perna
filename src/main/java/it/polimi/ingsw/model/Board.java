@@ -206,6 +206,10 @@ public class Board implements StudentManager {
         return towerColor;
     }
 
+    public Player getTeamMate() {
+        return teamMate;
+    }
+
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         support.addPropertyChangeListener(listener);
     }
