@@ -83,6 +83,11 @@ public class VirtualView implements View {
     }
 
     @Override
+    public void newCoin(String player, int numOfCoin) {
+        clientHandler.sendMessage(new UpdateCoin(player, numOfCoin));
+    }
+
+    @Override
     public void showGenericMessage(String genericMessage) {
         clientHandler.sendMessage(new GenericMessage(genericMessage));
     }

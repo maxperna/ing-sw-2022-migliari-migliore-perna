@@ -14,16 +14,16 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CloudTileTest {
 
-    @DisplayName("Testing getStudents should throw exception")
-    @Test
-    void getStudentsShouldThorwException(){
-        GameManager game = GameManager.getInstance();
-        game.initGame("TwoPlayers",false);
-        assertThrows(EmptyCloudException.class, () -> {
-            game.getGame(0).getCloudTiles().get(0).getStudents();
-        });
-        game.setNull();
-    }
+//    @DisplayName("Testing getStudents should throw exception")
+//    @Test
+//    void getStudentsShouldThorwException(){
+//        GameManager game = GameManager.getInstance();
+//        game.initGame("TwoPlayers",false);
+//        assertThrows(EmptyCloudException.class, () -> {
+//            game.getGame(0).getCloudTiles().get(0).getStudents();
+//        });
+//        game.setNull();
+//    }
 
     @DisplayName("Testing moveStudents should throw exception")
     @Test

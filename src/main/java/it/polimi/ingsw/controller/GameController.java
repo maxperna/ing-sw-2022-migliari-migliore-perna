@@ -363,6 +363,15 @@ public class GameController implements PropertyChangeListener {
                 viewMap.get(nickName).showGameField(gameFieldMap);
             }
         }
+
+        if(event.getPropertyName().contains("UpdateCoin")) {
+
+            String value = event.getPropertyName();
+            String playerName = value.substring(10);
+            for (String nickName : viewMap.keySet()) {
+                viewMap.get(nickName).newCoin(playerName, game.getPlayerByNickName(playerName).getNumOfCoin());
+            }
+        }
     }
 
 
@@ -442,6 +451,8 @@ public class GameController implements PropertyChangeListener {
         for(Player currentPlayer : game.getPlayersList()) {
             currentPlayer.getBoard().addPropertyChangeListener(this);
         }
+
+        game.addPropertyChangeListener(this);
     }
 
     public void removeListeners() {
@@ -457,5 +468,7 @@ public class GameController implements PropertyChangeListener {
         for(Player currentPlayer : game.getPlayersList()) {
             currentPlayer.getBoard().removePropertyChangeListener(this);
         }
+
+        game.removePropertyChangeListener(this);
     }
 }

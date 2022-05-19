@@ -36,6 +36,8 @@ public enum MessageType {
     /**Send a lis of a player Teachers*/
     GAME_FIELD,
 
+    UPDATE_COIN,
+
     UPDATE_NODE,
     ID_SELECTION,
     /**Move mother nature on a selected island*/

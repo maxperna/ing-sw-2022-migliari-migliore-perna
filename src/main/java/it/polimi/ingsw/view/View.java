@@ -24,6 +24,7 @@ public interface View {
     void updateTeachers(Map<Color, Boolean> teacherList);
     void updateNode(Node updatedNode);
     void showGenericMessage(String genericMessage);
+    void newCoin(String player, int numOfCoin);
     void showWinner(String winner);
     void showError(String errorMessage);
     void disconnect();
