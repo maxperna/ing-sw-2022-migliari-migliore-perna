@@ -70,6 +70,7 @@ public class IslandList {
      * @throws EndGameException when there are exactly 3 islands left inside the list
      */
     private void merge (int newMergedIsland, int islandToMerge) throws EndGameException, InvalidParameterException {    //limit condition, works when the method has to merge the first and last node of the list
+        changed = true;
         if ((newMergedIsland == 1 && islandToMerge == this.lastNode(head).getNodeID())) {
             head.mergeStudents(this.lastNode(head).getStudents());                                                      //move students from the island that will be deleted to the one that will remain
             head.mergeTowers(this.lastNode(head).getNumberOfTowers());                                                  //basically increases the number of towers on the node (can be referred as nodeDimension too)
@@ -78,7 +79,6 @@ public class IslandList {
             if (this.islandCounter() == 3)                                                                              //checks for EndGame conditions
                 throw new EndGameException();
             head.setMotherNature();                                                                                     //for simplicity, motherNature will be set on island 1, so no nodeID changes for the rest of the list
-            changed = true;
             mergeIslands(newMergedIsland);                                                                              //calls the method recursively with the remaining island as the parameter to check if there are consequential merges available
         }
         else {                                                                                                          //normal condition, works when we call merge on i, i+1, i different from 1, lastNode
@@ -94,7 +94,6 @@ public class IslandList {
             if (this.islandCounter() == 3)                                                                              //checks for EndGame conditions
                 throw new EndGameException();
             this.getIslandNode(newMergedIsland).setMotherNature();                                                      //for simplicity, motherNature will be set on the island with the minor ID number
-            changed = true;
             mergeIslands(newMergedIsland);                                                                              //calls the method recursively with the remaining island as the parameter to check if there are consequential merges available
         }
     }
@@ -251,10 +250,10 @@ public class IslandList {
     /**
      * method used to check towerColor on next and previous islands of a declared one, if one of them matches with islandID towerColor, calls merge()
      * @param islandID
+     * @return a boolean that notifies that the list has changed, the boolean is set in merge() method and has to be reset after the whole process
      * @throws EndGameException from merge()
      */
-    public boolean mergeIslands(int islandID) throws EndGameException {
-        changed = false;
+    public void mergeIslands(int islandID) throws EndGameException {
         if(this.getIslandNode(islandID).getTowerColor().equals(this.getIslandNode(islandID).getNextNode().getTowerColor()) && !this.getIslandNode(islandID).getTowerColor().equals(TowerColor.EMPTY)) {                                             //checks if the next node has the same towerColor of a given node, except EMPTY
             if(islandID > this.getIslandNode(islandID).getNextNode().getNodeID()) {                                                                                                                                                                 //checks which island has the larger ID, so that it calls the method with the correct order of parameters to avoid large and redundant merge() method
                 this.getIslandNode(islandID).getNextNode().setMotherNature();                                                                                                                                                                       //setting motherNature on the island with the smaller ID
@@ -273,9 +272,6 @@ public class IslandList {
             else
                 merge(islandID, this.getIslandNode(islandID).getPreviousNode().getNodeID());                                                                                                                                                        //calls the merge() method if the given island has a match with the previous one and the previous one is the tail
         }
-
-        return changed;
-
     }
 
     public void ignoreTower(){
@@ -285,6 +281,16 @@ public class IslandList {
             nextNode = nextNode.getNextNode();
         }
     }
+
+    public boolean hasChanged() {
+        if(changed) {
+            changed = false;
+            return true;
+        }
+        else
+            return false;
+    }
+
 }
 
 
