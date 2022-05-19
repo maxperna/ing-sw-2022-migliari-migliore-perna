@@ -83,12 +83,49 @@ public class GameController implements PropertyChangeListener {
                         //plays the card
                         turnLogic.setPlayedCard(((AssistantCardMessage)receivedMessage).getPlayedCard(), currentPlayer);
 
-                    } catch (CardAlreadyPlayed e) {
-                        throw new RuntimeException("CardAlreadyPlayed");
-                    } catch (InexistentCard e) {
-                        throw new RuntimeException("Card not found");
-                    } catch (EndGameException e) {
-                        throw new RuntimeException("EndGame");
+                    }
+                    catch (CardAlreadyPlayed e) {
+                        for (String nickName : viewMap.keySet()) {
+                            viewMap.get(nickName).showError("CardAlreadyPlayed");
+                        }
+                    }
+                    catch (InexistentCard e) {
+                        for (String nickName : viewMap.keySet()) {
+                            viewMap.get(nickName).showError("Card not found");
+                        }
+                    }
+                    catch (EndGameException e) {
+
+                        Player winner = game.getPlayersList().get(0);
+                        Player equal = game.getPlayersList().get(0);
+
+                        for(Player player : game.getPlayersList()) {
+                            if(winner.getBoard().getNumOfTowers() > player.getBoard().getNumOfTowers())
+                                winner = player;
+                            if(winner.getBoard().getNumOfTowers().equals(player.getBoard().getNumOfTowers()))
+                                equal = player;
+                        }
+
+                        if(!equal.equals(winner) && game.NUM_OF_PLAYERS != 4) {
+                            for (String nickName : viewMap.keySet()) {
+                                viewMap.get(nickName).showWinner("Patta");
+                            }
+                        }
+                        else if (game.NUM_OF_PLAYERS == 4) {
+                            if(winner.getBoard().getTeamMate().equals(equal)){
+                                for (String nickName : viewMap.keySet()) {
+                                    viewMap.get(nickName).showWinner(winner.getNickname() + winner.getBoard().getTeamMate().getNickname());
+                                }
+                            }
+                            else
+                                for (String nickName : viewMap.keySet()) {
+                                    viewMap.get(nickName).showWinner("Patta");
+                                }
+                        }
+                        else
+                            for (String nickName : viewMap.keySet()) {
+                                viewMap.get(nickName).showWinner(winner.getNickname());
+                            }
                     }
                 }
                 nextState();
@@ -104,7 +141,10 @@ public class GameController implements PropertyChangeListener {
                     try {
                         game.getPlayerByNickName(senderPlayer).getBoard().moveToIsland(currentColor, islandID);
                     } catch (NotOnBoardException e) {
-                        throw new RuntimeException("Student not found");
+
+                        for (String nickName : viewMap.keySet()) {
+                            viewMap.get(nickName).showError("Student not found");
+                        }
                     }
 
                 }
@@ -115,8 +155,14 @@ public class GameController implements PropertyChangeListener {
                         try {
                             game.getPlayerByNickName(senderPlayer).getBoard().moveEntryToDiningRoom(studentMoved);
                             game.checkInfluence(game.getPlayerByNickName(senderPlayer), studentMoved);
-                        } catch (NotOnBoardException | NotEnoughSpace e) {
-                            throw new RuntimeException("Student not found or not enoughSpace");
+                        } catch (NotOnBoardException e) {
+                            for (String nickName : viewMap.keySet()) {
+                                viewMap.get(nickName).showError("Student not found");
+                            }
+                        } catch (NotEnoughSpace e) {
+                            for (String nickName : viewMap.keySet()) {
+                                viewMap.get(nickName).showError("Not enoughSpace");
+                            }
                         }
 
                 }
@@ -125,16 +171,13 @@ public class GameController implements PropertyChangeListener {
                     int motherNatureSteps = ((MoveMotherNatureMessage)receivedMessage).getNumOfSteps();
                     try {
                         game.getGameField().moveMotherNatureWithGivenMoves(motherNatureSteps);
-
-                    } catch (EndGameException e) {
-                        throw new RuntimeException("EndGame");
-
-                    } finally {
-
-                        Map<Integer, Node> gameFieldMap = generateGameFieldMap();
+                    }
+                    catch (EndGameException e) {
                         for (String nickName : viewMap.keySet()) {
-                            viewMap.get(nickName).showGameField(gameFieldMap);
+                            viewMap.get(nickName).showWinner(senderPlayer);
                         }
+                    }
+                    finally {
                         nextState();
                     }
                 }
@@ -287,6 +330,42 @@ public class GameController implements PropertyChangeListener {
         }
     }
 
+    @Override
+    public void propertyChange(PropertyChangeEvent event) {
+
+        if(event.getPropertyName().equals("UpdateCloud")) {
+            for (String nickName : viewMap.keySet()) {
+                viewMap.get(nickName).showClouds(game.getCloudTiles());
+            }
+        }
+
+        if(event.getPropertyName().contains("UpdateNode")) {
+
+            String value = event.getPropertyName();
+            String intValue = value.replaceAll("\\D+","");
+            int nodeID = Integer.parseInt(intValue);
+
+            for (String nickName : viewMap.keySet()) {
+                viewMap.get(nickName).updateNode(game.getGameField().getIslandNode(nodeID));
+            }
+        }
+
+        if(event.getPropertyName().equals("UpdateTeacher")) {
+            for (String nickName : viewMap.keySet()) {
+                viewMap.get(nickName).updateTeachers(game.getPlayerByNickName(nickName).getBoard().getTeachers());
+            }
+        }
+
+        if(event.getPropertyName().equals("Merge")) {
+            Map<Integer, Node> gameFieldMap = generateGameFieldMap();
+
+            for (String nickName : viewMap.keySet()) {
+                viewMap.get(nickName).showGameField(gameFieldMap);
+            }
+        }
+    }
+
+
     /**
      * method to convert int in gameMode
      * @param numOfPlayers number of players
@@ -348,33 +427,6 @@ public class GameController implements PropertyChangeListener {
 
     public Game getGame() {
         return game;
-    }
-
-    @Override
-    public void propertyChange(PropertyChangeEvent event) {
-
-        if(event.getPropertyName().equals("UpdateCloud")) {
-            for (String nickName : viewMap.keySet()) {
-                viewMap.get(nickName).showClouds(game.getCloudTiles());
-            }
-        }
-
-        if(event.getPropertyName().contains("UpdateNode")) {
-
-            String value = event.getPropertyName();
-            String intValue = value.replaceAll("\\D+","");
-            int nodeID = Integer.parseInt(intValue);
-
-            for (String nickName : viewMap.keySet()) {
-                viewMap.get(nickName).updateNode(game.getGameField().getIslandNode(nodeID));
-            }
-        }
-
-        if(event.getPropertyName().equals("UpdateTeacher")) {
-            for (String nickName : viewMap.keySet()) {
-                viewMap.get(nickName).updateTeachers(game.getPlayerByNickName(nickName).getBoard().getTeachers());
-            }
-        }
     }
 
     public void setListeners() {

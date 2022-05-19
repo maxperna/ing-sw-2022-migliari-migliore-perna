@@ -88,6 +88,16 @@ public class VirtualView implements View {
     }
 
     @Override
+    public void showWinner(String winner) {
+        clientHandler.sendMessage(new EndGameMessage(winner));
+    }
+
+    @Override
+    public void showError(String errorMessage) {
+        clientHandler.sendMessage(new ErrorMessage(errorMessage));
+    }
+
+    @Override
     public void disconnect() {
         clientHandler.disconnect();
     }

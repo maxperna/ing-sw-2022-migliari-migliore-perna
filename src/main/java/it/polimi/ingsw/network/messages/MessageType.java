@@ -49,6 +49,8 @@ public enum MessageType {
     /**Generic error message */
     ERROR,
     /**Generic message*/
-    GENERIC
+    GENERIC,
+
+    END_GAME,
 
 }
