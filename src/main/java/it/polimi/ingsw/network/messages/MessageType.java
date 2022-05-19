@@ -29,6 +29,8 @@ public enum MessageType {
     PLAY_ASSISTANT_CARD,
     /**Play expert card*/
     PLAY_EXPERT_CARD,
+    EXPERT_CARD_REPLY,
+    EXPERT_CARD_REQ,
     /**Send an object recognized by ID*/
     UPDATE_TEACHERS,
     /**Send a lis of a player Teachers*/

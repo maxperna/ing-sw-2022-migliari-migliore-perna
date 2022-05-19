@@ -103,7 +103,7 @@ public class TurnLogic {
     public void switchPhase(){
         if(currentPhase.equals("PREPARATION")){
             currentPhase = "ACTION";
-            defineActionPhaseOrders();
+            defineActionPhaseOrders();       //automatically start the action phase
         }
         else {
             currentPhase = "PREPARATION";
@@ -167,7 +167,7 @@ public class TurnLogic {
             ArrayList<Color> pickedStudents = new ArrayList<>(currentGame.getCloudTiles().get(cloudID).getStudents());
             player.getBoard().addStudentsEntryRoom(pickedStudents);
         }
-        catch (EmptyCloudException | NotEnoughSpace e){
+        catch (NotEnoughSpace e){
             e.printStackTrace();
         }
 
