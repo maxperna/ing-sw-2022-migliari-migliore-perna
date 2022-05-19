@@ -19,6 +19,7 @@ import java.util.Collections;
 
 public class IslandList {
     private Node head;
+    private boolean changed;
 
     /**
      * constructor
@@ -50,6 +51,7 @@ public class IslandList {
                     e.printStackTrace();
                 }
             }
+            changed = false;
         }
 
         //sets mother nature randomly in one of the two islands without students
@@ -68,20 +70,19 @@ public class IslandList {
      * @throws EndGameException when there are exactly 3 islands left inside the list
      */
     private void merge (int newMergedIsland, int islandToMerge) throws EndGameException, InvalidParameterException {    //limit condition, works when the method has to merge the first and last node of the list
+        //calls the method recursively with the remaining island as the parameter to check if there are consequential merges available
         if ((newMergedIsland == 1 && islandToMerge == this.lastNode(head).getNodeID())) {
-            head.setMotherNature();                                                                                     //for simplicity, motherNature will be set on island 1, so no nodeID changes for the rest of the list
             head.mergeStudents(this.lastNode(head).getStudents());                                                      //move students from the island that will be deleted to the one that will remain
             head.mergeTowers(this.lastNode(head).getNumberOfTowers());                                                  //basically increases the number of towers on the node (can be referred as nodeDimension too)
             head.setPreviousNode(this.lastNode(head).getPreviousNode());                                                //setting the previous pointer of the head node to skip the last node (i.e. island 1 won't point to 12 but to 11)
             this.lastNode(head).getPreviousNode().setNextNode(head);                                                    //setting the next pointer of the new last node in the list to point to the head (i.e. island 11 won't point to 12 but to 1)
             if (this.islandCounter() == 3)                                                                              //checks for EndGame conditions
                 throw new EndGameException();
-            mergeIslands(newMergedIsland);                                                                              //calls the method recursively with the remaining island as the parameter to check if there are consequential merges available
+            head.setMotherNature();                                                                                     //for simplicity, motherNature will be set on island 1, so no nodeID changes for the rest of the list
         }
         else {                                                                                                          //normal condition, works when we call merge on i, i+1, i different from 1, lastNode
             this.getIslandNode(newMergedIsland).mergeStudents(this.getIslandNode(islandToMerge).getStudents());         //move students from the island that will be deleted to the one that will remain
             this.getIslandNode(newMergedIsland).mergeTowers(this.getIslandNode(islandToMerge).getNumberOfTowers());     //basically increases the number of towers on the node (can be referred as nodeDimension too)
-            this.getIslandNode(newMergedIsland).setMotherNature();                                                      //for simplicity, motherNature will be set on the island with the minor ID number
             this.getIslandNode(islandToMerge).getNextNode().setPreviousNode(this.getIslandNode(newMergedIsland));       //setting the previous pointer of the next node pointed by the deleted node to point to the island that will remain (i.e. island 3 won't point to island 2 but to island 1)
             this.getIslandNode(newMergedIsland).setNextNode(this.getIslandNode(islandToMerge).getNextNode());           //setting the next pointer of the remaining node to skip the deleted node (i.e. node 2 won't point to node 3 but to node 4)
             Node currNode = this.getIslandNode(newMergedIsland);                                                        //declaring a node used to iterate through the islandList to decrease the nodeID
@@ -91,8 +92,10 @@ public class IslandList {
             }
             if (this.islandCounter() == 3)                                                                              //checks for EndGame conditions
                 throw new EndGameException();
-            mergeIslands(newMergedIsland);                                                                              //calls the method recursively with the remaining island as the parameter to check if there are consequential merges available
+            this.getIslandNode(newMergedIsland).setMotherNature();                                                      //for simplicity, motherNature will be set on the island with the minor ID number
         }
+        changed = true;
+        mergeIslands(newMergedIsland);                                                                              //calls the method recursively with the remaining island as the parameter to check if there are consequential merges available
     }
 
     /**
@@ -249,7 +252,8 @@ public class IslandList {
      * @param islandID
      * @throws EndGameException from merge()
      */
-    public void mergeIslands(int islandID) throws EndGameException {
+    public boolean mergeIslands(int islandID) throws EndGameException {
+        changed = false;
         if(this.getIslandNode(islandID).getTowerColor().equals(this.getIslandNode(islandID).getNextNode().getTowerColor()) && !this.getIslandNode(islandID).getTowerColor().equals(TowerColor.EMPTY)) {                                             //checks if the next node has the same towerColor of a given node, except EMPTY
             if(islandID > this.getIslandNode(islandID).getNextNode().getNodeID()) {                                                                                                                                                                 //checks which island has the larger ID, so that it calls the method with the correct order of parameters to avoid large and redundant merge() method
                 this.getIslandNode(islandID).getNextNode().setMotherNature();                                                                                                                                                                       //setting motherNature on the island with the smaller ID
@@ -268,6 +272,8 @@ public class IslandList {
             else
                 merge(islandID, this.getIslandNode(islandID).getPreviousNode().getNodeID());                                                                                                                                                        //calls the merge() method if the given island has a match with the previous one and the previous one is the tail
         }
+
+        return changed;
     }
 
     public void ignoreTower(){
@@ -276,10 +282,6 @@ public class IslandList {
             nextNode.changeIgnoreTower();
             nextNode = nextNode.getNextNode();
         }
-    }
-
-    public int size(){
-        return head.getPreviousNode().getNodeID();
     }
 }
 
