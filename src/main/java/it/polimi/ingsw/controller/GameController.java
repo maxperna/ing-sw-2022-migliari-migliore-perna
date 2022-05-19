@@ -4,6 +4,8 @@ import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.gameField.Node;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.Color;
+import it.polimi.ingsw.model.experts.ExpertCard;
+import it.polimi.ingsw.model.experts.ExpertID;
 import it.polimi.ingsw.network.messages.client_messages.*;
 import it.polimi.ingsw.network.messages.server_messages.*;
 import it.polimi.ingsw.network.messages.Message;
@@ -51,8 +53,9 @@ public class GameController implements PropertyChangeListener {
 
         switch (gameState)  {
             case LOGIN: //creates the game
-                if(receivedMessage.getType() == GAMEPARAM)
+                if(viewMap.containsKey(senderPlayer) && receivedMessage.getType() == GAMEPARAM)
                     gameCreation(receivedMessage);
+
                 nextState();
                 break;
 
@@ -214,6 +217,10 @@ public class GameController implements PropertyChangeListener {
                     turnLogic.generatePreparationPhaseOrder();
                     //generates a GameFieldMap
                     Map<Integer, Node> gameFieldMap = generateGameFieldMap();
+                    //generate ExpertList
+                    ArrayList<ExpertID> expertIDList = new ArrayList<>();
+                    for(ExpertCard currentCard : game.getExpertsCard())
+                        expertIDList.add(currentCard.getExpType());
 
                     //sends to each player the current situation on the board, giving also a coin if expert mode is on and the GameFieldMap
                     for(Player currentPlayer : game.getPlayersList())
@@ -229,6 +236,9 @@ public class GameController implements PropertyChangeListener {
 
                         //sends the gameField to each Player
                         currentView.showGameField(gameFieldMap);
+
+                        //sends the expertList
+                        currentView.showExpertCards(expertIDList);
 
                         //sends to the first player a current player message
                         if(currentPlayer.getNickname().equals(turnLogic.getActivePlayer().getNickname()))

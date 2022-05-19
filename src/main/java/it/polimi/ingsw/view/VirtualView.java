@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.CloudTile;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.DeckType;
 import it.polimi.ingsw.model.TowerColor;
+import it.polimi.ingsw.model.experts.ExpertID;
 import it.polimi.ingsw.network.messages.client_messages.GameParamRequest;
 import it.polimi.ingsw.network.messages.server_messages.*;
 import it.polimi.ingsw.network.server.ClientHandler;
@@ -19,7 +20,7 @@ import java.util.Map;
  */
 public class VirtualView implements View {
 
-    private final ClientHandler clientHandler;
+    private ClientHandler clientHandler;
 
     /**
      * Constructor, creates a Virtual View
@@ -72,6 +73,10 @@ public class VirtualView implements View {
         clientHandler.sendMessage(new CurrentPlayerMessage(currentPlayer));
     }
 
+    @Override
+    public void showExpertCards(ArrayList<ExpertID> expertIDList) {
+        clientHandler.sendMessage(new ExpertCardReply(expertIDList));
+    }
     @Override
     public void updateTeachers(Map<Color, Boolean> teacherList) {
         clientHandler.sendMessage(new TeacherListMessage(teacherList));

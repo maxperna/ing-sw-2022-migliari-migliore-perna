@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.CloudTile;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.DeckType;
 import it.polimi.ingsw.model.TowerColor;
+import it.polimi.ingsw.model.experts.ExpertID;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -21,6 +22,7 @@ public interface View {
     void showGameField(Map<Integer, Node> gameFieldMap);
     void showClouds(ArrayList<CloudTile> newClouds);
     void showCurrentPlayer(String currentPlayer);
+    void showExpertCards(ArrayList<ExpertID> expertIDList);
     void updateTeachers(Map<Color, Boolean> teacherList);
     void updateNode(Node updatedNode);
     void showGenericMessage(String genericMessage);

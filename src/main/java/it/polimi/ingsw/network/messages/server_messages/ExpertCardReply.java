@@ -4,20 +4,21 @@ import it.polimi.ingsw.model.experts.ExpertID;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 /**Reply message answering ExpertCardRequest with the info about use card
  * @author Massimo */
 public class ExpertCardReply extends Message {
     UUID identifier = UUID.randomUUID();
-    private final ExpertID expertID;
+    private final ArrayList<ExpertID> expertIDList;
 
-    public ExpertCardReply(String senderPlayer,ExpertID expertID){
-        super(MessageType.EXPERT_CARD_REPLY,senderPlayer);
-        this.expertID = expertID;
+    public ExpertCardReply(ArrayList<ExpertID> expertIDList){
+        super(MessageType.EXPERT_CARD_REPLY,"Server");
+        this.expertIDList = expertIDList;
     }
 
-    public ExpertID getExpertID() {
-        return expertID;
+    public ArrayList<ExpertID>  getExpertID() {
+        return expertIDList;
     }
 }

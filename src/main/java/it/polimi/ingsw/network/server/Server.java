@@ -13,12 +13,12 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 public class Server{
+
     ServerSocket serverSocket;
     public static final Logger LOGGER = Logger.getLogger(Server.class.getName());
 
     private final GameController gameController;
     private final Map<ClientHandler, VirtualView> virtualViewMap;
-
     private final Object lock;
 
     public Server(GameController gameController){
