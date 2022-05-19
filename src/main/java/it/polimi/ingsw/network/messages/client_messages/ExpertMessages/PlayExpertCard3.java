@@ -9,13 +9,13 @@ import java.util.UUID;
 
 /**Method 3 to play expert card, with nodeId and student
  * @author Massimo */
-public class PlayExpertCard3 extends Message {
+public class PlayExpertCard3 extends PlayExpertCard {
 
     UUID identifier = UUID.randomUUID();
     private final int nodeID;
     private final Color student;
-    public PlayExpertCard3(String senderPlayer,int nodeID,Color student) {
-        super(MessageType.PLAY_EXPERT_CARD, senderPlayer);
+    public PlayExpertCard3(String senderPlayer,int nodeID,Color student,int playedCard) {
+        super(3, playedCard,senderPlayer);
         this.nodeID=nodeID;
         this.student = student;
     }
@@ -27,4 +27,5 @@ public class PlayExpertCard3 extends Message {
     public Color getStudent() {
         return student;
     }
+
 }

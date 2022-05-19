@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.model.experts.ExpertID;
 import it.polimi.ingsw.network.messages.client_messages.*;
+import it.polimi.ingsw.network.messages.client_messages.ExpertMessages.*;
 import it.polimi.ingsw.network.messages.server_messages.*;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.view.VirtualView;
@@ -186,12 +187,39 @@ public class GameController implements PropertyChangeListener {
                 }
 
                 if(receivedMessage.getType() == PLAY_EXPERT_CARD) {
-                    //Questo greve
+                    expertsHandling((PlayExpertCard) receivedMessage);
                 }
 
                 break;
         }
 
+    }
+
+    /**Method to apply the right effect to the experts cards
+     * @param message play expert card message*/
+    public void expertsHandling(PlayExpertCard message){
+        Player player = game.getPlayerByNickName(message.getSenderPlayer());
+        int playedCard = message.getPlayedCard();
+        try {
+            switch (message.getExpID()) {
+                case 1:
+                    turnLogic.playExpertCard(player, playedCard);
+                case 2:
+                    PlayExpertCard2 castedMessage1 = (PlayExpertCard2) message;
+                    turnLogic.playExpertCard(player, castedMessage1.getNodeID(), playedCard);
+                case 3:
+                    PlayExpertCard3 castedMessage2 = (PlayExpertCard3) message;
+                    turnLogic.playExpertCard(player, castedMessage2.getNodeID(), castedMessage2.getStudent(), playedCard);
+                case 4:
+                    PlayExpertCard4 castedMessage3 = (PlayExpertCard4) message;
+                    turnLogic.playExpertCard(player, castedMessage3.getStudent(), playedCard);
+                case 5:
+                    PlayExpertCard5 castedMessage4 = (PlayExpertCard5) message;
+                    turnLogic.playExpertCard(player, castedMessage4.getStudents1(), castedMessage4.getStudents2(), playedCard);
+            }
+        }catch (IllegalMove|NotEnoughCoins e){
+            viewMap.get(message.getSenderPlayer()).showError("Cannot play this card");
+        }
     }
 
     /**

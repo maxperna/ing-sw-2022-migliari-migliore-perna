@@ -173,15 +173,25 @@ public class TurnLogic {
 
     }
 
-    public void playExpertCard(Player player){}
+    public void playExpertCard(Player player,int playedCard) throws NotEnoughCoins {
+        currentGame.getExpertsCard().get(playedCard).useCard(player);
+    }
 
-    public void playExpertCard(Player player,int nodeId){}
+    public void playExpertCard(Player player,int nodeId,int playedCard) throws IllegalMove, NotEnoughCoins {
+        currentGame.getExpertsCard().get(playedCard).useCard(player,nodeId);
+    }
 
-    public void playExpertCard(Player player,int nodeId,Color studentColor){}
+    public void playExpertCard(Player player,int nodeId,Color studentColor,int playedCard) throws IllegalMove, NotEnoughCoins {
+        currentGame.getExpertsCard().get(playedCard).useCard(player,nodeId,studentColor);
+    }
 
-    public void playExpertCard(Player player, Color student){}
+    public void playExpertCard(Player player, Color student,int playedCard) throws IllegalMove, NotEnoughCoins {
+        currentGame.getExpertsCard().get(playedCard).useCard(player,student);
+    }
 
-    public void playExpertCard(Player player, ArrayList<Color> studentSet1, ArrayList<Color> studentSet2){}
+    public void playExpertCard(Player player, ArrayList<Color> studentSet1, ArrayList<Color> studentSet2,int playedCard) throws IllegalMove, NotEnoughCoins {
+        currentGame.getExpertsCard().get(playedCard).useCard(player,studentSet1,studentSet2);
+    }
 
 
 }

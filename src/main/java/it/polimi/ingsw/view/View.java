@@ -29,5 +29,6 @@ public interface View {
     void newCoin(String player, int numOfCoin);
     void showWinner(String winner);
     void showError(String errorMessage);
+    void showExpertID(ArrayList<ExpertID> expertID);
     void disconnect();
 }

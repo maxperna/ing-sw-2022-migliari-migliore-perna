@@ -7,11 +7,12 @@ import java.util.UUID;
 
 /**Method 1 to play expert card, only user
  * @author Massimo */
-public class PlayExpertCard1 extends Message {
+public class PlayExpertCard1 extends PlayExpertCard {
     UUID identifier = UUID.randomUUID();
 
-    public PlayExpertCard1(String senderPlayer) {
+    public PlayExpertCard1(String senderPlayer,int playedCard) {
 
-        super(MessageType.PLAY_EXPERT_CARD, senderPlayer);
+        super(1,playedCard,senderPlayer);
     }
+
 }

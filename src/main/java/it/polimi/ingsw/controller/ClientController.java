@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.Color;
+import it.polimi.ingsw.model.experts.ExpertID;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.client.ClientSocket;
 import it.polimi.ingsw.network.messages.Message;
@@ -26,6 +27,8 @@ public class ClientController {
     private String nickname;
 
     private final ExecutorService actionQueue;
+
+    private ArrayList<ExpertID> expertsOnField = new ArrayList<>();
     private int maximumMNStep;       //used to check directly if a MN movement is legit
 
     public ClientController(View view){
@@ -105,45 +108,37 @@ public class ClientController {
     }
 
     //EXPERT CARD METHODS
-    public void playExpertCard1(){
-        client.sendMessage(new PlayExpertCard1(nickname));
+    public void playExpertCard1(int cardID){
+        client.sendMessage(new PlayExpertCard1(nickname,cardID));
     }
 
-    public void playExpertCard2(int nodeID){
-        client.sendMessage(new PlayExpertCard2(nickname,nodeID));
+    public void playExpertCard2(int cardID,int nodeID){
+        client.sendMessage(new PlayExpertCard2(nickname,nodeID,cardID));
     }
 
-    public void playExpertCard3(int nodeID,Color student){
-        client.sendMessage(new PlayExpertCard3(nickname,nodeID,student));
+    public void playExpertCard3(int nodeID,Color student,int cardID){
+        client.sendMessage(new PlayExpertCard3(nickname,nodeID,student,cardID));
     }
 
-    public void playExpertCard4(Color student){
-        client.sendMessage(new PlayExpertCard4(nickname,student));
+    public void playExpertCard4(Color student,int cardID){
+        client.sendMessage(new PlayExpertCard4(nickname,student,cardID));
     }
 
-    public void playExpertCard5(ArrayList<Color> student1, ArrayList<Color> student2){
-        client.sendMessage(new PlayExpertCard5(nickname,student1,student2));
+    public void playExpertCard5(ArrayList<Color> student1, ArrayList<Color> student2,int cardID){
+        client.sendMessage(new PlayExpertCard5(nickname,student1,student2,cardID));
     }
 
     /**Sub state machine catching the type of experts to play get reading expertCardReply type
-     * @param message ExpertCardReply sent by the server*/
-    public void applyExpertEffect(ExpertCardReply message){
-        switch (message.getExpertID()){
+     * @param cardID choosen card to play*/
+    public void applyExpertEffect(int cardID){
+        ExpertID typeOfExpert = expertsOnField.get(cardID);
+        switch (typeOfExpert){        //update with method of the CLI
             case COLOR:
-                //caso richiesta semplice
-                break;
-            case NODE_ID:
-
-                break;
-            case USER_ONLY:
-
-                break;
-            case NODE_ID_COLOR:
-
-                break;
             case TWO_LIST_COLOR:
-
-                break;
+            case NODE_ID_COLOR:
+            case USER_ONLY:
+            case NODE_ID:
+            default:
         }
     }
 
@@ -174,7 +169,7 @@ public class ClientController {
                 break;
                 //case PREPARATION_PHASE
             case EXPERT_CARD_REPLY:
-                applyExpertEffect((ExpertCardReply) receivedMessage);
+                expertsOnField = ((ExpertCardReply)receivedMessage).getExpertID();
 
             /*CASE TYPE:
             *   richiedere un aggiornamento alla view*/

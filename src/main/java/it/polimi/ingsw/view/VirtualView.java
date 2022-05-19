@@ -114,4 +114,9 @@ public class VirtualView implements View {
     public ClientHandler getClientHandler() {
         return clientHandler;
     }
+
+    @Override
+    public void showExpertID(ArrayList<ExpertID> expertID){
+        clientHandler.sendMessage(new ExpertCardReply( expertID));
+    };
 }
