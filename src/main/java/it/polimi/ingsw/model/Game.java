@@ -121,15 +121,12 @@ public class Game {
 
         try {
 
-            Map<Integer, ArrayList<Color>> updatedClouds = new HashMap<>();
-            for(int i = 1; i <= NUM_OF_PLAYERS; i++) {
+            for(int i = 0; i < NUM_OF_PLAYERS; i++) {
 
                 if (NUM_OF_PLAYERS == 3)
                     cloudTiles.get(i).setStudents(this.pouch.randomDraw(4));
                 else
                     cloudTiles.get(i).setStudents(this.pouch.randomDraw(3));
-
-                updatedClouds.put(i, cloudTiles.get(i).getStudents());
 
             }
 
