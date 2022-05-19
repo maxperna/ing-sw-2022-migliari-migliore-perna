@@ -1,16 +1,13 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.gameField.Node;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.client.ClientSocket;
 import it.polimi.ingsw.network.messages.Message;
-import it.polimi.ingsw.network.messages.MessageType;
-import it.polimi.ingsw.network.messages.client_messages.AssistantCardMessage;
-import it.polimi.ingsw.network.messages.client_messages.LoginInfo;
-import it.polimi.ingsw.network.messages.client_messages.MoveMotherNatureMessage;
-import it.polimi.ingsw.network.messages.client_messages.SelectionIDMessage;
+import it.polimi.ingsw.network.messages.client_messages.*;
+import it.polimi.ingsw.network.messages.client_messages.ExpertMessages.*;
+import it.polimi.ingsw.network.messages.server_messages.ExpertCardReply;
 import it.polimi.ingsw.network.messages.server_messages.GameParamMessage;
 import it.polimi.ingsw.view.View;
 
@@ -70,9 +67,16 @@ public class ClientController {
         client.sendMessage(new SelectionIDMessage(nickname,ID));
     }
 
-    /**Metod to pick one single student on the view
+    /**Method to pick one single student on the view and move it on the island
+     * @param student picked student
+     * @param nodeID node target of the movement*/
+    public void moveStudentToIsland(Color student,int nodeID){
+        client.sendMessage(new MovedStudentToIsland(nickname,student,nodeID));}
+
+    /**Method to pick one single student on the view and move it into the dinner room
      * @param student picked student*/
-    public void selectStudent(Color student){}
+    public void moveStudentToDinner(Color student){
+        client.sendMessage(new MovedStudentToBoard(nickname,student));}
 
     /**Method to select multiple students on the view
      * @param students selected students*/
@@ -94,9 +98,54 @@ public class ClientController {
             client.sendMessage(new MoveMotherNatureMessage(nickname,numberOfSteps));
     }
 
+    /**Method to play an expert card
+     * @param cardID id of the card on the field*/
+    public void chooseExpertCard(int cardID){
+        client.sendMessage(new ExpertCardRequest(nickname,cardID));
+    }
 
+    //EXPERT CARD METHODS
+    public void playExpertCard1(){
+        client.sendMessage(new PlayExpertCard1(nickname));
+    }
 
+    public void playExpertCard2(int nodeID){
+        client.sendMessage(new PlayExpertCard2(nickname,nodeID));
+    }
 
+    public void playExpertCard3(int nodeID,Color student){
+        client.sendMessage(new PlayExpertCard3(nickname,nodeID,student));
+    }
+
+    public void playExpertCard4(Color student){
+        client.sendMessage(new PlayExpertCard4(nickname,student));
+    }
+
+    public void playExpertCard5(ArrayList<Color> student1, ArrayList<Color> student2){
+        client.sendMessage(new PlayExpertCard5(nickname,student1,student2));
+    }
+
+    /**Sub state machine catching the type of experts to play get reading expertCardReply type
+     * @param message ExpertCardReply sent by the server*/
+    public void applyExpertEffect(ExpertCardReply message){
+        switch (message.getExpertID()){
+            case COLOR:
+                //caso richiesta semplice
+                break;
+            case NODE_ID:
+
+                break;
+            case USER_ONLY:
+
+                break;
+            case NODE_ID_COLOR:
+
+                break;
+            case TWO_LIST_COLOR:
+
+                break;
+        }
+    }
 
     /*Aggiungere metodi per inviare messaggi
     * client.sendMessage(Message)*/
@@ -124,6 +173,8 @@ public class ClientController {
                 //show generic message
                 break;
                 //case PREPARATION_PHASE
+            case EXPERT_CARD_REPLY:
+                applyExpertEffect((ExpertCardReply) receivedMessage);
 
             /*CASE TYPE:
             *   richiedere un aggiornamento alla view*/
