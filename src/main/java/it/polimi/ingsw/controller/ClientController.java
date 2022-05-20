@@ -1,24 +1,29 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.gameField.Node;
 import it.polimi.ingsw.model.Color;
+import it.polimi.ingsw.model.DeckType;
+import it.polimi.ingsw.model.TowerColor;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.client.ClientSocket;
 import it.polimi.ingsw.network.messages.Message;
-import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.network.messages.client_messages.LoginInfo;
 import it.polimi.ingsw.network.messages.client_messages.SelectionIDMessage;
 import it.polimi.ingsw.network.messages.server_messages.GameParamMessage;
+
+import it.polimi.ingsw.view.Listener;
 import it.polimi.ingsw.view.View;
+import it.polimi.ingsw.view.ViewListener;
+import it.polimi.ingsw.view.ViewSubject;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.function.Consumer;
 
 /**Class implementing the part of controller on the client, used to communicate with the client view
  * @author Massimo*/
-public class ClientController {
+public class ClientController  implements ViewListener, Listener {
 
     private final View view;
     private Client client;
@@ -38,6 +43,7 @@ public class ClientController {
         try {
             this.client = new ClientSocket(connectionInfo.get("address"),Integer.getInteger(connectionInfo.get("port")));
             client.receiveMessage();
+            client.addListener(this);
             //aggiunta observer
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -93,5 +99,30 @@ public class ClientController {
             /*CASE TYPE:
             *   richiedere un aggiornamento alla view*/
         }
+    }
+
+    @Override
+    public void chooseTowerColor(TowerColor color) {
+
+    }
+
+    @Override
+    public void chooseCardDeck(DeckType deck) {
+
+    }
+
+    @Override
+    public void chooseDestination(String destination) {
+
+    }
+
+    @Override
+    public void getPlayerInfo(String player) {
+
+    }
+
+    @Override
+    public void update(Message message) {
+
     }
 }

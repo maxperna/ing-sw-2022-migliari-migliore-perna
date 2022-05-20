@@ -144,7 +144,7 @@ public class GameController {
 
         if(viewMap.isEmpty()) {
             viewMap.put(nickName, virtualView);
-            viewMap.get(nickName).askGameParam();
+            viewMap.get(nickName).sendGameParam();
         }
         else if (viewMap.size() <= game.NUM_OF_PLAYERS) {
             viewMap.put(nickName, virtualView);
