@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.server;
 
-import it.polimi.ingsw.network.client.ClientSocket;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 
@@ -61,8 +60,7 @@ public class ClientHandler implements Runnable{
                 synchronized (inputLock) {
                     Message receivedMessage = (Message) input.readObject();
                     if (receivedMessage.getType() == MessageType.LOGIN)
-//                        serverSocket.addClient(message.getNick,this);
-                        return;
+                        serverSocket.addClient(receivedMessage.getSenderPlayer(),this);
 //                  serverSocket.addClient(message.getNick,m.getColorTowe,m.getassistant,this);
                     else {
                         Server.LOGGER.info("Message received" + receivedMessage);
@@ -109,10 +107,4 @@ public class ClientHandler implements Runnable{
     }
 
 
-    /**Connection status getter
-     * @return {@code true} if the client is connected, {@code false} if is not*/
-
-    public boolean getConnectionStatus(){
-        return connected;
-    }
 }

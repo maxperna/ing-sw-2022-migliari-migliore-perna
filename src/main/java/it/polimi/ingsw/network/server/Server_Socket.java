@@ -20,7 +20,7 @@ public class Server_Socket implements Runnable{
     public void run() {
         try {
             socketServer = new ServerSocket(port);
-            Server.LOGGER.info("Server started on port"+ port);
+            Server.LOGGER.info("Server started on port "+ port + " " +socketServer.getInetAddress().getHostAddress());
         }catch (IOException e){
             Server.LOGGER.severe("Error starting server");
         }
