@@ -11,6 +11,7 @@ import it.polimi.ingsw.network.messages.client_messages.ExpertMessages.*;
 import it.polimi.ingsw.network.messages.server_messages.*;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.view.VirtualView;
+import org.jetbrains.annotations.TestOnly;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -234,9 +235,7 @@ public class GameController implements PropertyChangeListener {
 
         switch (gameState)  {
             case LOGIN: //verifies that all the VirtualViews are set
-                if(game == null)
-                    break;
-                else if(viewMap.size() == game.NUM_OF_PLAYERS) {
+                if(game != null && viewMap.size() == game.NUM_OF_PLAYERS) {
                     broadcast("All players logged");
                     nextState = GameState.CREATE_PLAYERS;
                 }
@@ -516,5 +515,10 @@ public class GameController implements PropertyChangeListener {
         game.removePropertyChangeListener(this);
 
         game.getGameField().removePropertyChangeListener(this);
+    }
+
+    @TestOnly
+    public Map<String,VirtualView> getViewMap() {
+        return viewMap;
     }
 }
