@@ -234,8 +234,9 @@ public class GameController implements PropertyChangeListener {
 
         switch (gameState)  {
             case LOGIN: //verifies that all the VirtualViews are set
-
-                if(viewMap.size() == game.NUM_OF_PLAYERS) {
+                if(game == null)
+                    break;
+                else if(viewMap.size() == game.NUM_OF_PLAYERS) {
                     broadcast("All players logged");
                     nextState = GameState.CREATE_PLAYERS;
                 }
