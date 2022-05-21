@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.experts.ExpertID;
 import it.polimi.ingsw.network.messages.client_messages.GameParamRequest;
 import it.polimi.ingsw.network.messages.server_messages.*;
 import it.polimi.ingsw.network.server.ClientHandler;
+import org.jetbrains.annotations.TestOnly;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -20,7 +21,7 @@ import java.util.Map;
  */
 public class VirtualView implements View {
 
-    private ClientHandler clientHandler;
+    private final ClientHandler clientHandler;
 
     /**
      * Constructor, creates a Virtual View
@@ -28,6 +29,11 @@ public class VirtualView implements View {
      */
     public VirtualView(ClientHandler clientHandler) {
         this.clientHandler = clientHandler;
+    }
+
+    @TestOnly
+    public VirtualView() {
+        clientHandler = null;
     }
 
     @Override
@@ -118,5 +124,5 @@ public class VirtualView implements View {
     @Override
     public void showExpertID(ArrayList<ExpertID> expertID){
         clientHandler.sendMessage(new ExpertCardReply( expertID));
-    };
+    }
 }

@@ -365,10 +365,12 @@ public class GameController implements PropertyChangeListener {
         }
         else if (viewMap.size() <= game.NUM_OF_PLAYERS) {
             viewMap.put(nickName, virtualView);
+            onMessageReceived(new GenericMessage("Sync"));
         }
         else {
             virtualView.disconnect();
         }
+        System.out.println(viewMap.size());
     }
 
     @Override
@@ -517,8 +519,13 @@ public class GameController implements PropertyChangeListener {
         game.getGameField().removePropertyChangeListener(this);
     }
 
-    @TestOnly
-    public Map<String,VirtualView> getViewMap() {
+    public Map<String, VirtualView> getViewMap() {
         return viewMap;
+    }
+
+    @TestOnly
+    public void loginForTest(String nickName) {
+
+        logInHandler(nickName, new VirtualView());
     }
 }

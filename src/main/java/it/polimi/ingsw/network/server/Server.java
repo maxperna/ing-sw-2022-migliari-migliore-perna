@@ -4,7 +4,9 @@ import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.controller.GameState;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.messages.client_messages.LoginInfo;
 import it.polimi.ingsw.view.VirtualView;
+import org.jetbrains.annotations.TestOnly;
 
 import java.net.ServerSocket;
 import java.util.Collections;
@@ -46,7 +48,5 @@ public class Server{
     public void receivedMessage(Message receivedMessage){
         gameController.onMessageReceived(receivedMessage);
     }
-
-
 
 }
