@@ -370,7 +370,7 @@ public class GameController implements PropertyChangeListener {
 
         if(viewMap.isEmpty()) {
             viewMap.put(nickName, virtualView);
-            viewMap.get(nickName).sendGameParam();
+            viewMap.get(nickName).askGameParam();
         }
         else if (viewMap.size() <= game.NUM_OF_PLAYERS) {
             viewMap.put(nickName, virtualView);
