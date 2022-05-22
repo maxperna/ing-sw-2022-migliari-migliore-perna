@@ -2,6 +2,9 @@ package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
+import it.polimi.ingsw.network.messages.client_messages.MovedStudentToBoard;
+import it.polimi.ingsw.network.messages.server_messages.ErrorMessage;
+import org.jetbrains.annotations.TestOnly;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -11,15 +14,15 @@ import java.net.Socket;
 /**Class representing the virtual client on the server
  * @author Massimo*/
 public class ClientHandler implements Runnable{
-    private final Socket clientSocket;
-    private final Server_Socket serverSocket;
+    private  Socket clientSocket;
+    private  Server_Socket serverSocket;
 
     //IO STREAM
     private ObjectOutputStream output;
     private ObjectInputStream input;
     //STREAM LOCKER
-    private final Object inputLock;
-    private final Object outputLock;
+    private Object inputLock;
+    private Object outputLock;
 
     private boolean connected;
 
@@ -40,6 +43,8 @@ public class ClientHandler implements Runnable{
         }
     }
 
+    @TestOnly
+    public ClientHandler() {};
     @Override
     public void run(){
         try{
@@ -94,16 +99,9 @@ public class ClientHandler implements Runnable{
     /**Method used to send message to the client
      * @param messageToSend message i want to send to the client*/
     public void sendMessage(Message messageToSend){
-        try{
-            synchronized(outputLock){
-                output.writeObject(messageToSend);
-                output.reset();
-                Server.LOGGER.info("Message sent"+messageToSend);
-            }
-        }catch(IOException e){
-            Server.LOGGER.severe(e.getMessage());
-            disconnect();
-        }
+        System.out.println("Sent message: " + messageToSend.getType() + " " + messageToSend.getSenderPlayer());
+        if(messageToSend.getType() == MessageType.ERROR)
+            System.out.println(((ErrorMessage)messageToSend).getErrorMessage());
     }
 
 

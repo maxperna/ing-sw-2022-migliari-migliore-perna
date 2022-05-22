@@ -33,7 +33,7 @@ public class VirtualView implements View {
 
     @TestOnly
     public VirtualView() {
-        clientHandler = null;
+        clientHandler = new ClientHandler();
     }
 
     @Override

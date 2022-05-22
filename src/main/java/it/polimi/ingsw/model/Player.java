@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.EndGameException;
 import it.polimi.ingsw.exceptions.InexistentCard;
+import org.jetbrains.annotations.TestOnly;
 
 import java.io.FileNotFoundException;
 
@@ -65,6 +66,14 @@ public class Player {
         return numOfCoin;
     }
 
+    @TestOnly
+    public DeckType getDeckType() {
+        assert deck != null;
+        return deck.getDeckType();
+    }
 
-
+    @TestOnly
+    public CardDeck getDeck() {
+        return deck;
+    }
 }

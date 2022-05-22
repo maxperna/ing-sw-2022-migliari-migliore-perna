@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import com.google.gson.*;
 import it.polimi.ingsw.exceptions.EndGameException;
 import it.polimi.ingsw.exceptions.InexistentCard;
+import org.jetbrains.annotations.TestOnly;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -73,5 +74,8 @@ public class CardDeck {
         return lastAssistantCardUsed;
     }
 
-
+    @TestOnly
+    public ArrayList<AssistantCard> getDeck() {
+        return deck;
+    }
 }

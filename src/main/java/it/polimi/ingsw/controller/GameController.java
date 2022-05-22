@@ -65,11 +65,13 @@ public class GameController implements PropertyChangeListener {
 
                 playersCreationState(receivedMessage);
                 //sends updated list of remaining items to the other players
-                Stream<Player> notLoggedPlayers =
-                game.getPlayersList().stream().filter(name -> !viewMap.containsKey(name.getNickname()));
-                List<Player> sendTo = notLoggedPlayers.collect(Collectors.toList());
-                for (Player player : sendTo)
-                    viewMap.get(player.getNickname()).showRemainingTowerAndDeck(game.getAVAILABLE_TOWER_COLOR(), game.getAVAILABLE_DECK_TYPE());
+                List<String> loggedPlayers = new ArrayList<>();
+                for(String currentNickName : viewMap.keySet())
+                    for(Player currentPlayer : game.getPlayersList())
+                        if(!currentPlayer.getNickname().equals(currentNickName)) {
+                            viewMap.get(currentPlayer.getNickname()).showRemainingTowerAndDeck(game.getAVAILABLE_TOWER_COLOR(), game.getAVAILABLE_DECK_TYPE());
+                            break;
+                        }
                 nextState();
                 break;
 

@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
+import org.jetbrains.annotations.TestOnly;
 
 import java.security.InvalidParameterException;
 import java.util.*;
@@ -192,7 +193,6 @@ public class TurnLogic {
     public void playExpertCard(Player player, ArrayList<Color> studentSet1, ArrayList<Color> studentSet2,int playedCard) throws IllegalMove, NotEnoughCoins {
         currentGame.getExpertsCard().get(playedCard).useCard(player,studentSet1,studentSet2);
     }
-
 
 }
 
