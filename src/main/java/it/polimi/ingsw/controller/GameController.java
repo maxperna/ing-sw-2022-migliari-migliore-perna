@@ -376,7 +376,6 @@ public class GameController implements PropertyChangeListener {
         else {
             virtualView.disconnect();
         }
-        System.out.println(viewMap.size());
     }
 
     @Override
