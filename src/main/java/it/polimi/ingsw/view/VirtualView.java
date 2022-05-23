@@ -23,6 +23,10 @@ public class VirtualView implements View {
 
     private final ClientHandler clientHandler;
 
+    @Override
+    public void start() {
+    }
+
     /**
      * Constructor, creates a Virtual View
      * @param clientHandler, used to communicate with the client
@@ -39,6 +43,11 @@ public class VirtualView implements View {
     @Override
     public void printText(String text) {
         System.out.println(text);
+    }
+
+    @Override
+    public void askPlayerNickname() {
+
     }
 
     /**
@@ -123,6 +132,6 @@ public class VirtualView implements View {
 
     @Override
     public void showExpertID(ArrayList<ExpertID> expertID){
-        clientHandler.sendMessage(new ExpertCardReply( expertID));
+        clientHandler.sendMessage(new ExpertCardReply(expertID));
     }
 }

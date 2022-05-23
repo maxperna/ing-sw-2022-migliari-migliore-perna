@@ -1,7 +1,9 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.controller.ClientController;
+import it.polimi.ingsw.gameField.Node;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.experts.ExpertID;
 import it.polimi.ingsw.network.messages.Message;
 
 import java.util.*;
@@ -118,7 +120,7 @@ public class Cli extends ViewSubject implements View {
     }
 
     @Override
-    public void sendGameParam() {
+    public void askGameParam() {
         int numOfPlayers;
         String expertMode;
         boolean expert = false;
@@ -145,7 +147,67 @@ public class Cli extends ViewSubject implements View {
     }
 
     @Override
-    public void getServerInfo() {
+    public void showRemainingTowerAndDeck(ArrayList<TowerColor> remainingTowers, ArrayList<DeckType> remainingDecks) {
+
+    }
+
+    @Override
+    public void showInitPlayer(int numberOfTowers, ArrayList<Color> entranceHall) {
+
+    }
+
+    @Override
+    public void showGameField(Map<Integer, Node> gameFieldMap) {
+
+    }
+
+    @Override
+    public void showClouds(ArrayList<CloudTile> newClouds) {
+
+    }
+
+    @Override
+    public void showCurrentPlayer(String currentPlayer) {
+
+    }
+
+    @Override
+    public void showExpertCards(ArrayList<ExpertID> expertIDList) {
+
+    }
+
+    @Override
+    public void updateTeachers(Map<Color, Boolean> teacherList) {
+
+    }
+
+    @Override
+    public void updateNode(Node updatedNode) {
+
+    }
+
+    @Override
+    public void showGenericMessage(String genericMessage) {
+
+    }
+
+    @Override
+    public void newCoin(String player, int numOfCoin) {
+
+    }
+
+    @Override
+    public void showWinner(String winner) {
+
+    }
+
+    @Override
+    public void showError(String errorMessage) {
+
+    }
+
+    @Override
+    public void showExpertID(ArrayList<ExpertID> expertID) {
 
     }
 
