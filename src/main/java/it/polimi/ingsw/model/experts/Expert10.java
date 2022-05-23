@@ -27,6 +27,7 @@ public class Expert10 implements ExpertCard {
         else{
             currentGame.coinHandler(user,this.cost);
             this.cost++;
+            currentGame.setActiveExpertsCard(this);
 
             try {
                 ArrayList<Color> colorOutside = new ArrayList<>(user.getBoard().moveFromEntryRoom(studentOutside));   //removing students from the outside
@@ -43,7 +44,7 @@ public class Expert10 implements ExpertCard {
 
     @Override
     public void endEffect() {
-
+        currentGame.setActiveExpertsCard(null);
     }
 
     @Override

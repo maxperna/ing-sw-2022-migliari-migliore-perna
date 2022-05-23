@@ -8,14 +8,14 @@ import java.util.UUID;
 
 public class AssistantCardMessage extends Message {
     UUID identifier = UUID.randomUUID();
-    private final AssistantCard playedCard;
+    private final int playedCard;
 
-    public AssistantCardMessage(String senderPlayer,AssistantCard playedCard){
+    public AssistantCardMessage(String senderPlayer,int playedCard){
         super(MessageType.PLAY_ASSISTANT_CARD,senderPlayer);
         this.playedCard = playedCard;
     }
 
-    public AssistantCard getPlayedCard(){
+    public int getPlayedCard(){
         return playedCard;
     }
 }

@@ -182,12 +182,14 @@ public class GameController implements PropertyChangeListener {
                 if(receivedMessage.getType() == MOVE_MOTHER_NATURE){
                     int motherNatureSteps = ((MoveMotherNatureMessage)receivedMessage).getNumOfSteps();
                     try {
-                        game.getGameField().moveMotherNatureWithGivenMoves(motherNatureSteps);
+                        turnLogic.moveMotherNature(game.getPlayerByNickName(senderPlayer),motherNatureSteps);
                     }
                     catch (EndGameException e) {
                         for (String nickName : viewMap.keySet()) {
                             viewMap.get(nickName).showWinner(senderPlayer);
                         }
+                    }catch (IllegalMove IL){
+                        viewMap.get(senderPlayer).showError("Too much steps");
                     }
                     finally {
                         nextState();

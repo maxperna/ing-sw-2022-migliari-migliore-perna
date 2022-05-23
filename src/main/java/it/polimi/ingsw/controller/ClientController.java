@@ -87,18 +87,12 @@ public class ClientController {
 
     /**Method used to play an assistant card
      * @param playedCard selected card to play*/
-    public void playAssistantCard(AssistantCard playedCard){
-        maximumMNStep = playedCard.getMotherNatureControl();
+    public void playAssistantCard(int playedCard){
          client.sendMessage(new AssistantCardMessage(nickname,playedCard));
     }
 
     public void moveMotherNature(int numberOfSteps){
-        if(numberOfSteps>maximumMNStep)
-            return;
-
-            //Show error message
-        else
-            client.sendMessage(new MoveMotherNatureMessage(nickname,numberOfSteps));
+        client.sendMessage(new MoveMotherNatureMessage(nickname,numberOfSteps));
     }
 
     /**Method to play an expert card

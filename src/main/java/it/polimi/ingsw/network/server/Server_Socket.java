@@ -57,6 +57,5 @@ public class Server_Socket implements Runnable{
     }
 
 
-    public void disconnectClient(ClientHandler clientHandler) {
-    }
+
 }

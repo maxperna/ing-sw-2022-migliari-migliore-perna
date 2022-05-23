@@ -35,6 +35,7 @@ public class Expert2 implements ExpertCard {
             currentGame.coinHandler(user,this.cost);
             this.cost++;
             this.usingPlayer = user;
+            currentGame.setActiveExpertsCard(this);
             //Effect
             HashMap<Color, Game.Pair<Player,Integer>> influenceMap = new HashMap<>(currentGame.getInfluenceMap());
             //For every color if the num of student is the same swap the professor
@@ -60,6 +61,7 @@ public class Expert2 implements ExpertCard {
             Color colorToSwap = affectedPlayer.get(player);
             usingPlayer.getBoard().removeTeacher(colorToSwap);
             player.getBoard().addTeachers(colorToSwap);
+            currentGame.setActiveExpertsCard(null);
         }
     }
 

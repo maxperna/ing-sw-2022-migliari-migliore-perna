@@ -22,13 +22,14 @@ public class Expert3 implements ExpertCard {
         else{
             currentGame.coinHandler(user,this.cost);
             this.cost++;
+            currentGame.setActiveExpertsCard(this);
             currentGame.checkIslandInfluence(targetIsland);
         }
     }
 
     @Override
     public void endEffect() {
-
+        currentGame.setActiveExpertsCard(null);
     }
 
     @Override

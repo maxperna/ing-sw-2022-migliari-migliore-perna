@@ -38,6 +38,7 @@ public class Expert11 implements ExpertCard {
         else{
             currentGame.coinHandler(user,this.cost);
             this.cost++;
+            currentGame.setActiveExpertsCard(this);
 
             if (!studentsOnCard.contains(colorToAdd)) throw new IllegalMove("Student is not on card");
             else {
@@ -56,7 +57,7 @@ public class Expert11 implements ExpertCard {
 
     @Override
     public void endEffect() {
-
+        currentGame.setActiveExpertsCard(null);
     }
 
     @Override

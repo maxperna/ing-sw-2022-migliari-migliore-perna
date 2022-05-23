@@ -21,6 +21,7 @@ public class Expert6 implements ExpertCard {
         } else {
             currentGame.coinHandler(user,this.cost);
             this.cost++;
+            currentGame.setActiveExpertsCard(this);
             currentGame.getGameField().ignoreTower();
 
         }
@@ -30,6 +31,7 @@ public class Expert6 implements ExpertCard {
     public void endEffect() {
         //Resetting all ignore tower to false
         currentGame.getGameField().ignoreTower();
+        currentGame.setActiveExpertsCard(null);
         }
 
     @Override

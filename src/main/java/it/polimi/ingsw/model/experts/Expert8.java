@@ -22,6 +22,7 @@ public class Expert8 implements ExpertCard {
         else{
             currentGame.coinHandler(user,this.cost);
             this.cost++;
+            currentGame.setActiveExpertsCard(this);
             currentGame.setPlayerHavingPlusTwo(user);
         }
     }
@@ -29,6 +30,7 @@ public class Expert8 implements ExpertCard {
     @Override
     public void endEffect() {
         currentGame.setPlayerHavingPlusTwo(null);
+        currentGame.setActiveExpertsCard(null);
     }
 
     @Override

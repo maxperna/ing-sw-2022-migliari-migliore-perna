@@ -39,6 +39,7 @@ public class Expert1 implements ExpertCard {
         else{
             currentGame.coinHandler(user,this.cost);
             this.cost++;
+            currentGame.setActiveExpertsCard(this);
             if(studentsOnCard.remove(colorToSwap)) {
                 Node targetIsland = currentGame.getGameField().getIslandNode(nodeID);
                 targetIsland.addStudent(colorToSwap);
@@ -54,7 +55,7 @@ public class Expert1 implements ExpertCard {
     }
 
     @Override
-    public void endEffect() {}
+    public void endEffect() {currentGame.setActiveExpertsCard(null);}
 
     @Override
     public int getCost() {

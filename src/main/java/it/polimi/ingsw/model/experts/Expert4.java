@@ -20,12 +20,13 @@ public class Expert4 implements ExpertCard {
         else{
             currentGame.coinHandler(user,this.cost);
             this.cost++;
+            currentGame.setActiveExpertsCard(this);
         }
     }
 
     @Override
     public void endEffect() {
-
+        currentGame.setActiveExpertsCard(null);
     }
 
     @Override

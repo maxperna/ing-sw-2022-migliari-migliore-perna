@@ -31,6 +31,7 @@ public class Expert5 implements ExpertCard {
         else if(stopAvailable>0){
             currentGame.coinHandler(user,this.cost);
             this.cost++;
+            currentGame.setActiveExpertsCard(this);
             Node targetIsland = currentGame.getGameField().getIslandNode(nodeID);
             targetIsland.stopIsland();
             stopAvailable--;
@@ -43,7 +44,12 @@ public class Expert5 implements ExpertCard {
     @Override
     public void endEffect() {
         //remove the stop on the card
-        stopAvailable++;
+        currentGame.setActiveExpertsCard(null);
+    }
+
+    public void removeStop(Node stoppedNode){
+        stoppedIsland.remove(stoppedNode);
+        this.stopAvailable++;
     }
 
     /**Method to see the list of current stopped island

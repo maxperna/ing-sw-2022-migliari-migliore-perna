@@ -35,6 +35,7 @@ public class Expert7 implements ExpertCard {
         else{
             currentGame.coinHandler(user,this.cost);
             this.cost++;
+            currentGame.setActiveExpertsCard(this);
             if(studentToSwapBoard.size()!=studentToSwapCard.size())
                 throw new IllegalMove("Not the same number of student");
             try {
@@ -52,7 +53,7 @@ public class Expert7 implements ExpertCard {
 
     @Override
     public void endEffect() {
-
+        currentGame.setActiveExpertsCard(null);
     }
 
     @Override

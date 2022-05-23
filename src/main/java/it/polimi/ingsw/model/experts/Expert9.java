@@ -23,6 +23,7 @@ public class Expert9 implements ExpertCard {
         else{
             currentGame.coinHandler(user,this.cost);
             this.cost++;
+            currentGame.setActiveExpertsCard(this);
             currentGame.setIgnoredColor(colorToIgnore);
         }
 
@@ -31,6 +32,7 @@ public class Expert9 implements ExpertCard {
     @Override
     public void endEffect() {
         currentGame.setIgnoredColor(null);
+        currentGame.setActiveExpertsCard(null);
     }
 
     @Override

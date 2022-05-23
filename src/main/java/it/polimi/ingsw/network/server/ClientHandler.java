@@ -13,9 +13,9 @@ import java.net.Socket;
 
 /**Class representing the virtual client on the server
  * @author Massimo*/
-public class ClientHandler implements Runnable{
-    private  Socket clientSocket;
-    private  Server_Socket serverSocket;
+public class ClientHandler implements Runnable {
+    private Socket clientSocket;
+    private Server_Socket serverSocket;
 
     //IO STREAM
     private ObjectOutputStream output;
@@ -26,7 +26,7 @@ public class ClientHandler implements Runnable{
 
     private boolean connected;
 
-    public ClientHandler(Server_Socket serverSocket,Socket clientSocket){
+    public ClientHandler(Server_Socket serverSocket, Socket clientSocket) {
         this.serverSocket = serverSocket;
         this.clientSocket = clientSocket;
         this.connected = true;
@@ -35,7 +35,7 @@ public class ClientHandler implements Runnable{
         this.inputLock = new Object();
         this.outputLock = new Object();
 
-        try{
+        try {
             this.output = new ObjectOutputStream(clientSocket.getOutputStream());
             this.input = new ObjectInputStream(clientSocket.getInputStream());
         } catch (IOException e) {
@@ -44,28 +44,35 @@ public class ClientHandler implements Runnable{
     }
 
     @TestOnly
-    public ClientHandler() {};
+    public ClientHandler() {
+    }
+
+    ;
+
     @Override
-    public void run(){
-        try{
+    public void run() {
+        try {
             handleClientConnection();
-        }catch (IOException e){
+        } catch (IOException e) {
             Server.LOGGER.severe(clientSocket.getInetAddress() + "connection dropped");
             disconnect();
         }
     }
 
-    /**Client messages listening handler
-     * @throws IOException if the are problem with the socket*/
-    private void handleClientConnection() throws IOException{
+    /**
+     * Client messages listening handler
+     *
+     * @throws IOException if the are problem with the socket
+     */
+    private void handleClientConnection() throws IOException {
 
-        try{
-            while(!Thread.currentThread().isInterrupted()) {
+        try {
+            while (!Thread.currentThread().isInterrupted()) {
                 //Synchronization on the input
                 synchronized (inputLock) {
                     Message receivedMessage = (Message) input.readObject();
                     if (receivedMessage.getType() == MessageType.LOGIN)
-                        serverSocket.addClient(receivedMessage.getSenderPlayer(),this);
+                        serverSocket.addClient(receivedMessage.getSenderPlayer(), this);
 //                  serverSocket.addClient(message.getNick,m.getColorTowe,m.getassistant,this);
                     else {
                         Server.LOGGER.info("Message received" + receivedMessage);
@@ -73,36 +80,45 @@ public class ClientHandler implements Runnable{
                     }
                 }
             }
-        }catch (ClassNotFoundException | ClassCastException e){
+        } catch (ClassNotFoundException | ClassCastException e) {
             Server.LOGGER.severe("Client input not valid");
         }
         clientSocket.close();
     }
 
-    /**Client disconnection routine */
-    public void disconnect(){
-        if(connected){
-            try{
-                if(!clientSocket.isClosed())
+    /**
+     * Client disconnection routine
+     */
+    public void disconnect() {
+        if (connected) {
+            try {
+                if (!clientSocket.isClosed())
                     clientSocket.close();
-            }catch (IOException e){
+            } catch (IOException e) {
                 Server.LOGGER.severe(e.getMessage());
             }
             connected = false;
             Thread.currentThread().interrupt();
 
-            serverSocket.disconnectClient(this);
-
         }
     }
 
-    /**Method used to send message to the client
-     * @param messageToSend message i want to send to the client*/
-    public void sendMessage(Message messageToSend){
-        System.out.println("Sent message: " + messageToSend.getType() + " " + messageToSend.getSenderPlayer());
-        if(messageToSend.getType() == MessageType.ERROR)
-            System.out.println(((ErrorMessage)messageToSend).getErrorMessage());
+    /**
+     * Method used to send message to the client
+     *
+     * @param messageToSend message I want to send to the client
+     */
+    public void sendMessage(Message messageToSend) {
+        try {
+            synchronized (outputLock){
+                output.writeObject(messageToSend);
+                output.reset();
+                Server.LOGGER.info("Message sent " + messageToSend);
+            }
+        }catch(IOException e) {
+            Server.LOGGER.severe(e.getMessage());
+            disconnect();
+        }
     }
-
-
 }
+

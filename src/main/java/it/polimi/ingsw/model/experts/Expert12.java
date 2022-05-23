@@ -27,6 +27,7 @@ public class Expert12 implements ExpertCard {
         else{
             currentGame.coinHandler(user,this.cost);
             this.cost++;
+            currentGame.setActiveExpertsCard(this);
             //Temporary list
             ArrayList<Color> colorToList = new ArrayList<>(Collections.singleton(colorToRemove));        //transform color to list as parameter adjustment
             ArrayList<Color> studentToReinsert = new ArrayList<>();  //student to re-add to pouch
@@ -49,7 +50,7 @@ public class Expert12 implements ExpertCard {
 
     @Override
     public void endEffect() {
-
+        currentGame.setActiveExpertsCard(null);
     }
 
     @Override

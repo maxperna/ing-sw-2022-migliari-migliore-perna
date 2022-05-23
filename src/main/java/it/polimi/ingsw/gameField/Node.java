@@ -112,6 +112,10 @@ public class Node implements Serializable {
         this.stop = true;
     }
 
+    public void removeStop(){
+        this.stop = false;
+    }
+
     /**
      * Method setTower, updates the tower attribute after tower construction or substitution
      *

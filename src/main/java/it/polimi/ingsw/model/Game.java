@@ -1,9 +1,9 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.exceptions.EmptyCloudException;
 import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
 import it.polimi.ingsw.gameField.IslandList;
 import it.polimi.ingsw.gameField.Node;
+import it.polimi.ingsw.model.experts.Expert5;
 import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.model.experts.ExpertsFactory;
 
@@ -40,6 +40,8 @@ public class Game {
     public int coins = 20;
     private Color colorToIgnore = null;
     private Player playerHavingPlusTwo = null;       //player which have +2 influence if expert 8 is played
+
+    private ExpertCard activeExpertCard;
 
     /**
      * Constructor, initializes the game parameters
@@ -194,6 +196,15 @@ public class Game {
                 }
             }
         }
+        else{
+            islandToCheck.removeStop();
+            for(ExpertCard card:expertsCard){
+                if (card.getClass().getName().equals("Expert5")){
+                    Expert5 stopCard = (Expert5) card;
+                    stopCard.removeStop(islandToCheck);
+                }
+            }
+        }
         //Setting plus two influence to player, only expert mode
         if(playerHavingPlusTwo!=null){
 
@@ -342,5 +353,14 @@ public class Game {
 
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         support.removePropertyChangeListener(listener);
+    }
+
+    /**Method to activate an expert card*/
+    public void setActiveExpertsCard(ExpertCard activeExpertCard){
+        this.activeExpertCard = activeExpertCard;
+    }
+
+    public ExpertCard getActiveExpertCard() {
+        return activeExpertCard;
     }
 }

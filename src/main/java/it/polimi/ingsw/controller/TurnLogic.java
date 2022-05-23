@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.network.messages.client_messages.AssistantCardMessage;
 import org.jetbrains.annotations.TestOnly;
 
 import java.security.InvalidParameterException;
@@ -15,7 +16,8 @@ import java.util.*;
  * */
 public class TurnLogic {
     private final Game currentGame;   //game associated to round logic
-    private final Map<Integer, Player> cardsPlayed;
+    private final Map<Integer, Player> cardsPlayedActionNum;
+    private final Map<Player,AssistantCard> playedCard;
     private final Queue<Player> playersOrders;  //Players order is a FIFO structure(both for playing orders and action phase)
     private Player lastRoundFirstPlayer;       //first player to play last round, used to define the starting point of the round
     private String currentPhase;
@@ -23,7 +25,8 @@ public class TurnLogic {
     //Default constructor
     public TurnLogic(Game currentGame){
         this.currentGame = currentGame;
-        this.cardsPlayed = new HashMap<>();
+        this.cardsPlayedActionNum = new HashMap<>();
+        this.playedCard = new HashMap<>();
         this.playersOrders = new LinkedList<>();
         this.currentPhase = "PREPARATION";       //Always start in preparation phase
     }
@@ -32,6 +35,10 @@ public class TurnLogic {
      * @return next active player or {@code null} if the queue is empty
      */
     public Player nextActivePlayer(){
+        //Ending expert effect if change turn
+        if(currentGame.getActiveExpertCard()!=null)
+            currentGame.getActiveExpertCard().endEffect();
+        //Next player routine
         if(playersOrders.size() == currentGame.NUM_OF_PLAYERS){
             this.lastRoundFirstPlayer = playersOrders.peek();
         }
@@ -51,24 +58,26 @@ public class TurnLogic {
         switchPhase();
         playersOrders.clear();
         //sorting the list from the highest action number to the lowest for a matter comfort
-        List<Integer> roundCards = new ArrayList<>(cardsPlayed.keySet());
+        List<Integer> roundCards = new ArrayList<>(cardsPlayedActionNum.keySet());
         Collections.sort(roundCards);
 
         for(Integer card:roundCards){
-            this.playersOrders.add(cardsPlayed.get(card));
+            this.playersOrders.add(cardsPlayedActionNum.get(card));
         }
 
     }
 
     /**Method to keep track of the played card during a round preparation phase, inserting by their action number
-     * @param playedAssistantCard card used by a certain player
+     * @param playedAssistantCardInd index of the played card
      * @param player player who used the card
      * @exception CardAlreadyPlayed if a player try to use a card already used by another player within the same round
      */
-    public void setPlayedCard(AssistantCard playedAssistantCard, Player player) throws CardAlreadyPlayed, InexistentCard, EndGameException {
-        if(!this.cardsPlayed.containsKey(playedAssistantCard.getActionNumber())) {
-            this.cardsPlayed.put(playedAssistantCard.getActionNumber(), player);
+    public void setPlayedCard(int playedAssistantCardInd, Player player) throws CardAlreadyPlayed, InexistentCard, EndGameException {
+        AssistantCard playedAssistantCard = player.getDeck().getRemainingCards().get(playedAssistantCardInd);
+        if(!this.cardsPlayedActionNum.containsKey(playedAssistantCard.getActionNumber())) {
+            this.cardsPlayedActionNum.put(playedAssistantCard.getActionNumber(), player);
             player.playCard(playedAssistantCard);
+            playedCard.put(player,playedAssistantCard);
         }
         else throw new CardAlreadyPlayed("Another player already used this card");
 
@@ -115,7 +124,8 @@ public class TurnLogic {
     /**Method to end current turn and start a new one*/
     public void endTurn(){
         playersOrders.clear();
-        cardsPlayed.clear();
+        cardsPlayedActionNum.clear();
+        playedCard.clear();
     }
 
     public String getCurrentPhase(){
@@ -131,7 +141,7 @@ public class TurnLogic {
     }
 
     public Map<Integer, Player> getCardsPlayed() {
-        return cardsPlayed;
+        return cardsPlayedActionNum;
     }
 
     //ACTION PHASE PART
@@ -154,14 +164,18 @@ public class TurnLogic {
 
     /**Method to move mother nature over the island list
      * */
-    public void moveMotherNature(Player player,int islandID){
-        try {
-            currentGame.getGameField().moveMotherNatureToNodeID(islandID);
-        }
-        catch(InvalidParameterException | EndGameException e){
-            e.printStackTrace();
-        }
+    public void moveMotherNature(Player player,int numOfSteps) throws IllegalMove,EndGameException{
+        int allowedNumOfSteps = playedCard.get(player).getMotherNatureControl();
+        //IF expert4 is played modify allowed num of steps
+        if(currentGame.getActiveExpertCard().getClass().getName().equals("Expert4"))
+            allowedNumOfSteps = allowedNumOfSteps +2;
+
+        if(numOfSteps>allowedNumOfSteps)
+            throw new IllegalMove("Too much steps");
+        else
+            currentGame.getGameField().moveMotherNatureWithGivenMoves(numOfSteps);
     }
+
 
     public void chooseCloudTile(Player player,int cloudID){
         try {
