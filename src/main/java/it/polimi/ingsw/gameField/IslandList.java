@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameManager;
 import it.polimi.ingsw.model.TowerColor;
+import org.jetbrains.annotations.TestOnly;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -184,6 +185,7 @@ public class IslandList {
      * @param nodeID is the identifier for the island Tile
      * @return a Node containing the selected island Tile
      */
+    @TestOnly
     public void moveMotherNatureToNodeID(int nodeID) throws InvalidParameterException, EndGameException{
         if(nodeID>this.islandCounter() || nodeID<1)
             throw new InvalidParameterException();
