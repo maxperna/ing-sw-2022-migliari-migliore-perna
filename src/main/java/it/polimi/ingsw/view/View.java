@@ -12,12 +12,11 @@ import java.util.Map;
 
 public interface View {
 
+    void start();
     void printText(String text);
-
+    void askPlayerNickname();
     void askGameParam();
-
     void showRemainingTowerAndDeck(ArrayList<TowerColor> remainingTowers, ArrayList<DeckType> remainingDecks);
-
     void showInitPlayer(int numberOfTowers, ArrayList<Color> entranceHall);
     void showGameField(Map<Integer, Node> gameFieldMap);
     void showClouds(ArrayList<CloudTile> newClouds);
