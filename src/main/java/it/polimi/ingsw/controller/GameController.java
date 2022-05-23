@@ -137,9 +137,10 @@ public class GameController implements PropertyChangeListener {
                             for (String nickName : viewMap.keySet()) {
                                 viewMap.get(nickName).showWinner(winner.getNickname());
                             }
+                        nextState();
                     }
                 }
-                nextState();
+
                 break;
 
             case ACTION_PHASE: //ActionPhaseLogic

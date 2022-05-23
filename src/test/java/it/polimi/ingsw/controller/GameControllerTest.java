@@ -42,16 +42,18 @@ class GameControllerTest {
 
         gameController.onMessageReceived(new CreatePlayerMessage(beppe, TowerColor.BLACK, DeckType.SAGE));
         gameController.onMessageReceived(new CreatePlayerMessage(gino, TowerColor.WHITE, DeckType.WITCH));
+
         assertEquals(beppe, gameController.getGame().getPlayersList().get(0).getNickname());
         assertEquals(gino, gameController.getGame().getPlayersList().get(1).getNickname());
         assertEquals(TowerColor.BLACK, gameController.getGame().getPlayersList().get(0).getTowerColor());
         assertEquals(TowerColor.WHITE, gameController.getGame().getPlayersList().get(1).getTowerColor());
         assertEquals(DeckType.SAGE, gameController.getGame().getPlayersList().get(0).getDeckType());
         assertEquals(DeckType.WITCH, gameController.getGame().getPlayersList().get(1).getDeckType());
-
         for(CloudTile currentTile : gameController.getGame().getCloudTiles()) {
             assertEquals(0, currentTile.getStudents().size());
         }
+        assertEquals(GameState.PREPARATION_PHASE, gameController.getGameState());
+        assertEquals("PREPARATION", gameController.getTurnLogic().getCurrentPhase());
 
         System.out.println("\nThe List Is:");
         ArrayList<Player> playerOrder = new ArrayList<>();
@@ -59,19 +61,19 @@ class GameControllerTest {
             System.out.println(currentPlayer.getNickname());
             playerOrder.add(currentPlayer);
         }
-
+        System.out.println("\n");
         String currentPlayer = gameController.getTurnLogic().getActivePlayer().getNickname();
-        System.out.println("The current player is: " + currentPlayer);
+        System.out.println("The current player is: " + currentPlayer + "\n");
+
         gameController.onMessageReceived(new ChargedCloudsRequest(currentPlayer));
 
         for(CloudTile currentTile : gameController.getGame().getCloudTiles()) {
             assertEquals(3, currentTile.getStudents().size());
         }
-        gameController.onMessageReceived(new AssistantCardMessage(playerOrder.get(0).getNickname(), gameController.getGame().getPlayerByNickName(currentPlayer).getDeck().getDeck().get(0)));
 
-        gameController.onMessageReceived(new AssistantCardMessage(playerOrder.get(1).getNickname(), gameController.getGame().getPlayerByNickName(currentPlayer).getDeck().getDeck().get(1)));
-
-        System.out.println("The current player is: " + gameController.getTurnLogic().getActivePlayer().getNickname());
+        System.out.println("\n");
+        currentPlayer = gameController.getTurnLogic().getActivePlayer().getNickname();
+        System.out.println("The current player is: " + currentPlayer + "\n");
 
 
     }
