@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.experts;
 
-import it.polimi.ingsw.gameField.Node;
+import it.polimi.ingsw.model.gameField.Node;
 import it.polimi.ingsw.exceptions.NotEnoughCoin;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
@@ -8,7 +8,7 @@ import it.polimi.ingsw.model.Player;
 public class Expert3 implements ExpertCard {
 
     private final Game currentGame;
-    private int cost = 3;
+    private final int cost = 3;
     private final String IMG = "";            //front image of the card
 
     public Expert3(Game currentGame){

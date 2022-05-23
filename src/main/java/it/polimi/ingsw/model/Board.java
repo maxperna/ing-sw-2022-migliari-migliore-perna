@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.*;
-import it.polimi.ingsw.gameField.Node;
+import it.polimi.ingsw.model.gameField.Node;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
-import it.polimi.ingsw.gameField.IslandList;
-import it.polimi.ingsw.gameField.Node;
+import it.polimi.ingsw.model.gameField.IslandList;
+import it.polimi.ingsw.model.gameField.Node;
 import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.model.experts.ExpertsFactory;
 
