@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.controller.ClientController;
 import it.polimi.ingsw.gameField.Node;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.experts.ExpertID;
@@ -9,11 +8,13 @@ import it.polimi.ingsw.network.messages.Message;
 import java.util.*;
 
 public class Cli extends ViewSubject implements View {
+
     ArrayList<Listener> list = new ArrayList<>();
     Scanner scan = new Scanner(System.in);
     ArrayList<String> players;
     ArrayList<DeckType> decksAvailable;
     ArrayList<TowerColor> towerAvailable;
+
     String clientPlayer;
 
 
