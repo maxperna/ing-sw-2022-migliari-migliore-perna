@@ -25,17 +25,16 @@ public class Cli extends ViewSubject implements View {
     }
 
     public void start() {
-        System.out.println("                                                       "+
-                "▀███▀▀▀███                                      ██    ██"+
-                 "██    ▀█                                       ██"+
-                " ██   █  ▀███▄███▀██▀   ▀██▀▄█▀██▄ ▀████████▄ ██████▀███  ▄██▀███"+
-                " ██████    ██▀ ▀▀  ██   ▄█ ██   ██   ██    ██   ██    ██  ██   ▀▀"+
-                " ██   █  ▄ ██       ██ ▄█   ▄█████   ██    ██   ██    ██  ▀█████▄"+
-                " ██     ▄█ ██        ███   ██   ██   ██    ██   ██    ██  █▄   ██"+
-                "▄██████████████▄      ▄█    ▀████▀██▄████  ████▄ ▀████████▄██████▀"+
-                "                       ▄█"+
-                "                     ██▀"
-        );
+        System.out.println("                                                       ");
+        System.out.println("▀███▀▀▀███                                       ██   ██");
+        System.out.println(" ██     ▀█                                       ██");
+        System.out.println(" ██   █  ▀███▄███▀██▀   ▀██▀▄█▀██▄ ▀████████▄ ██████▀███  ▄██▀███");
+        System.out.println(" ██████    ██▀ ▀▀  ██   ▄█ ██   ██   ██    ██   ██    ██  ██   ▀▀");
+        System.out.println(" ██   █  ▄ ██       ██ ▄█   ▄█████   ██    ██   ██    ██  ▀█████▄");
+        System.out.println(" ██     ▄█ ██        ███   ██   ██   ██    ██   ██    ██  █▄   ██");
+        System.out.println("▄██████████████▄      ▄█    ▀████▀██▄████  ████▄ ▀████████▄██████▀");
+        System.out.println("                     ▄█");
+        System.out.println("                   ██▀");
         System.out.println("Welcome to Eryantis");
         connectionRequest();
     }
@@ -242,7 +241,7 @@ public class Cli extends ViewSubject implements View {
             }
         } while(!valid);
 
-        switch (towerColor.toUpperCase(Locale.ROOT)) {
+        switch (towerColor) {
             case "BLACK":
                 finalColor = TowerColor.BLACK;
                 break;

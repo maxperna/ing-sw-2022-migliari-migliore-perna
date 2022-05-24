@@ -260,7 +260,6 @@ public class IslandList {
      * @throws EndGameException from merge()
      */
     public void mergeIslands(int islandID) throws EndGameException {
-        changed = false;
         if(this.getIslandNode(islandID).getTowerColor().equals(this.getIslandNode(islandID).getNextNode().getTowerColor()) && !this.getIslandNode(islandID).getTowerColor().equals(TowerColor.EMPTY)) {                                             //checks if the next node has the same towerColor of a given node, except EMPTY
             if(islandID > this.getIslandNode(islandID).getNextNode().getNodeID()) {                                                                                                                                                                 //checks which island has the larger ID, so that it calls the method with the correct order of parameters to avoid large and redundant merge() method
                 this.getIslandNode(islandID).getNextNode().setMotherNature();                                                                                                                                                                       //setting motherNature on the island with the smaller ID
@@ -304,6 +303,7 @@ public class IslandList {
         return head.getPreviousNode().getNodeID();
     }
 
+    @TestOnly
     public boolean hasChanged() {
         if(changed) {
             changed = false;
