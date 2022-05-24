@@ -55,7 +55,7 @@ public class Cli extends ViewSubject implements View {
             serverInfo.put("address", address);
 
         System.out.println("Choose the server port: ["+defaultPort+"]");
-        port =scan.next();
+        port = scan.next();
         serverInfo.put("port", port);
 
         notifyListener(list -> list.connectionRequest(serverInfo));
@@ -217,9 +217,11 @@ public class Cli extends ViewSubject implements View {
     public void catchAction(Message receivedMessage) {
     }
 
-    public void chooseTowerColor(ArrayList<TowerColor> availableColors) {
+    public void chooseTowerColorAndDeckType(ArrayList<TowerColor> availableColors, ArrayList<DeckType> availableDecks) {
         TowerColor finalColor = null;
         Boolean valid = false;
+        String deckChosen;
+        DeckType deck = null;
 
         String towerColor;
         do {
@@ -253,22 +255,14 @@ public class Cli extends ViewSubject implements View {
         }
 
         TowerColor finalColor1 = finalColor;
-        this.notifyListener((list) -> {
-            list.chooseTowerColor(finalColor1);
-        });
-    }
 
-    public void chooseCardDeck(ArrayList<DeckType> decksAvailable) {
-        DeckType deck = null;
-
-        String deckChosen;
         do {
-            System.out.print("Choose your deck of cards: " + decksAvailable.toString());
+            System.out.print("Choose your deck of cards: " + availableDecks.toString());
             deckChosen = this.scan.next().toUpperCase(Locale.ROOT);
-            if (!decksAvailable.toString().contains(deckChosen)) {
+            if (!availableDecks.toString().contains(deckChosen)) {
                 System.out.println("Invalid input");
             }
-        } while(!decksAvailable.toString().contains(deckChosen));
+        } while(!availableDecks.toString().contains(deckChosen));
 
         switch (deckChosen) {
             case "DRUID":
@@ -286,10 +280,10 @@ public class Cli extends ViewSubject implements View {
         }
 
         DeckType finalDeck = deck;
-        this.notifyListener((list) -> {
-            list.chooseCardDeck(finalDeck);
-        });
+
+        notifyListener(list -> list.chooseTowerColorAndDeck(finalColor1, finalDeck));
     }
+
 
     public String chooseDestination() {
         String destination;

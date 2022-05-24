@@ -26,9 +26,7 @@ public interface ViewListener {
 
     void catchAction(Message receivedMessage);
 
-    void chooseTowerColor(TowerColor color);
-
-    void chooseCardDeck(DeckType deck);
+    void chooseTowerColorAndDeck(TowerColor color, DeckType deck);
 
     void chooseDestination(String destination);
 

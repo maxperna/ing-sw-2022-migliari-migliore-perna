@@ -43,9 +43,9 @@ public class ClientController implements ViewListener, Listener {
     /**Method handling the connection information to create a client-server connection
      * @param connectionInfo hashMap containing server ip address and related port number
      * @throws IOException if ClientSocket gives errors*/
-    public void connectionRequest(HashMap<String,String> connectionInfo){
+    public void connectionRequest(HashMap<String, String> connectionInfo){
         try {
-            this.client = new ClientSocket(connectionInfo.get("address"),Integer.getInteger(connectionInfo.get("port")));
+            this.client = new ClientSocket(connectionInfo.get("address"), Integer.parseInt(connectionInfo.get("port")));
             client.receiveMessage();
             client.addListener(this);
         } catch (IOException e) {
@@ -128,7 +128,7 @@ public class ClientController implements ViewListener, Listener {
     }
 
     /**Sub state machine catching the type of experts to play get reading expertCardReply type
-     * @param cardID choosen card to play*/
+     * @param cardID chosen card to play*/
     public void applyExpertEffect(int cardID){
         ExpertID typeOfExpert = expertsOnField.get(cardID);
         switch (typeOfExpert){        //update with method of the CLI
@@ -176,13 +176,8 @@ public class ClientController implements ViewListener, Listener {
     }
 
     @Override
-    public void chooseTowerColor(TowerColor color) {
-
-    }
-
-    @Override
-    public void chooseCardDeck(DeckType deck) {
-
+    public void chooseTowerColorAndDeck(TowerColor color, DeckType deck) {
+        client.sendMessage(new CreatePlayerMessage(nickname, color, deck));
     }
 
     @Override
