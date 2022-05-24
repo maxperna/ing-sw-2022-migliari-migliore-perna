@@ -40,15 +40,16 @@ public class ClientSocket extends Client {
     public void receiveMessage() {
         readExecutionQueue.execute(()-> {
             while(!readExecutionQueue.isShutdown()) {
-                Message messageReceived = null;               //message recived by the server
+                              //message recived by the server
                 try{
-                    messageReceived = (Message)inputStream.readObject();          //reading the message
+                    Message messageReceived = (Message) inputStream.readObject();          //reading the message
                     Client.LOGGER.info("Received");
+                    notifyListener(messageReceived);
                 }catch (IOException | ClassNotFoundException e){
                     disconnect();
                     readExecutionQueue.shutdownNow();       //closing the execution queue
                 }
-                notifyListener(messageReceived);
+
             }
         });
     }
