@@ -2,7 +2,6 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.controller.ClientController;
 import it.polimi.ingsw.view.Cli;
-import it.polimi.ingsw.view.View;
 
 public class ClientApp {
     public static void main(String[] args){
