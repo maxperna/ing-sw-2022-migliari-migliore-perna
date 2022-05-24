@@ -43,7 +43,7 @@ public class ClientSocket extends Client {
                               //message recived by the server
                 try{
                     Message messageReceived = (Message) inputStream.readObject();          //reading the message
-                    Client.LOGGER.info("Received");
+                   // Client.LOGGER.info("Received");
                     notifyListener(messageReceived);
                 }catch (IOException | ClassNotFoundException e){
                     disconnect();
