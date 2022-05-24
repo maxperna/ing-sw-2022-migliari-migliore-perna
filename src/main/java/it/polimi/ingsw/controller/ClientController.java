@@ -48,7 +48,6 @@ public class ClientController implements ViewListener, Listener {
             this.client = new ClientSocket(connectionInfo.get("address"),Integer.getInteger(connectionInfo.get("port")));
             client.receiveMessage();
             client.addListener(this);
-            //aggiunta observer
         } catch (IOException e) {
             throw new RuntimeException(e);
             //Aggiornare la view dell'insuccesso della connessione
@@ -75,10 +74,6 @@ public class ClientController implements ViewListener, Listener {
         client.sendMessage(new SelectionIDMessage(nickname,ID));
     }
 
-    @Override
-    public void selectStudent(Color student) {
-
-    }
 
     /**Method to pick one single student on the view and move it on the island
      * @param student picked student

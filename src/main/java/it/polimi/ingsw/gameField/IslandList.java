@@ -303,6 +303,16 @@ public class IslandList {
     public int size() {
         return head.getPreviousNode().getNodeID();
     }
+
+    public boolean hasChanged() {
+        if(changed) {
+            changed = false;
+            return true;
+        }
+        else
+            return changed;
+
+    }
 }
 
 

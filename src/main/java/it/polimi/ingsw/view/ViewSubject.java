@@ -31,4 +31,6 @@ public abstract class ViewSubject {
             lambda.accept(list);
     }
 
+
+
 }

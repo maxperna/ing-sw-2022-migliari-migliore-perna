@@ -20,7 +20,9 @@ public interface ViewListener {
 
     void sendSelectedID(int ID);
 
-    void selectStudent(Color student);
+    void moveStudentToIsland(Color student,int nodeID);
+
+    void moveStudentToDinner(Color student);
 
     void catchAction(Message receivedMessage);
 
