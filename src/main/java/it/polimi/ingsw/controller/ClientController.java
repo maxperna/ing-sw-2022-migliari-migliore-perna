@@ -149,7 +149,7 @@ public class ClientController implements ViewListener, Listener {
     public void catchAction(Message receivedMessage){
         switch (receivedMessage.getType()){
             case GAMEPARAM:
-                //
+                view.askGameParam();
                 break;
             case ENDLOGIN:
                 //
