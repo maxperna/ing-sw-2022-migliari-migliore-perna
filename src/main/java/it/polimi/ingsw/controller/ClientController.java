@@ -149,10 +149,10 @@ public class ClientController implements ViewListener, Listener {
     public void catchAction(Message receivedMessage){
         switch (receivedMessage.getType()){
             case GAMEPARAM:
-                //send game parameters
+                //
                 break;
             case ENDLOGIN:
-                //notify on view the end of the login phase
+                //
                 break;
             case GET_EXPERT_PARAM:
                 //notify the view requiring the parameters based on the type

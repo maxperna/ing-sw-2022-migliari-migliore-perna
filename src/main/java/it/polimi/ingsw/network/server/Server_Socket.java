@@ -3,6 +3,8 @@ package it.polimi.ingsw.network.server;
 import it.polimi.ingsw.network.messages.Message;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -19,7 +21,7 @@ public class Server_Socket implements Runnable{
     @Override
     public void run() {
         try {
-            socketServer = new ServerSocket(port);
+            socketServer = new ServerSocket(port,4, InetAddress.getLocalHost());
             Server.LOGGER.info("Server started on port "+ port + " " +socketServer.getInetAddress().getHostAddress());
         }catch (IOException e){
             Server.LOGGER.severe("Error starting server");

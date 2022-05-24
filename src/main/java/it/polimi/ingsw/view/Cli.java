@@ -59,6 +59,8 @@ public class Cli extends ViewSubject implements View {
         serverInfo.put("port", port);
 
         notifyListener(list -> list.connectionRequest(serverInfo));
+
+        askPlayerNickname();
     }
 
 
