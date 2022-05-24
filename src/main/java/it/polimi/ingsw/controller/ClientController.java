@@ -192,6 +192,6 @@ public class ClientController implements ViewListener, Listener {
 
     @Override
     public void update(Message message) {
-
+        catchAction(message);
     }
 }
