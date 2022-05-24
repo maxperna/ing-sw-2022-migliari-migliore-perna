@@ -72,7 +72,7 @@ public class Cli extends ViewSubject implements View {
             if (nickname.equals("")) {
                 System.out.println("Invalid input");
             }
-        } while(!nickname.equals(""));
+        } while(nickname.equals(""));
 
         String finalNickname = nickname;
         this.notifyListener((list) -> {
