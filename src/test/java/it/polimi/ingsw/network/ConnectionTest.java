@@ -49,7 +49,7 @@ public class ConnectionTest {
 
         try {
             ClientSocket clientSocket = new ClientSocket("0.0.0.0",1300);
-            clientSocket.sendMessage(new GenericMessage("IO"));
+            clientSocket.sendMessage(new GenericMessage("Test Connessione"));
         } catch (IOException e) {
             fail();
         }catch (NullPointerException es){

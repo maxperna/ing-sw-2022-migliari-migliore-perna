@@ -374,11 +374,13 @@ public class GameController implements PropertyChangeListener {
         }
         else if (viewMap.size() <= game.NUM_OF_PLAYERS) {
             viewMap.put(nickName, virtualView);
-            onMessageReceived(new GenericMessage("Sync"));
+            onMessageReceived(new GenericMessage("SYNC"));
         }
         else {
             virtualView.disconnect();
         }
+
+
     }
 
     @Override

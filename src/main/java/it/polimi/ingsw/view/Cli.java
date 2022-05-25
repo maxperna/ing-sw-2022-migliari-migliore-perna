@@ -37,6 +37,9 @@ public class Cli extends ViewSubject implements View {
         System.out.println("                   ██▀");
         System.out.println("Welcome to Eryantis");
         connectionRequest();
+
+        askPlayerNickname();
+
     }
 
 
@@ -57,9 +60,11 @@ public class Cli extends ViewSubject implements View {
         port = scan.next();
         serverInfo.put("port", port);
 
+
+        System.out.println("\n\nWaiting for game creation...");
+
         notifyListener(list -> list.connectionRequest(serverInfo));
 
-        askPlayerNickname();
     }
 
 

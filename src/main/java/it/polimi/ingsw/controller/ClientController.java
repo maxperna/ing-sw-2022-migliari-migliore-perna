@@ -1,6 +1,5 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.DeckType;
 import it.polimi.ingsw.model.TowerColor;
@@ -12,6 +11,8 @@ import it.polimi.ingsw.network.messages.client_messages.*;
 import it.polimi.ingsw.network.messages.client_messages.ExpertMessages.*;
 import it.polimi.ingsw.network.messages.server_messages.ExpertCardReply;
 import it.polimi.ingsw.network.messages.server_messages.GameParamMessage;
+import it.polimi.ingsw.network.messages.server_messages.GenericMessage;
+import it.polimi.ingsw.network.messages.server_messages.RemainingItemReply;
 import it.polimi.ingsw.view.Listener;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.ViewListener;
@@ -149,13 +150,11 @@ public class ClientController implements ViewListener, Listener {
     public void catchAction(Message receivedMessage){
         switch (receivedMessage.getType()){
             case GAMEPARAM_REQUEST:
-                view.askGameParam();
-                break;
-            case ENDLOGIN:
-                //
+                actionQueue.execute(view::askGameParam);
                 break;
             case GET_EXPERT_PARAM:
-                //notify the view requiring the parameters based on the type
+                RemainingItemReply answer = (RemainingItemReply) receivedMessage;
+                actionQueue.execute(()->view.showRemainingTowerAndDeck(answer.getRemainingTowers(),answer.getReamingDecks()));
                 break;
             case NOTIFY_MERGE:
                 //notify the merging of the island
@@ -164,11 +163,15 @@ public class ClientController implements ViewListener, Listener {
                 //end of the game, showing winning player
                 break;
             case GENERIC:
-                //show generic message
+                GenericMessage message = (GenericMessage) receivedMessage;
+                actionQueue.execute(()->view.showGenericMessage(message.getBody()));
                 break;
                 //case PREPARATION_PHASE
             case EXPERT_CARD_REPLY:
                 expertsOnField = ((ExpertCardReply)receivedMessage).getExpertID();
+                break;
+            case ERROR:
+                break;
 
             /*CASE TYPE:
             *   richiedere un aggiornamento alla view*/

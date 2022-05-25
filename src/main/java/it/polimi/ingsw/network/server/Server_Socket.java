@@ -30,6 +30,7 @@ public class Server_Socket implements Runnable{
         while(!Thread.currentThread().isInterrupted()){
             try{
                 Socket client = socketServer.accept();
+
                 client.setSoTimeout(5000);
 
                 ClientHandler clientHandler = new ClientHandler(this,client);
