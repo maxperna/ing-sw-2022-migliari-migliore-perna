@@ -205,35 +205,7 @@ public class GameController implements PropertyChangeListener {
 
     }
 
-    /**Method to apply the right effect to the experts cards
-     * @param message play expert card message*/
-    public void expertsHandling(PlayExpertCard message){
-        Player player = game.getPlayerByNickName(message.getSenderPlayer());
-        int playedCard = message.getPlayedCard();
-        try {
-            switch (message.getExpID()) {
-                case 1:
-                    turnLogic.playExpertCard(player, playedCard);
-                case 2:
-                    PlayExpertCard2 castedMessage1 = (PlayExpertCard2) message;
-                    turnLogic.playExpertCard(player, castedMessage1.getNodeID(), playedCard);
-                case 3:
-                    assert message instanceof PlayExpertCard3;
-                    PlayExpertCard3 castedMessage2 = (PlayExpertCard3) message;
-                    turnLogic.playExpertCard(player, castedMessage2.getNodeID(), castedMessage2.getStudent(), playedCard);
-                case 4:
-                    assert message instanceof PlayExpertCard4;
-                    PlayExpertCard4 castedMessage3 = (PlayExpertCard4) message;
-                    turnLogic.playExpertCard(player, castedMessage3.getStudent(), playedCard);
-                case 5:
-                    assert message instanceof PlayExpertCard5;
-                    PlayExpertCard5 castedMessage4 = (PlayExpertCard5) message;
-                    turnLogic.playExpertCard(player, castedMessage4.getStudents1(), castedMessage4.getStudents2(), playedCard);
-            }
-        }catch (IllegalMove|NotEnoughCoins e){
-            viewMap.get(message.getSenderPlayer()).showError("Cannot play this card");
-        }
-    }
+
 
     /**
      * method to manage the switch between game states
@@ -360,6 +332,36 @@ public class GameController implements PropertyChangeListener {
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        }
+    }
+
+    /**Method to apply the right effect to the experts cards
+     * @param message play expert card message*/
+    public void expertsHandling(PlayExpertCard message){
+        Player player = game.getPlayerByNickName(message.getSenderPlayer());
+        int playedCard = message.getPlayedCard();
+        try {
+            switch (message.getExpID()) {
+                case 1:
+                    turnLogic.playExpertCard(player, playedCard);
+                case 2:
+                    PlayExpertCard2 castedMessage1 = (PlayExpertCard2) message;
+                    turnLogic.playExpertCard(player, castedMessage1.getNodeID(), playedCard);
+                case 3:
+                    assert message instanceof PlayExpertCard3;
+                    PlayExpertCard3 castedMessage2 = (PlayExpertCard3) message;
+                    turnLogic.playExpertCard(player, castedMessage2.getNodeID(), castedMessage2.getStudent(), playedCard);
+                case 4:
+                    assert message instanceof PlayExpertCard4;
+                    PlayExpertCard4 castedMessage3 = (PlayExpertCard4) message;
+                    turnLogic.playExpertCard(player, castedMessage3.getStudent(), playedCard);
+                case 5:
+                    assert message instanceof PlayExpertCard5;
+                    PlayExpertCard5 castedMessage4 = (PlayExpertCard5) message;
+                    turnLogic.playExpertCard(player, castedMessage4.getStudents1(), castedMessage4.getStudents2(), playedCard);
+            }
+        }catch (IllegalMove|NotEnoughCoins e){
+            viewMap.get(message.getSenderPlayer()).showError("Cannot play this card");
         }
     }
 
