@@ -4,7 +4,6 @@ import it.polimi.ingsw.gameField.Node;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class GameFieldMessage extends Message {

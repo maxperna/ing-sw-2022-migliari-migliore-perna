@@ -2,8 +2,6 @@ package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
-import it.polimi.ingsw.network.messages.client_messages.MovedStudentToBoard;
-import it.polimi.ingsw.network.messages.server_messages.ErrorMessage;
 import org.jetbrains.annotations.TestOnly;
 
 import java.io.IOException;

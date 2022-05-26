@@ -4,7 +4,6 @@ import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 
-import java.util.List;
 import java.util.Map;
 
 

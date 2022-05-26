@@ -8,7 +8,6 @@ import it.polimi.ingsw.model.strategy.ThreePlayers;
 import it.polimi.ingsw.model.strategy.TwoPlayers;
 import org.jetbrains.annotations.NotNull;
 
-
 import java.util.ArrayList;
 import java.util.Collections;
 

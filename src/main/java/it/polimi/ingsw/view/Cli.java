@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view;
 
-import com.sun.javafx.collections.MappingChange;
 import it.polimi.ingsw.controller.GameState;
 import it.polimi.ingsw.gameField.Node;
 import it.polimi.ingsw.model.CloudTile;
@@ -10,12 +9,7 @@ import it.polimi.ingsw.model.TowerColor;
 import it.polimi.ingsw.model.experts.ExpertID;
 import it.polimi.ingsw.network.messages.Message;
 
-import java.net.http.WebSocket;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class Cli extends ViewSubject implements View {
     ArrayList<Listener> list = new ArrayList();

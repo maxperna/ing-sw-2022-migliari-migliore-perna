@@ -1,16 +1,15 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.exceptions.*;
-import it.polimi.ingsw.gameField.IslandList;
-import it.polimi.ingsw.gameField.Node;
-import it.polimi.ingsw.network.messages.server_messages.GameFieldMessage;
+import it.polimi.ingsw.exceptions.EndGameException;
+import it.polimi.ingsw.exceptions.NotEnoughSpace;
+import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
+import it.polimi.ingsw.exceptions.NotOnBoardException;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 /**Implementation of the player board, handling all the movements of the students from the outside hall to the
 *island or the inner hall or from the cloud tile to the outside hall

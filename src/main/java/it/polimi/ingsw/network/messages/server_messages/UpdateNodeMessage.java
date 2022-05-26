@@ -1,11 +1,8 @@
 package it.polimi.ingsw.network.messages.server_messages;
 
 import it.polimi.ingsw.gameField.Node;
-import it.polimi.ingsw.model.CloudTile;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
-
-import java.util.ArrayList;
 
 public class UpdateNodeMessage extends Message {
 

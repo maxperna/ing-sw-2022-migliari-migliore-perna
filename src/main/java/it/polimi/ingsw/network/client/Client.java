@@ -3,7 +3,6 @@ package it.polimi.ingsw.network.client;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.view.Subject;
 
-import java.util.Observable;
 import java.util.logging.Logger;
 
 /**Interface defying client actions

@@ -1,12 +1,10 @@
 package it.polimi.ingsw.network.messages.server_messages;
 
 import it.polimi.ingsw.model.CloudTile;
-import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 public class UpdateCloudsMessage extends Message {
 

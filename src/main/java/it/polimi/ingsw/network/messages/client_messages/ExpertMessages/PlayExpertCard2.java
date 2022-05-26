@@ -1,9 +1,5 @@
 package it.polimi.ingsw.network.messages.client_messages.ExpertMessages;
 
-import it.polimi.ingsw.model.Color;
-import it.polimi.ingsw.network.messages.Message;
-import it.polimi.ingsw.network.messages.MessageType;
-
 import java.util.UUID;
 
 /**Method 2 to play expert card with nodeID
