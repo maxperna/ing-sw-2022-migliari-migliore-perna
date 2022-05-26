@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view;
 
 import com.sun.javafx.collections.MappingChange;
+import it.polimi.ingsw.controller.GameState;
 import it.polimi.ingsw.gameField.Node;
 import it.polimi.ingsw.model.CloudTile;
 import it.polimi.ingsw.model.Color;
@@ -146,7 +147,9 @@ public class Cli extends ViewSubject implements View {
     public void showClouds(ArrayList<CloudTile> newClouds) {
     }
 
-    public void showCurrentPlayer(String currentPlayer) {
+    @Override
+    public void showCurrentPlayer(String currentPlayer, GameState currentState) {
+
     }
 
     public void showExpertCards(ArrayList<ExpertID> expertIDList) {

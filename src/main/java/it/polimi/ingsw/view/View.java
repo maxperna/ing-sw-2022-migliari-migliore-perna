@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.controller.GameState;
 import it.polimi.ingsw.gameField.Node;
 import it.polimi.ingsw.model.CloudTile;
 import it.polimi.ingsw.model.Color;
@@ -47,7 +48,7 @@ public interface View {
     /**Method to show the currentPlayer, only one player receives a message that notifies his turn
      * @param currentPlayer nickName of the player that will play
      */
-    void showCurrentPlayer(String currentPlayer);
+    void showCurrentPlayer(String currentPlayer, GameState currentState);
 
     /**Method to show all the experts, every player receives expertIDLists at the beginning of the game.
      * @param expertIDList arrayList that contains all the experts in the game

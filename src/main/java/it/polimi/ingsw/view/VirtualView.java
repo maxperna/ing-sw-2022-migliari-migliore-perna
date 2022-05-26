@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.controller.GameState;
 import it.polimi.ingsw.gameField.Node;
 import it.polimi.ingsw.model.CloudTile;
 import it.polimi.ingsw.model.Color;
@@ -84,8 +85,8 @@ public class VirtualView implements View {
     }
 
     @Override
-    public void showCurrentPlayer(String currentPlayer) {
-        clientHandler.sendMessage(new CurrentPlayerMessage(currentPlayer));
+    public void showCurrentPlayer(String currentPlayer, GameState currentState) {
+        clientHandler.sendMessage(new CurrentPlayerMessage(currentPlayer, currentState));
     }
 
     @Override

@@ -12,7 +12,6 @@ import it.polimi.ingsw.network.messages.server_messages.*;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.view.VirtualView;
 import org.jetbrains.annotations.TestOnly;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.FileNotFoundException;
@@ -20,7 +19,6 @@ import java.security.InvalidParameterException;
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static it.polimi.ingsw.network.messages.MessageType.*;
 /**
@@ -256,7 +254,7 @@ public class GameController implements PropertyChangeListener {
 
                         //sends to the first player a current player message
                         if(currentPlayer.getNickname().equals(turnLogic.getActivePlayer().getNickname()))
-                            currentView.showCurrentPlayer(currentPlayer.getNickname());
+                            currentView.showCurrentPlayer(currentPlayer.getNickname(), GameState.PREPARATION_PHASE);
                     }
 
                     setListeners();
@@ -274,14 +272,14 @@ public class GameController implements PropertyChangeListener {
                     //Switches turnLogic in actionPhase
                     turnLogic.switchPhase();
                     broadcast("Start ActionPhase");
-                    viewMap.get(turnLogic.getActivePlayer().getNickname()).showCurrentPlayer(turnLogic.getActivePlayer().getNickname());
+                    viewMap.get(turnLogic.getActivePlayer().getNickname()).showCurrentPlayer(turnLogic.getActivePlayer().getNickname(), GameState.ACTION_PHASE);
                     nextState = GameState.ACTION_PHASE;
                 }
                 else {
                     //Sends to the next player a message
                     Player nextPlayerAction = turnLogic.nextActivePlayer();
                     if(nextPlayerAction != null)
-                        viewMap.get(turnLogic.getActivePlayer().getNickname()).showCurrentPlayer(turnLogic.getActivePlayer().getNickname());
+                        viewMap.get(turnLogic.getActivePlayer().getNickname()).showCurrentPlayer(turnLogic.getActivePlayer().getNickname(), gameState);
                 }
                 break;
 
@@ -291,11 +289,11 @@ public class GameController implements PropertyChangeListener {
                 {
                     turnLogic.switchPhase();
                     broadcast("Start PreparationPhase");
-                    viewMap.get(turnLogic.getActivePlayer().getNickname()).showCurrentPlayer(turnLogic.getActivePlayer().getNickname());
+                    viewMap.get(turnLogic.getActivePlayer().getNickname()).showCurrentPlayer(turnLogic.getActivePlayer().getNickname(), GameState.PREPARATION_PHASE);
                     nextState = GameState.PREPARATION_PHASE;
                 }
                 else
-                    viewMap.get(turnLogic.nextActivePlayer().getNickname()).showCurrentPlayer(turnLogic.getActivePlayer().getNickname());
+                    viewMap.get(turnLogic.nextActivePlayer().getNickname()).showCurrentPlayer(turnLogic.getActivePlayer().getNickname(), gameState);
 
                 break;
         }
