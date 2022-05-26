@@ -260,7 +260,7 @@ public class GameController implements PropertyChangeListener {
                     setListeners();
 
                     //broadcast the start of the preparationPhase
-                    broadcast("PreparationPhase started");
+                    broadcast("Start PreparationPhase");
 
                     nextState = GameState.PREPARATION_PHASE;
                 }
@@ -271,8 +271,8 @@ public class GameController implements PropertyChangeListener {
                 if(turnLogic.getCardsPlayed().size() == game.NUM_OF_PLAYERS) {
                     //Switches turnLogic in actionPhase
                     turnLogic.switchPhase();
-                    broadcast("Start ActionPhase");
                     viewMap.get(turnLogic.getActivePlayer().getNickname()).showCurrentPlayer(turnLogic.getActivePlayer().getNickname(), GameState.ACTION_PHASE);
+                    broadcast("Start ActionPhase");
                     nextState = GameState.ACTION_PHASE;
                 }
                 else {
@@ -288,8 +288,8 @@ public class GameController implements PropertyChangeListener {
                 if(turnLogic.nextActivePlayer() == null)
                 {
                     turnLogic.switchPhase();
-                    broadcast("Start PreparationPhase");
                     viewMap.get(turnLogic.getActivePlayer().getNickname()).showCurrentPlayer(turnLogic.getActivePlayer().getNickname(), GameState.PREPARATION_PHASE);
+                    broadcast("Start PreparationPhase");
                     nextState = GameState.PREPARATION_PHASE;
                 }
                 else
