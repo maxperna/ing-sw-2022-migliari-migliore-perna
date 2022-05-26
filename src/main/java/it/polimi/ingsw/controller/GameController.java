@@ -318,18 +318,18 @@ public class GameController implements PropertyChangeListener {
      * @param receivedMessage, must be a CreatePlayerMessage, contains the player parameters
      */
     private void playersCreationState(Message receivedMessage){
+
+        String nick = receivedMessage.getSenderPlayer();
+
         try {
             if (receivedMessage.getType() == PLAYER_CREATION) {
-                String nick = receivedMessage.getSenderPlayer();
                 DeckType DT = ((CreatePlayerMessage) receivedMessage).getChosenDeckType();
                 TowerColor TC = ((CreatePlayerMessage) receivedMessage).getChosenTowerColor();
                 game.addPlayer(nick,DT,TC);
             }
-            else
-                throw new InvalidParameterException();
 
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            viewMap.get(nick).showError("File Not Found");
         }
     }
 
