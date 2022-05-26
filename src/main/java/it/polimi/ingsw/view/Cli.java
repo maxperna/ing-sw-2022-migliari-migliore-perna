@@ -121,6 +121,20 @@ public class Cli extends ViewSubject implements View {
     }
 
     public void showRemainingTowerAndDeck(ArrayList<TowerColor> remainingTowers, ArrayList<DeckType> remainingDecks) {
+        System.out.println("Remaining tower: "+remainingTowers);
+        System.out.println("Remaining deck: "+remainingDecks);
+
+        System.out.println("\n\n");
+
+        System.out.println("Select tower:");
+        int tower = scan.nextInt();
+        System.out.println("Select deck:");
+        int deck = scan.nextInt();
+
+        this.notifyListener((list)->{
+                list.chooseTowerColorAndDeck(remainingTowers.get(tower),remainingDecks.get(deck));
+        });
+
     }
 
     public void showInitPlayer(int numberOfTowers, ArrayList<Color> entranceHall) {

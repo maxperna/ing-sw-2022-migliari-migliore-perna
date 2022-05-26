@@ -152,7 +152,7 @@ public class ClientController implements ViewListener, Listener {
             case GAMEPARAM_REQUEST:
                 actionQueue.execute(view::askGameParam);
                 break;
-            case GET_EXPERT_PARAM:
+            case REMAINING_ITEM:
                 RemainingItemReply answer = (RemainingItemReply) receivedMessage;
                 actionQueue.execute(()->view.showRemainingTowerAndDeck(answer.getRemainingTowers(),answer.getReamingDecks()));
                 break;
@@ -172,6 +172,7 @@ public class ClientController implements ViewListener, Listener {
                 break;
             case ERROR:
                 break;
+
 
             /*CASE TYPE:
             *   richiedere un aggiornamento alla view*/

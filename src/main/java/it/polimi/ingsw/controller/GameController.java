@@ -246,7 +246,7 @@ public class GameController implements PropertyChangeListener {
             case LOGIN: //verifies that all the VirtualViews are set
                 if(game != null && viewMap.size() == game.NUM_OF_PLAYERS) {
                     broadcast("All players logged");
-                    Object firstKey = viewMap.keySet().toArray()[0];
+                    Object firstKey = viewMap.keySet().toArray()[getGame().NUM_OF_PLAYERS-1];
                     viewMap.get((String)firstKey).showRemainingTowerAndDeck(game.getAVAILABLE_TOWER_COLOR(),game.getAVAILABLE_DECK_TYPE());
                     nextState = GameState.CREATE_PLAYERS;
                 }

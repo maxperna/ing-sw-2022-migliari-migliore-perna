@@ -4,7 +4,6 @@ import it.polimi.ingsw.network.messages.Message;
 
 import java.io.IOException;
 import java.net.InetAddress;
-import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -31,7 +30,6 @@ public class Server_Socket implements Runnable{
             try{
                 Socket client = socketServer.accept();
 
-                client.setSoTimeout(5000);
 
                 ClientHandler clientHandler = new ClientHandler(this,client);
                 Thread clientThread = new Thread(clientHandler,"handler"+clientHandler.getClass().getName());
