@@ -259,9 +259,10 @@ public class GameController implements PropertyChangeListener {
                     //broadcast the start of the preparationPhase
                     broadcast("Start PreparationPhase");
 
+                    game.rechargeClouds();
+
                     nextState = GameState.PREPARATION_PHASE;
 
-                    game.rechargeClouds();
                 }
                 break;
 
