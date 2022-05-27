@@ -89,7 +89,7 @@ public class GameController implements PropertyChangeListener {
                     try {
                         //plays the card
                         turnLogic.setPlayedCard(((PlayAssistantMessage)receivedMessage).getPlayedCard(), currentPlayer);
-
+                        nextState();
                     }
                     catch (CardAlreadyPlayed e) {
                         for (String nickName : viewMap.keySet()) {
@@ -133,7 +133,6 @@ public class GameController implements PropertyChangeListener {
                             for (String nickName : viewMap.keySet()) {
                                 viewMap.get(nickName).showWinner(winner.getNickname());
                             }
-                        nextState();
                     }
                 }
 
