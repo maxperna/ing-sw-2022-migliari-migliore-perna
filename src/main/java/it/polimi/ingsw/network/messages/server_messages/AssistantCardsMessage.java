@@ -3,7 +3,6 @@ package it.polimi.ingsw.network.messages.server_messages;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
-import it.polimi.ingsw.network.messages.client_messages.AssistantCardMessage;
 
 import java.util.ArrayList;
 

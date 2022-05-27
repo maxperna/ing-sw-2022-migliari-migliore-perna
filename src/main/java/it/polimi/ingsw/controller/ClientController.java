@@ -91,7 +91,7 @@ public class ClientController implements ViewListener, Listener {
     /**Method used to play an assistant card
      * @param playedCard selected card to play*/
     public void playAssistantCard(int playedCard){
-         client.sendMessage(new AssistantCardMessage(nickname,playedCard));
+         client.sendMessage(new PlayAssistantMessage(nickname,playedCard));
     }
 
     public void moveMotherNature(int numberOfSteps){

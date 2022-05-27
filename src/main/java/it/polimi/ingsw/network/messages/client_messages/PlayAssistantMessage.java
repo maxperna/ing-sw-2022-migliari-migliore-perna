@@ -5,11 +5,11 @@ import it.polimi.ingsw.network.messages.MessageType;
 
 import java.util.UUID;
 
-public class AssistantCardMessage extends Message {
+public class PlayAssistantMessage extends Message {
     UUID identifier = UUID.randomUUID();
     private final int playedCard;
 
-    public AssistantCardMessage(String senderPlayer,int playedCard){
+    public PlayAssistantMessage(String senderPlayer, int playedCard){
         super(MessageType.PLAY_ASSISTANT_CARD,senderPlayer);
         this.playedCard = playedCard;
     }

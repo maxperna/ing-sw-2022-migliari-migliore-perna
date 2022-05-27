@@ -88,7 +88,7 @@ public class GameController implements PropertyChangeListener {
 
                     try {
                         //plays the card
-                        turnLogic.setPlayedCard(((AssistantCardMessage)receivedMessage).getPlayedCard(), currentPlayer);
+                        turnLogic.setPlayedCard(((PlayAssistantMessage)receivedMessage).getPlayedCard(), currentPlayer);
 
                     }
                     catch (CardAlreadyPlayed e) {
