@@ -60,4 +60,8 @@ public interface ExpertCard {
 
     /**Method to get the type of parameters required by UseCard method*/
     ExpertID getExpType();
+
+    /**Method used to get the description of the expertCard*/
+
+    String getExpDescription();
 }

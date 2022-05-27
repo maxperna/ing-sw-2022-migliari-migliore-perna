@@ -11,6 +11,7 @@ public class Expert9 implements ExpertCard {
     private int cost = 3;
     private final String IMG = "";            //front image of the card
     private final Game currentGame;
+    private final String description = "Choose a color; during this turn the students of that color are not counted during the check influence phase";
     public Expert9(Game currentGame){
         this.currentGame = currentGame;
     }
@@ -43,5 +44,10 @@ public class Expert9 implements ExpertCard {
     @Override
     public ExpertID getExpType(){
         return ID;
+    }
+
+    @Override
+    public String getExpDescription() {
+        return description;
     }
 }

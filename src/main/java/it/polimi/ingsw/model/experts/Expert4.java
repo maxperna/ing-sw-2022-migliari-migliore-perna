@@ -10,6 +10,7 @@ public class Expert4 implements ExpertCard {
     private int cost = 1;
     private final String IMG = "";            //front image of the card
     private final Game currentGame;
+    private final String description = "You can move Mother Nature up to 2 more islands over the limit shown on the action card";
 
     public Expert4(Game currentGame){
         this.currentGame = currentGame;
@@ -37,5 +38,10 @@ public class Expert4 implements ExpertCard {
     @Override
     public ExpertID getExpType(){
         return ID;
+    }
+
+    @Override
+    public String getExpDescription() {
+        return description;
     }
 }

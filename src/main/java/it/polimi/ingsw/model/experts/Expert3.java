@@ -10,6 +10,7 @@ public class Expert3 implements ExpertCard {
     private final Game currentGame;
     private int cost = 3;
     private final String IMG = "";            //front image of the card
+    private final String description = "Choose an island and check the influence as if Mother Nature was there.";
 
     public Expert3(Game currentGame){
         this.currentGame = currentGame;
@@ -41,4 +42,10 @@ public class Expert3 implements ExpertCard {
     public ExpertID getExpType(){
         return ID;
     }
+
+    @Override
+    public String getExpDescription() {
+        return description;
+    }
+
 }

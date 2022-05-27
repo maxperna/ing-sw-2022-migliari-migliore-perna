@@ -15,6 +15,7 @@ public class Expert12 implements ExpertCard {
     private int cost = 3;
     private final Game currentGame;
     private final String IMG = "";            //front image of the card
+    private final String description = "Choose a color; everyone this turn has to move to the pouch 3 students of that color from its dining room or entrance hall. If there are less than 4 students of that color, move all the students of that color";
 
     public Expert12(Game currentGame){
         this.currentGame = currentGame;
@@ -61,5 +62,10 @@ public class Expert12 implements ExpertCard {
     @Override
     public ExpertID getExpType(){
         return ID;
+    }
+
+    @Override
+    public String getExpDescription() {
+        return description;
     }
 }

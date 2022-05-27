@@ -10,6 +10,7 @@ public class Expert8 implements ExpertCard {
     private int cost = 2;
     private final Game currentGame;
     private final String IMG = "";            //front image of the card
+    private final String description = "During this turn, u get 2 extra influence points during the check influence phase";
 
     public Expert8(Game currentGame){
         this.currentGame = currentGame;
@@ -41,5 +42,10 @@ public class Expert8 implements ExpertCard {
     @Override
     public ExpertID getExpType(){
         return ID;
+    }
+
+    @Override
+    public String getExpDescription() {
+        return description;
     }
 }

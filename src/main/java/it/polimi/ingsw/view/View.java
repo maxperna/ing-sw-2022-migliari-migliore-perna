@@ -3,6 +3,7 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.controller.GameState;
 import it.polimi.ingsw.gameField.Node;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.model.experts.ExpertID;
 
 import java.util.ArrayList;
@@ -11,7 +12,6 @@ import java.util.Map;
 public interface View {
 
     void start();
-    void printText(String text);
     void askPlayerNickname();
 
     /**Method to ask the gameParam to the first player. must be done before logging others players
@@ -76,7 +76,8 @@ public interface View {
     void showWinner(String winner);
     void showError(String errorMessage);
     void showExpertID(ArrayList<ExpertID> expertID);
+    void showExpertCard(ArrayList<ExpertCard> expertCard);
     void disconnect();
 
-    void showAssistant(ArrayList<AssistantCard> cards);
+    void showAssistant(ArrayList<AssistantCard> deck);
 }

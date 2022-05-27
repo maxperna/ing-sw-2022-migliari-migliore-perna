@@ -3,6 +3,7 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.controller.GameState;
 import it.polimi.ingsw.gameField.Node;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.model.experts.ExpertID;
 import it.polimi.ingsw.network.messages.client_messages.GameParamRequest;
 import it.polimi.ingsw.network.messages.server_messages.*;
@@ -36,11 +37,6 @@ public class VirtualView implements View {
     @TestOnly
     public VirtualView() {
         clientHandler = new ClientHandler();
-    }
-
-    @Override
-    public void printText(String text) {
-        System.out.println(text);
     }
 
     @Override
@@ -125,7 +121,6 @@ public class VirtualView implements View {
         clientHandler.disconnect();
     }
 
-    @Override
     public void showAssistant(ArrayList<AssistantCard> cards) {
         clientHandler.sendMessage(new AssistantCardsMessage(cards));
     }
@@ -137,5 +132,10 @@ public class VirtualView implements View {
     @Override
     public void showExpertID(ArrayList<ExpertID> expertID){
         clientHandler.sendMessage(new ExpertCardReply(expertID));
+    }
+
+    @Override
+    public void showExpertCard(ArrayList<ExpertCard> expertCard) {
+
     }
 }
