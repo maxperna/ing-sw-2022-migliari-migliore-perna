@@ -15,6 +15,7 @@ public class Expert5 implements ExpertCard {
     private final ArrayList<Node> stoppedIsland;
     private int cost = 2;
     private final Game currentGame;
+    private final String description = "Place a stop card on an island; when Mother Nature reaches that island, skip the check influence phase and remove the stop card.";
 
     private final String IMG = "";            //front image of the card
 
@@ -72,5 +73,10 @@ public class Expert5 implements ExpertCard {
     @Override
     public ExpertID getExpType(){
         return ID;
+    }
+
+    @Override
+    public String getExpDescription() {
+        return description;
     }
 }

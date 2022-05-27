@@ -13,6 +13,7 @@ public class Expert7 implements ExpertCard {
     private int cost = 1;
     private final ArrayList<Color> studentsOnCard;
     private final Game currentGame;
+    private final String description = "Choose up to 3 students from this card; switch them with the same number of students of your choice from your entrance hall";
 
     private final String IMG = "";            //front image of the card
 
@@ -70,5 +71,10 @@ public class Expert7 implements ExpertCard {
     @Override
     public ExpertID getExpType(){
         return ID;
+    }
+
+    @Override
+    public String getExpDescription() {
+        return description;
     }
 }

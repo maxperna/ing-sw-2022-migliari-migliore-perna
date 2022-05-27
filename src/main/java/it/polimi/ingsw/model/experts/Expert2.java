@@ -18,6 +18,7 @@ public class Expert2 implements ExpertCard {
     private int cost = 2;
     private final String IMG = "";
     private final Game currentGame;
+    private final String description = "During this turn you can take control of professors even if you only match the maximum number of students of that color on your board";
 
     private final ConcurrentHashMap<Player,Color> affectedPlayer;   //hashmap to keep track of the affected players
     private Player usingPlayer = null;     //variable to track the current user of the card
@@ -73,5 +74,10 @@ public class Expert2 implements ExpertCard {
     @Override
     public ExpertID getExpType(){
         return ID;
+    }
+
+    @Override
+    public String getExpDescription() {
+        return description;
     }
 }

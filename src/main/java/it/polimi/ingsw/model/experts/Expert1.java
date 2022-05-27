@@ -21,6 +21,7 @@ public class Expert1 implements ExpertCard {
     private int cost = 1;
     private final String IMG = "";            //front image of the card
     private final Game currentGame;
+    private final String description = "Choose one of the students on this card and place it on one island, then draw a student from the pouch and place it on this card";
 
     public Expert1(Game currentGame){
         this.currentGame = currentGame;
@@ -71,5 +72,10 @@ public class Expert1 implements ExpertCard {
     @Override
     public ExpertID getExpType(){
         return ID;
+    }
+
+    @Override
+    public String getExpDescription() {
+        return description;
     }
 }

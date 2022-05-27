@@ -3,6 +3,7 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.controller.GameState;
 import it.polimi.ingsw.gameField.Node;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.model.experts.ExpertID;
 import it.polimi.ingsw.network.messages.Message;
 
@@ -11,6 +12,12 @@ import java.util.*;
 public class Cli extends ViewSubject implements View {
     ArrayList<Listener> list = new ArrayList();
     Scanner scan;
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_PINK = "\u001B[35m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_GREEN = "\u001B[32m";
 
     public Cli() {
         this.scan = new Scanner(System.in);
@@ -61,7 +68,7 @@ public class Cli extends ViewSubject implements View {
 
 
     public void askPlayerNickname() {
-        String nickname = "";
+        String nickname;
 
         do {
             System.out.print("Insert your nickname here: ");
@@ -77,8 +84,6 @@ public class Cli extends ViewSubject implements View {
         });
     }
 
-    public void printText(String text) {
-    }
 
     public void askGameParam() {
         boolean expert = false;
@@ -129,39 +134,55 @@ public class Cli extends ViewSubject implements View {
 
     }
 
-    //PROVA CLIENT CONTROLLER
-    public void prepPhase(){
-        System.out.println("Start prep phase");
-    }
-
-    public void showAssistant(ArrayList<AssistantCard> cards){
-
-
-
-        System.out.println("\n\n");
-
-        cards.stream().map(AssistantCard::getActionNumber).forEach(System.out::println);
-        System.out.println("\n\nChoose card: ");
-        int choose = this.scan.nextInt();
-
-        this.notifyListener((list)->{
-            list.playAssistantCard(choose);
-        });
-
-        cards.remove(choose);
-        System.out.println("\n"+cards);
-
-
-    }
     public void showInitPlayer(int numberOfTowers, ArrayList<Color> entranceHall) {
     }
 
     public void showGameField(Map<Integer, Node> gameFieldMap) {
+        for(int i=0; i<gameFieldMap.size(); i++) {
+            System.out.print("Island " +(i+1)+":");
+            for(int j=0; j<gameFieldMap.get(i).getStudents().size(); j++) {
+                switch (gameFieldMap.get(i).getStudents().get(j)) {
+                    case RED: System.out.print(ANSI_RED + "██ " + ANSI_RESET);
+                        break;
+                    case BLUE: System.out.print(ANSI_BLUE + "██ " + ANSI_RESET);
+                        break;
+                    case GREEN: System.out.print(ANSI_GREEN + "██ " + ANSI_RESET);
+                        break;
+                    case YELLOW: System.out.print(ANSI_YELLOW + "██ " + ANSI_RESET);
+                        break;
+                    case PINK: System.out.print(ANSI_PINK + "██ " + ANSI_RESET);
+                        break;
+                }
+        }
+            System.out.println();
+
+            }
     }
 
     public void showClouds(ArrayList<CloudTile> newClouds) {
-        System.out.println("\n\n");
-        newClouds.stream().map(CloudTile::getStudents).forEach(System.out::println);
+        for (CloudTile cloud : newClouds) {
+            System.out.print("Cloud " + cloud.getTileID() + " contains the following students: ");
+            for (int j = 0; j < cloud.getStudents().size(); j++) {
+                switch (cloud.getStudents().get(j)) {
+                    case RED:
+                        System.out.print(ANSI_RED + "██ " + ANSI_RESET);
+                        break;
+                    case BLUE:
+                        System.out.print(ANSI_BLUE + "██ " + ANSI_RESET);
+                        break;
+                    case GREEN:
+                        System.out.print(ANSI_GREEN + "██ " + ANSI_RESET);
+                        break;
+                    case YELLOW:
+                        System.out.print(ANSI_YELLOW + "██ " + ANSI_RESET);
+                        break;
+                    case PINK:
+                        System.out.print(ANSI_PINK + "██ " + ANSI_RESET);
+                        break;
+                }
+            }
+            System.out.println();
+        }
     }
 
     @Override
@@ -176,6 +197,7 @@ public class Cli extends ViewSubject implements View {
     }
 
     public void updateNode(Node updatedNode) {
+        System.out.println("A change happened on an island");
     }
 
     public void showGenericMessage(String genericMessage) {
@@ -186,15 +208,20 @@ public class Cli extends ViewSubject implements View {
     }
 
     public void showWinner(String winner) {
+        System.out.println("Congratulations! " +winner+ " is the winner!");
     }
 
     public void showError(String errorMessage) {
+        System.out.println(errorMessage);
     }
 
     public void showExpertID(ArrayList<ExpertID> expertID) {
     }
 
-    public void getServerInfo() {
+    @Override
+    public void showExpertCard(ArrayList<ExpertCard> expertCard) {
+        for(ExpertCard expert : expertCard)
+            System.out.println("Expert card cost: "+expert.getCost()+"/nExpert card effect: " +expert.getExpDescription());
     }
 
 
@@ -214,8 +241,9 @@ public class Cli extends ViewSubject implements View {
         });
     }
 
-    /*public void selectStudent(ArrayList<Color> students) {
+    public void selectStudent(ArrayList<Color> students, int islands) {
         Color finalColor = null;
+        int chosenIsland;
 
         String color;
         do {
@@ -231,7 +259,7 @@ public class Cli extends ViewSubject implements View {
             case "RED":
                 finalColor = Color.RED;
                 break;
-            case "YELLLOW":
+            case "YELLOW":
                 finalColor = Color.YELLOW;
                 break;
             case "PINK":
@@ -249,17 +277,18 @@ public class Cli extends ViewSubject implements View {
         if (position.contains("BOARD"))
             notifyListener(list -> list.moveStudentToDinner(finalColor1));
         else if (position.contains("ISLAND")) {
-            notifyListener(list -> list.moveStudentToIsland();
+            System.out.println("On which island do you want to move the student?");
+            chosenIsland = Integer.parseInt(scan.next());
+            notifyListener(list -> list.moveStudentToIsland(finalColor1, chosenIsland));
         }
-
-    }*/
+    }
 
     public void catchAction(Message receivedMessage) {
     }
 
-    public void chooseTowerColorAndDeckType(ArrayList<TowerColor> availableColors, ArrayList<DeckType> availableDecks) {
+    /*public void chooseTowerColorAndDeckType(ArrayList<TowerColor> availableColors, ArrayList<DeckType> availableDecks) {
         TowerColor finalColor = null;
-        boolean valid = false;
+        Boolean valid = false;
         String deckChosen;
         DeckType deck = null;
 
@@ -322,7 +351,7 @@ public class Cli extends ViewSubject implements View {
         DeckType finalDeck = deck;
 
         notifyListener(list -> list.chooseTowerColorAndDeck(finalColor1, finalDeck));
-    }
+    }*/
 
 
     public String chooseDestination() {
@@ -358,5 +387,10 @@ public class Cli extends ViewSubject implements View {
     }
 
     public void disconnect() {
+    }
+
+    @Override
+    public void showAssistant(ArrayList<AssistantCard> deck) {
+
     }
 }

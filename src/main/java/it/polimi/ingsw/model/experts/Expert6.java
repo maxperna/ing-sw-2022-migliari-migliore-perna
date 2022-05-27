@@ -10,6 +10,7 @@ public class Expert6 implements ExpertCard {
     private int cost = 3;
     private final Game currentGame;
     private final String IMG = "";            //front image of the card
+    private final String description = "During the check influence phase, the towers are not included";
 
     public Expert6(Game currentGame){
         this.currentGame = currentGame;
@@ -42,5 +43,10 @@ public class Expert6 implements ExpertCard {
     @Override
     public ExpertID getExpType(){
         return ID;
+    }
+
+    @Override
+    public String getExpDescription() {
+        return description;
     }
 }

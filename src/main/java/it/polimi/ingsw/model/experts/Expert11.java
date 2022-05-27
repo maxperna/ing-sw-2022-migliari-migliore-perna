@@ -17,6 +17,7 @@ public class Expert11 implements ExpertCard {
     private int cost = 2;
     private final Game currentGame;
     private final ArrayList<Color> studentsOnCard;
+    private final String description = "Choose one student from this card and place him on your hall. Then draw a student and place it on this card";
 
     private final String IMG = "";            //front image of the card
 
@@ -74,5 +75,10 @@ public class Expert11 implements ExpertCard {
     @Override
     public ExpertID getExpType(){
         return ID;
+    }
+
+    @Override
+    public String getExpDescription() {
+        return description;
     }
 }
