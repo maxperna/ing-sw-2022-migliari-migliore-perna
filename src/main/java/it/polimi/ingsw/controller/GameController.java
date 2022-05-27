@@ -77,6 +77,8 @@ public class GameController implements PropertyChangeListener {
 
             case PREPARATION_PHASE: //PreparationPhase logic
 
+
+
                 if (receivedMessage.getType() == PLAY_ASSISTANT_CARD) {
 
                     Player currentPlayer = game.getPlayerByNickName(senderPlayer);
@@ -273,8 +275,9 @@ public class GameController implements PropertyChangeListener {
                 else {
                     //Sends to the next player a message
                     Player nextPlayerAction = turnLogic.nextActivePlayer();
-                    if(nextPlayerAction != null)
+                    if(nextPlayerAction != null) {
                         viewMap.get(turnLogic.getActivePlayer().getNickname()).showCurrentPlayer(turnLogic.getActivePlayer().getNickname(), gameState);
+                    }
                 }
                 break;
 
