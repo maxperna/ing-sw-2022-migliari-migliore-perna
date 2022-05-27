@@ -45,7 +45,7 @@ public class GameController implements PropertyChangeListener {
      * method to manage the received messages
      * @param receivedMessage received message
      */
-    public void onMessageReceived (Message receivedMessage) {
+    public synchronized void onMessageReceived (Message receivedMessage) {
 
         String senderPlayer = receivedMessage.getSenderPlayer();
 
