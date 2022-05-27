@@ -136,6 +136,7 @@ public class Game {
             }
 
             support.firePropertyChange("UpdateCloud", false, true);
+
         } catch (NotEnoughStudentsException e) {
             throw new RuntimeException(e);
         }
