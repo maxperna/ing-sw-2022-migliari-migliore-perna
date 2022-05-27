@@ -58,7 +58,6 @@ public class CloudTile implements Serializable {
     }
 
     public void setStudents(ArrayList<Color> students) {
-        support.firePropertyChange("UpdateCloud", this.students, students);
         this.students = students;
     }
 
