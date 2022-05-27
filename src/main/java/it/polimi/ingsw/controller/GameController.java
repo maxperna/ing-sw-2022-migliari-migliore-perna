@@ -12,7 +12,6 @@ import it.polimi.ingsw.network.messages.server_messages.GameParamMessage;
 import it.polimi.ingsw.network.messages.server_messages.GenericMessage;
 import it.polimi.ingsw.view.VirtualView;
 import org.jetbrains.annotations.TestOnly;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.FileNotFoundException;
@@ -77,11 +76,6 @@ public class GameController implements PropertyChangeListener {
                 break;
 
             case PREPARATION_PHASE: //PreparationPhase logic
-
-                if(receivedMessage.getType() == CHARGECLOUD) {
-                    //Charge clouds
-                    game.rechargeClouds();
-                }
 
                 if (receivedMessage.getType() == PLAY_ASSISTANT_CARD) {
 
@@ -262,6 +256,8 @@ public class GameController implements PropertyChangeListener {
                     broadcast("Start PreparationPhase");
 
                     nextState = GameState.PREPARATION_PHASE;
+
+                    game.rechargeClouds();
                 }
                 break;
 
@@ -309,7 +305,6 @@ public class GameController implements PropertyChangeListener {
         boolean expertMode = ((GameParamMessage) receivedMessage).isExpertMode();
         game = GameManager.getInstance().initGame(fromIntToGameMode(numOfPlayers), expertMode);
         setTurnLogic(new TurnLogic(game));
-
     }
 
     /**
