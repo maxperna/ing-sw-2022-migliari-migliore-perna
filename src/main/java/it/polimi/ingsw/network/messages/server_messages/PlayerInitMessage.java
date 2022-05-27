@@ -13,7 +13,7 @@ public class PlayerInitMessage extends Message {
 
     public PlayerInitMessage(int numberOfTowers, ArrayList<Color> entranceHall) {
 
-        super(MessageType.PLAYER_INIT, "Sono Beppe Sala");
+        super(MessageType.PLAYER_INIT, "Sono Beppe (waiting) room :)");
         this.numberOfTowers = numberOfTowers;
         this.entranceHall = entranceHall;
     }

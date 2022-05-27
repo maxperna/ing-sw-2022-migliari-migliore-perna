@@ -2,10 +2,7 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.controller.GameState;
 import it.polimi.ingsw.gameField.Node;
-import it.polimi.ingsw.model.CloudTile;
-import it.polimi.ingsw.model.Color;
-import it.polimi.ingsw.model.DeckType;
-import it.polimi.ingsw.model.TowerColor;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.experts.ExpertID;
 import it.polimi.ingsw.network.messages.Message;
 
@@ -132,6 +129,25 @@ public class Cli extends ViewSubject implements View {
 
     }
 
+    //PROVA CLIENT CONTROLLER
+    public void prepPhase(){
+        System.out.println("Start prep phase");
+    }
+
+    public void showAssistant(ArrayList<AssistantCard> cards){
+        System.out.println(cards);
+        System.out.println("\n\nChoose card: ");
+        int choose = this.scan.nextInt();
+
+        this.notifyListener((list)->{
+            list.playAssistantCard(choose);
+        });
+
+        cards.remove(choose);
+        System.out.println("\n"+cards);
+
+
+    }
     public void showInitPlayer(int numberOfTowers, ArrayList<Color> entranceHall) {
     }
 
@@ -236,7 +252,7 @@ public class Cli extends ViewSubject implements View {
 
     public void chooseTowerColorAndDeckType(ArrayList<TowerColor> availableColors, ArrayList<DeckType> availableDecks) {
         TowerColor finalColor = null;
-        Boolean valid = false;
+        boolean valid = false;
         String deckChosen;
         DeckType deck = null;
 

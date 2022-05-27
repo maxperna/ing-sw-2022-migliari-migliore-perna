@@ -9,10 +9,7 @@ import it.polimi.ingsw.network.client.ClientSocket;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.client_messages.*;
 import it.polimi.ingsw.network.messages.client_messages.ExpertMessages.*;
-import it.polimi.ingsw.network.messages.server_messages.ExpertCardReply;
-import it.polimi.ingsw.network.messages.server_messages.GameParamMessage;
-import it.polimi.ingsw.network.messages.server_messages.GenericMessage;
-import it.polimi.ingsw.network.messages.server_messages.RemainingItemReply;
+import it.polimi.ingsw.network.messages.server_messages.*;
 import it.polimi.ingsw.view.Listener;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.ViewListener;
@@ -128,6 +125,11 @@ public class ClientController implements ViewListener, Listener {
         client.sendMessage(new PlayExpertCard5(nickname,student1,student2,cardID));
     }
 
+    /**Method to get deck info*/
+    public void requestAssistants(){
+        client.sendMessage(new AssistantInfoMessage(nickname));
+    }
+
     /**Sub state machine catching the type of experts to play get reading expertCardReply type
      * @param cardID chosen card to play*/
     public void applyExpertEffect(int cardID){
@@ -156,11 +158,32 @@ public class ClientController implements ViewListener, Listener {
                 RemainingItemReply answer = (RemainingItemReply) receivedMessage;
                 actionQueue.execute(()->view.showRemainingTowerAndDeck(answer.getRemainingTowers(),answer.getReamingDecks()));
                 break;
+            case CURRENT_PLAYER:
+                CurrentPlayerMessage currPlayer = (CurrentPlayerMessage) receivedMessage;
+                switch(currPlayer.getCurrentState()){
+                    case PREPARATION_PHASE:
+                        requestAssistants();
+                        //preparation phase method
+                        break;
+                    case ACTION_PHASE:
+                        //action phase method cli
+                        break;
+                }
+            case UPDATE_COIN:
+                break;
             case NOTIFY_MERGE:
                 //notify the merging of the island
                 break;
             case NOTIFY_VICTORY:
                 //end of the game, showing winning player
+                break;
+            case END_GAME:
+                break;
+            case UPDATE_TEACHERS:
+                break;
+            case ASSISTANT_INFO:
+                AssistantCardsMessage assistantsInfo = (AssistantCardsMessage) receivedMessage;
+                actionQueue.execute(()->view.showAssistant(assistantsInfo.getDeck()));
                 break;
             case GENERIC:
                 GenericMessage message = (GenericMessage) receivedMessage;

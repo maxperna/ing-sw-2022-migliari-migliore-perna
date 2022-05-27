@@ -9,6 +9,9 @@ public enum MessageType {
     ENDLOGIN,
     /**Param to create game (only first LogIn)*/
     GAMEPARAM,
+
+    /**Request for assistant card deck*/
+    ASSISTANT_INFO,
     /**Request for game parameters*/
     GAMEPARAM_REQUEST,
     /**Request for player creation parameters*/

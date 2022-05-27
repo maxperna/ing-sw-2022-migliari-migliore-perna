@@ -28,6 +28,8 @@ public interface ViewListener {
 
     void chooseTowerColorAndDeck(TowerColor color, DeckType deck);
 
+    public void playAssistantCard(int playedCard);
+
     void chooseDestination(String destination);
 
     void getPlayerInfo(String player);

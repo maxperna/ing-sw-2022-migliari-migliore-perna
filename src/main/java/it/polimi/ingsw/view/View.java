@@ -2,10 +2,7 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.controller.GameState;
 import it.polimi.ingsw.gameField.Node;
-import it.polimi.ingsw.model.CloudTile;
-import it.polimi.ingsw.model.Color;
-import it.polimi.ingsw.model.DeckType;
-import it.polimi.ingsw.model.TowerColor;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.experts.ExpertID;
 
 import java.util.ArrayList;
@@ -80,4 +77,6 @@ public interface View {
     void showError(String errorMessage);
     void showExpertID(ArrayList<ExpertID> expertID);
     void disconnect();
+
+    void showAssistant(ArrayList<AssistantCard> cards);
 }

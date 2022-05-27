@@ -10,10 +10,12 @@ public class CurrentPlayerMessage extends Message {
     private final GameState currentState;
 
     public CurrentPlayerMessage(String currentPlayer, GameState currentState) {
-        super(MessageType.CURRENT_PLAYER, "Sono Beppe Sala");
+        super(MessageType.CURRENT_PLAYER, "Server");
         this.currentPlayer = currentPlayer;
         this.currentState = currentState;
     }
+
+
 
     public String getCurrentPlayer() {
         return currentPlayer;
@@ -22,4 +24,6 @@ public class CurrentPlayerMessage extends Message {
     public GameState getCurrentState() {
         return currentState;
     }
+
+
 }
