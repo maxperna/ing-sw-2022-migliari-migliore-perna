@@ -2,11 +2,9 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.controller.GameState;
 import it.polimi.ingsw.gameField.Node;
-import it.polimi.ingsw.model.CloudTile;
-import it.polimi.ingsw.model.Color;
-import it.polimi.ingsw.model.DeckType;
-import it.polimi.ingsw.model.TowerColor;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.experts.ExpertID;
+import it.polimi.ingsw.network.messages.client_messages.AssistantCardMessage;
 import it.polimi.ingsw.network.messages.client_messages.GameParamRequest;
 import it.polimi.ingsw.network.messages.server_messages.*;
 import it.polimi.ingsw.network.server.ClientHandler;
@@ -127,6 +125,12 @@ public class VirtualView implements View {
     public void disconnect() {
         clientHandler.disconnect();
     }
+
+    @Override
+    public void showAssistant(ArrayList<AssistantCard> cards) {
+        clientHandler.sendMessage(new AssistantCardsMessage(cards));
+    }
+
     public ClientHandler getClientHandler() {
         return clientHandler;
     }
