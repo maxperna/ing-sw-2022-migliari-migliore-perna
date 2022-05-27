@@ -168,7 +168,13 @@ public class ClientController implements ViewListener, Listener {
                     case ACTION_PHASE:
                         //action phase method cli
                         break;
-                }
+
+                }break;
+
+            case CHARGECLOUD:
+                UpdateCloudsMessage cloudsMessage = (UpdateCloudsMessage) receivedMessage;
+                actionQueue.execute(()->view.showClouds(cloudsMessage.getChargedClouds()));
+                break;
             case UPDATE_COIN:
                 break;
             case NOTIFY_MERGE:

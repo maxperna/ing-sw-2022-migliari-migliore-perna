@@ -135,7 +135,12 @@ public class Cli extends ViewSubject implements View {
     }
 
     public void showAssistant(ArrayList<AssistantCard> cards){
-        System.out.println(cards);
+
+
+
+        System.out.println("\n\n");
+
+        cards.stream().map(AssistantCard::getActionNumber).forEach(System.out::println);
         System.out.println("\n\nChoose card: ");
         int choose = this.scan.nextInt();
 
@@ -155,6 +160,8 @@ public class Cli extends ViewSubject implements View {
     }
 
     public void showClouds(ArrayList<CloudTile> newClouds) {
+        System.out.println("\n\n");
+        newClouds.stream().map(CloudTile::getStudents).forEach(System.out::println);
     }
 
     @Override
