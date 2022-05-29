@@ -1,12 +1,15 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.controller.GameState;
+import it.polimi.ingsw.exceptions.NotEnoughSpace;
 import it.polimi.ingsw.gameField.Node;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.model.experts.ExpertID;
 import it.polimi.ingsw.network.messages.Message;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.*;
 
 public class Cli extends ViewSubject implements View {
@@ -18,6 +21,7 @@ public class Cli extends ViewSubject implements View {
     public static final String ANSI_PINK = "\u001B[35m";
     public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String CLEAR = "\033[H\033[2J";
 
     public Cli() {
         this.scan = new Scanner(System.in);
@@ -45,7 +49,7 @@ public class Cli extends ViewSubject implements View {
     public void connectionRequest() {
         HashMap<String, String> serverInfo = new HashMap<>();
         String defaultAddress = "localhost";
-        String defaultPort = "16847";
+        String defaultPort = "13000";
         String address;
         String port;
         System.out.println("Choose the server address: [" + defaultAddress + "]");
@@ -57,6 +61,8 @@ public class Cli extends ViewSubject implements View {
 
         System.out.println("Choose the server port: ["+defaultPort+"]");
         port = scan.next();
+        if(port == null)
+            serverInfo.put("port", defaultPort);
         serverInfo.put("port", port);
 
 
@@ -101,12 +107,12 @@ public class Cli extends ViewSubject implements View {
         do {
             System.out.print("Do you want to play in expert mode? [Y/N] ");
             expertMode = this.scan.next().toUpperCase(Locale.ROOT);
-            if (!expertMode.contains("Y") && !expertMode.contains("N")) {
+            if (!expertMode.equals("Y") && !expertMode.equals("N")) {
                 System.out.println("Invalid parameter");
             }
-        } while(!expertMode.contains("Y") && !expertMode.contains("N"));
+        } while(!expertMode.equals("Y") && !expertMode.equals("N"));
 
-        if (expertMode.contains("Y") && !expertMode.contains("N")) {
+        if (expertMode.equals("Y") && !expertMode.equals("N")) {
             expert = true;
         }
 
@@ -123,21 +129,22 @@ public class Cli extends ViewSubject implements View {
 
         System.out.println("\n\n");
 
-        System.out.println("Select tower:");
-        int tower = scan.nextInt();
-        System.out.println("Select deck:");
-        int deck = scan.nextInt();
+        System.out.println("Select tower by putting its position (1 to "+remainingTowers.size()+"): ");
+        int tower = scan.nextInt()-1;
+        System.out.println("Select deck by putting its position (1 to "+remainingDecks.size()+"): ");
+        int deck = scan.nextInt()-1;
 
         this.notifyListener((list)->{
                 list.chooseTowerColorAndDeck(remainingTowers.get(tower),remainingDecks.get(deck));
         });
+        clearCli();
 
     }
 
     public void showInitPlayer(int numberOfTowers, ArrayList<Color> entranceHall) {
     }
 
-    public void showGameField(Map<Integer, Node> gameFieldMap) {
+    public void showGameField(Map<Integer, Node> gameFieldMap, Board board, int players) {
         for(int i=0; i<gameFieldMap.size(); i++) {
             System.out.print("Island " +(i+1)+":");
             for(int j=0; j<gameFieldMap.get(i).getStudents().size(); j++) {
@@ -153,33 +160,17 @@ public class Cli extends ViewSubject implements View {
                     case PINK: System.out.print(ANSI_PINK + "██ " + ANSI_RESET);
                         break;
                 }
-        }
-            System.out.println();
-
             }
+            System.out.println();
+            printBoard(board, players);
+        }
     }
 
     public void showClouds(ArrayList<CloudTile> newClouds) {
         for (CloudTile cloud : newClouds) {
             System.out.print("Cloud " + cloud.getTileID() + " contains the following students: ");
             for (int j = 0; j < cloud.getStudents().size(); j++) {
-                switch (cloud.getStudents().get(j)) {
-                    case RED:
-                        System.out.print(ANSI_RED + "██ " + ANSI_RESET);
-                        break;
-                    case BLUE:
-                        System.out.print(ANSI_BLUE + "██ " + ANSI_RESET);
-                        break;
-                    case GREEN:
-                        System.out.print(ANSI_GREEN + "██ " + ANSI_RESET);
-                        break;
-                    case YELLOW:
-                        System.out.print(ANSI_YELLOW + "██ " + ANSI_RESET);
-                        break;
-                    case PINK:
-                        System.out.print(ANSI_PINK + "██ " + ANSI_RESET);
-                        break;
-                }
+                toColor(cloud.getStudents().get(j), "██ ");
             }
             System.out.println();
         }
@@ -286,74 +277,6 @@ public class Cli extends ViewSubject implements View {
     public void catchAction(Message receivedMessage) {
     }
 
-    /*public void chooseTowerColorAndDeckType(ArrayList<TowerColor> availableColors, ArrayList<DeckType> availableDecks) {
-        TowerColor finalColor = null;
-        Boolean valid = false;
-        String deckChosen;
-        DeckType deck = null;
-
-        String towerColor;
-        do {
-            System.out.println("Choose your tower color: " + availableColors.toString());
-            towerColor = this.scan.next().toUpperCase(Locale.ROOT);
-            if (availableColors.size() == 3) {
-                if (!towerColor.contains("WHITE") && !towerColor.contains("BLACK") && towerColor.contains("GREY")) {
-                }
-
-                valid = true;
-            } else if (availableColors.size() == 2) {
-                if (!towerColor.contains("WHITE") && towerColor.contains("BLACK")) {
-                }
-
-                valid = true;
-            } else {
-                System.out.println("Invalid parameter");
-            }
-        } while(!valid);
-
-        switch (towerColor) {
-            case "BLACK":
-                finalColor = TowerColor.BLACK;
-                break;
-            case "WHITE":
-                finalColor = TowerColor.WHITE;
-                break;
-            case "GRAY":
-                finalColor = TowerColor.GRAY;
-                break;
-        }
-
-        TowerColor finalColor1 = finalColor;
-
-        do {
-            System.out.print("Choose your deck of cards: " + availableDecks.toString());
-            deckChosen = this.scan.next().toUpperCase(Locale.ROOT);
-            if (!availableDecks.toString().contains(deckChosen)) {
-                System.out.println("Invalid input");
-            }
-        } while(!availableDecks.toString().contains(deckChosen));
-
-        switch (deckChosen) {
-            case "DRUID":
-                deck = DeckType.DRUID;
-                break;
-            case "SAGE":
-                deck = DeckType.SAGE;
-                break;
-            case "WITCH":
-                deck = DeckType.WITCH;
-                break;
-            case "KING":
-                deck = DeckType.KING;
-                break;
-        }
-
-        DeckType finalDeck = deck;
-
-        notifyListener(list -> list.chooseTowerColorAndDeck(finalColor1, finalDeck));
-    }*/
-
-
     public String chooseDestination() {
         String destination;
         do {
@@ -383,14 +306,108 @@ public class Cli extends ViewSubject implements View {
         });
     }
 
-    public void remainingTowerAndDeck(ArrayList<TowerColor> remainingTowers, ArrayList<DeckType> remainingDecks) {
-    }
-
     public void disconnect() {
     }
 
     @Override
     public void showAssistant(ArrayList<AssistantCard> deck) {
 
+    }
+
+    public void clearCli() {
+        System.out.println(CLEAR);
+        System.out.flush();
+        System.out.println("                                                       ");
+        System.out.println("▀███▀▀▀███                                       ██   ██");
+        System.out.println(" ██     ▀█                                       ██");
+        System.out.println(" ██   █  ▀███▄███▀██▀   ▀██▀▄█▀██▄ ▀████████▄ ██████▀███  ▄██▀███");
+        System.out.println(" ██████    ██▀ ▀▀  ██   ▄█ ██   ██   ██    ██   ██    ██  ██   ▀▀");
+        System.out.println(" ██   █  ▄ ██       ██ ▄█   ▄█████   ██    ██   ██    ██  ▀█████▄");
+        System.out.println(" ██     ▄█ ██        ███   ██   ██   ██    ██   ██    ██  █▄   ██");
+        System.out.println("▄██████████████▄      ▄█    ▀████▀██▄████  ████▄ ▀████████▄██████▀");
+        System.out.println("                     ▄█");
+        System.out.println("                   ██▀");
+
+    }
+
+    public void printBoard(Board board, int players) {
+
+        int upperLimit;
+        int k = 0;
+        Color[] color = Color.values();
+        int color_index = 0;
+
+        if(players == 2)
+            upperLimit = 6;
+        else
+            upperLimit = 8;
+
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 108; j++) {
+                if (i == 0 || i == 5)
+                    System.out.print("_");
+                else if (i == 1 && j == 0)
+                    System.out.println();
+                else if (j == 0 || j == 6) {
+                    if (k < upperLimit) {
+                        System.out.println("|                       |                                                                          |       |");
+                        System.out.print("|      " + toColor(board.getEntryRoom().get(k), "██ ") + "     " + toColor(board.getEntryRoom().get(++k), "██ ") + "      |");
+                        printStudentInsideDiningRoom(color[color_index], board.getDiningRoom().get(color[color_index]), board.getTeacher(color[color_index]));
+                        color_index++;
+                        System.out.println();
+                        k++;
+                    } else if (k == upperLimit) {
+                        System.out.println("|                       |                                                                          |       |");
+                        System.out.print("|      " + toColor(board.getEntryRoom().get(k), "██ ") + "              |");
+                        printStudentInsideDiningRoom(color[color_index], board.getDiningRoom().get(color[color_index]), board.getTeacher(color[color_index]));
+                        color_index++;
+                        System.out.println();
+                        k++;
+                    } else if (k == 7) {
+                        System.out.println("|                       |                                                                          |       |");
+                        System.out.print("|                       |");
+                        printStudentInsideDiningRoom(color[color_index], board.getDiningRoom().get(color[color_index]), board.getTeacher(color[color_index]));
+                        color_index++;
+                        System.out.println();
+                        i++;
+                    }
+                }
+            }
+        }
+    }
+
+    private String toColor(Color color, String string) {
+        switch (color) {
+            case RED:
+                return ANSI_RED + string + ANSI_RESET;
+            case BLUE:
+                return ANSI_BLUE + string + ANSI_RESET;
+            case GREEN:
+                return ANSI_GREEN + string + ANSI_RESET;
+            case YELLOW:
+                return ANSI_YELLOW + string + ANSI_RESET;
+            case PINK:
+                return ANSI_PINK + string + ANSI_RESET;
+        }
+        return "";
+    }
+
+
+    private void printStudentInsideDiningRoom(Color color, int numOfColor, Boolean teacher) {
+
+        for (int i = 1; i < 11; i++) {
+            if (i < numOfColor + 1) {
+                System.out.print("   " + toColor(color, "●") + "   ");
+            } else if (i % 3 == 0 && i>numOfColor +1)
+                System.out.print("   ?   ");
+            else if (i % 3 == 0 && i < numOfColor +1)
+                System.out.print("   "+toColor(color,"⦾" + ANSI_RESET + "   |"));
+            else if (i != 10)
+                System.out.print("   -   ");
+            else if (teacher)
+                System.out.print("   -       |   " + toColor(color, "●" + ANSI_RESET + "   |"));
+            else
+                System.out.print("   -       |   -   |");
+        }
     }
 }

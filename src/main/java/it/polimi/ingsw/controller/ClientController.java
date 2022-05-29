@@ -227,4 +227,5 @@ public class ClientController implements ViewListener, Listener {
     public void update(Message message) {
         catchAction(message);
     }
+
 }

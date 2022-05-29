@@ -44,6 +44,12 @@ public class Board implements StudentManager {
             e.printStackTrace();
         }
 
+        for(Color color : Color.values())
+            this.diningRoom.put(color, 0);
+
+        for(Color color : Color.values())
+            this.teachers.put(color, false);
+
         this.support = new PropertyChangeSupport(this);
     }
 
@@ -216,5 +222,9 @@ public class Board implements StudentManager {
     }
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         support.removePropertyChangeListener(listener);
+    }
+
+    public Map<Color, Integer> getDiningRoom() {
+        return diningRoom;
     }
 }
