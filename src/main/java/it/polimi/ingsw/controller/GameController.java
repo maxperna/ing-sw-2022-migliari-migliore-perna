@@ -11,6 +11,7 @@ import it.polimi.ingsw.network.messages.client_messages.*;
 import it.polimi.ingsw.network.messages.client_messages.ExpertMessages.*;
 import it.polimi.ingsw.network.messages.server_messages.GameParamMessage;
 import it.polimi.ingsw.network.messages.server_messages.GenericMessage;
+import it.polimi.ingsw.network.server.Server;
 import it.polimi.ingsw.view.VirtualView;
 import org.jetbrains.annotations.TestOnly;
 import java.beans.PropertyChangeEvent;
@@ -227,6 +228,7 @@ public class GameController implements PropertyChangeListener {
             case CREATE_PLAYERS: //verifies that all the Players are created
 
                 if(game.getPlayersList().size() == game.NUM_OF_PLAYERS) {
+                    Server.LOGGER.info("ENTRO NELL'IF");
                     //sets first player
                     turnLogic.generatePreparationPhaseOrder();
                     //generates a GameFieldMap
@@ -268,6 +270,7 @@ public class GameController implements PropertyChangeListener {
                     broadcast("Start PreparationPhase");
 
                     game.rechargeClouds();
+                    Server.LOGGER.info("RICARICO NUVOLE");
 
                     nextState = GameState.PREPARATION_PHASE;
 
@@ -577,10 +580,5 @@ public class GameController implements PropertyChangeListener {
         return viewMap;
     }
 
-    @TestOnly
-    public void loginForTest(String nickName) {
-
-        logInHandler(nickName, new VirtualView());
-    }
 
 }

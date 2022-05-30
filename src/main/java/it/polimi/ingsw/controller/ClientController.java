@@ -31,7 +31,8 @@ public class ClientController implements ViewListener, Listener {
     private final ExecutorService actionQueue;
 
     private ArrayList<ExpertID> expertsOnField = new ArrayList<>();
-    private int maximumMNStep;       //used to check directly if a MN movement is legit
+
+    private final ArrayList<String> inGamePlayer = new ArrayList<>();    //list of others player nickname
 
     public ClientController(View view){
         this.view = view;
@@ -40,7 +41,7 @@ public class ClientController implements ViewListener, Listener {
 
     /**Method handling the connection information to create a client-server connection
      * @param connectionInfo hashMap containing server ip address and related port number
-     * @throws IOException if ClientSocket gives errors*/
+     */
     public void connectionRequest(HashMap<String, String> connectionInfo){
         try {
             this.client = new ClientSocket(connectionInfo.get("address"), Integer.parseInt(connectionInfo.get("port")));
@@ -190,6 +191,10 @@ public class ClientController implements ViewListener, Listener {
             case ASSISTANT_INFO:
                 AssistantCardsMessage assistantsInfo = (AssistantCardsMessage) receivedMessage;
                 actionQueue.execute(()->view.showAssistant(assistantsInfo.getDeck()));
+                break;
+            case BOARD_INFO:
+                BoardInfoMessage boardInfo = (BoardInfoMessage)  receivedMessage;
+//                actionQueue.execute(()->view.);
                 break;
             case GENERIC:
                 GenericMessage message = (GenericMessage) receivedMessage;

@@ -2,7 +2,6 @@ package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
-import org.jetbrains.annotations.TestOnly;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -12,15 +11,15 @@ import java.net.Socket;
 /**Class representing the virtual client on the server
  * @author Massimo*/
 public class ClientHandler implements Runnable {
-    private Socket clientSocket;
-    private Server_Socket serverSocket;
+    private final Socket clientSocket;
+    private final Server_Socket serverSocket;
 
     //IO STREAM
     private ObjectOutputStream output;
     private ObjectInputStream input;
     //STREAM LOCKER
-    private Object inputLock;
-    private Object outputLock;
+    private final Object inputLock;
+    private final Object outputLock;
 
     private boolean connected;
 
@@ -41,11 +40,6 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    @TestOnly
-    public ClientHandler() {
-    }
-
-    ;
 
     @Override
     public void run() {

@@ -56,5 +56,6 @@ public enum MessageType {
     GENERIC,
 
     END_GAME,
+    BOARD_INFO
 
 }

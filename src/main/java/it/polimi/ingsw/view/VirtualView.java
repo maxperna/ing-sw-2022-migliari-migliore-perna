@@ -34,10 +34,6 @@ public class VirtualView implements View {
         this.clientHandler = clientHandler;
     }
 
-    @TestOnly
-    public VirtualView() {
-        clientHandler = new ClientHandler();
-    }
 
     @Override
     public void askPlayerNickname() {
