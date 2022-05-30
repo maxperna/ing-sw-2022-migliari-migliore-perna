@@ -73,6 +73,8 @@ public interface View {
      * @param numOfCoin is the new value of coin of the player
      */
     void newCoin(String player, int numOfCoin);
+    void showBoard (Map<String, Board> boardMap);
+    void showPlayedAssistantCard (Map<String, AssistantCard> lastCardMap);
     void showWinner(String winner);
     void showError(String errorMessage);
     void showExpertID(ArrayList<ExpertID> expertID);

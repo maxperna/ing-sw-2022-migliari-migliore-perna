@@ -9,8 +9,8 @@ public enum MessageType {
     ENDLOGIN,
     /**Param to create game (only first LogIn)*/
     GAMEPARAM,
-
     /**Request for assistant card deck*/
+    LAST_ASSISTANT,
     ASSISTANT_INFO,
     /**Request for game parameters*/
     GAMEPARAM_REQUEST,
@@ -38,10 +38,9 @@ public enum MessageType {
     UPDATE_TEACHERS,
     /**Send a lis of a player Teachers*/
     GAME_FIELD,
-
     UPDATE_COIN,
-
     UPDATE_NODE,
+    SHOW_BOARD,
     ID_SELECTION,
     /**Move mother nature on a selected island*/
     MOVE_MOTHER_NATURE,

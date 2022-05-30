@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.model.experts.ExpertID;
 import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.network.messages.client_messages.*;
 import it.polimi.ingsw.network.messages.client_messages.ExpertMessages.*;
 import it.polimi.ingsw.network.messages.server_messages.GameParamMessage;
@@ -136,6 +137,8 @@ public class GameController implements PropertyChangeListener {
                     }
                 }
 
+                showGameInfo(receivedMessage, senderPlayer);
+
                 break;
 
             case ACTION_PHASE: //ActionPhaseLogic
@@ -194,6 +197,8 @@ public class GameController implements PropertyChangeListener {
                 if(receivedMessage.getType() == PLAY_EXPERT_CARD) {
                     expertsHandling((PlayExpertCard) receivedMessage);
                 }
+
+                showGameInfo(receivedMessage, senderPlayer);
 
                 break;
         }
@@ -429,6 +434,40 @@ public class GameController implements PropertyChangeListener {
         }
     }
 
+    public void showGameInfo(Message messageReceived, String senderPlayer) {
+
+        if(messageReceived.getType() == CHARGECLOUD)
+            viewMap.get(senderPlayer).showClouds(game.getCloudTiles());
+
+        if(messageReceived.getType() == SHOW_BOARD) {
+            Map<String, Board> boardMap = new HashMap<>();
+
+            for(Player currentPlayer : game.getPlayersList()) {
+                if(!currentPlayer.getNickname().equals(senderPlayer))
+                    boardMap.put(currentPlayer.getNickname(), currentPlayer.getBoard());
+            }
+
+            viewMap.get(senderPlayer).showBoard(boardMap);
+        }
+
+        if(messageReceived.getType() == ASSISTANT_INFO)
+            viewMap.get(senderPlayer).showAssistant(game.getPlayerByNickName(senderPlayer).getDeck().getRemainingCards());
+
+        if(messageReceived.getType() == LAST_ASSISTANT) {
+            Map<String, AssistantCard> lastCardMap = new HashMap<>();
+
+            for(Player currentPlayer : game.getPlayersList()) {
+                if(!currentPlayer.getNickname().equals(senderPlayer))
+                    lastCardMap.put(currentPlayer.getNickname(), currentPlayer.getDeck().getLastCard());
+            }
+
+            viewMap.get(senderPlayer).showPlayedAssistantCard(lastCardMap);
+        }
+
+        if(messageReceived.getType() == GAME_FIELD)
+            viewMap.get(senderPlayer).showGameField(generateGameFieldMap());
+
+    }
 
     /**
      * method to convert int in gameMode

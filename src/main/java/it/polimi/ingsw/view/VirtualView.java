@@ -121,12 +121,18 @@ public class VirtualView implements View {
         clientHandler.disconnect();
     }
 
+    @Override
     public void showAssistant(ArrayList<AssistantCard> cards) {
         clientHandler.sendMessage(new AssistantCardsMessage(cards));
     }
+    @Override
+    public void showPlayedAssistantCard (Map<String, AssistantCard> lastCardMap) {
+        clientHandler.sendMessage(new LastCardInfo(lastCardMap));
+    }
 
-    public ClientHandler getClientHandler() {
-        return clientHandler;
+    @Override
+    public void showBoard (Map<String, Board> boardMap) {
+        clientHandler.sendMessage(new BoardInfoMessage(boardMap));
     }
 
     @Override
@@ -136,6 +142,9 @@ public class VirtualView implements View {
 
     @Override
     public void showExpertCard(ArrayList<ExpertCard> expertCard) {
+    }
 
+    public ClientHandler getClientHandler() {
+        return clientHandler;
     }
 }

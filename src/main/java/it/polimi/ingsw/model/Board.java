@@ -7,6 +7,7 @@ import it.polimi.ingsw.exceptions.NotOnBoardException;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,18 +16,18 @@ import java.util.Map;
 *island or the inner hall or from the cloud tile to the outside hall
 * @author Massimo
 */
-public class Board implements StudentManager {
+public class Board implements Serializable {
 
-    private final int maxStudentHall;
+    transient private final int maxStudentHall;
     private final TowerColor towerColor;
     private Integer numberOfTowers;  //number of towers on the board
-    private final Player owner;
-    private Player teamMate;
+    transient private final Player owner;
+    transient private Player teamMate;
     private ArrayList<Color> entryRoom;    //list of student in the outer room
-    private final Map<Color,Integer> diningRoom = new HashMap<>();      //list of student for each color inside the main hall
-    private final Map<Color, Boolean> teachers = new HashMap<>();       //map to signal the presence of a teacher on the board
-    private final Game currentGame;
-    private final PropertyChangeSupport support;
+    private final Map<Color,Integer> diningRoom;      //list of student for each color inside the main hall
+    private final Map<Color, Boolean> teachers;       //map to signal the presence of a teacher on the board
+    transient private final Game currentGame;
+    transient private final PropertyChangeSupport support;
 
 
     public Board(Game currentGame,Player owner,TowerColor towerColor) {
@@ -34,6 +35,8 @@ public class Board implements StudentManager {
         this.maxStudentHall = currentGame.MAX_STUDENTS_ENTRANCE;
         this.numberOfTowers = currentGame.MAX_NUM_OF_TOWERS;
         this.towerColor = towerColor;
+        this.diningRoom = new HashMap<>();
+        this.teachers = new HashMap<>();
 
         this.currentGame = currentGame;
         this.owner = owner;
@@ -199,9 +202,6 @@ public class Board implements StudentManager {
         return teachers;
     }
 
-    public int colorStudent(Color color){
-        return 0;
-    }
 
     public TowerColor getTowerColor() {
         return towerColor;

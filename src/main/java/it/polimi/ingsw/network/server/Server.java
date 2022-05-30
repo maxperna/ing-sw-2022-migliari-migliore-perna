@@ -13,7 +13,6 @@ import java.util.logging.Logger;
 public class Server{
 
     public static final Logger LOGGER = Logger.getLogger(Server.class.getName());
-
     private final GameController gameController;
     private final Map<ClientHandler, VirtualView> virtualViewMap;
     private final Object lock;
