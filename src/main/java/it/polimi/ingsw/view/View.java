@@ -35,7 +35,7 @@ public interface View {
      * every player receives a gameField map at the beginning of the game.
      * @param gameFieldMap map with the gameField
      */
-    void showGameField(Map<Integer, Node> gameFieldMap);
+    void showGameField(Map<Integer, Node> gameFieldMap, Board board, int players);
 
     /**Method to show all the clouds, every player receives newClouds at the beginning of the game.
      * @param newClouds arrayList that contains all the clouds in the game
