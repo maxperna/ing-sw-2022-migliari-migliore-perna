@@ -16,7 +16,7 @@ import java.util.Map;
 *island or the inner hall or from the cloud tile to the outside hall
 * @author Massimo
 */
-public class Board implements Serializable {
+public class Board implements Serializable, StudentManager  {
 
     transient private final int maxStudentHall;
     private final TowerColor towerColor;
@@ -208,7 +208,6 @@ public class Board implements Serializable {
         return teachers;
     }
 
-
     public TowerColor getTowerColor() {
         return towerColor;
     }
@@ -226,5 +225,10 @@ public class Board implements Serializable {
 
     public Map<Color, Integer> getDiningRoom() {
         return diningRoom;
+    }
+
+    @Override
+    public int colorStudent(Color color) {
+        return diningRoom.get(color);
     }
 }

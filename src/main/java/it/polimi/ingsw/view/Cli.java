@@ -144,6 +144,11 @@ public class Cli extends ViewSubject implements View {
     public void showInitPlayer(int numberOfTowers, ArrayList<Color> entranceHall) {
     }
 
+    @Override
+    public void showGameField(Map<Integer, Node> gameFieldMap) {
+
+    }
+
     public void showGameField(Map<Integer, Node> gameFieldMap, Board board, int players) {
         for(int i=0; i<gameFieldMap.size(); i++) {
             System.out.print("Island " +(i+1)+":");
@@ -196,6 +201,16 @@ public class Cli extends ViewSubject implements View {
     }
 
     public void newCoin(String player, int numOfCoin) {
+    }
+
+    @Override
+    public void showBoard(Map<String, Board> boardMap) {
+
+    }
+
+    @Override
+    public void showPlayedAssistantCard(Map<String, AssistantCard> lastCardMap) {
+
     }
 
     public void showWinner(String winner) {

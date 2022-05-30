@@ -582,4 +582,5 @@ public class GameController implements PropertyChangeListener {
 
         logInHandler(nickName, new VirtualView());
     }
+
 }
