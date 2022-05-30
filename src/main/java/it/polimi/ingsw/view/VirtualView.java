@@ -73,7 +73,7 @@ public class VirtualView implements View {
     }
 
     @Override
-    public void showGameField(Map<Integer, Node> gameFieldMap, Board board, int players) {
+    public void showGameField(Map<Integer, Node> gameFieldMap) {
         clientHandler.sendMessage(new GameFieldMessage(gameFieldMap));
     }
 

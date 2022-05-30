@@ -250,7 +250,7 @@ public class GameController implements PropertyChangeListener {
 
                         //sends the gameField to each Player
                         for(Player player : game.getPlayersList()) {
-                            currentView.showGameField(gameFieldMap, player.getBoard(), game.NUM_OF_PLAYERS);
+                            currentView.showGameField(gameFieldMap);
                         }
 
 
@@ -423,7 +423,7 @@ public class GameController implements PropertyChangeListener {
             Map<Integer, Node> gameFieldMap = generateGameFieldMap();
 
             for (String nickName : viewMap.keySet()) {
-                viewMap.get(nickName).showGameField(gameFieldMap, game.getPlayerByNickName(nickName).getBoard(), game.NUM_OF_PLAYERS);
+                viewMap.get(nickName).showGameField(gameFieldMap);
             }
         }
 
