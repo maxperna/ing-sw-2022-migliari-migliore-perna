@@ -1,15 +1,12 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.controller.GameState;
-import it.polimi.ingsw.exceptions.NotEnoughSpace;
 import it.polimi.ingsw.gameField.Node;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.model.experts.ExpertID;
 import it.polimi.ingsw.network.messages.Message;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.*;
 
 public class Cli extends ViewSubject implements View {
@@ -27,6 +24,9 @@ public class Cli extends ViewSubject implements View {
         this.scan = new Scanner(System.in);
     }
 
+    /**
+     * method used to start the CLI, calls the methods used to create a connection with server and to ask for player nickname
+     */
     public void start() {
         System.out.println("                                                       ");
         System.out.println("▀███▀▀▀███                                       ██   ██");
@@ -45,7 +45,9 @@ public class Cli extends ViewSubject implements View {
 
     }
 
-
+    /**
+     * method used to get from input port and address required to connect to the server, notifies the controller with received values
+     */
     public void connectionRequest() {
         HashMap<String, String> serverInfo = new HashMap<>();
         String defaultAddress = "localhost";
@@ -72,7 +74,9 @@ public class Cli extends ViewSubject implements View {
 
     }
 
-
+    /**
+     * method used to get from input the player nickname
+     */
     public void askPlayerNickname() {
         String nickname;
 
@@ -90,7 +94,9 @@ public class Cli extends ViewSubject implements View {
         });
     }
 
-
+    /**
+     * method called only on first player's interface to get the game parameters, like number of players and expert mode
+     */
     public void askGameParam() {
         boolean expert = false;
 
@@ -123,6 +129,11 @@ public class Cli extends ViewSubject implements View {
         });
     }
 
+    /**
+     * method used to let player choose its deck and tower color based on a list of this parameters available
+     * @param remainingTowers list of remaining available towerColor
+     * @param remainingDecks list of remaining available deckType
+     */
     public void showRemainingTowerAndDeck(ArrayList<TowerColor> remainingTowers, ArrayList<DeckType> remainingDecks) {
         System.out.println("Remaining tower: "+remainingTowers);
         System.out.println("Remaining deck: "+remainingDecks);
@@ -141,15 +152,16 @@ public class Cli extends ViewSubject implements View {
 
     }
 
-    public void showInitPlayer(int numberOfTowers, ArrayList<Color> entranceHall) {
-    }
-
     @Override
-    public void showGameField(Map<Integer, Node> gameFieldMap) {
+    public void showInitPlayer(int numberOfTowers, ArrayList<Color> entranceHall) {
 
     }
 
-    public void showGameField(Map<Integer, Node> gameFieldMap, Board board, int players) {
+    /**
+     * method used to print the island list and then to call the chooseBoard() method
+     * @param gameFieldMap map with the gameField
+     */
+    public void showGameField(Map<Integer, Node> gameFieldMap) {
         for(int i=0; i<gameFieldMap.size(); i++) {
             System.out.print("Island " +(i+1)+":");
             for(int j=0; j<gameFieldMap.get(i).getStudents().size(); j++) {
@@ -167,15 +179,18 @@ public class Cli extends ViewSubject implements View {
                 }
             }
             System.out.println();
-            printBoard(board, players);
         }
     }
 
+    /**
+     * method used to print the students inside all the cloud tiles
+     * @param newClouds arrayList that contains all the clouds in the game
+     */
     public void showClouds(ArrayList<CloudTile> newClouds) {
         for (CloudTile cloud : newClouds) {
             System.out.print("Cloud " + cloud.getTileID() + " contains the following students: ");
             for (int j = 0; j < cloud.getStudents().size(); j++) {
-                toColor(cloud.getStudents().get(j), "██ ");
+                System.out.print(toColor(cloud.getStudents().get(j), "██ "));
             }
             System.out.println();
         }
@@ -213,6 +228,10 @@ public class Cli extends ViewSubject implements View {
 
     }
 
+    /**
+     * method used to print the winning message
+     * @param winner nickname of the winner
+     */
     public void showWinner(String winner) {
         System.out.println("Congratulations! " +winner+ " is the winner!");
     }
@@ -224,13 +243,20 @@ public class Cli extends ViewSubject implements View {
     public void showExpertID(ArrayList<ExpertID> expertID) {
     }
 
+    /**
+     * method used to print the description of each expert card
+     * @param expertCard
+     */
     @Override
     public void showExpertCard(ArrayList<ExpertCard> expertCard) {
         for(ExpertCard expert : expertCard)
             System.out.println("Expert card cost: "+expert.getCost()+"/nExpert card effect: " +expert.getExpDescription());
     }
 
-
+    /**
+     * method used to get from input an ID from a list of given ones
+     * @param ID
+     */
     public void sendSelectedID(ArrayList<Integer> ID) {
         int chosenID;
         do {
@@ -247,6 +273,11 @@ public class Cli extends ViewSubject implements View {
         });
     }
 
+    /**
+     * method used to get a student color from all the available ones and to get the destination
+     * @param students is the arraylist containing all the available students
+     * @param islands is an int that contains the id of the last island, basically indicating the number of islands remaining
+     */
     public void selectStudent(ArrayList<Color> students, int islands) {
         Color finalColor = null;
         int chosenIsland;
@@ -292,7 +323,11 @@ public class Cli extends ViewSubject implements View {
     public void catchAction(Message receivedMessage) {
     }
 
-    public String chooseDestination() {
+    /**
+     * method called by selectStudent() to get the destination
+     * @return a string with the chosen destination
+     */
+    private String chooseDestination() {
         String destination;
         do {
             System.out.println("Choose the destination of the student: [BOARD], [ISLAND]");
@@ -345,17 +380,12 @@ public class Cli extends ViewSubject implements View {
 
     }
 
-    public void printBoard(Board board, int players) {
+    public void showBoard(Board board, int hallDimension) {
 
-        int upperLimit;
         int k = 0;
         Color[] color = Color.values();
         int color_index = 0;
 
-        if(players == 2)
-            upperLimit = 6;
-        else
-            upperLimit = 8;
 
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 108; j++) {
@@ -364,25 +394,28 @@ public class Cli extends ViewSubject implements View {
                 else if (i == 1 && j == 0)
                     System.out.println();
                 else if (j == 0 || j == 6) {
-                    if (k < upperLimit) {
+                    if (k < hallDimension-1) {
                         System.out.println("|                       |                                                                          |       |");
-                        System.out.print("|      " + toColor(board.getEntryRoom().get(k), "██ ") + "     " + toColor(board.getEntryRoom().get(++k), "██ ") + "      |");
+                        System.out.print("|      " + shouldPrintStudent(k, board, "██ ") + "     " + shouldPrintStudent(++k, board, "██ ") + "      |");
                         printStudentInsideDiningRoom(color[color_index], board.getDiningRoom().get(color[color_index]), board.getTeacher(color[color_index]));
                         color_index++;
                         System.out.println();
                         k++;
-                    } else if (k == upperLimit) {
+                    } else if (k == hallDimension - 1 && hallDimension == 7) {
                         System.out.println("|                       |                                                                          |       |");
-                        System.out.print("|      " + toColor(board.getEntryRoom().get(k), "██ ") + "              |");
+                        System.out.print("|      " + shouldPrintStudent(k, board, "██ ") + "     " + shouldPrintStudent(++k, board, "██ ") + "      |");
                         printStudentInsideDiningRoom(color[color_index], board.getDiningRoom().get(color[color_index]), board.getTeacher(color[color_index]));
                         color_index++;
                         System.out.println();
-                        k++;
-                    } else if (k == 7) {
                         System.out.println("|                       |                                                                          |       |");
                         System.out.print("|                       |");
                         printStudentInsideDiningRoom(color[color_index], board.getDiningRoom().get(color[color_index]), board.getTeacher(color[color_index]));
-                        color_index++;
+                        System.out.println();
+                        k++;
+                    } else if (k == hallDimension - 1) {
+                        System.out.println("|                       |                                                                          |       |");
+                        System.out.print("|      " + shouldPrintStudent(k, board, "██ ") + "     " + shouldPrintStudent(++k, board, "██ ") + "      |");
+                        printStudentInsideDiningRoom(color[color_index], board.getDiningRoom().get(color[color_index]), board.getTeacher(color[color_index]));
                         System.out.println();
                         i++;
                     }
@@ -391,23 +424,34 @@ public class Cli extends ViewSubject implements View {
         }
     }
 
+    /**
+     * method used to print a given string with a given color
+     * @param color is the color of the string that will be printed
+     * @param string is the string that will be printed
+     * @return a combination of colors and the string that will be printed, empty string in the default case
+     */
     private String toColor(Color color, String string) {
-        switch (color) {
-            case RED:
-                return ANSI_RED + string + ANSI_RESET;
-            case BLUE:
-                return ANSI_BLUE + string + ANSI_RESET;
-            case GREEN:
-                return ANSI_GREEN + string + ANSI_RESET;
-            case YELLOW:
-                return ANSI_YELLOW + string + ANSI_RESET;
-            case PINK:
-                return ANSI_PINK + string + ANSI_RESET;
-        }
-        return "";
+            switch (color) {
+                case RED:
+                    return ANSI_RED + string + ANSI_RESET;
+                case BLUE:
+                    return ANSI_BLUE + string + ANSI_RESET;
+                case GREEN:
+                    return ANSI_GREEN + string + ANSI_RESET;
+                case YELLOW:
+                    return ANSI_YELLOW + string + ANSI_RESET;
+                case PINK:
+                    return ANSI_PINK + string + ANSI_RESET;
+            }
+            return "";
     }
 
-
+    /**
+     * method called by the method showBoard()
+     * @param color is the color of the row we are considering
+     * @param numOfColor is the number of students of that given color that are set on the dining room
+     * @param teacher is a boolean that indicates if the board passed to the showBoard() method contains the teacher of the given color
+     */
     private void printStudentInsideDiningRoom(Color color, int numOfColor, Boolean teacher) {
 
         for (int i = 1; i < 11; i++) {
@@ -424,5 +468,43 @@ public class Cli extends ViewSubject implements View {
             else
                 System.out.print("   -       |   -   |");
         }
+    }
+
+    /**
+     * method used to get from the user the board he wants to check
+     * @param availableBoards is an ArrayList of all the available boards in the game
+     */
+    public void chooseBoard(ArrayList<Board> availableBoards, int hallDimension) {
+        int index = 0;
+        int i = 0;
+        int chosenValue;
+        do {
+            System.out.print("Choose which board you want to check: ");
+            for(Board b : availableBoards) {
+                System.out.println("["+index+"] for "+b.getOwner());
+                index++;
+            }
+            System.out.println("["+index+"] for all boards");
+            chosenValue = scan.nextInt();
+            if(chosenValue < 0 || chosenValue > index)
+                System.out.println("Invalid parameter");
+        } while(chosenValue < 0 || chosenValue > index);
+
+        if(chosenValue == index) {
+
+            while(i<index) {
+                showBoard(availableBoards.get(i), hallDimension);
+                i++;
+            }
+        }
+        else
+            showBoard(availableBoards.get(chosenValue), hallDimension);
+    }
+
+    private String shouldPrintStudent(int studentID, Board board, String string) {
+        if(studentID < board.getEntryRoom().size()) {
+            return toColor(board.getEntryRoom().get(studentID), string);
+        }
+        else return "-- ";
     }
 }

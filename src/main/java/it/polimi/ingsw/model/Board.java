@@ -4,6 +4,7 @@ import it.polimi.ingsw.exceptions.EndGameException;
 import it.polimi.ingsw.exceptions.NotEnoughSpace;
 import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
 import it.polimi.ingsw.exceptions.NotOnBoardException;
+import org.jetbrains.annotations.TestOnly;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -230,5 +231,14 @@ public class Board implements Serializable, StudentManager  {
     @Override
     public int colorStudent(Color color) {
         return diningRoom.get(color);
+    }
+
+    public String getOwner() {
+        return owner.getNickname();
+    }
+
+    @TestOnly
+    public void addSingleStudent (Color student) {
+        this.entryRoom.add(student);
     }
 }
