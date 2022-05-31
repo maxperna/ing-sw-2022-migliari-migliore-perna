@@ -208,4 +208,8 @@ public class Node implements Serializable {
         support.removePropertyChangeListener(listener);
     }
 
+    public void setStudents(ArrayList<Color> students){
+        this.students.addAll(students);
+    }
+
 }

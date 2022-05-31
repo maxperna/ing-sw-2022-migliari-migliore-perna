@@ -105,6 +105,10 @@ public class ClientController implements ViewListener, Listener {
         client.sendMessage(new ExpertCardRequest(nickname,cardID));
     }
 
+    public void getGameField(){
+        client.sendMessage((new GameFieldRequest(nickname)));
+    }
+
     //EXPERT CARD METHODS
     public void playExpertCard1(int cardID){
         client.sendMessage(new PlayExpertCard1(nickname,cardID));
@@ -128,8 +132,10 @@ public class ClientController implements ViewListener, Listener {
 
     /**Method to get deck info*/
     public void requestAssistants(){
+        System.out.println("Richiesta assistente");
         client.sendMessage(new AssistantInfoMessage(nickname));
     }
+
 
     /**Sub state machine catching the type of experts to play get reading expertCardReply type
      * @param cardID chosen card to play*/
@@ -167,7 +173,8 @@ public class ClientController implements ViewListener, Listener {
                         //preparation phase method
                         break;
                     case ACTION_PHASE:
-                        //action phase method cli
+                        actionQueue.execute(view::startActionPhase);
+
                         break;
 
                 }break;
@@ -192,7 +199,7 @@ public class ClientController implements ViewListener, Listener {
                 AssistantCardsMessage assistantsInfo = (AssistantCardsMessage) receivedMessage;
                 actionQueue.execute(()->view.showAssistant(assistantsInfo.getDeck()));
                 break;
-            case BOARD_INFO:
+            case SHOW_BOARD:
                 BoardInfoMessage boardInfo = (BoardInfoMessage)  receivedMessage;
 //                actionQueue.execute(()->view.);
                 break;
@@ -204,7 +211,20 @@ public class ClientController implements ViewListener, Listener {
             case EXPERT_CARD_REPLY:
                 expertsOnField = ((ExpertCardReply)receivedMessage).getExpertID();
                 break;
+            case LAST_ASSISTANT:
+                LastCardMessage lastCard = (LastCardMessage)  receivedMessage;
+                if(lastCard.getLastCardMap().size()!=0){ }
+                break;
+            case UPDATE_NODE:
+                break;
+            case GAME_FIELD:
+                GameFieldMessage gameField = (GameFieldMessage) receivedMessage;
+                actionQueue.execute(()->view.showGameField(gameField.getGameFieldMap()));
+
+                break;
             case ERROR:
+                ErrorMessage error = (ErrorMessage) receivedMessage;
+                actionQueue.execute(()->view.showError(error.getErrorMessage()));
                 break;
 
 

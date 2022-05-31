@@ -79,10 +79,6 @@ public class GameController implements PropertyChangeListener {
 
             case PREPARATION_PHASE: //PreparationPhase logic
 
-                if(receivedMessage.getType() == ASSISTANT_INFO)
-                {
-                    viewMap.get(senderPlayer).showAssistant(game.getPlayerByNickName(senderPlayer).getDeck().getRemainingCards());
-                }
 
                 if (receivedMessage.getType() == PLAY_ASSISTANT_CARD) {
 

@@ -24,6 +24,8 @@ public interface ViewListener {
 
     void moveStudentToDinner(Color student);
 
+    void getGameField();
+
     void catchAction(Message receivedMessage);
 
     void chooseTowerColorAndDeck(TowerColor color, DeckType deck);
@@ -33,4 +35,5 @@ public interface ViewListener {
     void chooseDestination(String destination);
 
     void getPlayerInfo(String player);
+    void moveMotherNature(int numberOfSteps);
 }

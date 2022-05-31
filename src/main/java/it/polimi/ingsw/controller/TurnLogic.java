@@ -43,6 +43,7 @@ public class TurnLogic {
             playersOrders.remove();
         }
         catch (NoSuchElementException e){
+            e.printStackTrace();
             return null;
         }
         return getActivePlayer();

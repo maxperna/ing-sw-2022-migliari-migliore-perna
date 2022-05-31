@@ -19,7 +19,7 @@ import java.util.Map;
 */
 public class Board implements Serializable, StudentManager  {
 
-    transient private final int maxStudentHall;
+    private final int maxStudentHall;
     private final TowerColor towerColor;
     private Integer numberOfTowers;  //number of towers on the board
     transient private final Player owner;

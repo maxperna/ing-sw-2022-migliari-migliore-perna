@@ -50,7 +50,7 @@ public class IslandList {
 
             if ((i != noStudentTile) & (i != noStudentTile + 6)) {
                 try {
-                    getIslandNode(i).getStudents().addAll(GameManager.drawFromPool(1,studentToBePlaced));
+                    getIslandNode(i).setStudents(GameManager.drawFromPool(1,studentToBePlaced));
                 } catch (NotEnoughElements e) {
                     e.printStackTrace();
                 }

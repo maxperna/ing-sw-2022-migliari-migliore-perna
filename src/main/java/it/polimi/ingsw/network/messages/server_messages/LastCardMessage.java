@@ -6,11 +6,12 @@ import it.polimi.ingsw.network.messages.MessageType;
 
 import java.util.Map;
 
-public class LastCardInfo extends Message {
+/**Message to get last assistant card played by a player*/
+public class LastCardMessage extends Message {
 
     private final Map<String, AssistantCard> lastCardMap;
 
-    public LastCardInfo(Map<String, AssistantCard> lastCardMap) {
+    public LastCardMessage(Map<String, AssistantCard> lastCardMap) {
         super(MessageType.LAST_ASSISTANT, "Server");
         this.lastCardMap = lastCardMap;
     }

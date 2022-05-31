@@ -8,7 +8,6 @@ import it.polimi.ingsw.model.experts.ExpertID;
 import it.polimi.ingsw.network.messages.client_messages.GameParamRequest;
 import it.polimi.ingsw.network.messages.server_messages.*;
 import it.polimi.ingsw.network.server.ClientHandler;
-import org.jetbrains.annotations.TestOnly;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -123,7 +122,7 @@ public class VirtualView implements View {
     }
     @Override
     public void showPlayedAssistantCard (Map<String, AssistantCard> lastCardMap) {
-        clientHandler.sendMessage(new LastCardInfo(lastCardMap));
+        clientHandler.sendMessage(new LastCardMessage(lastCardMap));
     }
 
     @Override
@@ -143,4 +142,6 @@ public class VirtualView implements View {
     public ClientHandler getClientHandler() {
         return clientHandler;
     }
+
+    public void startActionPhase(){};
 }

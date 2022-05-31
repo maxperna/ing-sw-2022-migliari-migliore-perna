@@ -5,6 +5,7 @@ import it.polimi.ingsw.gameField.Node;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.model.experts.ExpertID;
+import org.jetbrains.annotations.TestOnly;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -82,4 +83,9 @@ public interface View {
     void disconnect();
 
     void showAssistant(ArrayList<AssistantCard> deck);
+
+    @TestOnly
+    void startActionPhase();
+
+
 }
