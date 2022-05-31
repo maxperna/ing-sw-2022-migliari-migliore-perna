@@ -404,9 +404,9 @@ public class GameController implements PropertyChangeListener {
 
         if(event.getPropertyName().contains("UpdateNode")) {
 
-            String value = event.getPropertyName();
-            String intValue = value.replaceAll("\\D+","");
-            int nodeID = Integer.parseInt(intValue);
+//            String value = event.getPropertyName();
+//            String intValue = value.replaceAll("\\D+","");
+//            int nodeID = Integer.parseInt(intValue);
 
             for (String nickName : viewMap.keySet()) {
                 viewMap.get(nickName).showGameField(generateGameFieldMap());

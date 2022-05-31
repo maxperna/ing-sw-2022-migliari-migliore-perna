@@ -17,7 +17,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
 public class Cli extends ViewSubject implements View {
-    ArrayList<Listener> list = new ArrayList();
+
+    List<Listener> list = new ArrayList();
     private Thread threadReader;
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_YELLOW = "\u001B[33m";
