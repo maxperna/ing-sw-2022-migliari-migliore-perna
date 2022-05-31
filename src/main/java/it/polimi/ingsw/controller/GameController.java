@@ -224,7 +224,6 @@ public class GameController implements PropertyChangeListener {
             case CREATE_PLAYERS: //verifies that all the Players are created
 
                 if(game.getPlayersList().size() == game.NUM_OF_PLAYERS) {
-                    Server.LOGGER.info("ENTRO NELL'IF");
                     //sets first player
                     turnLogic.generatePreparationPhaseOrder();
                     //generates a GameFieldMap
@@ -411,7 +410,7 @@ public class GameController implements PropertyChangeListener {
             int nodeID = Integer.parseInt(intValue);
 
             for (String nickName : viewMap.keySet()) {
-                viewMap.get(nickName).updateNode(game.getGameField().getIslandNode(nodeID));
+                viewMap.get(nickName).showGameField(generateGameFieldMap());
             }
         }
 
