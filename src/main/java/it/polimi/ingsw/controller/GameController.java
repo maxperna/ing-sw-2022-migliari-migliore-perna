@@ -284,16 +284,19 @@ public class GameController implements PropertyChangeListener {
                 }
                 else {
                     //Sends to the next player a message
-                    Player nextPlayerAction = turnLogic.nextActivePlayer();
-                    if(nextPlayerAction != null) {
+                    Player nextPlayer = turnLogic.nextActivePlayer();
+                    if(nextPlayer != null) {
                         viewMap.get(turnLogic.getActivePlayer().getNickname()).showCurrentPlayer(turnLogic.getActivePlayer().getNickname(), gameState);
                     }
+                    else
+                        System.out.println("Qualcosa non va, non dovrebbe essere null questo valore");
                 }
                 break;
 
             case ACTION_PHASE:
 
-                if(turnLogic.nextActivePlayer() == null)
+                Player nextPlayer = turnLogic.nextActivePlayer();
+                if(nextPlayer == null)
                 {
                     turnLogic.switchPhase();
                     viewMap.get(turnLogic.getActivePlayer().getNickname()).showCurrentPlayer(turnLogic.getActivePlayer().getNickname(), GameState.PREPARATION_PHASE);
@@ -301,7 +304,7 @@ public class GameController implements PropertyChangeListener {
                     nextState = GameState.PREPARATION_PHASE;
                 }
                 else
-                    viewMap.get(turnLogic.nextActivePlayer().getNickname()).showCurrentPlayer(turnLogic.getActivePlayer().getNickname(), gameState);
+                    viewMap.get(nextPlayer.getNickname()).showCurrentPlayer(turnLogic.getActivePlayer().getNickname(), gameState);
 
                 break;
         }
