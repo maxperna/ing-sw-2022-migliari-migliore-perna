@@ -165,9 +165,10 @@ public class TurnLogic {
     public void moveMotherNature(Player player,int numOfSteps) throws IllegalMove,EndGameException{
         int allowedNumOfSteps = playedCard.get(player).getMotherNatureControl();
         //IF expert4 is played modify allowed num of steps
-        if(currentGame.getActiveExpertCard().getClass().getName().equals("Expert4"))
-            allowedNumOfSteps = allowedNumOfSteps +2;
-
+        if(currentGame.EXP_MODE) {
+            if (currentGame.getActiveExpertCard().getClass().getName().equals("Expert4"))
+                allowedNumOfSteps = allowedNumOfSteps + 2;
+        }
         if(numOfSteps>allowedNumOfSteps)
             throw new IllegalMove("Too much steps");
         else
