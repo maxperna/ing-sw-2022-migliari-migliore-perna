@@ -49,6 +49,7 @@ public class Cli extends ViewSubject implements View {
     /**
      * method used to get from input port and address required to connect to the server, notifies the controller with received values
      */
+    @Override
     public void connectionRequest() {
         HashMap<String, String> serverInfo = new HashMap<>();
         String defaultAddress = "localhost";
@@ -163,8 +164,15 @@ public class Cli extends ViewSubject implements View {
      * @param gameFieldMap map with the gameField
      */
     public void showGameField(Map<Integer, Node> gameFieldMap) {
+        System.out.println();
+        System.out.println("This is the game field: it shows the students set on every island, the dot shows Mother Nature position,");
+        System.out.println("the number indicates the towers set on that island (2 or more if it is a super island); the last symbol shows that the island is blocked (expert only)");
+        System.out.println();
         for(int i=1; i<=gameFieldMap.size(); i++) {
-            System.out.print("Island " +(i+1)+":");
+            if(i<10)
+                System.out.print("Island " +(i)+": ");
+            else
+                System.out.print("Island " +(i)+":");
             for(int j=0; j<gameFieldMap.get(i).getStudents().size(); j++) {
                 switch (gameFieldMap.get(i).getStudents().get(j)) {
                     case RED: System.out.print(ANSI_RED + "██ " + ANSI_RESET);
@@ -179,8 +187,26 @@ public class Cli extends ViewSubject implements View {
                         break;
                 }
             }
+            if (gameFieldMap.get(i).checkMotherNature() && gameFieldMap.get(i).getStudents().size() == 0)
+                System.out.print("    ● ");
+            else if (gameFieldMap.get(i).checkMotherNature())
+                System.out.print("  ●");
+            else if (gameFieldMap.get(i).getStudents().size() == 0)
+                System.out.print("      ");
+            else
+                System.out.print("   ");
+
+            if (gameFieldMap.get(i).getNumberOfTowers() != 0)
+                System.out.print(" " +gameFieldMap.get(i).getNumberOfTowers()+ " " +gameFieldMap.get(i).getTowerColor().toString());
+            else
+                System.out.print(" " +gameFieldMap.get(i).getNumberOfTowers()+ " ");
+
+            if (gameFieldMap.get(i).isStopped())
+                System.out.print("  ⦻");
+
             System.out.println();
         }
+        System.out.println();
     }
 
     /**
@@ -195,6 +221,7 @@ public class Cli extends ViewSubject implements View {
             }
             System.out.println();
         }
+        System.out.println();
     }
 
     @Override
@@ -386,9 +413,10 @@ public class Cli extends ViewSubject implements View {
 
     }
 
-    public void showBoard(Board board, int hallDimension) {
+    public void showBoard(Board board) {
 
         int k = 0;
+        int hallDimension = board.getMaxStudentHall();
         Color[] color = Color.values();
         int color_index = 0;
 
@@ -499,12 +527,12 @@ public class Cli extends ViewSubject implements View {
         if(chosenValue == index) {
 
             while(i<index) {
-                showBoard(availableBoards.get(i), hallDimension);
+                showBoard(availableBoards.get(i));
                 i++;
             }
         }
         else
-            showBoard(availableBoards.get(chosenValue), hallDimension);
+            showBoard(availableBoards.get(chosenValue));
     }
 
     private String shouldPrintStudent(int studentID, Board board, String string) {

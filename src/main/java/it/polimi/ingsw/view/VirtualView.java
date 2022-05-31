@@ -143,5 +143,12 @@ public class VirtualView implements View {
         return clientHandler;
     }
 
-    public void startActionPhase(){};
+    public void startActionPhase(){}
+
+    @Override
+    public void connectionRequest() {
+
+    }
+
+    ;
 }

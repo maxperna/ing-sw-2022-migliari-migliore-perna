@@ -87,5 +87,7 @@ public interface View {
     @TestOnly
     void startActionPhase();
 
+    void connectionRequest();
+
 
 }

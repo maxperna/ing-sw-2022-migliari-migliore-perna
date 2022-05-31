@@ -241,4 +241,8 @@ public class Board implements Serializable, StudentManager  {
     public void addSingleStudent (Color student) {
         this.entryRoom.add(student);
     }
+
+    public int getMaxStudentHall() {
+        return maxStudentHall;
+    }
 }

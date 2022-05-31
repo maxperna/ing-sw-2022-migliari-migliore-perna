@@ -199,6 +199,7 @@ public class Node implements Serializable {
     @TestOnly
     public void setTowerTest (TowerColor color) {
         this.tower = color;
+        this.towerCounter++;
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {
