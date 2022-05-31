@@ -53,7 +53,6 @@ public class TurnLogic {
     /**Method to define round order in the action phase comparing played cards action number
      * */
     private void defineActionPhaseOrders(){
-        switchPhase();
         playersOrders.clear();
         //sorting the list from the highest action number to the lowest for a matter comfort
         List<Integer> roundCards = new ArrayList<>(cardsPlayedActionNum.keySet());
@@ -114,13 +113,14 @@ public class TurnLogic {
             defineActionPhaseOrders();       //automatically start the action phase
         }
         else {
+            endTurn();
             currentPhase = "PREPARATION";
             generatePreparationPhaseOrder();
         }
     }
 
     /**Method to end current turn and start a new one*/
-    public void endTurn(){
+    private void endTurn(){
         playersOrders.clear();
         cardsPlayedActionNum.clear();
         playedCard.clear();
