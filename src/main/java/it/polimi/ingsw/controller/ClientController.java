@@ -10,9 +10,9 @@ import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.client_messages.*;
 import it.polimi.ingsw.network.messages.client_messages.ExpertMessages.*;
 import it.polimi.ingsw.network.messages.server_messages.*;
-import it.polimi.ingsw.view.Listener;
+import it.polimi.ingsw.observer.Listener;
 import it.polimi.ingsw.view.View;
-import it.polimi.ingsw.view.ViewListener;
+import it.polimi.ingsw.observer.ViewListener;
 
 import java.io.IOException;
 import java.util.ArrayList;

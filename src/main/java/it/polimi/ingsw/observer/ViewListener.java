@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view;
+package it.polimi.ingsw.observer;
 
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.DeckType;

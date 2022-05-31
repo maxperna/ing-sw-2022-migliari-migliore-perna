@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view;
+package it.polimi.ingsw.view.cli;
 
 import java.io.BufferedReader;
 import java.io.IOException;

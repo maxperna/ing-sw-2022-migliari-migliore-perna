@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.messages.server_messages;
 
-import it.polimi.ingsw.gameField.Node;
+import it.polimi.ingsw.model.gameField.Node;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 

@@ -1,11 +1,15 @@
-package it.polimi.ingsw.view;
+package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.controller.GameState;
-import it.polimi.ingsw.gameField.Node;
+import it.polimi.ingsw.model.gameField.Node;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.model.experts.ExpertID;
 import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.observer.Listener;
+import it.polimi.ingsw.observer.ViewListener;
+import it.polimi.ingsw.observer.ViewSubject;
+import it.polimi.ingsw.view.View;
 import org.jetbrains.annotations.TestOnly;
 
 import java.util.*;

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.network.messages.Message;
-import it.polimi.ingsw.view.Subject;
+import it.polimi.ingsw.observer.Subject;
 
 import java.util.logging.Logger;
 
