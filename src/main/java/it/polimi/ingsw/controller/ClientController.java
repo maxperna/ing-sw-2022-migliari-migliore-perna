@@ -50,8 +50,6 @@ public class ClientController implements ViewListener, Listener {
         } catch (IOException e) {
             view.showError("Connection failed. Try a different address/port");
             view.connectionRequest();
-            throw new RuntimeException(e);
-
         }
     }
 

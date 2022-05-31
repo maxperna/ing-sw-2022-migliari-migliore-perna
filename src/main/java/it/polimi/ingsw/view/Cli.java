@@ -9,10 +9,12 @@ import it.polimi.ingsw.network.messages.Message;
 import org.jetbrains.annotations.TestOnly;
 
 import java.util.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
 
 public class Cli extends ViewSubject implements View {
     ArrayList<Listener> list = new ArrayList();
-    Scanner scan;
+    private Thread threadReader;
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_YELLOW = "\u001B[33m";
     public static final String ANSI_RED = "\u001B[31m";
@@ -22,8 +24,25 @@ public class Cli extends ViewSubject implements View {
     public static final String CLEAR = "\033[H\033[2J";
 
     public Cli() {
-        this.scan = new Scanner(System.in);
+
     }
+
+    public String read() throws ExecutionException {
+        FutureTask<String> futureTask = new FutureTask<>(new ThreadInputReader());
+        threadReader = new Thread(futureTask);
+        threadReader.start();
+
+        String input = null;
+
+        try {
+            input = futureTask.get();
+        } catch (InterruptedException e) {
+            futureTask.cancel(true);
+            Thread.currentThread().interrupt();
+        }
+        return input;
+    }
+
 
     /**
      * method used to start the CLI, calls the methods used to create a connection with server and to ask for player nickname
@@ -54,17 +73,25 @@ public class Cli extends ViewSubject implements View {
         HashMap<String, String> serverInfo = new HashMap<>();
         String defaultAddress = "localhost";
         String defaultPort = "13000";
-        String address;
-        String port;
+        String address = null;
+        String port = null;
         System.out.println("Choose the server address: [" + defaultAddress + "]");
-        address = scan.next();
+        try {
+            address = read();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
         if (address.equals(""))
             serverInfo.put("address", defaultAddress);
          else
             serverInfo.put("address", address);
 
         System.out.println("Choose the server port: ["+defaultPort+"]");
-        port = scan.next();
+        try {
+            port = read();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
         if(port == null)
             serverInfo.put("port", defaultPort);
         serverInfo.put("port", port);
@@ -80,11 +107,15 @@ public class Cli extends ViewSubject implements View {
      * method used to get from input the player nickname
      */
     public void askPlayerNickname() {
-        String nickname;
+        String nickname = null;
 
         do {
             System.out.print("Insert your nickname here: ");
-            nickname = this.scan.next();
+            try {
+                nickname = read();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
             if (nickname.equals("")) {
                 System.out.println("Invalid input");
             }
@@ -102,25 +133,33 @@ public class Cli extends ViewSubject implements View {
     public void askGameParam() {
         boolean expert = false;
 
-        int numOfPlayers;
+        int numOfPlayers = 0;
         do {
             System.out.print("Choose the number of players [2, 3, 4]: ");
-            numOfPlayers = Integer.parseInt(scan.next());
+            try {
+                numOfPlayers = Integer.parseInt(read());
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
             if (numOfPlayers != 2 && numOfPlayers != 3 && numOfPlayers != 4) {
                 System.out.println("Invalid parameter");
             }
         } while(numOfPlayers != 2 && numOfPlayers != 3 && numOfPlayers != 4);
 
-        String expertMode;
+        String expertMode = null;
         do {
             System.out.print("Do you want to play in expert mode? [Y/N] ");
-            expertMode = this.scan.next().toUpperCase(Locale.ROOT);
+            try {
+                expertMode = read().toUpperCase(Locale.ROOT);
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
             if (!expertMode.equals("Y") && !expertMode.equals("N")) {
                 System.out.println("Invalid parameter");
             }
         } while(!expertMode.equals("Y") && !expertMode.equals("N"));
 
-        if (expertMode.equals("Y") && !expertMode.equals("N")) {
+        if (expertMode.equals("Y")) {
             expert = true;
         }
 
@@ -143,12 +182,24 @@ public class Cli extends ViewSubject implements View {
         System.out.println("\n\n");
 
         System.out.println("Select tower by putting its position (1 to "+remainingTowers.size()+"): ");
-        int tower = scan.nextInt()-1;
+        int tower = 0;
+        try {
+            tower = Integer.parseInt(read())-1;
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
         System.out.println("Select deck by putting its position (1 to "+remainingDecks.size()+"): ");
-        int deck = scan.nextInt()-1;
+        int deck = 0;
+        try {
+            deck = Integer.parseInt(read())-1;
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
 
+        int finalTower = tower;
+        int finalDeck = deck;
         this.notifyListener((list)->{
-                list.chooseTowerColorAndDeck(remainingTowers.get(tower),remainingDecks.get(deck));
+                list.chooseTowerColorAndDeck(remainingTowers.get(finalTower),remainingDecks.get(finalDeck));
         });
         clearCli();
 
@@ -199,7 +250,7 @@ public class Cli extends ViewSubject implements View {
             if (gameFieldMap.get(i).getNumberOfTowers() != 0)
                 System.out.print(" " +gameFieldMap.get(i).getNumberOfTowers()+ " " +gameFieldMap.get(i).getTowerColor().toString());
             else
-                System.out.print(" " +gameFieldMap.get(i).getNumberOfTowers()+ " ");
+                System.out.print("   ");
 
             if (gameFieldMap.get(i).isStopped())
                 System.out.print("  ⦻");
@@ -286,10 +337,14 @@ public class Cli extends ViewSubject implements View {
      * @param ID
      */
     public void sendSelectedID(ArrayList<Integer> ID) {
-        int chosenID;
+        int chosenID = 0;
         do {
             System.out.println("Choose one from the available objects: " + ID.toString());
-            chosenID = Integer.parseInt(this.scan.next());
+            try {
+                chosenID = Integer.parseInt(read());
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
             if (!ID.contains(chosenID)) {
                 System.out.println("Invalid input");
             }
@@ -308,12 +363,16 @@ public class Cli extends ViewSubject implements View {
      */
     public void selectStudent(ArrayList<Color> students, int islands) {
         Color finalColor = null;
-        int chosenIsland;
+        int chosenIsland = 0;
 
-        String color;
+        String color = null;
         do {
             System.out.println("Choose the color of the student you want to move: " + students.toString());
-            color = this.scan.next().toUpperCase(Locale.ROOT);
+            try {
+                color = read().toUpperCase(Locale.ROOT);
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
             if (!color.contains("GREEN") && !color.contains("PINK") && !color.contains("RED") && !color.contains("YELLOW") && !color.contains("BLUE")) {
             }
 
@@ -343,8 +402,13 @@ public class Cli extends ViewSubject implements View {
             notifyListener(list -> list.moveStudentToDinner(finalColor1));
         else if (position.contains("ISLAND")) {
             System.out.println("On which island do you want to move the student?");
-            chosenIsland = Integer.parseInt(scan.next());
-            notifyListener(list -> list.moveStudentToIsland(finalColor1, chosenIsland));
+            try {
+                chosenIsland = Integer.parseInt(read());
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+            int finalChosenIsland = chosenIsland;
+            notifyListener(list -> list.moveStudentToIsland(finalColor1, finalChosenIsland));
         }
     }
 
@@ -356,10 +420,14 @@ public class Cli extends ViewSubject implements View {
      * @return a string with the chosen destination
      */
     private String chooseDestination() {
-        String destination;
+        String destination = null;
         do {
             System.out.println("Choose the destination of the student: [BOARD], [ISLAND]");
-            destination = this.scan.next().toUpperCase(Locale.ROOT);
+            try {
+                destination = read().toUpperCase(Locale.ROOT);
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
             if (!destination.toUpperCase().equals("BOARD") && !destination.toUpperCase().equals("ISLAND")) {
                 System.out.println("Invalid input");
             }
@@ -369,10 +437,14 @@ public class Cli extends ViewSubject implements View {
     }
 
     public void getPlayerInfo(ArrayList<String> players) {
-        String player;
+        String player = null;
         do {
             System.out.println("Choose the player you want to get info on: " + players.toString());
-            player = this.scan.next();
+            try {
+                player = read();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
             if (player.equals("") || !players.toString().contains(player)) {
                 System.out.println("Invalid input");
             }
@@ -390,10 +462,51 @@ public class Cli extends ViewSubject implements View {
     @Override
     public void showAssistant(ArrayList<AssistantCard> deck) {
         System.out.println();
-        deck.stream().map(AssistantCard::getActionNumber).forEach(System.out::println);
-        int choice = scan.nextInt();
+        System.out.println("This is your card deck. On each card, the red number is the card's action number, the white number is the maximum number of moves that Mother Nature can perform");
+        StringBuilder string = new StringBuilder();
+        int index;
+        for (index=0; index<deck.size(); index++)
+            string.append("__________     ");
+        System.out.println(string);
+        string.delete(0, string.capacity());
+        for (index=0; index<deck.size(); index++){
+            if(deck.get(index).getActionNumber() < 10)
+                string.append("| "+ANSI_RED+deck.get(index).getActionNumber()+ANSI_RESET+"    "+(int)Math.ceil((float)deck.get(index).getActionNumber()/2)+" |     ");
+            else
+                string.append("| "+ANSI_RED+deck.get(index).getActionNumber()+ANSI_RESET+"   "+(int)Math.ceil((float)deck.get(index).getActionNumber()/2)+" |     ");
+        }
+
+        System.out.println(string);
+        string.delete(0, string.capacity());
+        for (index=0; index<deck.size(); index++)
+            string.append("|        |     ");
+        System.out.println(string);
+        string.delete(0, string.capacity());
+        for (index=0; index<deck.size(); index++)
+            string.append("|        |     ");
+        System.out.println(string);
+        string.delete(0, string.capacity());
+        for (index=0; index<deck.size(); index++){
+            if(deck.get(index).getActionNumber() < 10)
+                string.append("| "+ANSI_RED+deck.get(index).getActionNumber()+ANSI_RESET+"    "+(int)Math.ceil((float)deck.get(index).getActionNumber()/2)+" |     ");
+            else
+                string.append("| "+ANSI_RED+deck.get(index).getActionNumber()+ANSI_RESET+"   "+(int)Math.ceil((float)deck.get(index).getActionNumber()/2)+" |     ");
+        }
+        System.out.println(string);
+        string.delete(0, string.capacity());
+        for (index=0; index<deck.size(); index++)
+            string.append("----------     ");
+        System.out.println(string);
+        string.delete(0, string.capacity());
+        int choice = 0;
+        try {
+            choice = Integer.parseInt(read());
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        int finalChoice = choice;
         this.notifyListener((list)->{
-            list.playAssistantCard(choice);
+            list.playAssistantCard(finalChoice);
         });
     }
 
@@ -415,29 +528,29 @@ public class Cli extends ViewSubject implements View {
 
     public void showBoard(Board board) {
 
-        int k = 0;
+        int studentIndex = 0;
         int hallDimension = board.getMaxStudentHall();
         Color[] color = Color.values();
         int color_index = 0;
 
 
         for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 108; j++) {
+            for (int column = 0; column < 108; column++) {
                 if (i == 0 || i == 5)
                     System.out.print("_");
-                else if (i == 1 && j == 0)
+                else if (i == 1 && column == 0)
                     System.out.println();
-                else if (j == 0 || j == 6) {
-                    if (k < hallDimension-1) {
+                else if (column == 0 || column == 6) {
+                    if (studentIndex < hallDimension-1) {
                         System.out.println("|                       |                                                                          |       |");
-                        System.out.print("|      " + shouldPrintStudent(k, board, "██ ") + "     " + shouldPrintStudent(++k, board, "██ ") + "      |");
+                        System.out.print("|      " + shouldPrintStudent(studentIndex, board, "██ ") + "     " + shouldPrintStudent(++studentIndex, board, "██ ") + "      |");
                         printStudentInsideDiningRoom(color[color_index], board.getDiningRoom().get(color[color_index]), board.getTeacher(color[color_index]));
                         color_index++;
                         System.out.println();
-                        k++;
-                    } else if (k == hallDimension - 1 && hallDimension == 7) {
+                        studentIndex++;
+                    } else if (studentIndex == hallDimension - 1 && hallDimension == 7) {
                         System.out.println("|                       |                                                                          |       |");
-                        System.out.print("|      " + shouldPrintStudent(k, board, "██ ") + "     " + shouldPrintStudent(++k, board, "██ ") + "      |");
+                        System.out.print("|      " + shouldPrintStudent(studentIndex, board, "██ ") + "     " + shouldPrintStudent(++studentIndex, board, "██ ") + "      |");
                         printStudentInsideDiningRoom(color[color_index], board.getDiningRoom().get(color[color_index]), board.getTeacher(color[color_index]));
                         color_index++;
                         System.out.println();
@@ -445,10 +558,10 @@ public class Cli extends ViewSubject implements View {
                         System.out.print("|                       |");
                         printStudentInsideDiningRoom(color[color_index], board.getDiningRoom().get(color[color_index]), board.getTeacher(color[color_index]));
                         System.out.println();
-                        k++;
-                    } else if (k == hallDimension - 1) {
+                        studentIndex++;
+                    } else if (studentIndex == hallDimension - 1) {
                         System.out.println("|                       |                                                                          |       |");
-                        System.out.print("|      " + shouldPrintStudent(k, board, "██ ") + "     " + shouldPrintStudent(++k, board, "██ ") + "      |");
+                        System.out.print("|      " + shouldPrintStudent(studentIndex, board, "██ ") + "     " + shouldPrintStudent(++studentIndex, board, "██ ") + "      |");
                         printStudentInsideDiningRoom(color[color_index], board.getDiningRoom().get(color[color_index]), board.getTeacher(color[color_index]));
                         System.out.println();
                         i++;
@@ -511,7 +624,7 @@ public class Cli extends ViewSubject implements View {
     public void chooseBoard(ArrayList<Board> availableBoards, int hallDimension) {
         int index = 0;
         int i = 0;
-        int chosenValue;
+        int chosenValue = 0;
         do {
             System.out.print("Choose which board you want to check: ");
             for(Board b : availableBoards) {
@@ -519,7 +632,11 @@ public class Cli extends ViewSubject implements View {
                 index++;
             }
             System.out.println("["+index+"] for all boards");
-            chosenValue = scan.nextInt();
+            try {
+                chosenValue = Integer.parseInt(read());
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
             if(chosenValue < 0 || chosenValue > index)
                 System.out.println("Invalid parameter");
         } while(chosenValue < 0 || chosenValue > index);
@@ -547,10 +664,15 @@ public class Cli extends ViewSubject implements View {
         System.out.println("Start action phase");
         System.out.println("1 to dinner,2 to island,3 gameField,4 to move mother nature");
 
-        int k = 0;  //counter for students movement
+        int k = 0;
 
         while(true) {
-            int choice = scan.nextInt();
+            int choice = 0;
+            try {
+                choice = Integer.parseInt(read());
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
             if (choice == 1 && k < 3) {
                 this.notifyListener((list) -> {
                     list.moveStudentToDinner(colorSelector());
@@ -564,9 +686,15 @@ public class Cli extends ViewSubject implements View {
             } else if (choice == 3) {
                 this.notifyListener(ViewListener::getGameField);
             } else {
-                int num = scan.nextInt();
+                int num = 0;
+                try {
+                    num = Integer.parseInt(read());
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+                int finalNum = num;
                 this.notifyListener((list) -> {
-                    list.moveMotherNature(num);
+                    list.moveMotherNature(finalNum);
                 });
                 if (k == 3)
                     break;
@@ -574,13 +702,17 @@ public class Cli extends ViewSubject implements View {
                     System.out.println("\nMove other students");
             }
         }
-
     }
 
     @TestOnly
-    Color colorSelector(){
+    Color colorSelector() {
         System.out.println("\n\n1 Red, 2 Pink, 3Blue, 4Green, 5Yellow");
-        int choice = scan.nextInt();
+        int choice = 0;
+        try {
+            choice = Integer.parseInt(read());
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
 
         switch (choice){
             case 1:
