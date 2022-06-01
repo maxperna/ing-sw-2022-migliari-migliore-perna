@@ -245,9 +245,8 @@ public class GameController implements PropertyChangeListener {
                         currentView.showInitPlayer(game.MAX_NUM_OF_TOWERS, currentEntranceHall);
 
                         //sends the gameField to each Player
-                        for(Player player : game.getPlayersList()) {
-                            currentView.showGameField(gameFieldMap);
-                        }
+                        currentView.showGameField(gameFieldMap);
+                        Server.LOGGER.info("MANDO GAMEFIELD");
 
 
                         //sends the expertList
