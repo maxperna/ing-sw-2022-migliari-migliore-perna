@@ -12,6 +12,7 @@ import it.polimi.ingsw.observer.ViewSubject;
 import it.polimi.ingsw.view.View;
 import org.jetbrains.annotations.TestOnly;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
@@ -52,6 +53,7 @@ public class Cli extends ViewSubject implements View {
     /**
      * method used to start the CLI, calls the methods used to create a connection with server and to ask for player nickname
      */
+    @Override
     public void start() {
         System.out.println("                                                       ");
         System.out.println("▀███▀▀▀███                                       ██   ██");
@@ -108,9 +110,37 @@ public class Cli extends ViewSubject implements View {
 
     }
 
+    @Override
+    public void showLastUsedCard(AssistantCard card, String playerName) {
+        StringBuilder string = new StringBuilder();
+        System.out.println("This is " +playerName+"'s last used card");
+        for(int i=0; i<10; i++)
+            string.append("_");
+
+        System.out.println(ANSI_RED+string);
+        string.delete(0, string.capacity());
+
+        if(card.getActionNumber() < 10)
+            string.append("| "+card.getActionNumber()+"    "+(int)Math.ceil((float)card.getActionNumber()/2)+" |     ");
+        else
+            string.append("| "+card.getActionNumber()+"   "+(int)Math.ceil((float)card.getActionNumber()/2)+" |     ");
+        System.out.println(string);
+        string.delete(0, string.capacity());
+        System.out.println("|        |");
+        System.out.println("|        |");
+        if(card.getActionNumber() < 10)
+            string.append("| "+card.getActionNumber()+"    "+(int)Math.ceil((float)card.getActionNumber()/2)+" |     ");
+        else
+            string.append("| "+card.getActionNumber()+"   "+(int)Math.ceil((float)card.getActionNumber()/2)+" |     ");
+        System.out.println(string);
+        System.out.println("----------");
+        string.delete(0, string.capacity());
+    }
+
     /**
      * method used to get from input the player nickname
      */
+    @Override
     public void askPlayerNickname() {
         String nickname = null;
 
@@ -135,6 +165,7 @@ public class Cli extends ViewSubject implements View {
     /**
      * method called only on first player's interface to get the game parameters, like number of players and expert mode
      */
+    @Override
     public void askGameParam() {
         boolean expert = false;
 
@@ -180,26 +211,41 @@ public class Cli extends ViewSubject implements View {
      * @param remainingTowers list of remaining available towerColor
      * @param remainingDecks list of remaining available deckType
      */
+    @Override
     public void showRemainingTowerAndDeck(ArrayList<TowerColor> remainingTowers, ArrayList<DeckType> remainingDecks) {
-        System.out.println("Remaining tower: "+remainingTowers);
-        System.out.println("Remaining deck: "+remainingDecks);
-
-        System.out.println("\n\n");
-
-        System.out.println("Select tower by putting its position (1 to "+remainingTowers.size()+"): ");
         int tower = 0;
-        try {
-            tower = Integer.parseInt(read())-1;
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        System.out.println("Select deck by putting its position (1 to "+remainingDecks.size()+"): ");
         int deck = 0;
-        try {
-            deck = Integer.parseInt(read())-1;
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
+        do {
+            System.out.println();
+            System.out.println("Remaining tower: "+remainingTowers);
+            System.out.println("Select tower by putting its position (1 to "+remainingTowers.size()+"): ");
+
+            try {
+                tower = Integer.parseInt(read())-1;
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+
+            if(tower > remainingTowers.size()  || tower < 0)
+                System.out.println("Error. Invalid input");
+
+        } while(tower > remainingTowers.size() || tower < 0);
+
+        do {
+            System.out.println();
+            System.out.println("Remaining deck: "+remainingDecks);
+            System.out.println("Select deck by putting its position (1 to "+remainingDecks.size()+"): ");
+
+            try {
+                deck = Integer.parseInt(read())-1;
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+            if(deck > remainingDecks.size() || deck < 0)
+                System.out.println("Error. Invalid input");
+
+        } while (deck > remainingDecks.size() || deck < 0);
+
 
         int finalTower = tower;
         int finalDeck = deck;
@@ -219,6 +265,7 @@ public class Cli extends ViewSubject implements View {
      * method used to print the island list and then to call the chooseBoard() method
      * @param gameFieldMap map with the gameField
      */
+    @Override
     public void showGameField(Map<Integer, Node> gameFieldMap) {
         System.out.println();
         System.out.println("This is the game field: it shows the students set on every island, the dot shows Mother Nature position,");
@@ -269,6 +316,7 @@ public class Cli extends ViewSubject implements View {
      * method used to print the students inside all the cloud tiles
      * @param newClouds arrayList that contains all the clouds in the game
      */
+    @Override
     public void showClouds(ArrayList<CloudTile> newClouds) {
         for (CloudTile cloud : newClouds) {
             System.out.print("Cloud " + cloud.getTileID() + " contains the following students: ");
@@ -300,11 +348,6 @@ public class Cli extends ViewSubject implements View {
     }
 
     public void newCoin(String player, int numOfCoin) {
-    }
-
-    @Override
-    public void showBoard(Map<String, Board> boardMap) {
-
     }
 
     @Override
@@ -366,6 +409,7 @@ public class Cli extends ViewSubject implements View {
      * @param students is the arraylist containing all the available students
      * @param islands is an int that contains the id of the last island, basically indicating the number of islands remaining
      */
+    @Override
     public void selectStudent(ArrayList<Color> students, int islands) {
         Color finalColor = null;
         int chosenIsland = 0;
@@ -503,6 +547,7 @@ public class Cli extends ViewSubject implements View {
             string.append("----------     ");
         System.out.println(string);
         string.delete(0, string.capacity());
+
         int choice = 0;
         try {
             choice = Integer.parseInt(read());
@@ -516,8 +561,6 @@ public class Cli extends ViewSubject implements View {
     }
 
     public void clearCli() {
-        System.out.println(CLEAR);
-        System.out.flush();
         System.out.println("                                                       ");
         System.out.println("▀███▀▀▀███                                       ██   ██");
         System.out.println(" ██     ▀█                                       ██");
@@ -531,7 +574,8 @@ public class Cli extends ViewSubject implements View {
 
     }
 
-    public void showBoard(Board board) {
+    @Override
+    public void printBoard(Board board) {
 
         int studentIndex = 0;
         int hallDimension = board.getMaxStudentHall();
@@ -624,37 +668,35 @@ public class Cli extends ViewSubject implements View {
 
     /**
      * method used to get from the user the board he wants to check
-     * @param availableBoards is an ArrayList of all the available boards in the game
+     * @param boardMap is a map of all the available boards in the game
      */
-    public void chooseBoard(ArrayList<Board> availableBoards, int hallDimension) {
+    @Override
+    public void showBoard(Map<String, Board> boardMap) {
         int index = 0;
         int i = 0;
-        int chosenValue = 0;
+        String chosenPlayer = "";
         do {
             System.out.print("Choose which board you want to check: ");
-            for(Board b : availableBoards) {
+            for(Board b : boardMap.values()) {
                 System.out.println("["+index+"] for "+b.getOwner());
                 index++;
             }
             System.out.println("["+index+"] for all boards");
             try {
-                chosenValue = Integer.parseInt(read());
+                chosenPlayer = read();
             } catch (ExecutionException e) {
                 e.printStackTrace();
             }
-            if(chosenValue < 0 || chosenValue > index)
+            if(!(boardMap.containsKey(chosenPlayer) || chosenPlayer.equals("ALL")))
                 System.out.println("Invalid parameter");
-        } while(chosenValue < 0 || chosenValue > index);
+        } while(!(boardMap.containsKey(chosenPlayer) || chosenPlayer.equals("ALL")));
 
-        if(chosenValue == index) {
-
-            while(i<index) {
-                showBoard(availableBoards.get(i));
-                i++;
-            }
+        if(chosenPlayer.equals("ALL")) {
+            for(Board b : boardMap.values())
+                printBoard(b);
         }
         else
-            showBoard(availableBoards.get(chosenValue));
+            printBoard(boardMap.get(chosenPlayer));
     }
 
     private String shouldPrintStudent(int studentID, Board board, String string) {
@@ -734,4 +776,5 @@ public class Cli extends ViewSubject implements View {
                 return Color.BLUE;
         }
     }
+
 }

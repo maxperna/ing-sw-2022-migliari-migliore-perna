@@ -131,6 +131,11 @@ public class VirtualView implements View {
     }
 
     @Override
+    public void printBoard(Board board) {
+
+    }
+
+    @Override
     public void showExpertID(ArrayList<ExpertID> expertID){
         clientHandler.sendMessage(new ExpertCardReply(expertID));
     }
@@ -147,6 +152,16 @@ public class VirtualView implements View {
 
     @Override
     public void connectionRequest() {
+
+    }
+
+    @Override
+    public void showLastUsedCard(AssistantCard card, String playerName) {
+
+    }
+
+    @Override
+    public void selectStudent(ArrayList<Color> students, int islands) {
 
     }
 

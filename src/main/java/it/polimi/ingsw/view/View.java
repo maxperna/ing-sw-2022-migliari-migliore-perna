@@ -13,6 +13,7 @@ import java.util.Map;
 public interface View {
 
     void start();
+
     void askPlayerNickname();
 
     /**Method to ask the gameParam to the first player. must be done before logging others players
@@ -30,7 +31,7 @@ public interface View {
      * @param numberOfTowers starting number of towers
      * @param entranceHall array with all the students
      */
-    void showInitPlayer(int numberOfTowers, ArrayList<Color> entranceHall);
+    void showInitPlayer(int numberOfTowers, ArrayList<Color> entranceHall); //probably unnecessary
 
     /**Method to show the entire game field, contains a map with all the nodes and their ID as key,
      * every player receives a gameField map at the beginning of the game.
@@ -61,7 +62,7 @@ public interface View {
     /**Each time a node changes every player receives the updated node.
      * @param updatedNode node with updated attributes
      */
-    void updateNode(Node updatedNode);
+    void updateNode(Node updatedNode);   //we will use showGameField
 
     /**Show a generic message to the players.
      * E.G. the preparation phase ends, all the players receive a "Action phase started" message
@@ -74,12 +75,29 @@ public interface View {
      * @param numOfCoin is the new value of coin of the player
      */
     void newCoin(String player, int numOfCoin);
+
+    /**
+     * method that let the player choose which board will be checked
+     * @param boardMap is a map containing all the boards in game
+     */
     void showBoard (Map<String, Board> boardMap);
-    void showPlayedAssistantCard (Map<String, AssistantCard> lastCardMap);
+
+    /**
+     * method used to print a specific board
+     * @param board
+     */
+    void printBoard(Board board);
+
+    void showPlayedAssistantCard (Map<String, AssistantCard> lastCardMap); //simplified by showLastUsedCard
+
     void showWinner(String winner);
+
     void showError(String errorMessage);
+
     void showExpertID(ArrayList<ExpertID> expertID);
+
     void showExpertCard(ArrayList<ExpertCard> expertCard);
+
     void disconnect();
 
     void showAssistant(ArrayList<AssistantCard> deck);
@@ -88,6 +106,20 @@ public interface View {
     void startActionPhase();
 
     void connectionRequest();
+
+    /**
+     * method used to print the last assistant card used
+     * @param card is the last assistant card used
+     * @param playerName is the player who played that card
+     */
+    void showLastUsedCard(AssistantCard card, String playerName);
+
+    /**
+     * method used to choose which student move and the destination
+     * @param students is the arraylist of available students
+     * @param islands is the actual number of islands
+     */
+    void selectStudent(ArrayList<Color> students, int islands);
 
 
 }
