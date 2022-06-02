@@ -673,24 +673,25 @@ public class Cli extends ViewSubject implements View {
     public void showBoard(Map<String, Board> boardMap) {
         int index = 0;
         int i = 0;
-        String chosenPlayer = "";
+        int chosenPlayer = 0;
         do {
-            System.out.print("Choose which board you want to check: ");
-            for(Board b : boardMap.values()) {
-                System.out.println("["+index+"] for "+b.getOwner());
+            index = 0;
+            System.out.println("Choose which board you want to check: ");
+            for(String s : boardMap.keySet()) {
+                System.out.println("["+index+"] for "+ s);
                 index++;
             }
             System.out.println("["+index+"] for all boards");
             try {
-                chosenPlayer = read();
+                chosenPlayer = Integer.parseInt(read());
             } catch (ExecutionException e) {
                 e.printStackTrace();
             }
-            if(!(boardMap.containsKey(chosenPlayer) || chosenPlayer.equals("ALL")))
+            if(!(chosenPlayer < 0 || chosenPlayer > boardMap.size()+1))
                 System.out.println("Invalid parameter");
-        } while(!(boardMap.containsKey(chosenPlayer) || chosenPlayer.equals("ALL")));
+        } while(!(chosenPlayer < 0 || chosenPlayer > boardMap.size()+1));
 
-        if(chosenPlayer.equals("ALL")) {
+        if(chosenPlayer == index) {
             for(Board b : boardMap.values())
                 printBoard(b);
         }
