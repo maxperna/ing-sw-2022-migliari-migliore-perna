@@ -80,28 +80,29 @@ public class Cli extends ViewSubject implements View {
         HashMap<String, String> serverInfo = new HashMap<>();
         String defaultAddress = "localhost";
         String defaultPort = "13000";
-        String address = null;
-        String port = null;
+        String address = "0.0.0.0";
+        String port = "13000";
         System.out.println("Choose the server address: [" + defaultAddress + "]");
-        try {
+        /*try {
             address = read();
         } catch (ExecutionException e) {
             e.printStackTrace();
-        }
+        }*/
         if (address.equals(""))
             serverInfo.put("address", defaultAddress);
          else
             serverInfo.put("address", address);
 
         System.out.println("Choose the server port: ["+defaultPort+"]");
-        try {
+        /*try {
             port = read();
         } catch (ExecutionException e) {
             e.printStackTrace();
-        }
+        }*/
         if(port == null)
             serverInfo.put("port", defaultPort);
-        serverInfo.put("port", port);
+        else
+            serverInfo.put("port", port);
 
 
         System.out.println("\n\nWaiting for game creation...");
