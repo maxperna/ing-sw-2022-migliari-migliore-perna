@@ -114,8 +114,7 @@ public class Cli extends ViewSubject implements View {
     public void showLastUsedCard(AssistantCard card, String playerName) {
         StringBuilder string = new StringBuilder();
         System.out.println("This is " +playerName+"'s last used card");
-        for(int i=0; i<10; i++)
-            string.append("_");
+        string.append("_".repeat(10));
 
         System.out.println(ANSI_RED+string);
         string.delete(0, string.capacity());

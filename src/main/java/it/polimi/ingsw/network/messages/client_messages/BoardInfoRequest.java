@@ -6,8 +6,8 @@ import it.polimi.ingsw.network.messages.MessageType;
 
 public class BoardInfoRequest extends Message {
 
+
     public BoardInfoRequest(String senderPlayer){
         super(MessageType.SHOW_BOARD,senderPlayer);
     }
-
 }

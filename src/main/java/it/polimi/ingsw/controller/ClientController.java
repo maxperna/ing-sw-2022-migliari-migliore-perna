@@ -67,6 +67,11 @@ public class ClientController implements ViewListener, Listener {
         client.sendMessage(new GameParamMessage(this.nickname,numOfPlayers,expertMode));
     }
 
+    /***/
+    public void getBoards(){
+        client.sendMessage(new BoardInfoRequest(this.nickname));
+    }
+
     /**Method to select every object could be recognized by an ID (i.e. island, cloud tiles)
      * @param ID selected object ID*/
     public void sendSelectedID(int ID){
@@ -201,7 +206,7 @@ public class ClientController implements ViewListener, Listener {
                 break;
             case SHOW_BOARD:
                 BoardInfoMessage boardInfo = (BoardInfoMessage)  receivedMessage;
-//                actionQueue.execute(()->view.);
+                actionQueue.execute(()->view.showBoard(boardInfo.getBoardMap()));
                 break;
             case GENERIC:
                 GenericMessage message = (GenericMessage) receivedMessage;
