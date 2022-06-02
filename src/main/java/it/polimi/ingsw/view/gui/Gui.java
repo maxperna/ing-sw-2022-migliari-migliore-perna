@@ -141,4 +141,9 @@ public class Gui implements View {
     public void selectStudent(ArrayList<Color> students, int islands) {
 
     }
+
+    @Override
+    public void chooseAction() {
+
+    }
 }
