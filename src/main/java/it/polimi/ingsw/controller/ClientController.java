@@ -220,7 +220,6 @@ public class ClientController implements ViewListener, Listener {
             case GAME_FIELD:
                 GameFieldMessage gameField = (GameFieldMessage) receivedMessage;
                 actionQueue.execute(()->view.showGameField(gameField.getGameFieldMap()));
-
                 break;
             case ERROR:
                 ErrorMessage error = (ErrorMessage) receivedMessage;

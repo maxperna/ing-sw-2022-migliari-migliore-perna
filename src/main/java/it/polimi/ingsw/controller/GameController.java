@@ -86,6 +86,7 @@ public class GameController implements PropertyChangeListener {
                     try {
                         //plays the card
                         turnLogic.setPlayedCard(((PlayAssistantMessage)receivedMessage).getPlayedCard(), currentPlayer);
+                        //Manda ultima carta giocata a tutti i giocatori
                         nextState();
                     }
                     catch (CardAlreadyPlayed e) {
@@ -445,8 +446,7 @@ public class GameController implements PropertyChangeListener {
             Map<String, Board> boardMap = new HashMap<>();
 
             for(Player currentPlayer : game.getPlayersList()) {
-                if(!currentPlayer.getNickname().equals(senderPlayer))
-                    boardMap.put(currentPlayer.getNickname(), currentPlayer.getBoard());
+                boardMap.put(currentPlayer.getNickname(), currentPlayer.getBoard());
             }
 
             viewMap.get(senderPlayer).showBoard(boardMap);
