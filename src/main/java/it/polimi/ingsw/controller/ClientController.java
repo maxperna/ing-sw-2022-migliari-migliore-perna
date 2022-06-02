@@ -28,6 +28,7 @@ public class ClientController implements ViewListener, Listener {
     private final View view;
     private Client client;
     private String nickname;
+    private GameState phase;
 
     private final ExecutorService actionQueue;
 
@@ -174,10 +175,10 @@ public class ClientController implements ViewListener, Listener {
                 CurrentPlayerMessage currPlayer = (CurrentPlayerMessage) receivedMessage;
                 switch(currPlayer.getCurrentState()){
                     case PREPARATION_PHASE:
-                        view.chooseAction();
-                        //preparation phase method
+                        phase = GameState.PREPARATION_PHASE;
                         break;
                     case ACTION_PHASE:
+                        phase = GameState.ACTION_PHASE;
                         actionQueue.execute(view::startActionPhase);
 
                         break;
@@ -187,6 +188,8 @@ public class ClientController implements ViewListener, Listener {
             case CHARGECLOUD:
                 UpdateCloudsMessage cloudsMessage = (UpdateCloudsMessage) receivedMessage;
                 actionQueue.execute(()->view.showClouds(cloudsMessage.getChargedClouds()));
+                if(phase.equals(GameState.PREPARATION_PHASE))
+                    actionQueue.execute(view::chooseAction);
                 break;
             case UPDATE_COIN:
                 break;
