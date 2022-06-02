@@ -13,7 +13,6 @@ import it.polimi.ingsw.network.messages.server_messages.*;
 import it.polimi.ingsw.observer.Listener;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.observer.ViewListener;
-import it.polimi.ingsw.view.cli.Cli;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,8 +27,6 @@ public class ClientController implements ViewListener, Listener {
     private final View view;
     private Client client;
     private String nickname;
-    private GameState phase;
-
     private final ExecutorService actionQueue;
 
     private ArrayList<ExpertID> expertsOnField = new ArrayList<>();
@@ -175,10 +172,9 @@ public class ClientController implements ViewListener, Listener {
                 CurrentPlayerMessage currPlayer = (CurrentPlayerMessage) receivedMessage;
                 switch(currPlayer.getCurrentState()){
                     case PREPARATION_PHASE:
-                        phase = GameState.PREPARATION_PHASE;
+                        actionQueue.execute(view::chooseAction);
                         break;
                     case ACTION_PHASE:
-                        phase = GameState.ACTION_PHASE;
                         actionQueue.execute(view::startActionPhase);
 
                         break;
@@ -188,8 +184,6 @@ public class ClientController implements ViewListener, Listener {
             case CHARGECLOUD:
                 UpdateCloudsMessage cloudsMessage = (UpdateCloudsMessage) receivedMessage;
                 actionQueue.execute(()->view.showClouds(cloudsMessage.getChargedClouds()));
-                if(phase.equals(GameState.PREPARATION_PHASE))
-                    actionQueue.execute(view::chooseAction);
                 break;
             case UPDATE_COIN:
                 break;
