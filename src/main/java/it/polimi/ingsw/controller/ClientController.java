@@ -253,4 +253,7 @@ public class ClientController implements ViewListener, Listener {
         catchAction(message);
     }
 
+    public void chooseAction(int i) {
+    }
+
 }

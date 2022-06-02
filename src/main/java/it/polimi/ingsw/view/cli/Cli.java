@@ -777,4 +777,20 @@ public class Cli extends ViewSubject implements View {
         }
     }
 
+    public void chooseAction() {
+        int chosenAction = 0;
+        System.out.println("Write [1] to play your card, [2] to check the other boards");
+        do {
+            try {
+                chosenAction = Integer.parseInt(read());
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+            if(chosenAction != 1 && chosenAction != 2)
+                System.out.println("Invalid input");
+        } while(chosenAction != 1 && chosenAction != 2);
+        int finalChosenAction = chosenAction;
+        notifyListener(list -> list.chooseAction(finalChosenAction));
+    }
+
 }

@@ -36,4 +36,6 @@ public interface ViewListener {
 
     void getPlayerInfo(String player);
     void moveMotherNature(int numberOfSteps);
+
+    void chooseAction(int finalChosenAction);
 }
