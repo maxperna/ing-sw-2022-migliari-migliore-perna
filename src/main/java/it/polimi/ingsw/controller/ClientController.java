@@ -13,6 +13,7 @@ import it.polimi.ingsw.network.messages.server_messages.*;
 import it.polimi.ingsw.observer.Listener;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.observer.ViewListener;
+import it.polimi.ingsw.view.cli.Cli;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -137,7 +138,6 @@ public class ClientController implements ViewListener, Listener {
 
     /**Method to get deck info*/
     public void requestAssistants(){
-        System.out.println("Richiesta assistente");
         client.sendMessage(new AssistantInfoMessage(nickname));
     }
 
@@ -174,7 +174,7 @@ public class ClientController implements ViewListener, Listener {
                 CurrentPlayerMessage currPlayer = (CurrentPlayerMessage) receivedMessage;
                 switch(currPlayer.getCurrentState()){
                     case PREPARATION_PHASE:
-                        requestAssistants();
+                        view.chooseAction();
                         //preparation phase method
                         break;
                     case ACTION_PHASE:
@@ -258,6 +258,16 @@ public class ClientController implements ViewListener, Listener {
     }
 
     public void chooseAction(int i) {
+        switch (i){
+            case 1:
+                requestAssistants();
+                break;
+            case 2:
+                getBoards();
+                break;
+            default:
+                break;
+        }
     }
 
 }

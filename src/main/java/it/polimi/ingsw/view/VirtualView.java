@@ -164,5 +164,7 @@ public class VirtualView implements View {
     public void selectStudent(ArrayList<Color> students, int islands) {
 
     }
+
+    public void chooseAction(){}
     
 }
