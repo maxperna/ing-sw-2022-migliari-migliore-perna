@@ -253,9 +253,6 @@ public class GameController implements PropertyChangeListener {
                         //sends the expertList
                         currentView.showExpertCards(expertIDList);
 
-                        //sends to the first player a current player message
-                        if(currentPlayer.getNickname().equals(turnLogic.getActivePlayer().getNickname()))
-                            currentView.showCurrentPlayer(currentPlayer.getNickname(), GameState.PREPARATION_PHASE);
                     }
 
                     setListeners();
@@ -264,6 +261,11 @@ public class GameController implements PropertyChangeListener {
                     broadcast("Start PreparationPhase");
 
                     game.rechargeClouds();
+
+                    //sends to the first player a current player message
+                    String currentPlayer = turnLogic.getActivePlayer().getNickname();
+                    viewMap.get(currentPlayer).showCurrentPlayer(currentPlayer, GameState.PREPARATION_PHASE);
+
                     Server.LOGGER.info("RICARICO NUVOLE");
 
                     nextState = GameState.PREPARATION_PHASE;

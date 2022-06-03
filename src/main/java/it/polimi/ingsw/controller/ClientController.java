@@ -32,7 +32,7 @@ public class ClientController implements ViewListener, Listener {
     private ArrayList<ExpertID> expertsOnField = new ArrayList<>();
 
     private final ArrayList<String> inGamePlayer = new ArrayList<>();    //list of others player nickname
-
+    private boolean myTurn;
     private int actionCounter;
 
     public ClientController(View view){
@@ -40,6 +40,7 @@ public class ClientController implements ViewListener, Listener {
         this.actionQueue = Executors.newSingleThreadExecutor();
         this.phase = GameState.PREPARATION_PHASE;
         this.actionCounter = 3;
+        this.myTurn = false;
     }
 
     /**Method handling the connection information to create a client-server connection
@@ -101,11 +102,12 @@ public class ClientController implements ViewListener, Listener {
      * @param playedCard selected card to play*/
     public void playAssistantCard(int playedCard){
          client.sendMessage(new PlayAssistantMessage(nickname,playedCard));
-
+         myTurn = false;
     }
 
     public void moveMotherNature(int numberOfSteps){
         client.sendMessage(new MoveMotherNatureMessage(nickname,numberOfSteps));
+        myTurn = false;
     }
 
     /**Method to play an expert card
@@ -175,6 +177,7 @@ public class ClientController implements ViewListener, Listener {
                 break;
             case CURRENT_PLAYER:
                 CurrentPlayerMessage currPlayer = (CurrentPlayerMessage) receivedMessage;
+                myTurn = true;
                 switch(currPlayer.getCurrentState()){
                     case PREPARATION_PHASE:
                         phase = GameState.PREPARATION_PHASE;
@@ -247,9 +250,14 @@ public class ClientController implements ViewListener, Listener {
             case ERROR:
                 ErrorMessage error = (ErrorMessage) receivedMessage;
                 actionQueue.execute(()->view.showError(error.getErrorMessage()));
+                if(error.getErrorMessage().contains("Student not found")) {
+                    actionCounter ++;
+                    actionQueue.execute(view::ActionPhaseTurn);
+                    actionCounter --;
+                }
                 break;
             case WORLD_CHANGE:
-                actionQueue.execute(()->defaultPreparation((WorldChangeMessage) receivedMessage));
+                actionQueue.execute(()-> defaultViewLayout((WorldChangeMessage) receivedMessage));
                 if(phase.equals(GameState.ACTION_PHASE)) {
                     actionCounter --;
                     if(actionCounter > 0)
@@ -299,7 +307,7 @@ public class ClientController implements ViewListener, Listener {
         }
     }
 
-    private void defaultPreparation(WorldChangeMessage message) {
+    private void defaultViewLayout(WorldChangeMessage message) {
 
         view.showGameField(message.getGameFieldMap());
         view.showClouds(message.getChargedClouds());

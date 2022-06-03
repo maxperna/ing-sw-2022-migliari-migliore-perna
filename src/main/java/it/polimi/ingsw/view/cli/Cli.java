@@ -707,7 +707,7 @@ public class Cli extends ViewSubject implements View {
         else return "-- ";
     }
 
-    @TestOnly
+    @Override
     public void ActionPhaseTurn(){
 
         System.out.println("1 to dinner, 2 to island, 3 gameField");
@@ -739,7 +739,7 @@ public class Cli extends ViewSubject implements View {
             }
     }
 
-    @TestOnly
+    @Override
     public void moveMotherNature() {
 
         System.out.println("MoveMotherNature: ");
