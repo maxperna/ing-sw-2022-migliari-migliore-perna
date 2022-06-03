@@ -123,7 +123,7 @@ public class Gui implements View {
     }
 
     @Override
-    public void startActionPhase() {
+    public void ActionPhaseTurn() {
 
     }
 

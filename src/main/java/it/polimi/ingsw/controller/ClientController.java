@@ -182,7 +182,7 @@ public class ClientController implements ViewListener, Listener {
                         break;
                     case ACTION_PHASE:
                         phase = GameState.ACTION_PHASE;
-                        actionQueue.execute(view::startActionPhase);
+                        actionQueue.execute(view::ActionPhaseTurn);
                         actionCounter --;
                         break;
 
@@ -213,7 +213,11 @@ public class ClientController implements ViewListener, Listener {
                 if(phase.equals(GameState.ACTION_PHASE)) {
                     actionCounter --;
                     if(actionCounter > 0)
-                        actionQueue.execute(view::startActionPhase);
+                        actionQueue.execute(view::ActionPhaseTurn);
+                    else if(actionCounter == 0)
+                        actionQueue.execute(view::moveMotherNature);
+                    else
+                        System.out.println("Errore non dovrebbe accadere, il giocatore ha fatto 4 azioni");
                 }
                 else {
                     BoardInfoMessage boardInfo = (BoardInfoMessage) receivedMessage;
@@ -249,7 +253,7 @@ public class ClientController implements ViewListener, Listener {
                 if(phase.equals(GameState.ACTION_PHASE)) {
                     actionCounter --;
                     if(actionCounter > 0)
-                        actionQueue.execute(view::startActionPhase);
+                        actionQueue.execute(view::ActionPhaseTurn);
                     else if(actionCounter == 0)
                         actionQueue.execute(view::moveMotherNature);
                     else

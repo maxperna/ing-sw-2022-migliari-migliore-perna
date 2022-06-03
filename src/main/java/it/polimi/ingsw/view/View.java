@@ -103,7 +103,7 @@ public interface View {
     void showAssistant(ArrayList<AssistantCard> deck);
 
     @TestOnly
-    void startActionPhase();
+    void ActionPhaseTurn();
 
     void connectionRequest();
 

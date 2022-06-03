@@ -708,7 +708,7 @@ public class Cli extends ViewSubject implements View {
     }
 
     @TestOnly
-    public void startActionPhase(){
+    public void ActionPhaseTurn(){
 
         System.out.println("1 to dinner, 2 to island, 3 gameField");
 

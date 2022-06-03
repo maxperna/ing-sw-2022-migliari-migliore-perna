@@ -148,7 +148,7 @@ public class VirtualView implements View {
         return clientHandler;
     }
 
-    public void startActionPhase(){}
+    public void ActionPhaseTurn(){}
 
     @Override
     public void connectionRequest() {
