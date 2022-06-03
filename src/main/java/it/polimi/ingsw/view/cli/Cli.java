@@ -794,7 +794,7 @@ public class Cli extends ViewSubject implements View {
 
     public void chooseAction() {
         int chosenAction = 0;
-        System.out.println("Write [1] to play your card, [2] to check the other boards");
+        System.out.println("Write [1] to play your card, [2] to check the other boards, (3 to play Expert)");
         do {
             try {
                 chosenAction = Integer.parseInt(read());
@@ -806,6 +806,29 @@ public class Cli extends ViewSubject implements View {
         } while(chosenAction != 1 && chosenAction != 2);
         int finalChosenAction = chosenAction;
         notifyListener(list -> list.chooseAction(finalChosenAction));
+    }
+
+    public void chooseCloudTile(int numberOfPlayers) {
+        int chosenCloud = 0;
+        do {
+            try {
+
+                System.out.println("Choose cloud: ");
+                for(int i = 0; i<numberOfPlayers; i++ ) {
+                    System.out.println("["+i+"]");
+                }
+                chosenCloud = Integer.parseInt(read());
+
+                if((chosenCloud < 0 || chosenCloud > numberOfPlayers))
+                    System.out.println("Invalid parameter");
+
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+
+        } while((chosenCloud < 0 || chosenCloud > numberOfPlayers));
+
+
     }
 
 }

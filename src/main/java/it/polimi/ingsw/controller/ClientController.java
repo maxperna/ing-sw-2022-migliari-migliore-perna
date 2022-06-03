@@ -215,16 +215,7 @@ public class ClientController implements ViewListener, Listener {
                 actionQueue.execute(()->view.showAssistant(assistantsInfo.getDeck()));
                 break;
             case SHOW_BOARD:
-                if(phase.equals(GameState.ACTION_PHASE)) {
-                    actionCounter --;
-                    if(actionCounter > 0)
-                        actionQueue.execute(view::ActionPhaseTurn);
-                    else if(actionCounter == 0)
-                        actionQueue.execute(view::moveMotherNature);
-                    else
-                        System.out.println("Errore non dovrebbe accadere, il giocatore ha fatto 4 azioni");
-                }
-                else if(phase.equals(GameState.PREPARATION_PHASE)){
+                if(phase.equals(GameState.PREPARATION_PHASE)){
                     Map<String, Board> boardMap = ((BoardInfoMessage)receivedMessage).getBoardMap();
                     boardMap.remove(nickname);
                     actionQueue.execute(() -> view.showBoard(boardMap));
@@ -266,6 +257,7 @@ public class ClientController implements ViewListener, Listener {
                 break;
             case WORLD_CHANGE:
                 actionQueue.execute(()-> defaultViewLayout((WorldChangeMessage) receivedMessage));
+
                 if(phase.equals(GameState.ACTION_PHASE)) {
                     actionCounter --;
                     if(actionCounter > 0)

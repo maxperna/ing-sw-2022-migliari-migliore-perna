@@ -59,6 +59,8 @@ public enum MessageType {
     /**Message to get the game info such as players list and expert type list*/
     GAME_INFO,
 
-    WORLD_CHANGE
+    WORLD_CHANGE,
+
+    GET_CLOUD
 
 }
