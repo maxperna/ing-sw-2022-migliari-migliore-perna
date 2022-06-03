@@ -123,4 +123,6 @@ public interface View {
 
     void chooseAction();
 
+    void moveMotherNature();
+
 }

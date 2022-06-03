@@ -709,47 +709,50 @@ public class Cli extends ViewSubject implements View {
 
     @TestOnly
     public void startActionPhase(){
-        System.out.println("Start action phase");
-        System.out.println("1 to dinner,2 to island,3 gameField,4 to move mother nature");
 
-        int k = 0;
+        System.out.println("1 to dinner, 2 to island, 3 gameField");
 
-        while(true) {
             int choice = 0;
+
             try {
                 choice = Integer.parseInt(read());
+
+                if (choice == 1 ) {
+                    this.notifyListener((list) -> {
+                        list.moveStudentToDinner(colorSelector());
+                    });
+
+                } else if (choice == 2 ) {
+                    int islandID;
+                    System.out.println("number: ");
+                    islandID = Integer.parseInt(read());
+
+                    this.notifyListener((list) -> {
+                        list.moveStudentToIsland(colorSelector(), islandID);
+                    });
+
+                } else if (choice == 3)
+                    this.notifyListener(ViewListener::getGameField);
+
             } catch (ExecutionException e) {
                 e.printStackTrace();
             }
-            if (choice == 1 && k < 3) {
+    }
+
+    @TestOnly
+    public void moveMotherNature() {
+
+        System.out.println("MoveMotherNature: ");
+
+            try {
+                int num = Integer.parseInt(read());
                 this.notifyListener((list) -> {
-                    list.moveStudentToDinner(colorSelector());
+                    list.moveMotherNature(num);
                 });
-                k++;
-            } else if (choice == 2 && k < 3) {
-                this.notifyListener((list) -> {
-                    list.moveStudentToIsland(colorSelector(), 2);
-                });
-                k++;
-            } else if (choice == 3) {
-                this.notifyListener(ViewListener::getGameField);
-            } else {
-                int num = 0;
-                try {
-                    num = Integer.parseInt(read());
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                }
-                int finalNum = num;
-                this.notifyListener((list) -> {
-                    list.moveMotherNature(finalNum);
-                });
-                if (k == 3)
-                    break;
-                else
-                    System.out.println("\nMove other students");
+            } catch (ExecutionException e) {
+                e.printStackTrace();
             }
-        }
+
     }
 
     @TestOnly
@@ -767,8 +770,6 @@ public class Cli extends ViewSubject implements View {
                 return Color.RED;
             case 2:
                 return Color.PINK;
-            case 3:
-                return Color.BLUE;
             case 4:
                 return Color.GREEN;
             case 5:

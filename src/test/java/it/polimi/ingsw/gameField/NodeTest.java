@@ -65,7 +65,7 @@ class NodeTest {
         GameManager game = GameManager.getInstance();
         game.initGame("TwoPlayers",false);
         for(int ID = 1; ID<13; ID++) {
-            game.getGame(0).getGameField().getIslandNode(ID).setMotherNature();
+            game.getGame(0).getGameField().getIslandNode(ID).setMotherNature(true);
             assertEquals(true, game.getGame(0).getGameField().getIslandNode(ID).checkMotherNature());
         }
     }

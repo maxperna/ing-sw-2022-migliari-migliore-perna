@@ -166,5 +166,14 @@ public class VirtualView implements View {
     }
 
     public void chooseAction(){}
+
+    @Override
+    public void moveMotherNature() {
+
+    }
+
+    public void worldUpdate(Map<Integer, Node> gameFieldMap, ArrayList<CloudTile> chargedClouds) {
+        clientHandler.sendMessage(new WorldChangeMessage(gameFieldMap, chargedClouds));
+    }
     
 }

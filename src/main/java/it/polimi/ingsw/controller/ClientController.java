@@ -13,7 +13,6 @@ import it.polimi.ingsw.network.messages.server_messages.*;
 import it.polimi.ingsw.observer.Listener;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.observer.ViewListener;
-import it.polimi.ingsw.view.cli.Cli;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,9 +35,13 @@ public class ClientController implements ViewListener, Listener {
 
     private final ArrayList<String> inGamePlayer = new ArrayList<>();    //list of others player nickname
 
+    private int actionCounter;
+
     public ClientController(View view){
         this.view = view;
         this.actionQueue = Executors.newSingleThreadExecutor();
+        this.phase = GameState.PREPARATION_PHASE;
+        this.actionCounter = 3;
     }
 
     /**Method handling the connection information to create a client-server connection
@@ -100,6 +103,7 @@ public class ClientController implements ViewListener, Listener {
      * @param playedCard selected card to play*/
     public void playAssistantCard(int playedCard){
          client.sendMessage(new PlayAssistantMessage(nickname,playedCard));
+
     }
 
     public void moveMotherNature(int numberOfSteps){
@@ -180,7 +184,7 @@ public class ClientController implements ViewListener, Listener {
                     case ACTION_PHASE:
                         phase = GameState.ACTION_PHASE;
                         actionQueue.execute(view::startActionPhase);
-
+                        actionCounter --;
                         break;
 
                 }break;
@@ -197,7 +201,7 @@ public class ClientController implements ViewListener, Listener {
                 //notify the merging of the island
                 break;
             case NOTIFY_VICTORY:
-                //end of the game, showing winning player
+                //end of the game, showing winning
                 break;
             case END_GAME:
                 break;
@@ -208,11 +212,20 @@ public class ClientController implements ViewListener, Listener {
                 actionQueue.execute(()->view.showAssistant(assistantsInfo.getDeck()));
                 break;
             case SHOW_BOARD:
-                BoardInfoMessage boardInfo = (BoardInfoMessage)  receivedMessage;
-                actionQueue.execute(()->view.showBoard(boardInfo.getBoardMap()));
+                if(phase.equals(GameState.ACTION_PHASE)) {
+                    actionCounter --;
+                    if(actionCounter > 0)
+                        actionQueue.execute(view::startActionPhase);
+                }
+                else {
+                    BoardInfoMessage boardInfo = (BoardInfoMessage) receivedMessage;
+                    actionQueue.execute(() -> view.showBoard(boardInfo.getBoardMap()));
+                }
                 break;
             case GENERIC:
                 GenericMessage message = (GenericMessage) receivedMessage;
+                if(message.getBody().contains("ActionPhase"))
+                    actionCounter = 3;
                 actionQueue.execute(()->view.showGenericMessage(message.getBody()));
                 break;
                 //case PREPARATION_PHASE
@@ -233,8 +246,19 @@ public class ClientController implements ViewListener, Listener {
                 ErrorMessage error = (ErrorMessage) receivedMessage;
                 actionQueue.execute(()->view.showError(error.getErrorMessage()));
                 break;
+            case WORLD_CHANGE:
+                actionQueue.execute(()->defaultPreparation((WorldChangeMessage) receivedMessage));
+                if(phase.equals(GameState.ACTION_PHASE)) {
+                    actionCounter --;
+                    if(actionCounter > 0)
+                        actionQueue.execute(view::startActionPhase);
+                    else if(actionCounter == 0)
+                        actionQueue.execute(view::moveMotherNature);
+                    else
+                        System.out.println("Errore non dovrebbe accadere, il giocatore ha fatto 4 azioni");
+                }
 
-
+                break;
             /*CASE TYPE:
             *   richiedere un aggiornamento alla view*/
         }
@@ -271,6 +295,12 @@ public class ClientController implements ViewListener, Listener {
             default:
                 break;
         }
+    }
+
+    private void defaultPreparation(WorldChangeMessage message) {
+
+        view.showGameField(message.getGameFieldMap());
+        view.showClouds(message.getChargedClouds());
     }
 
 }

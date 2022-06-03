@@ -146,4 +146,9 @@ public class Gui implements View {
     public void chooseAction() {
 
     }
+
+    @Override
+    public void moveMotherNature() {
+
+    }
 }

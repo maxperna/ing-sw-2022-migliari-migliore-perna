@@ -112,8 +112,9 @@ public class Board implements Serializable, StudentManager  {
                 currentGame.coinHandler(owner,1);
                 support.firePropertyChange("UpdateCoin-" + owner.getNickname(), oldValue, owner.getNumOfCoin());
             }
-
+            support.firePropertyChange("UpdateBoard" + owner.getNickname(), false, true);
         }
+
     }
 
     /**Method to move a student from the outer hall to an island on the game field

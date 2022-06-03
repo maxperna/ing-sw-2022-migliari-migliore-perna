@@ -409,7 +409,7 @@ public class GameController implements PropertyChangeListener {
 //            int nodeID = Integer.parseInt(intValue);
 
             for (String nickName : viewMap.keySet()) {
-                viewMap.get(nickName).showGameField(generateGameFieldMap());
+                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles());
             }
         }
 
@@ -423,17 +423,28 @@ public class GameController implements PropertyChangeListener {
             Map<Integer, Node> gameFieldMap = generateGameFieldMap();
 
             for (String nickName : viewMap.keySet()) {
-                viewMap.get(nickName).showGameField(gameFieldMap);
+                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles());
             }
         }
 
-        if(event.getPropertyName().contains("UpdateCoin")) {
+        if(event.getPropertyName().contains("UpdateCoin-")) {
 
             String value = event.getPropertyName();
-            String playerName = value.substring(10);
+            String playerName = value.substring(11);
             for (String nickName : viewMap.keySet()) {
                 viewMap.get(nickName).newCoin(playerName, game.getPlayerByNickName(playerName).getNumOfCoin());
             }
+        }
+
+        if(event.getPropertyName().contains("UpdateBoard")) {
+            String value = event.getPropertyName();
+            String playerName = value.substring(11);
+
+            if(!viewMap.containsKey(playerName))
+                System.out.println("Non funziona la lettura da stringa");
+
+            viewMap.get(playerName).showBoard(generateBoardMap());
+
         }
     }
 
@@ -576,5 +587,11 @@ public class GameController implements PropertyChangeListener {
         return viewMap;
     }
 
+    public Map<String, Board> generateBoardMap() {
 
+        Map<String, Board> boardMap = new HashMap<>();
+        for(Player currentPlayer : game.getPlayersList())
+            boardMap.put(currentPlayer.getNickname(), currentPlayer.getBoard());
+        return boardMap;
+    }
 }

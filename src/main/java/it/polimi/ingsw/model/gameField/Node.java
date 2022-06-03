@@ -93,7 +93,6 @@ public class Node implements Serializable {
      */
     public void resetMotherNature(){
         this.motherNature = false;
-        support.firePropertyChange("UpdateNode " + ID, true, false);
     }
 
     public boolean checkMotherNature() {
@@ -211,6 +210,10 @@ public class Node implements Serializable {
 
     public void setStudents(ArrayList<Color> students){
         this.students.addAll(students);
+    }
+
+    public void setMotherNature(boolean value) {
+        this.motherNature = value;
     }
 
 }
