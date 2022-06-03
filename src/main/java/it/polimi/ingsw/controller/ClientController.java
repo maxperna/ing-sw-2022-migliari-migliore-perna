@@ -171,7 +171,7 @@ public class ClientController implements ViewListener, Listener {
 
     /**Method handling the action on the base of the received message
      * @param receivedMessage message received from the server*/
-    public void catchAction(Message receivedMessage){
+    public synchronized void catchAction(Message receivedMessage){
 
         switch (receivedMessage.getType()){
             case GAMEPARAM_REQUEST:
@@ -259,7 +259,7 @@ public class ClientController implements ViewListener, Listener {
             case WORLD_CHANGE:
                 WorldChangeMessage worldChange = (WorldChangeMessage) receivedMessage;
                 actionQueue.execute(()-> defaultViewLayout(worldChange));
-                if(phase.equals(GameState.ACTION_PHASE)) {
+                if(phase.equals(GameState.ACTION_PHASE) && worldChange.getCurrentPlayer().equals(nickname)) {
                     if(actionCounter > 0)
                         actionQueue.execute(view::ActionPhaseTurn);
                     else if(actionCounter == 0 && !turnEnded){

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.experts;
 
+import it.polimi.ingsw.exceptions.EndGameException;
 import it.polimi.ingsw.exceptions.NotEnoughCoins;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
@@ -24,7 +25,12 @@ public class Expert3 implements ExpertCard {
             currentGame.coinHandler(user,this.cost);
             this.cost++;
             currentGame.setActiveExpertsCard(this);
+            try{
             currentGame.checkIslandInfluence(targetIsland);
+            }catch (EndGameException e ){
+                e.printStackTrace();
+            }
+
         }
     }
 

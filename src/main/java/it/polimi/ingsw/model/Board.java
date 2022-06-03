@@ -234,9 +234,6 @@ public class Board implements Serializable, StudentManager  {
         return diningRoom.get(color);
     }
 
-    public String getOwner() {
-        return owner.getNickname();
-    }
 
     @TestOnly
     public void addSingleStudent (Color student) {

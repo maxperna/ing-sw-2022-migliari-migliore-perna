@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exceptions.EndGameException;
 import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
 import it.polimi.ingsw.model.gameField.IslandList;
 import it.polimi.ingsw.model.gameField.Node;
@@ -180,7 +181,7 @@ public class Game {
      *
      * @param nodeID island id to check the influence over
      */
-    public void checkIslandInfluence(int nodeID) {
+    public void checkIslandInfluence(int nodeID) throws EndGameException {
         Node islandToCheck = gameField.getIslandNode(nodeID);
         HashMap<Player, Integer> temporaryInfluenceCounter = new HashMap<>();  //temporary influence counter
         //if island has a deny card on it influence haven't to be calculated
@@ -227,7 +228,13 @@ public class Game {
             Player maxInfluencePlayer = temporaryInfluenceCounter.entrySet().stream().max((val1, val2) ->
                     val1.getValue() > val2.getValue() ? 1 : -1).get().getKey();
 
+            if(islandToCheck.getMostInfluencePlayer()==null)
+                islandToCheck.getMostInfluencePlayer().getBoard().addTower();
+
+            //Set new most influence tower
             islandToCheck.setMostInfluencePlayer(maxInfluencePlayer);
+            //Set towers
+            islandToCheck.setTower();
         }
     }
 

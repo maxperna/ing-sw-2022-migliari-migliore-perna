@@ -186,9 +186,6 @@ public class GameController implements PropertyChangeListener {
                     }catch (IllegalMove IL){
                         viewMap.get(senderPlayer).showError("Too much steps");
                     }
-                    finally {
-                        nextState();
-                    }
                 }
 
                 if(receivedMessage.getType() == GET_CLOUD) {
@@ -200,6 +197,9 @@ public class GameController implements PropertyChangeListener {
                         viewMap.get(senderPlayer).showError("EmptyCloud");
                     } catch (NotEnoughSpace e) {
                         viewMap.get(senderPlayer).showError("NotEnoughSpace");
+                    }
+                    finally {
+                        nextState();
                     }
                 }
 
@@ -286,6 +286,7 @@ public class GameController implements PropertyChangeListener {
                     viewMap.get(turnLogic.getActivePlayer().getNickname()).showCurrentPlayer(turnLogic.getActivePlayer().getNickname(), GameState.ACTION_PHASE);
                     broadcast("Start ActionPhase");
                     nextState = GameState.ACTION_PHASE;
+
                 }
                 else {
                     //Sends to the next player a message
@@ -307,9 +308,11 @@ public class GameController implements PropertyChangeListener {
                     viewMap.get(turnLogic.getActivePlayer().getNickname()).showCurrentPlayer(turnLogic.getActivePlayer().getNickname(), GameState.PREPARATION_PHASE);
                     broadcast("Start PreparationPhase");
                     nextState = GameState.PREPARATION_PHASE;
+                    game.rechargeClouds();
                 }
                 else
                     viewMap.get(nextPlayer.getNickname()).showCurrentPlayer(turnLogic.getActivePlayer().getNickname(), gameState);
+
 
                 break;
         }
