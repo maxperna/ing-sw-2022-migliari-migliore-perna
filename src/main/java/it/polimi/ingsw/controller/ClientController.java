@@ -28,7 +28,7 @@ public class ClientController implements ViewListener, Listener {
     private Client client;
     private String nickname;
     private final ExecutorService actionQueue;
-
+    private GameState phase;
     private ArrayList<ExpertID> expertsOnField = new ArrayList<>();
 
     private final ArrayList<String> inGamePlayer = new ArrayList<>();    //list of others player nickname
@@ -177,9 +177,11 @@ public class ClientController implements ViewListener, Listener {
                 CurrentPlayerMessage currPlayer = (CurrentPlayerMessage) receivedMessage;
                 switch(currPlayer.getCurrentState()){
                     case PREPARATION_PHASE:
+                        phase = GameState.PREPARATION_PHASE;
                         actionQueue.execute(view::chooseAction);
                         break;
                     case ACTION_PHASE:
+                        phase = GameState.ACTION_PHASE;
                         actionQueue.execute(view::startActionPhase);
                         actionCounter --;
                         break;
@@ -207,6 +209,7 @@ public class ClientController implements ViewListener, Listener {
                 actionQueue.execute(()->view.showAssistant(assistantsInfo.getDeck()));
                 break;
             case SHOW_BOARD:
+
                 if(phase.equals(GameState.ACTION_PHASE)) {
                     actionCounter --;
                     if(actionCounter > 0)
