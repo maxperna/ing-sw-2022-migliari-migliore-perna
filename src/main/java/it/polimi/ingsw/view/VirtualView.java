@@ -175,5 +175,6 @@ public class VirtualView implements View {
     public void worldUpdate(Map<Integer, Node> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap) {
         clientHandler.sendMessage(new WorldChangeMessage(gameFieldMap, chargedClouds, boardMap));
     }
-    
+
+    public void chooseCloudTile(int numOfPlayers){}
 }

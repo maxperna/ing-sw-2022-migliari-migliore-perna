@@ -151,4 +151,6 @@ public class Gui implements View {
     public void moveMotherNature() {
 
     }
+
+    public void chooseCloudTile(int numOfPlayers){}
 }

@@ -403,7 +403,7 @@ public class Cli extends ViewSubject implements View {
 
         int finalChosenID = chosenID;
         this.notifyListener((list) -> {
-            list.sendSelectedID(finalChosenID);
+            list.chooseCloudTile(finalChosenID);
         });
     }
 
@@ -587,7 +587,6 @@ public class Cli extends ViewSubject implements View {
         int hallDimension = board.getMaxStudentHall();
         Color[] color = Color.values();
         int color_index = 0;
-
 
         for (int i = 0; i < 6; i++) {
             for (int column = 0; column < 108; column++) {
@@ -829,7 +828,7 @@ public class Cli extends ViewSubject implements View {
         } while((chosenCloud < 0 || chosenCloud > numberOfPlayers));
 
         int finalChosenCloud = chosenCloud;
-        notifyListener(list -> list.sendCloudSelection(finalChosenCloud));
+        notifyListener(list -> list.chooseCloudTile(finalChosenCloud));
     }
 
 }

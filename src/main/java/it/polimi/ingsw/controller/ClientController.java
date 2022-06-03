@@ -35,7 +35,7 @@ public class ClientController implements ViewListener, Listener {
     private ArrayList<ExpertID> expertsOnField = new ArrayList<>();
 
     private final ArrayList<String> inGamePlayer = new ArrayList<>();    //list of others player nickname
-    private boolean myTurn;
+    private boolean turnEnded;
     private int actionCounter;
 
     public ClientController(View view){
@@ -43,7 +43,7 @@ public class ClientController implements ViewListener, Listener {
         this.actionQueue = Executors.newSingleThreadExecutor();
         this.phase = GameState.PREPARATION_PHASE;
         this.actionCounter = 3;
-        this.myTurn = false;
+        this.turnEnded = false;
     }
 
     /**Method handling the connection information to create a client-server connection
@@ -81,24 +81,23 @@ public class ClientController implements ViewListener, Listener {
 
     /**Method to select every object could be recognized by an ID (i.e. island, cloud tiles)
      * @param ID selected object ID*/
-    public void sendSelectedID(int ID){
-        client.sendMessage(new SelectionIDMessage(nickname,ID));
+    public void chooseCloudTile(int ID){
+        client.sendMessage(new GetCloudsMessage(nickname,ID));
     }
 
-    @Override
-    public void sendCloudSelection(int cloudID) {
-        client.sendMessage(new GetCloudsMessage(nickname, cloudID));
-    }
 
     /**Method to pick one single student on the view and move it on the island
      * @param student picked student
      * @param nodeID node target of the movement*/
     public void moveStudentToIsland(Color student,int nodeID){
-        client.sendMessage(new MovedStudentToIsland(nickname,student,nodeID));}
+        decreaseActionCounter();
+        client.sendMessage(new MovedStudentToIsland(nickname,student,nodeID));
+    }
 
     /**Method to pick one single student on the view and move it into the dinner room
      * @param student picked student*/
     public void moveStudentToDinner(Color student){
+        decreaseActionCounter();
         client.sendMessage(new MovedStudentToBoard(nickname,student));}
 
     /**Method to select multiple students on the view
@@ -109,13 +108,12 @@ public class ClientController implements ViewListener, Listener {
      * @param playedCard selected card to play*/
     public void playAssistantCard(int playedCard){
          client.sendMessage(new PlayAssistantMessage(nickname,playedCard));
-         myTurn = false;
     }
 
     public void moveMotherNature(int numberOfSteps){
         client.sendMessage(new MoveMotherNatureMessage(nickname,numberOfSteps));
-        myTurn = false;
     }
+
 
     /**Method to play an expert card
      * @param cardID id of the card on the field*/
@@ -174,6 +172,7 @@ public class ClientController implements ViewListener, Listener {
     /**Method handling the action on the base of the received message
      * @param receivedMessage message received from the server*/
     public void catchAction(Message receivedMessage){
+
         switch (receivedMessage.getType()){
             case GAMEPARAM_REQUEST:
                 actionQueue.execute(view::askGameParam);
@@ -184,17 +183,16 @@ public class ClientController implements ViewListener, Listener {
                 break;
             case CURRENT_PLAYER:
                 CurrentPlayerMessage currPlayer = (CurrentPlayerMessage) receivedMessage;
-                myTurn = true;
                 switch(currPlayer.getCurrentState()){
                     case PREPARATION_PHASE:
                         phase = GameState.PREPARATION_PHASE;
                         actionQueue.execute(view::chooseAction);
                         break;
                     case ACTION_PHASE:
-                        actionCounter = 3;
                         phase = GameState.ACTION_PHASE;
+                        turnEnded = false;
+                        actionCounter = 3;
                         actionQueue.execute(view::ActionPhaseTurn);
-                        actionCounter --;
                         break;
 
                 }break;
@@ -233,8 +231,6 @@ public class ClientController implements ViewListener, Listener {
                 break;
             case GENERIC:
                 GenericMessage message = (GenericMessage) receivedMessage;
-                if(message.getBody().contains("ActionPhase"))
-                    actionCounter = 3;
                 actionQueue.execute(()->view.showGenericMessage(message.getBody()));
                 break;
                 //case PREPARATION_PHASE
@@ -254,30 +250,27 @@ public class ClientController implements ViewListener, Listener {
             case ERROR:
                 ErrorMessage error = (ErrorMessage) receivedMessage;
                 actionQueue.execute(()->view.showError(error.getErrorMessage()));
+                //Action phase error handling
                 if(error.getErrorMessage().contains("Student not found")) {
                     actionCounter ++;
                     actionQueue.execute(view::ActionPhaseTurn);
-                    actionCounter --;
                 }
                 break;
             case WORLD_CHANGE:
-                actionQueue.execute(()-> defaultViewLayout((WorldChangeMessage) receivedMessage));
-
+                WorldChangeMessage worldChange = (WorldChangeMessage) receivedMessage;
+                actionQueue.execute(()-> defaultViewLayout(worldChange));
                 if(phase.equals(GameState.ACTION_PHASE)) {
-                    if(myTurn) {
-                        actionCounter --;
-                        if (actionCounter > 0)
-                            actionQueue.execute(view::ActionPhaseTurn);
-                        else if (actionCounter == 0)
-                            actionQueue.execute(() -> ((Cli) view).chooseCloudTile(((WorldChangeMessage) receivedMessage).getChargedClouds().size()));
-                        else if (actionCounter == -1) {
-                            actionQueue.execute(view::moveMotherNature);
-                            myTurn = false;
-                            actionCounter = 3;
-                        }
-                        else
-                            System.out.println("NOPE");
-                    }
+                    if(actionCounter > 0)
+                        actionQueue.execute(view::ActionPhaseTurn);
+                    else if(actionCounter == 0 && !turnEnded){
+                        //MN movement
+                        actionQueue.execute(view::moveMotherNature);
+                        //Cloud choice
+                        actionQueue.execute(()->view.chooseCloudTile(worldChange.getChargedClouds().size()));
+                        turnEnded = true;
+                    } else if (turnEnded)
+                        actionQueue.execute(()-> view.showGenericMessage("Turn ended, waiting for other players"));
+
                 }
 
                 break;
@@ -319,6 +312,10 @@ public class ClientController implements ViewListener, Listener {
         }
     }
 
+    /**Method to decrease the action counter for each action requiring it*/
+    private void decreaseActionCounter(){
+        actionCounter--;
+    }
     private void defaultViewLayout(WorldChangeMessage message) {
 
         ((Cli)view).clearCli();

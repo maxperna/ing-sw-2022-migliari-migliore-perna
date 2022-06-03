@@ -18,9 +18,8 @@ public interface ViewListener {
 
     void sendGameParam(int numOfPlayers, boolean expertMode);
 
-    void sendSelectedID(int ID);
+    void chooseCloudTile(int ID);
 
-    void sendCloudSelection(int cloudID);
     /**Method to get boards*/
     void getBoards();
 
@@ -42,4 +41,5 @@ public interface ViewListener {
     void moveMotherNature(int numberOfSteps);
 
     void chooseAction(int finalChosenAction);
+
 }

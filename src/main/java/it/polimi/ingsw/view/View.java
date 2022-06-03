@@ -125,4 +125,6 @@ public interface View {
 
     void moveMotherNature();
 
+    void chooseCloudTile(int numOfPlayer);
+
 }
