@@ -13,6 +13,7 @@ import it.polimi.ingsw.network.messages.server_messages.*;
 import it.polimi.ingsw.observer.Listener;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.observer.ViewListener;
+import it.polimi.ingsw.view.cli.Cli;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -307,6 +308,7 @@ public class ClientController implements ViewListener, Listener {
 
     private void defaultViewLayout(WorldChangeMessage message) {
 
+        ((Cli)view).clearCli();
         view.showGameField(message.getGameFieldMap());
         view.showClouds(message.getChargedClouds());
         view.printBoard(message.getBoardMap().get(nickname));
