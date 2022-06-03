@@ -680,31 +680,38 @@ public class Cli extends ViewSubject implements View {
     @Override
     public void showBoard(Map<String, Board> boardMap) {
         int index = 0;
-        int i = 0;
+        Map<Integer, String> integerToString = new HashMap<>();
         int chosenPlayer = 0;
         do {
-            index = 0;
-            System.out.println("Choose which board you want to check: ");
-            for(String s : boardMap.keySet()) {
-                System.out.println("["+index+"] for "+ s);
-                index++;
-            }
-            System.out.println("["+index+"] for all boards");
             try {
+
+                index = 0;
+                System.out.println("Choose which board you want to check: ");
+                for(String s : boardMap.keySet()) {
+                    System.out.println("["+index+"] for "+ s);
+                    integerToString.put(index, s);
+                    index++;
+                }
+                System.out.println("["+index+"] for all boards");
+
                 chosenPlayer = Integer.parseInt(read());
+
+                if((chosenPlayer < 0 || chosenPlayer > boardMap.size()+1))
+                    System.out.println("Invalid parameter");
+
             } catch (ExecutionException e) {
                 e.printStackTrace();
             }
-            if(!(chosenPlayer < 0 || chosenPlayer > boardMap.size()+1))
-                System.out.println("Invalid parameter");
-        } while(!(chosenPlayer < 0 || chosenPlayer > boardMap.size()+1));
+
+        } while((chosenPlayer < 0 || chosenPlayer > boardMap.size()+1));
 
         if(chosenPlayer == index) {
             for(Board b : boardMap.values())
                 printBoard(b);
         }
         else
-            printBoard(boardMap.get(chosenPlayer));
+            printBoard(boardMap.get(integerToString.get(chosenPlayer)));
+
     }
 
     private String shouldPrintStudent(int studentID, Board board, String string) {

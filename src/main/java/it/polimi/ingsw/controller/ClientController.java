@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.DeckType;
 import it.polimi.ingsw.model.TowerColor;
@@ -18,6 +19,7 @@ import it.polimi.ingsw.view.cli.Cli;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -213,7 +215,6 @@ public class ClientController implements ViewListener, Listener {
                 actionQueue.execute(()->view.showAssistant(assistantsInfo.getDeck()));
                 break;
             case SHOW_BOARD:
-
                 if(phase.equals(GameState.ACTION_PHASE)) {
                     actionCounter --;
                     if(actionCounter > 0)
@@ -222,6 +223,12 @@ public class ClientController implements ViewListener, Listener {
                         actionQueue.execute(view::moveMotherNature);
                     else
                         System.out.println("Errore non dovrebbe accadere, il giocatore ha fatto 4 azioni");
+                }
+                else if(phase.equals(GameState.PREPARATION_PHASE)){
+                    Map<String, Board> boardMap = ((BoardInfoMessage)receivedMessage).getBoardMap();
+                    boardMap.remove(nickname);
+                    actionQueue.execute(() -> view.showBoard(boardMap));
+                    actionQueue.execute(view::chooseAction);
                 }
                 else {
                     BoardInfoMessage boardInfo = (BoardInfoMessage) receivedMessage;
