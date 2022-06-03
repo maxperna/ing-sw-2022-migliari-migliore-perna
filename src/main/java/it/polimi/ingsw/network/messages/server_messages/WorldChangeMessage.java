@@ -18,11 +18,14 @@ public class WorldChangeMessage extends Message {
 
     private final Map<String, Board> boardMap;
 
-    public WorldChangeMessage(Map<Integer, Node> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap) {
+    private final String currentPlayer;
+
+    public WorldChangeMessage(Map<Integer, Node> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap, String currentPlayer) {
         super(WORLD_CHANGE, "Server");
         this.gameFieldMap = gameFieldMap;
         this.chargedClouds = chargedClouds;
         this.boardMap = boardMap;
+        this.currentPlayer = currentPlayer;
     }
 
     public Map<Integer, Node> getGameFieldMap() {
@@ -35,5 +38,9 @@ public class WorldChangeMessage extends Message {
 
     public Map<String, Board> getBoardMap() {
         return boardMap;
+    }
+
+    public String getCurrentPlayer() {
+        return currentPlayer;
     }
 }

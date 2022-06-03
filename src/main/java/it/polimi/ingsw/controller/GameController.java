@@ -405,7 +405,7 @@ public class GameController implements PropertyChangeListener {
 
         if(event.getPropertyName().equals("UpdateCloud")) {
             for (String nickName : viewMap.keySet()) {
-                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap());
+                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), turnLogic.getActivePlayer().getNickname());
             }
         }
 
@@ -416,13 +416,13 @@ public class GameController implements PropertyChangeListener {
 //            int nodeID = Integer.parseInt(intValue);
 
             for (String nickName : viewMap.keySet()) {
-                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap());
+                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), turnLogic.getActivePlayer().getNickname());
             }
         }
 
         if(event.getPropertyName().equals("UpdateTeacher")) {
             for (String nickName : viewMap.keySet()) {
-                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap());
+                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), turnLogic.getActivePlayer().getNickname());
             }
         }
 
@@ -430,7 +430,7 @@ public class GameController implements PropertyChangeListener {
             Map<Integer, Node> gameFieldMap = generateGameFieldMap();
 
             for (String nickName : viewMap.keySet()) {
-                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap());
+                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), turnLogic.getActivePlayer().getNickname());
             }
         }
 
@@ -451,7 +451,7 @@ public class GameController implements PropertyChangeListener {
 //                System.out.println("Non funziona la lettura da stringa");
 
             for (String nickName : viewMap.keySet()) {
-                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap());
+                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), turnLogic.getActivePlayer().getNickname());
             }
         }
     }
