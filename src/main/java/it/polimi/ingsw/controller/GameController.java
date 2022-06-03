@@ -191,6 +191,18 @@ public class GameController implements PropertyChangeListener {
                     }
                 }
 
+                if(receivedMessage.getType() == GET_CLOUD) {
+                    try {
+                        int cloudID = ((GetCloudsMessage)receivedMessage).getCloudID();
+                        ArrayList<Color> extractedStudents = game.getCloudTiles().get(cloudID).moveStudents();
+                        game.getPlayerByNickName(senderPlayer).getBoard().addStudentsEntryRoom(extractedStudents);
+                    } catch (EmptyCloudException e) {
+                        viewMap.get(senderPlayer).showError("EmptyCloud");
+                    } catch (NotEnoughSpace e) {
+                        viewMap.get(senderPlayer).showError("NotEnoughSpace");
+                    }
+                }
+
                 if(receivedMessage.getType() == PLAY_EXPERT_CARD) {
                     expertsHandling((PlayExpertCard) receivedMessage);
                 }

@@ -20,6 +20,7 @@ public interface ViewListener {
 
     void sendSelectedID(int ID);
 
+    void sendCloudSelection(int cloudID);
     /**Method to get boards*/
     void getBoards();
 

@@ -828,7 +828,8 @@ public class Cli extends ViewSubject implements View {
 
         } while((chosenCloud < 0 || chosenCloud > numberOfPlayers));
 
-
+        int finalChosenCloud = chosenCloud;
+        notifyListener(list -> list.sendCloudSelection(finalChosenCloud));
     }
 
 }

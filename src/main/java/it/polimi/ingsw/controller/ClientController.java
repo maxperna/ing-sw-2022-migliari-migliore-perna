@@ -85,6 +85,10 @@ public class ClientController implements ViewListener, Listener {
         client.sendMessage(new SelectionIDMessage(nickname,ID));
     }
 
+    @Override
+    public void sendCloudSelection(int cloudID) {
+        client.sendMessage(new GetCloudsMessage(nickname, cloudID));
+    }
 
     /**Method to pick one single student on the view and move it on the island
      * @param student picked student
@@ -187,6 +191,7 @@ public class ClientController implements ViewListener, Listener {
                         actionQueue.execute(view::chooseAction);
                         break;
                     case ACTION_PHASE:
+                        actionCounter = 3;
                         phase = GameState.ACTION_PHASE;
                         actionQueue.execute(view::ActionPhaseTurn);
                         actionCounter --;
@@ -259,11 +264,20 @@ public class ClientController implements ViewListener, Listener {
                 actionQueue.execute(()-> defaultViewLayout((WorldChangeMessage) receivedMessage));
 
                 if(phase.equals(GameState.ACTION_PHASE)) {
-                    actionCounter --;
-                    if(actionCounter > 0)
-                        actionQueue.execute(view::ActionPhaseTurn);
-                    else if(actionCounter == 0)
-                        actionQueue.execute(view::moveMotherNature);
+                    if(myTurn) {
+                        actionCounter --;
+                        if (actionCounter > 0)
+                            actionQueue.execute(view::ActionPhaseTurn);
+                        else if (actionCounter == 0)
+                            actionQueue.execute(() -> ((Cli) view).chooseCloudTile(((WorldChangeMessage) receivedMessage).getChargedClouds().size()));
+                        else if (actionCounter == -1) {
+                            actionQueue.execute(view::moveMotherNature);
+                            myTurn = false;
+                            actionCounter = 3;
+                        }
+                        else
+                            System.out.println("NOPE");
+                    }
                 }
 
                 break;

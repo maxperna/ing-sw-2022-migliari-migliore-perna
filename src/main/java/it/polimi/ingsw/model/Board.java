@@ -165,6 +165,7 @@ public class Board implements Serializable, StudentManager  {
         else{
             entryRoom.addAll(studentsToAdd);
         }
+        support.firePropertyChange("UpdateBoard", false, true);
     }
 
     /**Method to add student to the inside hall from external sources

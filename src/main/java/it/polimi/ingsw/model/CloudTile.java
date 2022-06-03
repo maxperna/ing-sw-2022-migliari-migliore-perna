@@ -36,16 +36,13 @@ public class CloudTile implements Serializable {
     /**
      * @throws EmptyCloudException when there are no students on the cloud
      */
-    public synchronized void moveStudents() throws EmptyCloudException{
+    public synchronized ArrayList<Color> moveStudents() throws EmptyCloudException{
         if(students.isEmpty())
             throw new EmptyCloudException();
         else {
-            ArrayList<Color> studentsReturned = new ArrayList<>();  //creates an ArrayList in which all students are copied
-
-            for(int i = 0; i < students.size(); i++)
-                studentsReturned.add(students.remove(i));                                                                               //empties the ArrayList students
-
-            support.firePropertyChange("UpdateCloud", studentsReturned, students);
+            ArrayList<Color> studentsReturned = new ArrayList<>(students);                      //creates an ArrayList in which all students are copied
+            students.clear();                                                                        //empties the ArrayList students
+            return studentsReturned;
         }
     }
 
