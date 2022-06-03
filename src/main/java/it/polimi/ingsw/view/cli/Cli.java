@@ -28,9 +28,10 @@ public class Cli extends ViewSubject implements View {
     public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String CLEAR = "\033[H\033[2J";
+    private boolean tutorial;
 
     public Cli() {
-
+        tutorial = true;
     }
 
     public String read() throws ExecutionException {
@@ -268,8 +269,10 @@ public class Cli extends ViewSubject implements View {
     @Override
     public void showGameField(Map<Integer, Node> gameFieldMap) {
         System.out.println();
-        System.out.println("This is the game field: it shows the students set on every island, the dot shows Mother Nature position,");
-        System.out.println("the number indicates the towers set on that island (2 or more if it is a super island); the last symbol shows that the island is blocked (expert only)");
+        if(tutorial) {
+            System.out.println("This is the game field: it shows the students set on every island, the dot shows Mother Nature position,");
+            System.out.println("the number indicates the towers set on that island (2 or more if it is a super island); the last symbol shows that the island is blocked (expert only)");
+        }
         System.out.println();
         for(int i=1; i<=gameFieldMap.size(); i++) {
             if(i<10)
@@ -511,7 +514,10 @@ public class Cli extends ViewSubject implements View {
     @Override
     public void showAssistant(ArrayList<AssistantCard> deck) {
         System.out.println();
-        System.out.println("This is your card deck. On each card, the red number is the card's action number, the white number is the maximum number of moves that Mother Nature can perform");
+        if(tutorial) {
+            System.out.println("This is your card deck. On each card, the red number is the card's action number, the white number is the maximum number of moves that Mother Nature can perform");
+            tutorial = false;
+        }
         StringBuilder string = new StringBuilder();
         int index;
         for (index=0; index<deck.size(); index++)
@@ -710,7 +716,7 @@ public class Cli extends ViewSubject implements View {
     @Override
     public void ActionPhaseTurn(){
 
-        System.out.println("1 to dinner, 2 to island, 3 gameField");
+        System.out.println("\n1 to dinner, 2 to island");
 
             int choice = 0;
 
@@ -731,8 +737,7 @@ public class Cli extends ViewSubject implements View {
                         list.moveStudentToIsland(colorSelector(), islandID);
                     });
 
-                } else if (choice == 3)
-                    this.notifyListener(ViewListener::getGameField);
+                }
 
             } catch (ExecutionException e) {
                 e.printStackTrace();

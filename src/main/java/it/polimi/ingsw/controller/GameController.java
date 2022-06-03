@@ -411,7 +411,7 @@ public class GameController implements PropertyChangeListener {
 //            int nodeID = Integer.parseInt(intValue);
 
             for (String nickName : viewMap.keySet()) {
-                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles());
+                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap());
             }
         }
 
@@ -425,7 +425,7 @@ public class GameController implements PropertyChangeListener {
             Map<Integer, Node> gameFieldMap = generateGameFieldMap();
 
             for (String nickName : viewMap.keySet()) {
-                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles());
+                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap());
             }
         }
 

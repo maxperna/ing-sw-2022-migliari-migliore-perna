@@ -311,6 +311,7 @@ public class ClientController implements ViewListener, Listener {
 
         view.showGameField(message.getGameFieldMap());
         view.showClouds(message.getChargedClouds());
+        view.printBoard(message.getBoardMap().get(nickname));
     }
 
 }
