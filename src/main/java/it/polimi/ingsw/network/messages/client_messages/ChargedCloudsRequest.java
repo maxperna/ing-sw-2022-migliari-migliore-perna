@@ -5,6 +5,6 @@ import it.polimi.ingsw.network.messages.MessageType;
 
 public class ChargedCloudsRequest extends Message {
     public ChargedCloudsRequest(String senderPlayer) {
-        super(MessageType.CHARGECLOUD, senderPlayer);
+        super(MessageType.SHOW_CLOUD, senderPlayer);
     }
 }

@@ -171,7 +171,7 @@ public class GameController implements PropertyChangeListener {
                                 viewMap.get(nickName).showError("Not enoughSpace");
                             }
                         }
-
+                    int prova;
                 }
 
                 if(receivedMessage.getType() == MOVE_MOTHER_NATURE){
@@ -245,11 +245,6 @@ public class GameController implements PropertyChangeListener {
                         //message for init the player
                         currentView.showInitPlayer(game.MAX_NUM_OF_TOWERS, currentEntranceHall);
 
-                        //sends the gameField to each Player
-                        currentView.showGameField(gameFieldMap);
-                        Server.LOGGER.info("MANDO GAMEFIELD");
-
-
                         //sends the expertList
                         currentView.showExpertCards(expertIDList);
 
@@ -265,8 +260,6 @@ public class GameController implements PropertyChangeListener {
                     //sends to the first player a current player message
                     String currentPlayer = turnLogic.getActivePlayer().getNickname();
                     viewMap.get(currentPlayer).showCurrentPlayer(currentPlayer, GameState.PREPARATION_PHASE);
-
-                    Server.LOGGER.info("RICARICO NUVOLE");
 
                     nextState = GameState.PREPARATION_PHASE;
 
@@ -400,7 +393,7 @@ public class GameController implements PropertyChangeListener {
 
         if(event.getPropertyName().equals("UpdateCloud")) {
             for (String nickName : viewMap.keySet()) {
-                viewMap.get(nickName).showClouds(game.getCloudTiles());
+                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap());
             }
         }
 
@@ -452,8 +445,10 @@ public class GameController implements PropertyChangeListener {
 
     public void showGameInfo(Message messageReceived, String senderPlayer) {
 
-        if(messageReceived.getType() == CHARGECLOUD)
-            viewMap.get(senderPlayer).showClouds(game.getCloudTiles());
+        if(messageReceived.getType() == SHOW_CLOUD)
+            for(Player currentPlayer : game.getPlayersList())
+                 viewMap.get(senderPlayer).showClouds(game.getCloudTiles());
+
 
         if(messageReceived.getType() == SHOW_BOARD) {
             Map<String, Board> boardMap = new HashMap<>();

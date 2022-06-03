@@ -21,7 +21,7 @@ public enum MessageType {
     /**Contains the info of the player at the beginning of the game*/
     CURRENT_PLAYER,
     /**Contains the info of the next player that will play*/
-    CHARGECLOUD,
+    SHOW_CLOUD,
     /**Contains the info of the clouds at the beginning of preparationPhase*/
     REMAINING_ITEM,
     /**Move a student from board to island*/

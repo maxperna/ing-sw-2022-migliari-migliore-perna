@@ -624,6 +624,7 @@ public class Cli extends ViewSubject implements View {
                 }
             }
         }
+        System.out.println();
     }
 
     /**

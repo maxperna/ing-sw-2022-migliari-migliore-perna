@@ -191,7 +191,7 @@ public class ClientController implements ViewListener, Listener {
 
                 }break;
 
-            case CHARGECLOUD:
+            case SHOW_CLOUD:
                 UpdateCloudsMessage cloudsMessage = (UpdateCloudsMessage) receivedMessage;
                 actionQueue.execute(()->view.showClouds(cloudsMessage.getChargedClouds()));
                 break;
@@ -264,8 +264,6 @@ public class ClientController implements ViewListener, Listener {
                         actionQueue.execute(view::ActionPhaseTurn);
                     else if(actionCounter == 0)
                         actionQueue.execute(view::moveMotherNature);
-                    else
-                        System.out.println("Errore non dovrebbe accadere, il giocatore ha fatto 4 azioni");
                 }
 
                 break;

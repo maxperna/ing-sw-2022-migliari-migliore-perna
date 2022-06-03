@@ -11,7 +11,7 @@ public class UpdateCloudsMessage extends Message {
     private final ArrayList<CloudTile> chargedClouds;
 
     public UpdateCloudsMessage(ArrayList<CloudTile> chargedClouds) {
-        super(MessageType.CHARGECLOUD, "Server");
+        super(MessageType.SHOW_CLOUD, "Server");
         this.chargedClouds = chargedClouds;
     }
 
