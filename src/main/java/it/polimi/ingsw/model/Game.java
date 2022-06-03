@@ -149,7 +149,6 @@ public class Game {
      *
      * @param activePlayer player who has changed the number of student
      * @param colorToCheck color to check the influence over
-     * @return {@code true} if there is a change, {@code false} if not
      */
     public void checkInfluence(Player activePlayer, Color colorToCheck) {
         int numOfCheckedStudent = activePlayer.getBoard().colorStudent(colorToCheck);
@@ -172,6 +171,8 @@ public class Game {
             influenceMap.get(colorToCheck).setNumOfStudents(numOfCheckedStudent);
             support.firePropertyChange("UpdateTeacher", false, true);
         }
+        else
+            support.firePropertyChange("UpdateBoard" + activePlayer.getNickname(), false, true);
     }
 
     /**

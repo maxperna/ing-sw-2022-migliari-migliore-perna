@@ -410,7 +410,7 @@ public class GameController implements PropertyChangeListener {
 
         if(event.getPropertyName().equals("UpdateTeacher")) {
             for (String nickName : viewMap.keySet()) {
-                viewMap.get(nickName).updateTeachers(game.getPlayerByNickName(nickName).getBoard().getTeachers());
+                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap());
             }
         }
 
@@ -432,14 +432,15 @@ public class GameController implements PropertyChangeListener {
         }
 
         if(event.getPropertyName().contains("UpdateBoard")) {
-            String value = event.getPropertyName();
-            String playerName = value.substring(11);
+//            String value = event.getPropertyName();
+//            String playerName = value.substring(11);
+//
+//            if(!viewMap.containsKey(playerName))
+//                System.out.println("Non funziona la lettura da stringa");
 
-            if(!viewMap.containsKey(playerName))
-                System.out.println("Non funziona la lettura da stringa");
-
-            viewMap.get(playerName).showBoard(generateBoardMap());
-
+            for (String nickName : viewMap.keySet()) {
+                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap());
+            }
         }
     }
 

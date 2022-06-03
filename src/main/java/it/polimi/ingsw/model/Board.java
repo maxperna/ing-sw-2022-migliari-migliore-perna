@@ -110,7 +110,6 @@ public class Board implements Serializable, StudentManager  {
                 currentGame.coinHandler(owner,1);
                 support.firePropertyChange("UpdateCoin-" + owner.getNickname(), oldValue, owner.getNumOfCoin());
             }
-            support.firePropertyChange("UpdateBoard" + owner.getNickname(), false, true);
         }
 
     }
