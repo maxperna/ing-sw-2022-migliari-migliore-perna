@@ -151,7 +151,7 @@ public class Game {
      * @param colorToCheck color to check the influence over
      * @return {@code true} if there is a change, {@code false} if not
      */
-    public Boolean checkInfluence(Player activePlayer, Color colorToCheck) {
+    public void checkInfluence(Player activePlayer, Color colorToCheck) {
         int numOfCheckedStudent = activePlayer.getBoard().colorStudent(colorToCheck);
 
         //if no one has ever played the color to check
@@ -159,7 +159,7 @@ public class Game {
             influenceMap.get(colorToCheck).setPlayer(activePlayer);
             influenceMap.get(colorToCheck).setNumOfStudents(numOfCheckedStudent);
             activePlayer.getBoard().addTeachers(colorToCheck);
-            return true;
+            support.firePropertyChange("UpdateTeacher", false, true);
         }
         else if (numOfCheckedStudent > influenceMap.get(colorToCheck).getNumOfStudents()) {
 
@@ -170,9 +170,8 @@ public class Game {
             //Update influence map data
             influenceMap.get(colorToCheck).setPlayer(activePlayer);
             influenceMap.get(colorToCheck).setNumOfStudents(numOfCheckedStudent);
-            return true;
+            support.firePropertyChange("UpdateTeacher", false, true);
         }
-        return false;
     }
 
     /**

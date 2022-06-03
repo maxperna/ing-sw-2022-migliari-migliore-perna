@@ -85,7 +85,6 @@ public class Board implements Serializable, StudentManager  {
      */
     public void addTeachers(Color color){
         teachers.put(color,true);
-        support.firePropertyChange("UpdateTeacher", false, true);
     }
 
     /**Method to remove a teacher from the board
@@ -93,7 +92,6 @@ public class Board implements Serializable, StudentManager  {
      */
     public void removeTeacher(Color color){
         teachers.put(color, false);
-        support.firePropertyChange("UpdateTeacher", true, false);
     }
 
     /**Method to move a student from the outer hall to the internal one
