@@ -153,19 +153,19 @@ public class Game {
      */
     public Boolean checkInfluence(Player activePlayer, Color colorToCheck) {
         int numOfCheckedStudent = activePlayer.getBoard().colorStudent(colorToCheck);
-        boolean colorPlayed = true;      //set true if the color has been already played
 
         //if no one has ever played the color to check
-        if (influenceMap.get(colorToCheck).getPlayer() == null) {
+        if (influenceMap.get(colorToCheck).getPlayer() == null && numOfCheckedStudent>=1) {
             influenceMap.get(colorToCheck).setPlayer(activePlayer);
             influenceMap.get(colorToCheck).setNumOfStudents(numOfCheckedStudent);
-            colorPlayed = false;
+            activePlayer.getBoard().addTeachers(colorToCheck);
+            return true;
         }
-        if (numOfCheckedStudent > influenceMap.get(colorToCheck).getNumOfStudents()) {
+        else if (numOfCheckedStudent > influenceMap.get(colorToCheck).getNumOfStudents()) {
 
             //Add and remove the teacher from the involved players
-            if(colorPlayed)
-                influenceMap.get(colorToCheck).getPlayer().getBoard().removeTeacher(colorToCheck);
+
+            influenceMap.get(colorToCheck).getPlayer().getBoard().removeTeacher(colorToCheck);
             activePlayer.getBoard().addTeachers(colorToCheck);
             //Update influence map data
             influenceMap.get(colorToCheck).setPlayer(activePlayer);

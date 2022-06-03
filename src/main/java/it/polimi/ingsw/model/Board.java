@@ -229,6 +229,8 @@ public class Board implements Serializable, StudentManager  {
         return diningRoom;
     }
 
+    /**Return the num of student of a color in the dining room
+     * @param color color to check*/
     @Override
     public int colorStudent(Color color) {
         return diningRoom.get(color);
