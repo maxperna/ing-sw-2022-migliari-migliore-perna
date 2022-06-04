@@ -25,7 +25,7 @@ class PouchTest {
         }
         assertEquals(input, students.size());
         assertEquals(120-input, game.getGame(0).getPouch().remainingStudents());
-        game.setNull();
+        GameManager.setNull();
     }
 
     @ParameterizedTest
@@ -50,7 +50,7 @@ class PouchTest {
     @Test
     void addStudents() {
         GameManager game = GameManager.getInstance();
-        game.setNull();
+        GameManager.setNull();
         game = GameManager.getInstance();
         game.initGame("TwoPlayers",false);
         ArrayList<Color> students = new ArrayList<>();
