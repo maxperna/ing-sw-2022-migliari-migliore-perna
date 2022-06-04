@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.gameField.Node;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.model.experts.ExpertID;
+import it.polimi.ingsw.network.messages.ErrorType;
 import org.jetbrains.annotations.TestOnly;
 
 import java.util.ArrayList;
@@ -92,7 +93,7 @@ public interface View {
 
     void showWinner(String winner);
 
-    void showError(String errorMessage);
+    void showError(String errorMessage, ErrorType errorType);
 
     void showExpertID(ArrayList<ExpertID> expertID);
 

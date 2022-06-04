@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.gameField.Node;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.model.experts.ExpertID;
+import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.observer.Listener;
 import it.polimi.ingsw.observer.ViewListener;
@@ -362,14 +363,17 @@ public class Cli extends ViewSubject implements View {
      * method used to print the winning message
      * @param winner nickname of the winner
      */
+    @Override
     public void showWinner(String winner) {
         System.out.println("Congratulations! " +winner+ " is the winner!");
     }
 
-    public void showError(String errorMessage) {
+    @Override
+    public void showError(String errorMessage, ErrorType errorType) {
         System.out.println(errorMessage);
     }
 
+    @Override
     public void showExpertID(ArrayList<ExpertID> expertID) {
     }
 
