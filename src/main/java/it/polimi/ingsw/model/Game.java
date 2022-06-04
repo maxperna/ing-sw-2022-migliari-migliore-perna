@@ -235,6 +235,7 @@ public class Game {
             islandToCheck.setMostInfluencePlayer(maxInfluencePlayer);
             //Set towers
             islandToCheck.setTower();
+            gameField.mergeIslands(nodeID);
         }
     }
 

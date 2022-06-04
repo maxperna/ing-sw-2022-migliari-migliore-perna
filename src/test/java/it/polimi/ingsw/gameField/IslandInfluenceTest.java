@@ -12,11 +12,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class IslandInfluenceTest {
-    GameManager gameManager = GameManager.getInstance();
-    Game game = gameManager.initGame("TwoPlayers",false);
+
 
     @Test
     void checkIslandInfluenceTest(){
+        GameManager gameManager = GameManager.getInstance();
+        Game game = gameManager.initGame("TwoPlayers",false);
         try {
             game.addPlayer("Io", DeckType.DRUID, TowerColor.BLACK);
             game.addPlayer("Tu",DeckType.SAGE,TowerColor.WHITE);
@@ -41,7 +42,7 @@ public class IslandInfluenceTest {
             game.checkInfluence(p2,colorToAddP2);
 
             //Simulating the adding of two student of that color on node 2 and 4
-            for(int j=0;i<2;i++) {
+            for(int j=0;j<2;j++) {
                 game.getGameField().getIslandNode(2).addStudent(colorToAddP1);
                 game.getGameField().getIslandNode(4).addStudent(colorToAddP2);
             }
@@ -63,6 +64,6 @@ public class IslandInfluenceTest {
         }
 
 
-        game.getGameField();
+        GameManager.setNull();
     }
 }
