@@ -171,8 +171,12 @@ public class TurnLogic {
         }
         if(numOfSteps>allowedNumOfSteps)
             throw new IllegalMove("Too much steps");
-        else
+        else{
             currentGame.getGameField().moveMotherNatureWithGivenMoves(numOfSteps);
+            int nodeIDMN = currentGame.getGameField().getMotherNature().getNodeID();
+            currentGame.checkIslandInfluence(nodeIDMN);
+        }
+
     }
 
 

@@ -186,7 +186,7 @@ public class Game {
         HashMap<Player, Integer> temporaryInfluenceCounter = new HashMap<>();  //temporary influence counter
         //if island has a deny card on it influence haven't to be calculated
         if(!islandToCheck.isStopped()) {
-            for (Color colorStudent : islandToCheck.getStudents()) {
+            for (Color colorStudent : influenceMap.keySet()){
                 Player playerToCheck = influenceMap.get(colorStudent).getPlayer();
                 //If player to check is null no one ha still the influence on that color or the color is ignored
                 if (playerToCheck != null && !colorStudent.equals(colorToIgnore)) {
@@ -195,9 +195,9 @@ public class Game {
                     if (playerToCheck.getBoard().getTowerColor().equals(islandToCheck.getTowerColor()))
                         influenceOfPlayer = influenceOfPlayer + islandToCheck.getNumberOfTowers();
                     if (temporaryInfluenceCounter.containsKey(playerToCheck)) {
-                        temporaryInfluenceCounter.put(playerToCheck, influenceOfPlayer);
+                        temporaryInfluenceCounter.put(playerToCheck,  temporaryInfluenceCounter.get(playerToCheck)+influenceOfPlayer);
                     } else {
-                        temporaryInfluenceCounter.put(playerToCheck, temporaryInfluenceCounter.get(playerToCheck) + influenceOfPlayer);
+                        temporaryInfluenceCounter.put(playerToCheck, influenceOfPlayer);
                     }
                 }
             }
@@ -228,7 +228,7 @@ public class Game {
             Player maxInfluencePlayer = temporaryInfluenceCounter.entrySet().stream().max((val1, val2) ->
                     val1.getValue() > val2.getValue() ? 1 : -1).get().getKey();
 
-            if(islandToCheck.getMostInfluencePlayer()==null)
+            if(!(islandToCheck.getMostInfluencePlayer()==null))
                 islandToCheck.getMostInfluencePlayer().getBoard().addTower();
 
             //Set new most influence tower

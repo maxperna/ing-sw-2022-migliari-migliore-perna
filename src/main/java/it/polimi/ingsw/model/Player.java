@@ -6,6 +6,7 @@ import it.polimi.ingsw.exceptions.InexistentCard;
 import org.jetbrains.annotations.TestOnly;
 
 import java.io.FileNotFoundException;
+import java.io.Serializable;
 
 public class Player {
 
