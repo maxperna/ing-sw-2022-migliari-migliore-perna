@@ -151,6 +151,10 @@ public class ClientController implements ViewListener, Listener {
         client.sendMessage(new AssistantInfoMessage(nickname));
     }
 
+    public void requestPlayedAssistants() {
+        client.sendMessage(new LastCardRequest(nickname));
+    }
+
 
     /**Sub state machine catching the type of experts to play get reading expertCardReply type
      * @param cardID chosen card to play*/
@@ -186,6 +190,7 @@ public class ClientController implements ViewListener, Listener {
                 switch(currPlayer.getCurrentState()){
                     case PREPARATION_PHASE:
                         phase = GameState.PREPARATION_PHASE;
+
                         actionQueue.execute(view::chooseAction);
                         break;
                     case ACTION_PHASE:
@@ -238,8 +243,13 @@ public class ClientController implements ViewListener, Listener {
                 expertsOnField = ((ExpertCardReply)receivedMessage).getExpertID();
                 break;
             case LAST_ASSISTANT:
-                LastCardMessage lastCard = (LastCardMessage)  receivedMessage;
-                if(lastCard.getLastCardMap().size()!=0){ }
+                LastCardMessage lastCardMessage = (LastCardMessage)  receivedMessage;
+                for(String nickName : lastCardMessage.getLastCardMap().keySet())
+                {
+                    if(!lastCardMessage.getLastCardMap().isEmpty())
+                        actionQueue.execute(()->view.showLastUsedCard(lastCardMessage.getLastCardMap().get(nickName), nickName));
+                }
+                requestAssistants();
                 break;
             case UPDATE_NODE:
                 break;
@@ -302,7 +312,7 @@ public class ClientController implements ViewListener, Listener {
     public void chooseAction(int i) {
         switch (i){
             case 1:
-                requestAssistants();
+                requestPlayedAssistants();
                 break;
             case 2:
                 getBoards();
