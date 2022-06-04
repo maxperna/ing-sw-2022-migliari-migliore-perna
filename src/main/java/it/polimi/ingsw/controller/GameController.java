@@ -229,6 +229,10 @@ public class GameController implements PropertyChangeListener {
                     broadcast("All players logged");
                     Object firstKey = viewMap.keySet().toArray()[getGame().NUM_OF_PLAYERS-1];
                     viewMap.get((String)firstKey).showRemainingTowerAndDeck(game.getAVAILABLE_TOWER_COLOR(),game.getAVAILABLE_DECK_TYPE());
+
+                    for(String nickName : viewMap.keySet())
+                        viewMap.get(nickName).sendNumberOfPlayers(game.NUM_OF_PLAYERS);
+
                     nextState = GameState.CREATE_PLAYERS;
                 }
                 break;
@@ -430,7 +434,6 @@ public class GameController implements PropertyChangeListener {
         }
 
         if(event.getPropertyName().equals("Merge")) {
-            Map<Integer, Node> gameFieldMap = generateGameFieldMap();
 
             for (String nickName : viewMap.keySet()) {
                 viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), turnLogic.getActivePlayer().getNickname());

@@ -807,28 +807,33 @@ public class Cli extends ViewSubject implements View {
         notifyListener(list -> list.chooseAction(finalChosenAction));
     }
 
-    public void chooseCloudTile(int numberOfPlayers) {
+    public void chooseCloudTile(int cloudID) {
         int chosenCloud = 0;
         do {
             try {
 
                 System.out.println("Choose cloud: ");
-                for(int i = 0; i<numberOfPlayers; i++ ) {
+                for(int i = 0; i< cloudID; i++ ) {
                     System.out.println("["+i+"]");
                 }
                 chosenCloud = Integer.parseInt(read());
 
-                if((chosenCloud < 0 || chosenCloud > numberOfPlayers))
+                if((chosenCloud < 0 || chosenCloud > cloudID))
                     System.out.println("Invalid parameter");
 
             } catch (ExecutionException e) {
                 e.printStackTrace();
             }
 
-        } while((chosenCloud < 0 || chosenCloud > numberOfPlayers));
+        } while((chosenCloud < 0 || chosenCloud > cloudID));
 
         int finalChosenCloud = chosenCloud;
         notifyListener(list -> list.chooseCloudTile(finalChosenCloud));
+    }
+
+    @Override
+    public void sendNumberOfPlayers(int numberOfPlayers) {
+
     }
 
 }

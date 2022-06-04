@@ -125,6 +125,8 @@ public interface View {
 
     void moveMotherNature();
 
-    void chooseCloudTile(int numOfPlayer);
+    void chooseCloudTile(int cloudID);
+
+    void sendNumberOfPlayers(int numberOfPlayers);
 
 }

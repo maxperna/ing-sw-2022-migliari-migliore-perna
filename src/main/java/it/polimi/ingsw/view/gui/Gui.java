@@ -152,5 +152,10 @@ public class Gui implements View {
 
     }
 
-    public void chooseCloudTile(int numOfPlayers){}
+    public void chooseCloudTile(int cloudID){}
+
+    @Override
+    public void sendNumberOfPlayers(int numberOfPlayers) {
+
+    }
 }
