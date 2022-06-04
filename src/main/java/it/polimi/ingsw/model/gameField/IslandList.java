@@ -176,8 +176,6 @@ public class IslandList {
             actualNode = actualNode.getNextNode();
         }
         actualNode.setMotherNature();                                                                                   //set motherNature flag on
-        actualNode.setTower();                                                                                          //automatically set a tower if there is a player with the most influence on the island
-        mergeIslands(actualNode.getNodeID());                                                                           //call mergeIslands
     }
 
     /**
