@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.gameField.Node;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.model.experts.ExpertID;
+import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.client_messages.*;
 import it.polimi.ingsw.network.messages.client_messages.ExpertMessages.*;
@@ -19,6 +20,7 @@ import java.io.FileNotFoundException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static it.polimi.ingsw.network.messages.ErrorType.*;
 import static it.polimi.ingsw.network.messages.MessageType.*;
 /**
  * Class GameController
@@ -91,12 +93,12 @@ public class GameController implements PropertyChangeListener {
                     }
                     catch (CardAlreadyPlayed e) {
                         for (String nickName : viewMap.keySet()) {
-                            viewMap.get(nickName).showError("CardAlreadyPlayed");
+                            viewMap.get(nickName).showError("CardAlreadyPlayed", ASSISTANT_ERROR);
                         }
                     }
                     catch (InexistentCard e) {
                         for (String nickName : viewMap.keySet()) {
-                            viewMap.get(nickName).showError("Card not found");
+                            viewMap.get(nickName).showError("Card not found", ASSISTANT_ERROR);
                         }
                     }
                     catch (EndGameException e) {
@@ -150,7 +152,7 @@ public class GameController implements PropertyChangeListener {
                     } catch (NotOnBoardException e) {
 
                         for (String nickName : viewMap.keySet()) {
-                            viewMap.get(nickName).showError("Student not found");
+                            viewMap.get(nickName).showError("Student not found", STUDENT_ERROR);
                         }
                     }
 
@@ -164,11 +166,11 @@ public class GameController implements PropertyChangeListener {
                             game.checkInfluence(game.getPlayerByNickName(senderPlayer), studentMoved);
                         } catch (NotOnBoardException e) {
                             for (String nickName : viewMap.keySet()) {
-                                viewMap.get(nickName).showError("Student not found");
+                                viewMap.get(nickName).showError("Student not found", STUDENT_ERROR);
                             }
                         } catch (NotEnoughSpace e) {
                             for (String nickName : viewMap.keySet()) {
-                                viewMap.get(nickName).showError("Not enoughSpace");
+                                viewMap.get(nickName).showError("Not enoughSpace", STUDENT_ERROR);
                             }
                         }
                     int prova;
@@ -184,7 +186,7 @@ public class GameController implements PropertyChangeListener {
                             viewMap.get(nickName).showWinner(senderPlayer);
                         }
                     }catch (IllegalMove IL){
-                        viewMap.get(senderPlayer).showError("Too much steps");
+                        viewMap.get(senderPlayer).showError("Too much steps", MOTHER_NATURE_ERROR);
                     }
                 }
 
@@ -194,9 +196,9 @@ public class GameController implements PropertyChangeListener {
                         ArrayList<Color> extractedStudents = game.getCloudTiles().get(cloudID).moveStudents();
                         game.getPlayerByNickName(senderPlayer).getBoard().addStudentsEntryRoom(extractedStudents);
                     } catch (EmptyCloudException e) {
-                        viewMap.get(senderPlayer).showError("EmptyCloud");
+                        viewMap.get(senderPlayer).showError("EmptyCloud", CLOUD_ERROR);
                     } catch (NotEnoughSpace e) {
-                        viewMap.get(senderPlayer).showError("NotEnoughSpace");
+                        viewMap.get(senderPlayer).showError("NotEnoughSpace", CLOUD_ERROR);
                     }
                     finally {
                         nextState();
@@ -229,6 +231,10 @@ public class GameController implements PropertyChangeListener {
                     broadcast("All players logged");
                     Object firstKey = viewMap.keySet().toArray()[getGame().NUM_OF_PLAYERS-1];
                     viewMap.get((String)firstKey).showRemainingTowerAndDeck(game.getAVAILABLE_TOWER_COLOR(),game.getAVAILABLE_DECK_TYPE());
+
+                    for(String nickName : viewMap.keySet())
+                        viewMap.get(nickName).sendNumberOfPlayers(game.NUM_OF_PLAYERS);
+
                     nextState = GameState.CREATE_PLAYERS;
                 }
                 break;
@@ -347,7 +353,7 @@ public class GameController implements PropertyChangeListener {
             }
 
         } catch (FileNotFoundException e) {
-            viewMap.get(nick).showError("File Not Found");
+            viewMap.get(nick).showError("File Not Found", PLAYER_CREATION_ERROR);
         }
     }
 
@@ -377,7 +383,7 @@ public class GameController implements PropertyChangeListener {
                     turnLogic.playExpertCard(player, castedMessage4.getStudents1(), castedMessage4.getStudents2(), playedCard);
             }
         }catch (IllegalMove|NotEnoughCoins e){
-            viewMap.get(message.getSenderPlayer()).showError("Cannot play this card");
+            viewMap.get(message.getSenderPlayer()).showError("Cannot play this card", EXPERT_ERROR);
         }
     }
 
@@ -430,7 +436,6 @@ public class GameController implements PropertyChangeListener {
         }
 
         if(event.getPropertyName().equals("Merge")) {
-            Map<Integer, Node> gameFieldMap = generateGameFieldMap();
 
             for (String nickName : viewMap.keySet()) {
                 viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), turnLogic.getActivePlayer().getNickname());
@@ -483,7 +488,7 @@ public class GameController implements PropertyChangeListener {
             Map<String, AssistantCard> lastCardMap = new HashMap<>();
 
             for(Player currentPlayer : game.getPlayersList()) {
-                if(!currentPlayer.getNickname().equals(senderPlayer))
+                if((!currentPlayer.getNickname().equals(senderPlayer)&&(currentPlayer.getDeck().getLastCard() != null)))
                     lastCardMap.put(currentPlayer.getNickname(), currentPlayer.getDeck().getLastCard());
             }
 

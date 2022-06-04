@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.gameField.Node;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.model.experts.ExpertID;
+import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.client_messages.GameParamRequest;
 import it.polimi.ingsw.network.messages.server_messages.*;
 import it.polimi.ingsw.network.server.ClientHandler;
@@ -107,8 +108,8 @@ public class VirtualView implements View {
     }
 
     @Override
-    public void showError(String errorMessage) {
-        clientHandler.sendMessage(new ErrorMessage(errorMessage));
+    public void showError(String errorMessage, ErrorType errorType) {
+        clientHandler.sendMessage(new ErrorMessage(errorMessage, errorType));
     }
 
     @Override
@@ -176,5 +177,10 @@ public class VirtualView implements View {
         clientHandler.sendMessage(new WorldChangeMessage(gameFieldMap, chargedClouds, boardMap, currentPlayer));
     }
 
-    public void chooseCloudTile(int numOfPlayers){}
+    public void chooseCloudTile(int cloudID){}
+
+    @Override
+    public void sendNumberOfPlayers(int numberOfPlayers) {
+        clientHandler.sendMessage((new NumberOfPlayersMessage(numberOfPlayers)));
+    }
 }

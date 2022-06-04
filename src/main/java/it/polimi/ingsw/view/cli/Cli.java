@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.gameField.Node;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.model.experts.ExpertID;
+import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.observer.Listener;
 import it.polimi.ingsw.observer.ViewListener;
@@ -362,14 +363,17 @@ public class Cli extends ViewSubject implements View {
      * method used to print the winning message
      * @param winner nickname of the winner
      */
+    @Override
     public void showWinner(String winner) {
         System.out.println("Congratulations! " +winner+ " is the winner!");
     }
 
-    public void showError(String errorMessage) {
+    @Override
+    public void showError(String errorMessage, ErrorType errorType) {
         System.out.println(errorMessage);
     }
 
+    @Override
     public void showExpertID(ArrayList<ExpertID> expertID) {
     }
 
@@ -807,28 +811,33 @@ public class Cli extends ViewSubject implements View {
         notifyListener(list -> list.chooseAction(finalChosenAction));
     }
 
-    public void chooseCloudTile(int numberOfPlayers) {
+    public void chooseCloudTile(int cloudID) {
         int chosenCloud = 0;
         do {
             try {
 
                 System.out.println("Choose cloud: ");
-                for(int i = 0; i<numberOfPlayers; i++ ) {
+                for(int i = 0; i< cloudID; i++ ) {
                     System.out.println("["+i+"]");
                 }
                 chosenCloud = Integer.parseInt(read());
 
-                if((chosenCloud < 0 || chosenCloud > numberOfPlayers))
+                if((chosenCloud < 0 || chosenCloud > cloudID))
                     System.out.println("Invalid parameter");
 
             } catch (ExecutionException e) {
                 e.printStackTrace();
             }
 
-        } while((chosenCloud < 0 || chosenCloud > numberOfPlayers));
+        } while((chosenCloud < 0 || chosenCloud > cloudID));
 
         int finalChosenCloud = chosenCloud;
         notifyListener(list -> list.chooseCloudTile(finalChosenCloud));
+    }
+
+    @Override
+    public void sendNumberOfPlayers(int numberOfPlayers) {
+
     }
 
 }

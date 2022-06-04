@@ -7,7 +7,9 @@ import it.polimi.ingsw.model.TowerColor;
 import it.polimi.ingsw.model.experts.ExpertID;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.client.ClientSocket;
+import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.network.messages.client_messages.*;
 import it.polimi.ingsw.network.messages.client_messages.ExpertMessages.*;
 import it.polimi.ingsw.network.messages.server_messages.*;
@@ -23,6 +25,8 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static it.polimi.ingsw.network.messages.ErrorType.*;
+
 /**Class implementing the part of controller on the client, used to communicate with the client view
  * @author Massimo*/
 public class ClientController implements ViewListener, Listener {
@@ -34,7 +38,7 @@ public class ClientController implements ViewListener, Listener {
     private GameState phase;
     private ArrayList<ExpertID> expertsOnField = new ArrayList<>();
 
-    private final ArrayList<String> inGamePlayer = new ArrayList<>();    //list of others player nickname
+    private int numberOfPlayers;
     private boolean turnEnded;
     private int actionCounter;
 
@@ -44,6 +48,7 @@ public class ClientController implements ViewListener, Listener {
         this.phase = GameState.PREPARATION_PHASE;
         this.actionCounter = 3;
         this.turnEnded = false;
+        this.numberOfPlayers = 0;
     }
 
     /**Method handling the connection information to create a client-server connection
@@ -55,7 +60,7 @@ public class ClientController implements ViewListener, Listener {
             client.receiveMessage();
             client.addListener(this);
         } catch (IOException e) {
-            view.showError("Connection failed. Try a different address/port");
+            view.showError("Connection failed. Try a different address/port", CONNECTION_ERROR);
             view.connectionRequest();
         }
     }
@@ -151,6 +156,10 @@ public class ClientController implements ViewListener, Listener {
         client.sendMessage(new AssistantInfoMessage(nickname));
     }
 
+    public void requestPlayedAssistants() {
+        client.sendMessage(new LastCardRequest(nickname));
+    }
+
 
     /**Sub state machine catching the type of experts to play get reading expertCardReply type
      * @param cardID chosen card to play*/
@@ -180,6 +189,10 @@ public class ClientController implements ViewListener, Listener {
             case REMAINING_ITEM:
                 RemainingItemReply answer = (RemainingItemReply) receivedMessage;
                 actionQueue.execute(()->view.showRemainingTowerAndDeck(answer.getRemainingTowers(),answer.getReamingDecks()));
+                break;
+            case NUMBER_PLAYERS:
+                NumberOfPlayersMessage numberOfPlayersMessage = (NumberOfPlayersMessage) receivedMessage;
+                numberOfPlayers = numberOfPlayersMessage.getNumberOfPlayers();
                 break;
             case CURRENT_PLAYER:
                 CurrentPlayerMessage currPlayer = (CurrentPlayerMessage) receivedMessage;
@@ -238,10 +251,13 @@ public class ClientController implements ViewListener, Listener {
                 expertsOnField = ((ExpertCardReply)receivedMessage).getExpertID();
                 break;
             case LAST_ASSISTANT:
-                LastCardMessage lastCard = (LastCardMessage)  receivedMessage;
-                if(lastCard.getLastCardMap().size()!=0){ }
-                break;
-            case UPDATE_NODE:
+                LastCardMessage lastCardMessage = (LastCardMessage)  receivedMessage;
+                for(String nickName : lastCardMessage.getLastCardMap().keySet())
+                {
+                    if(!lastCardMessage.getLastCardMap().isEmpty())
+                        actionQueue.execute(()->view.showLastUsedCard(lastCardMessage.getLastCardMap().get(nickName), nickName));
+                }
+                requestAssistants();
                 break;
             case GAME_FIELD:
                 GameFieldMessage gameField = (GameFieldMessage) receivedMessage;
@@ -249,12 +265,22 @@ public class ClientController implements ViewListener, Listener {
                 break;
             case ERROR:
                 ErrorMessage error = (ErrorMessage) receivedMessage;
-                actionQueue.execute(()->view.showError(error.getErrorMessage()));
+                actionQueue.execute(()->view.showError(error.getErrorMessage(), error.getTypeError()));
                 //Action phase error handling
-                if(error.getErrorMessage().contains("Student not found")) {
+                if(error.getTypeError() == STUDENT_ERROR ) {
                     actionCounter ++;
                     actionQueue.execute(view::ActionPhaseTurn);
                 }
+                if(error.getTypeError() == ASSISTANT_ERROR) {
+                    requestAssistants();
+                }
+                if(error.getTypeError() == MOTHER_NATURE_ERROR) {
+                    actionQueue.execute(view::moveMotherNature);
+                }
+                if(error.getTypeError() == CLOUD_ERROR) {
+                    //Da terminare
+                }
+
                 break;
             case WORLD_CHANGE:
                 WorldChangeMessage worldChange = (WorldChangeMessage) receivedMessage;
@@ -302,7 +328,7 @@ public class ClientController implements ViewListener, Listener {
     public void chooseAction(int i) {
         switch (i){
             case 1:
-                requestAssistants();
+                requestPlayedAssistants();
                 break;
             case 2:
                 getBoards();

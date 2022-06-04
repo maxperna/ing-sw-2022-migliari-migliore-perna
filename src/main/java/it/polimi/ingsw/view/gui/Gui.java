@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.gameField.Node;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.model.experts.ExpertID;
+import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.view.View;
 
 import java.util.ArrayList;
@@ -98,9 +99,10 @@ public class Gui implements View {
     }
 
     @Override
-    public void showError(String errorMessage) {
+    public void showError(String errorMessage, ErrorType errorType) {
 
     }
+
 
     @Override
     public void showExpertID(ArrayList<ExpertID> expertID) {
@@ -152,5 +154,10 @@ public class Gui implements View {
 
     }
 
-    public void chooseCloudTile(int numOfPlayers){}
+    public void chooseCloudTile(int cloudID){}
+
+    @Override
+    public void sendNumberOfPlayers(int numberOfPlayers) {
+
+    }
 }

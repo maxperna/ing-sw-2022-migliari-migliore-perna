@@ -61,6 +61,8 @@ public enum MessageType {
 
     WORLD_CHANGE,
 
-    GET_CLOUD
+    GET_CLOUD,
+
+    NUMBER_PLAYERS,
 
 }
