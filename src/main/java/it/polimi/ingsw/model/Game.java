@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.gameField.Node;
 import it.polimi.ingsw.model.experts.Expert5;
 import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.model.experts.ExpertsFactory;
+import org.jetbrains.annotations.TestOnly;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -44,6 +45,7 @@ public class Game {
     public int coins = 20;
     private Color colorToIgnore = null;
     private Player playerHavingPlusTwo = null;       //player which have +2 influence if expert 8 is played
+
 
     private ExpertCard activeExpertCard;
 
@@ -203,9 +205,8 @@ public class Game {
             }
         }
         else{
-            islandToCheck.removeStop();
             for(ExpertCard card:expertsCard){
-                if (card.getClass().getName().equals("Expert5")){
+                if (card.getClass().getName().equals(Expert5.class.getName())){
                     Expert5 stopCard = (Expert5) card;
                     stopCard.removeStop(islandToCheck);
                 }
@@ -375,5 +376,11 @@ public class Game {
 
     public ExpertCard getActiveExpertCard() {
         return activeExpertCard;
+    }
+
+    @TestOnly
+    public void setExpertsCardTest(ArrayList<ExpertCard> testCard){
+        this.expertsCard.clear();
+        this.expertsCard.addAll(testCard);
     }
 }

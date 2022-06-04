@@ -240,7 +240,11 @@ public class Board implements Serializable, StudentManager  {
         this.entryRoom.add(student);
     }
 
+    @TestOnly
+    public void addToDiningTest(Color student){this.diningRoom.put(student,diningRoom.get(student)+1);}
+
     public int getMaxStudentHall() {
         return maxStudentHall;
     }
+
 }

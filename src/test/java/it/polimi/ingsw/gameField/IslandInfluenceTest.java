@@ -4,6 +4,7 @@ import it.polimi.ingsw.exceptions.EndGameException;
 import it.polimi.ingsw.exceptions.NotEnoughSpace;
 import it.polimi.ingsw.exceptions.NotOnBoardException;
 import it.polimi.ingsw.model.*;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
@@ -13,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 public class IslandInfluenceTest {
 
-
+    @DisplayName("Testing influence check on island")
     @Test
     void checkIslandInfluenceTest(){
         GameManager gameManager = GameManager.getInstance();

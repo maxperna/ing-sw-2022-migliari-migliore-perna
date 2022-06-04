@@ -50,6 +50,7 @@ public class Expert5 implements ExpertCard {
 
     public void removeStop(Node stoppedNode){
         stoppedIsland.remove(stoppedNode);
+        stoppedNode.removeStop();
         this.stopAvailable++;
     }
 

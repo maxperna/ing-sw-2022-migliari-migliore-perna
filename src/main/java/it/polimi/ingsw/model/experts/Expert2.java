@@ -20,7 +20,7 @@ public class Expert2 implements ExpertCard {
     private final Game currentGame;
     private final String description = "During this turn you can take control of professors even if you only match the maximum number of students of that color on your board";
 
-    private final ConcurrentHashMap<Player,Color> affectedPlayer;   //hashmap to keep track of the affected players
+    private final ConcurrentHashMap<Color,Player> affectedPlayer;   //hashmap to keep track of the affected players
     private Player usingPlayer = null;     //variable to track the current user of the card
 
     public Expert2(Game currentGame){
@@ -41,9 +41,9 @@ public class Expert2 implements ExpertCard {
             HashMap<Color, Game.Pair<Player,Integer>> influenceMap = new HashMap<>(currentGame.getInfluenceMap());
             //For every color if the num of student is the same swap the professor
             for(Color color: influenceMap.keySet()){
-                if(user.getBoard().colorStudent(color) == influenceMap.get(color).getNumOfStudents()){
+                if(user.getBoard().colorStudent(color) == influenceMap.get(color).getNumOfStudents() && influenceMap.get(color).getPlayer()!=null){
                     //keeping track of the affected player for each color
-                    affectedPlayer.put(influenceMap.get(color).getPlayer(),color);
+                    affectedPlayer.put(color,influenceMap.get(color).getPlayer());   //ADJUST NULL POINTER EXCP
                     //Swap procedure
                     influenceMap.get(color).getPlayer().getBoard().removeTeacher(color);
                     user.getBoard().addTeachers(color);
@@ -58,8 +58,8 @@ public class Expert2 implements ExpertCard {
     @Override
     public void endEffect() {
         //Re-swapping the professor at the end of the effect
-        for(Player player: affectedPlayer.keySet()){
-            Color colorToSwap = affectedPlayer.get(player);
+        for(Color colorToSwap: affectedPlayer.keySet()){
+            Player player = affectedPlayer.get(colorToSwap);
             usingPlayer.getBoard().removeTeacher(colorToSwap);
             player.getBoard().addTeachers(colorToSwap);
             currentGame.setActiveExpertsCard(null);
