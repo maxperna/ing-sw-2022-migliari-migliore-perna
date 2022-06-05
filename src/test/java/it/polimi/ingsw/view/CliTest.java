@@ -1,8 +1,11 @@
 package it.polimi.ingsw.view;
 
+import com.google.gson.JsonArray;
+import it.polimi.ingsw.exceptions.EndGameException;
 import it.polimi.ingsw.exceptions.NotEnoughSpace;
 import it.polimi.ingsw.exceptions.NotOnBoardException;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.gameField.IslandList;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
@@ -316,5 +319,56 @@ public class CliTest {
         if (studentID < board.getEntryRoom().size()) {
             return toColor(board.getEntryRoom().get(studentID), string);
         } else return "-- ";
+    }
+
+    @Test
+    void test() throws EndGameException {
+
+        Game game = GameManager.getInstance().initGame("TwoPlayers", false);
+        System.out.println();
+
+        game.getGameField().getIslandNode(2).setTowerTest(TowerColor.BLACK);
+        game.getGameField().getIslandNode(2).setTower();
+
+        IslandList gameFieldMap = game.getGameField();
+        for(int i = 1; i<=gameFieldMap.size(); i++) {
+            if(i<10)
+                System.out.print("Island " +(i)+": ");
+            else
+                System.out.print("Island " +(i)+":");
+            for(int j=0; j<gameFieldMap.getIslandNode(i).getStudents().size(); j++) {
+                switch (gameFieldMap.getIslandNode(i).getStudents().get(j)) {
+                    case RED: System.out.print(ANSI_RED + "██ " + ANSI_RESET);
+                        break;
+                    case BLUE: System.out.print(ANSI_BLUE + "██ " + ANSI_RESET);
+                        break;
+                    case GREEN: System.out.print(ANSI_GREEN + "██ " + ANSI_RESET);
+                        break;
+                    case YELLOW: System.out.print(ANSI_YELLOW + "██ " + ANSI_RESET);
+                        break;
+                    case PINK: System.out.print(ANSI_PINK + "██ " + ANSI_RESET);
+                        break;
+                }
+            }
+            if (gameFieldMap.getIslandNode(i).checkMotherNature() && gameFieldMap.getIslandNode(i).getStudents().size() == 0)
+                System.out.print("    ● ");
+            else if (gameFieldMap.getIslandNode(i).checkMotherNature())
+                System.out.print("  ●");
+            else if (gameFieldMap.getIslandNode(i).getStudents().size() == 0)
+                System.out.print("      ");
+            else
+                System.out.print("   ");
+
+            if (gameFieldMap.getIslandNode(i).getNumberOfTowers() != 0)
+                System.out.print(" " +gameFieldMap.getIslandNode(i).getNumberOfTowers()+ " " +gameFieldMap.getIslandNode(i).getTowerColor().toString());
+            else
+                System.out.print("   ");
+
+            if (gameFieldMap.getIslandNode(i).isStopped())
+                System.out.print("  ⦻");
+
+            System.out.println();
+        }
+        System.out.println();
     }
 }

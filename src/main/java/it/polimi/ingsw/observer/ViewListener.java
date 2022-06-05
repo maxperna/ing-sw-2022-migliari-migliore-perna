@@ -40,6 +40,7 @@ public interface ViewListener {
     void cloudsRequest();
 
     void getPlayerInfo(String player);
+
     void moveMotherNature(int numberOfSteps);
 
     void chooseAction(int finalChosenAction);

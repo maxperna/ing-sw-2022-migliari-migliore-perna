@@ -8,12 +8,10 @@ import it.polimi.ingsw.model.experts.ExpertID;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.observer.Listener;
-import it.polimi.ingsw.observer.ViewListener;
 import it.polimi.ingsw.observer.ViewSubject;
 import it.polimi.ingsw.view.View;
 import org.jetbrains.annotations.TestOnly;
 
-import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
@@ -92,16 +90,16 @@ public class Cli extends ViewSubject implements View {
         }*/
         if (address.equals(""))
             serverInfo.put("address", defaultAddress);
-         else
+        else
             serverInfo.put("address", address);
 
-        System.out.println("Choose the server port: ["+defaultPort+"]");
+        System.out.println("Choose the server port: [" + defaultPort + "]");
         /*try {
             port = read();
         } catch (ExecutionException e) {
             e.printStackTrace();
         }*/
-        if(port == null)
+        if (port == null)
             serverInfo.put("port", defaultPort);
         else
             serverInfo.put("port", port);
@@ -116,26 +114,40 @@ public class Cli extends ViewSubject implements View {
     @Override
     public void showLastUsedCard(AssistantCard card, String playerName) {
         StringBuilder string = new StringBuilder();
-        System.out.println("This is " +playerName+"'s last used card");
+        System.out.println("This is " + playerName + "'s last used card");
         string.append("_".repeat(10));
+        String cardColor = ANSI_RED;
 
-        System.out.println(ANSI_RED+string);
+        /*switch (deck_type) {
+            case SAGE:
+                cardColor = ANSI_BLUE;
+            case DRUID:
+                cardColor = ANSI_GREEN;
+            case KING:
+                cardColor = ANSI_YELLOW;
+            case WITCH:
+                cardColor = ANSI_PINK;
+            case DEFAULT:
+                cardColor = ANSI_RED;
+        }*/
+
+        System.out.println(cardColor + string);
         string.delete(0, string.capacity());
 
-        if(card.getActionNumber() < 10)
-            string.append("| "+card.getActionNumber()+"    "+(int)Math.ceil((float)card.getActionNumber()/2)+" |     ");
+        if (card.getActionNumber() < 10)
+            string.append("| " + card.getActionNumber() + "    " + (int) Math.ceil((float) card.getActionNumber() / 2) + " |     ");
         else
-            string.append("| "+card.getActionNumber()+"   "+(int)Math.ceil((float)card.getActionNumber()/2)+" |     ");
+            string.append("| " + card.getActionNumber() + "   " + (int) Math.ceil((float) card.getActionNumber() / 2) + " |     ");
         System.out.println(string);
         string.delete(0, string.capacity());
         System.out.println("|        |");
         System.out.println("|        |");
-        if(card.getActionNumber() < 10)
-            string.append("| "+card.getActionNumber()+"    "+(int)Math.ceil((float)card.getActionNumber()/2)+" |     ");
+        if (card.getActionNumber() < 10)
+            string.append("| " + card.getActionNumber() + "    " + (int) Math.ceil((float) card.getActionNumber() / 2) + " |     ");
         else
-            string.append("| "+card.getActionNumber()+"   "+(int)Math.ceil((float)card.getActionNumber()/2)+" |     ");
+            string.append("| " + card.getActionNumber() + "   " + (int) Math.ceil((float) card.getActionNumber() / 2) + " |     ");
         System.out.println(string);
-        System.out.println("----------");
+        System.out.println("----------"+ANSI_RESET);
         string.delete(0, string.capacity());
     }
 
@@ -156,7 +168,7 @@ public class Cli extends ViewSubject implements View {
             if (nickname.equals("")) {
                 System.out.println("Invalid input");
             }
-        } while(nickname.equals(""));
+        } while (nickname.equals(""));
 
         String finalNickname = nickname;
         this.notifyListener((list) -> {
@@ -182,7 +194,7 @@ public class Cli extends ViewSubject implements View {
             if (numOfPlayers != 2 && numOfPlayers != 3 && numOfPlayers != 4) {
                 System.out.println("Invalid parameter");
             }
-        } while(numOfPlayers != 2 && numOfPlayers != 3 && numOfPlayers != 4);
+        } while (numOfPlayers != 2 && numOfPlayers != 3 && numOfPlayers != 4);
 
         String expertMode = null;
         do {
@@ -195,7 +207,7 @@ public class Cli extends ViewSubject implements View {
             if (!expertMode.equals("Y") && !expertMode.equals("N")) {
                 System.out.println("Invalid parameter");
             }
-        } while(!expertMode.equals("Y") && !expertMode.equals("N"));
+        } while (!expertMode.equals("Y") && !expertMode.equals("N"));
 
         if (expertMode.equals("Y")) {
             expert = true;
@@ -210,8 +222,9 @@ public class Cli extends ViewSubject implements View {
 
     /**
      * method used to let player choose its deck and tower color based on a list of this parameters available
+     *
      * @param remainingTowers list of remaining available towerColor
-     * @param remainingDecks list of remaining available deckType
+     * @param remainingDecks  list of remaining available deckType
      */
     @Override
     public void showRemainingTowerAndDeck(ArrayList<TowerColor> remainingTowers, ArrayList<DeckType> remainingDecks) {
@@ -219,40 +232,41 @@ public class Cli extends ViewSubject implements View {
         int deck = 0;
         do {
             System.out.println();
-            System.out.println("Remaining tower: "+remainingTowers);
-            System.out.println("Select tower by putting its position (1 to "+remainingTowers.size()+"): ");
+            System.out.println("Remaining tower: " + remainingTowers);
+            System.out.println("Select tower by putting its position (1 to " + remainingTowers.size() + "): ");
 
             try {
-                tower = Integer.parseInt(read())-1;
+                tower = Integer.parseInt(read()) - 1;
             } catch (ExecutionException e) {
                 e.printStackTrace();
             }
 
-            if(tower > remainingTowers.size()  || tower < 0)
+            if (tower > remainingTowers.size() || tower < 0)
                 System.out.println("Error. Invalid input");
 
-        } while(tower > remainingTowers.size() || tower < 0);
+        } while (tower > remainingTowers.size() || tower < 0);
 
         do {
             System.out.println();
-            System.out.println("Remaining deck: "+remainingDecks);
-            System.out.println("Select deck by putting its position (1 to "+remainingDecks.size()+"): ");
+            System.out.println("Remaining deck: " + remainingDecks);
+            System.out.println("Select deck by putting its position (1 to " + remainingDecks.size() + "): ");
 
             try {
-                deck = Integer.parseInt(read())-1;
+                deck = Integer.parseInt(read()) - 1;
             } catch (ExecutionException e) {
                 e.printStackTrace();
             }
-            if(deck > remainingDecks.size() || deck < 0)
+            if (deck > remainingDecks.size() || deck < 0)
                 System.out.println("Error. Invalid input");
 
         } while (deck > remainingDecks.size() || deck < 0);
 
+        //System.out.println("This is "+player+ "'s board");
 
         int finalTower = tower;
         int finalDeck = deck;
-        this.notifyListener((list)->{
-                list.chooseTowerColorAndDeck(remainingTowers.get(finalTower),remainingDecks.get(finalDeck));
+        this.notifyListener((list) -> {
+            list.chooseTowerColorAndDeck(remainingTowers.get(finalTower), remainingDecks.get(finalDeck));
         });
         clearCli();
 
@@ -265,15 +279,17 @@ public class Cli extends ViewSubject implements View {
 
     /**
      * method used to print the island list and then to call the chooseBoard() method
+     *
      * @param gameFieldMap map with the gameField
      */
     @Override
     public void showGameField(Map<Integer, Node> gameFieldMap) {
         System.out.println();
-        if(tutorial) {
-            System.out.println("This is the game field: it shows the students set on every island, the dot shows Mother Nature position,");
-            System.out.println("the number indicates the towers set on that island (2 or more if it is a super island); the last symbol shows that the island is blocked (expert only)");
+        if (tutorial) {
+            System.out.println("This is the game field: it shows the students set on every island, a yellow island indicates that mother nature is actually there,");
+            System.out.println("the number indicates the towers set on that island (2 or more if it is a super island), and the letter indicates which color is the tower (or the towers); the X shows that the island is blocked (expert only)");
         }
+        /*
         System.out.println();
         for(int i=1; i<=gameFieldMap.size(); i++) {
             if(i<10)
@@ -314,16 +330,360 @@ public class Cli extends ViewSubject implements View {
             System.out.println();
         }
         System.out.println();
+        */
+        int row;
+        int max_row = 0;
+        int max_column = 0;
+        int count_id = 0;
+        int increments = 0;
+        String previousColor = ANSI_RESET;
+
+        if (gameFieldMap.size() > 8) {
+            while (max_column * max_row - max_column < gameFieldMap.size()) {
+                if (max_column >= max_row)
+                    max_row++;
+                else
+                    max_column++;
+            }
+        } else {
+            while (max_column * max_row < gameFieldMap.size()) {
+                if (max_column >= max_row)
+                    max_row++;
+                else
+                    max_column++;
+            }
+        }
+
+        ArrayList<Integer> index = new ArrayList<>();
+
+        switch (gameFieldMap.size()) {
+            case 3 : {
+                index.add(1);
+                index.add(2);
+                index.add(4);
+                index.add(3);
+            }
+            case 4 : {
+                index.add(1);
+                index.add(2);
+                index.add(4);
+                index.add(3);
+            }
+            case 5 : {
+                index.add(1);
+                index.add(2);
+                index.add(3);
+                index.add(6);
+                index.add(5);
+                index.add(4);
+            }
+            case 6 : {
+                index.add(1);
+                index.add(2);
+                index.add(3);
+                index.add(6);
+                index.add(5);
+                index.add(4);
+            }
+            case 7 : {
+                index.add(1);
+                index.add(2);
+                index.add(3);
+                index.add(8);
+                index.add(4);
+                index.add(7);
+                index.add(6);
+                index.add(5);
+            }
+            case 8 : {
+                index.add(1);
+                index.add(2);
+                index.add(3);
+                index.add(8);
+                index.add(4);
+                index.add(7);
+                index.add(6);
+                index.add(5);
+            }
+            case 9 : {
+                index.add(1);
+                index.add(2);
+                index.add(3);
+                index.add(4);
+                index.add(10);
+                index.add(5);
+                index.add(9);
+                index.add(8);
+                index.add(7);
+                index.add(6);
+            }
+            case 10 : {
+                index.add(1);
+                index.add(2);
+                index.add(3);
+                index.add(4);
+                index.add(12);
+                index.add(5);
+                index.add(11);
+                index.add(6);
+                index.add(10);
+                index.add(9);
+                index.add(8);
+                index.add(7);
+            }
+            case 11 : {
+                index.add(1);
+                index.add(2);
+                index.add(3);
+                index.add(4);
+                index.add(12);
+                index.add(5);
+                index.add(11);
+                index.add(6);
+                index.add(10);
+                index.add(9);
+                index.add(8);
+                index.add(7);
+            }
+            case 12 : {
+                index.add(1);
+                index.add(2);
+                index.add(3);
+                index.add(4);
+                index.add(12);
+                index.add(5);
+                index.add(11);
+                index.add(6);
+                index.add(10);
+                index.add(9);
+                index.add(8);
+                index.add(7);
+            }
+        }
+
+
+        StringBuilder string = new StringBuilder();
+        for (int column = 0; column < max_column; column++) {
+            for (row = 0; row < max_row; row++) {
+                if ((column == 0 || row == 0 || row == max_row - 1 || column == max_column - 1) && index.get(count_id) <= gameFieldMap.size()) {
+                    if (gameFieldMap.get(index.get(count_id)).checkMotherNature()) {
+                        string.append(ANSI_YELLOW);
+                    }
+
+                    string.append("             ____________   " + ANSI_RESET);
+                    count_id++;
+                    increments++;
+                } else {
+                    string.append("                            " + ANSI_RESET);
+                    if (column == 0 || row == 0 || row == max_row - 1 || column == max_column - 1) {
+                        count_id++;
+                        increments++;
+                    }
+                }
+                previousColor = ANSI_RESET;
+            }
+            count_id = count_id - increments;
+            increments = 0;
+            System.out.println(string);
+            string.delete(0, string.capacity());
+
+
+            for (row = 0; row < max_row; row++) {
+                if ((column == 0 || row == 0 || row == max_row - 1 || column == max_column - 1) && index.get(count_id) <= gameFieldMap.size()) {
+                    if (gameFieldMap.get(index.get(count_id)).checkMotherNature()) {
+                        string.append(ANSI_YELLOW);
+                        previousColor = ANSI_YELLOW;
+                    }
+                    string.append("            / " + ANSI_RED + intToString(gameFieldMap.get(index.get(count_id)).getColorInfluence(Color.RED)) + ANSI_RESET + "  " + ANSI_BLUE + intToString(gameFieldMap.get(index.get(count_id)).getColorInfluence(Color.BLUE)) + ANSI_RESET + "  " + ANSI_YELLOW + intToString(gameFieldMap.get(index.get(count_id)).getColorInfluence(Color.YELLOW)) + previousColor + " \\  " + ANSI_RESET);
+                    count_id++;
+                    increments++;
+                } else {
+                    string.append("                            ");
+                    if (column == 0 || row == 0 || row == max_row - 1 || column == max_column - 1) {
+                        count_id++;
+                        increments++;
+                    }
+                }
+                previousColor = ANSI_RESET;
+            }
+            count_id = count_id - increments;
+            increments = 0;
+            System.out.println(string);
+            string.delete(0, string.capacity());
+
+
+            for (row = 0; row < max_row; row++) {
+                if ((column == 0 || row == 0 || row == max_row - 1 || column == max_column - 1) && index.get(count_id) <= gameFieldMap.size()) {
+                    if (gameFieldMap.get(index.get(count_id)).checkMotherNature()) {
+                        string.append(ANSI_YELLOW);
+                        previousColor = ANSI_YELLOW;
+                    }
+                    string.append("           /   " + ANSI_PINK + intToString(gameFieldMap.get(index.get(count_id)).getColorInfluence(Color.PINK)) + ANSI_RESET + "    " + ANSI_GREEN + intToString(gameFieldMap.get(index.get(count_id)).getColorInfluence(Color.GREEN)) + previousColor + "   \\ " + ANSI_RESET);
+                    count_id++;
+                    increments++;
+                } else {
+                    string.append("                            ");
+                    if (column == 0 || row == 0 || row == max_row - 1 || column == max_column - 1) {
+                        count_id++;
+                        increments++;
+                    }
+                }
+                previousColor = ANSI_RESET;
+            }
+            count_id = count_id - increments;
+            increments = 0;
+            System.out.println(string);
+            string.delete(0, string.capacity());
+
+
+            for (row = 0; row < max_row; row++) {
+                if ((column == 0 || row == 0 || row == max_row - 1 || column == max_column - 1) && index.get(count_id) <= gameFieldMap.size()) {
+                    if (gameFieldMap.get(index.get(count_id)).checkMotherNature()) {
+                        string.append(ANSI_YELLOW);
+                        previousColor = ANSI_YELLOW;
+                    }
+                    string.append("          /  " + previousColor + gameFieldMap.get(index.get(count_id)).getNumberOfTowers() + " TOWER(S)");
+                    if (gameFieldMap.get(index.get(count_id)).getNumberOfTowers() > 0) {
+                        switch (gameFieldMap.get(index.get(count_id)).getTowerColor()) {
+                            case BLACK:
+                                string.append(" B  \\" + ANSI_RESET);
+                                break;
+                            case WHITE:
+                                string.append(" W  \\" + ANSI_RESET);
+                                break;
+                            case GRAY:
+                                string.append(" G  \\" + ANSI_RESET);
+                                break;
+                        }
+                    } else
+                        string.append("    \\" + ANSI_RESET);
+
+                    count_id++;
+                    increments++;
+                } else {
+                    string.append("                            ");
+                    if (column == 0 || row == 0 || row == max_row - 1 || column == max_column - 1) {
+                        count_id++;
+                        increments++;
+                    }
+                }
+                previousColor = ANSI_RESET;
+            }
+            count_id = count_id - increments;
+            increments = 0;
+            System.out.println(string);
+            string.delete(0, string.capacity());
+
+
+            for (row = 0; row < max_row; row++) {
+                if ((column == 0 || row == 0 || row == max_row - 1 || column == max_column - 1) && index.get(count_id) <= gameFieldMap.size()) {
+                    if (gameFieldMap.get(index.get(count_id)).checkMotherNature()) {
+                        string.append(ANSI_YELLOW);
+                        previousColor = ANSI_YELLOW;
+                    }
+                    if (gameFieldMap.get(index.get(count_id)).isStopped())
+                        string.append("          \\       " + ANSI_RESET + "XX" + previousColor + "       /" + ANSI_RESET);
+                    else
+                        string.append("          \\                /" + ANSI_RESET);
+                    count_id++;
+                    increments++;
+                } else {
+                    string.append("                            " + ANSI_RESET);
+                    if (column == 0 || row == 0 || row == max_row - 1 || column == max_column - 1) {
+                        count_id++;
+                        increments++;
+                    }
+                }
+                previousColor = ANSI_RESET;
+            }
+            count_id = count_id - increments;
+            increments = 0;
+            System.out.println(string);
+            string.delete(0, string.capacity());
+
+
+            for (row = 0; row < max_row; row++) {
+                if ((column == 0 || row == 0 || row == max_row - 1 || column == max_column - 1) && index.get(count_id) <= gameFieldMap.size()) {
+                    if (gameFieldMap.get(index.get(count_id)).checkMotherNature()) {
+                        string.append(ANSI_YELLOW);
+                    }
+                    string.append("           \\              / " + ANSI_RESET);
+                    count_id++;
+                    increments++;
+                } else {
+                    string.append("                            " + ANSI_RESET);
+                    if (column == 0 || row == 0 || row == max_row - 1 || column == max_column - 1) {
+                        count_id++;
+                        increments++;
+                    }
+                }
+                previousColor = ANSI_RESET;
+            }
+            count_id = count_id - increments;
+            increments = 0;
+            System.out.println(string);
+            string.delete(0, string.capacity());
+
+
+            for (row = 0; row < max_row; row++) {
+                if ((column == 0 || row == 0 || row == max_row - 1 || column == max_column - 1) && index.get(count_id) <= gameFieldMap.size()) {
+                    if (gameFieldMap.get(index.get(count_id)).checkMotherNature()) {
+                        string.append(ANSI_YELLOW);
+                    }
+                    if (index.get(count_id) > 9)
+                        string.append("            \\  ISLAND " + index.get(count_id) + " /  " + ANSI_RESET);
+                    else
+                        string.append("            \\  ISLAND  " + index.get(count_id) + " /  " + ANSI_RESET);
+                    count_id++;
+                    increments++;
+                } else {
+                    string.append("                            " + ANSI_RESET);
+                    if (column == 0 || row == 0 || row == max_row - 1 || column == max_column - 1) {
+                        count_id++;
+                        increments++;
+                    }
+                }
+                previousColor = ANSI_RESET;
+            }
+            count_id = count_id - increments;
+            increments = 0;
+            System.out.println(string);
+            string.delete(0, string.capacity());
+
+
+            for (row = 0; row < max_row; row++) {
+                if ((column == 0 || row == 0 || row == max_row - 1 || column == max_column - 1) && index.get(count_id) <= gameFieldMap.size()) {
+                    if (gameFieldMap.get(index.get(count_id)).checkMotherNature()) {
+                        string.append(ANSI_YELLOW);
+                    }
+                    string.append("             ------------   " + ANSI_RESET);
+                    count_id++;
+                    increments++;
+                } else {
+                    string.append("                            " + ANSI_RESET);
+                    if (column == 0 || row == 0 || row == max_row - 1 || column == max_column - 1) {
+                        count_id++;
+                        increments++;
+                    }
+                }
+                previousColor = ANSI_RESET;
+            }
+            increments = 0;
+            System.out.println(string);
+            string.delete(0, string.capacity());
+            System.out.println();
+        }
     }
 
     /**
      * method used to print the students inside all the cloud tiles
+     *
      * @param newClouds arrayList that contains all the clouds in the game
      */
     @Override
     public void showClouds(ArrayList<CloudTile> newClouds) {
         for (CloudTile cloud : newClouds) {
-            System.out.print("Cloud " + cloud.getTileID() + " contains the following students: ");
+            System.out.print("Cloud " + (cloud.getTileID() + 1) + " contains the following students: ");
             for (int j = 0; j < cloud.getStudents().size(); j++) {
                 System.out.print(toColor(cloud.getStudents().get(j), "██ "));
             }
@@ -361,11 +721,12 @@ public class Cli extends ViewSubject implements View {
 
     /**
      * method used to print the winning message
+     *
      * @param winner nickname of the winner
      */
     @Override
     public void showWinner(String winner) {
-        System.out.println("Congratulations! " +winner+ " is the winner!");
+        System.out.println("Congratulations! " + winner + " is the winner!");
     }
 
     @Override
@@ -379,16 +740,18 @@ public class Cli extends ViewSubject implements View {
 
     /**
      * method used to print the description of each expert card
+     *
      * @param expertCard
      */
     @Override
     public void showExpertCard(ArrayList<ExpertCard> expertCard) {
-        for(ExpertCard expert : expertCard)
-            System.out.println("Expert card cost: "+expert.getCost()+"/nExpert card effect: " +expert.getExpDescription());
+        for (ExpertCard expert : expertCard)
+            System.out.println("Expert card cost: " + expert.getCost() + "/nExpert card effect: " + expert.getExpDescription());
     }
 
     /**
      * method used to get from input an ID from a list of given ones
+     *
      * @param ID
      */
     public void sendSelectedID(ArrayList<Integer> ID) {
@@ -403,7 +766,7 @@ public class Cli extends ViewSubject implements View {
             if (!ID.contains(chosenID)) {
                 System.out.println("Invalid input");
             }
-        } while(!ID.contains(chosenID));
+        } while (!ID.contains(chosenID));
 
         int finalChosenID = chosenID;
         this.notifyListener((list) -> {
@@ -413,8 +776,9 @@ public class Cli extends ViewSubject implements View {
 
     /**
      * method used to get a student color from all the available ones and to get the destination
+     *
      * @param students is the arraylist containing all the available students
-     * @param islands is an int that contains the id of the last island, basically indicating the number of islands remaining
+     * @param islands  is an int that contains the id of the last island, basically indicating the number of islands remaining
      */
     @Override
     public void selectStudent(ArrayList<Color> students, int islands) {
@@ -433,7 +797,7 @@ public class Cli extends ViewSubject implements View {
             }
 
             System.out.println("Invalid parameter");
-        } while(!color.contains("GREEN") && !color.contains("PINK") && !color.contains("RED") && !color.contains("YELLOW") && !color.contains("BLUE"));
+        } while (!color.contains("GREEN") && !color.contains("PINK") && !color.contains("RED") && !color.contains("YELLOW") && !color.contains("BLUE"));
 
         switch (color.toUpperCase(Locale.ROOT)) {
             case "RED":
@@ -472,6 +836,7 @@ public class Cli extends ViewSubject implements View {
 
     /**
      * method called by selectStudent() to get the destination
+     *
      * @return a string with the chosen destination
      */
     private String chooseDestination() {
@@ -486,7 +851,7 @@ public class Cli extends ViewSubject implements View {
             if (!destination.toUpperCase().equals("BOARD") && !destination.toUpperCase().equals("ISLAND")) {
                 System.out.println("Invalid input");
             }
-        } while(!destination.toUpperCase().equals("BOARD") && !destination.toUpperCase().equals("ISLAND"));
+        } while (!destination.toUpperCase().equals("BOARD") && !destination.toUpperCase().equals("ISLAND"));
 
         return destination;
     }
@@ -503,7 +868,7 @@ public class Cli extends ViewSubject implements View {
             if (player.equals("") || !players.toString().contains(player)) {
                 System.out.println("Invalid input");
             }
-        } while(player.equals(""));
+        } while (player.equals(""));
 
         String finalPlayer = player;
         this.notifyListener((list) -> {
@@ -517,74 +882,88 @@ public class Cli extends ViewSubject implements View {
     @Override
     public void showAssistant(ArrayList<AssistantCard> deck) {
         System.out.println();
-        if(tutorial) {
+        if (tutorial) {
             System.out.println("This is your card deck. On each card, the red number is the card's action number, the white number is the maximum number of moves that Mother Nature can perform");
             tutorial = false;
         }
         StringBuilder string = new StringBuilder();
         int index;
-        for (index=0; index<deck.size(); index++)
+        for (index = 0; index < deck.size(); index++)
             string.append("__________     ");
         System.out.println(string);
         string.delete(0, string.capacity());
-        for (index=0; index<deck.size(); index++){
-            if(deck.get(index).getActionNumber() < 10)
-                string.append("| "+ANSI_RED+deck.get(index).getActionNumber()+ANSI_RESET+"    "+(int)Math.ceil((float)deck.get(index).getActionNumber()/2)+" |     ");
+        for (index = 0; index < deck.size(); index++) {
+            if (deck.get(index).getActionNumber() < 10)
+                string.append("| " + ANSI_RED + deck.get(index).getActionNumber() + ANSI_RESET + "    " + (int) Math.ceil((float) deck.get(index).getActionNumber() / 2) + " |     ");
             else
-                string.append("| "+ANSI_RED+deck.get(index).getActionNumber()+ANSI_RESET+"   "+(int)Math.ceil((float)deck.get(index).getActionNumber()/2)+" |     ");
+                string.append("| " + ANSI_RED + deck.get(index).getActionNumber() + ANSI_RESET + "   " + (int) Math.ceil((float) deck.get(index).getActionNumber() / 2) + " |     ");
         }
 
         System.out.println(string);
         string.delete(0, string.capacity());
-        for (index=0; index<deck.size(); index++)
+
+        for (index = 0; index < deck.size(); index++)
             string.append("|        |     ");
         System.out.println(string);
         string.delete(0, string.capacity());
-        for (index=0; index<deck.size(); index++)
+        for (index = 0; index < deck.size(); index++)
             string.append("|        |     ");
         System.out.println(string);
         string.delete(0, string.capacity());
-        for (index=0; index<deck.size(); index++){
-            if(deck.get(index).getActionNumber() < 10)
-                string.append("| "+ANSI_RED+deck.get(index).getActionNumber()+ANSI_RESET+"    "+(int)Math.ceil((float)deck.get(index).getActionNumber()/2)+" |     ");
+
+        for (index = 0; index < deck.size(); index++) {
+            if (deck.get(index).getActionNumber() < 10)
+                string.append("| " + ANSI_RED + deck.get(index).getActionNumber() + ANSI_RESET + "    " + (int) Math.ceil((float) deck.get(index).getActionNumber() / 2) + " |     ");
             else
-                string.append("| "+ANSI_RED+deck.get(index).getActionNumber()+ANSI_RESET+"   "+(int)Math.ceil((float)deck.get(index).getActionNumber()/2)+" |     ");
+                string.append("| " + ANSI_RED + deck.get(index).getActionNumber() + ANSI_RESET + "   " + (int) Math.ceil((float) deck.get(index).getActionNumber() / 2) + " |     ");
         }
         System.out.println(string);
         string.delete(0, string.capacity());
-        for (index=0; index<deck.size(); index++)
+
+        for (index = 0; index < deck.size(); index++)
             string.append("----------     ");
         System.out.println(string);
         string.delete(0, string.capacity());
 
         int choice = 0;
+        System.out.println("Choose your card by writing its action number: the lower it is, the higher the chances for you to start the action phase (based on other players' cards)");
         try {
             choice = Integer.parseInt(read());
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
         int finalChoice = choice;
-        this.notifyListener((list)->{
+        this.notifyListener((list) -> {
             list.playAssistantCard(finalChoice);
         });
     }
 
     public void clearCli() {
-        System.out.println("                                                       ");
-        System.out.println("▀███▀▀▀███                                       ██   ██");
-        System.out.println(" ██     ▀█                                       ██");
-        System.out.println(" ██   █  ▀███▄███▀██▀   ▀██▀▄█▀██▄ ▀████████▄ ██████▀███  ▄██▀███");
-        System.out.println(" ██████    ██▀ ▀▀  ██   ▄█ ██   ██   ██    ██   ██    ██  ██   ▀▀");
-        System.out.println(" ██   █  ▄ ██       ██ ▄█   ▄█████   ██    ██   ██    ██  ▀█████▄");
-        System.out.println(" ██     ▄█ ██        ███   ██   ██   ██    ██   ██    ██  █▄   ██");
-        System.out.println("▄██████████████▄      ▄█    ▀████▀██▄████  ████▄ ▀████████▄██████▀");
-        System.out.println("                     ▄█");
-        System.out.println("                   ██▀");
+        try {
+            String operatingSystem = System.getProperty("os.name");
 
+            if (operatingSystem.contains("Windows")) {
+                ProcessBuilder pb = new ProcessBuilder("cmd", "/c", "cls");
+                Process startProcess = pb.inheritIO().start();
+                startProcess.waitFor();
+            } else {
+                ProcessBuilder pb = new ProcessBuilder("clear");
+                Process startProcess = pb.inheritIO().start();
+
+                startProcess.waitFor();
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
     @Override
-    public void printBoard(Board board) {
+    public void printBoard(Board board, String player) {
+
+        System.out.println("This is " + player + "'s board");
+        System.out.println("Tower color: " + board.getTowerColor());
+        System.out.println("Number of towers available: " + board.getNumOfTowers());
+        System.out.println();
 
         int studentIndex = 0;
         int hallDimension = board.getMaxStudentHall();
@@ -598,7 +977,7 @@ public class Cli extends ViewSubject implements View {
                 else if (i == 1 && column == 0)
                     System.out.println();
                 else if (column == 0 || column == 6) {
-                    if (studentIndex < hallDimension-1) {
+                    if (studentIndex < hallDimension - 1) {
                         System.out.println("|                       |                                                                          |       |");
                         System.out.print("|      " + shouldPrintStudent(studentIndex, board, "██ ") + "     " + shouldPrintStudent(++studentIndex, board, "██ ") + "      |");
                         printStudentInsideDiningRoom(color[color_index], board.getDiningRoom().get(color[color_index]), board.getTeacher(color[color_index]));
@@ -631,41 +1010,43 @@ public class Cli extends ViewSubject implements View {
 
     /**
      * method used to print a given string with a given color
-     * @param color is the color of the string that will be printed
+     *
+     * @param color  is the color of the string that will be printed
      * @param string is the string that will be printed
      * @return a combination of colors and the string that will be printed, empty string in the default case
      */
     private String toColor(Color color, String string) {
-            switch (color) {
-                case RED:
-                    return ANSI_RED + string + ANSI_RESET;
-                case BLUE:
-                    return ANSI_BLUE + string + ANSI_RESET;
-                case GREEN:
-                    return ANSI_GREEN + string + ANSI_RESET;
-                case YELLOW:
-                    return ANSI_YELLOW + string + ANSI_RESET;
-                case PINK:
-                    return ANSI_PINK + string + ANSI_RESET;
-            }
-            return "";
+        switch (color) {
+            case RED:
+                return ANSI_RED + string + ANSI_RESET;
+            case BLUE:
+                return ANSI_BLUE + string + ANSI_RESET;
+            case GREEN:
+                return ANSI_GREEN + string + ANSI_RESET;
+            case YELLOW:
+                return ANSI_YELLOW + string + ANSI_RESET;
+            case PINK:
+                return ANSI_PINK + string + ANSI_RESET;
+        }
+        return "";
     }
 
     /**
      * method called by the method showBoard()
-     * @param color is the color of the row we are considering
+     *
+     * @param color      is the color of the row we are considering
      * @param numOfColor is the number of students of that given color that are set on the dining room
-     * @param teacher is a boolean that indicates if the board passed to the showBoard() method contains the teacher of the given color
+     * @param teacher    is a boolean that indicates if the board passed to the showBoard() method contains the teacher of the given color
      */
     private void printStudentInsideDiningRoom(Color color, int numOfColor, Boolean teacher) {
 
         for (int i = 1; i < 11; i++) {
             if (i < numOfColor + 1) {
                 System.out.print("   " + toColor(color, "●") + "   ");
-            } else if (i % 3 == 0 && i>numOfColor +1)
+            } else if (i % 3 == 0 && i > numOfColor + 1)
                 System.out.print("   ?   ");
-            else if (i % 3 == 0 && i < numOfColor +1)
-                System.out.print("   "+toColor(color,"⦾" + ANSI_RESET + "   |"));
+            else if (i % 3 == 0 && i < numOfColor + 1)
+                System.out.print("   " + toColor(color, "⦾" + ANSI_RESET + "   |"));
             else if (i != 10)
                 System.out.print("   -   ");
             else if (teacher)
@@ -677,6 +1058,7 @@ public class Cli extends ViewSubject implements View {
 
     /**
      * method used to get from the user the board he wants to check
+     *
      * @param boardMap is a map of all the available boards in the game
      */
     @Override
@@ -689,90 +1071,91 @@ public class Cli extends ViewSubject implements View {
 
                 index = 0;
                 System.out.println("Choose which board you want to check: ");
-                for(String s : boardMap.keySet()) {
-                    System.out.println("["+index+"] for "+ s);
+                for (String s : boardMap.keySet()) {
+                    System.out.println("[" + index + "] for " + s);
                     integerToString.put(index, s);
                     index++;
                 }
-                System.out.println("["+index+"] for all boards");
+                System.out.println("[" + index + "] for other boards");
 
                 chosenPlayer = Integer.parseInt(read());
 
-                if((chosenPlayer < 0 || chosenPlayer > boardMap.size()+1))
+                if ((chosenPlayer < 0 || chosenPlayer > boardMap.size() + 1))
                     System.out.println("Invalid parameter");
 
             } catch (ExecutionException e) {
                 e.printStackTrace();
             }
 
-        } while((chosenPlayer < 0 || chosenPlayer > boardMap.size()+1));
+        } while ((chosenPlayer < 0 || chosenPlayer > boardMap.size() + 1));
 
-        if(chosenPlayer == index) {
-            for(Board b : boardMap.values())
-                printBoard(b);
+        if (chosenPlayer == index) {
+            for (String s : boardMap.keySet()) {
+                printBoard(boardMap.get(s), s);
+            }
+
+        } else {
+            printBoard(boardMap.get(integerToString.get(chosenPlayer)), integerToString.get(chosenPlayer));
         }
-        else
-            printBoard(boardMap.get(integerToString.get(chosenPlayer)));
+
 
     }
 
     private String shouldPrintStudent(int studentID, Board board, String string) {
-        if(studentID < board.getEntryRoom().size()) {
+        if (studentID < board.getEntryRoom().size()) {
             return toColor(board.getEntryRoom().get(studentID), string);
-        }
-        else return "-- ";
+        } else return "-- ";
     }
 
     @Override
-    public void ActionPhaseTurn(){
+    public void ActionPhaseTurn() {
 
-        System.out.println("\n1 to dinner, 2 to island");
+        System.out.println("\nWrite [1] to move a student to the dining room, [2] to move it on an island");
 
-            int choice = 0;
+        int choice = 0;
 
-            try {
-                choice = Integer.parseInt(read());
+        try {
+            choice = Integer.parseInt(read());
 
-                if (choice == 1 ) {
-                    this.notifyListener((list) -> {
-                        list.moveStudentToDinner(colorSelector());
-                    });
+            if (choice == 1) {
+                this.notifyListener((list) -> {
+                    list.moveStudentToDinner(colorSelector());
+                });
 
-                } else if (choice == 2 ) {
-                    int islandID;
-                    System.out.println("number: ");
-                    islandID = Integer.parseInt(read());
+            } else if (choice == 2) {
+                int islandID;
+                System.out.print("Choose the island of destination by writing the island number: ");
+                islandID = Integer.parseInt(read());
 
-                    this.notifyListener((list) -> {
-                        list.moveStudentToIsland(colorSelector(), islandID);
-                    });
+                this.notifyListener((list) -> {
+                    list.moveStudentToIsland(colorSelector(), islandID);
+                });
 
-                }
-
-            } catch (ExecutionException e) {
-                e.printStackTrace();
             }
+
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void moveMotherNature() {
-
         System.out.println("MoveMotherNature: ");
 
-            try {
-                int num = Integer.parseInt(read());
-                this.notifyListener((list) -> {
-                    list.moveMotherNature(num);
-                });
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            }
+        try {
+            int num = Integer.parseInt(read());
+            this.notifyListener((list) -> {
+                list.moveMotherNature(num);
+            });
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
 
     }
 
     @TestOnly
     Color colorSelector() {
-        System.out.println("\n\n1 Red, 2 Pink, 3Blue, 4Green, 5Yellow");
+        System.out.println("\n\nWrite the number referred to the color of the student you want to move: [1] RED, [2] PINK, [3] GREEN, [4] YELLOW");
         int choice = 0;
         try {
             choice = Integer.parseInt(read());
@@ -780,19 +1163,25 @@ public class Cli extends ViewSubject implements View {
             e.printStackTrace();
         }
 
-        switch (choice){
+        switch (choice) {
             case 1:
                 return Color.RED;
             case 2:
                 return Color.PINK;
-            case 4:
+            case 3:
                 return Color.GREEN;
-            case 5:
+            case 4:
                 return Color.YELLOW;
-            default:
+            case 5:
                 return Color.BLUE;
+            default: {
+                System.out.println("Invaild parameter");
+                colorSelector();
+            }
         }
+        return null;
     }
+
 
     public void chooseAction() {
         int chosenAction = 0;
@@ -815,11 +1204,12 @@ public class Cli extends ViewSubject implements View {
         do {
             try {
 
-                System.out.println("Choose cloud: ");
+                System.out.print("Choose the cloud you want to get the students from: ");
                 for(int i = 0; i< cloudID; i++ ) {
-                    System.out.println("["+i+"]");
+                    System.out.print("["+(i+1)+"]");
                 }
-                chosenCloud = Integer.parseInt(read());
+                System.out.println();
+                chosenCloud = Integer.parseInt(read())-1;
 
                 if((chosenCloud < 0 || chosenCloud > cloudID))
                     System.out.println("Invalid parameter");
@@ -839,4 +1229,11 @@ public class Cli extends ViewSubject implements View {
 
     }
 
+    private String intToString (Integer number) {
+        String newString;
+        if (number < 10)
+            return newString = 0+number.toString();
+        else
+            return newString = number.toString();
+    }
 }

@@ -132,7 +132,7 @@ public class VirtualView implements View {
     }
 
     @Override
-    public void printBoard(Board board) {
+    public void printBoard(Board board, String nickname) {
 
     }
 

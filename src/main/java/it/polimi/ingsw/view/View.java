@@ -87,7 +87,7 @@ public interface View {
      * method used to print a specific board
      * @param board
      */
-    void printBoard(Board board);
+    void printBoard(Board board, String player);
 
     void showPlayedAssistantCard (Map<String, AssistantCard> lastCardMap); //simplified by showLastUsedCard
 

@@ -1,9 +1,6 @@
 package it.polimi.ingsw.gameField;
 
-import it.polimi.ingsw.model.DeckType;
-import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.GameManager;
-import it.polimi.ingsw.model.TowerColor;
+import it.polimi.ingsw.model.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -97,6 +94,24 @@ class NodeTest {
                 game.getGameField().getIslandNode(ID).setTowerTest(TowerColor.BLACK);
                 assertEquals(TowerColor.BLACK, game.getGameField().getIslandNode(ID).getTowerColor());
             }
+
+        } catch (FileNotFoundException e) {
+            fail();
+        }
+    }
+
+    @Test
+    void colorInfluence() {
+        try {
+            Game game = GameManager.getInstance().initGame("TwoPlayers",false);
+
+            game.addPlayer("Piero", DeckType.DRUID, TowerColor.WHITE);
+            game.addPlayer("Gianna", DeckType.SAGE, TowerColor.BLACK);
+
+            for(int i =0; i < 4; i++) {
+                game.getGameField().getIslandNode(2).addStudent(Color.RED);
+            }
+            assertEquals(4, game.getGameField().getIslandNode(2).getColorInfluence(Color.RED));
 
         } catch (FileNotFoundException e) {
             fail();
