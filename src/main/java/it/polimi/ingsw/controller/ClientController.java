@@ -115,6 +115,11 @@ public class ClientController implements ViewListener, Listener {
          client.sendMessage(new PlayAssistantMessage(nickname,playedCard));
     }
 
+    @Override
+    public void cloudsRequest() {
+        client.sendMessage(new ChargedCloudsRequest(nickname));
+    }
+
     public void moveMotherNature(int numberOfSteps){
         client.sendMessage(new MoveMotherNatureMessage(nickname,numberOfSteps));
     }
