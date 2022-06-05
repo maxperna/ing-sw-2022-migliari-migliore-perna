@@ -33,9 +33,11 @@ public interface ViewListener {
 
     void chooseTowerColorAndDeck(TowerColor color, DeckType deck);
 
-    public void playAssistantCard(int playedCard);
+    void playAssistantCard(int playedCard);
 
     void chooseDestination(String destination);
+
+    void cloudsRequest();
 
     void getPlayerInfo(String player);
     void moveMotherNature(int numberOfSteps);

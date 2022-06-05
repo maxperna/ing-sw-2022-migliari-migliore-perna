@@ -54,6 +54,7 @@ public class ClientController implements ViewListener, Listener {
     /**Method handling the connection information to create a client-server connection
      * @param connectionInfo hashMap containing server ip address and related port number
      */
+    @Override
     public void connectionRequest(HashMap<String, String> connectionInfo){
         try {
             this.client = new ClientSocket(connectionInfo.get("address"), Integer.parseInt(connectionInfo.get("port")));
@@ -67,6 +68,7 @@ public class ClientController implements ViewListener, Listener {
 
     /**Method to send the nickname of the player
      * @param nickname chosen nickname*/
+    @Override
     public void sendNickname(String nickname){
         this.nickname = nickname;
         client.sendMessage(new LoginInfo(nickname));
@@ -75,17 +77,20 @@ public class ClientController implements ViewListener, Listener {
     /**Method to send the param of a game to the server
      * @param numOfPlayers number of players of the game
      * @param expertMode chosen game mode*/
+    @Override
     public void sendGameParam(int numOfPlayers, boolean expertMode){
         client.sendMessage(new GameParamMessage(this.nickname,numOfPlayers,expertMode));
     }
 
     /***/
+    @Override
     public void getBoards(){
         client.sendMessage(new BoardInfoRequest(this.nickname));
     }
 
     /**Method to select every object could be recognized by an ID (i.e. island, cloud tiles)
      * @param ID selected object ID*/
+    @Override
     public void chooseCloudTile(int ID){
         client.sendMessage(new GetCloudsMessage(nickname,ID));
     }
@@ -94,6 +99,7 @@ public class ClientController implements ViewListener, Listener {
     /**Method to pick one single student on the view and move it on the island
      * @param student picked student
      * @param nodeID node target of the movement*/
+    @Override
     public void moveStudentToIsland(Color student,int nodeID){
         decreaseActionCounter();
         client.sendMessage(new MovedStudentToIsland(nickname,student,nodeID));
@@ -101,6 +107,7 @@ public class ClientController implements ViewListener, Listener {
 
     /**Method to pick one single student on the view and move it into the dinner room
      * @param student picked student*/
+    @Override
     public void moveStudentToDinner(Color student){
         decreaseActionCounter();
         client.sendMessage(new MovedStudentToBoard(nickname,student));}
@@ -111,6 +118,7 @@ public class ClientController implements ViewListener, Listener {
 
     /**Method used to play an assistant card
      * @param playedCard selected card to play*/
+    @Override
     public void playAssistantCard(int playedCard){
          client.sendMessage(new PlayAssistantMessage(nickname,playedCard));
     }
@@ -120,6 +128,7 @@ public class ClientController implements ViewListener, Listener {
         client.sendMessage(new ChargedCloudsRequest(nickname));
     }
 
+    @Override
     public void moveMotherNature(int numberOfSteps){
         client.sendMessage(new MoveMotherNatureMessage(nickname,numberOfSteps));
     }
@@ -131,6 +140,7 @@ public class ClientController implements ViewListener, Listener {
         client.sendMessage(new ExpertCardRequest(nickname,cardID));
     }
 
+    @Override
     public void getGameField(){
         client.sendMessage((new GameFieldRequest(nickname)));
     }
@@ -185,6 +195,7 @@ public class ClientController implements ViewListener, Listener {
 
     /**Method handling the action on the base of the received message
      * @param receivedMessage message received from the server*/
+    @Override
     public synchronized void catchAction(Message receivedMessage){
 
         switch (receivedMessage.getType()){
@@ -330,6 +341,7 @@ public class ClientController implements ViewListener, Listener {
         catchAction(message);
     }
 
+    @Override
     public void chooseAction(int i) {
         switch (i){
             case 1:
