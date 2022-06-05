@@ -282,6 +282,9 @@ public class ClientController implements ViewListener, Listener {
             case ERROR:
                 ErrorMessage error = (ErrorMessage) receivedMessage;
                 actionQueue.execute(()->view.showError(error.getErrorMessage(), error.getTypeError()));
+                if(error.getTypeError() == LOGIN_ERROR) {
+                    actionQueue.execute(view::askPlayerNickname);
+                }
                 //Action phase error handling
                 if(error.getTypeError() == STUDENT_ERROR ) {
                     actionCounter ++;

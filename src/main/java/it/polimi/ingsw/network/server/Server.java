@@ -2,7 +2,9 @@ package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.controller.GameState;
+import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.messages.server_messages.ErrorMessage;
 import it.polimi.ingsw.view.VirtualView;
 
 import java.util.Collections;
@@ -32,7 +34,7 @@ public class Server{
             }
             else{
                 //Can't access to game
-                clientHandler.disconnect();
+                clientHandler.sendMessage(new ErrorMessage("NickName already exists", ErrorType.LOGIN_ERROR));
             }
         }
     }

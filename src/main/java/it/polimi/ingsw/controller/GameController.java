@@ -402,11 +402,6 @@ public class GameController implements PropertyChangeListener {
             viewMap.put(nickName, virtualView);
             onMessageReceived(new GenericMessage("SYNC"));
         }
-        else {
-            virtualView.disconnect();
-        }
-
-
     }
 
     @Override
