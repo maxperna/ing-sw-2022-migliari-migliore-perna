@@ -49,7 +49,7 @@ public class Expert11 implements ExpertCard {
                     studentsOnCard.addAll(currentGame.getPouch().randomDraw(1));
                 }
                 catch(NotEnoughSpace | NotEnoughStudentsException e){
-                e.printStackTrace();
+                    throw new IllegalMove("Too much students in hall");
                 }
         }
 

@@ -136,7 +136,8 @@ public class Board implements Serializable, StudentManager  {
     public ArrayList<Color> moveFromEntryRoom(ArrayList<Color> colorToRemove) throws NotOnBoardException{
         if(!entryRoom.containsAll(colorToRemove)) throw new NotOnBoardException();
         else{
-            entryRoom.removeAll(colorToRemove);
+            for(Color colorToRM: colorToRemove)
+                entryRoom.remove(colorToRM);
             return colorToRemove;
         }
     }
@@ -241,6 +242,7 @@ public class Board implements Serializable, StudentManager  {
     }
 
     @TestOnly
+    /**Add a student pawn directly to dning room(TEST ONLY)*/
     public void addToDiningTest(Color student){this.diningRoom.put(student,diningRoom.get(student)+1);}
 
     public int getMaxStudentHall() {

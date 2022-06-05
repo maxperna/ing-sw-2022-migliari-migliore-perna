@@ -37,16 +37,17 @@ public class Expert7 implements ExpertCard {
             currentGame.coinHandler(user,this.cost);
             this.cost++;
             currentGame.setActiveExpertsCard(this);
-            if(studentToSwapBoard.size()!=studentToSwapCard.size())
+            if(studentToSwapBoard.size()!=studentToSwapCard.size() || studentToSwapBoard.size()>3)
                 throw new IllegalMove("Not the same number of student");
             try {
                 this.studentsOnCard.addAll(user.getBoard().moveFromEntryRoom(studentToSwapBoard));
-                user.getBoard().addStudentsEntryRoom(studentToSwapBoard);
-                this.studentsOnCard.removeAll(studentToSwapCard);
+                user.getBoard().addStudentsEntryRoom(studentToSwapCard);
+                for(Color colorToRM:studentToSwapCard)
+                    this.studentsOnCard.remove(colorToRM);
 
             }
             catch (NotOnBoardException | NotEnoughSpace e){
-                e.printStackTrace();
+                throw new IllegalMove("No students on board");
             }
 
         }
