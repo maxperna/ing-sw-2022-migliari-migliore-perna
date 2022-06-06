@@ -5,13 +5,11 @@ import it.polimi.ingsw.model.gameField.Node;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.model.experts.ExpertID;
-import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.client_messages.*;
 import it.polimi.ingsw.network.messages.client_messages.ExpertMessages.*;
 import it.polimi.ingsw.network.messages.server_messages.GameParamMessage;
 import it.polimi.ingsw.network.messages.server_messages.GenericMessage;
-import it.polimi.ingsw.network.server.Server;
 import it.polimi.ingsw.view.VirtualView;
 
 import java.beans.PropertyChangeEvent;
@@ -487,7 +485,7 @@ public class GameController implements PropertyChangeListener {
                     lastCardMap.put(currentPlayer.getNickname(), currentPlayer.getDeck().getLastCard());
             }
 
-            viewMap.get(senderPlayer).showPlayedAssistantCard(lastCardMap);
+            viewMap.get(senderPlayer).showPlayedAssistantCard(lastCardMap, game.getPlayerByNickName(senderPlayer).getDeckType());
         }
 
         if(messageReceived.getType() == GAME_FIELD)

@@ -715,7 +715,7 @@ public class Cli extends ViewSubject implements View {
     }
 
     @Override
-    public void showPlayedAssistantCard(Map<String, AssistantCard> lastCardMap) {
+    public void showPlayedAssistantCard(Map<String, AssistantCard> lastCardMap, DeckType type) {
 
     }
 

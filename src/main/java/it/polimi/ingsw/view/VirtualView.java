@@ -122,8 +122,8 @@ public class VirtualView implements View {
         clientHandler.sendMessage(new AssistantCardsMessage(cards));
     }
     @Override
-    public void showPlayedAssistantCard (Map<String, AssistantCard> lastCardMap) {
-        clientHandler.sendMessage(new LastCardMessage(lastCardMap));
+    public void showPlayedAssistantCard (Map<String, AssistantCard> lastCardMap, DeckType type) {
+        clientHandler.sendMessage(new LastCardMessage(lastCardMap, type));
     }
 
     @Override
