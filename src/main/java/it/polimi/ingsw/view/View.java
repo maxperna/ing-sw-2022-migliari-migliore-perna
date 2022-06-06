@@ -89,7 +89,7 @@ public interface View {
      */
     void printBoard(Board board, String player);
 
-    void showPlayedAssistantCard (Map<String, AssistantCard> lastCardMap, DeckType type); //simplified by showLastUsedCard
+    void showPlayedAssistantCard (Map<String, AssistantCard> lastCardMap); //simplified by showLastUsedCard
 
     void showWinner(String winner);
 

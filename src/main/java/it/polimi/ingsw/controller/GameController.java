@@ -485,7 +485,7 @@ public class GameController implements PropertyChangeListener {
                     lastCardMap.put(currentPlayer.getNickname(), currentPlayer.getDeck().getLastCard());
             }
 
-            viewMap.get(senderPlayer).showPlayedAssistantCard(lastCardMap, game.getPlayerByNickName(senderPlayer).getDeckType());
+            viewMap.get(senderPlayer).showPlayedAssistantCard(lastCardMap);
         }
 
         if(messageReceived.getType() == GAME_FIELD)

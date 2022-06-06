@@ -10,18 +10,23 @@ public class AssistantCard implements Serializable {
     private final int motherNatureControl;       //maximum number of step of mother nature
     private final String frontImage;               //path for front image
     private final String backImage;                 //path for back image
+    private final DeckType deckType;
 
-    /**AssistantCard constructor
-     * @param actionNumber number in the top left corner of the card
+    /**
+     * AssistantCard constructor
+     *
+     * @param actionNumber        number in the top left corner of the card
      * @param motherNatureControl number in the top right corner card
-     * @param frontImage path of the front image of the card
-     * @param backImage  path of the back image of the card
-     * */
-    public AssistantCard(int actionNumber, int motherNatureControl, String frontImage, String backImage){
+     * @param frontImage          path of the front image of the card
+     * @param backImage           path of the back image of the card
+     * @param deckType
+     */
+    public AssistantCard(int actionNumber, int motherNatureControl, String frontImage, String backImage, DeckType deckType){
         this.actionNumber = actionNumber;
         this.motherNatureControl = motherNatureControl;
         this.frontImage = frontImage;
         this.backImage = backImage;
+        this.deckType = deckType;
     }
 
     public int getActionNumber() {
@@ -38,5 +43,9 @@ public class AssistantCard implements Serializable {
 
     public String getBackImage() {
         return backImage;
+    }
+
+    public DeckType getDeckType() {
+        return deckType;
     }
 }

@@ -11,19 +11,14 @@ import java.util.Map;
 public class LastCardMessage extends Message {
 
     private final Map<String, AssistantCard> lastCardMap;
-    private final DeckType type;
 
-    public LastCardMessage(Map<String, AssistantCard> lastCardMap, DeckType type) {
+    public LastCardMessage(Map<String, AssistantCard> lastCardMap) {
         super(MessageType.LAST_ASSISTANT, "Server");
         this.lastCardMap = lastCardMap;
-        this.type = type;
     }
 
     public Map<String, AssistantCard> getLastCardMap() {
         return lastCardMap;
     }
 
-    public DeckType getDeckType() {
-        return type;
-    }
 }
