@@ -15,6 +15,7 @@ import org.jetbrains.annotations.TestOnly;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
+import java.util.regex.Pattern;
 
 public class Cli extends ViewSubject implements View {
 
@@ -112,43 +113,10 @@ public class Cli extends ViewSubject implements View {
     }
 
     @Override
-    public void showLastUsedCard(AssistantCard card, String playerName) {
-        StringBuilder string = new StringBuilder();
-        System.out.println("This is " + playerName + "'s last used card");
-        string.append("_".repeat(10));
-        String cardColor = ANSI_RED;
-
-        /*switch (deck_type) {
-            case SAGE:
-                cardColor = ANSI_BLUE;
-            case DRUID:
-                cardColor = ANSI_GREEN;
-            case KING:
-                cardColor = ANSI_YELLOW;
-            case WITCH:
-                cardColor = ANSI_PINK;
-            case DEFAULT:
-                cardColor = ANSI_RED;
-        }*/
-
-        System.out.println(cardColor + string);
-        string.delete(0, string.capacity());
-
-        if (card.getActionNumber() < 10)
-            string.append("| " + card.getActionNumber() + "    " + (int) Math.ceil((float) card.getActionNumber() / 2) + " |     ");
-        else
-            string.append("| " + card.getActionNumber() + "   " + (int) Math.ceil((float) card.getActionNumber() / 2) + " |     ");
-        System.out.println(string);
-        string.delete(0, string.capacity());
-        System.out.println("|        |");
-        System.out.println("|        |");
-        if (card.getActionNumber() < 10)
-            string.append("| " + card.getActionNumber() + "    " + (int) Math.ceil((float) card.getActionNumber() / 2) + " |     ");
-        else
-            string.append("| " + card.getActionNumber() + "   " + (int) Math.ceil((float) card.getActionNumber() / 2) + " |     ");
-        System.out.println(string);
-        System.out.println("----------"+ANSI_RESET);
-        string.delete(0, string.capacity());
+    public void showLastUsedCard(Map<String, AssistantCard> cardMap) {
+        for (String nickname : cardMap.keySet()) {
+            printLastCard(cardMap.get(nickname), nickname);
+        }
     }
 
     /**
@@ -188,11 +156,13 @@ public class Cli extends ViewSubject implements View {
             System.out.print("Choose the number of players [2, 3, 4]: ");
             try {
                 numOfPlayers = Integer.parseInt(read());
-            } catch (ExecutionException e) {
-                e.printStackTrace();
+            } catch (ExecutionException | NumberFormatException e) {
+                System.out.println();
+                System.out.println("Invalid input");
+                askGameParam();
             }
             if (numOfPlayers != 2 && numOfPlayers != 3 && numOfPlayers != 4) {
-                System.out.println("Invalid parameter");
+                System.out.println("Invalid input");
             }
         } while (numOfPlayers != 2 && numOfPlayers != 3 && numOfPlayers != 4);
 
@@ -200,12 +170,12 @@ public class Cli extends ViewSubject implements View {
         do {
             System.out.print("Do you want to play in expert mode? [Y/N] ");
             try {
-                expertMode = read().toUpperCase(Locale.ROOT);
+                expertMode = read().toUpperCase();
             } catch (ExecutionException e) {
                 e.printStackTrace();
             }
-            if (!expertMode.equals("Y") && !expertMode.equals("N")) {
-                System.out.println("Invalid parameter");
+            if (!expertMode.equals("Y")  && !expertMode.equals("N")) {
+                System.out.println("Invalid input");
             }
         } while (!expertMode.equals("Y") && !expertMode.equals("N"));
 
@@ -237,8 +207,9 @@ public class Cli extends ViewSubject implements View {
 
             try {
                 tower = Integer.parseInt(read()) - 1;
-            } catch (ExecutionException e) {
+            } catch (ExecutionException | NumberFormatException e) {
                 e.printStackTrace();
+                showRemainingTowerAndDeck(remainingTowers,remainingDecks);
             }
 
             if (tower > remainingTowers.size() || tower < 0)
@@ -261,7 +232,6 @@ public class Cli extends ViewSubject implements View {
 
         } while (deck > remainingDecks.size() || deck < 0);
 
-        //System.out.println("This is "+player+ "'s board");
 
         int finalTower = tower;
         int finalDeck = deck;
@@ -631,7 +601,7 @@ public class Cli extends ViewSubject implements View {
                         string.append(ANSI_YELLOW);
                     }
                     if (index.get(count_id) > 9)
-                        string.append("            \\  ISLAND " + index.get(count_id) + " /  " + ANSI_RESET);
+                        string.append("            \\ ISLAND  " + index.get(count_id) + " /  " + ANSI_RESET);
                     else
                         string.append("            \\  ISLAND  " + index.get(count_id) + " /  " + ANSI_RESET);
                     count_id++;
@@ -712,11 +682,6 @@ public class Cli extends ViewSubject implements View {
     }
 
     public void newCoin(String player, int numOfCoin) {
-    }
-
-    @Override
-    public void showPlayedAssistantCard(Map<String, AssistantCard> lastCardMap) {
-
     }
 
     /**
@@ -1134,13 +1099,13 @@ public class Cli extends ViewSubject implements View {
             }
 
         } catch (ExecutionException e) {
-            e.printStackTrace();
+            ActionPhaseTurn();
         }
     }
 
     @Override
     public void moveMotherNature() {
-        System.out.println("MoveMotherNature: ");
+        System.out.println("Select the number of moves for Mother Nature: ");
 
         try {
             int num = Integer.parseInt(read());
@@ -1155,7 +1120,7 @@ public class Cli extends ViewSubject implements View {
 
     @TestOnly
     Color colorSelector() {
-        System.out.println("\n\nWrite the number referred to the color of the student you want to move: [1] RED, [2] PINK, [3] GREEN, [4] YELLOW");
+        System.out.println("\n\nWrite the number referred to the color of the student you want to move: [1] RED, [2] PINK, [3] GREEN, [4] YELLOW, [5] BLUE");
         int choice = 0;
         try {
             choice = Integer.parseInt(read());
@@ -1230,10 +1195,52 @@ public class Cli extends ViewSubject implements View {
     }
 
     private String intToString (Integer number) {
-        String newString;
         if (number < 10)
-            return newString = 0+number.toString();
+            return 0+number.toString();
         else
-            return newString = number.toString();
+            return number.toString();
     }
-}
+
+    public void printLastCard(AssistantCard card, String nickname) {
+        StringBuilder string = new StringBuilder();
+        String cardColor = "";
+        DeckType deck_type = card.getDeckType();
+
+        switch (deck_type) {
+            case SAGE:
+                string.append(ANSI_BLUE);
+                break;
+            case DRUID:
+                string.append(ANSI_GREEN);
+                break;
+            case KING:
+                string.append(ANSI_YELLOW);
+                break;
+            case WITCH:
+                string.append(ANSI_PINK);
+                break;
+        }
+
+        System.out.println("This is " + nickname + "'s last used card");
+        string.append("_".repeat(10));
+
+        System.out.println(cardColor + string);
+        string.delete(0, string.capacity());
+
+        if (card.getActionNumber() < 10)
+            string.append("| " + card.getActionNumber() + "    " + (int) Math.ceil((float) card.getActionNumber() / 2) + " |     ");
+        else
+            string.append("| " + card.getActionNumber() + "   " + (int) Math.ceil((float) card.getActionNumber() / 2) + " |     ");
+        System.out.println(string);
+        string.delete(0, string.capacity());
+        System.out.println("|        |");
+        System.out.println("|        |");
+        if (card.getActionNumber() < 10)
+            string.append("| " + card.getActionNumber() + "    " + (int) Math.ceil((float) card.getActionNumber() / 2) + " |     ");
+        else
+            string.append("| " + card.getActionNumber() + "   " + (int) Math.ceil((float) card.getActionNumber() / 2) + " |     ");
+        System.out.println(string);
+        System.out.println("----------"+ANSI_RESET);
+        string.delete(0, string.capacity());
+        }
+    }
