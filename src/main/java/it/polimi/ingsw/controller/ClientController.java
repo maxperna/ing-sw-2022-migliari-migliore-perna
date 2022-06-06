@@ -268,7 +268,7 @@ public class ClientController implements ViewListener, Listener {
                 break;
             case LAST_ASSISTANT:
                 LastCardMessage lastCardMessage = (LastCardMessage)  receivedMessage;
-                actionQueue.execute(()->view.showPlayedAssistantCard(lastCardMessage.getLastCardMap()));
+                actionQueue.execute(()->view.showLastUsedCard(lastCardMessage.getLastCardMap()));
                 requestAssistants();
                 break;
             case GAME_FIELD:

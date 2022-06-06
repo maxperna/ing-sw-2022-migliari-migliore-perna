@@ -89,7 +89,11 @@ public interface View {
      */
     void printBoard(Board board, String player);
 
-    void showPlayedAssistantCard (Map<String, AssistantCard> lastCardMap); //simplified by showLastUsedCard
+    /**
+     * method used to print the last assistant card used
+     * @param mapCard is a map containing the last used cards
+     */
+    void showLastUsedCard(Map<String, AssistantCard> mapCard);
 
     void showWinner(String winner);
 
@@ -107,13 +111,6 @@ public interface View {
     void ActionPhaseTurn();
 
     void connectionRequest();
-
-    /**
-     * method used to print the last assistant card used
-     * @param card is the last assistant card used
-     * @param playerName is the player who played that card
-     */
-    void showLastUsedCard(AssistantCard card, String playerName);
 
     /**
      * method used to choose which student move and the destination
