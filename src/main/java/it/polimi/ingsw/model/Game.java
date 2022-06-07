@@ -226,8 +226,13 @@ public class Game {
         //If the temporary influence counter is empty no one has influence
         if (!temporaryInfluenceCounter.isEmpty()) {
             //check the player with most influence
+
             Player maxInfluencePlayer = temporaryInfluenceCounter.entrySet().stream().max((val1, val2) ->
                     val1.getValue() > val2.getValue() ? 1 : -1).get().getKey();
+            if(temporaryInfluenceCounter.get(maxInfluencePlayer).equals(temporaryInfluenceCounter.get(islandToCheck.getMostInfluencePlayer())))
+                maxInfluencePlayer = islandToCheck.getMostInfluencePlayer();
+
+
 
             if(!(islandToCheck.getMostInfluencePlayer()==null))
                 islandToCheck.getMostInfluencePlayer().getBoard().addTower();

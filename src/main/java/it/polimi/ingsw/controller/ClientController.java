@@ -37,18 +37,16 @@ public class ClientController implements ViewListener, Listener {
     private final ExecutorService actionQueue;
     private GameState phase;
     private ArrayList<ExpertID> expertsOnField = new ArrayList<>();
-
-    private int numberOfPlayers;
-    private boolean turnEnded;
+    private int endTurnCounter;   //regulate the final phase of the action phase
     private int actionCounter;
+
+    private int numOfPlayers;
 
     public ClientController(View view){
         this.view = view;
         this.actionQueue = Executors.newSingleThreadExecutor();
         this.phase = GameState.PREPARATION_PHASE;
-        this.actionCounter = 3;
-        this.turnEnded = false;
-        this.numberOfPlayers = 0;
+        this.endTurnCounter = 1;
     }
 
     /**Method handling the connection information to create a client-server connection
@@ -208,7 +206,7 @@ public class ClientController implements ViewListener, Listener {
                 break;
             case NUMBER_PLAYERS:
                 NumberOfPlayersMessage numberOfPlayersMessage = (NumberOfPlayersMessage) receivedMessage;
-                numberOfPlayers = numberOfPlayersMessage.getNumberOfPlayers();
+                numOfPlayers = numberOfPlayersMessage.getNumberOfPlayers();
                 break;
             case CURRENT_PLAYER:
                 CurrentPlayerMessage currPlayer = (CurrentPlayerMessage) receivedMessage;
@@ -219,8 +217,8 @@ public class ClientController implements ViewListener, Listener {
                         break;
                     case ACTION_PHASE:
                         phase = GameState.ACTION_PHASE;
-                        turnEnded = false;
-                        actionCounter = 3;
+                        actionCounter = resetCounter();
+                        endTurnCounter = 1;
                         actionQueue.execute(view::ActionPhaseTurn);
                         break;
 
@@ -290,6 +288,7 @@ public class ClientController implements ViewListener, Listener {
                     requestAssistants();
                 }
                 if(error.getTypeError() == MOTHER_NATURE_ERROR) {
+                    endTurnCounter++;
                     actionQueue.execute(view::moveMotherNature);
                 }
                 if(error.getTypeError() == CLOUD_ERROR) {
@@ -301,17 +300,19 @@ public class ClientController implements ViewListener, Listener {
                 WorldChangeMessage worldChange = (WorldChangeMessage) receivedMessage;
                 actionQueue.execute(()-> defaultViewLayout(worldChange));
                 if(phase.equals(GameState.ACTION_PHASE) && worldChange.getCurrentPlayer().equals(nickname)) {
-                    if(actionCounter > 0)
+                    if(actionCounter > 0) {
                         actionQueue.execute(view::ActionPhaseTurn);
-                    else if(actionCounter == 0 && !turnEnded){
+                    }
+                    if(actionCounter == 0 && endTurnCounter==1){
                         //MN movement
                         actionQueue.execute(view::moveMotherNature);
-                        //Cloud choice
-                        actionQueue.execute(()->view.chooseCloudTile(worldChange.getChargedClouds().size()));
-                        turnEnded = true;
-                    } else if (turnEnded)
-                        actionQueue.execute(()-> view.showGenericMessage("Turn ended, waiting for other players"));
-
+                        endTurnCounter--;
+                    }
+                    if (endTurnCounter == 0 && actionCounter == 0) {
+                        actionQueue.execute(() -> view.chooseCloudTile(worldChange.getChargedClouds().size()));
+                        endTurnCounter--;
+                        actionQueue.execute(() -> view.showGenericMessage("Turn ended, waiting for other players"));
+                    }
                 }
 
                 break;
@@ -352,6 +353,14 @@ public class ClientController implements ViewListener, Listener {
             default:
                 break;
         }
+    }
+
+    /**method to set the maximum num of movements depending on num of players*/
+    private int resetCounter(){
+        if(numOfPlayers == 3)
+            return 4;
+        else
+            return 3;
     }
 
     /**Method to decrease the action counter for each action requiring it*/

@@ -164,6 +164,8 @@ public class ExpertsCardTest {
     @Test
     @DisplayName("Test expert 4")
     void expert4Test() throws FileNotFoundException {
+        GameManager.setNull();
+        Game gameTest = GameManager.getInstance().initGame("TwoPlayers",true);
         Expert4 exp4 = new Expert4(gameTest);
 
         TurnLogic turnLogicTest = new TurnLogic(gameTest);
