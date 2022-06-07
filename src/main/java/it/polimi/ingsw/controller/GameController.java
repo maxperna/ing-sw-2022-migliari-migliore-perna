@@ -480,7 +480,7 @@ public class GameController implements PropertyChangeListener {
             Map<String, AssistantCard> lastCardMap = new HashMap<>();
 
             for(Player currentPlayer : game.getPlayersList()) {
-                if((!currentPlayer.getNickname().equals(senderPlayer)&&(currentPlayer.getDeck().getLastCard() != null)))
+                if(currentPlayer.getDeck().getLastCard() != null)
                     lastCardMap.put(currentPlayer.getNickname(), currentPlayer.getDeck().getLastCard());
             }
 

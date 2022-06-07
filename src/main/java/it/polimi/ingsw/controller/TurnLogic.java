@@ -170,7 +170,7 @@ public class TurnLogic {
                 if (currentGame.getActiveExpertCard().getClass().getName().equals("Expert4"))
                     allowedNumOfSteps = allowedNumOfSteps + 2;
         }
-        if(numOfSteps>allowedNumOfSteps)
+        if(numOfSteps>allowedNumOfSteps || numOfSteps == 0)
             throw new IllegalMove("Too much steps");
         else{
             currentGame.getGameField().moveMotherNatureWithGivenMoves(numOfSteps);

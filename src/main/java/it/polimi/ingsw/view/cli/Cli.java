@@ -897,7 +897,7 @@ public class Cli extends ViewSubject implements View {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-        int finalChoice = choice;
+        int finalChoice = choice-1;
         this.notifyListener((list) -> {
             list.playAssistantCard(finalChoice);
         });
