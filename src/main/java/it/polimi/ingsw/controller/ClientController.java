@@ -227,6 +227,11 @@ public class ClientController implements ViewListener, Listener {
             case SHOW_CLOUD:
                 UpdateCloudsMessage cloudsMessage = (UpdateCloudsMessage) receivedMessage;
                 actionQueue.execute(()->view.showClouds(cloudsMessage.getChargedClouds()));
+                if (endTurnCounter == 0 && actionCounter == 0) {
+                    actionQueue.execute(() -> view.chooseCloudTile(cloudsMessage.getChargedClouds().size()));
+                    endTurnCounter--;
+                    actionQueue.execute(() -> view.showGenericMessage("Turn ended, waiting for other players"));
+                }
                 break;
             case UPDATE_COIN:
                 break;
@@ -290,9 +295,11 @@ public class ClientController implements ViewListener, Listener {
                 if(error.getTypeError() == MOTHER_NATURE_ERROR) {
                     endTurnCounter++;
                     actionQueue.execute(view::moveMotherNature);
+                    endTurnCounter--;
                 }
                 if(error.getTypeError() == CLOUD_ERROR) {
-                    //Da terminare
+                    actionQueue.execute(this::cloudsRequest);
+                    endTurnCounter ++;
                 }
 
                 break;
@@ -303,12 +310,12 @@ public class ClientController implements ViewListener, Listener {
                     if(actionCounter > 0) {
                         actionQueue.execute(view::ActionPhaseTurn);
                     }
-                    if(actionCounter == 0 && endTurnCounter==1){
+                    else if(actionCounter == 0 && endTurnCounter==1){
                         //MN movement
                         actionQueue.execute(view::moveMotherNature);
                         endTurnCounter--;
                     }
-                    if (endTurnCounter == 0 && actionCounter == 0) {
+                    else if (endTurnCounter == 0 && actionCounter == 0) {
                         actionQueue.execute(() -> view.chooseCloudTile(worldChange.getChargedClouds().size()));
                         endTurnCounter--;
                         actionQueue.execute(() -> view.showGenericMessage("Turn ended, waiting for other players"));

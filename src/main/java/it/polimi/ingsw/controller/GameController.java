@@ -193,14 +193,14 @@ public class GameController implements PropertyChangeListener {
                         int cloudID = ((GetCloudsMessage)receivedMessage).getCloudID();
                         ArrayList<Color> extractedStudents = game.getCloudTiles().get(cloudID).moveStudents();
                         game.getPlayerByNickName(senderPlayer).getBoard().addStudentsEntryRoom(extractedStudents);
+
+                        nextState();
                     } catch (EmptyCloudException e) {
                         viewMap.get(senderPlayer).showError("EmptyCloud", CLOUD_ERROR);
                     } catch (NotEnoughSpace e) {
                         viewMap.get(senderPlayer).showError("NotEnoughSpace", CLOUD_ERROR);
                     }
-                    finally {
-                        nextState();
-                    }
+
                 }
 
                 if(receivedMessage.getType() == PLAY_EXPERT_CARD) {
@@ -219,7 +219,7 @@ public class GameController implements PropertyChangeListener {
     /**
      * method to manage the switch between game states
      */
-    private void nextState() {
+    private synchronized void nextState() {
 
         GameState nextState = gameState;
 
@@ -460,8 +460,7 @@ public class GameController implements PropertyChangeListener {
     public void showGameInfo(Message messageReceived, String senderPlayer) {
 
         if(messageReceived.getType() == SHOW_CLOUD)
-            for(Player currentPlayer : game.getPlayersList())
-                 viewMap.get(senderPlayer).showClouds(game.getCloudTiles());
+            viewMap.get(senderPlayer).showClouds(game.getCloudTiles());
 
 
         if(messageReceived.getType() == SHOW_BOARD) {
