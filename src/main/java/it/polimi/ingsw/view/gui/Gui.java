@@ -140,7 +140,7 @@ public class Gui implements View {
     }
 
     @Override
-    public void chooseAction() {
+    public void chooseAction(/*boolean expert*/) {
 
     }
 

@@ -149,39 +149,44 @@ public class Cli extends ViewSubject implements View {
      */
     @Override
     public void askGameParam() {
-        boolean expert = false;
-
         int numOfPlayers = 0;
+        boolean expert = false;
+        String expertMode = "";
+        boolean valid = false;
+
         do {
             System.out.print("Choose the number of players [2, 3, 4]: ");
             try {
                 numOfPlayers = Integer.parseInt(read());
-            } catch (ExecutionException | NumberFormatException e) {
+                if (numOfPlayers < 2 || numOfPlayers > 4)
+                    System.out.println("Error. Invalid input. Write a valid number");
+                else
+                    valid = true;
+            } catch (NumberFormatException | ExecutionException e) {
                 System.out.println();
-                System.out.println("Invalid input");
-                askGameParam();
+                System.out.println("Error. Invalid input");
+                valid = false;
             }
-            if (numOfPlayers != 2 && numOfPlayers != 3 && numOfPlayers != 4) {
-                System.out.println("Invalid input");
-            }
-        } while (numOfPlayers != 2 && numOfPlayers != 3 && numOfPlayers != 4);
+        } while (!valid);
 
-        String expertMode = null;
-        do {
+        valid = false;
+        do{
             System.out.print("Do you want to play in expert mode? [Y/N] ");
             try {
                 expertMode = read().toUpperCase();
+                if (!expertMode.equals("Y")  && !expertMode.equals("N")) {
+                    System.out.println();
+                    System.out.println("Error. Invalid input");
+                }
+                else
+                    valid = true;
             } catch (ExecutionException e) {
                 e.printStackTrace();
             }
-            if (!expertMode.equals("Y")  && !expertMode.equals("N")) {
-                System.out.println("Invalid input");
+            if (expertMode.equals("Y")) {
+                expert = true;
             }
-        } while (!expertMode.equals("Y") && !expertMode.equals("N"));
-
-        if (expertMode.equals("Y")) {
-            expert = true;
-        }
+        } while(!valid);
 
         int finalNumOfPlayers = numOfPlayers;
         boolean finalExpert = expert;
@@ -200,37 +205,41 @@ public class Cli extends ViewSubject implements View {
     public void showRemainingTowerAndDeck(ArrayList<TowerColor> remainingTowers, ArrayList<DeckType> remainingDecks) {
         int tower = 0;
         int deck = 0;
+        boolean valid = false;
         do {
-            System.out.println();
             System.out.println("Remaining tower: " + remainingTowers);
             System.out.println("Select tower by putting its position (1 to " + remainingTowers.size() + "): ");
 
             try {
                 tower = Integer.parseInt(read()) - 1;
+                if (tower >= remainingTowers.size() || tower < 0)
+                    System.out.println("Error. Invalid input");
+                else
+                    valid = true;
             } catch (ExecutionException | NumberFormatException e) {
-                e.printStackTrace();
-                showRemainingTowerAndDeck(remainingTowers,remainingDecks);
-            }
-
-            if (tower > remainingTowers.size() || tower < 0)
+                System.out.println();
                 System.out.println("Error. Invalid input");
+                valid = false;
+            }
+        } while (!valid);
 
-        } while (tower > remainingTowers.size() || tower < 0);
-
+        valid = false;
         do {
-            System.out.println();
             System.out.println("Remaining deck: " + remainingDecks);
             System.out.println("Select deck by putting its position (1 to " + remainingDecks.size() + "): ");
 
             try {
                 deck = Integer.parseInt(read()) - 1;
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            }
-            if (deck > remainingDecks.size() || deck < 0)
+                if (deck >= remainingDecks.size() || deck < 0)
+                    System.out.println("Error. Invalid input");
+                else
+                    valid = true;
+            } catch (ExecutionException | NumberFormatException e) {
+                System.out.println();
                 System.out.println("Error. Invalid input");
-
-        } while (deck > remainingDecks.size() || deck < 0);
+                valid = false;
+            }
+        } while (!valid);
 
 
         int finalTower = tower;
@@ -259,48 +268,7 @@ public class Cli extends ViewSubject implements View {
             System.out.println("This is the game field: it shows the students set on every island, a yellow island indicates that mother nature is actually there,");
             System.out.println("the number indicates the towers set on that island (2 or more if it is a super island), and the letter indicates which color is the tower (or the towers); the X shows that the island is blocked (expert only)");
         }
-        /*
-        System.out.println();
-        for(int i=1; i<=gameFieldMap.size(); i++) {
-            if(i<10)
-                System.out.print("Island " +(i)+": ");
-            else
-                System.out.print("Island " +(i)+":");
-            for(int j=0; j<gameFieldMap.get(i).getStudents().size(); j++) {
-                switch (gameFieldMap.get(i).getStudents().get(j)) {
-                    case RED: System.out.print(ANSI_RED + "██ " + ANSI_RESET);
-                        break;
-                    case BLUE: System.out.print(ANSI_BLUE + "██ " + ANSI_RESET);
-                        break;
-                    case GREEN: System.out.print(ANSI_GREEN + "██ " + ANSI_RESET);
-                        break;
-                    case YELLOW: System.out.print(ANSI_YELLOW + "██ " + ANSI_RESET);
-                        break;
-                    case PINK: System.out.print(ANSI_PINK + "██ " + ANSI_RESET);
-                        break;
-                }
-            }
-            if (gameFieldMap.get(i).checkMotherNature() && gameFieldMap.get(i).getStudents().size() == 0)
-                System.out.print("    ● ");
-            else if (gameFieldMap.get(i).checkMotherNature())
-                System.out.print("  ●");
-            else if (gameFieldMap.get(i).getStudents().size() == 0)
-                System.out.print("      ");
-            else
-                System.out.print("   ");
 
-            if (gameFieldMap.get(i).getNumberOfTowers() != 0)
-                System.out.print(" " +gameFieldMap.get(i).getNumberOfTowers()+ " " +gameFieldMap.get(i).getTowerColor().toString());
-            else
-                System.out.print("   ");
-
-            if (gameFieldMap.get(i).isStopped())
-                System.out.print("  ⦻");
-
-            System.out.println();
-        }
-        System.out.println();
-        */
         int row;
         int max_row = 0;
         int max_column = 0;
@@ -679,6 +647,7 @@ public class Cli extends ViewSubject implements View {
 
     public void showGenericMessage(String genericMessage) {
         System.out.println(genericMessage);
+        System.out.println();
     }
 
     public void newCoin(String player, int numOfCoin) {
@@ -847,6 +816,8 @@ public class Cli extends ViewSubject implements View {
     @Override
     public void showAssistant(ArrayList<AssistantCard> deck) {
         System.out.println();
+        int choice =0;
+        boolean valid = false;
         if (tutorial) {
             System.out.println("This is your card deck. On each card, the red number is the card's action number, the white number is the maximum number of moves that Mother Nature can perform");
             tutorial = false;
@@ -890,13 +861,22 @@ public class Cli extends ViewSubject implements View {
         System.out.println(string);
         string.delete(0, string.capacity());
 
-        int choice = 0;
         System.out.println("Choose your card by writing its action number: the lower it is, the higher the chances for you to start the action phase (based on other players' cards)");
-        try {
-            choice = Integer.parseInt(read());
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
+        do {
+            try {
+                choice = Integer.parseInt(read());
+                for (AssistantCard card : deck) {
+                    if (card.getActionNumber() == choice)
+                        valid = true;
+                }
+                if(!valid)
+                    System.out.println("Error. Card not found");
+            } catch (ExecutionException | NumberFormatException e) {
+                System.out.println("Error. Invalid input");
+                valid = false;
+            }
+        } while(!valid);
+
         int finalChoice = choice-1;
         this.notifyListener((list) -> {
             list.playAssistantCard(finalChoice);
@@ -1031,6 +1011,7 @@ public class Cli extends ViewSubject implements View {
         int index = 0;
         Map<Integer, String> integerToString = new HashMap<>();
         int chosenPlayer = 0;
+        boolean valid = false;
         do {
             try {
 
@@ -1042,17 +1023,19 @@ public class Cli extends ViewSubject implements View {
                     index++;
                 }
                 System.out.println("[" + index + "] for other boards");
-
                 chosenPlayer = Integer.parseInt(read());
 
                 if ((chosenPlayer < 0 || chosenPlayer > boardMap.size() + 1))
-                    System.out.println("Invalid parameter");
+                    System.out.println("Error. Invalid parameter");
+                else
+                    valid = true;
 
             } catch (ExecutionException e) {
-                e.printStackTrace();
+                System.out.println("Error. Invalid parameter");
+                valid = false;
             }
 
-        } while ((chosenPlayer < 0 || chosenPlayer > boardMap.size() + 1));
+        } while (!valid);
 
         if (chosenPlayer == index) {
             for (String s : boardMap.keySet()) {
@@ -1074,33 +1057,43 @@ public class Cli extends ViewSubject implements View {
 
     @Override
     public void ActionPhaseTurn() {
-
-        System.out.println("\nWrite [1] to move a student to the dining room, [2] to move it on an island");
-
         int choice = 0;
+        boolean valid = false;
 
-        try {
-            choice = Integer.parseInt(read());
+        do {
+            System.out.println("\nWrite [1] to move a student to the dining room, [2] to move it on an island");
+            try {
+                choice = Integer.parseInt(read());
 
-            if (choice == 1) {
-                this.notifyListener((list) -> {
-                    list.moveStudentToDinner(colorSelector());
-                });
+                if (choice == 1 || choice == 2)
+                    valid = true;
 
-            } else if (choice == 2) {
-                int islandID;
-                System.out.print("Choose the island of destination by writing the island number: ");
-                islandID = Integer.parseInt(read());
-
-                this.notifyListener((list) -> {
-                    list.moveStudentToIsland(colorSelector(), islandID);
-                });
-
+            } catch (NumberFormatException | ExecutionException e) {
+                    System.out.println("Error. Invalid input");
+                    valid = false;
             }
+        } while (!valid);
 
-        } catch (ExecutionException e) {
-            ActionPhaseTurn();
+        if(choice == 1)
+            notifyListener(list -> list.moveStudentToDinner(colorSelector()));
+        else {
+            valid = false;
+            do {
+                System.out.println("\nWrite the Id of the island of destination");
+                try {
+                    choice = Integer.parseInt(read());
+
+                    if (choice == 1 || choice == 2)
+                        valid = true;
+
+                } catch (NumberFormatException | ExecutionException e) {
+                    System.out.println("Error. Invalid input");
+                    valid = false;
+                }
+            } while (!valid);
         }
+        int finalChoice = choice;
+        notifyListener(list -> list.moveStudentToIsland(colorSelector(), finalChoice));
     }
 
     @Override
@@ -1140,7 +1133,7 @@ public class Cli extends ViewSubject implements View {
             case 5:
                 return Color.BLUE;
             default: {
-                System.out.println("Invaild parameter");
+                System.out.println("Error. Invalid parameter");
                 colorSelector();
             }
         }
@@ -1148,24 +1141,29 @@ public class Cli extends ViewSubject implements View {
     }
 
 
-    public void chooseAction() {
+    public void chooseAction(/*boolean expert*/) {
         int chosenAction = 0;
+        boolean valid = false;
         System.out.println("Write [1] to play your card, [2] to check the other boards, (3 to play Expert)");
         do {
             try {
                 chosenAction = Integer.parseInt(read());
-            } catch (ExecutionException e) {
-                e.printStackTrace();
+                if(chosenAction != 1 && chosenAction != 2 /*&& (chosenAction != 3 && expert)*/)
+                    System.out.println("Invalid input");
+                else
+                    valid = true;
+            } catch (ExecutionException | NumberFormatException e) {
+                System.out.println("Error. Invalid input.");
+                valid = false;
             }
-            if(chosenAction != 1 && chosenAction != 2)
-                System.out.println("Invalid input");
-        } while(chosenAction != 1 && chosenAction != 2);
+        } while(!valid);
         int finalChosenAction = chosenAction;
         notifyListener(list -> list.chooseAction(finalChosenAction));
     }
 
     public void chooseCloudTile(int cloudID) {
         int chosenCloud = 0;
+        boolean valid = false;
         do {
             try {
 
@@ -1178,12 +1176,15 @@ public class Cli extends ViewSubject implements View {
 
                 if((chosenCloud < 0 || chosenCloud > cloudID))
                     System.out.println("Invalid parameter");
+                else
+                    valid = true;
 
             } catch (ExecutionException e) {
-                e.printStackTrace();
+                System.out.println("error. Invalid parameter");
+                valid = false;
             }
 
-        } while((chosenCloud < 0 || chosenCloud > cloudID));
+        } while(!valid);
 
         int finalChosenCloud = chosenCloud;
         notifyListener(list -> list.chooseCloudTile(finalChosenCloud));
@@ -1243,4 +1244,4 @@ public class Cli extends ViewSubject implements View {
         System.out.println("----------"+ANSI_RESET);
         string.delete(0, string.capacity());
         }
-    }
+}
