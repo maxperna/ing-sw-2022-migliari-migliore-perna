@@ -4,10 +4,11 @@ import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.observer.ViewListener;
 import it.polimi.ingsw.observer.ViewSubject;
 import it.polimi.ingsw.view.gui.scenes.SceneControllerInt;
+import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import jdk.jfr.Event;
 
 import java.io.IOException;
 import java.util.List;
@@ -43,9 +44,15 @@ public class SceneController extends ViewSubject {
 
     }
 
-    public static <T> T changeRootPane(List<ViewListener> observerList, String fxml) {
+    public static <T> T changeMainPane(List<ViewListener> observerList, String fxml) {
         return changeMainPane(observerList, currentScene, fxml);
     }
+    public static <T> T changeMainPane(List<ViewListener> observerList, Event event, String fxml) {
+        Scene scene = ((Node) event.getSource()).getScene();
+        return changeMainPane(observerList, scene, fxml);
+    }
+
+
     public static <T> T changeMainPane(List<ViewListener> observerList, Scene scene, String fxml) {
         T controller = null;
 

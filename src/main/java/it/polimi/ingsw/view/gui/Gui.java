@@ -22,7 +22,7 @@ public class Gui extends ViewSubject implements View {
 
     @Override
     public void askPlayerNickname() {
-        Platform.runLater(()->SceneController.changeRootPane(list,"LoginScene.fxml"));
+        Platform.runLater(()->SceneController.changeMainPane(list,"NicknameInput.fxml"));
     }
 
     @Override

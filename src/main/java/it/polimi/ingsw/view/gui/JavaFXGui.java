@@ -23,7 +23,7 @@ public class JavaFXGui extends Application {
         //Bisogna aggiungere anche degli observer
 
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/fxml/LogInScene.fxml"));
+        loader.setLocation(getClass().getResource("/fxml/WelcomeScene.fxml"));
 
         Parent rootLayout = null;
         try {
@@ -37,6 +37,7 @@ public class JavaFXGui extends Application {
 
         Scene scene = new Scene(rootLayout);
         stage.setScene(scene);
+        stage.setTitle("Eryantis");
         stage.setResizable(false);
         stage.show();
 
