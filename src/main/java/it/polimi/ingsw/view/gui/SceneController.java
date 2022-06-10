@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.network.client.Client;
+import it.polimi.ingsw.observer.ViewListener;
 import it.polimi.ingsw.observer.ViewSubject;
 import it.polimi.ingsw.view.gui.scenes.SceneControllerInt;
 import javafx.fxml.FXMLLoader;
@@ -9,6 +10,7 @@ import javafx.scene.Scene;
 import jdk.jfr.Event;
 
 import java.io.IOException;
+import java.util.List;
 
 public class SceneController extends ViewSubject {
     public static Scene currentScene;
@@ -22,13 +24,16 @@ public class SceneController extends ViewSubject {
         return currentController;
     }
 
-    /**Method to change the current main scene
+    /**
+     * Method to change the current main scene
+     *
      * @param controller controller of the scene
-     * @param scene scene to use
-     * @param FXMLpath path of the FXML path*/
-    public static void changeRootScene(SceneControllerInt controller, Scene scene,String FXMLpath){
+     * @param scene      scene to use
+     * @param FXMLpath   path of the FXML path
+     */
+    public static void changeMainPane(SceneControllerInt controller, Scene scene, String FXMLpath) {
         currentController = controller;
-        FXMLLoader loader = new FXMLLoader(SceneController.class.getResource("/fxml/"+FXMLpath));
+        FXMLLoader loader = new FXMLLoader(SceneController.class.getResource("/fxml/" + FXMLpath));
         loader.setController(controller);
         currentController = controller;
         Parent root = loader.getRoot();
@@ -36,6 +41,27 @@ public class SceneController extends ViewSubject {
         currentScene = scene;
         currentScene.setRoot(root);
 
+    }
+
+    public static <T> T changeRootPane(List<ViewListener> observerList, String fxml) {
+        return changeMainPane(observerList, currentScene, fxml);
+    }
+    public static <T> T changeMainPane(List<ViewListener> observerList, Scene scene, String fxml) {
+        T controller = null;
+
+        try {
+            FXMLLoader loader = new FXMLLoader(SceneController.class.getResource("/fxml/" + fxml));
+            Parent root = loader.load();
+            controller = loader.getController();
+            ((ViewSubject) controller).addAllListeners(observerList);
+
+            currentController = (SceneControllerInt) controller;
+            currentScene = scene;
+            currentScene.setRoot(root);
+        } catch (IOException e) {
+            Client.LOGGER.severe(e.getMessage());
+        }
+        return controller;
     }
 }
 
