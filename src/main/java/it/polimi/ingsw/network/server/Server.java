@@ -18,23 +18,30 @@ public class Server{
     private final GameController gameController;
     private final Map<ClientHandler, VirtualView> virtualViewMap;
     private final Object lock;
+    private boolean firstConnection;
 
     public Server(GameController gameController){
         this.gameController = gameController;
         this.virtualViewMap = Collections.synchronizedMap(new HashMap<>());
         this.lock = new Object();
+        this.firstConnection = true;
     }
 
-    public void addClient(String nickname, ClientHandler clientHandler){
+    public synchronized void addClient(String nickname, ClientHandler clientHandler){
         VirtualView newVW = new VirtualView(clientHandler);
         if(gameController.getGameState().equals(GameState.LOGIN)){
-            if(gameController.checkNicknameValidity(nickname)){
+            if(gameController.checkNicknameValidity(nickname) && (firstConnection || gameController.getGame()!=null)){
+                firstConnection = false;
                 virtualViewMap.put(clientHandler,newVW);
                 gameController.logInHandler(nickname,newVW);
             }
             else{
                 //Can't access to game
-                clientHandler.sendMessage(new ErrorMessage("NickName already exists", ErrorType.LOGIN_ERROR));
+                if(gameController.getGame()==null)
+                    clientHandler.sendMessage(new ErrorMessage("Wait for game creation before inserting nick", ErrorType.LOGIN_ERROR));
+                else
+                    clientHandler.sendMessage(new ErrorMessage("NickName already exists", ErrorType.LOGIN_ERROR));
+
             }
         }
     }

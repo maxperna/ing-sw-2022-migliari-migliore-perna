@@ -37,7 +37,7 @@ public class VirtualView implements View {
 
     @Override
     public void askPlayerNickname() {
-
+        clientHandler.sendMessage(new NicknameRequest());
     }
 
     /**

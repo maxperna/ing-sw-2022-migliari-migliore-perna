@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.messages.server_messages.NicknameRequest;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -32,6 +33,8 @@ public class Server_Socket implements Runnable{
 
 
                 ClientHandler clientHandler = new ClientHandler(this,client);
+
+                clientHandler.sendMessage(new NicknameRequest());
                 Thread clientThread = new Thread(clientHandler,"handler"+clientHandler.getClass().getName());
                 clientThread.start();
 

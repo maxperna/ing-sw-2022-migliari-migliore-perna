@@ -69,8 +69,6 @@ public class Cli extends ViewSubject implements View {
         System.out.println("Welcome to Eryantis");
         connectionRequest();
 
-        askPlayerNickname();
-
     }
 
     /**

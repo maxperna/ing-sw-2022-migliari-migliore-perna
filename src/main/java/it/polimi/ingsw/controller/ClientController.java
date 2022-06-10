@@ -200,6 +200,9 @@ public class ClientController implements ViewListener, Listener {
             case GAMEPARAM_REQUEST:
                 actionQueue.execute(view::askGameParam);
                 break;
+            case NICK_REQ:
+                actionQueue.execute(view::askPlayerNickname);
+                break;
             case REMAINING_ITEM:
                 RemainingItemReply answer = (RemainingItemReply) receivedMessage;
                 actionQueue.execute(()->view.showRemainingTowerAndDeck(answer.getRemainingTowers(),answer.getReamingDecks()));
