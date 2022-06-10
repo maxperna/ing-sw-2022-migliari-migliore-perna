@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="it.polimi.ingsw.view.gui.sceneControllers.LogInScene"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-image: url('images/BackIMG.jpeg')" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scenes.LoginSceneController">
+   <children>
+      <TextField fx:id="serverIPField" layoutX="51.0" layoutY="246.0" prefHeight="16.0" prefWidth="208.0" text="0.0.0.0" />
+      <TextField fx:id="serverPortField" layoutX="333.0" layoutY="246.0" prefHeight="25.0" prefWidth="208.0" style="-fx-background-color: #FFFFFF;" text="13000" />
+      <Label layoutX="51.0" layoutY="215.0" prefHeight="25.0" prefWidth="65.0" style="-fx-background-color: #FFFFFF;" text="Server IP" />
+      <Label layoutX="333.0" layoutY="215.0" onMouseClicked="#connectionButtonClick" prefHeight="25.0" prefWidth="65.0" style="-fx-background-color: #FFFFFF;" text="Server Port" />
+      <Button layoutX="451.0" layoutY="318.0" mnemonicParsing="false" onMouseClicked="#connectionButtonClick" prefHeight="41.0" prefWidth="84.0" text="Let's Play!!" />
+   </children>
 </AnchorPane>

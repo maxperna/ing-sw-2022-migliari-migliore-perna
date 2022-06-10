@@ -6,12 +6,14 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.model.experts.ExpertID;
 import it.polimi.ingsw.network.messages.ErrorType;
+import it.polimi.ingsw.observer.ViewSubject;
 import it.polimi.ingsw.view.View;
+import javafx.application.Platform;
 
 import java.util.ArrayList;
 import java.util.Map;
 
-public class Gui implements View {
+public class Gui extends ViewSubject implements View {
 
     @Override
     public void start() {
@@ -20,7 +22,7 @@ public class Gui implements View {
 
     @Override
     public void askPlayerNickname() {
-
+//        Platform.runLater(()->SceneController.changeRootScene());
     }
 
     @Override
