@@ -1,6 +1,7 @@
 package it.polimi.ingsw.observer;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 
 /**
@@ -8,7 +9,7 @@ import java.util.function.Consumer;
  */
 public abstract class ViewSubject {
 
-    ArrayList<ViewListener> list = new ArrayList<>();
+    List<ViewListener> list = new ArrayList<>();
 
     public void addListener(ViewListener l) {
         list.add(l);
@@ -18,11 +19,11 @@ public abstract class ViewSubject {
         list.remove(l);
     }
 
-    public void addAllListeners(ArrayList<ViewListener> l) {
+    public void addAllListeners(List<ViewListener> l) {
         list.addAll(l);
     }
 
-    public void removeAllListeners(ArrayList<Listener> l) {
+    public void removeAllListeners(List<Listener> l) {
         list.removeAll(l);
     }
 
