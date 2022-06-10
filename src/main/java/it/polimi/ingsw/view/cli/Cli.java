@@ -15,7 +15,6 @@ import org.jetbrains.annotations.TestOnly;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
-import java.util.regex.Pattern;
 
 public class Cli extends ViewSubject implements View {
 
@@ -1138,7 +1137,7 @@ public class Cli extends ViewSubject implements View {
         return null;
     }
 
-
+    @Override
     public void chooseAction(/*boolean expert*/) {
         int chosenAction = 0;
         boolean valid = false;
@@ -1159,6 +1158,7 @@ public class Cli extends ViewSubject implements View {
         notifyListener(list -> list.chooseAction(finalChosenAction));
     }
 
+    @Override
     public void chooseCloudTile(int cloudID) {
         int chosenCloud = 0;
         boolean valid = false;
@@ -1191,6 +1191,37 @@ public class Cli extends ViewSubject implements View {
     @Override
     public void sendNumberOfPlayers(int numberOfPlayers) {
 
+    }
+
+    public void availableStudents(List<Color> availableColor) {
+        System.out.println("\n\nAvailable students: ");
+        Map<Integer, Color> indexColorMap = new HashMap<>();
+        int choice = 0;
+        int index = 1;
+
+        for(Color currentColor : availableColor) {
+            if(currentColor.equals(Color.RED))
+                System.out.println("[" +index+ "] RED ");
+            if(currentColor.equals(Color.PINK))
+                System.out.println("[" +index+ "] PINK ");
+            if(currentColor.equals(Color.GREEN))
+                System.out.println("[" +index+ "] GREEN ");
+            if(currentColor.equals(Color.YELLOW))
+                System.out.println("[" +index+ "] YELLOW ");
+            if(currentColor.equals(Color.BLUE))
+                System.out.println("[" +index+ "] BLUE ");
+
+            indexColorMap.put(index, currentColor);
+        }
+
+        while (!indexColorMap.containsKey(choice)) {
+            try {
+                System.out.println("Choose: ");
+                choice = Integer.parseInt(read());
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private String intToString (Integer number) {

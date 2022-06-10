@@ -9,6 +9,7 @@ import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.view.View;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class Gui implements View {
@@ -155,4 +156,5 @@ public class Gui implements View {
     public void sendNumberOfPlayers(int numberOfPlayers) {
 
     }
+
 }

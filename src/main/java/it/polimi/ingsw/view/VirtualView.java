@@ -11,6 +11,7 @@ import it.polimi.ingsw.network.messages.server_messages.*;
 import it.polimi.ingsw.network.server.ClientHandler;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -178,4 +179,5 @@ public class VirtualView implements View {
     public void sendNumberOfPlayers(int numberOfPlayers) {
         clientHandler.sendMessage((new NumberOfPlayersMessage(numberOfPlayers)));
     }
+
 }
