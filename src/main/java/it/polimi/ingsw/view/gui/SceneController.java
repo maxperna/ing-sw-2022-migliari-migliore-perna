@@ -66,6 +66,7 @@ public class SceneController extends ViewSubject {
             currentScene = scene;
             currentScene.setRoot(root);
         } catch (IOException e) {
+            e.printStackTrace();
             Client.LOGGER.severe(e.getMessage());
         }
         return controller;

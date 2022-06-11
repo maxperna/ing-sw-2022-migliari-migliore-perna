@@ -27,7 +27,7 @@ public class Gui extends ViewSubject implements View {
 
     @Override
     public void askGameParam() {
-
+        Platform.runLater(()->System.out.println("sad"));
     }
 
     @Override

@@ -61,7 +61,7 @@ public class ClientHandler implements Runnable {
         try {
             while (!Thread.currentThread().isInterrupted()) {
                 //Synchronization on the input
-                synchronized (inputLock) {
+                synchronized (this){
                     Message receivedMessage = (Message) input.readObject();
                     if (receivedMessage.getType() == MessageType.LOGIN)
                         serverSocket.addClient(receivedMessage.getSenderPlayer(), this);
@@ -108,6 +108,7 @@ public class ClientHandler implements Runnable {
                 Server.LOGGER.info("Message sent " + messageToSend);
             }
         }catch(IOException e) {
+            e.printStackTrace();
             Server.LOGGER.severe(e.getMessage());
             disconnect();
         }

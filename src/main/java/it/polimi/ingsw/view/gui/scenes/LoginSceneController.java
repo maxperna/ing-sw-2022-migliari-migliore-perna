@@ -19,7 +19,7 @@ public class LoginSceneController extends ViewSubject implements SceneController
     Button connectionButton;
 
     @FXML
-    public void startScene(){
+    public void initialize(){
         connectionButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::connectionButtonClick);
     }
 

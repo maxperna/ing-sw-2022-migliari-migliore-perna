@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.gui;
 import it.polimi.ingsw.controller.ClientController;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.view.gui.scenes.LoginSceneController;
+import it.polimi.ingsw.view.gui.scenes.WelcomeScreenController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -32,8 +33,11 @@ public class JavaFXGui extends Application {
             Client.LOGGER.severe(e.getMessage());
             System.exit(1);
         }
-        LoginSceneController controller = loader.getController();
+
+        WelcomeScreenController controller = loader.getController();
         controller.addListener(clientController);
+
+
 
         Scene scene = new Scene(rootLayout);
         stage.setScene(scene);

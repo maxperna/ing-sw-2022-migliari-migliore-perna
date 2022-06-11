@@ -16,10 +16,10 @@ public class WelcomeScreenController extends ViewSubject implements SceneControl
 
     @FXML
     public void initialize(){
-        startButton.addEventHandler(MouseEvent.MOUSE_CLICKED,this::startButtonClick);
+        startButton.addEventHandler(MouseEvent.MOUSE_PRESSED,this::startButtonClick);
     }
 
     public void startButtonClick(Event event){
-        SceneController.changeMainPane(list, event, "LogInScene.fxml");
+        SceneController.changeMainPane(list, event,"LogInScene.fxml");
     }
 }

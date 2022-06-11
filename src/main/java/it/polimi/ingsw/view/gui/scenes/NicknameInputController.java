@@ -21,6 +21,7 @@ public class NicknameInputController extends ViewSubject implements SceneControl
 
     public void sendNickButtonClick(Event event){
         String nick = nickField.getText();
+        sendNick.setDisable(true);
         new Thread(()->notifyListener(l->l.sendNickname(nick))).start();
     }
 }
