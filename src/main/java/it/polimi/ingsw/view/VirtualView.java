@@ -1,10 +1,9 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.controller.GameState;
+import it.polimi.ingsw.model.experts.*;
 import it.polimi.ingsw.model.gameField.Node;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.experts.ExpertCard;
-import it.polimi.ingsw.model.experts.ExpertID;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.client_messages.GameParamRequest;
 import it.polimi.ingsw.network.messages.server_messages.*;
@@ -151,7 +150,10 @@ public class VirtualView implements View {
 
     }
 
-    public void chooseAction(){}
+    @Override
+    public void chooseAction(Boolean expert) {
+
+    }
 
     @Override
     public void moveMotherNature() {
@@ -167,5 +169,45 @@ public class VirtualView implements View {
     @Override
     public void sendNumberOfPlayers(int numberOfPlayers) {
         clientHandler.sendMessage((new NumberOfPlayersMessage(numberOfPlayers)));
+    }
+
+    @Override
+    public void playExpertType2(int cardID, Expert9 expert) {
+
+    }
+
+    @Override
+    public void playExpertType2(int cardID, Expert11 expert) {
+
+    }
+
+    @Override
+    public void playExpertType2(int cardID, Expert12 expert) {
+
+    }
+
+    @Override
+    public void playExpertType3(int cardID, Expert7 expert) {
+
+    }
+
+    @Override
+    public void playExpertType3(int cardID, Expert10 expert) {
+
+    }
+
+    @Override
+    public void playExpertType4(int cardID, Expert3 expert) {
+
+    }
+
+    @Override
+    public void playExpertType4(int cardID, Expert5 expert) {
+
+    }
+
+    @Override
+    public void playExpertType5(int cardID, Expert1 expert) {
+
     }
 }

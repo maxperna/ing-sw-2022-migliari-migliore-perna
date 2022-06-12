@@ -5,7 +5,9 @@ import it.polimi.ingsw.model.DeckType;
 import it.polimi.ingsw.model.TowerColor;
 import it.polimi.ingsw.network.messages.Message;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Extended interface of a Listener (old Observer) used to interact with the View, has to be implemented on every class that shares methods with the view, and on Client Controller to call the methods 1:1
@@ -44,5 +46,17 @@ public interface ViewListener {
     void moveMotherNature(int numberOfSteps);
 
     void chooseAction(int finalChosenAction);
+
+    void chooseExpertCard(int ID);
+
+    void playExpertCard1(int cardID);
+
+    void playExpertCard2(int cardID,int nodeID);
+
+    void playExpertCard3(int nodeID,Color student,int cardID);
+
+    void playExpertCard4(Color student,int cardID);
+
+    void playExpertCard5(ArrayList<Color> student1, ArrayList<Color> student2,int cardID);
 
 }

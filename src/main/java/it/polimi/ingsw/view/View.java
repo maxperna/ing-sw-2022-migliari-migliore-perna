@@ -1,10 +1,11 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.controller.GameState;
+import it.polimi.ingsw.model.experts.*;
 import it.polimi.ingsw.model.gameField.Node;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.network.messages.ErrorType;
+import it.polimi.ingsw.observer.ViewSubject;
 import org.jetbrains.annotations.TestOnly;
 
 import java.util.ArrayList;
@@ -48,6 +49,11 @@ public interface View{
      * @param currentPlayer nickName of the player that will play
      */
     void showCurrentPlayer(String currentPlayer, GameState currentState);
+
+    /**Method to show all the experts, every player receives expertIDLists at the beginning of the game.
+     * @param expertList arrayList that contains all the experts in the game
+     */
+    void showExpertCards(ArrayList<ExpertCard> expertList);
 
     /**Each time a teacher changes every player receives his personal teacherList.
      * @param teacherList contains the teacher of the player
@@ -93,8 +99,6 @@ public interface View{
 
     void showError(String errorMessage, ErrorType errorType);
 
-    void showExpertCards(ArrayList<ExpertCard> expertCard);
-
     void disconnect();
 
     void showAssistant(ArrayList<AssistantCard> deck);
@@ -111,7 +115,7 @@ public interface View{
      */
     void selectStudent(ArrayList<Color> students, int islands);
 
-    void chooseAction();
+    void chooseAction(Boolean expert);
 
     void moveMotherNature();
 
@@ -119,5 +123,20 @@ public interface View{
 
     void sendNumberOfPlayers(int numberOfPlayers);
 
+    void playExpertType2(int cardID, Expert9 expert);
 
+    void playExpertType2(int cardID, Expert11 expert);
+
+    void playExpertType2(int cardID, Expert12 expert);
+
+    void playExpertType3(int cardID, Expert7 expert);
+
+    void playExpertType3(int cardID, Expert10 expert);
+
+    void playExpertType4(int cardID, Expert3 expert);
+
+    void playExpertType4(int cardID, Expert5 expert);
+
+    void playExpertType5(int cardID, Expert1 expert);
 }
+

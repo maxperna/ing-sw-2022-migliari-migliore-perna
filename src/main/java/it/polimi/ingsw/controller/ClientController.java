@@ -4,8 +4,7 @@ import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.DeckType;
 import it.polimi.ingsw.model.TowerColor;
-import it.polimi.ingsw.model.experts.ExpertCard;
-import it.polimi.ingsw.model.experts.ExpertID;
+import it.polimi.ingsw.model.experts.*;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.client.ClientSocket;
 import it.polimi.ingsw.network.messages.ErrorType;
@@ -37,8 +36,11 @@ public class ClientController implements ViewListener, Listener {
     private String nickname;
     private final ExecutorService actionQueue;
     private GameState phase;
+    private ArrayList<ExpertID> expertsOnField = new ArrayList<>();
+    private ArrayList<ExpertCard> expertCardsOnField = new ArrayList<>();
     private int endTurnCounter;   //regulate the final phase of the action phase
     private int actionCounter;
+    private boolean expert_mode;
 
     private int numOfPlayers;
 
@@ -77,6 +79,7 @@ public class ClientController implements ViewListener, Listener {
      * @param expertMode chosen game mode*/
     @Override
     public void sendGameParam(int numOfPlayers, boolean expertMode){
+        this.expert_mode = expertMode;
         client.sendMessage(new GameParamMessage(this.nickname,numOfPlayers,expertMode));
     }
 
@@ -133,8 +136,8 @@ public class ClientController implements ViewListener, Listener {
 
 
     /**Method to play an expert card
-     **/
-    public void getExpertsCard(){
+     * @param cardID id of the card on the field*/
+    public void chooseExpertCard(int cardID){
         client.sendMessage(new ExpertCardRequest(nickname));
     }
 
@@ -144,23 +147,28 @@ public class ClientController implements ViewListener, Listener {
     }
 
     //EXPERT CARD METHODS
-    public void playExpertCard1(int cardID){
+    @Override
+    public void playExpertCard1(int cardID) {
         client.sendMessage(new PlayExpertCard1(nickname,cardID));
     }
 
-    public void playExpertCard2(int cardID,int nodeID){
+    @Override
+    public void playExpertCard2(int cardID,int nodeID) {
         client.sendMessage(new PlayExpertCard2(nickname,nodeID,cardID));
     }
 
-    public void playExpertCard3(int nodeID,Color student,int cardID){
+    @Override
+    public void playExpertCard3(int nodeID,Color student,int cardID) {
         client.sendMessage(new PlayExpertCard3(nickname,nodeID,student,cardID));
     }
 
+    @Override
     public void playExpertCard4(Color student,int cardID){
         client.sendMessage(new PlayExpertCard4(nickname,student,cardID));
     }
 
-    public void playExpertCard5(ArrayList<Color> student1, ArrayList<Color> student2,int cardID){
+    @Override
+    public void playExpertCard5(ArrayList<Color> student1, ArrayList<Color> student2,int cardID) {
         client.sendMessage(new PlayExpertCard5(nickname,student1,student2,cardID));
     }
 
@@ -173,18 +181,42 @@ public class ClientController implements ViewListener, Listener {
         client.sendMessage(new LastCardRequest(nickname));
     }
 
+    public void requestExpertCards() {client.sendMessage(new ExpertCardRequest(nickname));}
+
 
     /**Sub state machine catching the type of experts to play get reading expertCardReply type
-     * @param cardToPlay chosen card to play*/
-    public void applyExpertEffect(ExpertCard cardToPlay){
-        ExpertID typeOfExpert = cardToPlay.getExpType();
+     * @param cardID chosen card to play*/
+    public void applyExpertEffect(int cardID){
+        ExpertID typeOfExpert = expertsOnField.get(cardID);
+
         switch (typeOfExpert){        //update with method of the CLI
-            case COLOR:
-            case TWO_LIST_COLOR:
-            case NODE_ID_COLOR:
-            case USER_ONLY:
-            case NODE_ID:
-            default:
+            case USER_ONLY: this.playExpertCard1(cardID);
+                break;
+            case COLOR:  {
+                if (expertCardsOnField.get(cardID) instanceof Expert9)
+                    view.playExpertType2(cardID, (Expert9)expertCardsOnField.get(cardID));
+                else if (expertCardsOnField.get(cardID) instanceof Expert11)
+                    view.playExpertType2(cardID, (Expert11)expertCardsOnField.get(cardID));
+                else if (expertCardsOnField.get(cardID) instanceof Expert12)
+                    view.playExpertType2(cardID, (Expert12)expertCardsOnField.get(cardID));
+            }
+                break;
+            case TWO_LIST_COLOR: {
+                if(expertCardsOnField.get(cardID) instanceof Expert7)
+                    view.playExpertType3(cardID, (Expert7)expertCardsOnField.get(cardID));
+                else if (expertCardsOnField.get(cardID) instanceof Expert10)
+                    view.playExpertType3(cardID, (Expert10)expertCardsOnField.get(cardID));
+            }
+                break;
+            case NODE_ID_COLOR: {
+                if(expertCardsOnField.get(cardID) instanceof Expert3)
+                    view.playExpertType4(cardID, (Expert3)expertCardsOnField.get(cardID));
+                else if (expertCardsOnField.get(cardID) instanceof Expert5)
+                    view.playExpertType4(cardID, (Expert5)expertCardsOnField.get(cardID));
+            }
+                break;
+            case NODE_ID: view.playExpertType5(cardID, (Expert1) expertCardsOnField.get(cardID));
+                break;
         }
     }
 
@@ -216,7 +248,7 @@ public class ClientController implements ViewListener, Listener {
                 switch(currPlayer.getCurrentState()){
                     case PREPARATION_PHASE:
                         phase = GameState.PREPARATION_PHASE;
-                        actionQueue.execute(view::chooseAction);
+                        actionQueue.execute(() -> view.chooseAction(expert_mode));
                         break;
                     case ACTION_PHASE:
                         phase = GameState.ACTION_PHASE;
@@ -257,7 +289,7 @@ public class ClientController implements ViewListener, Listener {
                     Map<String, Board> boardMap = ((BoardInfoMessage)receivedMessage).getBoardMap();
                     boardMap.remove(nickname);
                     actionQueue.execute(() -> view.showBoard(boardMap));
-                    actionQueue.execute(view::chooseAction);
+                    actionQueue.execute(() -> view.chooseAction(expert_mode));
                 }
                 else {
                     BoardInfoMessage boardInfo = (BoardInfoMessage) receivedMessage;
@@ -270,7 +302,7 @@ public class ClientController implements ViewListener, Listener {
                 break;
                 //case PREPARATION_PHASE
             case EXPERT_CARD_REPLY:
-                //POSIZIONARE METODO VIEW
+                expertCardsOnField = ((ExpertCardReply)receivedMessage).getExpertID();
                 break;
             case LAST_ASSISTANT:
                 LastCardMessage lastCardMessage = (LastCardMessage)  receivedMessage;
@@ -360,6 +392,8 @@ public class ClientController implements ViewListener, Listener {
             case 2:
                 getBoards();
                 break;
+            case 3:
+                requestExpertCards();
             default:
                 break;
         }
