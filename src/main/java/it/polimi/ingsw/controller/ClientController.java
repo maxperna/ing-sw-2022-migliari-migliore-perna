@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.DeckType;
 import it.polimi.ingsw.model.TowerColor;
+import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.model.experts.ExpertID;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.client.ClientSocket;
@@ -36,7 +37,6 @@ public class ClientController implements ViewListener, Listener {
     private String nickname;
     private final ExecutorService actionQueue;
     private GameState phase;
-    private ArrayList<ExpertID> expertsOnField = new ArrayList<>();
     private int endTurnCounter;   //regulate the final phase of the action phase
     private int actionCounter;
 
@@ -133,9 +133,9 @@ public class ClientController implements ViewListener, Listener {
 
 
     /**Method to play an expert card
-     * @param cardID id of the card on the field*/
-    public void chooseExpertCard(int cardID){
-        client.sendMessage(new ExpertCardRequest(nickname,cardID));
+     **/
+    public void getExpertsCard(){
+        client.sendMessage(new ExpertCardRequest(nickname));
     }
 
     @Override
@@ -175,9 +175,9 @@ public class ClientController implements ViewListener, Listener {
 
 
     /**Sub state machine catching the type of experts to play get reading expertCardReply type
-     * @param cardID chosen card to play*/
-    public void applyExpertEffect(int cardID){
-        ExpertID typeOfExpert = expertsOnField.get(cardID);
+     * @param cardToPlay chosen card to play*/
+    public void applyExpertEffect(ExpertCard cardToPlay){
+        ExpertID typeOfExpert = cardToPlay.getExpType();
         switch (typeOfExpert){        //update with method of the CLI
             case COLOR:
             case TWO_LIST_COLOR:
@@ -270,7 +270,7 @@ public class ClientController implements ViewListener, Listener {
                 break;
                 //case PREPARATION_PHASE
             case EXPERT_CARD_REPLY:
-                expertsOnField = ((ExpertCardReply)receivedMessage).getExpertID();
+                //POSIZIONARE METODO VIEW
                 break;
             case LAST_ASSISTANT:
                 LastCardMessage lastCardMessage = (LastCardMessage)  receivedMessage;

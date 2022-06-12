@@ -5,13 +5,14 @@ import it.polimi.ingsw.exceptions.NotEnoughCoins;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Player;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**Interface defying the behavior of an assistant card, every use card method has an ID distinguishing the required
  * parameters
 *@author  Massimo
 */
-public interface ExpertCard {
+public interface ExpertCard extends Serializable {
 
     //1
     /**Method to use card for experts requiring only the current player (experts 2,4,6,8)

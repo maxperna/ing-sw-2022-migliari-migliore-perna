@@ -3,8 +3,6 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.gameField.Node;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.experts.ExpertCard;
-import it.polimi.ingsw.model.experts.ExpertID;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.client_messages.*;
 import it.polimi.ingsw.network.messages.client_messages.ExpertMessages.*;
@@ -171,7 +169,6 @@ public class GameController implements PropertyChangeListener {
                                 viewMap.get(nickName).showError("Not enoughSpace", STUDENT_ERROR);
                             }
                         }
-                    int prova;
                 }
 
                 if(receivedMessage.getType() == MOVE_MOTHER_NATURE){
@@ -209,6 +206,11 @@ public class GameController implements PropertyChangeListener {
 
                 showGameInfo(receivedMessage, senderPlayer);
 
+
+
+                if(receivedMessage.getType() == EXPERT_CARD_REQ){
+                    viewMap.get(senderPlayer).showExpertCards(game.getExpertsCard());
+                }
                 break;
         }
 
@@ -243,11 +245,6 @@ public class GameController implements PropertyChangeListener {
                     //sets first player
                     turnLogic.generatePreparationPhaseOrder();
                     //generates a GameFieldMap
-                    Map<Integer, Node> gameFieldMap = generateGameFieldMap();
-                    //generate ExpertList
-                    ArrayList<ExpertID> expertIDList = new ArrayList<>();
-                    for(ExpertCard currentCard : game.getExpertsCard())
-                        expertIDList.add(currentCard.getExpType());
 
                     //sends to each player the current situation on the board, giving also a coin if expert mode is on and the GameFieldMap
                     for(Player currentPlayer : game.getPlayersList())
@@ -261,8 +258,6 @@ public class GameController implements PropertyChangeListener {
                         //message for init the player
                         currentView.showInitPlayer(game.MAX_NUM_OF_TOWERS, currentEntranceHall);
 
-                        //sends the expertList
-                        currentView.showExpertCards(expertIDList);
 
                     }
 
@@ -543,9 +538,6 @@ public class GameController implements PropertyChangeListener {
         return gameFieldMap;
     }
 
-    public TurnLogic getTurnLogic() {
-        return turnLogic;
-    }
 
     public void setTurnLogic(TurnLogic turnLogic) {
         this.turnLogic = turnLogic;
@@ -573,7 +565,7 @@ public class GameController implements PropertyChangeListener {
 
         game.getGameField().addPropertyChangeListener(this);
     }
-
+    /*
     public void removeListeners() {
 
         for(CloudTile currentCloud : game.getCloudTiles()) {
@@ -591,11 +583,8 @@ public class GameController implements PropertyChangeListener {
         game.removePropertyChangeListener(this);
 
         game.getGameField().removePropertyChangeListener(this);
-    }
+    }*/
 
-    public Map<String, VirtualView> getViewMap() {
-        return viewMap;
-    }
 
     public Map<String, Board> generateBoardMap() {
 

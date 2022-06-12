@@ -79,8 +79,8 @@ public class VirtualView implements View {
     }
 
     @Override
-    public void showExpertCards(ArrayList<ExpertID> expertIDList) {
-        clientHandler.sendMessage(new ExpertCardReply(expertIDList));
+    public void showExpertCards(ArrayList<ExpertCard> expertList) {
+        clientHandler.sendMessage(new ExpertCardReply(expertList));
     }
     @Override
     public void updateTeachers(Map<Color, Boolean> teacherList) {
@@ -135,16 +135,6 @@ public class VirtualView implements View {
     public void printBoard(Board board, String nickname) {
 
     }
-
-    @Override
-    public void showExpertID(ArrayList<ExpertID> expertID){
-        clientHandler.sendMessage(new ExpertCardReply(expertID));
-    }
-
-    @Override
-    public void showExpertCard(ArrayList<ExpertCard> expertCard) {
-    }
-
     public ClientHandler getClientHandler() {
         return clientHandler;
     }

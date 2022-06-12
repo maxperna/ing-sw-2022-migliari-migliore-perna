@@ -4,9 +4,7 @@ import it.polimi.ingsw.controller.GameState;
 import it.polimi.ingsw.model.gameField.Node;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.experts.ExpertCard;
-import it.polimi.ingsw.model.experts.ExpertID;
 import it.polimi.ingsw.network.messages.ErrorType;
-import it.polimi.ingsw.observer.ViewSubject;
 import org.jetbrains.annotations.TestOnly;
 
 import java.util.ArrayList;
@@ -50,11 +48,6 @@ public interface View{
      * @param currentPlayer nickName of the player that will play
      */
     void showCurrentPlayer(String currentPlayer, GameState currentState);
-
-    /**Method to show all the experts, every player receives expertIDLists at the beginning of the game.
-     * @param expertIDList arrayList that contains all the experts in the game
-     */
-    void showExpertCards(ArrayList<ExpertID> expertIDList);
 
     /**Each time a teacher changes every player receives his personal teacherList.
      * @param teacherList contains the teacher of the player
@@ -100,9 +93,7 @@ public interface View{
 
     void showError(String errorMessage, ErrorType errorType);
 
-    void showExpertID(ArrayList<ExpertID> expertID);
-
-    void showExpertCard(ArrayList<ExpertCard> expertCard);
+    void showExpertCards(ArrayList<ExpertCard> expertCard);
 
     void disconnect();
 

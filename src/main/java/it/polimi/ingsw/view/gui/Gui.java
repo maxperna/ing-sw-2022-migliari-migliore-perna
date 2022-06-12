@@ -56,11 +56,6 @@ public class Gui extends ViewSubject implements View {
     }
 
     @Override
-    public void showExpertCards(ArrayList<ExpertID> expertIDList) {
-
-    }
-
-    @Override
     public void updateTeachers(Map<Color, Boolean> teacherList) {
 
     }
@@ -106,13 +101,9 @@ public class Gui extends ViewSubject implements View {
     }
 
 
-    @Override
-    public void showExpertID(ArrayList<ExpertID> expertID) {
-
-    }
 
     @Override
-    public void showExpertCard(ArrayList<ExpertCard> expertCard) {
+    public void showExpertCards(ArrayList<ExpertCard> expertCard) {
 
     }
 

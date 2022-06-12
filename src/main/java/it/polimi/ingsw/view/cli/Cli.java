@@ -633,8 +633,6 @@ public class Cli extends ViewSubject implements View {
 
     }
 
-    public void showExpertCards(ArrayList<ExpertID> expertIDList) {
-    }
 
     public void updateTeachers(Map<Color, Boolean> teacherList) {
     }
@@ -666,17 +664,13 @@ public class Cli extends ViewSubject implements View {
         System.out.println(errorMessage);
     }
 
-    @Override
-    public void showExpertID(ArrayList<ExpertID> expertID) {
-    }
-
     /**
      * method used to print the description of each expert card
      *
      * @param expertCard
      */
     @Override
-    public void showExpertCard(ArrayList<ExpertCard> expertCard) {
+    public void showExpertCards(ArrayList<ExpertCard> expertCard) {
         for (ExpertCard expert : expertCard)
             System.out.println("Expert card cost: " + expert.getCost() + "/nExpert card effect: " + expert.getExpDescription());
     }
