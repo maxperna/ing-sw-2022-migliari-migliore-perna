@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.gui.scenes;
 
 import it.polimi.ingsw.observer.ViewSubject;
 import it.polimi.ingsw.view.gui.SceneController;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -20,16 +21,18 @@ public class LoginSceneController extends ViewSubject implements SceneController
 
     @FXML
     public void initialize(){
-        connectionButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::connectionButtonClick);
+        connectionButton.addEventHandler(MouseEvent.MOUSE_RELEASED,this::connectionButtonClick);
     }
 
-    @FXML
     private void connectionButtonClick(Event event){
-        HashMap<String,String> connectionInfo = new HashMap<>();
-        connectionInfo.put("address",serverIPField.getText());
-        connectionInfo.put("port",serverPortField.getText());
 
-        new Thread(()->notifyListener(l->l.connectionRequest(connectionInfo))).start();
+
+        HashMap<String, String> connectionInfo = new HashMap<>();
+        connectionInfo.put("address", serverIPField.getText());
+        connectionInfo.put("port", serverPortField.getText());
+        new Thread(() -> notifyListener(l -> l.connectionRequest(connectionInfo))).start();
+
+
     }
 
 }

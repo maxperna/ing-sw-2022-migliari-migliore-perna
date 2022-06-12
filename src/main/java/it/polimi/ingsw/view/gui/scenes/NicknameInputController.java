@@ -16,12 +16,14 @@ public class NicknameInputController extends ViewSubject implements SceneControl
 
     @FXML
     public void initialize(){
-        sendNick.addEventHandler(MouseEvent.MOUSE_CLICKED,this::sendNickButtonClick);
+        sendNick.addEventHandler(MouseEvent.MOUSE_RELEASED,this::sendNickButtonClick);
     }
 
     public void sendNickButtonClick(Event event){
+
         String nick = nickField.getText();
         sendNick.setDisable(true);
-        new Thread(()->notifyListener(l->l.sendNickname(nick))).start();
+        new Thread(() -> notifyListener(l -> l.sendNickname(nick))).start();
+
     }
 }

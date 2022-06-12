@@ -10,7 +10,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 
-public class GameParamScene extends ViewSubject implements SceneControllerInt {
+public class GameParamSceneController extends ViewSubject implements SceneControllerInt {
 
     @FXML
     ChoiceBox<String> numOfPlayers;
@@ -31,12 +31,11 @@ public class GameParamScene extends ViewSubject implements SceneControllerInt {
     }
 
     /**Method to show the hidden expert mode info*/
-    @FXML
-    public void setExpertModeInfo(Event event){
+    private void setExpertModeInfo(Event event){
         expModInfo.setVisible(!expModInfo.isVisible());
     }
 
-    public void startGame(Event event){
+    private void startGame(Event event){
         int playersNum;
         if(numOfPlayers.getSelectionModel().getSelectedItem().equals(numOfPlayers.getItems().get(0)))
             playersNum =2;
@@ -47,6 +46,6 @@ public class GameParamScene extends ViewSubject implements SceneControllerInt {
 
         boolean expMode = expertMode.isSelected();
 
-        new Thread(()->notifyListener(l->l.sendGameParam(playersNum,expMode)));
+        new Thread(()->notifyListener(l->l.sendGameParam(playersNum,expMode))).start();
     }
 }
