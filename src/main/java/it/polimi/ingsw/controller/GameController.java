@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.model.gameField.Node;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.messages.Message;
@@ -197,6 +198,15 @@ public class GameController implements PropertyChangeListener {
                         viewMap.get(senderPlayer).showError("NotEnoughSpace", CLOUD_ERROR);
                     }
 
+                }
+
+                if(receivedMessage.getType() == EXPERT_CARD_REQ){
+                    ArrayList<ExpertCard> availableExpert = new ArrayList<>();
+                    for(ExpertCard expert: game.getExpertsCard()){
+                        if(game.getPlayerByNickName(senderPlayer).getNumOfCoin()>expert.getCost())
+                            availableExpert.add(expert);
+                    }
+                    viewMap.get(senderPlayer).showExpertCards(game.getExpertsCard(),availableExpert);
                 }
 
                 if(receivedMessage.getType() == PLAY_EXPERT_CARD) {
