@@ -152,14 +152,6 @@ public class TurnLogic {
         }
     }
 
-    public void moveStudentToIsland(Player player, Color color, int nodeID){
-        try {
-            player.getBoard().moveToIsland(color,nodeID);
-        } catch (NotOnBoardException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     /**Method to move mother nature over the island list
      * */
     public void moveMotherNature(Player player,int numOfSteps) throws IllegalMove,EndGameException{

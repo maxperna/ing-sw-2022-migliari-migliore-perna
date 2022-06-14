@@ -1071,8 +1071,10 @@ public class Cli extends ViewSubject implements View {
             }
         } while (!valid);
 
-        if(choice == 1)
-            notifyListener(list -> list.moveStudentToDinner(colorSelector()));
+        if(choice == 1) {
+            Color chosenColor = colorSelector();
+            notifyListener(list -> list.moveStudentToDinner(chosenColor));
+        }
         else {
             valid = false;
             do {
@@ -1080,17 +1082,18 @@ public class Cli extends ViewSubject implements View {
                 try {
                     choice = Integer.parseInt(read());
 
-                    if (choice == 1 || choice == 2)
+                    if (choice>=1 && choice<=12)
                         valid = true;
 
                 } catch (NumberFormatException | ExecutionException e) {
                     System.out.println("Error. Invalid input");
-                    valid = false;
                 }
             } while (!valid);
+            int finalChoice = choice;
+            Color chosenColor = colorSelector();
+            notifyListener(list -> list.moveStudentToIsland(chosenColor, finalChoice));
         }
-        int finalChoice = choice;
-        notifyListener(list -> list.moveStudentToIsland(colorSelector(), finalChoice));
+
     }
 
     @Override
@@ -1108,7 +1111,6 @@ public class Cli extends ViewSubject implements View {
 
     }
 
-    @TestOnly
     Color colorSelector() {
         System.out.println("\n\nWrite the number referred to the color of the student you want to move: [1] RED, [2] PINK, [3] GREEN, [4] YELLOW, [5] BLUE");
         int choice = 0;
@@ -1141,7 +1143,7 @@ public class Cli extends ViewSubject implements View {
     public void chooseAction(/*boolean expert*/) {
         int chosenAction = 0;
         boolean valid = false;
-        System.out.println("Write [1] to play your card, [2] to check the other boards, (3 to play Expert)");
+        System.out.println("Write [1] to play your card, [2] to check the other boards");
         do {
             try {
                 chosenAction = Integer.parseInt(read());
@@ -1193,36 +1195,36 @@ public class Cli extends ViewSubject implements View {
 
     }
 
-    public void availableStudents(List<Color> availableColor) {
-        System.out.println("\n\nAvailable students: ");
-        Map<Integer, Color> indexColorMap = new HashMap<>();
-        int choice = 0;
-        int index = 1;
-
-        for(Color currentColor : availableColor) {
-            if(currentColor.equals(Color.RED))
-                System.out.println("[" +index+ "] RED ");
-            if(currentColor.equals(Color.PINK))
-                System.out.println("[" +index+ "] PINK ");
-            if(currentColor.equals(Color.GREEN))
-                System.out.println("[" +index+ "] GREEN ");
-            if(currentColor.equals(Color.YELLOW))
-                System.out.println("[" +index+ "] YELLOW ");
-            if(currentColor.equals(Color.BLUE))
-                System.out.println("[" +index+ "] BLUE ");
-
-            indexColorMap.put(index, currentColor);
-        }
-
-        while (!indexColorMap.containsKey(choice)) {
-            try {
-                System.out.println("Choose: ");
-                choice = Integer.parseInt(read());
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+//    public void availableStudents(List<Color> availableColor) {
+//        System.out.println("\n\nAvailable students: ");
+//        Map<Integer, Color> indexColorMap = new HashMap<>();
+//        int choice = 0;
+//        int index = 1;
+//
+//        for(Color currentColor : availableColor) {
+//            if(currentColor.equals(Color.RED))
+//                System.out.println("[" +index+ "] RED ");
+//            if(currentColor.equals(Color.PINK))
+//                System.out.println("[" +index+ "] PINK ");
+//            if(currentColor.equals(Color.GREEN))
+//                System.out.println("[" +index+ "] GREEN ");
+//            if(currentColor.equals(Color.YELLOW))
+//                System.out.println("[" +index+ "] YELLOW ");
+//            if(currentColor.equals(Color.BLUE))
+//                System.out.println("[" +index+ "] BLUE ");
+//
+//            indexColorMap.put(index, currentColor);
+//        }
+//
+//        while (!indexColorMap.containsKey(choice)) {
+//            try {
+//                System.out.println("Choose: ");
+//                choice = Integer.parseInt(read());
+//            } catch (ExecutionException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 
     private String intToString (Integer number) {
         if (number < 10)

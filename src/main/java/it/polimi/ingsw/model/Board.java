@@ -1,14 +1,12 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.exceptions.EndGameException;
-import it.polimi.ingsw.exceptions.NotEnoughSpace;
-import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
-import it.polimi.ingsw.exceptions.NotOnBoardException;
+import it.polimi.ingsw.exceptions.*;
 import org.jetbrains.annotations.TestOnly;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -118,13 +116,15 @@ public class Board implements Serializable, StudentManager  {
      * @param color color of the student to move
      * @exception NotOnBoardException exception thrown if it's tried to move a not existent student
      */
-    public void moveToIsland(Color color, int nodeID) throws NotOnBoardException{
+    public void moveToIsland(Color color, int nodeID) throws NotOnBoardException, IllegalMove {
         if(!entryRoom.contains(color)) throw new NotOnBoardException();
         else{
-            entryRoom.remove(color);
-
-            currentGame.getGameField().getIslandNode(nodeID).addStudent(color);
-
+            try {
+                currentGame.getGameField().addStudent(nodeID, color);
+                entryRoom.remove(color);
+            }catch (IllegalMove e) {
+                throw new IllegalMove();
+            }
         }
 
     }
@@ -186,11 +186,12 @@ public class Board implements Serializable, StudentManager  {
      * @exception EndGameException exception thrown if there aren't any tower, make the game end
      */
     public TowerColor moveTower() throws EndGameException{
+
+        numberOfTowers --;
         if(numberOfTowers == 0) throw new EndGameException("Out of towers");
-        else{
-            numberOfTowers --;
-            return getTowerColor();
-        }
+
+        return getTowerColor();
+
     }
 
     /**Method to add a tower to the hall

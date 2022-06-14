@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.gameField;
 
 import it.polimi.ingsw.exceptions.EndGameException;
+import it.polimi.ingsw.exceptions.IllegalMove;
 import it.polimi.ingsw.exceptions.NotEnoughElements;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Game;
@@ -138,9 +139,9 @@ public class IslandList {
      * @param student  to be added
      * @throws InvalidParameterException when islandID is invalid
      */
-    public void addStudent(int nodeID, Color student) throws InvalidParameterException {                                //method that adds a single student to a specific IslandTIle
+    public void addStudent(int nodeID, Color student) throws IllegalMove {                                //method that adds a single student to a specific IslandTIle
         if (nodeID < 1 || nodeID > this.islandCounter())                                                                //checks that the islandID is valid
-            throw new InvalidParameterException();
+            throw new IllegalMove();
         Node actualNode = this.getIslandNode(nodeID);
         actualNode.addStudent(student);
     }
