@@ -21,7 +21,6 @@ public class JavaFXGui extends Application {
         Gui view = new Gui();
         ClientController clientController = new ClientController(view);
         view.addListener(clientController);
-        //Bisogna aggiungere anche degli observer
 
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/WelcomeScene.fxml"));
@@ -36,11 +35,12 @@ public class JavaFXGui extends Application {
 
         WelcomeScreenController controller = loader.getController();
         controller.addListener(clientController);
-
+        SceneController.setCurrentController(controller);
 
 
         Scene scene = new Scene(rootLayout);
         stage.setScene(scene);
+        SceneController.setCurrentScene(scene);
         stage.setTitle("Eryantis");
         stage.setResizable(false);
         stage.show();

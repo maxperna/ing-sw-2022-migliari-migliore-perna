@@ -44,6 +44,10 @@ public class SceneController extends ViewSubject {
 
     }
 
+    public static void changeRoot(SceneControllerInt controllerInt, String FXML_path){
+
+    }
+
     public static <T> T changeMainPane(List<ViewListener> observerList, String fxml) {
         return changeMainPane(observerList, currentScene, fxml);
     }
@@ -70,6 +74,14 @@ public class SceneController extends ViewSubject {
             Client.LOGGER.severe(e.getMessage());
         }
         return controller;
+    }
+
+    public static void setCurrentScene(Scene currentScene) {
+        SceneController.currentScene = currentScene;
+    }
+
+    public static void setCurrentController(SceneControllerInt currentController) {
+        SceneController.currentController = currentController;
     }
 }
 
