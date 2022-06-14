@@ -295,7 +295,7 @@ public class ClientController implements ViewListener, Listener {
                     Map<String, Board> boardMap = ((BoardInfoMessage)receivedMessage).getBoardMap();
                     boardMap.remove(nickname);
                     actionQueue.execute(() -> view.showBoard(boardMap));
-                    actionQueue.execute(() -> view.chooseAction());
+                    actionQueue.execute(view::chooseAction);
                 }
                 else {
                     BoardInfoMessage boardInfo = (BoardInfoMessage) receivedMessage;
@@ -342,6 +342,9 @@ public class ClientController implements ViewListener, Listener {
                 if(error.getTypeError() == CLOUD_ERROR) {
                     actionQueue.execute(this::cloudsRequest);
                     endTurnCounter ++;
+                }
+                if(error.getTypeError() == EXPERT_ERROR){
+                    actionQueue.execute(this::getExpertsCard);
                 }
 
                 break;
