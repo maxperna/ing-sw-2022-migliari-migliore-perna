@@ -4,10 +4,10 @@ import it.polimi.ingsw.controller.GameState;
 import it.polimi.ingsw.model.gameField.Node;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.experts.ExpertCard;
-import it.polimi.ingsw.model.experts.ExpertID;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.observer.ViewSubject;
 import it.polimi.ingsw.view.View;
+import it.polimi.ingsw.view.gui.scenes.TowerDeckSelectionController;
 import javafx.application.Platform;
 
 import java.util.ArrayList;
@@ -22,17 +22,21 @@ public class Gui extends ViewSubject implements View {
 
     @Override
     public void askPlayerNickname() {
-        Platform.runLater(()->SceneController.changeMainPane(list,"NicknameInput.fxml"));
+        Platform.runLater(()->SceneController.changeRoot(list,"NicknameInput.fxml"));
     }
 
     @Override
     public void askGameParam() {
-        Platform.runLater(()->SceneController.changeMainPane(list,"GameParamScene.fxml"));
+        Platform.runLater(()->SceneController.changeRoot(list,"GameParamScene.fxml"));
     }
 
     @Override
     public void showRemainingTowerAndDeck(ArrayList<TowerColor> remainingTowers, ArrayList<DeckType> remainingDecks) {
+        TowerDeckSelectionController towerDeckSelectionController = new TowerDeckSelectionController();
+        towerDeckSelectionController.setRemainingTowers(remainingTowers);
+        towerDeckSelectionController.setRemainingDecks(remainingDecks);
 
+        Platform.runLater(()->SceneController.changeRoot(list, towerDeckSelectionController, "TowerDeckSelection.fxml"));
     }
 
     @Override

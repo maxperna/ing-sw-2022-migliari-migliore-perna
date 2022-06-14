@@ -17,34 +17,40 @@ public class SceneController extends ViewSubject {
     public static Scene currentScene;
     public static SceneControllerInt currentController;
 
-    public static Scene getCurrentScene() {
-        return currentScene;
-    }
+    public static void changeRoot(List<ViewListener> observerList, SceneControllerInt controller, String FXML_path) {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(SceneController.class.getResource("/fxml/" + FXML_path));
 
-    public static SceneControllerInt getCurrentController() {
-        return currentController;
-    }
+        try {
+            Parent newRoot = loader.load();
+            ((ViewSubject) controller).addAllListeners(observerList);
+            loader.setController(controller);
 
-    /**
-     * Method to change the current main scene
-     *
-     * @param controller controller of the scene
-     * @param scene      scene to use
-     * @param FXMLpath   path of the FXML path
-     */
-    public static void changeMainPane(SceneControllerInt controller, Scene scene, String FXMLpath) {
-        currentController = controller;
-        FXMLLoader loader = new FXMLLoader(SceneController.class.getResource("/fxml/" + FXMLpath));
-        loader.setController(controller);
-        currentController = controller;
-        Parent root = loader.getRoot();
+            currentController = controller;
+            currentScene.setRoot(newRoot);
 
-        currentScene = scene;
-        currentScene.setRoot(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
-    public static void changeRoot(SceneControllerInt controllerInt, String FXML_path){
+    public static void changeRoot(List<ViewListener> observerList, String FXML_path) {
+
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(SceneController.class.getResource("/fxml/" + FXML_path));
+
+        try {
+            Parent newRoot = loader.load();
+            SceneControllerInt controller = loader.getController();
+            ((ViewSubject) controller).addAllListeners(observerList);
+            currentController = controller;
+
+            currentScene.setRoot(newRoot);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -55,7 +61,6 @@ public class SceneController extends ViewSubject {
         Scene scene = ((Node) event.getSource()).getScene();
         return changeMainPane(observerList, scene, fxml);
     }
-
 
     public static <T> T changeMainPane(List<ViewListener> observerList, Scene scene, String fxml) {
         T controller = null;
@@ -82,6 +87,14 @@ public class SceneController extends ViewSubject {
 
     public static void setCurrentController(SceneControllerInt currentController) {
         SceneController.currentController = currentController;
+    }
+
+    public static Scene getCurrentScene() {
+        return currentScene;
+    }
+
+    public static SceneControllerInt getCurrentController() {
+        return currentController;
     }
 }
 

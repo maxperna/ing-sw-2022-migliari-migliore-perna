@@ -20,6 +20,6 @@ public class WelcomeScreenController extends ViewSubject implements SceneControl
     }
 
     public void startButtonClick(Event event){
-        SceneController.changeMainPane(list, event,"LogInScene.fxml");
+        SceneController.changeRoot(list,"LogInScene.fxml");
     }
 }
