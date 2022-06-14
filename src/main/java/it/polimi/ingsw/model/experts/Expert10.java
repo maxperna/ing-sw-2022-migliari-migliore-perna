@@ -22,7 +22,7 @@ public class Expert10 implements ExpertCard {
         this.currentGame = currentGame;
     }
     @Override
-    public void useCard(Player user, ArrayList<Color> studentInside, ArrayList<Color> studentOutside) throws NotEnoughCoins,IllegalArgumentException {
+    public void useCard(Player user, ArrayList<Color> studentInside, ArrayList<Color> studentOutside) throws NotEnoughCoins, IllegalArgumentException, NotOnBoardException {
         if(user.getNumOfCoin()<cost){
             throw new NotEnoughCoins();
         }
@@ -56,7 +56,7 @@ public class Expert10 implements ExpertCard {
                 user.getBoard().addStudentsEntryRoom(colorInside);
                 user.getBoard().addStudentsDiningRoom(colorOutside);
             }
-            catch (NotEnoughSpace | NotOnBoardException e){
+            catch (NotEnoughSpace e){
                 e.printStackTrace();
             }
         }

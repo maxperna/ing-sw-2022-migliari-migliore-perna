@@ -100,7 +100,7 @@ public class Gui extends ViewSubject implements View {
     }
 
     @Override
-    public void showExpertCards(ArrayList<ExpertCard> expertList) {
+    public void showExpertCards(ArrayList<ExpertCard> availableExpertCards, ArrayList<ExpertCard> allExpertCards) {
 
     }
 
@@ -115,7 +115,7 @@ public class Gui extends ViewSubject implements View {
     }
 
     @Override
-    public void ActionPhaseTurn() {
+    public void ActionPhaseTurn(Boolean expert) {
 
     }
 
@@ -126,11 +126,6 @@ public class Gui extends ViewSubject implements View {
 
     @Override
     public void selectStudent(ArrayList<Color> students, int islands) {
-
-    }
-
-    @Override
-    public void chooseAction(Boolean expert) {
 
     }
 
@@ -162,12 +157,11 @@ public class Gui extends ViewSubject implements View {
     }
 
     @Override
-    public void playExpertType3(int cardID, Expert7 expert) {
-
+    public void playExpertType3(int cardID, Expert7 expert, ArrayList<Color> hallStudents) {
     }
 
     @Override
-    public void playExpertType3(int cardID, Expert10 expert) {
+    public void playExpertType3(int cardID, Expert10 expert, ArrayList<Color> hallStudents, Map<Color, Integer> diningStudents) {
 
     }
 
@@ -177,12 +171,18 @@ public class Gui extends ViewSubject implements View {
     }
 
     @Override
-    public void playExpertType4(int cardID, Expert5 expert) {
+    public void playExpertType5(int cardID, Expert1 expert) {
 
     }
 
     @Override
-    public void playExpertType5(int cardID, Expert1 expert) {
+    public void playExpertType5(int cardID, Expert5 expert) {
 
     }
+
+    @Override
+    public void chooseAction() {
+
+    }
+
 }

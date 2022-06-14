@@ -78,10 +78,6 @@ public class VirtualView implements View {
     }
 
     @Override
-    public void showExpertCards(ArrayList<ExpertCard> expertList) {
-        clientHandler.sendMessage(new ExpertCardReply(expertList));
-    }
-    @Override
     public void updateTeachers(Map<Color, Boolean> teacherList) {
         clientHandler.sendMessage(new TeacherListMessage(teacherList));
     }
@@ -138,7 +134,8 @@ public class VirtualView implements View {
         return clientHandler;
     }
 
-    public void ActionPhaseTurn(){}
+    @Override
+    public void ActionPhaseTurn(Boolean expert){}
 
     @Override
     public void connectionRequest() {
@@ -146,15 +143,14 @@ public class VirtualView implements View {
     }
 
     @Override
-    public void selectStudent(ArrayList<Color> students, int islands) {
+    public void showExpertCards(ArrayList<ExpertCard> allExpertCards, ArrayList<ExpertCard> availableExpertCards) {
 
     }
 
     @Override
-    public void chooseAction(Boolean expert) {
+    public void selectStudent(ArrayList<Color> students, int islands) {
 
     }
-
     @Override
     public void moveMotherNature() {
 
@@ -170,9 +166,8 @@ public class VirtualView implements View {
     public void sendNumberOfPlayers(int numberOfPlayers) {
         clientHandler.sendMessage((new NumberOfPlayersMessage(numberOfPlayers)));
     }
-
     @Override
-    public void playExpertType2(int cardID, Expert9 expert) {
+    public void playExpertType2(int cardID, Expert9 expert9) {
 
     }
 
@@ -187,12 +182,12 @@ public class VirtualView implements View {
     }
 
     @Override
-    public void playExpertType3(int cardID, Expert7 expert) {
+    public void playExpertType3(int cardID, Expert7 expert, ArrayList<Color> hallStudents) {
 
     }
 
     @Override
-    public void playExpertType3(int cardID, Expert10 expert) {
+    public void playExpertType3(int cardID, Expert10 expert, ArrayList<Color> hallStudents, Map<Color, Integer> diningStudents) {
 
     }
 
@@ -201,13 +196,20 @@ public class VirtualView implements View {
 
     }
 
-    @Override
-    public void playExpertType4(int cardID, Expert5 expert) {
-
-    }
 
     @Override
     public void playExpertType5(int cardID, Expert1 expert) {
 
     }
+
+    @Override
+    public void playExpertType5(int cardID, Expert5 expert) {
+
+    }
+
+    @Override
+    public void chooseAction() {
+
+    }
+
 }

@@ -10,6 +10,7 @@ import org.jetbrains.annotations.TestOnly;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.Serializable;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,7 +21,7 @@ import java.util.Collections;
  */
 
 
-public class IslandList {
+public class IslandList implements Serializable {
     private Node head;
     private boolean changed;
     private final PropertyChangeSupport support;

@@ -29,6 +29,8 @@ public interface ViewListener {
 
     void moveStudentToDinner(Color student);
 
+    void getExpertsCard();
+
     void getGameField();
 
     void catchAction(Message receivedMessage);
@@ -45,9 +47,9 @@ public interface ViewListener {
 
     void moveMotherNature(int numberOfSteps);
 
-    void chooseAction(int finalChosenAction);
+    //EXPERT CARD METHODS
 
-    void chooseExpertCard(int ID);
+    void chooseAction(int finalChosenAction);
 
     void playExpertCard1(int cardID);
 
@@ -59,4 +61,7 @@ public interface ViewListener {
 
     void playExpertCard5(ArrayList<Color> student1, ArrayList<Color> student2,int cardID);
 
+    void applyExpertEffect(int finalChosenExpert);
+
+    void getCoins();
 }

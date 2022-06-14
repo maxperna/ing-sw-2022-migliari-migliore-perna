@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.experts;
 
 import it.polimi.ingsw.exceptions.IllegalMove;
 import it.polimi.ingsw.exceptions.NotEnoughCoins;
+import it.polimi.ingsw.exceptions.NotOnBoardException;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Player;
 
@@ -51,7 +52,7 @@ public interface ExpertCard extends Serializable {
      * @param studentToSwapCard students to remove on the card
      * @throws NotEnoughCoins if player hasn't enough coins to activate the card
      * @throws IllegalMove if an illegal move is performed*/
-    default void useCard(Player userPlayer, ArrayList<Color> studentToSwapBoard, ArrayList<Color> studentToSwapCard) throws NotEnoughCoins, IllegalMove{}
+    default void useCard(Player userPlayer, ArrayList<Color> studentToSwapBoard, ArrayList<Color> studentToSwapCard) throws NotEnoughCoins, IllegalMove, NotOnBoardException {}
 
     /**Method to end the effect of the card if that last for an entire round*/
     void endEffect();

@@ -137,7 +137,6 @@ public class GameController implements PropertyChangeListener {
                 break;
 
             case ACTION_PHASE: //ActionPhaseLogic
-
                 if(receivedMessage.getType() == MOVE_TO_ISLAND) {
 
                     Color currentColor = ((MovedStudentToIsland)receivedMessage).getMovedStudent();
@@ -205,13 +204,8 @@ public class GameController implements PropertyChangeListener {
                 }
 
                 showGameInfo(receivedMessage, senderPlayer);
+            break;
 
-
-
-                if(receivedMessage.getType() == EXPERT_CARD_REQ){
-                    viewMap.get(senderPlayer).showExpertCards(game.getExpertsCard());
-                }
-                break;
         }
 
     }
@@ -299,7 +293,7 @@ public class GameController implements PropertyChangeListener {
                 break;
 
             case ACTION_PHASE:
-
+                viewMap.get(turnLogic.getActivePlayer().getNickname()).newCoin(turnLogic.getActivePlayer().getNickname(), game.getPlayerByNickName(turnLogic.getActivePlayer().getNickname()).getNumOfCoin());
                 Player nextPlayer = turnLogic.nextActivePlayer();
                 if(nextPlayer == null)
                 {
@@ -311,8 +305,6 @@ public class GameController implements PropertyChangeListener {
                 }
                 else
                     viewMap.get(nextPlayer.getNickname()).showCurrentPlayer(turnLogic.getActivePlayer().getNickname(), gameState);
-
-
                 break;
         }
         gameState = nextState;
@@ -377,6 +369,8 @@ public class GameController implements PropertyChangeListener {
             }
         }catch (IllegalMove|NotEnoughCoins e){
             viewMap.get(message.getSenderPlayer()).showError("Cannot play this card", EXPERT_ERROR);
+        } catch (NotOnBoardException e) {
+            viewMap.get(message.getSenderPlayer()).showError("This student is not available in your board", EXPERT_ERROR);
         }
     }
 
@@ -484,6 +478,14 @@ public class GameController implements PropertyChangeListener {
 
         if(messageReceived.getType() == GAME_FIELD)
             viewMap.get(senderPlayer).showGameField(generateGameFieldMap());
+
+        if(messageReceived.getType() == EXPERT_CARD_REQ) {
+            viewMap.get(senderPlayer).showExpertCards(game.getExpertsCard(), null);
+        }
+
+        if(messageReceived.getType() == GET_COINS) {
+            viewMap.get(senderPlayer).newCoin(senderPlayer, game.getPlayerByNickName(senderPlayer).getNumOfCoin());
+        }
 
     }
 

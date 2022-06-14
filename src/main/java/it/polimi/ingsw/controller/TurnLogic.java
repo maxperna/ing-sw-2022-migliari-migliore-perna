@@ -208,7 +208,7 @@ public class TurnLogic {
         currentGame.getExpertsCard().get(playedCard).useCard(player,student);
     }
 
-    public void playExpertCard(Player player, ArrayList<Color> studentSet1, ArrayList<Color> studentSet2,int playedCard) throws IllegalMove, NotEnoughCoins {
+    public void playExpertCard(Player player, ArrayList<Color> studentSet1, ArrayList<Color> studentSet2,int playedCard) throws IllegalMove, NotEnoughCoins, NotOnBoardException {
         currentGame.getExpertsCard().get(playedCard).useCard(player,studentSet1,studentSet2);
     }
 

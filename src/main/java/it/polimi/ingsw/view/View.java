@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.experts.*;
 import it.polimi.ingsw.model.gameField.Node;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.messages.ErrorType;
-import it.polimi.ingsw.observer.ViewSubject;
+import it.polimi.ingsw.network.messages.client_messages.ExpertMessages.*;
 import org.jetbrains.annotations.TestOnly;
 
 import java.util.ArrayList;
@@ -49,11 +49,6 @@ public interface View{
      * @param currentPlayer nickName of the player that will play
      */
     void showCurrentPlayer(String currentPlayer, GameState currentState);
-
-    /**Method to show all the experts, every player receives expertIDLists at the beginning of the game.
-     * @param expertList arrayList that contains all the experts in the game
-     */
-    void showExpertCards(ArrayList<ExpertCard> expertList);
 
     /**Each time a teacher changes every player receives his personal teacherList.
      * @param teacherList contains the teacher of the player
@@ -103,10 +98,9 @@ public interface View{
 
     void showAssistant(ArrayList<AssistantCard> deck);
 
-    @TestOnly
-    void ActionPhaseTurn();
-
     void connectionRequest();
+
+    void showExpertCards(ArrayList<ExpertCard> availableExpertCards, ArrayList<ExpertCard> allExpertCards);
 
     /**
      * method used to choose which student move and the destination
@@ -115,7 +109,7 @@ public interface View{
      */
     void selectStudent(ArrayList<Color> students, int islands);
 
-    void chooseAction(Boolean expert);
+    void ActionPhaseTurn(Boolean expert);
 
     void moveMotherNature();
 
@@ -123,20 +117,22 @@ public interface View{
 
     void sendNumberOfPlayers(int numberOfPlayers);
 
-    void playExpertType2(int cardID, Expert9 expert);
+    void playExpertType2(int cardID, Expert9 expert9);
 
     void playExpertType2(int cardID, Expert11 expert);
 
     void playExpertType2(int cardID, Expert12 expert);
 
-    void playExpertType3(int cardID, Expert7 expert);
+    void playExpertType3(int cardID, Expert7 expert, ArrayList<Color> hallStudents);
 
-    void playExpertType3(int cardID, Expert10 expert);
+    void playExpertType3(int cardID, Expert10 expert, ArrayList<Color> hallStudents, Map<Color, Integer> diningStudents);
 
     void playExpertType4(int cardID, Expert3 expert);
 
-    void playExpertType4(int cardID, Expert5 expert);
-
     void playExpertType5(int cardID, Expert1 expert);
-}
 
+    void playExpertType5(int cardID, Expert5 expert);
+
+    void chooseAction();
+
+}

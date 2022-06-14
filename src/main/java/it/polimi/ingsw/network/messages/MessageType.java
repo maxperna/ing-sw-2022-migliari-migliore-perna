@@ -65,7 +65,7 @@ public enum MessageType {
 
     NUMBER_PLAYERS,
 
-    NICK_REQ
+    COIN_REQUEST, GET_COINS, NICK_REQ
 
 
 }

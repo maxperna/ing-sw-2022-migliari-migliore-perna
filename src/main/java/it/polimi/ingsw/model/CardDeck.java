@@ -7,6 +7,7 @@ import org.jetbrains.annotations.TestOnly;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
@@ -14,7 +15,7 @@ import java.util.ArrayList;
  * @author Massimo
  */
 
-public class CardDeck {
+public class CardDeck implements Serializable {
 
     private final DeckType deckCharacter;
     private final ArrayList<AssistantCard> deck;
