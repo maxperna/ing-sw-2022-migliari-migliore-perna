@@ -143,8 +143,8 @@ public class VirtualView implements View {
     }
 
     @Override
-    public void showExpertCards(ArrayList<ExpertCard> allExpertCards, ArrayList<ExpertCard> availableExpertCards) {
-
+    public void showExpertCards(ArrayList<ExpertCard> allExpertCards) {
+        clientHandler.sendMessage(new ExpertCardReply(allExpertCards));
     }
 
     @Override

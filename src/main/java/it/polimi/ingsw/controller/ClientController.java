@@ -320,7 +320,7 @@ public class ClientController implements ViewListener, Listener {
                         expertsAvailable.add(expert);
                     }
                 }
-                actionQueue.execute(()->view.showExpertCards(expertsAvailable, expertCardsOnField));
+                actionQueue.execute(()->view.showExpertCards(expertCardsOnField));
                 break;
             case LAST_ASSISTANT:
                 LastCardMessage lastCardMessage = (LastCardMessage)  receivedMessage;

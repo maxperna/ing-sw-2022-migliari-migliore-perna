@@ -200,14 +200,6 @@ public class GameController implements PropertyChangeListener {
 
                 }
 
-                if(receivedMessage.getType() == EXPERT_CARD_REQ){
-                    ArrayList<ExpertCard> availableExpert = new ArrayList<>();
-                    for(ExpertCard expert: game.getExpertsCard()){
-                        if(game.getPlayerByNickName(senderPlayer).getNumOfCoin()>expert.getCost())
-                            availableExpert.add(expert);
-                    }
-                    viewMap.get(senderPlayer).showExpertCards(game.getExpertsCard(),availableExpert);
-                }
 
                 if(receivedMessage.getType() == PLAY_EXPERT_CARD) {
                     expertsHandling((PlayExpertCard) receivedMessage);
@@ -490,7 +482,7 @@ public class GameController implements PropertyChangeListener {
             viewMap.get(senderPlayer).showGameField(generateGameFieldMap());
 
         if(messageReceived.getType() == EXPERT_CARD_REQ) {
-            viewMap.get(senderPlayer).showExpertCards(game.getExpertsCard(), null);
+            viewMap.get(senderPlayer).showExpertCards(game.getExpertsCard());
         }
 
         if(messageReceived.getType() == GET_COINS) {

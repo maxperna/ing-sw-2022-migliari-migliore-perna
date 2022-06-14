@@ -100,7 +100,7 @@ public interface View{
 
     void connectionRequest();
 
-    void showExpertCards(ArrayList<ExpertCard> availableExpertCards, ArrayList<ExpertCard> allExpertCards);
+    void showExpertCards(ArrayList<ExpertCard> availableExpertCards);
 
     /**
      * method used to choose which student move and the destination
