@@ -15,7 +15,6 @@ import it.polimi.ingsw.observer.Listener;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.observer.ViewListener;
 import it.polimi.ingsw.view.cli.Cli;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,8 +37,6 @@ public class ClientController implements ViewListener, Listener {
     private int endTurnCounter;   //regulate the final phase of the action phase
     private int actionCounter;
     private boolean expert_mode;
-    private int coins;
-    private Board board;
 
     private int numOfPlayers;
 
@@ -202,9 +199,9 @@ public class ClientController implements ViewListener, Listener {
                 break;
             case TWO_LIST_COLOR: {
                 if(expertCardsOnField.get(cardID) instanceof Expert7)
-                    view.playExpertType3(cardID, (Expert7)expertCardsOnField.get(cardID), board.getEntryRoom());
+                    view.playExpertType3(cardID, (Expert7)expertCardsOnField.get(cardID));
                 else if (expertCardsOnField.get(cardID) instanceof Expert10)
-                    view.playExpertType3(cardID, (Expert10)expertCardsOnField.get(cardID), board.getEntryRoom(), board.getDiningRoom());
+                    view.playExpertType3(cardID, (Expert10)expertCardsOnField.get(cardID));
             }
                 break;
             case NODE_ID_COLOR: {
@@ -277,7 +274,6 @@ public class ClientController implements ViewListener, Listener {
                 break;
             case UPDATE_COIN:
                 UpdateCoin coinMessage = (UpdateCoin) receivedMessage;
-                coins = coinMessage.getCoinValue();
                 actionQueue.execute(() -> view.newCoin(nickname, coinMessage.getCoinValue()));
                 break;
             case NOTIFY_MERGE:
@@ -297,7 +293,6 @@ public class ClientController implements ViewListener, Listener {
             case SHOW_BOARD:
                 if(phase.equals(GameState.PREPARATION_PHASE)){
                     Map<String, Board> boardMap = ((BoardInfoMessage)receivedMessage).getBoardMap();
-                    board = boardMap.get(nickname);
                     boardMap.remove(nickname);
                     actionQueue.execute(() -> view.showBoard(boardMap));
                     actionQueue.execute(() -> view.chooseAction());
@@ -314,12 +309,6 @@ public class ClientController implements ViewListener, Listener {
                 //case PREPARATION_PHASE
             case EXPERT_CARD_REPLY:
                 expertCardsOnField = ((ExpertCardReply)receivedMessage).getExpertID();
-                ArrayList<ExpertCard> expertsAvailable = new ArrayList<>();
-                for(ExpertCard expert : expertCardsOnField) {
-                    if (expert.getCost() <= coins) {
-                        expertsAvailable.add(expert);
-                    }
-                }
                 actionQueue.execute(()->view.showExpertCards(expertCardsOnField));
                 break;
             case LAST_ASSISTANT:

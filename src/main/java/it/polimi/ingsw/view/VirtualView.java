@@ -5,6 +5,8 @@ import it.polimi.ingsw.model.experts.*;
 import it.polimi.ingsw.model.gameField.Node;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.messages.ErrorType;
+import it.polimi.ingsw.network.messages.client_messages.ExpertMessages.PlayExpertCard1;
+import it.polimi.ingsw.network.messages.client_messages.ExpertMessages.PlayExpertCard2;
 import it.polimi.ingsw.network.messages.client_messages.GameParamRequest;
 import it.polimi.ingsw.network.messages.server_messages.*;
 import it.polimi.ingsw.network.server.ClientHandler;
@@ -168,7 +170,6 @@ public class VirtualView implements View {
     }
     @Override
     public void playExpertType2(int cardID, Expert9 expert9) {
-
     }
 
     @Override
@@ -182,12 +183,12 @@ public class VirtualView implements View {
     }
 
     @Override
-    public void playExpertType3(int cardID, Expert7 expert, ArrayList<Color> hallStudents) {
+    public void playExpertType3(int cardID, Expert7 expert) {
 
     }
 
     @Override
-    public void playExpertType3(int cardID, Expert10 expert, ArrayList<Color> hallStudents, Map<Color, Integer> diningStudents) {
+    public void playExpertType3(int cardID, Expert10 expert) {
 
     }
 

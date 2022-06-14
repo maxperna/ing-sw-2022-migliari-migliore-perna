@@ -157,11 +157,11 @@ public class Gui extends ViewSubject implements View {
     }
 
     @Override
-    public void playExpertType3(int cardID, Expert7 expert, ArrayList<Color> hallStudents) {
+    public void playExpertType3(int cardID, Expert7 expert) {
     }
 
     @Override
-    public void playExpertType3(int cardID, Expert10 expert, ArrayList<Color> hallStudents, Map<Color, Integer> diningStudents) {
+    public void playExpertType3(int cardID, Expert10 expert) {
 
     }
 

@@ -100,7 +100,7 @@ public interface View{
 
     void connectionRequest();
 
-    void showExpertCards(ArrayList<ExpertCard> availableExpertCards);
+    void showExpertCards(ArrayList<ExpertCard> allExpertCards);
 
     /**
      * method used to choose which student move and the destination
@@ -123,9 +123,9 @@ public interface View{
 
     void playExpertType2(int cardID, Expert12 expert);
 
-    void playExpertType3(int cardID, Expert7 expert, ArrayList<Color> hallStudents);
+    void playExpertType3(int cardID, Expert7 expert);
 
-    void playExpertType3(int cardID, Expert10 expert, ArrayList<Color> hallStudents, Map<Color, Integer> diningStudents);
+    void playExpertType3(int cardID, Expert10 expert);
 
     void playExpertType4(int cardID, Expert3 expert);
 
