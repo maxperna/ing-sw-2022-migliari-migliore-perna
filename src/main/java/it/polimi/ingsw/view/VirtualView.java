@@ -158,8 +158,8 @@ public class VirtualView implements View {
 
     }
 
-    public void worldUpdate(Map<Integer, Node> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap, String currentPlayer) {
-        clientHandler.sendMessage(new WorldChangeMessage(gameFieldMap, chargedClouds, boardMap, currentPlayer));
+    public void worldUpdate(Map<Integer, Node> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap, String currentPlayer, ArrayList<ExpertCard> experts) {
+        clientHandler.sendMessage(new WorldChangeMessage(gameFieldMap, chargedClouds, boardMap, currentPlayer, experts));
     }
 
     public void chooseCloudTile(int cloudID){}
@@ -174,43 +174,38 @@ public class VirtualView implements View {
 
     @Override
     public void playExpertType2(int cardID, Expert11 expert) {
-
     }
 
     @Override
     public void playExpertType2(int cardID, Expert12 expert) {
-
     }
 
     @Override
     public void playExpertType3(int cardID, Expert7 expert) {
-
     }
 
     @Override
     public void playExpertType3(int cardID, Expert10 expert) {
-
     }
 
     @Override
     public void playExpertType4(int cardID, Expert3 expert) {
-
     }
 
 
     @Override
     public void playExpertType5(int cardID, Expert1 expert) {
-
     }
 
     @Override
     public void playExpertType5(int cardID, Expert5 expert) {
-
     }
 
     @Override
     public void chooseAction() {
-
     }
 
+    public void chooseExpertCard() {
+
+    };
 }

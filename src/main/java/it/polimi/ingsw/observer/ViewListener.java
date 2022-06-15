@@ -55,13 +55,15 @@ public interface ViewListener {
 
     void playExpertCard2(int cardID,int nodeID);
 
-    void playExpertCard3(int nodeID,Color student,int cardID);
+    void playExpertCard3(int cardID, int nodeID,Color student);
 
-    void playExpertCard4(Color student,int cardID);
+    void playExpertCard4(int cardID, Color student);
 
-    void playExpertCard5(ArrayList<Color> student1, ArrayList<Color> student2,int cardID);
+    void playExpertCard5(int cardID, ArrayList<Color> student1, ArrayList<Color> student2);
 
     void applyExpertEffect(int finalChosenExpert);
 
     void getCoins();
+
+    void askAction();
 }

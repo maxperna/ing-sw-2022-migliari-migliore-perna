@@ -135,4 +135,7 @@ public interface View{
 
     void chooseAction();
 
+    void chooseExpertCard();
+
+
 }

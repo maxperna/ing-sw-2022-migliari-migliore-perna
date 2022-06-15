@@ -156,17 +156,17 @@ public class ClientController implements ViewListener, Listener {
     }
 
     @Override
-    public void playExpertCard3(int nodeID,Color student,int cardID) {
+    public void playExpertCard3(int cardID, int nodeID, Color student) {
         client.sendMessage(new PlayExpertCard3(nickname,nodeID,student,cardID));
     }
 
     @Override
-    public void playExpertCard4(Color student,int cardID){
+    public void playExpertCard4(int cardID, Color student){
         client.sendMessage(new PlayExpertCard4(nickname,student,cardID));
     }
 
     @Override
-    public void playExpertCard5(ArrayList<Color> student1, ArrayList<Color> student2,int cardID) {
+    public void playExpertCard5(int cardID, ArrayList<Color> student1, ArrayList<Color> student2) {
         client.sendMessage(new PlayExpertCard5(nickname,student1,student2,cardID));
     }
 
@@ -309,7 +309,7 @@ public class ClientController implements ViewListener, Listener {
                 //case PREPARATION_PHASE
             case EXPERT_CARD_REPLY:
                 expertCardsOnField = ((ExpertCardReply)receivedMessage).getExpertID();
-                actionQueue.execute(()->view.showExpertCards(expertCardsOnField));
+                actionQueue.execute(view::chooseExpertCard);
                 break;
             case LAST_ASSISTANT:
                 LastCardMessage lastCardMessage = (LastCardMessage)  receivedMessage;
@@ -425,7 +425,12 @@ public class ClientController implements ViewListener, Listener {
         ((Cli)view).clearCli();
         view.showGameField(message.getGameFieldMap());
         view.showClouds(message.getChargedClouds());
+        view.showExpertCards(message.getExperts());
         view.printBoard(message.getBoardMap().get(nickname), nickname);
+    }
+
+    public void askAction() {
+        view.ActionPhaseTurn(expert_mode);
     }
 
 

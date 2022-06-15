@@ -672,28 +672,11 @@ public class Cli extends ViewSubject implements View {
     @Override
     public void showExpertCards(ArrayList<ExpertCard> allExpertCards) {
         int index = 1;
-        int chosenExpert=0;
-        boolean valid = true;
-        do {
-            index = 1;
-            for (ExpertCard expert : allExpertCards) {
-                System.out.println("Expert ["+index+"]\nExpert card cost: " + expert.getCost() + "\nExpert card effect: " + expert.getExpDescription());
-                index++;
-                System.out.println();
-            }
-            System.out.print("Write the ID of the Expert card you want to play: ");
-            try {
-                chosenExpert = Integer.parseInt(read())-1;
-            } catch (ExecutionException | NumberFormatException e) {
-                valid = false;
-            }
-            if(chosenExpert<0 || chosenExpert>2)
-                valid = false;
-            if(!valid)
-                System.out.println("Error. Invalid parameter");
-        } while (chosenExpert<0 || chosenExpert>2);
-        int finalChosenExpert = chosenExpert;
-        notifyListener(list -> list.applyExpertEffect(finalChosenExpert));
+        for (ExpertCard expert : allExpertCards) {
+            System.out.println("Expert [" + index + "]\nExpert card cost: " + expert.getCost() + "\nExpert card effect: " + expert.getExpDescription());
+            index++;
+            System.out.println();
+        }
     }
 
     /**
@@ -1097,7 +1080,7 @@ public class Cli extends ViewSubject implements View {
                     try {
                         choice = Integer.parseInt(read());
 
-                        if (choice == 1 || choice == 2)
+                        if (choice>0 && choice<13)
                             valid = true;
 
                     } catch (NumberFormatException | ExecutionException e) {
@@ -1290,19 +1273,19 @@ public class Cli extends ViewSubject implements View {
 
         switch (chosenColor) {
             case 1:
-                notifyListener(list -> list.playExpertCard4(Color.RED, cardID));
+                notifyListener(list -> list.playExpertCard4(cardID, Color.RED));
                 break;
             case 2:
-                notifyListener(list -> list.playExpertCard4(Color.PINK, cardID));
+                notifyListener(list -> list.playExpertCard4(cardID, Color.PINK));
                 break;
             case 3:
-                notifyListener(list -> list.playExpertCard4(Color.GREEN, cardID));
+                notifyListener(list -> list.playExpertCard4(cardID, Color.GREEN));
                 break;
             case 4:
-                notifyListener(list -> list.playExpertCard4(Color.YELLOW, cardID));
+                notifyListener(list -> list.playExpertCard4(cardID, Color.YELLOW));
                 break;
             case 5:
-                notifyListener(list -> list.playExpertCard4(Color.BLUE, cardID));
+                notifyListener(list -> list.playExpertCard4(cardID, Color.BLUE));
                 break;
 
         }
@@ -1332,7 +1315,7 @@ public class Cli extends ViewSubject implements View {
         } while(chosenStudent < 0 || chosenStudent > expert.getStudentsOnCard().size()-1);
 
         int finalChosenStudent = chosenStudent;
-        notifyListener(list -> list.playExpertCard4(expert.getStudentsOnCard().get(finalChosenStudent), cardID));
+        notifyListener(list -> list.playExpertCard4(cardID, expert.getStudentsOnCard().get(finalChosenStudent)));
     }
 
     /**
@@ -1354,19 +1337,19 @@ public class Cli extends ViewSubject implements View {
 
         switch (chosenColor) {
             case 1:
-                notifyListener(list -> list.playExpertCard4(Color.RED, cardID));
+                notifyListener(list -> list.playExpertCard4(cardID, Color.RED));
                 break;
             case 2:
-                notifyListener(list -> list.playExpertCard4(Color.PINK, cardID));
+                notifyListener(list -> list.playExpertCard4(cardID, Color.PINK));
                 break;
             case 3:
-                notifyListener(list -> list.playExpertCard4(Color.GREEN, cardID));
+                notifyListener(list -> list.playExpertCard4(cardID, Color.GREEN));
                 break;
             case 4:
-                notifyListener(list -> list.playExpertCard4(Color.YELLOW, cardID));
+                notifyListener(list -> list.playExpertCard4(cardID, Color.YELLOW));
                 break;
             case 5:
-                notifyListener(list -> list.playExpertCard4(Color.BLUE, cardID));
+                notifyListener(list -> list.playExpertCard4(cardID, Color.BLUE));
                 break;
         }
     }
@@ -1439,7 +1422,7 @@ public class Cli extends ViewSubject implements View {
                     break;
             }
         }
-        notifyListener(list -> list.playExpertCard5(toEntryHall, toCard, cardID));
+        notifyListener(list -> list.playExpertCard5( cardID, toEntryHall, toCard));
     }
 
     /**
@@ -1490,8 +1473,9 @@ public class Cli extends ViewSubject implements View {
                     break;
 
             }
+        }
 
-            for (i = 0; i < maxStudent; i++) {
+            for (int i = 0; i < maxStudent; i++) {
                 do {
                     System.out.println("Choose the student you want to move from your dining room to your entry hall: [1] RED, [2] PINK, [3] GREEN, [4] YELLOW, [5] BLUE");
                     try {
@@ -1520,8 +1504,7 @@ public class Cli extends ViewSubject implements View {
 
 
                 }
-                notifyListener(list -> list.playExpertCard5(toDiningRoom, toEntryHall, cardID));
-            }
+            notifyListener(list -> list.playExpertCard5(cardID ,toDiningRoom, toEntryHall));
         }
     }
 
@@ -1584,7 +1567,7 @@ public class Cli extends ViewSubject implements View {
         } while(chosenID < 0 || chosenID > 12);
         int finalChosenID = chosenID;
         int finalChosenStudent = chosenStudent;
-        notifyListener(list -> list.playExpertCard3(finalChosenID, expert.getStudentsOnCard().get(finalChosenStudent), cardID));
+        notifyListener(list -> list.playExpertCard3(cardID, finalChosenID, expert.getStudentsOnCard().get(finalChosenStudent)));
     }
 
     public void playExpertType5(int cardID, Expert5 expert) {
@@ -1600,7 +1583,7 @@ public class Cli extends ViewSubject implements View {
             }
         } while (chosenID < 0 || chosenID > 12);
         int finalChosenID = chosenID;
-        notifyListener(list -> list.playExpertCard2(finalChosenID, cardID));
+        notifyListener(list -> list.playExpertCard2(cardID, finalChosenID));
     }
 
     @Override
@@ -1664,6 +1647,30 @@ public class Cli extends ViewSubject implements View {
             }
         } while (!indexColorMap.containsKey(choice));
         return indexColorMap.get(choice);
+    }
+
+    @Override
+    public void chooseExpertCard() {
+        int chosenExpert = 0;
+        boolean valid = true;
+        do{
+            System.out.println("Write the ID of the Expert card you want to play: [0] to return");
+            try {
+                chosenExpert = Integer.parseInt(read())-1;
+            } catch (ExecutionException | NumberFormatException e) {
+                valid = false;
+            }
+            if(chosenExpert<-1 || chosenExpert>2)
+                valid = false;
+            if(!valid)
+                System.out.println("Error. Invalid parameter");
+        } while (chosenExpert<-1 || chosenExpert>2);
+
+        if(chosenExpert == -1) {
+            notifyListener(ViewListener::askAction);
+        }
+        int finalChosenExpert = chosenExpert;
+        notifyListener(list -> list.applyExpertEffect(finalChosenExpert));
     }
 
 }

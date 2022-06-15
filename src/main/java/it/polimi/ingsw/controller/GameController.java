@@ -398,7 +398,7 @@ public class GameController implements PropertyChangeListener {
 
         if(event.getPropertyName().equals("UpdateCloud")) {
             for (String nickName : viewMap.keySet()) {
-                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), turnLogic.getActivePlayer().getNickname());
+                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), turnLogic.getActivePlayer().getNickname(), game.getExpertsCard());
             }
         }
 
@@ -409,20 +409,20 @@ public class GameController implements PropertyChangeListener {
 //            int nodeID = Integer.parseInt(intValue);
 
             for (String nickName : viewMap.keySet()) {
-                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), turnLogic.getActivePlayer().getNickname());
+                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), turnLogic.getActivePlayer().getNickname(), game.getExpertsCard());
             }
         }
 
         if(event.getPropertyName().equals("UpdateTeacher")) {
             for (String nickName : viewMap.keySet()) {
-                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), turnLogic.getActivePlayer().getNickname());
+                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), turnLogic.getActivePlayer().getNickname(), game.getExpertsCard());
             }
         }
 
         if(event.getPropertyName().equals("Merge")) {
 
             for (String nickName : viewMap.keySet()) {
-                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), turnLogic.getActivePlayer().getNickname());
+                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), turnLogic.getActivePlayer().getNickname(), game.getExpertsCard());
             }
         }
 
@@ -443,7 +443,7 @@ public class GameController implements PropertyChangeListener {
 //                System.out.println("Non funziona la lettura da stringa");
 
             for (String nickName : viewMap.keySet()) {
-                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), turnLogic.getActivePlayer().getNickname());
+                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), turnLogic.getActivePlayer().getNickname(), game.getExpertsCard());
             }
         }
     }
@@ -481,12 +481,12 @@ public class GameController implements PropertyChangeListener {
         if(messageReceived.getType() == GAME_FIELD)
             viewMap.get(senderPlayer).showGameField(generateGameFieldMap());
 
-        if(messageReceived.getType() == EXPERT_CARD_REQ) {
-            viewMap.get(senderPlayer).showExpertCards(game.getExpertsCard());
-        }
-
         if(messageReceived.getType() == GET_COINS) {
             viewMap.get(senderPlayer).newCoin(senderPlayer, game.getPlayerByNickName(senderPlayer).getNumOfCoin());
+        }
+
+        if(messageReceived.getType() == EXPERT_CARD_REQ) {
+            viewMap.get(senderPlayer).showExpertCards(game.getExpertsCard());
         }
 
     }
