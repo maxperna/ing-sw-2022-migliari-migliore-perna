@@ -33,7 +33,7 @@ public class Expert2 implements ExpertCard {
             throw new NotEnoughCoins("You cant afford this card");
         }
         else{
-            currentGame.coinHandler(user,this.cost);
+            currentGame.coinHandler(user,-this.cost);
             this.cost++;
             this.usingPlayer = user;
             currentGame.setActiveExpertsCard(this);

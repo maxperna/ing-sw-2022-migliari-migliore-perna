@@ -30,7 +30,7 @@ public class Expert5 implements ExpertCard {
             throw new NotEnoughCoins();
         }
         else if(stopAvailable>0){
-            currentGame.coinHandler(user,this.cost);
+            currentGame.coinHandler(user,-this.cost);
             this.cost++;
             currentGame.setActiveExpertsCard(this);
             Node targetIsland = currentGame.getGameField().getIslandNode(nodeID);

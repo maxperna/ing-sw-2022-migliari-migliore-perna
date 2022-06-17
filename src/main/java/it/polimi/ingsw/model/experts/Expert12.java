@@ -26,7 +26,7 @@ public class Expert12 implements ExpertCard {
         if(user.getNumOfCoin()<cost) throw new NotEnoughCoins();
 
         else{
-            currentGame.coinHandler(user,this.cost);
+            currentGame.coinHandler(user,-this.cost);
             this.cost++;
             currentGame.setActiveExpertsCard(this);
             //Temporary list

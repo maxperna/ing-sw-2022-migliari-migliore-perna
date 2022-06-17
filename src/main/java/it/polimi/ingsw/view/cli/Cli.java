@@ -985,9 +985,9 @@ public class Cli extends ViewSubject implements View {
         for (int i = 1; i < 11; i++) {
             if (i < numOfColor + 1) {
                 System.out.print("   " + toColor(color, "●") + "   ");
-            } else if (i % 3 == 0 && i > numOfColor + 1)
+            } else if (i % 3 == 0 && i > numOfColor)
                 System.out.print("   ?   ");
-            else if (i % 3 == 0 && i < numOfColor + 1)
+            else if (i % 3 == 0 && i < numOfColor)
                 System.out.print("   " + toColor(color, "⦾" + ANSI_RESET + "   |"));
             else if (i != 10)
                 System.out.print("   -   ");
@@ -1193,8 +1193,8 @@ public class Cli extends ViewSubject implements View {
                 else
                     valid = true;
 
-            } catch (ExecutionException e) {
-                System.out.println("error. Invalid parameter");
+            } catch (ExecutionException | NumberFormatException e) {
+                System.out.println("Error. Invalid parameter");
                 valid = false;
             }
 
@@ -1367,7 +1367,7 @@ public class Cli extends ViewSubject implements View {
         int maxStudent = 0;
 
         do {
-            System.out.print("Choose the number of student you want to swap (up to 3): ");
+            System.out.print("Choose the number of students you want to swap (up to 3): ");
             try {
                 maxStudent = Integer.parseInt(read());
             } catch (ExecutionException | NumberFormatException e) {
@@ -1381,7 +1381,7 @@ public class Cli extends ViewSubject implements View {
 
             do {
                 index=1;
-                System.out.println("Choose the students you want to move to your entry hall");
+                System.out.println("Choose the student you want to move to your entry hall");
                 for (Color student : expert.getStudentsOnCard()) {
                     System.out.println("["+index+"] "+toColor(student, "●"));
                     index++;
@@ -1392,17 +1392,20 @@ public class Cli extends ViewSubject implements View {
                     System.out.println("Error. Invalid parameter");
                 }
             } while(chosenStudent < 0 || chosenStudent > expert.getStudentsOnCard().size()-1);
+
+            toEntryHall.add(expert.getStudentsOnCard().get(chosenStudent));
+            expert.getStudentsOnCard().remove(chosenStudent);
         }
 
         for (int i = 0; i < maxStudent; i++) {
             do {
                 System.out.println("Choose the student you want to place on the card: [1] RED, [2] PINK, [3] GREEN, [4] YELLOW, [5] BLUE");
                 try {
-                    chosenColor = Integer.parseInt(read()) - 1;
+                    chosenColor = Integer.parseInt(read());
                 } catch (ExecutionException e) {
                     System.out.println("Error. Invalid input");
                 }
-            } while (chosenColor < 0 || chosenColor >= 5);
+            } while (chosenColor < 1 || chosenColor > 5);
 
             switch (chosenColor) {
                 case 1:
@@ -1667,7 +1670,7 @@ public class Cli extends ViewSubject implements View {
         } while (chosenExpert<-1 || chosenExpert>2);
 
         if(chosenExpert == -1) {
-            notifyListener(ViewListener::askAction);
+            notifyListener(list -> list.askAction(true));
         }
         int finalChosenExpert = chosenExpert;
         notifyListener(list -> list.applyExpertEffect(finalChosenExpert));

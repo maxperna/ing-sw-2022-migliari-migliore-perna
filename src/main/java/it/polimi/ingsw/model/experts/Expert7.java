@@ -29,22 +29,21 @@ public class Expert7 implements ExpertCard {
         }
     }
     @Override
-    public void useCard(Player user,ArrayList<Color> studentToSwapBoard, ArrayList<Color> studentToSwapCard) throws NotEnoughCoins,IllegalMove {
+    public void useCard(Player user, ArrayList<Color> studentToSwapCard, ArrayList<Color> studentToSwapBoard) throws NotEnoughCoins,IllegalMove {
         if(user.getNumOfCoin()<this.cost){
-            throw new NotEnoughCoins("You cant afford this card");
+            throw new NotEnoughCoins("You don't have enough coins to use this card\n");
         }
         else{
-            currentGame.coinHandler(user,this.cost);
+            currentGame.coinHandler(user,-this.cost);
             this.cost++;
             currentGame.setActiveExpertsCard(this);
-            if(studentToSwapBoard.size()!=studentToSwapCard.size() || studentToSwapBoard.size()>3)
+            /*if(studentToSwapBoard.size()!=studentToSwapCard.size() || studentToSwapBoard.size()>3)
                 throw new IllegalMove("Not the same number of student");
-            try {
+            */try {
+                for(Color colorToRM:studentToSwapCard)
+                this.studentsOnCard.remove(colorToRM);
                 this.studentsOnCard.addAll(user.getBoard().moveFromEntryRoom(studentToSwapBoard));
                 user.getBoard().addStudentsEntryRoom(studentToSwapCard);
-                for(Color colorToRM:studentToSwapCard)
-                    this.studentsOnCard.remove(colorToRM);
-
             }
             catch (NotOnBoardException | NotEnoughSpace e){
                 throw new IllegalMove("No students on board");

@@ -270,6 +270,10 @@ public class GameController implements PropertyChangeListener {
 
                     nextState = GameState.PREPARATION_PHASE;
 
+                    for (String nickName : viewMap.keySet()) {
+                        viewMap.get(nickName).setExpertMode(game.EXP_MODE);
+                    }
+
                 }
                 break;
 
@@ -353,27 +357,38 @@ public class GameController implements PropertyChangeListener {
             switch (message.getExpID()) {
                 case 1:
                     turnLogic.playExpertCard(player, playedCard);
+                    viewMap.get(message.getSenderPlayer()).ActionPhaseTurn(false);
                 case 2:
                     PlayExpertCard2 castedMessage1 = (PlayExpertCard2) message;
                     turnLogic.playExpertCard(player, castedMessage1.getNodeID(), playedCard);
+                    viewMap.get(message.getSenderPlayer()).ActionPhaseTurn(false);
                 case 3:
                     assert message instanceof PlayExpertCard3;
                     PlayExpertCard3 castedMessage2 = (PlayExpertCard3) message;
                     turnLogic.playExpertCard(player, castedMessage2.getNodeID(), castedMessage2.getStudent(), playedCard);
+                    viewMap.get(message.getSenderPlayer()).ActionPhaseTurn(false);
                 case 4:
                     assert message instanceof PlayExpertCard4;
                     PlayExpertCard4 castedMessage3 = (PlayExpertCard4) message;
                     turnLogic.playExpertCard(player, castedMessage3.getStudent(), playedCard);
+                    viewMap.get(message.getSenderPlayer()).ActionPhaseTurn(false);
                 case 5:
                     assert message instanceof PlayExpertCard5;
                     PlayExpertCard5 castedMessage4 = (PlayExpertCard5) message;
                     turnLogic.playExpertCard(player, castedMessage4.getStudents1(), castedMessage4.getStudents2(), playedCard);
+                    viewMap.get(message.getSenderPlayer()).ActionPhaseTurn(false);
             }
-        }catch (IllegalMove|NotEnoughCoins e){
-            viewMap.get(message.getSenderPlayer()).showError("Cannot play this card", EXPERT_ERROR);
+        } catch (IllegalMove e) {
+            viewMap.get(message.getSenderPlayer()).showError(e.getMessage(), EXPERT_ERROR);
+            viewMap.get(message.getSenderPlayer()).chooseExpertCard();
         } catch (NotOnBoardException e) {
-            viewMap.get(message.getSenderPlayer()).showError("This student is not available in your board", EXPERT_ERROR);
+            viewMap.get(message.getSenderPlayer()).showError(e.getMessage(), EXPERT_ERROR);
+            viewMap.get(message.getSenderPlayer()).chooseExpertCard();
+        } catch (NotEnoughCoins e) {
+            viewMap.get(message.getSenderPlayer()).showError(e.getMessage(), EXPERT_ERROR);
+            viewMap.get(message.getSenderPlayer()).chooseExpertCard();
         }
+
     }
 
     /**

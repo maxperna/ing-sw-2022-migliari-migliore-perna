@@ -368,6 +368,10 @@ public class ClientController implements ViewListener, Listener {
                 }
 
                 break;
+            case GAMEPARAM:
+                ExpertModeNotify expert = (ExpertModeNotify) receivedMessage;
+                setExpertMode(expert.getExpertMode());
+                break;
             /*CASE TYPE:
              *   richiedere un aggiornamento alla view*/
         }
@@ -425,14 +429,17 @@ public class ClientController implements ViewListener, Listener {
         ((Cli)view).clearCli();
         view.showGameField(message.getGameFieldMap());
         view.showClouds(message.getChargedClouds());
-        view.showExpertCards(message.getExperts());
         view.printBoard(message.getBoardMap().get(nickname), nickname);
+        view.showExpertCards(message.getExperts());
     }
 
-    public void askAction() {
+    public void askAction(Boolean expert_mode) {
         view.ActionPhaseTurn(expert_mode);
     }
 
-
+    @Override
+    public void setExpertMode(Boolean expertMode) {
+        this.expert_mode = expertMode;
+    }
 
 }

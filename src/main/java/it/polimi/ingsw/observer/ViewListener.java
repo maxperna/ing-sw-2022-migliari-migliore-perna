@@ -14,7 +14,7 @@ import java.util.concurrent.ExecutionException;
  */
 public interface ViewListener {
 
-    void connectionRequest(HashMap<String,String> connectionInfo);
+    void connectionRequest(HashMap<String, String> connectionInfo);
 
     void sendNickname(String nickname);
 
@@ -22,10 +22,12 @@ public interface ViewListener {
 
     void chooseCloudTile(int ID);
 
-    /**Method to get boards*/
+    /**
+     * Method to get boards
+     */
     void getBoards();
 
-    void moveStudentToIsland(Color student,int nodeID);
+    void moveStudentToIsland(Color student, int nodeID);
 
     void moveStudentToDinner(Color student);
 
@@ -53,9 +55,9 @@ public interface ViewListener {
 
     void playExpertCard1(int cardID);
 
-    void playExpertCard2(int cardID,int nodeID);
+    void playExpertCard2(int cardID, int nodeID);
 
-    void playExpertCard3(int cardID, int nodeID,Color student);
+    void playExpertCard3(int cardID, int nodeID, Color student);
 
     void playExpertCard4(int cardID, Color student);
 
@@ -65,5 +67,7 @@ public interface ViewListener {
 
     void getCoins();
 
-    void askAction();
+    void askAction(Boolean expert_mode);
+
+    void setExpertMode(Boolean expertMode);
 }

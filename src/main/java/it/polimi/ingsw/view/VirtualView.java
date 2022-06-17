@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.experts.*;
 import it.polimi.ingsw.model.gameField.Node;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.messages.ErrorType;
+import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.network.messages.client_messages.ExpertMessages.PlayExpertCard1;
 import it.polimi.ingsw.network.messages.client_messages.ExpertMessages.PlayExpertCard2;
 import it.polimi.ingsw.network.messages.client_messages.GameParamRequest;
@@ -137,7 +138,9 @@ public class VirtualView implements View {
     }
 
     @Override
-    public void ActionPhaseTurn(Boolean expert){}
+    public void ActionPhaseTurn(Boolean expert){
+        //da inserire il metodo askAction(false) per richiedere solo lo spostamento degli studenti, aggiungere un check se tale spostamento è avvenuto prima di chiamare direttamente moveMotherNature
+    }
 
     @Override
     public void connectionRequest() {
@@ -207,5 +210,13 @@ public class VirtualView implements View {
 
     public void chooseExpertCard() {
 
-    };
+    }
+
+    public void askAction(boolean expert_mode) {
+
+    }
+    public void setExpertMode(boolean expertMode){
+        clientHandler.sendMessage(new ExpertModeNotify(expertMode));
+    }
+
 }

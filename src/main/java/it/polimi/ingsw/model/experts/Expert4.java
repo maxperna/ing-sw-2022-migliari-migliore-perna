@@ -19,7 +19,7 @@ public class Expert4 implements ExpertCard {
     public void useCard(Player user) throws NotEnoughCoins {
         if(user.getNumOfCoin()<cost) throw new NotEnoughCoins();
         else{
-            currentGame.coinHandler(user,this.cost);
+            currentGame.coinHandler(user,-this.cost);
             this.cost++;
             currentGame.setActiveExpertsCard(this);
         }

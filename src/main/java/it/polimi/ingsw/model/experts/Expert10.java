@@ -28,19 +28,21 @@ public class Expert10 implements ExpertCard {
         }
 
         else{
-            currentGame.coinHandler(user,this.cost);
+            currentGame.coinHandler(user,-this.cost);
             this.cost++;
             currentGame.setActiveExpertsCard(this);
 
             //Check correctness of the parameters
             if(!user.getBoard().getEntryRoom().containsAll(studentOutside))
                 throw new IllegalArgumentException("No students on board");
+            if(user.getBoard().getDiningRoom().size()==0)
+                throw new NotOnBoardException("There are no students in your dining room");
 
             int i = 0;
             Color previousColor = studentInside.get(i);
             for(Color color: studentInside){
                 if(i==1 && color.equals(previousColor))
-                    if(user.getBoard().getDiningRoom().get(color)<2)
+                    if(user.getBoard().getDiningRoom().get(color)<studentInside.size())
                         throw new IllegalArgumentException("No student inside dining room");
                 else
                     if(user.getBoard().getDiningRoom().get(color)==0)

@@ -54,7 +54,7 @@ public class ClientHandler implements Runnable {
     /**
      * Client messages listening handler
      *
-     * @throws IOException if the are problem with the socket
+     * @throws IOException if there are problem with the socket
      */
     private void handleClientConnection() throws IOException {
 
@@ -62,7 +62,7 @@ public class ClientHandler implements Runnable {
             while (!Thread.currentThread().isInterrupted()) {
                 //Synchronization on the input
                 synchronized (this){
-                    Message receivedMessage = (Message) input.readObject();
+                    Message receivedMessage = (Message) input.readObject(); //**********************************************
                     if (receivedMessage.getType() == MessageType.LOGIN)
                         serverSocket.addClient(receivedMessage.getSenderPlayer(), this);
 //                  serverSocket.addClient(message.getNick,m.getColorTowe,m.getassistant,this);
@@ -72,8 +72,10 @@ public class ClientHandler implements Runnable {
                     }
                 }
             }
-        } catch (ClassNotFoundException | ClassCastException e) {
+        } catch (ClassNotFoundException e){
             Server.LOGGER.severe("Client input not valid");
+        } catch (ClassCastException e) {
+            Server.LOGGER.severe("Other error");
         }
         clientSocket.close();
     }

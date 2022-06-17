@@ -22,7 +22,7 @@ public class Expert3 implements ExpertCard {
             throw new NotEnoughCoins("You cant afford this card");
         }
         else{
-            currentGame.coinHandler(user,this.cost);
+            currentGame.coinHandler(user,-this.cost);
             this.cost++;
             currentGame.setActiveExpertsCard(this);
             try{
