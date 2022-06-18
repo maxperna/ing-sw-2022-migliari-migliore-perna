@@ -89,14 +89,10 @@ public class GameController implements PropertyChangeListener {
                         nextState();
                     }
                     catch (CardAlreadyPlayed e) {
-                        for (String nickName : viewMap.keySet()) {
-                            viewMap.get(nickName).showError("CardAlreadyPlayed", ASSISTANT_ERROR);
-                        }
+                            viewMap.get(senderPlayer).showError("CardAlreadyPlayed", ASSISTANT_ERROR);
                     }
                     catch (InexistentCard e) {
-                        for (String nickName : viewMap.keySet()) {
-                            viewMap.get(nickName).showError("Card not found", ASSISTANT_ERROR);
-                        }
+                            viewMap.get(senderPlayer).showError("Card not found", ASSISTANT_ERROR);
                     }
                     catch (EndGameException e) {
 
@@ -146,10 +142,9 @@ public class GameController implements PropertyChangeListener {
                     try {
                         game.getPlayerByNickName(senderPlayer).getBoard().moveToIsland(currentColor, islandID);
                     } catch (NotOnBoardException e) {
-
-                        for (String nickName : viewMap.keySet()) {
-                            viewMap.get(nickName).showError("Student not found", STUDENT_ERROR);
-                        }
+                        viewMap.get(senderPlayer).showError("Student not found", STUDENT_ERROR);
+                    } catch (IllegalMove e) {
+                        viewMap.get(senderPlayer).showError("Island does not exists", STUDENT_ERROR);
                     }
 
                 }
@@ -161,13 +156,9 @@ public class GameController implements PropertyChangeListener {
                             game.getPlayerByNickName(senderPlayer).getBoard().moveEntryToDiningRoom(studentMoved);
                             game.checkInfluence(game.getPlayerByNickName(senderPlayer), studentMoved);
                         } catch (NotOnBoardException e) {
-                            for (String nickName : viewMap.keySet()) {
-                                viewMap.get(nickName).showError("Student not found", STUDENT_ERROR);
-                            }
+                            viewMap.get(senderPlayer).showError("Student not found", STUDENT_ERROR);
                         } catch (NotEnoughSpace e) {
-                            for (String nickName : viewMap.keySet()) {
-                                viewMap.get(nickName).showError("Not enoughSpace", STUDENT_ERROR);
-                            }
+                            viewMap.get(senderPlayer).showError("Not enoughSpace", STUDENT_ERROR);
                         }
                 }
 

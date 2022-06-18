@@ -4,8 +4,8 @@ import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 
 public class NicknameRequest extends Message {
-
-    public NicknameRequest(){
+    public NicknameRequest()
+    {
         super(MessageType.NICK_REQ,"server");
     }
 }

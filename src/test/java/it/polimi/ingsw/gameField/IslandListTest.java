@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gameField;
 
 import it.polimi.ingsw.exceptions.EndGameException;
+import it.polimi.ingsw.exceptions.IllegalMove;
 import it.polimi.ingsw.model.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -185,14 +186,22 @@ class IslandListTest {
     void addThreeStudents (int ID) {
         GameManager game = GameManager.getInstance();
         game.initGame("TwoPlayers",false);
-        game.getGame(0).getGameField().addStudent(ID, Color.RED);
-        game.getGame(0).getGameField().addStudent(ID, Color.RED);
-        game.getGame(0).getGameField().addStudent(ID, Color.RED);
-        if(game.getGame(0).getGameField().getIslandNode(ID).getColorInfluence(Color.RED) == 4)
-            assertEquals(4, game.getGame(0).getGameField().getIslandNode(ID).getColorInfluence(Color.RED));
-        else
-            assertEquals(3, game.getGame(0).getGameField().getIslandNode(ID).getColorInfluence(Color.RED));
-        game.setNull();
+        try {
+            game.getGame(0).getGameField().addStudent(ID, Color.RED);
+            game.getGame(0).getGameField().addStudent(ID, Color.RED);
+            game.getGame(0).getGameField().addStudent(ID, Color.RED);
+            if(game.getGame(0).getGameField().getIslandNode(ID).getColorInfluence(Color.RED) == 4)
+                assertEquals(4, game.getGame(0).getGameField().getIslandNode(ID).getColorInfluence(Color.RED));
+            else
+                assertEquals(3, game.getGame(0).getGameField().getIslandNode(ID).getColorInfluence(Color.RED));
+
+        }
+        catch (IllegalMove e) {
+            throw new RuntimeException(e);
+        }
+        finally {
+            game.setNull();
+        }
     }
 
     @DisplayName("Testing mergeIsland method with a node, its next one and its previous one...")

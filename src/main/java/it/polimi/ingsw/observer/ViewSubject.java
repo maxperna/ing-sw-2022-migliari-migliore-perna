@@ -1,7 +1,5 @@
 package it.polimi.ingsw.observer;
 
-import it.polimi.ingsw.model.experts.ExpertCard;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -11,7 +9,7 @@ import java.util.function.Consumer;
  */
 public abstract class ViewSubject {
 
-    protected final List<ViewListener> list = new ArrayList<>();
+    List<ViewListener> list = new ArrayList<>();
 
     public void addListener(ViewListener l) {
         list.add(l);
@@ -33,4 +31,7 @@ public abstract class ViewSubject {
         for(ViewListener list : list)
             lambda.accept(list);
     }
+
+
+
 }

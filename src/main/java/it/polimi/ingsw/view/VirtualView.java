@@ -1,18 +1,17 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.controller.GameState;
-import it.polimi.ingsw.model.experts.*;
 import it.polimi.ingsw.model.gameField.Node;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.experts.ExpertCard;
+import it.polimi.ingsw.model.experts.ExpertID;
 import it.polimi.ingsw.network.messages.ErrorType;
-import it.polimi.ingsw.network.messages.MessageType;
-import it.polimi.ingsw.network.messages.client_messages.ExpertMessages.PlayExpertCard1;
-import it.polimi.ingsw.network.messages.client_messages.ExpertMessages.PlayExpertCard2;
 import it.polimi.ingsw.network.messages.client_messages.GameParamRequest;
 import it.polimi.ingsw.network.messages.server_messages.*;
 import it.polimi.ingsw.network.server.ClientHandler;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -81,6 +80,10 @@ public class VirtualView implements View {
     }
 
     @Override
+    public void showExpertCards(ArrayList<ExpertID> expertIDList) {
+        clientHandler.sendMessage(new ExpertCardReply(expertIDList));
+    }
+    @Override
     public void updateTeachers(Map<Color, Boolean> teacherList) {
         clientHandler.sendMessage(new TeacherListMessage(teacherList));
     }
@@ -133,14 +136,21 @@ public class VirtualView implements View {
     public void printBoard(Board board, String nickname) {
 
     }
+
+    @Override
+    public void showExpertID(ArrayList<ExpertID> expertID){
+        clientHandler.sendMessage(new ExpertCardReply(expertID));
+    }
+
+    @Override
+    public void showExpertCard(ArrayList<ExpertCard> expertCard) {
+    }
+
     public ClientHandler getClientHandler() {
         return clientHandler;
     }
 
-    @Override
-    public void ActionPhaseTurn(Boolean expert){
-        //da inserire il metodo askAction(false) per richiedere solo lo spostamento degli studenti, aggiungere un check se tale spostamento è avvenuto prima di chiamare direttamente moveMotherNature
-    }
+    public void ActionPhaseTurn(){}
 
     @Override
     public void connectionRequest() {
@@ -148,21 +158,19 @@ public class VirtualView implements View {
     }
 
     @Override
-    public void showExpertCards(ArrayList<ExpertCard> allExpertCards) {
-        clientHandler.sendMessage(new ExpertCardReply(allExpertCards));
-    }
-
-    @Override
     public void selectStudent(ArrayList<Color> students, int islands) {
 
     }
+
+    public void chooseAction(){}
+
     @Override
     public void moveMotherNature() {
 
     }
 
-    public void worldUpdate(Map<Integer, Node> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap, String currentPlayer, ArrayList<ExpertCard> experts) {
-        clientHandler.sendMessage(new WorldChangeMessage(gameFieldMap, chargedClouds, boardMap, currentPlayer, experts));
+    public void worldUpdate(Map<Integer, Node> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap, String currentPlayer) {
+        clientHandler.sendMessage(new WorldChangeMessage(gameFieldMap, chargedClouds, boardMap, currentPlayer));
     }
 
     public void chooseCloudTile(int cloudID){}
@@ -170,53 +178,6 @@ public class VirtualView implements View {
     @Override
     public void sendNumberOfPlayers(int numberOfPlayers) {
         clientHandler.sendMessage((new NumberOfPlayersMessage(numberOfPlayers)));
-    }
-    @Override
-    public void playExpertType2(int cardID, Expert9 expert9) {
-    }
-
-    @Override
-    public void playExpertType2(int cardID, Expert11 expert) {
-    }
-
-    @Override
-    public void playExpertType2(int cardID, Expert12 expert) {
-    }
-
-    @Override
-    public void playExpertType3(int cardID, Expert7 expert) {
-    }
-
-    @Override
-    public void playExpertType3(int cardID, Expert10 expert) {
-    }
-
-    @Override
-    public void playExpertType4(int cardID, Expert3 expert) {
-    }
-
-
-    @Override
-    public void playExpertType5(int cardID, Expert1 expert) {
-    }
-
-    @Override
-    public void playExpertType5(int cardID, Expert5 expert) {
-    }
-
-    @Override
-    public void chooseAction() {
-    }
-
-    public void chooseExpertCard() {
-
-    }
-
-    public void askAction(boolean expert_mode) {
-
-    }
-    public void setExpertMode(boolean expertMode){
-        clientHandler.sendMessage(new ExpertModeNotify(expertMode));
     }
 
 }
