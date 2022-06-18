@@ -345,29 +345,59 @@ public class GameController implements PropertyChangeListener {
         Player player = game.getPlayerByNickName(message.getSenderPlayer());
         int playedCard = message.getPlayedCard();
         try {
+           /* if(message instanceof PlayExpertCard1) {
+                turnLogic.playExpertCard(player, playedCard);
+                viewMap.get(message.getSenderPlayer()).ActionPhaseTurn(false);
+            }
+            else if(message instanceof PlayExpertCard2) {
+                PlayExpertCard2 castedMessage1 = (PlayExpertCard2) message;
+                turnLogic.playExpertCard(player, castedMessage1.getNodeID(), playedCard);
+                viewMap.get(message.getSenderPlayer()).ActionPhaseTurn(false);
+            }
+            else if(message instanceof PlayExpertCard3) {
+                PlayExpertCard3 castedMessage2 = (PlayExpertCard3) message;
+                turnLogic.playExpertCard(player, castedMessage2.getNodeID(), castedMessage2.getStudent(), playedCard);
+                viewMap.get(message.getSenderPlayer()).ActionPhaseTurn(false);
+            }
+            else if(message instanceof PlayExpertCard4) {
+                PlayExpertCard4 castedMessage3 = (PlayExpertCard4) message;
+                turnLogic.playExpertCard(player, castedMessage3.getStudent(), playedCard);
+                viewMap.get(message.getSenderPlayer()).ActionPhaseTurn(false);
+            }
+            else if(message instanceof PlayExpertCard5) {
+                PlayExpertCard5 castedMessage4 = (PlayExpertCard5) message;
+                turnLogic.playExpertCard(player, castedMessage4.getStudents1(), castedMessage4.getStudents2(), playedCard);
+                viewMap.get(message.getSenderPlayer()).ActionPhaseTurn(false);
+            }*/
             switch (message.getExpID()) {
                 case 1:
                     turnLogic.playExpertCard(player, playedCard);
                     viewMap.get(message.getSenderPlayer()).ActionPhaseTurn(false);
+                    break;
                 case 2:
+                    assert message instanceof PlayExpertCard2;
                     PlayExpertCard2 castedMessage1 = (PlayExpertCard2) message;
                     turnLogic.playExpertCard(player, castedMessage1.getNodeID(), playedCard);
                     viewMap.get(message.getSenderPlayer()).ActionPhaseTurn(false);
+                    break;
                 case 3:
                     assert message instanceof PlayExpertCard3;
                     PlayExpertCard3 castedMessage2 = (PlayExpertCard3) message;
                     turnLogic.playExpertCard(player, castedMessage2.getNodeID(), castedMessage2.getStudent(), playedCard);
                     viewMap.get(message.getSenderPlayer()).ActionPhaseTurn(false);
+                    break;
                 case 4:
                     assert message instanceof PlayExpertCard4;
                     PlayExpertCard4 castedMessage3 = (PlayExpertCard4) message;
                     turnLogic.playExpertCard(player, castedMessage3.getStudent(), playedCard);
                     viewMap.get(message.getSenderPlayer()).ActionPhaseTurn(false);
+                    break;
                 case 5:
                     assert message instanceof PlayExpertCard5;
                     PlayExpertCard5 castedMessage4 = (PlayExpertCard5) message;
                     turnLogic.playExpertCard(player, castedMessage4.getStudents1(), castedMessage4.getStudents2(), playedCard);
                     viewMap.get(message.getSenderPlayer()).ActionPhaseTurn(false);
+                    break;
             }
         } catch (IllegalMove e) {
             viewMap.get(message.getSenderPlayer()).showError(e.getMessage(), EXPERT_ERROR);

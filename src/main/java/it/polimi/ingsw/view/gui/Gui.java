@@ -21,12 +21,12 @@ public class Gui extends ViewSubject implements View {
 
     @Override
     public void askPlayerNickname() {
-        Platform.runLater(()->SceneController.changeMainPane(list,"NicknameInput.fxml"));
+        Platform.runLater(()->SceneController.changeMainPane(getList(),"NicknameInput.fxml"));
     }
 
     @Override
     public void askGameParam() {
-        Platform.runLater(()->SceneController.changeMainPane(list,"GameParamScene.fxml"));
+        Platform.runLater(()->SceneController.changeMainPane(getList(),"GameParamScene.fxml"));
     }
 
     @Override
@@ -98,6 +98,7 @@ public class Gui extends ViewSubject implements View {
     public void showError(String errorMessage, ErrorType errorType) {
 
     }
+
 
     @Override
     public void showExpertCards(ArrayList<ExpertCard> allExpertCards) {

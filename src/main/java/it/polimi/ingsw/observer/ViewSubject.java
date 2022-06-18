@@ -9,7 +9,7 @@ import java.util.function.Consumer;
  */
 public abstract class ViewSubject {
 
-    List<ViewListener> list = new ArrayList<>();
+    private List<ViewListener> list = new ArrayList<>();
 
     public void addListener(ViewListener l) {
         list.add(l);
@@ -30,6 +30,10 @@ public abstract class ViewSubject {
     protected void notifyListener(Consumer<ViewListener> lambda) {
         for(ViewListener list : list)
             lambda.accept(list);
+    }
+
+    public List<ViewListener> getList(){
+        return list;
     }
 
 

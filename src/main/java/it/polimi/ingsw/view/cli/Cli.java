@@ -665,6 +665,8 @@ public class Cli extends ViewSubject implements View {
         System.out.println(errorMessage);
     }
 
+
+
     /**
      * method used to print the description of each expert card
      *

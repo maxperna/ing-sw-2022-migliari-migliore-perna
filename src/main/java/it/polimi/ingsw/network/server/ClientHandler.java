@@ -62,7 +62,7 @@ public class ClientHandler implements Runnable {
             while (!Thread.currentThread().isInterrupted()) {
                 //Synchronization on the input
                 synchronized (this){
-                    Message receivedMessage = (Message) input.readObject(); //**********************************************
+                    Message receivedMessage = (Message) input.readObject();
                     if (receivedMessage.getType() == MessageType.LOGIN)
                         serverSocket.addClient(receivedMessage.getSenderPlayer(), this);
 //                  serverSocket.addClient(message.getNick,m.getColorTowe,m.getassistant,this);
@@ -75,7 +75,7 @@ public class ClientHandler implements Runnable {
         } catch (ClassNotFoundException e){
             Server.LOGGER.severe("Client input not valid");
         } catch (ClassCastException e) {
-            Server.LOGGER.severe("Other error");
+            e.printStackTrace();
         }
         clientSocket.close();
     }
