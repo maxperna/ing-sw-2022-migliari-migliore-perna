@@ -1,0 +1,9 @@
+.grid-pane{
+    -fx-background-image: url("../images/Plancia/Plancia_DEF.png") ;
+    -fx-background-position: center;
+    -fx-background-size: stretch;
+}
+
+.background{
+    -fx-background-color: '#69bbea';
+}
