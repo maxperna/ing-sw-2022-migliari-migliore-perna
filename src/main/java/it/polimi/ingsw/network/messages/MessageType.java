@@ -65,7 +65,10 @@ public enum MessageType {
 
     NUMBER_PLAYERS,
 
-    NICK_REQ
+    NICK_REQ,
 
+    STUDENT_REQUEST,
+
+    STUDENT_REPLY,
 
 }

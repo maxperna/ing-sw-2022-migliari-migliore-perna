@@ -7,10 +7,10 @@ import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.model.experts.ExpertID;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.observer.Listener;
 import it.polimi.ingsw.observer.ViewSubject;
 import it.polimi.ingsw.view.View;
-import org.jetbrains.annotations.TestOnly;
 
 import java.util.*;
 import java.util.concurrent.ExecutionException;
@@ -1072,26 +1072,26 @@ public class Cli extends ViewSubject implements View {
         } while (!valid);
 
         if(choice == 1) {
-            Color chosenColor = colorSelector();
-            notifyListener(list -> list.moveStudentToDinner(chosenColor));
+            notifyListener(list -> list.actionPhaseChoice(MessageType.MOVE_TO_DINING));
         }
         else {
-            valid = false;
-            do {
-                System.out.println("\nWrite the Id of the island of destination");
-                try {
-                    choice = Integer.parseInt(read());
-
-                    if (choice>=1 && choice<=12)
-                        valid = true;
-
-                } catch (NumberFormatException | ExecutionException e) {
-                    System.out.println("Error. Invalid input");
-                }
-            } while (!valid);
-            int finalChoice = choice;
-            Color chosenColor = colorSelector();
-            notifyListener(list -> list.moveStudentToIsland(chosenColor, finalChoice));
+            notifyListener(list -> list.actionPhaseChoice(MessageType.MOVE_TO_ISLAND));
+//            valid = false;
+//            do {
+//                System.out.println("\nWrite the Id of the island of destination");
+//                try {
+//                    choice = Integer.parseInt(read());
+//
+//                    if (choice>=1 && choice<=12)
+//                        valid = true;
+//
+//                } catch (NumberFormatException | ExecutionException e) {
+//                    System.out.println("Error. Invalid input");
+//                }
+//            } while (!valid);
+//            int finalChoice = choice;
+//            Color chosenColor = colorSelector();
+//            notifyListener(list -> list.moveStudentToIsland(chosenColor, finalChoice));
         }
 
     }
@@ -1111,33 +1111,6 @@ public class Cli extends ViewSubject implements View {
 
     }
 
-    Color colorSelector() {
-        System.out.println("\n\nWrite the number referred to the color of the student you want to move: [1] RED, [2] PINK, [3] GREEN, [4] YELLOW, [5] BLUE");
-        int choice = 0;
-        try {
-            choice = Integer.parseInt(read());
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-
-        switch (choice) {
-            case 1:
-                return Color.RED;
-            case 2:
-                return Color.PINK;
-            case 3:
-                return Color.GREEN;
-            case 4:
-                return Color.YELLOW;
-            case 5:
-                return Color.BLUE;
-            default: {
-                System.out.println("Error. Invalid parameter");
-                colorSelector();
-            }
-        }
-        return null;
-    }
 
     @Override
     public void chooseAction(/*boolean expert*/) {
@@ -1195,36 +1168,59 @@ public class Cli extends ViewSubject implements View {
 
     }
 
-//    public void availableStudents(List<Color> availableColor) {
-//        System.out.println("\n\nAvailable students: ");
-//        Map<Integer, Color> indexColorMap = new HashMap<>();
-//        int choice = 0;
-//        int index = 1;
-//
-//        for(Color currentColor : availableColor) {
-//            if(currentColor.equals(Color.RED))
-//                System.out.println("[" +index+ "] RED ");
-//            if(currentColor.equals(Color.PINK))
-//                System.out.println("[" +index+ "] PINK ");
-//            if(currentColor.equals(Color.GREEN))
-//                System.out.println("[" +index+ "] GREEN ");
-//            if(currentColor.equals(Color.YELLOW))
-//                System.out.println("[" +index+ "] YELLOW ");
-//            if(currentColor.equals(Color.BLUE))
-//                System.out.println("[" +index+ "] BLUE ");
-//
-//            indexColorMap.put(index, currentColor);
-//        }
-//
-//        while (!indexColorMap.containsKey(choice)) {
-//            try {
-//                System.out.println("Choose: ");
-//                choice = Integer.parseInt(read());
-//            } catch (ExecutionException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
+    @Override
+    public void availableStudents(ArrayList<Color> availableStudents, MessageType movementType, int gameFieldSize) {
+        System.out.println("\n\nAvailable students: ");
+        Map<Integer, Color> indexColorMap = new HashMap<>();
+        int islandChoice = -1;
+        int choice = 0;
+        int index = 1;
+
+        for(Color currentColor : availableStudents) {
+            if(currentColor.equals(Color.RED))
+                System.out.println("[" +index+ "] RED ");
+            if(currentColor.equals(Color.PINK))
+                System.out.println("[" +index+ "] PINK ");
+            if(currentColor.equals(Color.GREEN))
+                System.out.println("[" +index+ "] GREEN ");
+            if(currentColor.equals(Color.YELLOW))
+                System.out.println("[" +index+ "] YELLOW ");
+            if(currentColor.equals(Color.BLUE))
+                System.out.println("[" +index+ "] BLUE ");
+
+            indexColorMap.put(index, currentColor);
+            index ++;
+        }
+
+        while (!indexColorMap.containsKey(choice)) {
+            try {
+                System.out.println("Choose: ");
+                choice = Integer.parseInt(read());
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+        int finalChoice = choice;
+
+        if(movementType == MessageType.MOVE_TO_DINING) {
+            notifyListener(list -> list.moveStudentToDinner(indexColorMap.get(finalChoice)));
+        }
+        else if(movementType == MessageType.MOVE_TO_ISLAND) {
+
+            do {
+                try {
+                    System.out.println("Island Number: ");
+                    islandChoice = Integer.parseInt(read());
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+            }while (islandChoice <= 0 && islandChoice > gameFieldSize);
+
+            int finalIslandChoice = islandChoice;
+            notifyListener(list -> list.moveStudentToIsland(indexColorMap.get(finalChoice), finalIslandChoice));
+        }
+    }
+
 
     private String intToString (Integer number) {
         if (number < 10)

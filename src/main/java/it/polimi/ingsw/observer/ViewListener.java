@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.DeckType;
 import it.polimi.ingsw.model.TowerColor;
 import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.messages.MessageType;
 
 import java.util.HashMap;
 
@@ -26,6 +27,8 @@ public interface ViewListener {
     void moveStudentToIsland(Color student,int nodeID);
 
     void moveStudentToDinner(Color student);
+
+    void actionPhaseChoice(MessageType type);
 
     void getGameField();
 

@@ -6,12 +6,12 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.model.experts.ExpertID;
 import it.polimi.ingsw.network.messages.ErrorType;
+import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.network.messages.client_messages.GameParamRequest;
 import it.polimi.ingsw.network.messages.server_messages.*;
 import it.polimi.ingsw.network.server.ClientHandler;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -178,6 +178,11 @@ public class VirtualView implements View {
     @Override
     public void sendNumberOfPlayers(int numberOfPlayers) {
         clientHandler.sendMessage((new NumberOfPlayersMessage(numberOfPlayers)));
+    }
+
+    @Override
+    public void availableStudents(ArrayList<Color> availableStudents, MessageType movementType, int gameFieldSize) {
+        clientHandler.sendMessage(new AvailableStudentsReply(availableStudents, movementType, gameFieldSize));
     }
 
 }

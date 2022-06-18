@@ -1,555 +1,116 @@
-Jun 14, 2022 9:45:05 PM it.polimi.ingsw.network.server.Server_Socket run
-INFO: Server started on port 13000 10.169.113.220
-Jun 14, 2022 9:45:12 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.NicknameRequest@5474e20e
-Jun 14, 2022 9:45:13 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.NicknameRequest@48fa647b
-Jun 14, 2022 9:45:29 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.client_messages.GameParamRequest@76aaf612
-Jun 14, 2022 9:45:31 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.server_messages.GameParamMessage@7a01f01d
-Jun 14, 2022 9:45:35 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.GenericMessage@d8b2408
-Jun 14, 2022 9:45:35 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.GenericMessage@581c5d55
-Jun 14, 2022 9:45:35 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.RemainingItemReply@44ef3725
-Jun 14, 2022 9:45:35 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.NumberOfPlayersMessage@3432476e
-Jun 14, 2022 9:45:35 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.NumberOfPlayersMessage@41c8ab2a
-Jun 14, 2022 9:45:37 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.CreatePlayerMessage@3c511da5
-Jun 14, 2022 9:45:37 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.RemainingItemReply@7cadff48
-Jun 14, 2022 9:45:40 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.CreatePlayerMessage@cac89ac
-Jun 14, 2022 9:45:40 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.PlayerInitMessage@8d7f859
-Jun 14, 2022 9:45:40 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.ExpertCardReply@925c981
-Jun 14, 2022 9:45:40 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.PlayerInitMessage@7eb4a891
-Jun 14, 2022 9:45:40 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.ExpertCardReply@20f2349
-Jun 14, 2022 9:45:40 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.GenericMessage@1a68a451
-Jun 14, 2022 9:45:40 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.GenericMessage@23d9adee
-Jun 14, 2022 9:45:40 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@1d0877f3
-Jun 14, 2022 9:45:40 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@4fb1e8f2
-Jun 14, 2022 9:45:40 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.CurrentPlayerMessage@791bcef9
-Jun 14, 2022 9:46:18 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.LastCardRequest@18b1501f
-Jun 14, 2022 9:46:18 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.LastCardMessage@36684ddc
-Jun 14, 2022 9:46:18 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.AssistantInfoMessage@38ffdc91
-Jun 14, 2022 9:46:18 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.AssistantCardsMessage@3f9325de
-Jun 14, 2022 9:46:20 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.PlayAssistantMessage@79b22137
-Jun 14, 2022 9:46:20 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.CurrentPlayerMessage@683a78c8
-Jun 14, 2022 9:46:23 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.LastCardRequest@3e8cfeb1
-Jun 14, 2022 9:46:23 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.LastCardMessage@2dc81197
-Jun 14, 2022 9:46:23 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.AssistantInfoMessage@40b8bc60
-Jun 14, 2022 9:46:23 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.AssistantCardsMessage@2d915949
-Jun 14, 2022 9:46:26 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.PlayAssistantMessage@1a250dde
-Jun 14, 2022 9:46:26 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.CurrentPlayerMessage@4aa3dd71
-Jun 14, 2022 9:46:26 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.GenericMessage@54a5c652
-Jun 14, 2022 9:46:26 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.GenericMessage@65c9620f
-Jun 14, 2022 9:46:33 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.MovedStudentToBoard@6818d67
-Jun 14, 2022 9:46:33 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@285e7ae7
-Jun 14, 2022 9:46:33 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@3f5ff3e3
-Jun 14, 2022 9:46:38 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.MovedStudentToBoard@72035ef5
-Jun 14, 2022 9:46:38 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@6e0e88d2
-Jun 14, 2022 9:46:38 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@2223c0bf
-Jun 14, 2022 9:46:41 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.MovedStudentToBoard@3fb149d7
-Jun 14, 2022 9:46:41 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@4f9843b3
-Jun 14, 2022 9:46:41 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@337e1544
-Jun 14, 2022 9:46:43 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.MoveMotherNatureMessage@7a4b3789
-Jun 14, 2022 9:46:43 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@28b17519
-Jun 14, 2022 9:46:43 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@670a97f1
-Jun 14, 2022 9:46:43 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@76745da1
-Jun 14, 2022 9:46:43 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@48fc6b14
-Jun 14, 2022 9:47:01 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.GetCloudsMessage@3917ec04
-Jun 14, 2022 9:47:01 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@1239125f
-Jun 14, 2022 9:47:01 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@25b21f58
-Jun 14, 2022 9:47:01 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.CurrentPlayerMessage@1f352714
-Jun 14, 2022 9:47:33 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.MovedStudentToIsland@713aa626
-Jun 14, 2022 9:47:33 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@52d1dbbe
-Jun 14, 2022 9:47:33 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@2f538b4c
-Jun 14, 2022 9:48:26 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.MovedStudentToIsland@59a7ceab
-Jun 14, 2022 9:48:26 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.ErrorMessage@58498350
-Jun 14, 2022 9:48:41 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.MovedStudentToIsland@4f71721b
-Jun 14, 2022 9:48:41 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@464c2b
-Jun 14, 2022 9:48:41 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@411397b2
-Jun 14, 2022 9:49:44 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.MovedStudentToIsland@3d8ebe5
-Jun 14, 2022 9:49:44 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@60043a53
-Jun 14, 2022 9:49:44 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@1b3cdfa5
-Jun 14, 2022 9:49:52 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.MoveMotherNatureMessage@7d7e1108
-Jun 14, 2022 9:49:52 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@25be7147
-Jun 14, 2022 9:49:52 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@1df2a18f
-Jun 14, 2022 9:49:52 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@368dd76
-Jun 14, 2022 9:49:52 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@88b378c
-Jun 14, 2022 9:49:52 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@67ee904c
-Jun 14, 2022 9:49:52 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@2fd34d18
-Jun 14, 2022 9:49:52 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@25f026cf
-Jun 14, 2022 9:49:52 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@68a0e53f
-Jun 14, 2022 9:49:54 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.GetCloudsMessage@e0cff3b
-Jun 14, 2022 9:49:54 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@15084d42
-Jun 14, 2022 9:49:54 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@1522e126
-Jun 14, 2022 9:49:54 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.CurrentPlayerMessage@51328b34
-Jun 14, 2022 9:49:54 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.GenericMessage@237d0f57
-Jun 14, 2022 9:49:54 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.GenericMessage@6e1d630a
-Jun 14, 2022 9:49:54 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@6587923c
-Jun 14, 2022 9:49:54 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@789c2778
-Jun 14, 2022 9:50:42 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.BoardInfoRequest@6f73739c
-Jun 14, 2022 9:50:42 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.BoardInfoMessage@70cb06bb
-Jun 14, 2022 9:50:49 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.LastCardRequest@4b52031c
-Jun 14, 2022 9:50:49 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.LastCardMessage@2aa5f7a
-Jun 14, 2022 9:50:49 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.AssistantInfoMessage@40038b7c
-Jun 14, 2022 9:50:49 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.AssistantCardsMessage@10025d89
-Jun 14, 2022 9:50:51 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.PlayAssistantMessage@36afbfd5
-Jun 14, 2022 9:50:51 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.CurrentPlayerMessage@6aab8a17
-Jun 14, 2022 9:50:54 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.LastCardRequest@5917220f
-Jun 14, 2022 9:50:54 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.LastCardMessage@26136fd3
-Jun 14, 2022 9:50:54 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.AssistantInfoMessage@214f3b86
-Jun 14, 2022 9:50:54 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.AssistantCardsMessage@1c9fb58b
-Jun 14, 2022 9:50:55 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.PlayAssistantMessage@2663a245
-Jun 14, 2022 9:50:55 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.CurrentPlayerMessage@7e283e04
-Jun 14, 2022 9:50:55 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.GenericMessage@4aaa0e45
-Jun 14, 2022 9:50:55 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.GenericMessage@4e8734f9
-Jun 14, 2022 9:51:12 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.MovedStudentToBoard@14e36590
-Jun 14, 2022 9:51:12 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@5ff931ce
-Jun 14, 2022 9:51:12 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@23e7de72
-Jun 14, 2022 9:51:16 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.MovedStudentToBoard@7eab1ef3
-Jun 14, 2022 9:51:16 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@3ec45302
-Jun 14, 2022 9:51:16 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@35ce6d7a
-Jun 14, 2022 9:51:21 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.MovedStudentToBoard@6fd6e36f
-Jun 14, 2022 9:51:21 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@2c80bd92
-Jun 14, 2022 9:51:21 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@637c1b2f
-Jun 14, 2022 9:51:23 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.MoveMotherNatureMessage@58ee962d
-Jun 14, 2022 9:51:23 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@24d52b78
-Jun 14, 2022 9:51:23 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@3b863cdd
-Jun 14, 2022 9:51:23 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@7c8a6b78
-Jun 14, 2022 9:51:23 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@15741d5e
-Jun 14, 2022 9:51:28 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.GetCloudsMessage@22a594a5
-Jun 14, 2022 9:51:28 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@30d97745
-Jun 14, 2022 9:51:28 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@f794a2
-Jun 14, 2022 9:51:28 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.CurrentPlayerMessage@5514b549
-Jun 14, 2022 9:51:42 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.MovedStudentToBoard@1c0a13e3
-Jun 14, 2022 9:51:42 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@6a7a82a9
-Jun 14, 2022 9:51:42 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@2ec675aa
-Jun 14, 2022 9:51:46 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.MovedStudentToBoard@4487b64c
-Jun 14, 2022 9:51:46 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@58b3a5f
-Jun 14, 2022 9:51:46 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@76928e83
-Jun 14, 2022 9:51:48 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.MovedStudentToBoard@1396bda6
-Jun 14, 2022 9:51:48 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@10f94f6
-Jun 14, 2022 9:51:48 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@736733c2
-Jun 14, 2022 9:51:50 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.MoveMotherNatureMessage@f2eabc8
-Jun 14, 2022 9:51:50 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@104754
-Jun 14, 2022 9:51:50 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@1d0485ad
-Jun 14, 2022 9:51:50 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@8befa8b
-Jun 14, 2022 9:51:50 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@53a58725
-Jun 14, 2022 9:51:50 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@7f7bc3b8
-Jun 14, 2022 9:51:50 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@43afb757
-Jun 14, 2022 9:51:50 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@79c0b42a
-Jun 14, 2022 9:51:50 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@4efe399d
-Jun 14, 2022 9:51:52 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.GetCloudsMessage@5f473421
-Jun 14, 2022 9:51:52 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@756b0ace
-Jun 14, 2022 9:51:52 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@72ea1916
-Jun 14, 2022 9:51:52 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.CurrentPlayerMessage@54c255d9
-Jun 14, 2022 9:51:52 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.GenericMessage@1f03bddd
-Jun 14, 2022 9:51:52 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.GenericMessage@398ea793
-Jun 14, 2022 9:51:52 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@7ddcca61
-Jun 14, 2022 9:51:52 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@2bb2d5fb
-Jun 14, 2022 9:52:03 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.LastCardRequest@128d1eb9
-Jun 14, 2022 9:52:03 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.LastCardMessage@28bffa46
-Jun 14, 2022 9:52:03 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.AssistantInfoMessage@7e3ed3d2
-Jun 14, 2022 9:52:03 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.AssistantCardsMessage@29046b99
-Jun 14, 2022 9:52:07 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.PlayAssistantMessage@1bf51b57
-Jun 14, 2022 9:52:07 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.CurrentPlayerMessage@135debb8
-Jun 14, 2022 9:52:11 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.LastCardRequest@484492a
-Jun 14, 2022 9:52:11 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.LastCardMessage@58cf38eb
-Jun 14, 2022 9:52:11 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.AssistantInfoMessage@21f26fd9
-Jun 14, 2022 9:52:11 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.AssistantCardsMessage@5b036c
-Jun 14, 2022 9:52:14 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.PlayAssistantMessage@593984d3
-Jun 14, 2022 9:52:14 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.CurrentPlayerMessage@6b07b48a
-Jun 14, 2022 9:52:14 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.GenericMessage@3509c005
-Jun 14, 2022 9:52:14 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.GenericMessage@76f68605
-Jun 14, 2022 9:52:25 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.MovedStudentToBoard@5ee98cac
-Jun 14, 2022 9:52:25 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@6df50b85
-Jun 14, 2022 9:52:25 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@2782158f
-Jun 14, 2022 9:52:31 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.MovedStudentToBoard@29aa2423
-Jun 14, 2022 9:52:31 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@22da12f4
-Jun 14, 2022 9:52:31 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@24c322f9
-Jun 14, 2022 9:52:35 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.MovedStudentToBoard@1e2dcbb1
-Jun 14, 2022 9:52:35 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@7a6ef380
-Jun 14, 2022 9:52:35 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@b7cb5de
-Jun 14, 2022 9:52:37 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.MoveMotherNatureMessage@d6b5862
-Jun 14, 2022 9:52:37 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@679c8edd
-Jun 14, 2022 9:52:37 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@776c5a22
-Jun 14, 2022 9:52:37 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@51d8bd4f
-Jun 14, 2022 9:52:37 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@23df4ebe
-Jun 14, 2022 9:52:37 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@37fb6478
-Jun 14, 2022 9:52:37 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@ab3b553
-Jun 14, 2022 9:52:37 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@736e5619
-Jun 14, 2022 9:52:37 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@6db8ec97
-Jun 14, 2022 9:52:51 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.GetCloudsMessage@76a31e17
-Jun 14, 2022 9:52:51 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@5978a2d9
-Jun 14, 2022 9:52:51 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@2f560e42
-Jun 14, 2022 9:52:51 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.CurrentPlayerMessage@2943395f
-Jun 14, 2022 9:54:01 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.MovedStudentToBoard@4203045f
-Jun 14, 2022 9:54:01 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@7c1539f9
-Jun 14, 2022 9:54:01 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@736d3f8
-Jun 14, 2022 9:54:04 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.MovedStudentToBoard@6e75f8e
-Jun 14, 2022 9:54:04 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@1eca90b8
-Jun 14, 2022 9:54:04 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@7a5658d0
-Jun 14, 2022 9:54:13 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.MovedStudentToBoard@e86bf3f
-Jun 14, 2022 9:54:13 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@647291af
-Jun 14, 2022 9:54:13 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@1d45ed6
-Jun 14, 2022 9:54:14 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.MoveMotherNatureMessage@3dbcce37
-Jun 14, 2022 9:54:14 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@6c1e595b
-Jun 14, 2022 9:54:14 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@29b7e158
-Jun 14, 2022 9:54:14 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@38be0520
-Jun 14, 2022 9:54:14 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@10db702c
-Jun 14, 2022 9:54:14 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@1233b4b5
-Jun 14, 2022 9:54:14 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@497cba21
-Jun 14, 2022 9:54:14 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@6eb1d936
-Jun 14, 2022 9:54:14 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@7545bb89
-Jun 14, 2022 9:54:17 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.GetCloudsMessage@2ad73646
-Jun 14, 2022 9:54:17 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@bf768d1
-Jun 14, 2022 9:54:17 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@66d393a8
-Jun 14, 2022 9:54:17 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.CurrentPlayerMessage@31209ab4
-Jun 14, 2022 9:54:17 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.GenericMessage@1cae6e3f
-Jun 14, 2022 9:54:17 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.GenericMessage@42643b9b
-Jun 14, 2022 9:54:17 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@71d88c27
-Jun 14, 2022 9:54:17 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@16b68745
-Jun 14, 2022 9:54:22 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.LastCardRequest@41b9a0ad
-Jun 14, 2022 9:54:22 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.LastCardMessage@37198b33
-Jun 14, 2022 9:54:22 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.AssistantInfoMessage@442caa
-Jun 14, 2022 9:54:22 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.AssistantCardsMessage@7bff7f82
-Jun 14, 2022 9:54:24 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.PlayAssistantMessage@54e4afc8
-Jun 14, 2022 9:54:24 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.CurrentPlayerMessage@75e4f882
-Jun 14, 2022 9:55:10 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.LastCardRequest@1569b6ec
-Jun 14, 2022 9:55:10 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.LastCardMessage@4876cd30
-Jun 14, 2022 9:55:10 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.AssistantInfoMessage@16e6fc80
-Jun 14, 2022 9:55:10 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.AssistantCardsMessage@6807ac21
-Jun 14, 2022 9:55:17 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.PlayAssistantMessage@7a5f9682
-Jun 14, 2022 9:55:17 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.CurrentPlayerMessage@5b7c67b5
-Jun 14, 2022 9:55:17 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.GenericMessage@573d924a
-Jun 14, 2022 9:55:17 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.GenericMessage@69a961f9
-Jun 14, 2022 9:55:31 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.MovedStudentToBoard@21f3f911
-Jun 14, 2022 9:55:31 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@7758bd3b
-Jun 14, 2022 9:55:31 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@7f2549bf
-Jun 14, 2022 9:55:37 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.MovedStudentToBoard@ea1dc43
-Jun 14, 2022 9:55:37 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@2fbe091a
-Jun 14, 2022 9:55:37 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@60dc288c
-Jun 14, 2022 9:55:50 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.MovedStudentToBoard@7965b93d
-Jun 14, 2022 9:55:50 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@185b8616
-Jun 14, 2022 9:55:50 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@206d46cc
-Jun 14, 2022 9:55:51 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.MoveMotherNatureMessage@5f886df
-Jun 14, 2022 9:55:51 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@12c56a41
-Jun 14, 2022 9:55:51 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@743ed1b8
-Jun 14, 2022 9:55:51 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@405c871c
-Jun 14, 2022 9:55:51 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@46975158
-Jun 14, 2022 9:55:51 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@296a0620
-Jun 14, 2022 9:55:51 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@65a6a207
-Jun 14, 2022 9:55:51 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@66af9222
-Jun 14, 2022 9:55:51 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@5106fd68
-Jun 14, 2022 9:56:00 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.GetCloudsMessage@64c3cc7b
-Jun 14, 2022 9:56:00 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@7acf1dd8
-Jun 14, 2022 9:56:00 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@2d805abc
-Jun 14, 2022 9:56:00 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.CurrentPlayerMessage@3adf66b9
-Jun 14, 2022 9:56:20 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.MovedStudentToBoard@2d337706
-Jun 14, 2022 9:56:20 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@5cd80787
-Jun 14, 2022 9:56:20 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@6d97f74c
-Jun 14, 2022 9:56:23 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.MovedStudentToBoard@3ff9ae36
-Jun 14, 2022 9:56:23 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@3a8527d2
-Jun 14, 2022 9:56:23 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@5b5ec609
-Jun 14, 2022 9:56:27 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.MovedStudentToBoard@5841c06a
-Jun 14, 2022 9:56:27 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@2780c022
-Jun 14, 2022 9:56:27 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@373e036f
-Jun 14, 2022 9:56:29 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.MoveMotherNatureMessage@556101c1
-Jun 14, 2022 9:56:29 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@33c07a3e
-Jun 14, 2022 9:56:29 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@7b9f4aca
-Jun 14, 2022 9:56:29 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@770e3387
-Jun 14, 2022 9:56:29 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@39c6126c
-Jun 14, 2022 9:56:29 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@17815bc0
-Jun 14, 2022 9:56:29 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@6c08df14
-Jun 14, 2022 9:56:29 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@1084811
-Jun 14, 2022 9:56:29 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@bd285a9
-Jun 14, 2022 9:56:33 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.GetCloudsMessage@182515c6
-Jun 14, 2022 9:56:33 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@3a426acf
-Jun 14, 2022 9:56:33 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@74ddb371
-Jun 14, 2022 9:56:33 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.CurrentPlayerMessage@173b4a5e
-Jun 14, 2022 9:56:33 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.GenericMessage@12e2d5d
-Jun 14, 2022 9:56:33 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.GenericMessage@6377dfe8
-Jun 14, 2022 9:56:33 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@89d0497
-Jun 14, 2022 9:56:33 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@42d258e7
-Jun 14, 2022 9:57:02 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.LastCardRequest@6030555d
-Jun 14, 2022 9:57:02 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.LastCardMessage@59f4e793
-Jun 14, 2022 9:57:02 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.AssistantInfoMessage@63472ea1
-Jun 14, 2022 9:57:02 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
-INFO: Message sent it.polimi.ingsw.network.messages.server_messages.AssistantCardsMessage@1df18525
-Jun 14, 2022 9:57:07 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
-INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.PlayAssistantMessage@1833617
-Exception in thread "handlerit.polimi.ingsw.network.server.ClientHandler" java.lang.IndexOutOfBoundsException: Index 7 out of bounds for length 6
-	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
-	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
-	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:266)
-	at java.base/java.util.Objects.checkIndex(Objects.java:359)
-	at java.base/java.util.ArrayList.get(ArrayList.java:427)
-	at it.polimi.ingsw.controller.TurnLogic.setPlayedCard(TurnLogic.java:73)
-	at it.polimi.ingsw.controller.GameController.onMessageReceived(GameController.java:88)
-	at it.polimi.ingsw.network.server.Server.receivedMessage(Server.java:52)
-	at it.polimi.ingsw.network.server.Server_Socket.receiveMessage(Server_Socket.java:61)
-	at it.polimi.ingsw.network.server.ClientHandler.handleClientConnection(ClientHandler.java:71)
-	at it.polimi.ingsw.network.server.ClientHandler.run(ClientHandler.java:47)
-	at java.base/java.lang.Thread.run(Thread.java:833)
+Jun 18, 2022 6:30:07 PM it.polimi.ingsw.network.server.Server_Socket run
+INFO: Server started on port 13000 192.168.1.57
+Jun 18, 2022 6:30:18 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
+INFO: Message sent it.polimi.ingsw.network.messages.server_messages.NicknameRequest@613c300d
+Jun 18, 2022 6:30:20 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
+INFO: Message sent it.polimi.ingsw.network.messages.server_messages.NicknameRequest@11f1aa7b
+Jun 18, 2022 6:30:24 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
+INFO: Message sent it.polimi.ingsw.network.messages.client_messages.GameParamRequest@69edc491
+Jun 18, 2022 6:30:26 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
+INFO: Message receivedit.polimi.ingsw.network.messages.server_messages.GameParamMessage@6a920e61
+Jun 18, 2022 6:30:30 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
+INFO: Message sent it.polimi.ingsw.network.messages.server_messages.GenericMessage@7d5b8cef
+Jun 18, 2022 6:30:30 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
+INFO: Message sent it.polimi.ingsw.network.messages.server_messages.GenericMessage@28bc45d4
+Jun 18, 2022 6:30:30 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
+INFO: Message sent it.polimi.ingsw.network.messages.server_messages.RemainingItemReply@1170091
+Jun 18, 2022 6:30:30 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
+INFO: Message sent it.polimi.ingsw.network.messages.server_messages.NumberOfPlayersMessage@55cde829
+Jun 18, 2022 6:30:30 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
+INFO: Message sent it.polimi.ingsw.network.messages.server_messages.NumberOfPlayersMessage@3ecb42ce
+Jun 18, 2022 6:30:32 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
+INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.CreatePlayerMessage@13f395b9
+Jun 18, 2022 6:30:33 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
+INFO: Message sent it.polimi.ingsw.network.messages.server_messages.RemainingItemReply@7285b11
+Jun 18, 2022 6:30:35 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
+INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.CreatePlayerMessage@1922f1d
+Jun 18, 2022 6:30:35 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
+INFO: Message sent it.polimi.ingsw.network.messages.server_messages.PlayerInitMessage@5fec1f4b
+Jun 18, 2022 6:30:35 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
+INFO: Message sent it.polimi.ingsw.network.messages.server_messages.ExpertCardReply@7c5e6930
+Jun 18, 2022 6:30:35 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
+INFO: Message sent it.polimi.ingsw.network.messages.server_messages.PlayerInitMessage@1d1ee65f
+Jun 18, 2022 6:30:35 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
+INFO: Message sent it.polimi.ingsw.network.messages.server_messages.ExpertCardReply@9f7686
+Jun 18, 2022 6:30:35 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
+INFO: Message sent it.polimi.ingsw.network.messages.server_messages.GenericMessage@33b18d5
+Jun 18, 2022 6:30:35 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
+INFO: Message sent it.polimi.ingsw.network.messages.server_messages.GenericMessage@18058e30
+Jun 18, 2022 6:30:35 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
+INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@2a8f0f62
+Jun 18, 2022 6:30:35 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
+INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@4844c9dc
+Jun 18, 2022 6:30:35 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
+INFO: Message sent it.polimi.ingsw.network.messages.server_messages.CurrentPlayerMessage@4e4a1c6
+Jun 18, 2022 6:30:38 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
+INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.LastCardRequest@1879f54
+Jun 18, 2022 6:30:38 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
+INFO: Message sent it.polimi.ingsw.network.messages.server_messages.LastCardMessage@5255c629
+Jun 18, 2022 6:30:38 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
+INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.AssistantInfoMessage@51845723
+Jun 18, 2022 6:30:38 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
+INFO: Message sent it.polimi.ingsw.network.messages.server_messages.AssistantCardsMessage@1d1f27e5
+Jun 18, 2022 6:30:39 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
+INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.PlayAssistantMessage@212eb4c3
+Jun 18, 2022 6:30:39 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
+INFO: Message sent it.polimi.ingsw.network.messages.server_messages.CurrentPlayerMessage@3d1ba43b
+Jun 18, 2022 6:30:42 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
+INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.LastCardRequest@1d2d4743
+Jun 18, 2022 6:30:42 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
+INFO: Message sent it.polimi.ingsw.network.messages.server_messages.LastCardMessage@65a05fbb
+Jun 18, 2022 6:30:42 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
+INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.AssistantInfoMessage@897f5ed
+Jun 18, 2022 6:30:42 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
+INFO: Message sent it.polimi.ingsw.network.messages.server_messages.AssistantCardsMessage@6fad2ec3
+Jun 18, 2022 6:30:43 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
+INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.PlayAssistantMessage@43c8e04b
+Jun 18, 2022 6:30:43 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
+INFO: Message sent it.polimi.ingsw.network.messages.server_messages.CurrentPlayerMessage@1e5df061
+Jun 18, 2022 6:30:43 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
+INFO: Message sent it.polimi.ingsw.network.messages.server_messages.GenericMessage@354cee11
+Jun 18, 2022 6:30:43 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
+INFO: Message sent it.polimi.ingsw.network.messages.server_messages.GenericMessage@182a72a8
+Jun 18, 2022 6:30:45 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
+INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.ExpertMessages.StudentsAvailableRequest@113d748
+Jun 18, 2022 6:30:45 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
+INFO: Message sent it.polimi.ingsw.network.messages.server_messages.AvailableStudentsReply@75b905a2
+Jun 18, 2022 6:30:48 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
+INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.MovedStudentToIsland@13fe48b2
+Jun 18, 2022 6:30:48 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
+INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@446efa04
+Jun 18, 2022 6:30:48 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
+INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@37f160f7
+Jun 18, 2022 6:30:59 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
+INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.ExpertMessages.StudentsAvailableRequest@603d7070
+Jun 18, 2022 6:30:59 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
+INFO: Message sent it.polimi.ingsw.network.messages.server_messages.AvailableStudentsReply@2bf8714c
+Jun 18, 2022 6:31:05 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
+INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.MovedStudentToIsland@67f61a6c
+Jun 18, 2022 6:31:05 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
+INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@f6c65cf
+Jun 18, 2022 6:31:05 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
+INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@2a3b7aa5
+Jun 18, 2022 6:31:08 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
+INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.ExpertMessages.StudentsAvailableRequest@31a7bf18
+Jun 18, 2022 6:31:08 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
+INFO: Message sent it.polimi.ingsw.network.messages.server_messages.AvailableStudentsReply@434a782
+Jun 18, 2022 6:31:13 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
+INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.MovedStudentToIsland@586686ea
+Jun 18, 2022 6:31:13 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
+INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@79cf32d3
+Jun 18, 2022 6:31:13 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
+INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@28c47fce
+Jun 18, 2022 6:31:17 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
+INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.MoveMotherNatureMessage@7a3d8b48
+Jun 18, 2022 6:31:17 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
+INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@1efecbe5
+Jun 18, 2022 6:31:17 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
+INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@6e300544
+Jun 18, 2022 6:31:20 PM it.polimi.ingsw.network.server.ClientHandler handleClientConnection
+INFO: Message receivedit.polimi.ingsw.network.messages.client_messages.GetCloudsMessage@77059e1d
+Jun 18, 2022 6:31:20 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
+INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@673a47d
+Jun 18, 2022 6:31:20 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
+INFO: Message sent it.polimi.ingsw.network.messages.server_messages.WorldChangeMessage@54ed9e06
+Jun 18, 2022 6:31:20 PM it.polimi.ingsw.network.server.ClientHandler sendMessage
+INFO: Message sent it.polimi.ingsw.network.messages.server_messages.CurrentPlayerMessage@68b2a5b5

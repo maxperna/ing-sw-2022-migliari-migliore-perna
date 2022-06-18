@@ -7,7 +7,6 @@ import it.polimi.ingsw.model.TowerColor;
 import it.polimi.ingsw.model.experts.ExpertID;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.client.ClientSocket;
-import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.network.messages.client_messages.*;
@@ -101,6 +100,11 @@ public class ClientController implements ViewListener, Listener {
     public void moveStudentToIsland(Color student,int nodeID){
         decreaseActionCounter();
         client.sendMessage(new MovedStudentToIsland(nickname,student,nodeID));
+    }
+
+    @Override
+    public void actionPhaseChoice(MessageType type) {
+        client.sendMessage(new StudentsAvailableRequest(nickname, type));
     }
 
     /**Method to pick one single student on the view and move it into the dinner room
@@ -281,6 +285,10 @@ public class ClientController implements ViewListener, Listener {
                 GameFieldMessage gameField = (GameFieldMessage) receivedMessage;
                 actionQueue.execute(()->view.showGameField(gameField.getGameFieldMap()));
                 break;
+            case STUDENT_REPLY:
+                AvailableStudentsReply availableStudentsReply = (AvailableStudentsReply) receivedMessage;
+                actionQueue.execute(()->view.availableStudents(availableStudentsReply.getAvailableStudents(), availableStudentsReply.getTypeOfMovement(), availableStudentsReply.getIslandSize()));
+                break;
             case ERROR:
                 ErrorMessage error = (ErrorMessage) receivedMessage;
                 actionQueue.execute(()->view.showError(error.getErrorMessage(), error.getTypeError()));
@@ -324,7 +332,6 @@ public class ClientController implements ViewListener, Listener {
                         actionQueue.execute(() -> view.showGenericMessage("Turn ended, waiting for other players"));
                     }
                 }
-
                 break;
             /*CASE TYPE:
             *   richiedere un aggiornamento alla view*/

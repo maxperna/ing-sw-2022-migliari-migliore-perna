@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.model.experts.ExpertID;
 import it.polimi.ingsw.network.messages.ErrorType;
+import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.view.View;
 
 import java.util.ArrayList;
@@ -154,6 +155,11 @@ public class Gui implements View {
 
     @Override
     public void sendNumberOfPlayers(int numberOfPlayers) {
+
+    }
+
+    @Override
+    public void availableStudents(ArrayList<Color> availableStudents, MessageType movementType, int gameFieldSize) {
 
     }
 

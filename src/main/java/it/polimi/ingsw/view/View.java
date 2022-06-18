@@ -6,10 +6,10 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.model.experts.ExpertID;
 import it.polimi.ingsw.network.messages.ErrorType;
+import it.polimi.ingsw.network.messages.MessageType;
 import org.jetbrains.annotations.TestOnly;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public interface View{
@@ -127,5 +127,7 @@ public interface View{
     void chooseCloudTile(int cloudID);
 
     void sendNumberOfPlayers(int numberOfPlayers);
+
+    void availableStudents(ArrayList<Color> availableStudents, MessageType movementType, int gameFieldSize);
 
 }
