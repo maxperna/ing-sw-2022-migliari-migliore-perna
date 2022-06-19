@@ -1214,7 +1214,7 @@ public class Cli extends ViewSubject implements View {
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 }
-            }while (islandChoice <= 0 && islandChoice > gameFieldSize);
+            }while (islandChoice <= 0 || islandChoice > gameFieldSize);
 
             int finalIslandChoice = islandChoice;
             notifyListener(list -> list.moveStudentToIsland(indexColorMap.get(finalChoice), finalIslandChoice));
