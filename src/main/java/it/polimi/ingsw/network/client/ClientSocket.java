@@ -40,7 +40,7 @@ public class ClientSocket extends Client {
     public void receiveMessage() {
         readExecutionQueue.execute(()-> {
             while(!readExecutionQueue.isShutdown()) {
-                              //message recived by the server
+                              //message received by the server
                 try{
                     Message messageReceived = (Message) inputStream.readObject();          //reading the message
                    // Client.LOGGER.info("Received");

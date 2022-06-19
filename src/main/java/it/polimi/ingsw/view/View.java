@@ -1,15 +1,15 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.controller.GameState;
+import it.polimi.ingsw.model.experts.*;
 import it.polimi.ingsw.model.gameField.Node;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.experts.ExpertCard;
-import it.polimi.ingsw.model.experts.ExpertID;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.MessageType;
 import org.jetbrains.annotations.TestOnly;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public interface View{
@@ -54,7 +54,6 @@ public interface View{
     /**Method to show all the experts, every player receives expertIDLists at the beginning of the game.
      * @param expertIDList arrayList that contains all the experts in the game
      */
-    void showExpertCards(ArrayList<ExpertID> expertIDList);
 
     /**Each time a teacher changes every player receives his personal teacherList.
      * @param teacherList contains the teacher of the player
@@ -100,16 +99,12 @@ public interface View{
 
     void showError(String errorMessage, ErrorType errorType);
 
-    void showExpertID(ArrayList<ExpertID> expertID);
-
-    void showExpertCard(ArrayList<ExpertCard> expertCard);
-
     void disconnect();
 
     void showAssistant(ArrayList<AssistantCard> deck);
 
     @TestOnly
-    void ActionPhaseTurn();
+    void ActionPhaseTurn(Boolean expert);
 
     void connectionRequest();
 
@@ -120,6 +115,22 @@ public interface View{
      */
     void selectStudent(ArrayList<Color> students, int islands);
 
+    void playExpertType2(int cardID, Expert9 expert);
+
+    void playExpertType2(int cardID, Expert11 expert);
+
+    void playExpertType2(int cardID, Expert12 expert);
+
+    void playExpertType3(int cardID, Expert7 expert);
+
+    void playExpertType3(int cardID, Expert10 expert);
+
+    void playExpertType4(int cardID, Expert3 expert);
+
+    void playExpertType5(int cardID, Expert1 expert);
+
+    void playExpertType5(int cardID, Expert5 expert);
+
     void chooseAction();
 
     void moveMotherNature();
@@ -128,6 +139,11 @@ public interface View{
 
     void sendNumberOfPlayers(int numberOfPlayers);
 
+    void showExpertCards(ArrayList<ExpertCard> allExpertCards);
+
     void availableStudents(ArrayList<Color> availableStudents, MessageType movementType, int gameFieldSize);
 
+    void chooseExpertCard();
+
+    void expertModeControl(boolean setExpertMode);
 }

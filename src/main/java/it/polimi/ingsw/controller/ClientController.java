@@ -4,7 +4,7 @@ import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.DeckType;
 import it.polimi.ingsw.model.TowerColor;
-import it.polimi.ingsw.model.experts.ExpertID;
+import it.polimi.ingsw.model.experts.*;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.client.ClientSocket;
 import it.polimi.ingsw.network.messages.Message;
@@ -16,7 +16,6 @@ import it.polimi.ingsw.observer.Listener;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.observer.ViewListener;
 import it.polimi.ingsw.view.cli.Cli;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,9 +34,10 @@ public class ClientController implements ViewListener, Listener {
     private String nickname;
     private final ExecutorService actionQueue;
     private GameState phase;
-    private ArrayList<ExpertID> expertsOnField = new ArrayList<>();
+    private ArrayList<ExpertCard> expertCardsOnField = new ArrayList<>();
     private int endTurnCounter;   //regulate the final phase of the action phase
     private int actionCounter;
+    private boolean expert_mode;
 
     private int numOfPlayers;
 
@@ -46,6 +46,7 @@ public class ClientController implements ViewListener, Listener {
         this.actionQueue = Executors.newSingleThreadExecutor();
         this.phase = GameState.PREPARATION_PHASE;
         this.endTurnCounter = 1;
+        expert_mode = false;
     }
 
     /**Method handling the connection information to create a client-server connection
@@ -76,6 +77,7 @@ public class ClientController implements ViewListener, Listener {
      * @param expertMode chosen game mode*/
     @Override
     public void sendGameParam(int numOfPlayers, boolean expertMode){
+        this.expert_mode = expertMode;
         client.sendMessage(new GameParamMessage(this.nickname,numOfPlayers,expertMode));
     }
 
@@ -122,7 +124,7 @@ public class ClientController implements ViewListener, Listener {
      * @param playedCard selected card to play*/
     @Override
     public void playAssistantCard(int playedCard){
-         client.sendMessage(new PlayAssistantMessage(nickname,playedCard));
+        client.sendMessage(new PlayAssistantMessage(nickname,playedCard));
     }
 
     @Override
@@ -134,12 +136,16 @@ public class ClientController implements ViewListener, Listener {
     public void moveMotherNature(int numberOfSteps){
         client.sendMessage(new MoveMotherNatureMessage(nickname,numberOfSteps));
     }
-
+    @Override
+    public void actionPhaseChoice(MessageType type) {
+        client.sendMessage(new StudentsAvailableRequest(nickname, type));
+    }
 
     /**Method to play an expert card
-     * @param cardID id of the card on the field*/
-    public void chooseExpertCard(int cardID){
-        client.sendMessage(new ExpertCardRequest(nickname,cardID));
+     **/
+    @Override
+    public void getExpertsCard(){
+        client.sendMessage(new ExpertCardRequest(nickname));
     }
 
     @Override
@@ -148,23 +154,28 @@ public class ClientController implements ViewListener, Listener {
     }
 
     //EXPERT CARD METHODS
-    public void playExpertCard1(int cardID){
+    @Override
+    public void playExpertCard1(int cardID) {
         client.sendMessage(new PlayExpertCard1(nickname,cardID));
     }
 
-    public void playExpertCard2(int cardID,int nodeID){
+    @Override
+    public void playExpertCard2(int cardID,int nodeID) {
         client.sendMessage(new PlayExpertCard2(nickname,nodeID,cardID));
     }
 
-    public void playExpertCard3(int nodeID,Color student,int cardID){
+    @Override
+    public void playExpertCard3(int cardID, int nodeID, Color student) {
         client.sendMessage(new PlayExpertCard3(nickname,nodeID,student,cardID));
     }
 
-    public void playExpertCard4(Color student,int cardID){
+    @Override
+    public void playExpertCard4(int cardID, Color student){
         client.sendMessage(new PlayExpertCard4(nickname,student,cardID));
     }
 
-    public void playExpertCard5(ArrayList<Color> student1, ArrayList<Color> student2,int cardID){
+    @Override
+    public void playExpertCard5(int cardID, ArrayList<Color> student1, ArrayList<Color> student2) {
         client.sendMessage(new PlayExpertCard5(nickname,student1,student2,cardID));
     }
 
@@ -181,15 +192,45 @@ public class ClientController implements ViewListener, Listener {
     /**Sub state machine catching the type of experts to play get reading expertCardReply type
      * @param cardID chosen card to play*/
     public void applyExpertEffect(int cardID){
-        ExpertID typeOfExpert = expertsOnField.get(cardID);
+        ExpertID typeOfExpert = expertCardsOnField.get(cardID).getExpType();
+
         switch (typeOfExpert){        //update with method of the CLI
-            case COLOR:
-            case TWO_LIST_COLOR:
-            case NODE_ID_COLOR:
-            case USER_ONLY:
-            case NODE_ID:
-            default:
+            case USER_ONLY: this.playExpertCard1(cardID);
+                break;
+            case COLOR:  {
+                if (expertCardsOnField.get(cardID) instanceof Expert9)
+                    view.playExpertType2(cardID, (Expert9)expertCardsOnField.get(cardID));
+                else if (expertCardsOnField.get(cardID) instanceof Expert11)
+                    view.playExpertType2(cardID, (Expert11)expertCardsOnField.get(cardID));
+                else if (expertCardsOnField.get(cardID) instanceof Expert12)
+                    view.playExpertType2(cardID, (Expert12)expertCardsOnField.get(cardID));
+            }
+                break;
+            case TWO_LIST_COLOR: {
+                if(expertCardsOnField.get(cardID) instanceof Expert7)
+                    view.playExpertType3(cardID, (Expert7)expertCardsOnField.get(cardID));
+                else if (expertCardsOnField.get(cardID) instanceof Expert10)
+                    view.playExpertType3(cardID, (Expert10)expertCardsOnField.get(cardID));
+            }
+                break;
+            case NODE_ID_COLOR: {
+                if(expertCardsOnField.get(cardID) instanceof Expert3)
+                    view.playExpertType4(cardID, (Expert3)expertCardsOnField.get(cardID));
+            }
+                break;
+            case NODE_ID: {
+                if(expertCardsOnField.get(cardID) instanceof Expert1)
+                    view.playExpertType5(cardID, (Expert1) expertCardsOnField.get(cardID));
+                else if(expertCardsOnField.get(cardID) instanceof Expert5)
+                view.playExpertType5(cardID, (Expert5) expertCardsOnField.get(cardID));
+            }
+                break;
         }
+    }
+
+    @Override
+    public void getCoins() {
+        client.sendMessage(new GetCoins(nickname));
     }
 
     /*Aggiungere metodi per inviare messaggi
@@ -226,7 +267,7 @@ public class ClientController implements ViewListener, Listener {
                         phase = GameState.ACTION_PHASE;
                         actionCounter = resetCounter();
                         endTurnCounter = 1;
-                        actionQueue.execute(view::ActionPhaseTurn);
+                        actionQueue.execute(()->view.ActionPhaseTurn(expert_mode));
                         break;
 
                 }break;
@@ -241,6 +282,8 @@ public class ClientController implements ViewListener, Listener {
                 }
                 break;
             case UPDATE_COIN:
+                UpdateCoin coinMessage = (UpdateCoin) receivedMessage;
+                actionQueue.execute(() -> view.newCoin(nickname, coinMessage.getCoinValue()));
                 break;
             case NOTIFY_MERGE:
                 //notify the merging of the island
@@ -274,12 +317,21 @@ public class ClientController implements ViewListener, Listener {
                 break;
                 //case PREPARATION_PHASE
             case EXPERT_CARD_REPLY:
-                expertsOnField = ((ExpertCardReply)receivedMessage).getExpertID();
+                expertCardsOnField = ((ExpertCardReply)receivedMessage).getExpertID();
+                actionQueue.execute(view::chooseExpertCard);
+                break;
+            case EXPERT_MODE_CONTROL:
+                ExpertModeControlMessage expertModeControlMessage = (ExpertModeControlMessage) receivedMessage;
+                expert_mode = expertModeControlMessage.isSetExpertMode();
                 break;
             case LAST_ASSISTANT:
                 LastCardMessage lastCardMessage = (LastCardMessage)  receivedMessage;
                 actionQueue.execute(()->view.showLastUsedCard(lastCardMessage.getLastCardMap()));
                 requestAssistants();
+                break;
+            case STUDENT_REPLY:
+                AvailableStudentsReply availableStudentsReply = (AvailableStudentsReply) receivedMessage;
+                actionQueue.execute(()->view.availableStudents(availableStudentsReply.getAvailableStudents(), availableStudentsReply.getTypeOfMovement(), availableStudentsReply.getIslandSize()));
                 break;
             case GAME_FIELD:
                 GameFieldMessage gameField = (GameFieldMessage) receivedMessage;
@@ -298,7 +350,7 @@ public class ClientController implements ViewListener, Listener {
                 //Action phase error handling
                 if(error.getTypeError() == STUDENT_ERROR ) {
                     actionCounter ++;
-                    actionQueue.execute(view::ActionPhaseTurn);
+                    actionQueue.execute(()->view.ActionPhaseTurn(expert_mode));
                 }
                 if(error.getTypeError() == ASSISTANT_ERROR) {
                     requestAssistants();
@@ -312,6 +364,9 @@ public class ClientController implements ViewListener, Listener {
                     actionQueue.execute(this::cloudsRequest);
                     endTurnCounter ++;
                 }
+                if(error.getTypeError() == EXPERT_ERROR){
+                    actionQueue.execute(this::getExpertsCard);
+                }
 
                 break;
             case WORLD_CHANGE:
@@ -319,7 +374,7 @@ public class ClientController implements ViewListener, Listener {
                 actionQueue.execute(()-> defaultViewLayout(worldChange));
                 if(phase.equals(GameState.ACTION_PHASE) && worldChange.getCurrentPlayer().equals(nickname)) {
                     if(actionCounter > 0) {
-                        actionQueue.execute(view::ActionPhaseTurn);
+                        actionQueue.execute(()->view.ActionPhaseTurn(expert_mode));
                     }
                     else if(actionCounter == 0 && endTurnCounter==1){
                         //MN movement
@@ -333,8 +388,12 @@ public class ClientController implements ViewListener, Listener {
                     }
                 }
                 break;
+            case GAMEPARAM:
+                ExpertModeNotify expert = (ExpertModeNotify) receivedMessage;
+                setExpertMode(expert.getExpertMode());
+                break;
             /*CASE TYPE:
-            *   richiedere un aggiornamento alla view*/
+             *   richiedere un aggiornamento alla view*/
         }
     }
 
@@ -384,12 +443,23 @@ public class ClientController implements ViewListener, Listener {
     private void decreaseActionCounter(){
         actionCounter--;
     }
+
     private void defaultViewLayout(WorldChangeMessage message) {
 
         ((Cli)view).clearCli();
         view.showGameField(message.getGameFieldMap());
         view.showClouds(message.getChargedClouds());
         view.printBoard(message.getBoardMap().get(nickname), nickname);
+        view.showExpertCards(message.getExperts());
+    }
+
+    public void askAction(Boolean expert_mode) {
+        view.ActionPhaseTurn(expert_mode);
+    }
+
+    @Override
+    public void setExpertMode(Boolean expertMode) {
+        this.expert_mode = expertMode;
     }
 
 }

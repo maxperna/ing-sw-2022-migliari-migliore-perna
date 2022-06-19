@@ -12,6 +12,7 @@ import org.jetbrains.annotations.TestOnly;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.FileNotFoundException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -22,7 +23,7 @@ import java.util.UUID;
  *
  * @author Miglia
  */
-public class Game {
+public class Game implements Serializable {
 
     public final static int MAX_TILE = 12;
     //GAME PARAMETERS

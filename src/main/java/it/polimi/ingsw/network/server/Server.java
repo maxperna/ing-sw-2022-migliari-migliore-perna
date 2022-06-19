@@ -27,7 +27,7 @@ public class Server{
         this.firstConnection = true;
     }
 
-    public synchronized void addClient(String nickname, ClientHandler clientHandler){
+    public void addClient(String nickname, ClientHandler clientHandler){
         VirtualView newVW = new VirtualView(clientHandler);
         if(gameController.getGameState().equals(GameState.LOGIN)){
             if(gameController.checkNicknameValidity(nickname) && (firstConnection || gameController.getGame()!=null)){

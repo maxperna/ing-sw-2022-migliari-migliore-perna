@@ -1,16 +1,17 @@
 package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.controller.GameState;
+import it.polimi.ingsw.model.experts.*;
 import it.polimi.ingsw.model.gameField.Node;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.experts.ExpertCard;
-import it.polimi.ingsw.model.experts.ExpertID;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.observer.Listener;
+import it.polimi.ingsw.observer.ViewListener;
 import it.polimi.ingsw.observer.ViewSubject;
 import it.polimi.ingsw.view.View;
+import org.jetbrains.annotations.TestOnly;
 
 import java.util.*;
 import java.util.concurrent.ExecutionException;
@@ -26,6 +27,7 @@ public class Cli extends ViewSubject implements View {
     public static final String ANSI_PINK = "\u001B[35m";
     public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_GREEN = "\u001B[32m";
+
     public static final String CLEAR = "\033[H\033[2J";
     private boolean tutorial;
 
@@ -632,8 +634,6 @@ public class Cli extends ViewSubject implements View {
 
     }
 
-    public void showExpertCards(ArrayList<ExpertID> expertIDList) {
-    }
 
     public void updateTeachers(Map<Color, Boolean> teacherList) {
     }
@@ -648,6 +648,8 @@ public class Cli extends ViewSubject implements View {
     }
 
     public void newCoin(String player, int numOfCoin) {
+        System.out.println("Number of coins: " +numOfCoin);
+        System.out.println();
     }
 
     /**
@@ -665,19 +667,73 @@ public class Cli extends ViewSubject implements View {
         System.out.println(errorMessage);
     }
 
-    @Override
-    public void showExpertID(ArrayList<ExpertID> expertID) {
-    }
+
 
     /**
      * method used to print the description of each expert card
      *
-     * @param expertCard
      */
     @Override
-    public void showExpertCard(ArrayList<ExpertCard> expertCard) {
-        for (ExpertCard expert : expertCard)
-            System.out.println("Expert card cost: " + expert.getCost() + "/nExpert card effect: " + expert.getExpDescription());
+    public void showExpertCards(ArrayList<ExpertCard> allExpertCards) {
+        int index = 1;
+        for (ExpertCard expert : allExpertCards) {
+            System.out.println("Expert [" + index + "]\nExpert card cost: " + expert.getCost() + "\nExpert card effect: " + expert.getExpDescription());
+            index++;
+            System.out.println();
+        }
+    }
+
+    @Override
+    public void availableStudents(ArrayList<Color> availableStudents, MessageType movementType, int gameFieldSize) {
+        System.out.println("\n\nAvailable students: ");
+        Map<Integer, Color> indexColorMap = new HashMap<>();
+        int islandChoice = -1;
+        int choice = 0;
+        int index = 1;
+
+        for(Color currentColor : availableStudents) {
+            if(currentColor.equals(Color.RED))
+                System.out.println("[" +index+ "] RED ");
+            if(currentColor.equals(Color.PINK))
+                System.out.println("[" +index+ "] PINK ");
+            if(currentColor.equals(Color.GREEN))
+                System.out.println("[" +index+ "] GREEN ");
+            if(currentColor.equals(Color.YELLOW))
+                System.out.println("[" +index+ "] YELLOW ");
+            if(currentColor.equals(Color.BLUE))
+                System.out.println("[" +index+ "] BLUE ");
+
+            indexColorMap.put(index, currentColor);
+            index ++;
+        }
+
+        while (!indexColorMap.containsKey(choice)) {
+            try {
+                System.out.println("Choose: ");
+                choice = Integer.parseInt(read());
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+        int finalChoice = choice;
+
+        if(movementType == MessageType.MOVE_TO_DINING) {
+            notifyListener(list -> list.moveStudentToDinner(indexColorMap.get(finalChoice)));
+        }
+        else if(movementType == MessageType.MOVE_TO_ISLAND) {
+
+            do {
+                try {
+                    System.out.println("Island Number: ");
+                    islandChoice = Integer.parseInt(read());
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+            }while (islandChoice <= 0 && islandChoice > gameFieldSize);
+
+            int finalIslandChoice = islandChoice;
+            notifyListener(list -> list.moveStudentToIsland(indexColorMap.get(finalChoice), finalIslandChoice));
+        }
     }
 
     /**
@@ -762,6 +818,7 @@ public class Cli extends ViewSubject implements View {
             notifyListener(list -> list.moveStudentToIsland(finalColor1, finalChosenIsland));
         }
     }
+
 
     public void catchAction(Message receivedMessage) {}
 
@@ -985,9 +1042,9 @@ public class Cli extends ViewSubject implements View {
         for (int i = 1; i < 11; i++) {
             if (i < numOfColor + 1) {
                 System.out.print("   " + toColor(color, "●") + "   ");
-            } else if (i % 3 == 0 && i > numOfColor + 1)
+            } else if (i % 3 == 0 && i > numOfColor)
                 System.out.print("   ?   ");
-            else if (i % 3 == 0 && i < numOfColor + 1)
+            else if (i % 3 == 0 && i < numOfColor)
                 System.out.print("   " + toColor(color, "⦾" + ANSI_RESET + "   |"));
             else if (i != 10)
                 System.out.print("   -   ");
@@ -1053,47 +1110,54 @@ public class Cli extends ViewSubject implements View {
     }
 
     @Override
-    public void ActionPhaseTurn() {
+    public void ActionPhaseTurn(Boolean expert) {
         int choice = 0;
         boolean valid = false;
 
-        do {
-            System.out.println("\nWrite [1] to move a student to the dining room, [2] to move it on an island");
-            try {
-                choice = Integer.parseInt(read());
+        if(expert) {
+            do {
+                System.out.println("\nWrite [1] to move a student to the dining room, [2] to move it on an island, [3] to play an expert card");
+                try {
+                    choice = Integer.parseInt(read());
 
-                if (choice == 1 || choice == 2)
-                    valid = true;
+                    if (choice == 1 || choice == 2 || choice == 3)
+                        valid = true;
 
-            } catch (NumberFormatException | ExecutionException e) {
+                } catch (NumberFormatException | ExecutionException e) {
                     System.out.println("Error. Invalid input");
-                    valid = false;
-            }
-        } while (!valid);
+                }
+            } while (!valid);
 
-        if(choice == 1) {
-            notifyListener(list -> list.actionPhaseChoice(MessageType.MOVE_TO_DINING));
+            if(choice == 1)
+                notifyListener(list -> list.actionPhaseChoice(MessageType.MOVE_TO_DINING));
+            else if (choice == 2){
+                notifyListener(list -> list.actionPhaseChoice(MessageType.MOVE_TO_ISLAND));
+            }
+            else {
+                notifyListener(ViewListener::getCoins);
+                notifyListener(ViewListener::getExpertsCard);
+            }
         }
         else {
-            notifyListener(list -> list.actionPhaseChoice(MessageType.MOVE_TO_ISLAND));
-//            valid = false;
-//            do {
-//                System.out.println("\nWrite the Id of the island of destination");
-//                try {
-//                    choice = Integer.parseInt(read());
-//
-//                    if (choice>=1 && choice<=12)
-//                        valid = true;
-//
-//                } catch (NumberFormatException | ExecutionException e) {
-//                    System.out.println("Error. Invalid input");
-//                }
-//            } while (!valid);
-//            int finalChoice = choice;
-//            Color chosenColor = colorSelector();
-//            notifyListener(list -> list.moveStudentToIsland(chosenColor, finalChoice));
-        }
+            do {
+                System.out.println("\nWrite [1] to move a student to the dining room, [2] to move it on an island");
+                try {
+                    choice = Integer.parseInt(read());
 
+                    if (choice == 1 || choice == 2)
+                        valid = true;
+
+                } catch (NumberFormatException | ExecutionException e) {
+                    System.out.println("Error. Invalid input");
+                }
+            } while (!valid);
+
+            if(choice == 1)
+                notifyListener(list -> list.actionPhaseChoice(MessageType.MOVE_TO_DINING));
+            else {
+                notifyListener(list -> list.actionPhaseChoice(MessageType.MOVE_TO_ISLAND));
+            }
+        }
     }
 
     @Override
@@ -1112,28 +1176,6 @@ public class Cli extends ViewSubject implements View {
     }
 
 
-    @Override
-    public void chooseAction(/*boolean expert*/) {
-        int chosenAction = 0;
-        boolean valid = false;
-        System.out.println("Write [1] to play your card, [2] to check the other boards");
-        do {
-            try {
-                chosenAction = Integer.parseInt(read());
-                if(chosenAction != 1 && chosenAction != 2 /*&& (chosenAction != 3 && expert)*/)
-                    System.out.println("Invalid input");
-                else
-                    valid = true;
-            } catch (ExecutionException | NumberFormatException e) {
-                System.out.println("Error. Invalid input.");
-                valid = false;
-            }
-        } while(!valid);
-        int finalChosenAction = chosenAction;
-        notifyListener(list -> list.chooseAction(finalChosenAction));
-    }
-
-    @Override
     public void chooseCloudTile(int cloudID) {
         int chosenCloud = 0;
         boolean valid = false;
@@ -1152,8 +1194,8 @@ public class Cli extends ViewSubject implements View {
                 else
                     valid = true;
 
-            } catch (ExecutionException e) {
-                System.out.println("error. Invalid parameter");
+            } catch (ExecutionException | NumberFormatException e) {
+                System.out.println("Error. Invalid parameter");
                 valid = false;
             }
 
@@ -1167,60 +1209,6 @@ public class Cli extends ViewSubject implements View {
     public void sendNumberOfPlayers(int numberOfPlayers) {
 
     }
-
-    @Override
-    public void availableStudents(ArrayList<Color> availableStudents, MessageType movementType, int gameFieldSize) {
-        System.out.println("\n\nAvailable students: ");
-        Map<Integer, Color> indexColorMap = new HashMap<>();
-        int islandChoice = -1;
-        int choice = 0;
-        int index = 1;
-
-        for(Color currentColor : availableStudents) {
-            if(currentColor.equals(Color.RED))
-                System.out.println("[" +index+ "] RED ");
-            if(currentColor.equals(Color.PINK))
-                System.out.println("[" +index+ "] PINK ");
-            if(currentColor.equals(Color.GREEN))
-                System.out.println("[" +index+ "] GREEN ");
-            if(currentColor.equals(Color.YELLOW))
-                System.out.println("[" +index+ "] YELLOW ");
-            if(currentColor.equals(Color.BLUE))
-                System.out.println("[" +index+ "] BLUE ");
-
-            indexColorMap.put(index, currentColor);
-            index ++;
-        }
-
-        while (!indexColorMap.containsKey(choice)) {
-            try {
-                System.out.println("Choose: ");
-                choice = Integer.parseInt(read());
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            }
-        }
-        int finalChoice = choice;
-
-        if(movementType == MessageType.MOVE_TO_DINING) {
-            notifyListener(list -> list.moveStudentToDinner(indexColorMap.get(finalChoice)));
-        }
-        else if(movementType == MessageType.MOVE_TO_ISLAND) {
-
-            do {
-                try {
-                    System.out.println("Island Number: ");
-                    islandChoice = Integer.parseInt(read());
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                }
-            }while (islandChoice <= 0 && islandChoice > gameFieldSize);
-
-            int finalIslandChoice = islandChoice;
-            notifyListener(list -> list.moveStudentToIsland(indexColorMap.get(finalChoice), finalIslandChoice));
-        }
-    }
-
 
     private String intToString (Integer number) {
         if (number < 10)
@@ -1271,4 +1259,427 @@ public class Cli extends ViewSubject implements View {
         System.out.println("----------"+ANSI_RESET);
         string.delete(0, string.capacity());
         }
+
+    @Override
+    public void playExpertType2(int cardID, Expert9 expert) {
+        int chosenColor=0;
+        System.out.println("Choose a color: [1] RED, [2] PINK, [3] GREEN, [4] YELLOW, [5] BLUE");
+        do {
+            try {
+                chosenColor = Integer.parseInt(read());
+            } catch (ExecutionException | NumberFormatException e) {
+                System.out.println("Error.Invalid input");
+            }
+        }while(chosenColor<1 || chosenColor>5);
+
+        switch (chosenColor) {
+            case 1:
+                notifyListener(list -> list.playExpertCard4(cardID, Color.RED));
+                break;
+            case 2:
+                notifyListener(list -> list.playExpertCard4(cardID, Color.PINK));
+                break;
+            case 3:
+                notifyListener(list -> list.playExpertCard4(cardID, Color.GREEN));
+                break;
+            case 4:
+                notifyListener(list -> list.playExpertCard4(cardID, Color.YELLOW));
+                break;
+            case 5:
+                notifyListener(list -> list.playExpertCard4(cardID, Color.BLUE));
+                break;
+
+        }
+    }
+
+    /**
+     * method to play expert card 11
+     * @param cardID
+     * @param expert
+     */
+    @Override
+    public void playExpertType2(int cardID, Expert11 expert) {
+        int index;
+        int chosenStudent=0;
+        do {
+            index=1;
+            System.out.println("Choose one of the students on this card:");
+            for (Color student : expert.getStudentsOnCard()) {
+                System.out.println("["+index+"] "+toColor(student, "●"));
+                index++;
+            }
+            try {
+                chosenStudent = Integer.parseInt(read())-1;
+            } catch (ExecutionException | NumberFormatException e) {
+                System.out.println("Error. Invalid parameter");
+            }
+        } while(chosenStudent < 0 || chosenStudent > expert.getStudentsOnCard().size()-1);
+
+        int finalChosenStudent = chosenStudent;
+        notifyListener(list -> list.playExpertCard4(cardID, expert.getStudentsOnCard().get(finalChosenStudent)));
+    }
+
+    /**
+     * method to play expert card 12
+     * @param cardID
+     * @param expert
+     */
+    @Override
+    public void playExpertType2(int cardID, Expert12 expert) {
+        int chosenColor = 0;
+        System.out.println("Choose a color: [1] RED, [2] PINK, [3] GREEN, [4] YELLOW, [5] BLUE");
+        do {
+            try {
+                chosenColor = Integer.parseInt(read());
+            } catch (ExecutionException | NumberFormatException e) {
+                System.out.println("Error.Invalid input");
+            }
+        } while (chosenColor < 1 || chosenColor > 5);
+
+        switch (chosenColor) {
+            case 1:
+                notifyListener(list -> list.playExpertCard4(cardID, Color.RED));
+                break;
+            case 2:
+                notifyListener(list -> list.playExpertCard4(cardID, Color.PINK));
+                break;
+            case 3:
+                notifyListener(list -> list.playExpertCard4(cardID, Color.GREEN));
+                break;
+            case 4:
+                notifyListener(list -> list.playExpertCard4(cardID, Color.YELLOW));
+                break;
+            case 5:
+                notifyListener(list -> list.playExpertCard4(cardID, Color.BLUE));
+                break;
+        }
+    }
+
+    /**
+     * method to play expert card 3
+     * @param cardID
+     * @param expert
+     */
+    @Override
+    public void playExpertType3(int cardID, Expert7 expert) {
+        ArrayList<Color> toCard = new ArrayList<>();
+        ArrayList<Color> toEntryHall = new ArrayList<>();
+        int chosenColor = 0;
+        int maxStudent = 0;
+
+        do {
+            System.out.print("Choose the number of students you want to swap (up to 3): ");
+            try {
+                maxStudent = Integer.parseInt(read());
+            } catch (ExecutionException | NumberFormatException e) {
+                System.out.println("Error.Invalid parameter");
+            }
+        } while (maxStudent < 1 || maxStudent > 3);
+
+        for (int i = 0; i < maxStudent; i++) {
+            int index;
+            int chosenStudent=0;
+
+            do {
+                index=1;
+                System.out.println("Choose the student you want to move to your entry hall");
+                for (Color student : expert.getStudentsOnCard()) {
+                    System.out.println("["+index+"] "+toColor(student, "●"));
+                    index++;
+                }
+                try {
+                    chosenStudent = Integer.parseInt(read())-1;
+                } catch (ExecutionException | NumberFormatException e) {
+                    System.out.println("Error. Invalid parameter");
+                }
+            } while(chosenStudent < 0 || chosenStudent > expert.getStudentsOnCard().size()-1);
+
+            toEntryHall.add(expert.getStudentsOnCard().get(chosenStudent));
+            expert.getStudentsOnCard().remove(chosenStudent);
+        }
+
+        for (int i = 0; i < maxStudent; i++) {
+            do {
+                System.out.println("Choose the student you want to place on the card: [1] RED, [2] PINK, [3] GREEN, [4] YELLOW, [5] BLUE");
+                try {
+                    chosenColor = Integer.parseInt(read());
+                } catch (ExecutionException e) {
+                    System.out.println("Error. Invalid input");
+                }
+            } while (chosenColor < 1 || chosenColor > 5);
+
+            switch (chosenColor) {
+                case 1:
+                    toCard.add(Color.RED);
+                    break;
+                case 2:
+                    toCard.add(Color.PINK);
+                    break;
+                case 3:
+                    toCard.add(Color.GREEN);
+                    break;
+                case 4:
+                    toCard.add(Color.YELLOW);
+                    break;
+                case 5:
+                    toCard.add(Color.BLUE);
+                    break;
+            }
+        }
+        notifyListener(list -> list.playExpertCard5( cardID, toEntryHall, toCard));
+    }
+
+    /**
+     * method to play expert card 10
+     * @param cardID
+     * @param expert
+     */
+    @Override
+    public void playExpertType3(int cardID, Expert10 expert) {
+        ArrayList<Color> toDiningRoom = new ArrayList<>();
+        ArrayList<Color> toEntryHall = new ArrayList<>();
+        int chosenColor = 0;
+        int maxStudent = 0;
+        do {
+            System.out.print("Choose the number of student you want to swap (up to 2): ");
+            try {
+                maxStudent = Integer.parseInt(read());
+            } catch (ExecutionException | NumberFormatException e) {
+                System.out.println("Error.Invalid parameter");
+            }
+        } while (maxStudent < 1 || maxStudent > 2);
+
+        for (int i = 0; i < maxStudent; i++) {
+            do {
+                System.out.println("Choose the student you want to move from your hall to your dining room: [1] RED, [2] PINK, [3] GREEN, [4] YELLOW, [5] BLUE");
+                try {
+                    chosenColor = Integer.parseInt(read()) - 1;
+                } catch (ExecutionException e) {
+                    System.out.println("Error. Invalid input");
+                }
+            } while (chosenColor < 0 || chosenColor > 4);
+
+            switch (chosenColor) {
+                case 1:
+                    toDiningRoom.add(Color.RED);
+                    break;
+                case 2:
+                    toDiningRoom.add(Color.PINK);
+                    break;
+                case 3:
+                    toDiningRoom.add(Color.GREEN);
+                    break;
+                case 4:
+                    toDiningRoom.add(Color.YELLOW);
+                    break;
+                case 5:
+                    toDiningRoom.add(Color.BLUE);
+                    break;
+
+            }
+        }
+
+            for (int i = 0; i < maxStudent; i++) {
+                do {
+                    System.out.println("Choose the student you want to move from your dining room to your entry hall: [1] RED, [2] PINK, [3] GREEN, [4] YELLOW, [5] BLUE");
+                    try {
+                        chosenColor = Integer.parseInt(read()) - 1;
+                    } catch (ExecutionException e) {
+                        System.out.println("Error. Invalid input");
+                    }
+                } while (chosenColor < 0 || chosenColor >= 5);
+
+                switch (chosenColor) {
+                    case 1:
+                        toEntryHall.add(Color.RED);
+                        break;
+                    case 2:
+                        toEntryHall.add(Color.PINK);
+                        break;
+                    case 3:
+                        toEntryHall.add(Color.GREEN);
+                        break;
+                    case 4:
+                        toEntryHall.add(Color.YELLOW);
+                        break;
+                    case 5:
+                        toEntryHall.add(Color.BLUE);
+                        break;
+
+
+                }
+            notifyListener(list -> list.playExpertCard5(cardID ,toDiningRoom, toEntryHall));
+        }
+    }
+
+    /**
+     * method to play expert card 3
+     * @param cardID
+     * @param expert
+     */
+    @Override
+    public void playExpertType4(int cardID, Expert3 expert) {
+        int chosenID = 0;
+        System.out.println("Choose the island you want to use the effect on: ");
+        do {
+            try {
+                chosenID = Integer.parseInt(read());
+            } catch (ExecutionException | NumberFormatException e) {
+                System.out.println("Error. Invalid parameter");
+            }
+        } while(chosenID < 0 || chosenID > 12);
+
+
+        int finalChosenID = chosenID;
+        notifyListener(list -> list.playExpertCard2(cardID, finalChosenID));
+    }
+
+    /**
+     * method to play expert card 1
+     * @param cardID
+     * @param expert
+     */
+    @Override
+    public void playExpertType5(int cardID, Expert1 expert) {
+        int index;
+        int chosenStudent=0;
+
+        do {
+            index=1;
+            System.out.println("Choose one of the students on this card:");
+            for (Color student : expert.getStudentsOnCard()) {
+                System.out.println("["+index+"] "+toColor(student, "●"));
+
+                index++;
+            }
+            try {
+                chosenStudent = Integer.parseInt(read())-1;
+            } catch (ExecutionException | NumberFormatException e) {
+                System.out.println("Error. Invalid parameter");
+            }
+        } while(chosenStudent < 0 || chosenStudent > expert.getStudentsOnCard().size()-1);
+
+        int chosenID = 0;
+
+        do {
+            System.out.println("Choose the island you want to use the effect on: ");
+            try {
+                chosenID = Integer.parseInt(read());
+            } catch (ExecutionException | NumberFormatException e) {
+                System.out.println("Error. Invalid parameter");
+            }
+        } while(chosenID < 0 || chosenID > 12);
+        int finalChosenID = chosenID;
+        int finalChosenStudent = chosenStudent;
+        notifyListener(list -> list.playExpertCard3(cardID, finalChosenID, expert.getStudentsOnCard().get(finalChosenStudent)));
+    }
+
+    public void playExpertType5(int cardID, Expert5 expert) {
+
+        int chosenID = 0;
+
+        do {
+            System.out.println("Choose the island you want to use the effect on: ");
+            try {
+                chosenID = Integer.parseInt(read());
+            } catch (ExecutionException | NumberFormatException e) {
+                System.out.println("Error. Invalid parameter");
+            }
+        } while (chosenID < 0 || chosenID > 12);
+        int finalChosenID = chosenID;
+        notifyListener(list -> list.playExpertCard2(cardID, finalChosenID));
+    }
+
+    @Override
+    public void chooseAction() {
+        int chosenAction = 0;
+        boolean valid = false;
+        System.out.println("Write [1] to play your card, [2] to check the other boards");
+        do {
+            try {
+                chosenAction = Integer.parseInt(read());
+                if(chosenAction != 1 && chosenAction != 2)
+                    System.out.println("Invalid input");
+                else
+                    valid = true;
+            } catch (ExecutionException | NumberFormatException e) {
+                System.out.println("Error. Invalid input.");
+                valid = false;
+            }
+        } while(!valid);
+        int finalChosenAction = chosenAction;
+        notifyListener(list -> list.chooseAction(finalChosenAction));
+    }
+
+    public Color availableStudents(List<Color> availableColor) {
+        System.out.println("\n\nAvailable students: ");
+        Map<Integer, Color> indexColorMap = new HashMap<>();
+        int choice = 0;
+        int index = 1;
+
+        for(Color currentColor : availableColor) {
+            if(currentColor.equals(Color.RED)) {
+                System.out.println("[" +index+ "] RED ");
+                index++;
+            }
+            if(currentColor.equals(Color.RED)) {
+                System.out.println("[" +index+ "] PINK ");
+                index++;
+            }
+            if(currentColor.equals(Color.RED)) {
+                System.out.println("[" +index+ "] GREEN ");
+                index++;
+            }
+            if(currentColor.equals(Color.RED)) {
+                System.out.println("[" +index+ "] YELLOW ");
+                index++;
+            }
+            if(currentColor.equals(Color.RED)) {
+                System.out.println("[" +index+ "] BLUE ");
+                index++;
+            }
+
+            indexColorMap.put(index, currentColor);
+        }
+
+        do {
+            try {
+                System.out.println("Choose: ");
+                choice = Integer.parseInt(read());
+            } catch (ExecutionException e) {
+                System.out.println("This student is not available");
+            }
+        } while (!indexColorMap.containsKey(choice));
+        return indexColorMap.get(choice);
+    }
+
+    @Override
+    public void chooseExpertCard() {
+        int chosenExpert = 0;
+        boolean valid = true;
+        do{
+            System.out.println("Write the ID of the Expert card you want to play: [0] to return");
+            try {
+                chosenExpert = Integer.parseInt(read())-1;
+            } catch (ExecutionException | NumberFormatException e) {
+                valid = false;
+            }
+            if(chosenExpert<-1 || chosenExpert>2)
+                valid = false;
+            if(!valid)
+                System.out.println("Error. Invalid parameter");
+        } while (chosenExpert<-1 || chosenExpert>2);
+
+        if(chosenExpert == -1) {
+            notifyListener(list -> list.askAction(true));
+        }
+        int finalChosenExpert = chosenExpert;
+        notifyListener(list -> list.applyExpertEffect(finalChosenExpert));
+    }
+
+    @Override
+    public void expertModeControl(boolean setExpertMode) {
+
+    }
+
 }

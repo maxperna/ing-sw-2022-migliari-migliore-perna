@@ -533,6 +533,8 @@ public class ExpertsCardTest {
             exp10.useCard(p1,studentsInside,studentsEntry);
         } catch (NotEnoughCoins e) {
             fail();
+        } catch (NotOnBoardException e) {
+            e.printStackTrace();
         }
 
         mockEntryRoom.clear();

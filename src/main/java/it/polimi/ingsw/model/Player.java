@@ -8,7 +8,7 @@ import org.jetbrains.annotations.TestOnly;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
 
-public class Player {
+public class Player implements Serializable {
 
     private final String nickname;
     private final Board board;

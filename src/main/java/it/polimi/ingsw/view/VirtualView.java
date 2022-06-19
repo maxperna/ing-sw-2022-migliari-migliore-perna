@@ -1,10 +1,9 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.controller.GameState;
+import it.polimi.ingsw.model.experts.*;
 import it.polimi.ingsw.model.gameField.Node;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.experts.ExpertCard;
-import it.polimi.ingsw.model.experts.ExpertID;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.network.messages.client_messages.GameParamRequest;
@@ -80,9 +79,20 @@ public class VirtualView implements View {
     }
 
     @Override
-    public void showExpertCards(ArrayList<ExpertID> expertIDList) {
-        clientHandler.sendMessage(new ExpertCardReply(expertIDList));
+    public void showExpertCards(ArrayList<ExpertCard> expertList) {
+        clientHandler.sendMessage(new ExpertCardReply(expertList));
     }
+
+    @Override
+    public void chooseExpertCard() {
+
+    }
+
+    @Override
+    public void expertModeControl(boolean setExpertMode) {
+        clientHandler.sendMessage(new ExpertModeControlMessage(setExpertMode));
+    }
+
     @Override
     public void updateTeachers(Map<Color, Boolean> teacherList) {
         clientHandler.sendMessage(new TeacherListMessage(teacherList));
@@ -137,20 +147,12 @@ public class VirtualView implements View {
 
     }
 
-    @Override
-    public void showExpertID(ArrayList<ExpertID> expertID){
-        clientHandler.sendMessage(new ExpertCardReply(expertID));
-    }
-
-    @Override
-    public void showExpertCard(ArrayList<ExpertCard> expertCard) {
-    }
-
     public ClientHandler getClientHandler() {
         return clientHandler;
     }
 
-    public void ActionPhaseTurn(){}
+    @Override
+    public void ActionPhaseTurn(Boolean expert){}
 
     @Override
     public void connectionRequest() {
@@ -162,6 +164,46 @@ public class VirtualView implements View {
 
     }
 
+    @Override
+    public void playExpertType2(int cardID, Expert9 expert) {
+
+    }
+
+    @Override
+    public void playExpertType2(int cardID, Expert11 expert) {
+
+    }
+
+    @Override
+    public void playExpertType2(int cardID, Expert12 expert) {
+
+    }
+
+    @Override
+    public void playExpertType3(int cardID, Expert7 expert) {
+
+    }
+
+    @Override
+    public void playExpertType3(int cardID, Expert10 expert) {
+
+    }
+
+    @Override
+    public void playExpertType4(int cardID, Expert3 expert) {
+
+    }
+
+    @Override
+    public void playExpertType5(int cardID, Expert1 expert) {
+
+    }
+
+    @Override
+    public void playExpertType5(int cardID, Expert5 expert) {
+
+    }
+
     public void chooseAction(){}
 
     @Override
@@ -169,8 +211,8 @@ public class VirtualView implements View {
 
     }
 
-    public void worldUpdate(Map<Integer, Node> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap, String currentPlayer) {
-        clientHandler.sendMessage(new WorldChangeMessage(gameFieldMap, chargedClouds, boardMap, currentPlayer));
+    public void worldUpdate(Map<Integer, Node> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap, String currentPlayer, ArrayList<ExpertCard> experts) {
+        clientHandler.sendMessage(new WorldChangeMessage(gameFieldMap, chargedClouds, boardMap, currentPlayer, experts));
     }
 
     public void chooseCloudTile(int cloudID){}
@@ -180,9 +222,14 @@ public class VirtualView implements View {
         clientHandler.sendMessage((new NumberOfPlayersMessage(numberOfPlayers)));
     }
 
+    public void setExpertMode(boolean expertMode){
+        clientHandler.sendMessage(new ExpertModeNotify(expertMode));
+    }
+
     @Override
     public void availableStudents(ArrayList<Color> availableStudents, MessageType movementType, int gameFieldSize) {
         clientHandler.sendMessage(new AvailableStudentsReply(availableStudents, movementType, gameFieldSize));
     }
+
 
 }

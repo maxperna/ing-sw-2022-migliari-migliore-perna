@@ -8,15 +8,8 @@ import java.util.UUID;
 /**Message to require info about expert card UseCard() method
  * @author Massimo */
 public class ExpertCardRequest extends Message {
-    UUID identifier = UUID.randomUUID();
-    private final int cardID;
-
-    public ExpertCardRequest(String sender,int cardID){
+    public ExpertCardRequest(String sender){
         super(MessageType.EXPERT_CARD_REQ,sender);
-        this.cardID = cardID;
     }
 
-    public int getCardID() {
-        return cardID;
-    }
 }

@@ -1,19 +1,19 @@
 package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.controller.GameState;
+import it.polimi.ingsw.model.experts.*;
 import it.polimi.ingsw.model.gameField.Node;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.experts.ExpertCard;
-import it.polimi.ingsw.model.experts.ExpertID;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.MessageType;
+import it.polimi.ingsw.observer.ViewSubject;
 import it.polimi.ingsw.view.View;
+import javafx.application.Platform;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
-public class Gui implements View {
+public class Gui extends ViewSubject implements View {
 
     @Override
     public void start() {
@@ -22,12 +22,12 @@ public class Gui implements View {
 
     @Override
     public void askPlayerNickname() {
-
+        Platform.runLater(()->SceneController.changeMainPane(getList(),"NicknameInput.fxml"));
     }
 
     @Override
     public void askGameParam() {
-
+        Platform.runLater(()->SceneController.changeMainPane(getList(),"GameParamScene.fxml"));
     }
 
     @Override
@@ -52,11 +52,6 @@ public class Gui implements View {
 
     @Override
     public void showCurrentPlayer(String currentPlayer, GameState currentState) {
-
-    }
-
-    @Override
-    public void showExpertCards(ArrayList<ExpertID> expertIDList) {
 
     }
 
@@ -107,12 +102,12 @@ public class Gui implements View {
 
 
     @Override
-    public void showExpertID(ArrayList<ExpertID> expertID) {
+    public void showExpertCards(ArrayList<ExpertCard> allExpertCards) {
 
     }
 
     @Override
-    public void showExpertCard(ArrayList<ExpertCard> expertCard) {
+    public void availableStudents(ArrayList<Color> availableStudents, MessageType movementType, int gameFieldSize) {
 
     }
 
@@ -127,7 +122,7 @@ public class Gui implements View {
     }
 
     @Override
-    public void ActionPhaseTurn() {
+    public void ActionPhaseTurn(Boolean expert) {
 
     }
 
@@ -138,11 +133,6 @@ public class Gui implements View {
 
     @Override
     public void selectStudent(ArrayList<Color> students, int islands) {
-
-    }
-
-    @Override
-    public void chooseAction(/*boolean expert*/) {
 
     }
 
@@ -159,7 +149,56 @@ public class Gui implements View {
     }
 
     @Override
-    public void availableStudents(ArrayList<Color> availableStudents, MessageType movementType, int gameFieldSize) {
+    public void playExpertType2(int cardID, Expert9 expert) {
+
+    }
+
+    @Override
+    public void playExpertType2(int cardID, Expert11 expert) {
+
+    }
+
+    @Override
+    public void playExpertType2(int cardID, Expert12 expert) {
+
+    }
+
+    @Override
+    public void playExpertType3(int cardID, Expert7 expert) {
+    }
+
+    @Override
+    public void playExpertType3(int cardID, Expert10 expert) {
+
+    }
+
+    @Override
+    public void playExpertType4(int cardID, Expert3 expert) {
+
+    }
+
+    @Override
+    public void playExpertType5(int cardID, Expert1 expert) {
+
+    }
+
+    @Override
+    public void playExpertType5(int cardID, Expert5 expert) {
+
+    }
+
+    @Override
+    public void chooseAction() {
+
+    }
+
+    @Override
+    public void chooseExpertCard() {
+
+    }
+
+    @Override
+    public void expertModeControl(boolean setExpertMode) {
 
     }
 

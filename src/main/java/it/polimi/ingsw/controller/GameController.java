@@ -1,10 +1,9 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.model.gameField.Node;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.experts.ExpertCard;
-import it.polimi.ingsw.model.experts.ExpertID;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.client_messages.*;
 import it.polimi.ingsw.network.messages.client_messages.ExpertMessages.*;
@@ -135,7 +134,6 @@ public class GameController implements PropertyChangeListener {
                 break;
 
             case ACTION_PHASE: //ActionPhaseLogic
-
                 if(receivedMessage.getType() == MOVE_TO_ISLAND) {
 
                     Color currentColor = ((MovedStudentToIsland)receivedMessage).getMovedStudent();
@@ -162,7 +160,6 @@ public class GameController implements PropertyChangeListener {
                         } catch (NotEnoughSpace e) {
                             viewMap.get(senderPlayer).showError("Not enoughSpace", STUDENT_ERROR);
                         }
-                    int prova;
                 }
 
                 if(receivedMessage.getType() == MOVE_MOTHER_NATURE){
@@ -194,6 +191,7 @@ public class GameController implements PropertyChangeListener {
 
                 }
 
+
                 if(receivedMessage.getType() == PLAY_EXPERT_CARD) {
                     expertsHandling((PlayExpertCard) receivedMessage);
                 }
@@ -204,9 +202,10 @@ public class GameController implements PropertyChangeListener {
                     viewMap.get(senderPlayer).availableStudents(availableStudents, studentsAvailableRequest.getTypeOfMovement(), game.getGameField().size());
                 }
 
-                showGameInfo(receivedMessage, senderPlayer);
 
-                break;
+                showGameInfo(receivedMessage, senderPlayer);
+            break;
+
         }
 
     }
@@ -240,11 +239,6 @@ public class GameController implements PropertyChangeListener {
                     //sets first player
                     turnLogic.generatePreparationPhaseOrder();
                     //generates a GameFieldMap
-                    Map<Integer, Node> gameFieldMap = generateGameFieldMap();
-                    //generate ExpertList
-                    ArrayList<ExpertID> expertIDList = new ArrayList<>();
-                    for(ExpertCard currentCard : game.getExpertsCard())
-                        expertIDList.add(currentCard.getExpType());
 
                     //sends to each player the current situation on the board, giving also a coin if expert mode is on and the GameFieldMap
                     for(Player currentPlayer : game.getPlayersList())
@@ -258,8 +252,6 @@ public class GameController implements PropertyChangeListener {
                         //message for init the player
                         currentView.showInitPlayer(game.MAX_NUM_OF_TOWERS, currentEntranceHall);
 
-                        //sends the expertList
-                        currentView.showExpertCards(expertIDList);
 
                     }
 
@@ -275,6 +267,10 @@ public class GameController implements PropertyChangeListener {
                     viewMap.get(currentPlayer).showCurrentPlayer(currentPlayer, GameState.PREPARATION_PHASE);
 
                     nextState = GameState.PREPARATION_PHASE;
+
+                    for (String nickName : viewMap.keySet()) {
+                        viewMap.get(nickName).setExpertMode(game.EXP_MODE);
+                    }
 
                 }
                 break;
@@ -301,7 +297,7 @@ public class GameController implements PropertyChangeListener {
                 break;
 
             case ACTION_PHASE:
-
+                viewMap.get(turnLogic.getActivePlayer().getNickname()).newCoin(turnLogic.getActivePlayer().getNickname(), game.getPlayerByNickName(turnLogic.getActivePlayer().getNickname()).getNumOfCoin());
                 Player nextPlayer = turnLogic.nextActivePlayer();
                 if(nextPlayer == null)
                 {
@@ -313,8 +309,9 @@ public class GameController implements PropertyChangeListener {
                 }
                 else
                     viewMap.get(nextPlayer.getNickname()).showCurrentPlayer(turnLogic.getActivePlayer().getNickname(), gameState);
-
-
+                if(game.EXP_MODE)
+                    for(String nickname : viewMap.keySet())
+                        viewMap.get(nickname).expertModeControl(true);
                 break;
         }
         gameState = nextState;
@@ -358,28 +355,71 @@ public class GameController implements PropertyChangeListener {
         Player player = game.getPlayerByNickName(message.getSenderPlayer());
         int playedCard = message.getPlayedCard();
         try {
+           /* if(message instanceof PlayExpertCard1) {
+                turnLogic.playExpertCard(player, playedCard);
+                viewMap.get(message.getSenderPlayer()).ActionPhaseTurn(false);
+            }
+            else if(message instanceof PlayExpertCard2) {
+                PlayExpertCard2 castedMessage1 = (PlayExpertCard2) message;
+                turnLogic.playExpertCard(player, castedMessage1.getNodeID(), playedCard);
+                viewMap.get(message.getSenderPlayer()).ActionPhaseTurn(false);
+            }
+            else if(message instanceof PlayExpertCard3) {
+                PlayExpertCard3 castedMessage2 = (PlayExpertCard3) message;
+                turnLogic.playExpertCard(player, castedMessage2.getNodeID(), castedMessage2.getStudent(), playedCard);
+                viewMap.get(message.getSenderPlayer()).ActionPhaseTurn(false);
+            }
+            else if(message instanceof PlayExpertCard4) {
+                PlayExpertCard4 castedMessage3 = (PlayExpertCard4) message;
+                turnLogic.playExpertCard(player, castedMessage3.getStudent(), playedCard);
+                viewMap.get(message.getSenderPlayer()).ActionPhaseTurn(false);
+            }
+            else if(message instanceof PlayExpertCard5) {
+                PlayExpertCard5 castedMessage4 = (PlayExpertCard5) message;
+                turnLogic.playExpertCard(player, castedMessage4.getStudents1(), castedMessage4.getStudents2(), playedCard);
+                viewMap.get(message.getSenderPlayer()).ActionPhaseTurn(false);
+            }*/
             switch (message.getExpID()) {
                 case 1:
                     turnLogic.playExpertCard(player, playedCard);
+                    break;
                 case 2:
+                    assert message instanceof PlayExpertCard2;
                     PlayExpertCard2 castedMessage1 = (PlayExpertCard2) message;
                     turnLogic.playExpertCard(player, castedMessage1.getNodeID(), playedCard);
+                    break;
                 case 3:
                     assert message instanceof PlayExpertCard3;
                     PlayExpertCard3 castedMessage2 = (PlayExpertCard3) message;
                     turnLogic.playExpertCard(player, castedMessage2.getNodeID(), castedMessage2.getStudent(), playedCard);
+                    break;
                 case 4:
                     assert message instanceof PlayExpertCard4;
                     PlayExpertCard4 castedMessage3 = (PlayExpertCard4) message;
                     turnLogic.playExpertCard(player, castedMessage3.getStudent(), playedCard);
+                    break;
                 case 5:
                     assert message instanceof PlayExpertCard5;
                     PlayExpertCard5 castedMessage4 = (PlayExpertCard5) message;
                     turnLogic.playExpertCard(player, castedMessage4.getStudents1(), castedMessage4.getStudents2(), playedCard);
+                    break;
             }
-        }catch (IllegalMove|NotEnoughCoins e){
-            viewMap.get(message.getSenderPlayer()).showError("Cannot play this card", EXPERT_ERROR);
+
+            for(String nickname : viewMap.keySet())
+                viewMap.get(nickname).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), message.getSenderPlayer(), game.getExpertsCard());
+            viewMap.get(message.getSenderPlayer()).expertModeControl(false);
+
+        } catch (IllegalMove | IndexOutOfBoundsException e) {
+            viewMap.get(message.getSenderPlayer()).showError(e.getMessage(), EXPERT_ERROR);
+            viewMap.get(message.getSenderPlayer()).chooseExpertCard();
+        } catch (NotOnBoardException e) {
+            viewMap.get(message.getSenderPlayer()).showError(e.getMessage(), EXPERT_ERROR);
+            viewMap.get(message.getSenderPlayer()).chooseExpertCard();
+        } catch (NotEnoughCoins e) {
+            viewMap.get(message.getSenderPlayer()).showError(e.getMessage(), EXPERT_ERROR);
+            viewMap.get(message.getSenderPlayer()).chooseExpertCard();
         }
+
     }
 
     /**
@@ -404,7 +444,7 @@ public class GameController implements PropertyChangeListener {
 
         if(event.getPropertyName().equals("UpdateCloud")) {
             for (String nickName : viewMap.keySet()) {
-                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), turnLogic.getActivePlayer().getNickname());
+                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), turnLogic.getActivePlayer().getNickname(), game.getExpertsCard());
             }
         }
 
@@ -415,20 +455,20 @@ public class GameController implements PropertyChangeListener {
 //            int nodeID = Integer.parseInt(intValue);
 
             for (String nickName : viewMap.keySet()) {
-                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), turnLogic.getActivePlayer().getNickname());
+                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), turnLogic.getActivePlayer().getNickname(), game.getExpertsCard());
             }
         }
 
         if(event.getPropertyName().equals("UpdateTeacher")) {
             for (String nickName : viewMap.keySet()) {
-                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), turnLogic.getActivePlayer().getNickname());
+                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), turnLogic.getActivePlayer().getNickname(), game.getExpertsCard());
             }
         }
 
         if(event.getPropertyName().equals("Merge")) {
 
             for (String nickName : viewMap.keySet()) {
-                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), turnLogic.getActivePlayer().getNickname());
+                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), turnLogic.getActivePlayer().getNickname(), game.getExpertsCard());
             }
         }
 
@@ -449,7 +489,7 @@ public class GameController implements PropertyChangeListener {
 //                System.out.println("Non funziona la lettura da stringa");
 
             for (String nickName : viewMap.keySet()) {
-                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), turnLogic.getActivePlayer().getNickname());
+                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), turnLogic.getActivePlayer().getNickname(), game.getExpertsCard());
             }
         }
     }
@@ -486,6 +526,14 @@ public class GameController implements PropertyChangeListener {
 
         if(messageReceived.getType() == GAME_FIELD)
             viewMap.get(senderPlayer).showGameField(generateGameFieldMap());
+
+        if(messageReceived.getType() == GET_COINS) {
+            viewMap.get(senderPlayer).newCoin(senderPlayer, game.getPlayerByNickName(senderPlayer).getNumOfCoin());
+        }
+
+        if(messageReceived.getType() == EXPERT_CARD_REQ) {
+            viewMap.get(senderPlayer).showExpertCards(game.getExpertsCard());
+        }
 
     }
 
@@ -540,9 +588,6 @@ public class GameController implements PropertyChangeListener {
         return gameFieldMap;
     }
 
-    public TurnLogic getTurnLogic() {
-        return turnLogic;
-    }
 
     public void setTurnLogic(TurnLogic turnLogic) {
         this.turnLogic = turnLogic;
@@ -570,7 +615,7 @@ public class GameController implements PropertyChangeListener {
 
         game.getGameField().addPropertyChangeListener(this);
     }
-
+    /*
     public void removeListeners() {
 
         for(CloudTile currentCloud : game.getCloudTiles()) {
@@ -588,11 +633,8 @@ public class GameController implements PropertyChangeListener {
         game.removePropertyChangeListener(this);
 
         game.getGameField().removePropertyChangeListener(this);
-    }
+    }*/
 
-    public Map<String, VirtualView> getViewMap() {
-        return viewMap;
-    }
 
     public Map<String, Board> generateBoardMap() {
 

@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -10,7 +11,7 @@ import java.util.Collections;
  * Class Pouch, Singleton, contains 120 students at the beginning of the game, the only way to call a Pouch is to use getInstance
  * @author Alessio Migliore
  */
-public class Pouch {
+public class Pouch implements Serializable {
 
     private final ArrayList<Color> students = new ArrayList<>();
     public Pouch() {                                                                                                   //creates an instance of Pouch

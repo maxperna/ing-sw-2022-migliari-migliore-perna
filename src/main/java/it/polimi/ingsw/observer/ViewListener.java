@@ -6,14 +6,16 @@ import it.polimi.ingsw.model.TowerColor;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Extended interface of a Listener (old Observer) used to interact with the View, has to be implemented on every class that shares methods with the view, and on Client Controller to call the methods 1:1
  */
 public interface ViewListener {
 
-    void connectionRequest(HashMap<String,String> connectionInfo);
+    void connectionRequest(HashMap<String, String> connectionInfo);
 
     void sendNickname(String nickname);
 
@@ -21,14 +23,16 @@ public interface ViewListener {
 
     void chooseCloudTile(int ID);
 
-    /**Method to get boards*/
+    /**
+     * Method to get boards
+     */
     void getBoards();
 
-    void moveStudentToIsland(Color student,int nodeID);
+    void moveStudentToIsland(Color student, int nodeID);
 
     void moveStudentToDinner(Color student);
 
-    void actionPhaseChoice(MessageType type);
+    void getExpertsCard();
 
     void getGameField();
 
@@ -46,6 +50,27 @@ public interface ViewListener {
 
     void moveMotherNature(int numberOfSteps);
 
+    void actionPhaseChoice(MessageType type);
+
+    //EXPERT CARD METHODS
+
     void chooseAction(int finalChosenAction);
 
+    void playExpertCard1(int cardID);
+
+    void playExpertCard2(int cardID, int nodeID);
+
+    void playExpertCard3(int cardID, int nodeID, Color student);
+
+    void playExpertCard4(int cardID, Color student);
+
+    void playExpertCard5(int cardID, ArrayList<Color> student1, ArrayList<Color> student2);
+
+    void applyExpertEffect(int finalChosenExpert);
+
+    void getCoins();
+
+    void askAction(Boolean expert_mode);
+
+    void setExpertMode(Boolean expertMode);
 }
