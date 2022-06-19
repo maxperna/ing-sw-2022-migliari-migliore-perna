@@ -311,6 +311,10 @@ public class ClientController implements ViewListener, Listener {
                 expertCardsOnField = ((ExpertCardReply)receivedMessage).getExpertID();
                 actionQueue.execute(view::chooseExpertCard);
                 break;
+            case EXPERT_MODE_CONTROL:
+                ExpertModeControlMessage expertModeControlMessage = (ExpertModeControlMessage) receivedMessage;
+                expert_mode = expertModeControlMessage.isSetExpertMode();
+                break;
             case LAST_ASSISTANT:
                 LastCardMessage lastCardMessage = (LastCardMessage)  receivedMessage;
                 actionQueue.execute(()->view.showLastUsedCard(lastCardMessage.getLastCardMap()));

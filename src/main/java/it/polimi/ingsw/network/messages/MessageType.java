@@ -67,5 +67,7 @@ public enum MessageType {
 
     COIN_REQUEST, GET_COINS, NICK_REQ,
 
+    EXPERT_MODE_CONTROL,
+
 
 }

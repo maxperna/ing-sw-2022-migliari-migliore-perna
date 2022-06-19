@@ -88,6 +88,11 @@ public class VirtualView implements View {
     }
 
     @Override
+    public void expertModeControl(boolean setExpertMode) {
+        clientHandler.sendMessage(new ExpertModeControlMessage(setExpertMode));
+    }
+
+    @Override
     public void updateTeachers(Map<Color, Boolean> teacherList) {
         clientHandler.sendMessage(new TeacherListMessage(teacherList));
     }

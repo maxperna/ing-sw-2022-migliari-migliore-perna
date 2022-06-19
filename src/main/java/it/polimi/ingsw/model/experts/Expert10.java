@@ -22,7 +22,7 @@ public class Expert10 implements ExpertCard {
         this.currentGame = currentGame;
     }
     @Override
-    public void useCard(Player user, ArrayList<Color> studentInside, ArrayList<Color> studentOutside) throws NotEnoughCoins, IllegalArgumentException, NotOnBoardException {
+    public void useCard(Player user, ArrayList<Color> studentInside, ArrayList<Color> studentOutside) throws NotEnoughCoins, IllegalArgumentException, NotOnBoardException, IndexOutOfBoundsException {
         if(user.getNumOfCoin()<cost){
             throw new NotEnoughCoins();
         }

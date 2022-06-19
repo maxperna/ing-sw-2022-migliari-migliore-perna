@@ -26,6 +26,7 @@ public class Cli extends ViewSubject implements View {
     public static final String ANSI_PINK = "\u001B[35m";
     public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_GREEN = "\u001B[32m";
+
     public static final String CLEAR = "\033[H\033[2J";
     private boolean tutorial;
 
@@ -1676,6 +1677,11 @@ public class Cli extends ViewSubject implements View {
         }
         int finalChosenExpert = chosenExpert;
         notifyListener(list -> list.applyExpertEffect(finalChosenExpert));
+    }
+
+    @Override
+    public void expertModeControl(boolean setExpertMode) {
+
     }
 
 }

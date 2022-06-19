@@ -302,6 +302,9 @@ public class GameController implements PropertyChangeListener {
                 }
                 else
                     viewMap.get(nextPlayer.getNickname()).showCurrentPlayer(turnLogic.getActivePlayer().getNickname(), gameState);
+                if(game.EXP_MODE)
+                    for(String nickname : viewMap.keySet())
+                        viewMap.get(nickname).expertModeControl(true);
                 break;
         }
         gameState = nextState;
@@ -394,9 +397,12 @@ public class GameController implements PropertyChangeListener {
                     turnLogic.playExpertCard(player, castedMessage4.getStudents1(), castedMessage4.getStudents2(), playedCard);
                     break;
             }
-            viewMap.get(message.getSenderPlayer()).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), message.getSenderPlayer(), game.getExpertsCard());
 
-        } catch (IllegalMove e) {
+            for(String nickname : viewMap.keySet())
+                viewMap.get(nickname).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), message.getSenderPlayer(), game.getExpertsCard());
+            viewMap.get(message.getSenderPlayer()).expertModeControl(false);
+
+        } catch (IllegalMove | IndexOutOfBoundsException e) {
             viewMap.get(message.getSenderPlayer()).showError(e.getMessage(), EXPERT_ERROR);
             viewMap.get(message.getSenderPlayer()).chooseExpertCard();
         } catch (NotOnBoardException e) {

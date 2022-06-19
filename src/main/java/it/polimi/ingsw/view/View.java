@@ -141,4 +141,6 @@ public interface View{
     void showExpertCards(ArrayList<ExpertCard> allExpertCards);
 
     void chooseExpertCard();
+
+    void expertModeControl(boolean setExpertMode);
 }
