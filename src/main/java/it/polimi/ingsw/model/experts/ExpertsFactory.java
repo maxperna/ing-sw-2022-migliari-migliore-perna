@@ -14,7 +14,7 @@ public class ExpertsFactory {
 
     private final Game currentGame;
     private static ExpertsFactory instance = null;
-    ArrayList<ExpertCard> calledAssistant;   //assistant already generated
+    ArrayList<ExpertCard> calledExpert;   //assistant already generated
 
     private ExpertsFactory(Game currentGame){
         this.currentGame = currentGame;
@@ -32,7 +32,7 @@ public class ExpertsFactory {
      * */
     private ArrayList<ExpertCard> generateExperts(){
 
-        calledAssistant = new ArrayList<>();
+        calledExpert = new ArrayList<>();
         ArrayList<Integer> numbersGenerated = new ArrayList<>();     //list containing numbers already generated
         Random randomGenerator = new Random();
         for(int i=0;i<3;i++){
@@ -55,7 +55,7 @@ public class ExpertsFactory {
                     generatedCard = new Expert3(this.currentGame);
                     break;
                 case 3:
-                    generatedCard = new Expert4();
+                    generatedCard = new Expert4(currentGame);
                     break;
                 case 4:
                     generatedCard = new Expert5(this.currentGame);
@@ -85,18 +85,18 @@ public class ExpertsFactory {
                     generatedCard = null;
 
             }
-            calledAssistant.add(generatedCard);
+            calledExpert.add(generatedCard);
         }
-        return calledAssistant;
+        return calledExpert;
     }
 
     /**Method to implements singleton
      * @return a list of three ExpertCard or call the generator if it doesn't exist
      * */
     public ArrayList<ExpertCard> drawExperts(){
-        if(calledAssistant == null){
+        if(calledExpert == null){
             return generateExperts();
         }
-        else return calledAssistant;
+        else return calledExpert;
     }
 }

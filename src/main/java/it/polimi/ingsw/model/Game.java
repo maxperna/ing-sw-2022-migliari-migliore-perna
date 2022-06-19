@@ -1,11 +1,16 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exceptions.EndGameException;
 import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
 import it.polimi.ingsw.model.gameField.IslandList;
 import it.polimi.ingsw.model.gameField.Node;
+import it.polimi.ingsw.model.experts.Expert5;
 import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.model.experts.ExpertsFactory;
+import org.jetbrains.annotations.TestOnly;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,6 +29,7 @@ public class Game {
     private final UUID gameID;
     public final int NUM_OF_PLAYERS;
     public final int MAX_NUM_OF_TOWERS;
+    public final boolean EXP_MODE;
     public final int MAX_STUDENTS_ENTRANCE;
     private final ArrayList<TowerColor> AVAILABLE_TOWER_COLOR;
     private final ArrayList<DeckType> AVAILABLE_DECK_TYPE;
@@ -33,11 +39,15 @@ public class Game {
     private final ArrayList<CloudTile> cloudTiles;
     private static final HashMap<Color, Pair<Player, Integer>> influenceMap = new HashMap<>(); //mapping the influence of every player
 
+    private final PropertyChangeSupport support;
     //ONLY EXPERTS MODE
     private final ArrayList<ExpertCard> expertsCard = new ArrayList<>();
     public int coins = 20;
     private Color colorToIgnore = null;
     private Player playerHavingPlusTwo = null;       //player which have +2 influence if expert 8 is played
+
+
+    private ExpertCard activeExpertCard;
 
     /**
      * Constructor, initializes the game parameters
@@ -53,6 +63,8 @@ public class Game {
         this.gameField = new IslandList();
         this.MAX_NUM_OF_TOWERS = maxNumberOfTowers;
         this.MAX_STUDENTS_ENTRANCE = maxStudentEntrance;
+
+        this.EXP_MODE = expertMode;
         //set to true if expert mode is selected
 
         this.AVAILABLE_DECK_TYPE = new ArrayList<>();
@@ -84,6 +96,7 @@ public class Game {
             this.expertsCard.addAll(expertsDrawer.drawExperts());
         }
 
+        this.support = new PropertyChangeSupport(this);
     }
 
     /**Method to add the player to the current game and automatically set the team mate
@@ -114,14 +127,23 @@ public class Game {
      * */
     public void rechargeClouds() {
 
-       for(int i = 0; i < NUM_OF_PLAYERS; i++)
-       {
-           try {
-               cloudTiles.get(i).setStudents(this.pouch.randomDraw(3));
-           } catch (NotEnoughStudentsException e) {
-               throw new RuntimeException(e);
-           }
-       }
+        try {
+
+            for(int i = 0; i < NUM_OF_PLAYERS; i++) {
+
+                if (NUM_OF_PLAYERS == 3)
+                    cloudTiles.get(i).setStudents(this.pouch.randomDraw(4));
+                else
+                    cloudTiles.get(i).setStudents(this.pouch.randomDraw(3));
+
+            }
+
+            support.firePropertyChange("UpdateCloud", false, true);
+
+        } catch (NotEnoughStudentsException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     /**
@@ -135,31 +157,38 @@ public class Game {
         int numOfCheckedStudent = activePlayer.getBoard().colorStudent(colorToCheck);
 
         //if no one has ever played the color to check
-        if (influenceMap.get(colorToCheck).getPlayer() == null) {
+        if (influenceMap.get(colorToCheck).getPlayer() == null && numOfCheckedStudent>=1) {
             influenceMap.get(colorToCheck).setPlayer(activePlayer);
             influenceMap.get(colorToCheck).setNumOfStudents(numOfCheckedStudent);
-        } else if (numOfCheckedStudent > influenceMap.get(colorToCheck).getNumOfStudents()) {
+            activePlayer.getBoard().addTeachers(colorToCheck);
+            support.firePropertyChange("UpdateTeacher", false, true);
+        }
+        else if (numOfCheckedStudent > influenceMap.get(colorToCheck).getNumOfStudents()) {
 
             //Add and remove the teacher from the involved players
+
             influenceMap.get(colorToCheck).getPlayer().getBoard().removeTeacher(colorToCheck);
             activePlayer.getBoard().addTeachers(colorToCheck);
             //Update influence map data
             influenceMap.get(colorToCheck).setPlayer(activePlayer);
             influenceMap.get(colorToCheck).setNumOfStudents(numOfCheckedStudent);
-
+            support.firePropertyChange("UpdateTeacher", false, true);
         }
+        else
+            support.firePropertyChange("UpdateBoard" + activePlayer.getNickname(), false, true);
     }
 
     /**
      * Method used to check influence on an island tile and setting the player with most influence on the island (if existing)
      *
-     * @param islandToCheck island to check the influence over
+     * @param nodeID island id to check the influence over
      */
-    public void checkIslandInfluence(Node islandToCheck) {
+    public void checkIslandInfluence(int nodeID) throws EndGameException {
+        Node islandToCheck = gameField.getIslandNode(nodeID);
         HashMap<Player, Integer> temporaryInfluenceCounter = new HashMap<>();  //temporary influence counter
         //if island has a deny card on it influence haven't to be calculated
         if(!islandToCheck.isStopped()) {
-            for (Color colorStudent : islandToCheck.getStudents()) {
+            for (Color colorStudent : influenceMap.keySet()){
                 Player playerToCheck = influenceMap.get(colorStudent).getPlayer();
                 //If player to check is null no one ha still the influence on that color or the color is ignored
                 if (playerToCheck != null && !colorStudent.equals(colorToIgnore)) {
@@ -168,10 +197,18 @@ public class Game {
                     if (playerToCheck.getBoard().getTowerColor().equals(islandToCheck.getTowerColor()))
                         influenceOfPlayer = influenceOfPlayer + islandToCheck.getNumberOfTowers();
                     if (temporaryInfluenceCounter.containsKey(playerToCheck)) {
-                        temporaryInfluenceCounter.put(playerToCheck, influenceOfPlayer);
+                        temporaryInfluenceCounter.put(playerToCheck,  temporaryInfluenceCounter.get(playerToCheck)+influenceOfPlayer);
                     } else {
-                        temporaryInfluenceCounter.put(playerToCheck, temporaryInfluenceCounter.get(playerToCheck) + influenceOfPlayer);
+                        temporaryInfluenceCounter.put(playerToCheck, influenceOfPlayer);
                     }
+                }
+            }
+        }
+        else{
+            for(ExpertCard card:expertsCard){
+                if (card.getClass().getName().equals(Expert5.class.getName())){
+                    Expert5 stopCard = (Expert5) card;
+                    stopCard.removeStop(islandToCheck);
                 }
             }
         }
@@ -189,10 +226,22 @@ public class Game {
         //If the temporary influence counter is empty no one has influence
         if (!temporaryInfluenceCounter.isEmpty()) {
             //check the player with most influence
+
             Player maxInfluencePlayer = temporaryInfluenceCounter.entrySet().stream().max((val1, val2) ->
                     val1.getValue() > val2.getValue() ? 1 : -1).get().getKey();
+            if(temporaryInfluenceCounter.get(maxInfluencePlayer).equals(temporaryInfluenceCounter.get(islandToCheck.getMostInfluencePlayer())))
+                maxInfluencePlayer = islandToCheck.getMostInfluencePlayer();
 
+
+
+            if(!(islandToCheck.getMostInfluencePlayer()==null))
+                islandToCheck.getMostInfluencePlayer().getBoard().addTower();
+
+            //Set new most influence tower
             islandToCheck.setMostInfluencePlayer(maxInfluencePlayer);
+            //Set towers
+            islandToCheck.setTower();
+            gameField.mergeIslands(nodeID);
         }
     }
 
@@ -250,7 +299,6 @@ public class Game {
      * a negative quantity will do the vice-versa.
      * @param player to whom add/remove the money
      * @param quantity number of coin to transfer/remove */
-
     public void coinHandler(Player player,int quantity){
         this.coins = this.coins - quantity;
         player.addCoin(quantity);
@@ -294,6 +342,14 @@ public class Game {
         return cloudTiles;
     }
 
+
+    public Player getPlayerByNickName(String nickName) {
+        for (Player currentPlayer : playersList) {
+            if(currentPlayer.getNickname().equals(nickName))
+                return currentPlayer;
+        }
+        throw new RuntimeException("PlayerNonTrovato");
+    }
     public int getCoins() {
         return coins;
     }
@@ -309,5 +365,27 @@ public class Game {
     public ArrayList<DeckType> getAVAILABLE_DECK_TYPE() {
         return AVAILABLE_DECK_TYPE;
     }
-}
 
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        support.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        support.removePropertyChangeListener(listener);
+    }
+
+    /**Method to activate an expert card*/
+    public void setActiveExpertsCard(ExpertCard activeExpertCard){
+        this.activeExpertCard = activeExpertCard;
+    }
+
+    public ExpertCard getActiveExpertCard() {
+        return activeExpertCard;
+    }
+
+    @TestOnly
+    public void setExpertsCardTest(ArrayList<ExpertCard> testCard){
+        this.expertsCard.clear();
+        this.expertsCard.addAll(testCard);
+    }
+}

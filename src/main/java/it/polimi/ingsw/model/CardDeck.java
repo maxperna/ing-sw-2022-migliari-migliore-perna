@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import com.google.gson.*;
 import it.polimi.ingsw.exceptions.EndGameException;
 import it.polimi.ingsw.exceptions.InexistentCard;
+import org.jetbrains.annotations.TestOnly;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -16,15 +17,15 @@ import java.util.ArrayList;
 public class CardDeck {
 
     private final DeckType deckCharacter;
-    private final ArrayList<Card> deck = new ArrayList<>();
-    private Card lastCardUsed;
+    private final ArrayList<AssistantCard> deck;
+    private AssistantCard lastAssistantCardUsed;
 
     /**CardDeck constructor, parse the 10 cards on a JSON file using GSON library for parse JSON file
      * @param deckCharacter character of the player deck
      */
     public CardDeck(DeckType deckCharacter) throws FileNotFoundException {
         this.deckCharacter = deckCharacter;
-
+        this.deck = new ArrayList<>();
         //Creating a gson desarialization object
         Gson gson = new Gson();
 
@@ -47,21 +48,21 @@ public class CardDeck {
             int assistantMNControl = assistantJSONObject.get("actionNumber").getAsInt();
             String assistantFrontImage= assistantJSONObject.get("frontIMG").getAsString();
 
-            this.deck.add(new Card(assistantActionNumber,assistantMNControl,assistantFrontImage,backIMGPath));
+            this.deck.add(new AssistantCard(assistantActionNumber,assistantMNControl,assistantFrontImage,backIMGPath, deckCharacter));
         }
     }
 
-    public void playCard(Card cardPlayed) throws InexistentCard,EndGameException {
-        if(!deck.remove(cardPlayed)){
+    public void playCard(AssistantCard assistantCardPlayed) throws InexistentCard,EndGameException {
+        if(!deck.remove(assistantCardPlayed)){
             if(deck.size()==0)
                 throw new EndGameException();
             throw new InexistentCard();
         }
 
-        lastCardUsed = cardPlayed;
+        lastAssistantCardUsed = assistantCardPlayed;
     }
 
-    public ArrayList<Card> getRemainingCards(){
+    public ArrayList<AssistantCard> getRemainingCards(){
         return deck;
     }
 
@@ -69,9 +70,12 @@ public class CardDeck {
         return this.deckCharacter;
     }
 
-    public Card getLastCard(){
-        return lastCardUsed;
+    public AssistantCard getLastCard(){
+        return lastAssistantCardUsed;
     }
 
-
+    @TestOnly
+    public ArrayList<AssistantCard> getDeck() {
+        return deck;
+    }
 }

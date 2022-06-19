@@ -51,7 +51,7 @@ class GameManagerTest {
     void startGame(String gameMode) {
         GameManager.setNull();
         try {
-            Game currentGame = GameManager.getInstance().startGame(gameMode,false);
+            Game currentGame = GameManager.getInstance().initGame(gameMode,false);
             assertNotNull(GameManager.getInstance().getGamesList());
 
             switch (currentGame.NUM_OF_PLAYERS)
@@ -196,7 +196,7 @@ class GameManagerTest {
             System.out.println("Index out of bound");
         }
 
-        GameManager.getInstance().startGame(gameMode,false);
+        GameManager.getInstance().initGame(gameMode,false);
     }
 
     @ParameterizedTest

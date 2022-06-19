@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.exceptions.EndGameException;
 import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -8,15 +7,17 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class PouchTest {
 
     @ParameterizedTest
     @CsvSource ({"1", "10", "106"})
     void randomDraw(int input) {
+        GameManager.setNull();
         GameManager game = GameManager.getInstance();
-        game.startGame("TwoPlayers",false);
+        game.initGame("TwoPlayers",false);
         ArrayList<Color> students = new ArrayList<>();
         try {
             students.addAll(game.getGame(0).getPouch().randomDraw(input));
@@ -25,14 +26,14 @@ class PouchTest {
         }
         assertEquals(input, students.size());
         assertEquals(120-input, game.getGame(0).getPouch().remainingStudents());
-        game.setNull();
+        GameManager.setNull();
     }
 
     @ParameterizedTest
-    @CsvSource ({"1", "10", "120"})
+    @CsvSource ({"1", "10", "121"})
     void randomDrawShouldThrowException(int input) {
         GameManager game = GameManager.getInstance();
-        game.startGame("TwoPlayers",false);
+        game.initGame("TwoPlayers",false);
 
         if(input == 120) {
             assertThrows(NotEnoughStudentsException.class, () -> {
@@ -45,14 +46,16 @@ class PouchTest {
         } catch (NotEnoughStudentsException e) {
             e.printStackTrace();
         }
+
+        GameManager.setNull();
     }
 
     @Test
     void addStudents() {
         GameManager game = GameManager.getInstance();
-        game.setNull();
+        GameManager.setNull();
         game = GameManager.getInstance();
-        game.startGame("TwoPlayers",false);
+        game.initGame("TwoPlayers",false);
         ArrayList<Color> students = new ArrayList<>();
         students.add(Color.RED);
         game.getGame(0).getPouch().addStudents(students);

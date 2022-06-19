@@ -8,11 +8,13 @@ public enum DeckType {
     DRUID("druid"),
     KING("king"),
     WITCH("witch"),
-    SAGE("sage");
+    SAGE("sage"),
+
+    DEFAULT("Default");
 
     private final String charactersName;
 
-    private DeckType(String charactersName){
+    DeckType(String charactersName){
         this.charactersName = charactersName;
     }
 

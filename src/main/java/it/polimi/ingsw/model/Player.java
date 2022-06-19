@@ -3,8 +3,10 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.EndGameException;
 import it.polimi.ingsw.exceptions.InexistentCard;
+import org.jetbrains.annotations.TestOnly;
 
 import java.io.FileNotFoundException;
+import java.io.Serializable;
 
 public class Player {
 
@@ -14,12 +16,21 @@ public class Player {
     private int numOfCoin;
 
 
-
-    public Player (String nickname,DeckType assistant,TowerColor towerColor, Game gameInfo) throws FileNotFoundException{
+    public Player (String nickname,DeckType assistant,TowerColor towerColor, Game gameInfo) {
 
       this.nickname = nickname;
-      this.deck = new CardDeck(assistant);
-      this.board = new Board(gameInfo,this,towerColor);
+        try {
+            this.deck = new CardDeck(assistant);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        this.board = new Board(gameInfo,this,towerColor);
+    }
+
+    public Player () {
+        this.nickname = "Default";
+        this.board = null;
+        this.deck = null;
     }
 
     public String getNickname(){
@@ -33,13 +44,13 @@ public class Player {
 
 
     /**Method to play a card from the player personal deck
-     * @param cardToPlay card the player wants to play
+     * @param assistantCardToPlay card the player wants to play
      * @throws InexistentCard is the card is not present in the deck
      * @throws EndGameException if the deck is empty
      * */
-    public Card playCard(Card cardToPlay) throws InexistentCard, EndGameException {
-        deck.playCard(cardToPlay);
-        return cardToPlay;
+    public AssistantCard playCard(AssistantCard assistantCardToPlay) throws InexistentCard, EndGameException {
+        deck.playCard(assistantCardToPlay);
+        return assistantCardToPlay;
     }
 
     /**Method to modify the amount of coin of a player
@@ -56,6 +67,14 @@ public class Player {
         return numOfCoin;
     }
 
+    @TestOnly
+    public DeckType getDeckType() {
+        assert deck != null;
+        return deck.getDeckType();
+    }
 
-
+    @TestOnly
+    public CardDeck getDeck() {
+        return deck;
+    }
 }

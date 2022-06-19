@@ -1,8 +1,10 @@
 package it.polimi.ingsw.gameField;
 
 import it.polimi.ingsw.exceptions.EndGameException;
+import it.polimi.ingsw.exceptions.IllegalMove;
 import it.polimi.ingsw.model.*;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -17,7 +19,7 @@ class IslandListTest {
     @CsvSource({"1,1", "2,2", "3,3", "4,4", "5,5", "6,6", "7,7", "8,8", "9,9", "10,10", "11,11", "12,12"})
     void getIslandNodeShouldReturnCorrect(int nodeID, int expected) {
         GameManager game = GameManager.getInstance();
-        game.startGame("TwoPlayers",false);
+        game.initGame("TwoPlayers",false);
         assertEquals(expected, game.getGame(0).getGameField().getIslandNode(nodeID).getNodeID());
     }
 
@@ -25,8 +27,9 @@ class IslandListTest {
     @ParameterizedTest
     @CsvSource({"1,2", "2, 3", "3, 4", "4, 5", "5, 6", "6,7", "7,8", "8,9", "9,10", "10,11", "11,12", "12,1"})
     void getNextIslandNodeShouldReturnCorrect(int islandID, int expected) {
+        GameManager.setNull();
         GameManager game = GameManager.getInstance();
-        game.startGame("TwoPlayers",false);
+        game.initGame("TwoPlayers",false);
         assertEquals(expected, game.getGame(0).getGameField().getIslandNode(islandID).getNextNode().getNodeID());
     }
 
@@ -36,7 +39,7 @@ class IslandListTest {
     @CsvSource({"1,12", "2,1", "3,2", "4,3", "5,4", "6,5", "7,6", "8,7", "9,8", "10,9", "11,10", "12,11"})
     void getPreviousIslandNodeShouldReturnCorrect() {
         GameManager game = GameManager.getInstance();
-        game.startGame("TwoPlayers",false);
+        game.initGame("TwoPlayers",false);
         for(int i=1; i<=12; i++) {
             if (i == 1)
                 assertEquals(12, game.getGame(0).getGameField().getIslandNode(i).getPreviousNode().getNodeID());
@@ -52,7 +55,7 @@ class IslandListTest {
     void moveMotherNatureToIslandTileTest(int islandID, int expected) throws EndGameException {
 
         try {
-            Game game = GameManager.getInstance().startGame("TwoPlayers",false);
+            Game game = GameManager.getInstance().initGame("TwoPlayers",false);
 
             game.addPlayer("Piero", DeckType.DRUID, TowerColor.WHITE);
             game.addPlayer("Gianna", DeckType.SAGE, TowerColor.BLACK);
@@ -72,7 +75,7 @@ class IslandListTest {
     @CsvSource({"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"})
     void moveMotherNatureByMoves(int moves) {
         try {
-            Game game = GameManager.getInstance().startGame("TwoPlayers",false);
+            Game game = GameManager.getInstance().initGame("TwoPlayers",false);
 
             game.addPlayer("Piero", DeckType.DRUID, TowerColor.WHITE);
             game.addPlayer("Gianna", DeckType.SAGE, TowerColor.BLACK);
@@ -101,7 +104,7 @@ class IslandListTest {
     @CsvSource ({"1 ,11, 2", "2, 1, 3", "3, 2, 4", "4, 3, 5", "5, 4, 6", "6, 5, 7", "7, 6, 8", "8, 7, 9", "9, 8, 10", "10, 9, 11", "11, 10, 1", "12, 11, 2"})
     void mergeIslandsOnNextNodeTest(int input, int previous, int next) {
         try {
-            Game game = GameManager.getInstance().startGame("TwoPlayers",false);
+            Game game = GameManager.getInstance().initGame("TwoPlayers",false);
 
             game.addPlayer("Piero", DeckType.DRUID, TowerColor.WHITE);
             game.addPlayer("Gianna", DeckType.SAGE, TowerColor.BLACK);
@@ -128,7 +131,7 @@ class IslandListTest {
     @CsvSource ({"1 ,11, 2", "2, 1, 3", "3, 2, 4", "4, 3, 5", "5, 4, 6", "6, 5, 7", "7, 6, 8", "8, 7, 9", "9, 8, 10", "10, 9, 11", "11, 10, 1", "12, 10, 1"})
     void mergeIslandsOnPreviousNodeTest(int input, int previous, int next) throws EndGameException {
         try {
-            Game game = GameManager.getInstance().startGame("TwoPlayers",false);
+            Game game = GameManager.getInstance().initGame("TwoPlayers",false);
 
             game.addPlayer("Piero", DeckType.DRUID, TowerColor.WHITE);
             game.addPlayer("Gianna", DeckType.SAGE, TowerColor.BLACK);
@@ -154,7 +157,8 @@ class IslandListTest {
     @CsvSource ({"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"})
     void mergeIslandsTestShouldReturnEndGameException(int input){
         try {
-            Game game = GameManager.getInstance().startGame("TwoPlayers",false);
+            GameManager.setNull();
+            Game game = GameManager.getInstance().initGame("TwoPlayers",false);
 
             game.addPlayer("Piero", DeckType.DRUID, TowerColor.WHITE);
             game.addPlayer("Gianna", DeckType.SAGE, TowerColor.BLACK);
@@ -166,8 +170,6 @@ class IslandListTest {
             for(int i=1; i<13; i++) {
                 game.getGameField().getIslandNode(i).setTowerTest(TowerColor.BLACK);
             }
-
-            System.out.println(game.getPlayersList().get(0).getNickname());
                 assertThrows(EndGameException.class, () -> {
                     game.getGameField().moveMotherNatureToNodeID(input);
                 });
@@ -183,15 +185,23 @@ class IslandListTest {
     @CsvSource ({"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"})
     void addThreeStudents (int ID) {
         GameManager game = GameManager.getInstance();
-        game.startGame("TwoPlayers",false);
-        game.getGame(0).getGameField().addStudent(ID, Color.RED);
-        game.getGame(0).getGameField().addStudent(ID, Color.RED);
-        game.getGame(0).getGameField().addStudent(ID, Color.RED);
-        if(game.getGame(0).getGameField().getIslandNode(ID).getColorInfluence(Color.RED) == 4)
-            assertEquals(4, game.getGame(0).getGameField().getIslandNode(ID).getColorInfluence(Color.RED));
-        else
-            assertEquals(3, game.getGame(0).getGameField().getIslandNode(ID).getColorInfluence(Color.RED));
-        game.setNull();
+        game.initGame("TwoPlayers",false);
+        try {
+            game.getGame(0).getGameField().addStudent(ID, Color.RED);
+            game.getGame(0).getGameField().addStudent(ID, Color.RED);
+            game.getGame(0).getGameField().addStudent(ID, Color.RED);
+            if(game.getGame(0).getGameField().getIslandNode(ID).getColorInfluence(Color.RED) == 4)
+                assertEquals(4, game.getGame(0).getGameField().getIslandNode(ID).getColorInfluence(Color.RED));
+            else
+                assertEquals(3, game.getGame(0).getGameField().getIslandNode(ID).getColorInfluence(Color.RED));
+
+        }
+        catch (IllegalMove e) {
+            throw new RuntimeException(e);
+        }
+        finally {
+            game.setNull();
+        }
     }
 
     @DisplayName("Testing mergeIsland method with a node, its next one and its previous one...")
@@ -200,7 +210,7 @@ class IslandListTest {
     void mergeIslandsOnNextAndPreviousNodeTest(int input, int previous, int next) throws EndGameException {
         try {
             GameManager.getInstance().setNull();
-            Game game = GameManager.getInstance().startGame("TwoPlayers",false);
+            Game game = GameManager.getInstance().initGame("TwoPlayers",false);
 
             game.addPlayer("Piero", DeckType.DRUID, TowerColor.WHITE);
             game.addPlayer("Gianna", DeckType.SAGE, TowerColor.BLACK);
@@ -228,5 +238,50 @@ class IslandListTest {
         } catch (FileNotFoundException e) {
             fail();
         }
+    }
+
+    @DisplayName("Testing boolean flag after merge...")
+    @Test
+    void mergeShouldReturnFalse() throws FileNotFoundException, EndGameException {
+        try {
+            GameManager.getInstance().setNull();
+            Game game = GameManager.getInstance().initGame("TwoPlayers", false);
+
+            game.addPlayer("Piero", DeckType.DRUID, TowerColor.WHITE);
+            game.addPlayer("Gianna", DeckType.SAGE, TowerColor.BLACK);
+
+            game.getGameField().getIslandNode(1).setMostInfluencePlayer(game.getPlayersList().get(0));
+            game.getGameField().moveMotherNatureToNodeID(1);
+            assertEquals(false, game.getGameField().hasChanged());
+        } catch (FileNotFoundException e) {
+        fail();
+    }
+
+    }
+
+    @DisplayName("Testing boolean flag after merge...")
+    @Test
+    void mergeShouldReturnTrueThenFalse() throws FileNotFoundException, EndGameException {
+        try {
+            GameManager.getInstance().setNull();
+            Game game = GameManager.getInstance().initGame("TwoPlayers", false);
+
+            game.addPlayer("Piero", DeckType.DRUID, TowerColor.WHITE);
+            game.addPlayer("Gianna", DeckType.SAGE, TowerColor.BLACK);
+
+            game.getGameField().getIslandNode(1).setMostInfluencePlayer(game.getPlayersList().get(0));
+            game.getGameField().getIslandNode(1).setTower();
+            game.getGameField().getIslandNode(2).setMostInfluencePlayer(game.getPlayersList().get(0));
+            game.getGameField().getIslandNode(2).setTower();
+            game.getGameField().getIslandNode(3).setMostInfluencePlayer(game.getPlayersList().get(0));
+            game.getGameField().getIslandNode(3).setTower();
+            game.getGameField().moveMotherNatureToNodeID(1);
+            assertEquals(true, game.getGameField().hasChanged());
+            game.getGameField().moveMotherNatureToNodeID(6);
+            assertEquals(false, game.getGameField().hasChanged());
+        } catch (FileNotFoundException e) {
+            fail();
+        }
+
     }
 }

@@ -9,15 +9,18 @@ import java.util.ArrayList;
 
 public class Expert7 implements ExpertCard {
 
+    private final ExpertID ID = ExpertID.TWO_LIST_COLOR;
     private int cost = 1;
-    private final ArrayList<Color> studentsOnCard = new ArrayList<>();
+    private final ArrayList<Color> studentsOnCard;
     private final Game currentGame;
+    private final String description = "Choose up to 3 students from this card; switch them with the same number of students of your choice from your entrance hall";
 
     private final String IMG = "";            //front image of the card
 
 
     public Expert7(Game currentGame){
         this.currentGame = currentGame;
+        this.studentsOnCard = new ArrayList<>();
         try{
             studentsOnCard.addAll(currentGame.getPouch().randomDraw(6));
         }
@@ -26,23 +29,25 @@ public class Expert7 implements ExpertCard {
         }
     }
     @Override
-    public void useCard(Player user,ArrayList<Color> studentToSwapBoard, ArrayList<Color> studentToSwapCard) throws NotEnoughCoin,IllegalMove {
+    public void useCard(Player user,ArrayList<Color> studentToSwapBoard, ArrayList<Color> studentToSwapCard) throws NotEnoughCoins,IllegalMove {
         if(user.getNumOfCoin()<this.cost){
-            throw new NotEnoughCoin("You cant afford this card");
+            throw new NotEnoughCoins("You cant afford this card");
         }
         else{
             currentGame.coinHandler(user,this.cost);
             this.cost++;
-            if(studentToSwapBoard.size()!=studentToSwapCard.size())
+            currentGame.setActiveExpertsCard(this);
+            if(studentToSwapBoard.size()!=studentToSwapCard.size() || studentToSwapBoard.size()>3)
                 throw new IllegalMove("Not the same number of student");
             try {
                 this.studentsOnCard.addAll(user.getBoard().moveFromEntryRoom(studentToSwapBoard));
-                user.getBoard().addStudentsEntryRoom(studentToSwapBoard);
-                this.studentsOnCard.removeAll(studentToSwapCard);
+                user.getBoard().addStudentsEntryRoom(studentToSwapCard);
+                for(Color colorToRM:studentToSwapCard)
+                    this.studentsOnCard.remove(colorToRM);
 
             }
             catch (NotOnBoardException | NotEnoughSpace e){
-                e.printStackTrace();
+                throw new IllegalMove("No students on board");
             }
 
         }
@@ -50,7 +55,7 @@ public class Expert7 implements ExpertCard {
 
     @Override
     public void endEffect() {
-
+        currentGame.setActiveExpertsCard(null);
     }
 
     @Override
@@ -58,7 +63,19 @@ public class Expert7 implements ExpertCard {
         return this.cost;
     }
 
+    /**Method to get which students are on card
+     * @return an ArrayList of colors*/
     public ArrayList<Color> getStudentsOnCard() {
         return studentsOnCard;
+    }
+
+    @Override
+    public ExpertID getExpType(){
+        return ID;
+    }
+
+    @Override
+    public String getExpDescription() {
+        return description;
     }
 }

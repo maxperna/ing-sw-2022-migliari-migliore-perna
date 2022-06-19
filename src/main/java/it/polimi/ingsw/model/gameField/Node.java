@@ -6,6 +6,9 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.TowerColor;
 import org.jetbrains.annotations.TestOnly;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -13,17 +16,18 @@ import java.util.ArrayList;
  * class Node, used to create a doubly circular linked list of nodes, each node contains an Arraylist of islands, initially created with only 1 island
  * can be considered as a superclass of IslandTile that contains pointers to create the linked list
  */
-public class Node {
+public class Node implements Serializable {
     private int ID;
     private boolean motherNature;
     private final ArrayList<Color> students;
-    private Player mostInfluencePlayer;
+    transient private Player mostInfluencePlayer;
     private TowerColor tower;
-    private boolean stop;            //put to true if stopped by assistant card #5
+    transient private boolean stop;            //put to true if stopped by assistant card #5
     private int towerCounter;
-    private Node next;
-    private Node prev;
-    private boolean ignoreTower;
+    transient private Node next;
+    transient private Node prev;
+    transient private boolean ignoreTower;
+    transient private final PropertyChangeSupport support;
 
 
     /**
@@ -42,22 +46,6 @@ public class Node {
         this.next = next;
     }
 
-    /**
-     * constructor for the Node class
-     * @param ID is the nodeID
-     */
-    public Node(int ID, ArrayList<Color> students) {
-        this.ID = ID;
-        this.next = null;
-        this.prev = null;
-        this.mostInfluencePlayer = null;
-        this.tower = TowerColor.EMPTY;
-        this.motherNature = false;
-        this.stop = false;
-        this.towerCounter = 0;
-        this.students = students;
-    }
-
     public Node(int ID) {
         this.ID = ID;
         this.next = null;
@@ -68,6 +56,7 @@ public class Node {
         this.stop = false;
         this.towerCounter = 0;
         this.students = new ArrayList<>();
+        this.support = new PropertyChangeSupport(this);
     }
 
     /**
@@ -96,6 +85,7 @@ public class Node {
      */
     public void setMotherNature() {
         this.motherNature = true;
+        support.firePropertyChange("UpdateNode " + ID, false, true);
     }
 
     /**
@@ -121,19 +111,22 @@ public class Node {
         this.stop = true;
     }
 
+    public void removeStop(){
+        this.stop = false;
+    }
+
     /**
      * Method setTower, updates the tower attribute after tower construction or substitution
      *
      */
-    public void setTower(){
+    public void setTower() throws EndGameException {
+
         if(mostInfluencePlayer != null) {
-            try{
-                this.tower = mostInfluencePlayer.getBoard().moveTower();
-            }
-            catch (EndGameException e) {
-                e.printStackTrace();
-            }
+            int oldCounter = towerCounter;
+            this.tower = mostInfluencePlayer.getBoard().moveTower();
             towerCounter++;
+
+            support.firePropertyChange("UpdateNode " + ID, oldCounter, towerCounter);
         }
     }
 
@@ -166,7 +159,9 @@ public class Node {
      * @param student pawn to be added on the island
      */
     public void addStudent(Color student) {
+        ArrayList<Color> oldStudents = new ArrayList<>(students);
         students.add(student);
+        support.firePropertyChange("UpdateNode " + ID, oldStudents, students);
     }
 
     public void setMostInfluencePlayer(Player player) {
@@ -203,7 +198,22 @@ public class Node {
     @TestOnly
     public void setTowerTest (TowerColor color) {
         this.tower = color;
+        this.towerCounter++;
     }
 
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        support.addPropertyChangeListener(listener);
+    }
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        support.removePropertyChangeListener(listener);
+    }
+
+    public void setStudents(ArrayList<Color> students){
+        this.students.addAll(students);
+    }
+
+    public void setMotherNature(boolean value) {
+        this.motherNature = value;
+    }
 
 }

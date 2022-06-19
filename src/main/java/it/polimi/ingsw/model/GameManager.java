@@ -1,12 +1,12 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.exceptions.NotEnoughElements;
 import it.polimi.ingsw.model.strategy.FourPlayers;
 import it.polimi.ingsw.model.strategy.Selector;
 import it.polimi.ingsw.model.strategy.ThreePlayers;
 import it.polimi.ingsw.model.strategy.TwoPlayers;
 import org.jetbrains.annotations.NotNull;
-
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,6 +21,7 @@ public class GameManager {
 
     private static GameManager gameManager = null;
     private final ArrayList<Game> gamesList;
+    private final ArrayList<GameController> controllerList;
 
 
 
@@ -29,6 +30,7 @@ public class GameManager {
      */
     private GameManager() {
         this.gamesList = new ArrayList<>();
+        this.controllerList = new ArrayList<>();
     }
 
     /**
@@ -75,7 +77,7 @@ public class GameManager {
      * @param gameMode used to select the number of player in the game
      * @param expertMode selector for expert mode
      */
-    public synchronized Game startGame(@NotNull String gameMode, boolean expertMode) {
+    public synchronized Game initGame(@NotNull String gameMode, boolean expertMode) {
 
         Selector selector;
 
@@ -104,6 +106,7 @@ public class GameManager {
         gamesList.add(game);
         return game;
     }
+
 
     /**
      * Getter

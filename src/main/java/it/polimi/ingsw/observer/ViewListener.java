@@ -1,0 +1,51 @@
+package it.polimi.ingsw.observer;
+
+import it.polimi.ingsw.model.Color;
+import it.polimi.ingsw.model.DeckType;
+import it.polimi.ingsw.model.TowerColor;
+import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.messages.MessageType;
+
+import java.util.HashMap;
+
+/**
+ * Extended interface of a Listener (old Observer) used to interact with the View, has to be implemented on every class that shares methods with the view, and on Client Controller to call the methods 1:1
+ */
+public interface ViewListener {
+
+    void connectionRequest(HashMap<String,String> connectionInfo);
+
+    void sendNickname(String nickname);
+
+    void sendGameParam(int numOfPlayers, boolean expertMode);
+
+    void chooseCloudTile(int ID);
+
+    /**Method to get boards*/
+    void getBoards();
+
+    void moveStudentToIsland(Color student,int nodeID);
+
+    void moveStudentToDinner(Color student);
+
+    void actionPhaseChoice(MessageType type);
+
+    void getGameField();
+
+    void catchAction(Message receivedMessage);
+
+    void chooseTowerColorAndDeck(TowerColor color, DeckType deck);
+
+    void playAssistantCard(int playedCard);
+
+    void chooseDestination(String destination);
+
+    void cloudsRequest();
+
+    void getPlayerInfo(String player);
+
+    void moveMotherNature(int numberOfSteps);
+
+    void chooseAction(int finalChosenAction);
+
+}

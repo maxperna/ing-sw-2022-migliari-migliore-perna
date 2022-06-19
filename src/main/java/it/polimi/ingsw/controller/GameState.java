@@ -1,0 +1,8 @@
+package it.polimi.ingsw.controller;
+
+public enum GameState {
+    LOGIN, //creates the game
+    CREATE_PLAYERS, //creates players
+    PREPARATION_PHASE,
+    ACTION_PHASE,
+}
