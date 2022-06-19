@@ -1117,48 +1117,32 @@ public class Cli extends ViewSubject implements View {
         int choice = 0;
         boolean valid = false;
 
-        if(expert) {
-            do {
+        do {
+            if(expert)
                 System.out.println("\nWrite [1] to move a student to the dining room, [2] to move it on an island, [3] to play an expert card");
-                try {
-                    choice = Integer.parseInt(read());
+            else
+                System.out.println("\nWrite [1] to move a student to the dining room, [2] to move it on an island");
 
-                    if (choice == 1 || choice == 2 || choice == 3)
-                        valid = true;
+            try {
+                choice = Integer.parseInt(read());
 
-                } catch (NumberFormatException | ExecutionException e) {
-                    System.out.println("Error. Invalid input");
-                }
-            } while (!valid);
+                if (expert && (choice == 1 || choice == 2 || choice == 3))
+                    valid = true;
+                else if (choice == 1 || choice == 2)
+                    valid = true;
 
-            if(choice == 1)
-                notifyListener(list -> list.actionPhaseChoice(MessageType.MOVE_TO_DINING));
-            else if (choice == 2){
-                notifyListener(list -> list.actionPhaseChoice(MessageType.MOVE_TO_ISLAND));
+            } catch (NumberFormatException | ExecutionException e) {
+                System.out.println("Error. Invalid input");
             }
-            else {
-                notifyListener(list -> list.actionPhaseChoice(MessageType.EXPERT_CARD_REQ));
-            }
+        } while (!valid);
+
+        if(choice == 1)
+            notifyListener(list -> list.actionPhaseChoice(MessageType.MOVE_TO_DINING));
+        else if (choice == 2){
+            notifyListener(list -> list.actionPhaseChoice(MessageType.MOVE_TO_ISLAND));
         }
         else {
-            do {
-                System.out.println("\nWrite [1] to move a student to the dining room, [2] to move it on an island");
-                try {
-                    choice = Integer.parseInt(read());
-
-                    if (choice == 1 || choice == 2)
-                        valid = true;
-
-                } catch (NumberFormatException | ExecutionException e) {
-                    System.out.println("Error. Invalid input");
-                }
-            } while (!valid);
-
-            if(choice == 1)
-                notifyListener(list -> list.actionPhaseChoice(MessageType.MOVE_TO_DINING));
-            else {
-                notifyListener(list -> list.actionPhaseChoice(MessageType.MOVE_TO_ISLAND));
-            }
+            notifyListener(list -> list.actionPhaseChoice(MessageType.EXPERT_CARD_REQ));
         }
     }
 
