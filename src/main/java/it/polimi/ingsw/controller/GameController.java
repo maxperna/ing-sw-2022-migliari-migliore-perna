@@ -1,7 +1,6 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exceptions.*;
-import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.model.gameField.Node;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.messages.Message;
@@ -406,7 +405,7 @@ public class GameController implements PropertyChangeListener {
             }
 
             for(String nickname : viewMap.keySet())
-                viewMap.get(nickname).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), message.getSenderPlayer(), game.getExpertsCard());
+                viewMap.get(nickname).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), message.getSenderPlayer(), game.getExpertsCard(), game.getPlayerByNickName(nickname).getNumOfCoin());
             viewMap.get(message.getSenderPlayer()).expertModeControl(false);
 
         } catch (IllegalMove | IndexOutOfBoundsException e) {
@@ -444,7 +443,7 @@ public class GameController implements PropertyChangeListener {
 
         if(event.getPropertyName().equals("UpdateCloud")) {
             for (String nickName : viewMap.keySet()) {
-                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), turnLogic.getActivePlayer().getNickname(), game.getExpertsCard());
+                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), turnLogic.getActivePlayer().getNickname(), game.getExpertsCard(), game.getPlayerByNickName(nickName).getNumOfCoin() );
             }
         }
 
@@ -455,20 +454,20 @@ public class GameController implements PropertyChangeListener {
 //            int nodeID = Integer.parseInt(intValue);
 
             for (String nickName : viewMap.keySet()) {
-                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), turnLogic.getActivePlayer().getNickname(), game.getExpertsCard());
+                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), turnLogic.getActivePlayer().getNickname(), game.getExpertsCard(), game.getPlayerByNickName(nickName).getNumOfCoin());
             }
         }
 
         if(event.getPropertyName().equals("UpdateTeacher")) {
             for (String nickName : viewMap.keySet()) {
-                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), turnLogic.getActivePlayer().getNickname(), game.getExpertsCard());
+                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), turnLogic.getActivePlayer().getNickname(), game.getExpertsCard(), game.getPlayerByNickName(nickName).getNumOfCoin());
             }
         }
 
         if(event.getPropertyName().equals("Merge")) {
 
             for (String nickName : viewMap.keySet()) {
-                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), turnLogic.getActivePlayer().getNickname(), game.getExpertsCard());
+                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), turnLogic.getActivePlayer().getNickname(), game.getExpertsCard(), game.getPlayerByNickName(nickName).getNumOfCoin());
             }
         }
 
@@ -489,7 +488,7 @@ public class GameController implements PropertyChangeListener {
 //                System.out.println("Non funziona la lettura da stringa");
 
             for (String nickName : viewMap.keySet()) {
-                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), turnLogic.getActivePlayer().getNickname(), game.getExpertsCard());
+                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), turnLogic.getActivePlayer().getNickname(), game.getExpertsCard(), game.getPlayerByNickName(nickName).getNumOfCoin());
             }
         }
     }
@@ -532,7 +531,7 @@ public class GameController implements PropertyChangeListener {
         }
 
         if(messageReceived.getType() == EXPERT_CARD_REQ) {
-            viewMap.get(senderPlayer).showExpertCards(game.getExpertsCard());
+            viewMap.get(senderPlayer).showExpertCards(game.getExpertsCard(), game.getPlayerByNickName(senderPlayer).getNumOfCoin());
         }
 
     }

@@ -106,7 +106,10 @@ public class ClientController implements ViewListener, Listener {
 
     @Override
     public void actionPhaseChoice(MessageType type) {
-        client.sendMessage(new StudentsAvailableRequest(nickname, type));
+        if(type == MessageType.MOVE_TO_DINING || type == MessageType.MOVE_TO_ISLAND )
+            client.sendMessage(new StudentsAvailableRequest(nickname, type));
+        if(type == MessageType.EXPERT_CARD_REQ)
+            client.sendMessage(new ExpertCardRequest(nickname));
     }
 
     /**Method to pick one single student on the view and move it into the dinner room
@@ -442,7 +445,8 @@ public class ClientController implements ViewListener, Listener {
         view.showGameField(message.getGameFieldMap());
         view.showClouds(message.getChargedClouds());
         view.printBoard(message.getBoardMap().get(nickname), nickname);
-        view.showExpertCards(message.getExperts());
+        if(expert_mode)
+            view.showExpertCards(message.getExperts(), message.getNumOfCoins());
     }
 
     public void askAction(Boolean expert_mode) {

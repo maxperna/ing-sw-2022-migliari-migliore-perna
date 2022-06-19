@@ -9,7 +9,6 @@ import it.polimi.ingsw.network.messages.MessageType;
 import org.jetbrains.annotations.TestOnly;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public interface View{
@@ -139,7 +138,7 @@ public interface View{
 
     void sendNumberOfPlayers(int numberOfPlayers);
 
-    void showExpertCards(ArrayList<ExpertCard> allExpertCards);
+    void showExpertCards(ArrayList<ExpertCard> allExpertCards, int numberOfCoins);
 
     void availableStudents(ArrayList<Color> availableStudents, MessageType movementType, int gameFieldSize);
 

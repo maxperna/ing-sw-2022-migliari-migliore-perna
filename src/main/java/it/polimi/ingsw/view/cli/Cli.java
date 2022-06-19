@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.controller.GameState;
+import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.experts.*;
 import it.polimi.ingsw.model.gameField.Node;
 import it.polimi.ingsw.model.*;
@@ -11,9 +12,9 @@ import it.polimi.ingsw.observer.Listener;
 import it.polimi.ingsw.observer.ViewListener;
 import it.polimi.ingsw.observer.ViewSubject;
 import it.polimi.ingsw.view.View;
-import org.jetbrains.annotations.TestOnly;
 
 import java.util.*;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
@@ -674,13 +675,15 @@ public class Cli extends ViewSubject implements View {
      *
      */
     @Override
-    public void showExpertCards(ArrayList<ExpertCard> allExpertCards) {
+    public void showExpertCards(ArrayList<ExpertCard> allExpertCards, int numberOfCoins) {
         int index = 1;
         for (ExpertCard expert : allExpertCards) {
             System.out.println("Expert [" + index + "]\nExpert card cost: " + expert.getCost() + "\nExpert card effect: " + expert.getExpDescription());
             index++;
             System.out.println();
         }
+        System.out.println("Number of coins available: " +numberOfCoins);
+        System.out.println();
     }
 
     @Override
@@ -1134,8 +1137,7 @@ public class Cli extends ViewSubject implements View {
                 notifyListener(list -> list.actionPhaseChoice(MessageType.MOVE_TO_ISLAND));
             }
             else {
-                notifyListener(ViewListener::getCoins);
-                notifyListener(ViewListener::getExpertsCard);
+                notifyListener(list -> list.actionPhaseChoice(MessageType.EXPERT_CARD_REQ));
             }
         }
         else {

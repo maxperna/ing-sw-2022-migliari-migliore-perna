@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.experts.Expert4;
 
 import java.util.*;
 
@@ -159,7 +160,7 @@ public class TurnLogic {
         //IF expert4 is played modify allowed num of steps
         if(currentGame.EXP_MODE) {
             if(currentGame.getActiveExpertCard()!=null)
-                if (currentGame.getActiveExpertCard().getClass().getName().equals("Expert4"))
+                if (currentGame.getActiveExpertCard().getClass().equals(Expert4.class))
                     allowedNumOfSteps = allowedNumOfSteps + 2;
         }
         if(numOfSteps>allowedNumOfSteps || numOfSteps == 0)

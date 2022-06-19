@@ -23,13 +23,16 @@ public class WorldChangeMessage extends Message {
 
     private final ArrayList<ExpertCard> experts;
 
-    public WorldChangeMessage(Map<Integer, Node> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap, String currentPlayer, ArrayList<ExpertCard> experts) {
+    private final int numOfCoins;
+
+    public WorldChangeMessage(Map<Integer, Node> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap, String currentPlayer, ArrayList<ExpertCard> experts, int numOfCoins) {
         super(WORLD_CHANGE, "Server");
         this.gameFieldMap = gameFieldMap;
         this.chargedClouds = chargedClouds;
         this.boardMap = boardMap;
         this.currentPlayer = currentPlayer;
         this.experts = experts;
+        this.numOfCoins = numOfCoins;
     }
 
     public Map<Integer, Node> getGameFieldMap() {
@@ -50,5 +53,9 @@ public class WorldChangeMessage extends Message {
 
     public ArrayList<ExpertCard> getExperts() {
         return experts;
+    }
+
+    public int getNumOfCoins() {
+        return numOfCoins;
     }
 }

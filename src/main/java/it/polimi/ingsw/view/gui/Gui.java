@@ -102,7 +102,7 @@ public class Gui extends ViewSubject implements View {
 
 
     @Override
-    public void showExpertCards(ArrayList<ExpertCard> allExpertCards) {
+    public void showExpertCards(ArrayList<ExpertCard> allExpertCards, int numberOfCoins) {
 
     }
 

@@ -79,8 +79,8 @@ public class VirtualView implements View {
     }
 
     @Override
-    public void showExpertCards(ArrayList<ExpertCard> expertList) {
-        clientHandler.sendMessage(new ExpertCardReply(expertList));
+    public void showExpertCards(ArrayList<ExpertCard> expertList, int numberOfCoins) {
+        clientHandler.sendMessage(new ExpertCardReply(expertList, numberOfCoins));
     }
 
     @Override
@@ -211,8 +211,8 @@ public class VirtualView implements View {
 
     }
 
-    public void worldUpdate(Map<Integer, Node> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap, String currentPlayer, ArrayList<ExpertCard> experts) {
-        clientHandler.sendMessage(new WorldChangeMessage(gameFieldMap, chargedClouds, boardMap, currentPlayer, experts));
+    public void worldUpdate(Map<Integer, Node> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap, String currentPlayer, ArrayList<ExpertCard> experts, int numOfCoins) {
+        clientHandler.sendMessage(new WorldChangeMessage(gameFieldMap, chargedClouds, boardMap, currentPlayer, experts, numOfCoins));
     }
 
     public void chooseCloudTile(int cloudID){}
