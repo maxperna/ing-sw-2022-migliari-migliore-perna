@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.experts.*;
 import it.polimi.ingsw.model.gameField.Node;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.messages.ErrorType;
+import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.observer.ViewSubject;
 import it.polimi.ingsw.view.View;
 import javafx.application.Platform;
@@ -102,6 +103,11 @@ public class Gui extends ViewSubject implements View {
 
     @Override
     public void showExpertCards(ArrayList<ExpertCard> allExpertCards) {
+
+    }
+
+    @Override
+    public void availableStudents(ArrayList<Color> availableStudents, MessageType movementType, int gameFieldSize) {
 
     }
 

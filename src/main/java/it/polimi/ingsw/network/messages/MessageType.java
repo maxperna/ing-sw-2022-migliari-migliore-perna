@@ -65,9 +65,12 @@ public enum MessageType {
 
     NUMBER_PLAYERS,
 
-    COIN_REQUEST, GET_COINS, NICK_REQ,
-
+    COIN_REQUEST,
+    GET_COINS,
+    NICK_REQ,
     EXPERT_MODE_CONTROL,
+    STUDENT_REQUEST,
+    STUDENT_REPLY,
 
 
 }

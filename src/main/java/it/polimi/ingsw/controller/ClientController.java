@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.experts.*;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.client.ClientSocket;
 import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.network.messages.client_messages.*;
 import it.polimi.ingsw.network.messages.client_messages.ExpertMessages.*;
 import it.polimi.ingsw.network.messages.server_messages.*;
@@ -130,7 +131,10 @@ public class ClientController implements ViewListener, Listener {
     public void moveMotherNature(int numberOfSteps){
         client.sendMessage(new MoveMotherNatureMessage(nickname,numberOfSteps));
     }
-
+    @Override
+    public void actionPhaseChoice(MessageType type) {
+        client.sendMessage(new StudentsAvailableRequest(nickname, type));
+    }
 
     /**Method to play an expert card
      **/
@@ -319,6 +323,10 @@ public class ClientController implements ViewListener, Listener {
                 LastCardMessage lastCardMessage = (LastCardMessage)  receivedMessage;
                 actionQueue.execute(()->view.showLastUsedCard(lastCardMessage.getLastCardMap()));
                 requestAssistants();
+                break;
+            case STUDENT_REPLY:
+                AvailableStudentsReply availableStudentsReply = (AvailableStudentsReply) receivedMessage;
+                actionQueue.execute(()->view.availableStudents(availableStudentsReply.getAvailableStudents(), availableStudentsReply.getTypeOfMovement(), availableStudentsReply.getIslandSize()));
                 break;
             case GAME_FIELD:
                 GameFieldMessage gameField = (GameFieldMessage) receivedMessage;

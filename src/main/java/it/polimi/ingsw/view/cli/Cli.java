@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.gameField.Node;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.observer.Listener;
 import it.polimi.ingsw.observer.ViewListener;
 import it.polimi.ingsw.observer.ViewSubject;
@@ -682,6 +683,59 @@ public class Cli extends ViewSubject implements View {
         }
     }
 
+    @Override
+    public void availableStudents(ArrayList<Color> availableStudents, MessageType movementType, int gameFieldSize) {
+        System.out.println("\n\nAvailable students: ");
+        Map<Integer, Color> indexColorMap = new HashMap<>();
+        int islandChoice = -1;
+        int choice = 0;
+        int index = 1;
+
+        for(Color currentColor : availableStudents) {
+            if(currentColor.equals(Color.RED))
+                System.out.println("[" +index+ "] RED ");
+            if(currentColor.equals(Color.PINK))
+                System.out.println("[" +index+ "] PINK ");
+            if(currentColor.equals(Color.GREEN))
+                System.out.println("[" +index+ "] GREEN ");
+            if(currentColor.equals(Color.YELLOW))
+                System.out.println("[" +index+ "] YELLOW ");
+            if(currentColor.equals(Color.BLUE))
+                System.out.println("[" +index+ "] BLUE ");
+
+            indexColorMap.put(index, currentColor);
+            index ++;
+        }
+
+        while (!indexColorMap.containsKey(choice)) {
+            try {
+                System.out.println("Choose: ");
+                choice = Integer.parseInt(read());
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+        int finalChoice = choice;
+
+        if(movementType == MessageType.MOVE_TO_DINING) {
+            notifyListener(list -> list.moveStudentToDinner(indexColorMap.get(finalChoice)));
+        }
+        else if(movementType == MessageType.MOVE_TO_ISLAND) {
+
+            do {
+                try {
+                    System.out.println("Island Number: ");
+                    islandChoice = Integer.parseInt(read());
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+            }while (islandChoice <= 0 && islandChoice > gameFieldSize);
+
+            int finalIslandChoice = islandChoice;
+            notifyListener(list -> list.moveStudentToIsland(indexColorMap.get(finalChoice), finalIslandChoice));
+        }
+    }
+
     /**
      * method used to get from input an ID from a list of given ones
      *
@@ -1075,23 +1129,9 @@ public class Cli extends ViewSubject implements View {
             } while (!valid);
 
             if(choice == 1)
-                notifyListener(list -> list.moveStudentToDinner(colorSelector()));
+                notifyListener(list -> list.actionPhaseChoice(MessageType.MOVE_TO_DINING));
             else if (choice == 2){
-                valid = false;
-                do {
-                    System.out.println("\nWrite the Id of the island of destination");
-                    try {
-                        choice = Integer.parseInt(read());
-
-                        if (choice>0 && choice<13)
-                            valid = true;
-
-                    } catch (NumberFormatException | ExecutionException e) {
-                        System.out.println("Error. Invalid input");
-                    }
-                } while (!valid);
-                int finalChoice = choice;
-                notifyListener(list -> list.moveStudentToIsland(colorSelector(), finalChoice));
+                notifyListener(list -> list.actionPhaseChoice(MessageType.MOVE_TO_ISLAND));
             }
             else {
                 notifyListener(ViewListener::getCoins);
@@ -1113,23 +1153,9 @@ public class Cli extends ViewSubject implements View {
             } while (!valid);
 
             if(choice == 1)
-                notifyListener(list -> list.moveStudentToDinner(colorSelector()));
-            else{
-                valid = false;
-                do {
-                    System.out.println("\nWrite the Id of the island of destination");
-                    try {
-                        choice = Integer.parseInt(read());
-
-                        if (choice == 1 || choice == 2)
-                            valid = true;
-
-                    } catch (NumberFormatException | ExecutionException e) {
-                        System.out.println("Error. Invalid input");
-                    }
-                } while (!valid);
-                int finalChoice = choice;
-                notifyListener(list -> list.moveStudentToIsland(colorSelector(), finalChoice));
+                notifyListener(list -> list.actionPhaseChoice(MessageType.MOVE_TO_DINING));
+            else {
+                notifyListener(list -> list.actionPhaseChoice(MessageType.MOVE_TO_ISLAND));
             }
         }
     }
@@ -1149,34 +1175,6 @@ public class Cli extends ViewSubject implements View {
 
     }
 
-    @TestOnly
-    Color colorSelector() {
-        System.out.println("\n\nWrite the number referred to the color of the student you want to move: [1] RED, [2] PINK, [3] GREEN, [4] YELLOW, [5] BLUE");
-        int choice = 0;
-        try {
-            choice = Integer.parseInt(read());
-        } catch (ExecutionException | NumberFormatException e) {
-            System.out.println("Error. Invalid parameter");
-        }
-
-        switch (choice) {
-            case 1:
-                return Color.RED;
-            case 2:
-                return Color.PINK;
-            case 3:
-                return Color.GREEN;
-            case 4:
-                return Color.YELLOW;
-            case 5:
-                return Color.BLUE;
-            default: {
-                System.out.println("Error. Invalid parameter");
-                colorSelector();
-            }
-        }
-        return null;
-    }
 
     public void chooseCloudTile(int cloudID) {
         int chosenCloud = 0;

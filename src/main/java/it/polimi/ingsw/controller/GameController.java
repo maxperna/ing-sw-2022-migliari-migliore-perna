@@ -196,6 +196,13 @@ public class GameController implements PropertyChangeListener {
                     expertsHandling((PlayExpertCard) receivedMessage);
                 }
 
+                if(receivedMessage.getType() == STUDENT_REQUEST) {
+                    StudentsAvailableRequest studentsAvailableRequest = (StudentsAvailableRequest)receivedMessage;
+                    ArrayList<Color> availableStudents = new ArrayList<>(game.getPlayerByNickName(senderPlayer).getBoard().getEntryRoom());
+                    viewMap.get(senderPlayer).availableStudents(availableStudents, studentsAvailableRequest.getTypeOfMovement(), game.getGameField().size());
+                }
+
+
                 showGameInfo(receivedMessage, senderPlayer);
             break;
 

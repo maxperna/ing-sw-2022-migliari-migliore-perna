@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.experts.*;
 import it.polimi.ingsw.model.gameField.Node;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.messages.ErrorType;
+import it.polimi.ingsw.network.messages.MessageType;
 import org.jetbrains.annotations.TestOnly;
 
 import java.util.ArrayList;
@@ -139,6 +140,8 @@ public interface View{
     void sendNumberOfPlayers(int numberOfPlayers);
 
     void showExpertCards(ArrayList<ExpertCard> allExpertCards);
+
+    void availableStudents(ArrayList<Color> availableStudents, MessageType movementType, int gameFieldSize);
 
     void chooseExpertCard();
 

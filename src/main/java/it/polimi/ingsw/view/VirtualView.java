@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.experts.*;
 import it.polimi.ingsw.model.gameField.Node;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.messages.ErrorType;
+import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.network.messages.client_messages.GameParamRequest;
 import it.polimi.ingsw.network.messages.server_messages.*;
 import it.polimi.ingsw.network.server.ClientHandler;
@@ -224,5 +225,11 @@ public class VirtualView implements View {
     public void setExpertMode(boolean expertMode){
         clientHandler.sendMessage(new ExpertModeNotify(expertMode));
     }
+
+    @Override
+    public void availableStudents(ArrayList<Color> availableStudents, MessageType movementType, int gameFieldSize) {
+        clientHandler.sendMessage(new AvailableStudentsReply(availableStudents, movementType, gameFieldSize));
+    }
+
 
 }

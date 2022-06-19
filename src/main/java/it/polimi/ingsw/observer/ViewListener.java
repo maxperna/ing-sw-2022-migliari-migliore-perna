@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.DeckType;
 import it.polimi.ingsw.model.TowerColor;
 import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.messages.MessageType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,6 +49,8 @@ public interface ViewListener {
     void getPlayerInfo(String player);
 
     void moveMotherNature(int numberOfSteps);
+
+    void actionPhaseChoice(MessageType type);
 
     //EXPERT CARD METHODS
 
