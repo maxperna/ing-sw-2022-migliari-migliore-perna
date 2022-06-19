@@ -136,10 +136,6 @@ public class ClientController implements ViewListener, Listener {
     public void moveMotherNature(int numberOfSteps){
         client.sendMessage(new MoveMotherNatureMessage(nickname,numberOfSteps));
     }
-    @Override
-    public void actionPhaseChoice(MessageType type) {
-        client.sendMessage(new StudentsAvailableRequest(nickname, type));
-    }
 
     /**Method to play an expert card
      **/
@@ -336,10 +332,6 @@ public class ClientController implements ViewListener, Listener {
             case GAME_FIELD:
                 GameFieldMessage gameField = (GameFieldMessage) receivedMessage;
                 actionQueue.execute(()->view.showGameField(gameField.getGameFieldMap()));
-                break;
-            case STUDENT_REPLY:
-                AvailableStudentsReply availableStudentsReply = (AvailableStudentsReply) receivedMessage;
-                actionQueue.execute(()->view.availableStudents(availableStudentsReply.getAvailableStudents(), availableStudentsReply.getTypeOfMovement(), availableStudentsReply.getIslandSize()));
                 break;
             case ERROR:
                 ErrorMessage error = (ErrorMessage) receivedMessage;
