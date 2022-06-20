@@ -18,7 +18,7 @@ public class Expert6 implements ExpertCard {
     @Override
     public void useCard(Player user) throws NotEnoughCoins {
         if (user.getNumOfCoin() < this.cost) {
-            throw new NotEnoughCoins("You cant afford this card");
+            throw new NotEnoughCoins("You don't have enough coins to use this effect");
         } else {
             currentGame.coinHandler(user,-this.cost);
             this.cost++;

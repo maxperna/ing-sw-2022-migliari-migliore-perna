@@ -19,7 +19,7 @@ public class Expert9 implements ExpertCard {
     @Override
     public void useCard(Player user, Color colorToIgnore) throws NotEnoughCoins {
         if(user.getNumOfCoin()<this.cost){
-            throw new NotEnoughCoins();
+            throw new NotEnoughCoins("You don't have enough coins to use this effect");
         }
         else{
             currentGame.coinHandler(user,this.cost);

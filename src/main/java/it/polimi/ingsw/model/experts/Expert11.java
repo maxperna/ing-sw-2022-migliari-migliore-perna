@@ -17,7 +17,7 @@ public class Expert11 implements ExpertCard {
     private int cost = 2;
     private final Game currentGame;
     private final ArrayList<Color> studentsOnCard;
-    private final String description = "Choose one student from this card and place him on your hall. Then draw a student and place it on this card";
+    private final String description = "Choose one student from this card and place it on your dining room. Then draw a student and place it on this card";
 
     private final String IMG = "";            //front image of the card
 
@@ -35,13 +35,17 @@ public class Expert11 implements ExpertCard {
     @Override
     public void useCard(Player user,Color colorToAdd) throws NotEnoughCoins, IllegalMove {
         if(user.getNumOfCoin()<this.cost)
-            throw new NotEnoughCoins();
+            throw new NotEnoughCoins("You don't have enough coins to use this effect");
         else{
             currentGame.coinHandler(user,-this.cost);
             this.cost++;
             currentGame.setActiveExpertsCard(this);
 
-            if (!studentsOnCard.contains(colorToAdd)) throw new IllegalMove("Student is not on card");
+            if (!studentsOnCard.contains(colorToAdd)) {
+                currentGame.coinHandler(user,this.cost);
+                this.cost--;
+                throw new IllegalMove("This student is not available");
+            }
             else {
                 try {
                     studentsOnCard.remove(colorToAdd);
@@ -49,7 +53,9 @@ public class Expert11 implements ExpertCard {
                     studentsOnCard.addAll(currentGame.getPouch().randomDraw(1));
                 }
                 catch(NotEnoughSpace | NotEnoughStudentsException e){
-                    throw new IllegalMove("Too much students in hall");
+                    currentGame.coinHandler(user,this.cost);
+                    this.cost--;
+                    throw new IllegalMove("Too many students in the entry hall");
                 }
         }
 

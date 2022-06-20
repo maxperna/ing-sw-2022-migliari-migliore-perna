@@ -155,6 +155,8 @@ public class ExpertsCardTest {
 
         } catch (NotEnoughCoins | EndGameException e) {
             fail();
+        } catch (IllegalMove e) {
+            e.printStackTrace();
         }
 
         exp3.endEffect();
@@ -534,6 +536,8 @@ public class ExpertsCardTest {
         } catch (NotEnoughCoins e) {
             fail();
         } catch (NotOnBoardException e) {
+            e.printStackTrace();
+        } catch (IllegalMove e) {
             e.printStackTrace();
         }
 

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.experts;
 
 import it.polimi.ingsw.exceptions.EndGameException;
+import it.polimi.ingsw.exceptions.IllegalMove;
 import it.polimi.ingsw.exceptions.NotEnoughCoins;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
@@ -17,10 +18,12 @@ public class Expert3 implements ExpertCard {
         this.currentGame = currentGame;
     }
     @Override
-    public void useCard(Player user, int targetIsland) throws NotEnoughCoins {
+    public void useCard(Player user, int targetIsland) throws NotEnoughCoins, IllegalMove {
         if(user.getNumOfCoin()<this.cost){
-            throw new NotEnoughCoins("You cant afford this card");
+            throw new NotEnoughCoins("You don't have enough coins to use this effect");
         }
+        else if (targetIsland > currentGame.getGameField().size())
+            throw new IllegalMove("This island doesn't exist anymore");
         else{
             currentGame.coinHandler(user,-this.cost);
             this.cost++;

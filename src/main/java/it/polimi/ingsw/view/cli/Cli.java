@@ -713,8 +713,8 @@ public class Cli extends ViewSubject implements View {
             try {
                 System.out.println("Choose: ");
                 choice = Integer.parseInt(read());
-            } catch (ExecutionException e) {
-                e.printStackTrace();
+            } catch (ExecutionException | NumberFormatException e) {
+                System.out.println("Error. Invalid input");
             }
         }
         int finalChoice = choice;
@@ -728,8 +728,8 @@ public class Cli extends ViewSubject implements View {
                 try {
                     System.out.println("Island Number: ");
                     islandChoice = Integer.parseInt(read());
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
+                } catch (ExecutionException | NumberFormatException e) {
+                    System.out.println("Error. Invalid input");
                 }
             }while (islandChoice <= 0 && islandChoice > gameFieldSize);
 
@@ -749,7 +749,7 @@ public class Cli extends ViewSubject implements View {
             System.out.println("Choose one from the available objects: " + ID.toString());
             try {
                 chosenID = Integer.parseInt(read());
-            } catch (ExecutionException e) {
+            } catch (ExecutionException | NumberFormatException e) {
                 e.printStackTrace();
             }
             if (!ID.contains(chosenID)) {
@@ -1082,12 +1082,12 @@ public class Cli extends ViewSubject implements View {
                 chosenPlayer = Integer.parseInt(read());
 
                 if ((chosenPlayer < 0 || chosenPlayer > boardMap.size() + 1))
-                    System.out.println("Error. Invalid parameter");
+                    System.out.println("Error. Invalid input");
                 else
                     valid = true;
 
-            } catch (ExecutionException e) {
-                System.out.println("Error. Invalid parameter");
+            } catch (ExecutionException | NumberFormatException e) {
+                System.out.println("Error. Invalid input");
                 valid = false;
             }
 
@@ -1170,8 +1170,8 @@ public class Cli extends ViewSubject implements View {
             this.notifyListener((list) -> {
                 list.moveMotherNature(num);
             });
-        } catch (ExecutionException e) {
-            e.printStackTrace();
+        } catch (ExecutionException | NumberFormatException e) {
+            System.out.println("Error. Invalid input");
         }
 
     }
@@ -1391,7 +1391,7 @@ public class Cli extends ViewSubject implements View {
                 try {
                     chosenStudent = Integer.parseInt(read())-1;
                 } catch (ExecutionException | NumberFormatException e) {
-                    System.out.println("Error. Invalid parameter");
+                    System.out.println("Error. Invalid input");
                 }
             } while(chosenStudent < 0 || chosenStudent > expert.getStudentsOnCard().size()-1);
 
@@ -1404,7 +1404,7 @@ public class Cli extends ViewSubject implements View {
                 System.out.println("Choose the student you want to place on the card: [1] RED, [2] PINK, [3] GREEN, [4] YELLOW, [5] BLUE");
                 try {
                     chosenColor = Integer.parseInt(read());
-                } catch (ExecutionException e) {
+                } catch (ExecutionException | NumberFormatException e) {
                     System.out.println("Error. Invalid input");
                 }
             } while (chosenColor < 1 || chosenColor > 5);
@@ -1446,7 +1446,7 @@ public class Cli extends ViewSubject implements View {
             try {
                 maxStudent = Integer.parseInt(read());
             } catch (ExecutionException | NumberFormatException e) {
-                System.out.println("Error.Invalid parameter");
+                System.out.println("Error.Invalid input");
             }
         } while (maxStudent < 1 || maxStudent > 2);
 
@@ -1454,8 +1454,8 @@ public class Cli extends ViewSubject implements View {
             do {
                 System.out.println("Choose the student you want to move from your hall to your dining room: [1] RED, [2] PINK, [3] GREEN, [4] YELLOW, [5] BLUE");
                 try {
-                    chosenColor = Integer.parseInt(read()) - 1;
-                } catch (ExecutionException e) {
+                    chosenColor = Integer.parseInt(read());
+                } catch (ExecutionException| NumberFormatException e) {
                     System.out.println("Error. Invalid input");
                 }
             } while (chosenColor < 0 || chosenColor > 4);
@@ -1484,8 +1484,8 @@ public class Cli extends ViewSubject implements View {
                 do {
                     System.out.println("Choose the student you want to move from your dining room to your entry hall: [1] RED, [2] PINK, [3] GREEN, [4] YELLOW, [5] BLUE");
                     try {
-                        chosenColor = Integer.parseInt(read()) - 1;
-                    } catch (ExecutionException e) {
+                        chosenColor = Integer.parseInt(read());
+                    } catch (ExecutionException| NumberFormatException e) {
                         System.out.println("Error. Invalid input");
                     }
                 } while (chosenColor < 0 || chosenColor >= 5);
@@ -1647,7 +1647,7 @@ public class Cli extends ViewSubject implements View {
             try {
                 System.out.println("Choose: ");
                 choice = Integer.parseInt(read());
-            } catch (ExecutionException e) {
+            } catch (ExecutionException | NumberFormatException e) {
                 System.out.println("This student is not available");
             }
         } while (!indexColorMap.containsKey(choice));

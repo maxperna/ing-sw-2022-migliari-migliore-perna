@@ -35,7 +35,7 @@ public class Expert1 implements ExpertCard {
     @Override
     public void useCard(Player user, int nodeID,Color colorToSwap) throws NotEnoughCoins, IllegalMove {
         if(user.getNumOfCoin()<this.cost){
-            throw new NotEnoughCoins("You cant afford this card");
+            throw new NotEnoughCoins("You don't have enough coins to use this effect");
         }
         else{
             currentGame.coinHandler(user,-this.cost);
@@ -50,7 +50,12 @@ public class Expert1 implements ExpertCard {
                     e.printStackTrace();
                 }
             }
-            else throw new IllegalMove("Student not on card");
+            else {
+                currentGame.coinHandler(user,this.cost);
+                this.cost--;
+                throw new IllegalMove("This student is not available");
+
+            }
 
         }
     }

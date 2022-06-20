@@ -23,7 +23,7 @@ public class Expert12 implements ExpertCard {
 
     @Override
     public void useCard(Player user, Color colorToRemove) throws NotEnoughCoins {
-        if(user.getNumOfCoin()<cost) throw new NotEnoughCoins();
+        if(user.getNumOfCoin()<cost) throw new NotEnoughCoins("You don't have enough coins to use this effect");
 
         else{
             currentGame.coinHandler(user,-this.cost);

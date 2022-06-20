@@ -27,7 +27,7 @@ public class CardDeck implements Serializable {
     public CardDeck(DeckType deckCharacter) throws FileNotFoundException {
         this.deckCharacter = deckCharacter;
         this.deck = new ArrayList<>();
-        //Creating a gson desarialization object
+        //Creating a gson deserialization object
         Gson gson = new Gson();
 
         //JSON reader from file
@@ -46,10 +46,10 @@ public class CardDeck implements Serializable {
             //Getting the fields of the assistant one by one
             JsonObject assistantJSONObject = assistantJSONElement.getAsJsonObject();
             int assistantActionNumber = assistantJSONObject.get("actionNumber").getAsInt();
-            int assistantMNControl = assistantJSONObject.get("actionNumber").getAsInt();
+            int assistantMNControl = assistantJSONObject.get("motherNatureControl").getAsInt();
             String assistantFrontImage= assistantJSONObject.get("frontIMG").getAsString();
 
-            this.deck.add(new AssistantCard(assistantActionNumber,assistantMNControl,assistantFrontImage,backIMGPath, deckCharacter));
+            this.deck.add(new AssistantCard(assistantActionNumber, assistantMNControl, assistantFrontImage, backIMGPath, deckCharacter));
         }
     }
 

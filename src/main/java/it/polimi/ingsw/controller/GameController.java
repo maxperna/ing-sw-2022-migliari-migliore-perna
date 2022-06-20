@@ -171,7 +171,7 @@ public class GameController implements PropertyChangeListener {
                             viewMap.get(nickName).showWinner(senderPlayer);
                         }
                     }catch (IllegalMove IL){
-                        viewMap.get(senderPlayer).showError("Too much steps", MOTHER_NATURE_ERROR);
+                        viewMap.get(senderPlayer).showError("Too many steps", MOTHER_NATURE_ERROR);
                     }
                 }
 

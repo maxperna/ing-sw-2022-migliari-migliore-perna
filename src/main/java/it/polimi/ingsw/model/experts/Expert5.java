@@ -27,8 +27,10 @@ public class Expert5 implements ExpertCard {
     @Override
     public void useCard(Player user, int nodeID) throws NotEnoughCoins, IllegalMove {
         if(user.getNumOfCoin()<cost){
-            throw new NotEnoughCoins();
+            throw new NotEnoughCoins("You don't have enough coins to use this effect");
         }
+        else if (nodeID > currentGame.getGameField().size())
+            throw new IllegalMove("This island doesn't exist anymore");
         else if(stopAvailable>0){
             currentGame.coinHandler(user,-this.cost);
             this.cost++;
