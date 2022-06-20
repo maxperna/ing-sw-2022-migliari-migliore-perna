@@ -19,7 +19,7 @@ public class Board implements Serializable, StudentManager  {
 
     private final int maxStudentHall;
     private final TowerColor towerColor;
-    private Integer numberOfTowers;  //number of towers on the board
+    private IntHolder numberOfTowers;  //number of towers on the board
     transient private final Player owner;
     transient private Player teamMate;
     private ArrayList<Color> entryRoom;    //list of student in the outer room
@@ -32,7 +32,7 @@ public class Board implements Serializable, StudentManager  {
     public Board(Game currentGame,Player owner,TowerColor towerColor) {
 
         this.maxStudentHall = currentGame.MAX_STUDENTS_ENTRANCE;
-        this.numberOfTowers = currentGame.MAX_NUM_OF_TOWERS;
+        this.numberOfTowers = new IntHolder(currentGame.MAX_NUM_OF_TOWERS);
         this.towerColor = towerColor;
         this.diningRoom = new HashMap<>();
         this.teachers = new HashMap<>();
@@ -68,7 +68,7 @@ public class Board implements Serializable, StudentManager  {
         return entryRoom;
     }
     public Integer getNumOfTowers() {
-        return numberOfTowers;
+        return numberOfTowers.getValue();
     }
 
     /**Method to get the presence of a teacher of a given on the board
@@ -187,17 +187,14 @@ public class Board implements Serializable, StudentManager  {
      */
     public TowerColor moveTower() throws EndGameException{
 
-        numberOfTowers --;
-        if(numberOfTowers == 0) throw new EndGameException("Out of towers");
-
+        numberOfTowers.decreaseValue();
         return getTowerColor();
-
     }
 
     /**Method to add a tower to the hall
      */
     public void addTower(){
-        numberOfTowers++;
+        numberOfTowers.increaseValue();
     }
 
     /**Method to move student from the cloud tile to outer hall
