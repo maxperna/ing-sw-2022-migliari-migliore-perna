@@ -34,16 +34,9 @@ public class TowerDeckSelectionController extends ViewSubject implements SceneCo
     public void initialize() {
 
     }
-    public ArrayList<TowerColor> getRemainingTowers() {
-        return remainingTowers;
-    }
 
     public void setRemainingTowers(ArrayList<TowerColor> remainingTowers) {
         this.remainingTowers = remainingTowers;
-    }
-
-    public ArrayList<DeckType> getRemainingDecks() {
-        return remainingDecks;
     }
 
     public void setRemainingDecks(ArrayList<DeckType> remainingDecks) {

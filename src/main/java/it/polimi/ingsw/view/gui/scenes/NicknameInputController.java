@@ -4,6 +4,7 @@ import it.polimi.ingsw.observer.ViewSubject;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
@@ -13,6 +14,9 @@ public class NicknameInputController extends ViewSubject implements SceneControl
     TextField nickField;
     @FXML
     Button sendNick;
+
+    @FXML
+    Label errorOutPut;
 
     @FXML
     public void initialize(){
@@ -25,5 +29,9 @@ public class NicknameInputController extends ViewSubject implements SceneControl
         sendNick.setDisable(true);
         new Thread(() -> notifyListener(l -> l.sendNickname(nick))).start();
 
+    }
+
+    public void printErrorMessage (String error) {
+        errorOutPut.setText(error);
     }
 }
