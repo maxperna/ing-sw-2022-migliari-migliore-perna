@@ -1,10 +1,11 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.view.gui.JavaFXGui;
+import it.polimi.ingsw.view.gui.JavaSceneTest;
 import javafx.application.Application;
 
 public class guiTest {
     public static void main(String[] args){
-        Application.launch(JavaFXGui.class);
+        Application.launch(JavaSceneTest.class);
     }
 }
