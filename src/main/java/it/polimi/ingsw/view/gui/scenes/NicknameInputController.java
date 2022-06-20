@@ -14,7 +14,6 @@ public class NicknameInputController extends ViewSubject implements SceneControl
     TextField nickField;
     @FXML
     Button sendNick;
-
     @FXML
     Label errorOutPut;
 

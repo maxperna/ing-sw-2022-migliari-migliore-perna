@@ -1187,6 +1187,11 @@ public class Cli extends ViewSubject implements View {
 
     }
 
+    @Override
+    public void clear() {
+
+    }
+
     private String intToString (Integer number) {
         if (number < 10)
             return 0+number.toString();

@@ -379,7 +379,7 @@ public class ClientController implements ViewListener, Listener {
     }
     private void defaultViewLayout(WorldChangeMessage message) {
 
-        ((Cli)view).clearCli();
+        view.clear();
         view.showGameField(message.getGameFieldMap());
         view.showClouds(message.getChargedClouds());
         view.printBoard(message.getBoardMap().get(nickname), nickname);

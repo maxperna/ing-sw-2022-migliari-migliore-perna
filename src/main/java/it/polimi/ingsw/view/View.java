@@ -119,5 +119,5 @@ public interface View{
 
     void sendNumberOfPlayers(int numberOfPlayers);
 
-
+    void clear();
 }
