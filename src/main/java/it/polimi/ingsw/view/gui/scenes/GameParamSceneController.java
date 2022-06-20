@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 
 import java.awt.*;
@@ -29,7 +30,11 @@ public class GameParamSceneController extends ViewSubject implements SceneContro
         numOfPlayers.setItems(FXCollections.observableArrayList("Two","Three","Four"));
         expertMode.addEventHandler(MouseEvent.MOUSE_ENTERED_TARGET,this::setExpertModeInfo);
         expertMode.addEventHandler(MouseEvent.MOUSE_EXITED_TARGET,this::setExpertModeInfo);
-        startGame.addEventHandler(MouseEvent.MOUSE_CLICKED,this::startGame);
+        startGame.setOnAction(actionEvent -> startGame());
+        startGame.setOnKeyPressed(keyEvent -> {
+            if(keyEvent.getCode() == KeyCode.ENTER)
+                startGame();
+        });
     }
 
     /**Method to show the hidden expert mode info*/
@@ -37,7 +42,7 @@ public class GameParamSceneController extends ViewSubject implements SceneContro
         expModInfo.setVisible(!expModInfo.isVisible());
     }
 
-    private void startGame(Event event){
+    private void startGame(){
         int playersNum;
         if(numOfPlayers.getSelectionModel().getSelectedItem().equals(numOfPlayers.getItems().get(0)))
             playersNum = 2;

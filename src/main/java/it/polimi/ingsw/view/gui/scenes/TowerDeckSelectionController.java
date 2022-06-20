@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 
 
@@ -50,7 +51,11 @@ public class TowerDeckSelectionController extends ViewSubject implements SceneCo
 
         selectedColor = null;
         selectedDeck = null;
-        confirmButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::confirmSelection);
+        confirmButton.setOnAction(actionEvent -> confirmSelection());
+        confirmButton.setOnKeyPressed(keyEvent -> {
+            if( keyEvent.getCode() == KeyCode.ENTER)
+                confirmSelection();
+        });
 
         for(TowerColor color : TowerColor.values()) {
             if(remainingTowers.contains(color)) {
@@ -143,7 +148,7 @@ public class TowerDeckSelectionController extends ViewSubject implements SceneCo
         }
     }
 
-    public void confirmSelection(MouseEvent event) {
+    public void confirmSelection() {
 
         if(selectedDeck == null && selectedColor == null)
             errorMessage.setText("Select a deck type and a tower color");

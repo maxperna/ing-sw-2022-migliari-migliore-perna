@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 
 public class NicknameInputController extends ViewSubject implements SceneControllerInt{
@@ -19,10 +20,14 @@ public class NicknameInputController extends ViewSubject implements SceneControl
 
     @FXML
     public void initialize(){
-        sendNick.addEventHandler(MouseEvent.MOUSE_RELEASED,this::sendNickButtonClick);
+        sendNick.setOnAction(actionEvent -> sendNickButtonClick());
+        sendNick.setOnKeyPressed(keyEvent -> {
+            if (keyEvent.getCode() == KeyCode.ENTER)
+                sendNickButtonClick();
+        });
     }
 
-    public void sendNickButtonClick(Event event){
+    public void sendNickButtonClick(){
 
         String nick = nickField.getText();
         sendNick.setDisable(true);
