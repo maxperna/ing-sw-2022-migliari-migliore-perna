@@ -145,4 +145,6 @@ public interface View{
     void chooseExpertCard();
 
     void expertModeControl(boolean setExpertMode);
+
+    void playExpertChoice();
 }

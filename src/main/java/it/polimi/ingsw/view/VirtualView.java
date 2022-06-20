@@ -94,6 +94,11 @@ public class VirtualView implements View {
     }
 
     @Override
+    public void playExpertChoice() {
+
+    }
+
+    @Override
     public void updateTeachers(Map<Color, Boolean> teacherList) {
         clientHandler.sendMessage(new TeacherListMessage(teacherList));
     }

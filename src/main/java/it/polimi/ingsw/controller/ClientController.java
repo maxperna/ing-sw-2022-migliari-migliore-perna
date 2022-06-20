@@ -360,6 +360,7 @@ public class ClientController implements ViewListener, Listener {
                     endTurnCounter ++;
                 }
                 if(error.getTypeError() == EXPERT_ERROR){
+                    expert_mode = true;
                     actionQueue.execute(this::getExpertsCard);
                 }
 
@@ -372,9 +373,16 @@ public class ClientController implements ViewListener, Listener {
                         actionQueue.execute(()->view.ActionPhaseTurn(expert_mode));
                     }
                     else if(actionCounter == 0 && endTurnCounter==1){
-                        //MN movement
-                        actionQueue.execute(view::moveMotherNature);
-                        endTurnCounter--;
+
+                        if(expert_mode) {
+                            actionQueue.execute(((Cli) view)::playExpertChoice);
+                            expert_mode = false;
+                        }
+                        else {
+                            //MN movement
+                            actionQueue.execute(view::moveMotherNature);
+                            endTurnCounter--;
+                        }
                     }
                     else if (endTurnCounter == 0 && actionCounter == 0) {
                         actionQueue.execute(() -> view.chooseCloudTile(worldChange.getChargedClouds().size()));
@@ -445,8 +453,7 @@ public class ClientController implements ViewListener, Listener {
         view.showGameField(message.getGameFieldMap());
         view.showClouds(message.getChargedClouds());
         view.printBoard(message.getBoardMap().get(nickname), nickname);
-        if(expert_mode)
-            view.showExpertCards(message.getExperts(), message.getNumOfCoins());
+        view.showExpertCards(message.getExperts(), message.getNumOfCoins());
     }
 
     public void askAction(Boolean expert_mode) {

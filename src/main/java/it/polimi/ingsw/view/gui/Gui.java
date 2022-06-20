@@ -202,4 +202,9 @@ public class Gui extends ViewSubject implements View {
 
     }
 
+    @Override
+    public void playExpertChoice() {
+
+    }
+
 }

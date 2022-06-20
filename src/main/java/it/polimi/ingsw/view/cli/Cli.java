@@ -1684,4 +1684,25 @@ public class Cli extends ViewSubject implements View {
 
     }
 
+    public void playExpertChoice() {
+            Character choice = '3';
+
+            do {
+                System.out.println("Write [1] to move Mother Nature, [2] to play an Expert");
+                try {
+                    choice = (read()).charAt(0);
+                }
+                catch (ExecutionException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            while (!(choice.equals('1') || choice.equals('2')));
+
+            final int finalChoice = (int) choice;
+
+            if(finalChoice == 49) //49 is ascii number for 1
+                moveMotherNature();
+            else notifyListener(list -> list.actionPhaseChoice(MessageType.EXPERT_CARD_REQ));
+    }
+
 }
