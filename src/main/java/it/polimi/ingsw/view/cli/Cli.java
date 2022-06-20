@@ -20,7 +20,6 @@ import java.util.concurrent.FutureTask;
 
 public class Cli extends ViewSubject implements View {
 
-    List<Listener> list = new ArrayList();
     private Thread threadReader;
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_YELLOW = "\u001B[33m";

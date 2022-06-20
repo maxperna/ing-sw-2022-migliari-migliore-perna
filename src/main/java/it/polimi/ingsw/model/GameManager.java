@@ -21,8 +21,6 @@ public class GameManager {
 
     private static GameManager gameManager = null;
     private final ArrayList<Game> gamesList;
-    private final ArrayList<GameController> controllerList;
-
 
 
     /**
@@ -30,7 +28,7 @@ public class GameManager {
      */
     private GameManager() {
         this.gamesList = new ArrayList<>();
-        this.controllerList = new ArrayList<>();
+        ArrayList<GameController> controllerList = new ArrayList<>();
     }
 
     /**
