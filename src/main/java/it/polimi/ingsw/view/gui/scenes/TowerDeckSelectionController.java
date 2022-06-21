@@ -9,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseEvent;
 
 
 import java.net.URL;
@@ -61,25 +60,46 @@ public class TowerDeckSelectionController extends ViewSubject implements SceneCo
             if(remainingTowers.contains(color)) {
                 switch (color) {
                     case BLACK:
-                        blackTower.addEventHandler(MouseEvent.MOUSE_CLICKED, this::selection);
+                        blackTower.setOnMouseClicked(mouseEvent -> {
+                            if(selectedColor == TowerColor.BLACK)
+                                blackTower.setOpacity(1);
+                            else
+                                blackTower.setOpacity(0.8);
+
+                            towerSelection(TowerColor.BLACK);
+                        });
                         break;
                     case WHITE:
-                        whiteTower.addEventHandler(MouseEvent.MOUSE_CLICKED, this::selection);
+                        whiteTower.setOnMouseClicked(mouseEvent -> {
+                            if(selectedColor == TowerColor.WHITE)
+                                whiteTower.setOpacity(1);
+                            else
+                                whiteTower.setOpacity(0.8);
+
+                            towerSelection(TowerColor.WHITE);
+                        });
                         break;
                     case GRAY:
-                        grayTower.addEventHandler(MouseEvent.MOUSE_CLICKED, this::selection);
+                        grayTower.setOnMouseClicked(mouseEvent -> {
+                        if(selectedColor == TowerColor.GRAY)
+                            grayTower.setOpacity(1);
+                        else
+                            grayTower.setOpacity(0.8);
+
+                        towerSelection(TowerColor.GRAY);
+                    });
                 }
             }
             else {
                 switch (color) {
                     case BLACK:
-                        blackTower.setOpacity(0.5);
+                        blackTower.setOpacity(0.2);
                         break;
                     case WHITE:
-                        whiteTower.setOpacity(0.5);
+                        whiteTower.setOpacity(0.2);
                         break;
                     case GRAY:
-                        grayTower.setOpacity(0.5);
+                        grayTower.setOpacity(0.2);
                 }
             }
         }
@@ -88,70 +108,86 @@ public class TowerDeckSelectionController extends ViewSubject implements SceneCo
             if(remainingDecks.contains(deckType)) {
                 switch (deckType) {
                     case SAGE:
-                        sageDeck.addEventHandler(MouseEvent.MOUSE_CLICKED, this::selection);
+                        sageDeck.setOnMouseClicked(mouseEvent -> {
+                        if(selectedDeck == SAGE)
+                            sageDeck.setOpacity(1);
+                        else
+                            sageDeck.setOpacity(0.8);
+
+                        deckSelection(SAGE);
+                    });
                         break;
                     case WITCH:
-                        witchDeck.addEventHandler(MouseEvent.MOUSE_CLICKED, this::selection);
+                        witchDeck.setOnMouseClicked(mouseEvent -> {
+                            if(selectedDeck == WITCH)
+                                witchDeck.setOpacity(1);
+                            else
+                                witchDeck.setOpacity(0.8);
+
+                            deckSelection(WITCH);
+                        });
                         break;
                     case KING:
-                        kingDeck.addEventHandler(MouseEvent.MOUSE_CLICKED, this::selection);
+                        kingDeck.setOnMouseClicked(mouseEvent -> {
+                            if(selectedDeck == KING)
+                                kingDeck.setOpacity(1);
+                            else
+                                kingDeck.setOpacity(0.8);
+
+                            deckSelection(KING);
+                        });
                         break;
                     case DRUID:
-                        druidDeck.addEventHandler(MouseEvent.MOUSE_CLICKED, this::selection);
+                        druidDeck.setOnMouseClicked(mouseEvent -> {
+                            if(selectedDeck == DRUID)
+                                druidDeck.setOpacity(1);
+                            else
+                                druidDeck.setOpacity(0.8);
+
+                            deckSelection(DRUID);
+                        });
                 }
             }
             else {
                 switch (deckType) {
                     case SAGE:
-                        sageDeck.setOpacity(0.5);
+                        sageDeck.setOpacity(0.2);
                         break;
                     case WITCH:
-                        witchDeck.setOpacity(0.5);
+                        witchDeck.setOpacity(0.2);
                         break;
                     case KING:
-                        kingDeck.setOpacity(0.5);
+                        kingDeck.setOpacity(0.2);
                         break;
                     case DRUID:
-                        druidDeck.setOpacity(0.5);
+                        druidDeck.setOpacity(0.2);
                 }
             }
         }
+
     }
 
-    public void selection(MouseEvent event){
 
-        ImageView source = (ImageView) event.getSource();
-        ImageView clickedNode = (ImageView) event.getPickResult().getIntersectedNode();
-        clickedNode.setVisible(true);
+    public void towerSelection(TowerColor towerColor){
 
-        if(source.equals(blackTower)) {
-            selectedColor = fromClassToTower(source);
-        }
-        if(source.equals(whiteTower)) {
-            selectedColor = fromClassToTower(source);
-        }
-        if(source.equals(grayTower)) {
-            selectedColor = fromClassToTower(source);
-        }
+        if(selectedColor == towerColor)
+            selectedColor = null;
+        else
+            selectedColor = towerColor;
+    }
 
-        if(source.equals(sageDeck)) {
-            selectedDeck = fromClassToDeckType(source);
-        }
-        if(source.equals(witchDeck)) {
-            selectedDeck = fromClassToDeckType(source);
-        }
-        if(source.equals(kingDeck)) {
-            selectedDeck = fromClassToDeckType(source);
-        }
-        if (source.equals(druidDeck)) {
-            selectedDeck = fromClassToDeckType(druidDeck);
-        }
+    public void deckSelection(DeckType deckType) {
+
+        if(selectedDeck == deckType)
+            selectedDeck = null;
+        else
+            selectedDeck = deckType;
     }
 
     public void confirmSelection() {
 
         if(selectedDeck == null && selectedColor == null)
-            errorMessage.setText("Select a deck type and a tower color");
+            errorMessage.setText("Select deck type and tower color");
         else if(selectedDeck == null)
             errorMessage.setText("Select a deck type");
         else if(selectedColor == null)
@@ -177,28 +213,6 @@ public class TowerDeckSelectionController extends ViewSubject implements SceneCo
 
     public void setRemainingDecks(ArrayList<DeckType> remainingDecks) {
         this.remainingDecks = remainingDecks;
-    }
-
-    private TowerColor fromClassToTower(ImageView convert) {
-        if(convert.equals(blackTower))
-            return TowerColor.BLACK;
-        else if(convert.equals(whiteTower))
-            return TowerColor.WHITE;
-        else if(convert.equals(grayTower))
-            return TowerColor.GRAY;
-        else
-            return TowerColor.EMPTY;
-    }
-
-    private DeckType fromClassToDeckType(ImageView convert) {
-        if(convert.equals(sageDeck))
-            return SAGE;
-        else if(convert.equals(witchDeck))
-            return WITCH;
-        else if(convert.equals(kingDeck))
-            return KING;
-        else
-            return DRUID;
     }
 
 

@@ -46,7 +46,7 @@ public class Gui extends ViewSubject implements View {
 
     @Override
     public void showGameField(Map<Integer, Node> gameFieldMap) {
-
+        Platform.runLater(()-> SceneController.changeRoot(list, "PlayerView.fxml"));
     }
 
     @Override

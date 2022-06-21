@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.controller.ClientController;
 import it.polimi.ingsw.network.client.Client;
+import it.polimi.ingsw.observer.ViewListener;
 import it.polimi.ingsw.view.gui.scenes.LoginSceneController;
 import it.polimi.ingsw.view.gui.scenes.WelcomeScreenController;
 import javafx.application.Application;
@@ -42,7 +43,7 @@ public class JavaFXGui extends Application {
         stage.setScene(scene);
         SceneController.setCurrentScene(scene);
         stage.setTitle("Eryantis");
-        stage.setResizable(false);
+        stage.setResizable(true);
         stage.show();
 
     }
