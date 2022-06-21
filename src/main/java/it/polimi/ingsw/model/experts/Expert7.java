@@ -46,6 +46,12 @@ public class Expert7 implements ExpertCard {
                 user.getBoard().addStudentsEntryRoom(studentToSwapCard);
             }
             catch (NotOnBoardException | NotEnoughSpace e){
+                this.studentsOnCard.addAll(studentToSwapCard);
+                this.studentsOnCard.removeAll(studentToSwapBoard);
+
+                for(Color student : studentToSwapCard)
+                    user.getBoard().getEntryRoom().remove(student);
+
                 this.cost--;
                 currentGame.coinHandler(user,this.cost);
                 throw new IllegalMove("No students on board");

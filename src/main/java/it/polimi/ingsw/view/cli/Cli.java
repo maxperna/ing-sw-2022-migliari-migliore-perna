@@ -1476,7 +1476,7 @@ public class Cli extends ViewSubject implements View {
                 } catch (ExecutionException| NumberFormatException e) {
                     System.out.println("Error. Invalid input");
                 }
-            } while (chosenColor < 0 || chosenColor > 4);
+            } while (chosenColor < 1 || chosenColor > 5);
 
             switch (chosenColor) {
                 case 1:
@@ -1506,7 +1506,7 @@ public class Cli extends ViewSubject implements View {
                     } catch (ExecutionException| NumberFormatException e) {
                         System.out.println("Error. Invalid input");
                     }
-                } while (chosenColor < 0 || chosenColor >= 5);
+                } while (chosenColor < 1 || chosenColor > 5);
 
                 switch (chosenColor) {
                     case 1:

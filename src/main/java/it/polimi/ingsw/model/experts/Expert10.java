@@ -22,29 +22,58 @@ public class Expert10 implements ExpertCard {
         this.currentGame = currentGame;
     }
     @Override
-    public void useCard(Player user, ArrayList<Color> studentInside, ArrayList<Color> studentOutside) throws NotEnoughCoins, IllegalArgumentException, NotOnBoardException, IndexOutOfBoundsException, IllegalMove {
+    public void useCard(Player user, ArrayList<Color> toDiningRoom, ArrayList<Color> toEntryHall) throws NotEnoughCoins, IllegalArgumentException, NotOnBoardException, IndexOutOfBoundsException, IllegalMove {
         if(user.getNumOfCoin()<cost){
-            throw new NotEnoughCoins("You don't have enough coins to use this effect");
+            throw new NotEnoughCoins("You don't have enough coins to use this effect\n");
         }
         else if (user.getBoard().getDiningRoom().isEmpty())
-            throw new IllegalMove("There are no students inside the dining room");
+            throw new IllegalMove("There are no students inside the dining room\n");
         else{
             currentGame.coinHandler(user,-this.cost);
             this.cost++;
             currentGame.setActiveExpertsCard(this);
 
-            //Check correctness of the parameters
-            if(!user.getBoard().getEntryRoom().containsAll(studentOutside)) {
-                currentGame.coinHandler(user,this.cost);
-                this.cost--;
-                throw new IllegalArgumentException("Some students are not available");
+            for(Color student : toEntryHall) {
+                if(user.getBoard().getDiningRoom().get(student) <= 0) {
+                    currentGame.coinHandler(user,this.cost);
+                    this.cost--;
+                    currentGame.setActiveExpertsCard(null);
+                    throw new NotOnBoardException("Some students are not available\n");
+                }
+
+            }
+            try {
+                user.getBoard().addStudentsEntryRoom(toEntryHall);
+            } catch (NotEnoughSpace e) {
+                e.printStackTrace();
             }
 
-            int i = 0;
-            Color previousColor = studentInside.get(i);
-            for(Color color: studentInside){
+
+
+            for(Color student : toDiningRoom) {
+                if(!user.getBoard().getEntryRoom().contains(student)) {
+                    currentGame.coinHandler(user,this.cost);
+                    this.cost--;
+                    currentGame.setActiveExpertsCard(null);
+                    throw new NotOnBoardException("Some students are not available\n");
+                }
+
+            }
+            try {
+                user.getBoard().addStudentsDiningRoom(toDiningRoom);
+            } catch (NotEnoughSpace e) {
+                e.printStackTrace();
+            }
+
+
+
+
+
+            /*int i = 0;
+            Color previousColor = toDiningRoom.get(i);
+            for(Color color: toEntryHall){
                 if(i==1 && color.equals(previousColor))
-                    if(user.getBoard().getDiningRoom().get(color)<studentInside.size()) {
+                    if(user.getBoard().getDiningRoom().get(color)<toEntryHall.size()) {
                         currentGame.coinHandler(user,this.cost);
                         this.cost--;
                         throw new IllegalArgumentException("There are not enough students inside the dining room");
@@ -60,15 +89,15 @@ public class Expert10 implements ExpertCard {
             }
 
             try {
-                ArrayList<Color> colorOutside = new ArrayList<>(user.getBoard().moveFromEntryRoom(studentOutside));   //removing students from the outside
-                ArrayList<Color> colorInside = new ArrayList<>(user.getBoard().moveFromDiningRoom(studentInside));      //removing students from the inside
+                ArrayList<Color> colorOutside = new ArrayList<>(user.getBoard().moveFromEntryRoom(toDiningRoom));   //removing students from the outside
+                ArrayList<Color> colorInside = new ArrayList<>(user.getBoard().moveFromDiningRoom(toEntryHall));      //removing students from the inside
 
                 user.getBoard().addStudentsDiningRoom(colorOutside);
                 user.getBoard().addStudentsEntryRoom(colorInside);
             }
             catch (NotEnoughSpace e){
                 e.printStackTrace();
-            }
+            }*/
         }
     }
 
