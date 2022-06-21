@@ -39,6 +39,7 @@ public class ClientController implements ViewListener, Listener {
     private int actionCounter;
     private boolean expert_mode;
     private int studentsMoved;
+    private boolean movedMN;
 
     private int numOfPlayers;
 
@@ -47,8 +48,9 @@ public class ClientController implements ViewListener, Listener {
         this.actionQueue = Executors.newSingleThreadExecutor();
         this.phase = GameState.PREPARATION_PHASE;
         this.endTurnCounter = 1;
-        expert_mode = false;
+        this.expert_mode = false;
         this.studentsMoved = 0;
+        this.movedMN = false;
     }
 
     /**Method handling the connection information to create a client-server connection
@@ -141,7 +143,6 @@ public class ClientController implements ViewListener, Listener {
 
     @Override
     public void moveMotherNature(int numberOfSteps){
-        studentsMoved=0;
         client.sendMessage(new MoveMotherNatureMessage(nickname,numberOfSteps));
     }
 
@@ -381,9 +382,10 @@ public class ClientController implements ViewListener, Listener {
 
                         if(expert_mode) {
                             actionQueue.execute(((Cli) view)::playExpertChoice);
+                            movedMN = true;
                             expert_mode = false;
                         }
-                        else {
+                        else if (!movedMN){
                             //MN movement
                             actionQueue.execute(view::moveMotherNature);
                             endTurnCounter--;
@@ -393,6 +395,8 @@ public class ClientController implements ViewListener, Listener {
                         actionQueue.execute(() -> view.chooseCloudTile(worldChange.getChargedClouds().size()));
                         endTurnCounter--;
                         actionQueue.execute(() -> view.showGenericMessage("Turn ended, waiting for other players"));
+                        movedMN = false;
+                        studentsMoved = 0;
                     }
                 }
                 break;

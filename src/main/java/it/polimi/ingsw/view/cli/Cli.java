@@ -1524,11 +1524,9 @@ public class Cli extends ViewSubject implements View {
                     case 5:
                         toEntryHall.add(Color.BLUE);
                         break;
-
-
                 }
-            notifyListener(list -> list.playExpertCard5(cardID ,toDiningRoom, toEntryHall));
         }
+            notifyListener(list -> list.playExpertCard5(cardID ,toDiningRoom, toEntryHall));
     }
 
     /**
