@@ -168,4 +168,9 @@ public class VirtualView implements View {
     public void sendNumberOfPlayers(int numberOfPlayers) {
         clientHandler.sendMessage((new NumberOfPlayersMessage(numberOfPlayers)));
     }
+
+    @Override
+    public void clear() {
+
+    }
 }

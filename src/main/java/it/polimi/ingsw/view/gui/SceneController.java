@@ -18,13 +18,14 @@ public class SceneController extends ViewSubject {
     public static SceneControllerInt currentController;
 
     public static void changeRoot(List<ViewListener> observerList, SceneControllerInt controller, String FXML_path) {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(SceneController.class.getResource("/fxml/" + FXML_path));
 
+        FXMLLoader loader = new FXMLLoader();
         try {
-            Parent newRoot = loader.load();
+
             ((ViewSubject) controller).addAllListeners(observerList);
             loader.setController(controller);
+            loader.setLocation(SceneController.class.getResource("/fxml/" + FXML_path));
+            Parent newRoot = loader.load();
 
             currentController = controller;
             currentScene.setRoot(newRoot);

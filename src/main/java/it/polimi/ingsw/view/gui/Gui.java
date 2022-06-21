@@ -152,4 +152,9 @@ public class Gui extends ViewSubject implements View {
     public void sendNumberOfPlayers(int numberOfPlayers) {
 
     }
+
+    @Override
+    public void clear() {
+
+    }
 }

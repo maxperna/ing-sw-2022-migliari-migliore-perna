@@ -7,6 +7,7 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import java.util.HashMap;
 
@@ -21,11 +22,15 @@ public class LoginSceneController extends ViewSubject implements SceneController
 
     @FXML
     public void initialize(){
-        connectionButton.addEventHandler(MouseEvent.MOUSE_RELEASED,this::connectionButtonClick);
+        connectionButton.setOnAction(actionEvent -> connectionButtonClick());
+
+        connectionButton.setOnKeyPressed(keyEvent -> {
+            if(keyEvent.getCode() == KeyCode.ENTER)
+                connectionButtonClick();
+        });
     }
 
-    private void connectionButtonClick(Event event){
-
+    private void connectionButtonClick(){
 
         HashMap<String, String> connectionInfo = new HashMap<>();
         connectionInfo.put("address", serverIPField.getText());
