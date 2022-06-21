@@ -5,7 +5,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scenes.NicknameInputController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scenes.NicknameInputControllerGeneric">
    <children>
       <TextField fx:id="nickField" layoutX="211.0" layoutY="255.0" prefHeight="25.0" prefWidth="178.0" promptText="Insert your nickname" />
       <Button fx:id="sendNick" layoutX="274.0" layoutY="322.0" mnemonicParsing="false" text="Start" />

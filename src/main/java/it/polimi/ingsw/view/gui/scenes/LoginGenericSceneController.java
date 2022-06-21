@@ -1,17 +1,14 @@
 package it.polimi.ingsw.view.gui.scenes;
 
 import it.polimi.ingsw.observer.ViewSubject;
-import it.polimi.ingsw.view.gui.SceneController;
-import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseEvent;
+
 import java.util.HashMap;
 
-public class LoginSceneController extends ViewSubject implements SceneControllerInt {
+public class LoginGenericSceneController extends ViewSubject implements GenericSceneController {
 
     @FXML
     TextField serverIPField;

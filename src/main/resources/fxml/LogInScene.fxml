@@ -5,7 +5,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="mainPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-image: url('images/BackIMG.jpeg')" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scenes.LoginSceneController">
+<AnchorPane fx:id="mainPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-image: url('images/BackIMG.jpeg')" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scenes.LoginGenericSceneController">
    <children>
       <TextField fx:id="serverIPField" layoutX="51.0" layoutY="246.0" prefHeight="16.0" prefWidth="208.0" text="0.0.0.0" />
       <TextField fx:id="serverPortField" layoutX="333.0" layoutY="246.0" prefHeight="25.0" prefWidth="208.0" style="-fx-background-color: #FFFFFF;" text="13000" />

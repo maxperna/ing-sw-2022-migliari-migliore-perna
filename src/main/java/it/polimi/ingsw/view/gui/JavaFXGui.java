@@ -2,9 +2,7 @@ package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.controller.ClientController;
 import it.polimi.ingsw.network.client.Client;
-import it.polimi.ingsw.observer.ViewListener;
-import it.polimi.ingsw.view.gui.scenes.LoginSceneController;
-import it.polimi.ingsw.view.gui.scenes.WelcomeScreenController;
+import it.polimi.ingsw.view.gui.scenes.WelcomeScreenControllerGeneric;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -34,7 +32,7 @@ public class JavaFXGui extends Application {
             System.exit(1);
         }
 
-        WelcomeScreenController controller = loader.getController();
+        WelcomeScreenControllerGeneric controller = loader.getController();
         controller.addListener(clientController);
         SceneController.setCurrentController(controller);
 

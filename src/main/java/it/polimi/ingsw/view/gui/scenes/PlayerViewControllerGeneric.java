@@ -3,20 +3,15 @@ package it.polimi.ingsw.view.gui.scenes;
 import com.google.gson.*;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Color;
-import it.polimi.ingsw.model.gameField.IslandList;
 import it.polimi.ingsw.observer.ViewSubject;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
-import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.transform.Translate;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -24,11 +19,10 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicReference;
 
 import static it.polimi.ingsw.model.Color.*;
 
-public class PlayerViewController extends ViewSubject implements SceneControllerInt {
+public class PlayerViewControllerGeneric extends ViewSubject implements GenericSceneController {
     @FXML
     AnchorPane gameField;
     @FXML
@@ -49,7 +43,7 @@ public class PlayerViewController extends ViewSubject implements SceneController
     private Node tempNode;
 
 
-    public PlayerViewController(){
+    public PlayerViewControllerGeneric(){
         teacherList = new ConcurrentHashMap<>();
     }
 

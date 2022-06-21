@@ -17,7 +17,7 @@ import java.util.ResourceBundle;
 
 import static it.polimi.ingsw.model.DeckType.*;
 
-public class TowerDeckSelectionController extends ViewSubject implements SceneControllerInt, Initializable {
+public class TowerDeckSelectionControllerGeneric extends ViewSubject implements GenericSceneController, Initializable {
 
     private ArrayList<TowerColor> remainingTowers;
     private ArrayList<DeckType> remainingDecks;

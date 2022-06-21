@@ -11,9 +11,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 
-import java.awt.*;
-
-public class GameParamSceneController extends ViewSubject implements SceneControllerInt {
+public class GameParamGenericSceneController extends ViewSubject implements GenericSceneController {
 
     @FXML
     ChoiceBox<String> numOfPlayers;

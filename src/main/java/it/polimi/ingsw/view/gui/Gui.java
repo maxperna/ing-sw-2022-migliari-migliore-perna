@@ -7,7 +7,7 @@ import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.observer.ViewSubject;
 import it.polimi.ingsw.view.View;
-import it.polimi.ingsw.view.gui.scenes.TowerDeckSelectionController;
+import it.polimi.ingsw.view.gui.scenes.TowerDeckSelectionControllerGeneric;
 import javafx.application.Platform;
 
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ public class Gui extends ViewSubject implements View {
 
     @Override
     public void showRemainingTowerAndDeck(ArrayList<TowerColor> remainingTowers, ArrayList<DeckType> remainingDecks) {
-        TowerDeckSelectionController towerDeckSelectionController = new TowerDeckSelectionController();
+        TowerDeckSelectionControllerGeneric towerDeckSelectionController = new TowerDeckSelectionControllerGeneric();
         towerDeckSelectionController.setRemainingTowers(remainingTowers);
         towerDeckSelectionController.setRemainingDecks(remainingDecks);
 
