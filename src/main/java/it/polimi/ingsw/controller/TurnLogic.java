@@ -66,12 +66,20 @@ public class TurnLogic {
     }
 
     /**Method to keep track of the played card during a round preparation phase, inserting by their action number
-     * @param playedAssistantCardInd index of the played card
+     * @param actionNumber ID of the played card
      * @param player player who used the card
      * @exception CardAlreadyPlayed if a player try to use a card already used by another player within the same round
      */
-    public void setPlayedCard(int playedAssistantCardInd, Player player) throws CardAlreadyPlayed, InexistentCard, EndGameException {
-        AssistantCard playedAssistantCard = player.getDeck().getRemainingCards().get(playedAssistantCardInd);
+    public void setPlayedCard(int actionNumber, Player player) throws CardAlreadyPlayed, InexistentCard, EndGameException {
+        ArrayList<AssistantCard> assistantCards = player.getDeck().getRemainingCards();
+        AssistantCard playedAssistantCard = null;
+        for(AssistantCard card : assistantCards) {
+            if(card.getActionNumber() == actionNumber)
+                playedAssistantCard = card;
+        }
+        if(playedAssistantCard == null) {
+            throw new InexistentCard("You already played this card");
+        }
         if(!this.cardsPlayedActionNum.containsKey(playedAssistantCard.getActionNumber())) {
             this.cardsPlayedActionNum.put(playedAssistantCard.getActionNumber(), player);
             player.playCard(playedAssistantCard);

@@ -15,7 +15,7 @@ public class Expert12 implements ExpertCard {
     private int cost = 3;
     private final Game currentGame;
     private final String IMG = "";            //front image of the card
-    private final String description = "Choose a color; everyone this turn has to move to the pouch 3 students of that color from its dining room or entrance hall. If there are less than 3 students of that color, move all the students of that color";
+    private final String description = "Choose a color; everyone this turn has to move to the pouch 3 students of that color from its dining room. If there are less than 3 students of that color, move all the students of that color";
 
     public Expert12(Game currentGame){
         this.currentGame = currentGame;
@@ -34,7 +34,18 @@ public class Expert12 implements ExpertCard {
             ArrayList<Color> studentToReinsert = new ArrayList<>();  //student to re-add to pouch
 
             for(Player player:currentGame.getPlayersList()){
-                for(int i=0;i<3;i++){
+                if (player.getBoard().getDiningRoom().get(colorToRemove) >=3) {
+                    for(int i=0;i<3;i++){
+                        try {
+                            studentToReinsert.addAll(player.getBoard().moveFromDiningRoom(colorToList));
+                        }
+                        catch (NotOnBoardException e){
+                            break;
+                        }
+                    }
+                }
+                else {
+                    for(int i=0;i<=player.getBoard().getDiningRoom().get(colorToRemove);i++){
                     try {
                         studentToReinsert.addAll(player.getBoard().moveFromDiningRoom(colorToList));
                     }
@@ -42,6 +53,9 @@ public class Expert12 implements ExpertCard {
                         break;
                     }
                 }
+
+                }
+
             }
             currentGame.getPouch().addStudents(studentToReinsert);
 

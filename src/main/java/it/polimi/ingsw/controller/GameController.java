@@ -408,13 +408,7 @@ public class GameController implements PropertyChangeListener {
                 viewMap.get(nickname).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), message.getSenderPlayer(), game.getExpertsCard(), game.getPlayerByNickName(nickname).getNumOfCoin());
             viewMap.get(message.getSenderPlayer()).expertModeControl(false);
 
-        } catch (IllegalMove | IndexOutOfBoundsException e) {
-            viewMap.get(message.getSenderPlayer()).showError(e.getMessage(), EXPERT_ERROR);
-            viewMap.get(message.getSenderPlayer()).chooseExpertCard();
-        } catch (NotOnBoardException e) {
-            viewMap.get(message.getSenderPlayer()).showError(e.getMessage(), EXPERT_ERROR);
-            viewMap.get(message.getSenderPlayer()).chooseExpertCard();
-        } catch (NotEnoughCoins e) {
+        } catch (IllegalMove | IndexOutOfBoundsException | IllegalArgumentException | NotEnoughCoins | NotOnBoardException e) {
             viewMap.get(message.getSenderPlayer()).showError(e.getMessage(), EXPERT_ERROR);
             viewMap.get(message.getSenderPlayer()).chooseExpertCard();
         }

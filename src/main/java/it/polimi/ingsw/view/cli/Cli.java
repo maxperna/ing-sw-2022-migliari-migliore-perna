@@ -622,7 +622,7 @@ public class Cli extends ViewSubject implements View {
         for (CloudTile cloud : newClouds) {
             System.out.print("Cloud " + (cloud.getTileID() + 1) + " contains the following students: ");
             for (int j = 0; j < cloud.getStudents().size(); j++) {
-                System.out.print(toColor(cloud.getStudents().get(j), "██ "));
+                System.out.print(toColor(cloud.getStudents().get(j), "● "));
             }
             System.out.println();
         }
@@ -676,10 +676,28 @@ public class Cli extends ViewSubject implements View {
     @Override
     public void showExpertCards(ArrayList<ExpertCard> allExpertCards, int numberOfCoins) {
         int index = 1;
+
         for (ExpertCard expert : allExpertCards) {
-            System.out.println("Expert [" + index + "]\nExpert card cost: " + expert.getCost() + "\nExpert card effect: " + expert.getExpDescription());
-            index++;
-            System.out.println();
+            if (expert instanceof Expert1) {
+                printStudentsInsideExpertCard((Expert1) expert, index);
+                index++;
+                System.out.println();
+            }
+            else if (expert instanceof Expert7) {
+                printStudentsInsideExpertCard((Expert7) expert, index);
+                index++;
+                System.out.println();
+            }
+            else if (expert instanceof Expert11) {
+                printStudentsInsideExpertCard((Expert11) expert, index);
+                index++;
+                System.out.println();
+            }
+            else{
+                System.out.println("Expert [" + index + "]\nExpert card cost: " + expert.getCost() + "\nExpert card effect: " + expert.getExpDescription());
+                index++;
+                System.out.println();
+            }
         }
         System.out.println("Number of coins available: " +numberOfCoins);
         System.out.println();
@@ -695,15 +713,15 @@ public class Cli extends ViewSubject implements View {
 
         for(Color currentColor : availableStudents) {
             if(currentColor.equals(Color.RED))
-                System.out.println("[" +index+ "] RED ");
+                System.out.println("[" +index+ "] "+toColor(Color.RED, "●"));
             if(currentColor.equals(Color.PINK))
-                System.out.println("[" +index+ "] PINK ");
+                System.out.println("[" +index+ "] "+toColor(Color.PINK, "●"));
             if(currentColor.equals(Color.GREEN))
-                System.out.println("[" +index+ "] GREEN ");
+                System.out.println("[" +index+ "] "+toColor(Color.GREEN, "●"));
             if(currentColor.equals(Color.YELLOW))
-                System.out.println("[" +index+ "] YELLOW ");
+                System.out.println("[" +index+ "] "+toColor(Color.YELLOW, "●"));
             if(currentColor.equals(Color.BLUE))
-                System.out.println("[" +index+ "] BLUE ");
+                System.out.println("[" +index+ "] "+toColor(Color.BLUE, "●"));
 
             indexColorMap.put(index, currentColor);
             index ++;
@@ -933,7 +951,7 @@ public class Cli extends ViewSubject implements View {
             }
         } while(!valid);
 
-        int finalChoice = choice-1;
+        int finalChoice = choice;
         this.notifyListener((list) -> {
             list.playAssistantCard(finalChoice);
         });
@@ -1671,11 +1689,13 @@ public class Cli extends ViewSubject implements View {
                 System.out.println("Error. Invalid parameter");
         } while (chosenExpert<-1 || chosenExpert>2);
 
-        if(chosenExpert == -1) {
-            notifyListener(list -> list.askAction(true));
+        if(chosenExpert != -1) {
+            int finalChosenExpert = chosenExpert;
+            notifyListener(list -> list.applyExpertEffect(finalChosenExpert));
         }
-        int finalChosenExpert = chosenExpert;
-        notifyListener(list -> list.applyExpertEffect(finalChosenExpert));
+        else
+            notifyListener(list -> list.askAction(true));
+
     }
 
     @Override
@@ -1702,6 +1722,30 @@ public class Cli extends ViewSubject implements View {
             if(finalChoice == 49) //49 is ascii number for 1
                 moveMotherNature();
             else notifyListener(list -> list.actionPhaseChoice(MessageType.EXPERT_CARD_REQ));
+    }
+
+    private void printStudentsInsideExpertCard(Expert1 expert, int index) {
+        System.out.print("Expert [" + index + "]\nExpert card cost: " + expert.getCost() + "\nExpert card effect: " + expert.getExpDescription()+"\nStudents on this card: ");
+        for(Color student : expert.getStudentsOnCard()) {
+            System.out.print(toColor(student,"● "));
+        }
+        System.out.println();
+    }
+
+    private void printStudentsInsideExpertCard(Expert7 expert, int index) {
+        System.out.print("Expert [" + index + "]\nExpert card cost: " + expert.getCost() + "\nExpert card effect: " + expert.getExpDescription()+"\nStudents on this card: ");
+        for(Color student : expert.getStudentsOnCard()) {
+            System.out.print(toColor(student,"● "));
+        }
+        System.out.println();
+    }
+
+    private void printStudentsInsideExpertCard(Expert11 expert, int index) {
+        System.out.print("Expert [" + index + "]\nExpert card cost: " + expert.getCost() + "\nExpert card effect: " + expert.getExpDescription()+"\nStudents on this card: ");
+        for(Color student : expert.getStudentsOnCard()) {
+            System.out.print(toColor(student,"● "));
+        }
+        System.out.println();
     }
 
 }

@@ -38,6 +38,7 @@ public class ClientController implements ViewListener, Listener {
     private int endTurnCounter;   //regulate the final phase of the action phase
     private int actionCounter;
     private boolean expert_mode;
+    private int studentsMoved;
 
     private int numOfPlayers;
 
@@ -47,6 +48,7 @@ public class ClientController implements ViewListener, Listener {
         this.phase = GameState.PREPARATION_PHASE;
         this.endTurnCounter = 1;
         expert_mode = false;
+        this.studentsMoved = 0;
     }
 
     /**Method handling the connection information to create a client-server connection
@@ -101,6 +103,7 @@ public class ClientController implements ViewListener, Listener {
     @Override
     public void moveStudentToIsland(Color student,int nodeID){
         decreaseActionCounter();
+        studentsMoved++;
         client.sendMessage(new MovedStudentToIsland(nickname,student,nodeID));
     }
 
@@ -117,6 +120,7 @@ public class ClientController implements ViewListener, Listener {
     @Override
     public void moveStudentToDinner(Color student){
         decreaseActionCounter();
+        studentsMoved++;
         client.sendMessage(new MovedStudentToBoard(nickname,student));}
 
     /**Method to select multiple students on the view
@@ -137,6 +141,7 @@ public class ClientController implements ViewListener, Listener {
 
     @Override
     public void moveMotherNature(int numberOfSteps){
+        studentsMoved=0;
         client.sendMessage(new MoveMotherNatureMessage(nickname,numberOfSteps));
     }
 
@@ -192,6 +197,7 @@ public class ClientController implements ViewListener, Listener {
      * @param cardID chosen card to play*/
     public void applyExpertEffect(int cardID){
         ExpertID typeOfExpert = expertCardsOnField.get(cardID).getExpType();
+        view.showGenericMessage("Ci sono, expert type "+typeOfExpert);
 
         switch (typeOfExpert){        //update with method of the CLI
             case USER_ONLY: this.playExpertCard1(cardID);
@@ -213,13 +219,13 @@ public class ClientController implements ViewListener, Listener {
             }
                 break;
             case NODE_ID_COLOR: {
-                if(expertCardsOnField.get(cardID) instanceof Expert3)
-                    view.playExpertType4(cardID, (Expert3)expertCardsOnField.get(cardID));
+                if(expertCardsOnField.get(cardID) instanceof Expert1)
+                    view.playExpertType5(cardID, (Expert1) expertCardsOnField.get(cardID));
             }
                 break;
             case NODE_ID: {
-                if(expertCardsOnField.get(cardID) instanceof Expert1)
-                    view.playExpertType5(cardID, (Expert1) expertCardsOnField.get(cardID));
+                if(expertCardsOnField.get(cardID) instanceof Expert3)
+                    view.playExpertType4(cardID, (Expert3)expertCardsOnField.get(cardID));
                 else if(expertCardsOnField.get(cardID) instanceof Expert5)
                 view.playExpertType5(cardID, (Expert5) expertCardsOnField.get(cardID));
             }
@@ -454,10 +460,14 @@ public class ClientController implements ViewListener, Listener {
         view.showClouds(message.getChargedClouds());
         view.printBoard(message.getBoardMap().get(nickname), nickname);
         view.showExpertCards(message.getExperts(), message.getNumOfCoins());
+
     }
 
     public void askAction(Boolean expert_mode) {
-        view.ActionPhaseTurn(expert_mode);
+        if(studentsMoved<3)
+            view.ActionPhaseTurn(expert_mode);
+        else
+            view.playExpertChoice();
     }
 
     @Override

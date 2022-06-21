@@ -22,7 +22,7 @@ public class Node implements Serializable {
     private final ArrayList<Color> students;
     transient private Player mostInfluencePlayer;
     private TowerColor tower;
-    transient private boolean stop;            //put to true if stopped by assistant card #5
+    private boolean stop;            //put to true if stopped by assistant card #5
     private int towerCounter;
     transient private Node next;
     transient private Node prev;
