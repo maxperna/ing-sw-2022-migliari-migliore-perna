@@ -197,7 +197,6 @@ public class ClientController implements ViewListener, Listener {
      * @param cardID chosen card to play*/
     public void applyExpertEffect(int cardID){
         ExpertID typeOfExpert = expertCardsOnField.get(cardID).getExpType();
-        view.showGenericMessage("Ci sono, expert type "+typeOfExpert);
 
         switch (typeOfExpert){        //update with method of the CLI
             case USER_ONLY: this.playExpertCard1(cardID);
