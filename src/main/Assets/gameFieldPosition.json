@@ -1,102 +1,103 @@
 {
   "islandPosition":[
     {
+      "_comment": "Bound are set on the left and upper sider of the anchor pane",
       "1": {
-        "row": 3,
-        "col": 7
+        "left": 10,
+        "up": 215
       }
     }
   ,
     {
       "2": {
-        "row": 4,
-        "col": 7
+        "left": 230,
+        "up": 400
       }
     },
     {
       "3": {
-        "row": 5,
-        "col": 6
+        "left": 530,
+        "up": 400
       }
     },
     {
       "4": {
-        "row": 6,
-        "col": 4
+        "left": 830,
+        "up": 400
       }
     },
     {
       "5": {
-        "row": 5,
-        "col": 2
+        "left": 1130,
+        "up": 400
       }
     },
     {
       "6": {
-        "row": 4,
-        "col": 1
+        "left": 1430,
+        "up": 400
       }
     },
     {
       "7": {
-        "row": 3,
-        "col": 1
+        "left": 1615,
+        "up": 215
       }
     },
     {
       "8": {
-        "row": 2,
-        "col": 1
+        "left": 1430,
+        "up": 1
       }
     },
     {
       "9": {
-        "row": 1,
-        "col": 2
+        "left": 1130,
+        "up": 1
       }
     },
     {
       "10": {
-        "row": 0,
-        "col": 4
+        "left": 830,
+        "up": 1
       }
     },
     {
       "11": {
-        "row": 1,
-        "col": 6
+        "left": 530,
+        "up": 1
       }
     },
     {
       "12": {
-        "row": 2,
-        "col": 7
+        "left": 230,
+        "up": 1
       }
     }
   ],
   "cloud": [
     {
       "1": {
-        "row": 3,
-        "col": 3
+        "left": 3,
+        "up": 3
       }
     },
     {
       "2": {
-        "row": 4,
-        "col": 4
+        "left": 4,
+        "up": 4
       }
     },
     {
       "3": {
-        "row": 3,
-        "col": 5
+        "left": 3,
+        "up": 5
       }
     },
     {
       "4": {
-        "row": 2,
-        "col": 4
+        "left": 2,
+        "up": 4
       }
     }
   ]

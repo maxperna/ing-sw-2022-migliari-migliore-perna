@@ -7,3 +7,26 @@
 .background{
     -fx-background-color: '#69bbea';
 }
+
+.island-pane{
+    -fx-background-image: url("../images/Scontornate/isola1.png");
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+#PINK{
+    -fx-background-color: #ffffff;
+}
+#RED{
+    -fx-background-image: url("../images/Scontornate/red_stud.png");
+
+}
+#BLUE{
+    -fx-background-image: url("../images/Scontornate/blue_stud.png");
+}
+#YELLOW{
+    -fx-background-image: url("../images/Scontornate/yellow_stud.png");
+}
+#GREEN{
+    -fx-background-image: url("../images/Scontornate/green_stud.png");
+}
