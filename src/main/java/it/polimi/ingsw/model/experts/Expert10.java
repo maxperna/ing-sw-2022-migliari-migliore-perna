@@ -23,47 +23,53 @@ public class Expert10 implements ExpertCard {
     }
     @Override
     public void useCard(Player user, ArrayList<Color> toDiningRoom, ArrayList<Color> toEntryHall) throws NotEnoughCoins, IllegalArgumentException, NotOnBoardException, IndexOutOfBoundsException, IllegalMove {
-        if(user.getNumOfCoin()<cost){
+
+        boolean sameColor = false;
+        ArrayList<Color> studentsOnHall = user.getBoard().getEntryRoom();                                               //copy of the entry hall
+
+        if (toEntryHall.size() == 2 && toEntryHall.get(0).equals(toEntryHall.get(1)))
+            sameColor = true;
+
+
+        if(user.getNumOfCoin()<cost){                                                                                   //checking that the player has the required number of coins
             throw new NotEnoughCoins("You don't have enough coins to use this effect\n");
         }
-        else if (user.getBoard().getDiningRoom().isEmpty())
+        else if (user.getBoard().getDiningRoom().isEmpty())                                                             //checking that there is at least a student inside the dining room
             throw new IllegalMove("There are no students inside the dining room\n");
         else{
-            currentGame.coinHandler(user,-this.cost);
+            if (sameColor) {                                                                                            //checking that the dining room contains 2 students of the given color if those students share the same color
+                if(user.getBoard().getDiningRoom().get(toEntryHall.get(0)) < 2)
+                    throw new NotOnBoardException("Some students are not available\n");
+            }
+            else {
+                for(Color student : toEntryHall) {                                                                      //checking that the dining room contains at least a student of the chosen color
+                    if(user.getBoard().getDiningRoom().get(student)==0)
+                        throw new NotOnBoardException("Some students are not available\n");
+                }
+            }
+
+            for(Color student : toDiningRoom) {                                                                         //checking that the entry hall contains the students we want to move to the dining room
+                if (!studentsOnHall.remove(student))
+                    throw new NotOnBoardException("Some students are not available\n");
+            }
+
+            try {
+                user.getBoard().addStudentsEntryRoom(toEntryHall);                                                      //adding students to the entry hall
+                user.getBoard().moveFromDiningRoom(toEntryHall);                                                        //removing students from the dining room
+            } catch (NotEnoughSpace e) {
+                e.printStackTrace();
+            }
+
+            try {
+                user.getBoard().addStudentsDiningRoom(toDiningRoom);                                                    //adding students to the dining room
+
+            } catch (NotEnoughSpace e) {
+                e.printStackTrace();
+            }
+
+            currentGame.coinHandler(user,-this.cost);                                                                   //updating expert cost, player coins and expert activated
             this.cost++;
             currentGame.setActiveExpertsCard(this);
-
-            for(Color student : toEntryHall) {
-                if(user.getBoard().getDiningRoom().get(student) <= 0) {
-                    currentGame.coinHandler(user,this.cost);
-                    this.cost--;
-                    currentGame.setActiveExpertsCard(null);
-                    throw new NotOnBoardException("Some students are not available\n");
-                }
-
-            }
-            try {
-                user.getBoard().addStudentsEntryRoom(toEntryHall);
-            } catch (NotEnoughSpace e) {
-                e.printStackTrace();
-            }
-
-
-
-            for(Color student : toDiningRoom) {
-                if(!user.getBoard().getEntryRoom().contains(student)) {
-                    currentGame.coinHandler(user,this.cost);
-                    this.cost--;
-                    currentGame.setActiveExpertsCard(null);
-                    throw new NotOnBoardException("Some students are not available\n");
-                }
-
-            }
-            try {
-                user.getBoard().addStudentsDiningRoom(toDiningRoom);
-            } catch (NotEnoughSpace e) {
-                e.printStackTrace();
-            }
 
 
 

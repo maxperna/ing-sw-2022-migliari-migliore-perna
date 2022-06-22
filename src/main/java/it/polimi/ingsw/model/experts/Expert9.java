@@ -22,7 +22,7 @@ public class Expert9 implements ExpertCard {
             throw new NotEnoughCoins("You don't have enough coins to use this effect");
         }
         else{
-            currentGame.coinHandler(user,this.cost);
+            currentGame.coinHandler(user,-this.cost);
             this.cost++;
             currentGame.setActiveExpertsCard(this);
             currentGame.setIgnoredColor(colorToIgnore);

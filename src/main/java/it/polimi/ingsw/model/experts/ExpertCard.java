@@ -43,7 +43,7 @@ public interface ExpertCard extends Serializable {
      * @param studentToAdd color of the student to pick/add on card/board
      * @throws NotEnoughCoins if player hasn't enough coins to activate the card
      * @throws IllegalMove if an illegal move is performed*/
-    default void useCard(Player userPlayer, Color studentToAdd) throws NotEnoughCoins,IllegalMove{}
+    default void useCard(Player userPlayer, Color studentToAdd) throws NotEnoughCoins, IllegalMove, NotOnBoardException {}
 
     //5
     /**Method to use card for experts requiring two set of students (experts 10,7)

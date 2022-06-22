@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.EndGameException;
 import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
+import it.polimi.ingsw.model.experts.Expert10;
 import it.polimi.ingsw.model.gameField.IslandList;
 import it.polimi.ingsw.model.gameField.Node;
 import it.polimi.ingsw.model.experts.Expert5;

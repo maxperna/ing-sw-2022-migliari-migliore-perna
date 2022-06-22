@@ -22,43 +22,34 @@ public class Expert12 implements ExpertCard {
     }
 
     @Override
-    public void useCard(Player user, Color colorToRemove) throws NotEnoughCoins {
+    public void useCard(Player user, Color colorToRemove) throws NotEnoughCoins, NotOnBoardException {
         if(user.getNumOfCoin()<cost) throw new NotEnoughCoins("You don't have enough coins to use this effect");
 
         else{
-            currentGame.coinHandler(user,-this.cost);
-            this.cost++;
-            currentGame.setActiveExpertsCard(this);
             //Temporary list
             ArrayList<Color> colorToList = new ArrayList<>(Collections.singleton(colorToRemove));        //transform color to list as parameter adjustment
             ArrayList<Color> studentToReinsert = new ArrayList<>();  //student to re-add to pouch
 
-            for(Player player:currentGame.getPlayersList()){
-                if (player.getBoard().getDiningRoom().get(colorToRemove) >=3) {
-                    for(int i=0;i<3;i++){
-                        try {
-                            studentToReinsert.addAll(player.getBoard().moveFromDiningRoom(colorToList));
-                        }
-                        catch (NotOnBoardException e){
-                            break;
-                        }
-                    }
+            for(Player player:currentGame.getPlayersList()) {
+
+                if (player.getBoard().getDiningRoom().get(colorToRemove) >= 3) {
+                    for (int i = 0; i < 3; i++)
+                        colorToList.add(colorToRemove);
+
+                    studentToReinsert.addAll(player.getBoard().moveFromDiningRoom(colorToList));
                 }
                 else {
-                    for(int i=0;i<=player.getBoard().getDiningRoom().get(colorToRemove);i++){
-                    try {
-                        studentToReinsert.addAll(player.getBoard().moveFromDiningRoom(colorToList));
-                    }
-                    catch (NotOnBoardException e){
-                        break;
-                    }
-                }
+                    for(int i=0;i<=player.getBoard().getDiningRoom().get(colorToRemove);i++)
+                        colorToList.add(colorToRemove);
 
+                    studentToReinsert.addAll(player.getBoard().moveFromDiningRoom(colorToList));
                 }
-
+                currentGame.getPouch().addStudents(studentToReinsert);
             }
-            currentGame.getPouch().addStudents(studentToReinsert);
 
+            currentGame.coinHandler(user,-this.cost);
+            this.cost++;
+            currentGame.setActiveExpertsCard(this);
         }
     }
 
