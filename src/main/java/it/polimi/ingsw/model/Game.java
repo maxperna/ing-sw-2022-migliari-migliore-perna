@@ -158,6 +158,19 @@ public class Game implements Serializable {
     public void checkInfluence(Player activePlayer, Color colorToCheck) {
         int numOfCheckedStudent = activePlayer.getBoard().colorStudent(colorToCheck);
 
+        //During an expert game, if the player has a teacher and he removes some students of that color
+        //the method checks that he still has the max influence, either way the teacher is given to the player with max influence on that color
+        if (this.EXP_MODE) {
+            for(Color color : Color.values()) {
+                if (activePlayer.getBoard().getDiningRoom().get(color) < influenceMap.get(color).numOfStudents && activePlayer.getBoard().getTeacher(color)) {
+                    activePlayer.getBoard().removeTeacher(color);
+                    for (Player player : this.getPlayersList())
+                        checkInfluence(player, color);
+                }
+            }
+        }
+
+
         //if no one has ever played the color to check
         if (influenceMap.get(colorToCheck).getPlayer() == null && numOfCheckedStudent>=1) {
             influenceMap.get(colorToCheck).setPlayer(activePlayer);
@@ -192,7 +205,7 @@ public class Game implements Serializable {
         if(!islandToCheck.isStopped()) {
             for (Color colorStudent : influenceMap.keySet()){
                 Player playerToCheck = influenceMap.get(colorStudent).getPlayer();
-                //If player to check is null no one ha still the influence on that color or the color is ignored
+                //If player to check is null no one has still the influence on that color or the color is ignored
                 if (playerToCheck != null && !colorStudent.equals(colorToIgnore)) {
                     int influenceOfPlayer = islandToCheck.getColorInfluence(colorStudent);       //temp variable storing the number of student of the same color
                     //Check if there is a tower, if true add another point of influence
@@ -236,14 +249,14 @@ public class Game implements Serializable {
 
 
 
-            if(!(islandToCheck.getMostInfluencePlayer()==null))
+            if(!(islandToCheck.getMostInfluencePlayer()==null)) {
+                //Set new most influence tower
                 islandToCheck.getMostInfluencePlayer().getBoard().addTower();
-
-            //Set new most influence tower
-            islandToCheck.setMostInfluencePlayer(maxInfluencePlayer);
-            //Set towers
-            islandToCheck.setTower();
-            gameField.mergeIslands(nodeID);
+                //Set towers
+                islandToCheck.setMostInfluencePlayer(maxInfluencePlayer);
+                islandToCheck.setTower();
+                gameField.mergeIslands(nodeID);
+            }
         }
     }
 
