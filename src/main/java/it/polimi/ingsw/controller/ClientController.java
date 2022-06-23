@@ -40,6 +40,7 @@ public class ClientController implements ViewListener, Listener {
     private boolean expert_mode;
     private int studentsMoved;
     private boolean movedMN;
+    private boolean endTurn;
 
     private int numOfPlayers;
 
@@ -51,6 +52,7 @@ public class ClientController implements ViewListener, Listener {
         this.expert_mode = false;
         this.studentsMoved = 0;
         this.movedMN = false;
+        this.endTurn = false;
     }
 
     /**Method handling the connection information to create a client-server connection
@@ -143,7 +145,10 @@ public class ClientController implements ViewListener, Listener {
 
     @Override
     public void moveMotherNature(int numberOfSteps){
+        movedMN = true;     //set the movement of MN
         client.sendMessage(new MoveMotherNatureMessage(nickname,numberOfSteps));
+
+        //endTurnCounter--;
     }
 
     /**Method to play an expert card
@@ -271,7 +276,8 @@ public class ClientController implements ViewListener, Listener {
                     case ACTION_PHASE:
                         phase = GameState.ACTION_PHASE;
                         actionCounter = resetCounter();
-                        endTurnCounter = 1;
+                        //endTurnCounter = 1;
+                        endTurn = false;
                         actionQueue.execute(()->view.ActionPhaseTurn(expert_mode));
                         break;
 
@@ -280,9 +286,10 @@ public class ClientController implements ViewListener, Listener {
             case SHOW_CLOUD:
                 UpdateCloudsMessage cloudsMessage = (UpdateCloudsMessage) receivedMessage;
                 actionQueue.execute(()->view.showClouds(cloudsMessage.getChargedClouds()));
-                if (endTurnCounter == 0 && actionCounter == 0) {
+                if (endTurn/*endTurnCounter == 0 && actionCounter == 0*/) {
                     actionQueue.execute(() -> view.chooseCloudTile(cloudsMessage.getChargedClouds().size()));
-                    endTurnCounter--;
+                    endTurn = false;
+                    //endTurnCounter--;
                     actionQueue.execute(() -> view.showGenericMessage("Turn ended, waiting for other players"));
                 }
                 break;
@@ -357,13 +364,15 @@ public class ClientController implements ViewListener, Listener {
                     requestAssistants();
                 }
                 if(error.getTypeError() == MOTHER_NATURE_ERROR) {
-                    endTurnCounter++;
+//                    endTurnCounter++;
+                    movedMN = false;
                     actionQueue.execute(view::moveMotherNature);
-                    endTurnCounter--;
+//                    endTurnCounter--;
                 }
                 if(error.getTypeError() == CLOUD_ERROR) {
+                    endTurn = true;
                     actionQueue.execute(this::cloudsRequest);
-                    endTurnCounter ++;
+                    //endTurnCounter++;
                 }
                 if(error.getTypeError() == EXPERT_ERROR){
                     expert_mode = true;
@@ -372,28 +381,25 @@ public class ClientController implements ViewListener, Listener {
 
                 break;
             case WORLD_CHANGE:
+                if(movedMN)
+                    endTurn = true;
                 WorldChangeMessage worldChange = (WorldChangeMessage) receivedMessage;
                 actionQueue.execute(()-> defaultViewLayout(worldChange));
                 if(phase.equals(GameState.ACTION_PHASE) && worldChange.getCurrentPlayer().equals(nickname)) {
                     if(actionCounter > 0) {
-                        actionQueue.execute(()->view.ActionPhaseTurn(expert_mode));
+                        actionQueue.execute(()->view.ActionPhaseTurn(expert_mode));  //still in action phase
                     }
-                    else if(actionCounter == 0 && endTurnCounter==1){
+                    else if(actionCounter == 0 && !endTurn){         //finished students moves
 
-                        if(expert_mode) {
+                        if(expert_mode) {                       //possibility of play expert card after students moves
                             actionQueue.execute(((Cli) view)::playExpertChoice);
-                            movedMN = true;
                             expert_mode = false;
                         }
-                        else if (!movedMN){
-                            //MN movement
-                            actionQueue.execute(view::moveMotherNature);
-                            endTurnCounter--;
-                        }
                     }
-                    else if (endTurnCounter == 0 && actionCounter == 0) {
+                    else if (movedMN && endTurn) {
+                        endTurn = false;
                         actionQueue.execute(() -> view.chooseCloudTile(worldChange.getChargedClouds().size()));
-                        endTurnCounter--;
+                        //endTurnCounter--;
                         actionQueue.execute(() -> view.showGenericMessage("Turn ended, waiting for other players"));
                         movedMN = false;
                         studentsMoved = 0;
