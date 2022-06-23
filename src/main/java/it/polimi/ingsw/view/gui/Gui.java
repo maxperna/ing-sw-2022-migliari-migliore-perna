@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.observer.ViewSubject;
 import it.polimi.ingsw.view.View;
+import it.polimi.ingsw.view.gui.scenes.AssistantCardsController;
 import it.polimi.ingsw.view.gui.scenes.TowerDeckSelectionControllerGeneric;
 import it.polimi.ingsw.view.gui.scenes.WelcomeScreenControllerGeneric;
 import javafx.application.Platform;
@@ -24,7 +25,6 @@ public class Gui extends ViewSubject implements View {
     @Override
     public void askPlayerNickname() {
         Platform.runLater(()->SceneController.changeRoot(list,"NicknameInput.fxml"));
-        Platform.runLater(()-> SceneController.showNewStage(list, new WelcomeScreenControllerGeneric(), "WelcomeScene.fxml", "title"));
     }
 
     @Override
@@ -49,6 +49,7 @@ public class Gui extends ViewSubject implements View {
     @Override
     public void showGameField(Map<Integer, Node> gameFieldMap) {
         Platform.runLater(()-> SceneController.changeRoot(list, "PlayerView.fxml"));
+        Platform.runLater(SceneController::setFullScreen);
     }
 
     @Override
@@ -120,6 +121,12 @@ public class Gui extends ViewSubject implements View {
 
     @Override
     public void showAssistant(ArrayList<AssistantCard> deck) {
+        AssistantCardsController assistantCardsController = new AssistantCardsController(deck);
+        try {
+            Platform.runLater(()-> SceneController.showNewStage(list, assistantCardsController, "AssistantCardsScene.fxml", "Deck") );
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -140,7 +147,7 @@ public class Gui extends ViewSubject implements View {
 
     @Override
     public void chooseAction(/*boolean expert*/) {
-
+        notifyListener(list -> list.chooseAction(1));
     }
 
     @Override

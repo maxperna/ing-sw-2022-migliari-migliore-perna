@@ -72,14 +72,15 @@ public class SceneController extends ViewSubject {
             stage.initStyle(StageStyle.UNDECORATED);
             stage.setTitle(title);
             stage.setScene(new Scene(root));
+            stage.setAlwaysOnTop(true);
             stage.show();
 
-            stage.setOnCloseRequest(event -> {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setContentText("This window cannot be closed");
-                alert.showAndWait();
-                event.consume();
-            });
+//            stage.setOnCloseRequest(event -> {
+//                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//                alert.setContentText("This window cannot be closed");
+//                alert.showAndWait();
+//                event.consume();
+//            });
 
         }catch (Exception e) {
             e.printStackTrace();
@@ -87,7 +88,9 @@ public class SceneController extends ViewSubject {
 
     }
 
-
+    public static void setFullScreen() {
+        ((Stage) currentScene.getWindow()).setFullScreen(true);
+    }
     public static void setCurrentScene(Scene currentScene) {
         SceneController.currentScene = currentScene;
     }
@@ -95,6 +98,7 @@ public class SceneController extends ViewSubject {
     public static void setCurrentController(GenericSceneController currentController) {
         SceneController.currentController = currentController;
     }
+
 
 }
 

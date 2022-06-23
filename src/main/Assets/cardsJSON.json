@@ -10,52 +10,52 @@
 
             "actionNumber": 1,
             "motherNatureControl": 1,
-            "frontIMG": "images/Assistenti/3x/Assistente (1).png"
+            "frontIMG": "images/Assistenti/3x/Assistente1.png"
         },
         {
             "actionNumber": 2,
             "motherNatureControl": 1,
-            "frontIMG": "2"
+            "frontIMG": "images/Assistenti/3x/Assistente2.png"
         },
         {
             "actionNumber": 3,
             "motherNatureControl": 2,
-            "frontIMG": "2"
+            "frontIMG": "images/Assistenti/3x/Assistente3.png"
         },
         {
             "actionNumber": 4,
             "motherNatureControl": 2,
-            "frontIMG": "2"
+            "frontIMG": "images/Assistenti/3x/Assistente4.png"
         },
         {
             "actionNumber": 5,
             "motherNatureControl": 3,
-            "frontIMG": "2"
+            "frontIMG": "images/Assistenti/3x/Assistente5.png"
         },
         {
             "actionNumber": 6,
             "motherNatureControl": 3,
-            "frontIMG": "2"
+            "frontIMG": "images/Assistenti/3x/Assistente6.png"
         },
         {
             "actionNumber": 7,
             "motherNatureControl": 4,
-            "frontIMG": "2"
+            "frontIMG": "images/Assistenti/3x/Assistente7.png"
         },
         {
             "actionNumber": 8,
             "motherNatureControl": 4,
-            "frontIMG": "2"
+            "frontIMG": "images/Assistenti/3x/Assistente8.png"
         },
         {
             "actionNumber": 9,
             "motherNatureControl": 5,
-            "frontIMG": "2"
+            "frontIMG": "images/Assistenti/3x/Assistente9.png"
         },
         {
             "actionNumber": 10,
             "motherNatureControl": 5,
-            "frontIMG": "2"
+            "frontIMG": "images/Assistenti/3x/Assistente10.png"
         }
     ]
 }
