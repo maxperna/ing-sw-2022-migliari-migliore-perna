@@ -27,22 +27,22 @@ public class Expert12 implements ExpertCard {
 
         else{
             //Temporary list
-            ArrayList<Color> colorToList = new ArrayList<>(Collections.singleton(colorToRemove));        //transform color to list as parameter adjustment
             ArrayList<Color> studentToReinsert = new ArrayList<>();  //student to re-add to pouch
 
             for(Player player:currentGame.getPlayersList()) {
 
                 if (player.getBoard().getDiningRoom().get(colorToRemove) >= 3) {
-                    for (int i = 0; i < 3; i++)
-                        colorToList.add(colorToRemove);
+                    for (int i = 0; i < 3; i++) {
+                        studentToReinsert.add(colorToRemove);
+                        player.getBoard().getDiningRoom().remove(colorToRemove);
+                    }
 
-                    studentToReinsert.addAll(player.getBoard().moveFromDiningRoom(colorToList));
                 }
                 else {
-                    for(int i=0;i<=player.getBoard().getDiningRoom().get(colorToRemove);i++)
-                        colorToList.add(colorToRemove);
-
-                    studentToReinsert.addAll(player.getBoard().moveFromDiningRoom(colorToList));
+                    for(int i=0;i<=player.getBoard().getDiningRoom().get(colorToRemove);i++) {
+                        studentToReinsert.add(colorToRemove);
+                        player.getBoard().getDiningRoom().remove(colorToRemove);
+                    }
                 }
                 currentGame.getPouch().addStudents(studentToReinsert);
             }

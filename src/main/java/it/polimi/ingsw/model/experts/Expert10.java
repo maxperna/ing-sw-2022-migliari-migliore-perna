@@ -67,6 +67,10 @@ public class Expert10 implements ExpertCard {
                 e.printStackTrace();
             }
 
+            for(Color color : Color.values()) {
+                currentGame.checkInfluence(user, color);
+            }
+
             currentGame.coinHandler(user,-this.cost);                                                                   //updating expert cost, player coins and expert activated
             this.cost++;
             currentGame.setActiveExpertsCard(this);

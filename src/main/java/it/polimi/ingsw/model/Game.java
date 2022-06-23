@@ -161,12 +161,11 @@ public class Game implements Serializable {
         //During an expert game, if the player has a teacher and he removes some students of that color
         //the method checks that he still has the max influence, either way the teacher is given to the player with max influence on that color
         if (this.EXP_MODE) {
-            for(Color color : Color.values()) {
-                if (activePlayer.getBoard().getDiningRoom().get(color) < influenceMap.get(color).numOfStudents && activePlayer.getBoard().getTeacher(color)) {
-                    activePlayer.getBoard().removeTeacher(color);
-                    for (Player player : this.getPlayersList())
-                        checkInfluence(player, color);
-                }
+            if (activePlayer.getBoard().getDiningRoom().get(colorToCheck) < influenceMap.get(colorToCheck).numOfStudents && activePlayer.getBoard().getTeacher(colorToCheck)) {
+                activePlayer.getBoard().removeTeacher(colorToCheck);
+                for (Player player : this.getPlayersList())
+                    checkInfluence(player, colorToCheck);
+
             }
         }
 
@@ -238,12 +237,18 @@ public class Game implements Serializable {
 
             temporaryInfluenceCounter.put(playerHavingPlusTwo,influenceToAdd);
         }
+        //removes from the hashmap all the players who have teachers but no influence on the island, so that the next isEmpty() works correctly
+        for (Player player : temporaryInfluenceCounter.keySet()) {
+            if (temporaryInfluenceCounter.get(player) == 0)
+                temporaryInfluenceCounter.remove(player);
+        }
         //If the temporary influence counter is empty no one has influence
         if (!temporaryInfluenceCounter.isEmpty()) {
             //check the player with most influence
 
             Player maxInfluencePlayer = temporaryInfluenceCounter.entrySet().stream().max((val1, val2) ->
                     val1.getValue() > val2.getValue() ? 1 : -1).get().getKey();
+            islandToCheck.setMostInfluencePlayer(maxInfluencePlayer);
             if(temporaryInfluenceCounter.get(maxInfluencePlayer).equals(temporaryInfluenceCounter.get(islandToCheck.getMostInfluencePlayer())))
                 maxInfluencePlayer = islandToCheck.getMostInfluencePlayer();
 
@@ -253,7 +258,6 @@ public class Game implements Serializable {
                 //Set new most influence tower
                 islandToCheck.getMostInfluencePlayer().getBoard().addTower();
                 //Set towers
-                islandToCheck.setMostInfluencePlayer(maxInfluencePlayer);
                 islandToCheck.setTower();
                 gameField.mergeIslands(nodeID);
             }
