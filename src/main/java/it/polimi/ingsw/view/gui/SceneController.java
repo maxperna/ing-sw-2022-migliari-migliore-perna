@@ -6,6 +6,10 @@ import it.polimi.ingsw.view.gui.scenes.GenericSceneController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.util.List;
@@ -52,7 +56,34 @@ public class SceneController extends ViewSubject {
 
     }
 
-    public static void addPopUp(List<ViewListener> observerList, GenericSceneController controller, String FXML_path) {
+    public static void showNewStage(List<ViewListener> observerList, GenericSceneController controller, String FXML_path, String title) {
+
+        FXMLLoader loader = new FXMLLoader();
+
+        try {
+            loader.setLocation(SceneController.class.getResource("/fxml/" + FXML_path));
+
+            ((ViewSubject) controller).addAllListeners(observerList);
+            loader.setController(controller);
+
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.setTitle(title);
+            stage.setScene(new Scene(root));
+            stage.show();
+
+            stage.setOnCloseRequest(event -> {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setContentText("This window cannot be closed");
+                alert.showAndWait();
+                event.consume();
+            });
+
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 

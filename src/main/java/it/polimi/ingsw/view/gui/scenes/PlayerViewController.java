@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static it.polimi.ingsw.model.Color.*;
 
-public class PlayerViewController extends ViewSubject implements SceneControllerInt {
+public class PlayerViewController extends ViewSubject implements GenericSceneController {
     @FXML
     AnchorPane gameField;
     @FXML

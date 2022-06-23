@@ -8,6 +8,7 @@ import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.observer.ViewSubject;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.gui.scenes.TowerDeckSelectionControllerGeneric;
+import it.polimi.ingsw.view.gui.scenes.WelcomeScreenControllerGeneric;
 import javafx.application.Platform;
 
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class Gui extends ViewSubject implements View {
     @Override
     public void askPlayerNickname() {
         Platform.runLater(()->SceneController.changeRoot(list,"NicknameInput.fxml"));
+        Platform.runLater(()-> SceneController.showNewStage(list, new WelcomeScreenControllerGeneric(), "WelcomeScene.fxml", "title"));
     }
 
     @Override

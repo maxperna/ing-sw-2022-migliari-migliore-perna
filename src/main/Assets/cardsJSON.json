@@ -7,9 +7,10 @@
     },
     "assistantProfile": [
         {
+
             "actionNumber": 1,
             "motherNatureControl": 1,
-            "frontIMG": "2"
+            "frontIMG": "images/Assistenti/3x/Assistente (1).png"
         },
         {
             "actionNumber": 2,
