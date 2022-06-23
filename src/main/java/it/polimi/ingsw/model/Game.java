@@ -14,10 +14,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Class Game, every class created as its own unique gameID
@@ -238,9 +235,9 @@ public class Game implements Serializable {
             temporaryInfluenceCounter.put(playerHavingPlusTwo,influenceToAdd);
         }
         //removes from the hashmap all the players who have teachers but no influence on the island, so that the next isEmpty() works correctly
-        for (Player player : temporaryInfluenceCounter.keySet()) {
-            if (temporaryInfluenceCounter.get(player) == 0)
-                temporaryInfluenceCounter.remove(player);
+        for(Map.Entry<Player, Integer> entry : temporaryInfluenceCounter.entrySet()) {
+            if(entry.getValue() == 0)
+                temporaryInfluenceCounter.remove(entry.getKey());
         }
         //If the temporary influence counter is empty no one has influence
         if (!temporaryInfluenceCounter.isEmpty()) {
