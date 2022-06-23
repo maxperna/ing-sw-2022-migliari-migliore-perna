@@ -1,28 +1,26 @@
 package it.polimi.ingsw.view.gui.scenes;
 
-import com.google.gson.*;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Color;
+
 import it.polimi.ingsw.observer.ViewSubject;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
+
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static it.polimi.ingsw.model.Color.*;
 
-public class PlayerViewControllerGeneric extends ViewSubject implements GenericSceneController {
+public class PlayerViewController extends ViewSubject implements SceneControllerInt {
     @FXML
     AnchorPane gameField;
     @FXML
@@ -35,105 +33,97 @@ public class PlayerViewControllerGeneric extends ViewSubject implements GenericS
     GridPane professorSpace;
 
     Map<Color,Node> teacherList;
-    Map<Integer, int[]> islandList;
+    Map<Integer,GridPane> islandList;
     Map<Integer,GridPane> cloudList;
+    Map<Color,ArrayList<Node>> studentsOnDining;
+    Map<Integer,Map<String,AnchorPane>> islandConfig;
 
-    private Board currentBoard;
     private boolean studentOnMovement;
     private Node tempNode;
 
 
-    public PlayerViewControllerGeneric(){
+
+    public PlayerViewController(){
         teacherList = new ConcurrentHashMap<>();
     }
 
     @FXML
     public void initialize(){
+        studentsOnDining = new ConcurrentHashMap<>();
         populateEntry();
         generateGameField();
-        /*ArrayList<Color> prova = new ArrayList<>();
-        prova.add(PINK);
-        prova.add(BLUE);
-        prova.add(RED);*/
 
-        //populateCloud(1,prova);
-        diningRoom.addEventHandler(MouseEvent.MOUSE_CLICKED,this::moveStudent);
+        diningRoom.addEventHandler(MouseEvent.MOUSE_CLICKED,this::moveStudentBoard);
     }
 
+    /**Method to move students from entry room to dining room*/
+    public void moveStudentBoard(MouseEvent event){
+        if(studentOnMovement) {
+            Color colorPicked = fromStringToColor(tempNode.getId());
+            //Eventually initialize student map
+            studentsOnDining.putIfAbsent(colorPicked, new ArrayList<>());
 
-    public void moveStudent(MouseEvent event){
-        Color colorPicked = null;
-        switch (tempNode.getId()){
-            case "GREEN":
-                colorPicked = GREEN;
-                break;
-            case "RED":
-                colorPicked = RED;
-                break;
-            case "BLUE":
-                colorPicked = BLUE;
-                break;
-            case "YELLOW":
-                colorPicked = YELLOW;
-                break;
-            case "PINK":
-                colorPicked = PINK;
-                break;
+            diningRoom.add(tempNode, studentsOnDining.get(colorPicked).size(), colorPicked.getBoardIndex());
+            //Adding student as list of node, could be useful for expert implementation
+            ArrayList<Node> currentStud = studentsOnDining.get(colorPicked);
+            tempNode.setDisable(true);
+            currentStud.add(tempNode);
+            studentsOnDining.put(colorPicked, currentStud);
+            changeStudMovState();
+
+            event.consume();
+            //new Thread(()->notifyListener(l->l.moveStudentToDinner(colorPicked)));
         }
-
-        Color colorPickedFin = colorPicked;
-        diningRoom.add(tempNode,0,colorPickedFin.getBoardIndex());
-        new Thread(()->notifyListener(l->l.moveStudentToDinner(colorPickedFin)));
     }
 
     public void moveStudentIsland(MouseEvent event){
-        Color colorPicked = null;
-        switch (tempNode.getId()){
-            case "GREEN":
-                colorPicked = GREEN;
-                break;
-            case "RED":
-                colorPicked = RED;
-                break;
-            case "BLUE":
-                colorPicked = BLUE;
-                break;
-            case "YELLOW":
-                colorPicked = YELLOW;
-                break;
-            case "PINK":
-                colorPicked = PINK;
-                break;
-        }
-        Color colorPickedFin = colorPicked;
+        if(studentOnMovement ) {
+            try {
+                Color colorPicked = fromStringToColor(tempNode.getId());
+                Node clickedIsland = event.getPickResult().getIntersectedNode();
+                Integer ID = Integer.parseInt(clickedIsland.getId());
+                AnchorPane referringPane = islandConfig.get(ID).get(colorPicked.toString());
+                Label counter = (Label) referringPane.getChildren().get(0);
+                Integer tempValue = Integer.parseInt(counter.getText());
+                tempValue++;
+                counter.setText((tempValue).toString());
+                referringPane.setVisible(true);
+                entryRoom.getChildren().remove(tempNode);
 
-        Node clickedIsland = event.getPickResult().getIntersectedNode();
-        //int ID = Integer.parseInt(clickedIsland.getId());
-        AnchorPane ap = (AnchorPane) clickedIsland;
-        ((AnchorPane) clickedIsland).getChildren().add(tempNode);
-        //new Thread(()->notifyListener(l->l.moveStudentToIsland(colorPickedFin,ID)));
+                changeStudMovState();
+                event.consume();
+
+
+//                new Thread(()->notifyListener(l->l.moveStudentToIsland(colorPicked,ID)));
+            }catch (NumberFormatException e){
+                //Clicking on another node I can remake my selection
+                tempNode = null;
+                changeStudMovState();
+            }
+        }
     }
 
+    /**Method to signal that a student has been picked*/
     public void startMovement(MouseEvent event){
         tempNode = event.getPickResult().getIntersectedNode();
-        studentOnMovement = true;
+        changeStudMovState();
     }
 
+    /**Method to set the entry room of the board*/
     private void populateEntry(){
-
+        Color test = RED;
         int k=0;
         for(int i=0;i<2;i++){
             for(int j=0;j<4/*currentBoard.getEntryRoom().size()%2+1*/;j++){
                 if(!(j==0 && i==0)) {
-                    Color colorToAdd = PINK;//currentBoard.getEntryRoom().get(k);
                     //Node adding
-                    ImageView student = new ImageView(colorToAdd.getStudImg());
-                    student.setId(colorToAdd.toString());
-                    student.addEventHandler(MouseEvent.MOUSE_CLICKED,this::startMovement);
-                    student.setFitWidth(36);
-                    student.setFitHeight(40);
-                    entryRoom.add(student, i, j);
+                    if(j%2 == 0)
+                        test = BLUE;
+                    if(j%3==0)
+                        test = PINK;
+                    ImageView student = studentGenerator(test);
                     GridPane.setHalignment(student,HPos.RIGHT);
+                    entryRoom.add(student,i,j);
                     k++;
                 }
             }
@@ -141,11 +131,10 @@ public class PlayerViewControllerGeneric extends ViewSubject implements GenericS
 
     }
 
+
     private void addTeacher(Color color){
 
-        Node teacher = new ImageView(color.getTeacherImg());
-        teacher.setScaleX(0.6);
-        teacher.setScaleY(0.6);
+        ImageView teacher = generateTeacher(color);
         professorSpace.add(teacher,0,color.getBoardIndex());
         teacherList.put(color,teacher);  //adding node and references
     }
@@ -156,27 +145,13 @@ public class PlayerViewControllerGeneric extends ViewSubject implements GenericS
     }
 
     public void setCurrentBoard(Board board){
-        this.currentBoard = board;
+
     }
 
     /**Method to populate cloud with student
      * @param ID  ID of the cloud to fill*/
     public void populateCloud(int ID,ArrayList<Color> students){
         //Each cloud is made of a 2*2 grid pane
-        int numOfStud = students.size();
-        for(int i =0;i<2;i++){
-            int k =0;
-            while(k< numOfStud && k<2){
-                ImageView student = new ImageView(students.get(i).getStudImg());
-                student.setScaleX(0.5);
-                student.setScaleY(0.5);
-                cloudList.get(ID).setAlignment(Pos.TOP_CENTER);
-                cloudList.get(ID).add(student,i,k);
-                GridPane.setFillWidth(student,true);
-                k++;
-                numOfStud--;
-            }
-        }
     }
 
     /**Method to choice cloud from whom take the students*/
@@ -184,59 +159,98 @@ public class PlayerViewControllerGeneric extends ViewSubject implements GenericS
         //new Thread(()->notifyListener(l->l.chooseCloudTile(ID))).start();
     }
 
-    public void generateGameField(){
-        try {
-            islandList = new ConcurrentHashMap<>();
-            FileReader layoutGameField = new FileReader("src/main/Assets/gameFieldPosition.json");
-            JsonObject layoutObj = JsonParser.parseReader(layoutGameField).getAsJsonObject();
-            JsonArray layoutInfoIsland = layoutObj.get("islandPosition").getAsJsonArray();
-            Integer i = 1;
-            for(JsonElement islandInfo : layoutInfoIsland){
-                JsonObject islandInfoOBJ = islandInfo.getAsJsonObject().get(i.toString()).getAsJsonObject();
-                Integer randomIndex = new Random().nextInt(3)+1;
+    /**Method to generate the game field assigning island the correct id*/
+    public void generateGameField() {
+        islandList = new ConcurrentHashMap<>();
+        islandConfig = new ConcurrentHashMap<>();
+        cloudList = new ConcurrentHashMap<>();
+        Integer index = 1;
+        Integer cloudIndex = 13;
+        for (Node gameFieldEl : gameField.getChildren()) {
+            //Setting grid as id in order to access directly to its component
+            if (gameFieldEl.getId() == null) {
+                GridPane islandStruct = (GridPane) ((StackPane) gameFieldEl).getChildren().get(0);
+                islandStruct.addEventHandler(MouseEvent.MOUSE_CLICKED, this::moveStudentIsland);
+                islandStruct.setId(index.toString());
+                islandList.put(index, islandStruct);
+                //Island structure initialization
+                Map<String, AnchorPane> tempConfig = new ConcurrentHashMap<>();
+                for (Node configuration : islandStruct.getChildren()) {
+                    tempConfig.put(configuration.getId(), (AnchorPane) configuration);
+                    try {
+                        Label counter = (Label) ((AnchorPane) configuration).getChildren().get(0);
+                        if (counter.getText().equals("0"))
+                            configuration.setVisible(false); //initially no student is on island
+                    } catch (ClassCastException | IndexOutOfBoundsException e) {
+                        configuration.setVisible(false); //initially no student is on island
+                    }
+                }
 
-
-                AnchorPane islandSupport = new AnchorPane();
-                ImageView island = new ImageView("images/Scontornate/isola1.png");
-                island.setFitWidth(270);
-                island.setFitHeight(230);
-                island.setDisable(true);
-                //islandSupport.getChildren().add(island);
-                Label label = new Label();
-                label.setId(PINK.toString());
-                islandSupport.getChildren().add(label);
-                islandSupport.addEventHandler(MouseEvent.MOUSE_CLICKED,this::moveStudentIsland);
-                gameField.getChildren().add(islandSupport);
-                AnchorPane.setLeftAnchor(islandSupport,islandInfoOBJ.get("left").getAsDouble());
-                AnchorPane.setTopAnchor(islandSupport,islandInfoOBJ.get("up").getAsDouble());
-
-
-
-
-                i++;
+                islandConfig.put(index, tempConfig);
+                index++;
             }
+            else {
 
-            /**cloudList = new ConcurrentHashMap<>();
-            JsonArray layoutInfoCloud = layoutObj.get("cloud").getAsJsonArray();
-            i = 1;
-            for (JsonElement cloudInfo: layoutInfoCloud){
-                JsonObject cloudInfoObj = cloudInfo.getAsJsonObject().get(i.toString()).getAsJsonObject();
+                GridPane cloudStruct = (GridPane) ((StackPane) gameFieldEl).getChildren().get(0);
+                cloudStruct.setId(cloudIndex.toString());
 
-                int coordinates[] = {cloudInfoObj.get("row").getAsInt(),cloudInfoObj.get("col").getAsInt()};
-
-                GridPane cloudStructure = new GridPane();
-                cloudStructure.addEventHandler(MouseEvent.MOUSE_CLICKED,this::choiceCloud);
-                gameField.add(cloudStructure,coordinates[0],coordinates[1]);
-                cloudList.put(i,cloudStructure);
-                i++;
-            }**/
-
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+                cloudStruct.setDisable(true);
+                cloudList.put(cloudIndex%12,cloudStruct);
+                cloudIndex++;
+            }
         }
+    }
 
+    private Color fromStringToColor(String color){
+        switch (color){
+            case "GREEN":
+                return GREEN;
+            case "RED":
+                return RED;
+            case "BLUE":
+                return BLUE;
+            case "YELLOW":
+                return YELLOW;
+            case "PINK":
+                return PINK;
+            default:
+                return null;
+        }
+    }
 
+    private ImageView studentGenerator(Color color){
+        ImageView image = new ImageView(color.getStudImg());
+        image.setFitWidth(36);
+        image.setFitHeight(40);
+        image.addEventHandler(MouseEvent.MOUSE_CLICKED,this::startMovement);
+        image.setId(color.toString());
+
+        return image;
+    }
+
+    private ImageView generateTeacher(Color color){
+        ImageView teacher = new ImageView(color.getTeacherImg());
+        teacher.setFitWidth(36);
+        teacher.setFitHeight(40);
+
+        return teacher;
+    }
+
+    private GridPane generateIslandPane(Integer ID){
+        GridPane island = new GridPane();
+        island.setPrefWidth(270);
+        island.setPrefHeight(230);
+        island.getStyleClass().add("island-pane");
+        island.setId(ID.toString());
+
+        ColumnConstraints cc = new ColumnConstraints();
+        cc.setHalignment(HPos.CENTER);
+
+        return island;
+    }
+
+    private void changeStudMovState(){
+        studentOnMovement = !studentOnMovement;
     }
 
 }
