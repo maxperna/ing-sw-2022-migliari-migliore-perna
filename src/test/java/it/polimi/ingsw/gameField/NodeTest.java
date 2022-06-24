@@ -108,10 +108,19 @@ class NodeTest {
             game.addPlayer("Piero", DeckType.DRUID, TowerColor.WHITE);
             game.addPlayer("Gianna", DeckType.SAGE, TowerColor.BLACK);
 
-            for(int i =0; i < 4; i++) {
-                game.getGameField().getIslandNode(2).addStudent(Color.RED);
+            if (game.getGameField().getStudentsFromIslandNode(2).contains(Color.RED)) {
+                for(int i =0; i < 5; i++) {
+                    game.getGameField().getIslandNode(2).addStudent(Color.RED);
+                }
+                assertEquals(6, game.getGameField().getIslandNode(2).getColorInfluence(Color.RED));
             }
-            assertEquals(4, game.getGameField().getIslandNode(2).getColorInfluence(Color.RED));
+            else {
+                for(int i =0; i < 5; i++) {
+                    game.getGameField().getIslandNode(2).addStudent(Color.RED);
+                }
+                assertEquals(5, game.getGameField().getIslandNode(2).getColorInfluence(Color.RED));
+            }
+
 
         } catch (FileNotFoundException e) {
             fail();

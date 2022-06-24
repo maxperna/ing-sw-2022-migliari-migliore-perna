@@ -197,16 +197,30 @@ public class Game implements Serializable {
     public void checkIslandInfluence(int nodeID) throws EndGameException {
         Node islandToCheck = gameField.getIslandNode(nodeID);
         HashMap<Player, Integer> temporaryInfluenceCounter = new HashMap<>();  //temporary influence counter
+        Player towerPlayer = null;
         //if island has a deny card on it influence haven't to be calculated
         if(!islandToCheck.isStopped()) {
             for (Color colorStudent : influenceMap.keySet()){
                 Player playerToCheck = influenceMap.get(colorStudent).getPlayer();
                 //If player to check is null no one has still the influence on that color or the color is ignored
-                if (playerToCheck != null && !colorStudent.equals(colorToIgnore)) {
+                if (playerToCheck != null) {
                     int influenceOfPlayer = islandToCheck.getColorInfluence(colorStudent);       //temp variable storing the number of student of the same color
                     //Check if there is a tower, if true add another point of influence
-                    if (playerToCheck.getBoard().getTowerColor().equals(islandToCheck.getTowerColor()))
-                        influenceOfPlayer = influenceOfPlayer + islandToCheck.getNumberOfTowers();
+                    if (playerToCheck.getBoard().getTowerColor().equals(islandToCheck.getTowerColor())) {
+                        if (!colorStudent.equals(colorToIgnore)) {
+                            influenceOfPlayer = influenceOfPlayer + islandToCheck.getNumberOfTowers();
+                            towerPlayer = playerToCheck;
+                        }
+                        else {
+                            influenceOfPlayer = islandToCheck.getNumberOfTowers();
+                            towerPlayer = playerToCheck;
+                        }
+                    }
+                    else {
+                        if (colorStudent.equals(colorToIgnore))
+                            influenceOfPlayer = 0;
+                    }
+
                     if (temporaryInfluenceCounter.containsKey(playerToCheck)) {
                         temporaryInfluenceCounter.put(playerToCheck,  temporaryInfluenceCounter.get(playerToCheck)+influenceOfPlayer);
                     } else {
@@ -235,30 +249,36 @@ public class Game implements Serializable {
             temporaryInfluenceCounter.put(playerHavingPlusTwo,influenceToAdd);
         }
         //removes from the hashmap all the players who have teachers but no influence on the island, so that the next isEmpty() works correctly
-        for(Map.Entry<Player, Integer> entry : temporaryInfluenceCounter.entrySet()) {
-            if(entry.getValue() == 0)
-                temporaryInfluenceCounter.remove(entry.getKey());
-        }
+        temporaryInfluenceCounter.entrySet()
+                .removeIf(
+                        entry -> (entry.getValue() == 0));
         //If the temporary influence counter is empty no one has influence
         if (!temporaryInfluenceCounter.isEmpty()) {
             //check the player with most influence
-
-            Player maxInfluencePlayer = temporaryInfluenceCounter.entrySet().stream().max((val1, val2) ->
-                    val1.getValue() > val2.getValue() ? 1 : -1).get().getKey();
+            Player maxInfluencePlayer = null;
+            for (Player player : temporaryInfluenceCounter.keySet()) {
+                if (maxInfluencePlayer == null)
+                    maxInfluencePlayer = player;
+                if(temporaryInfluenceCounter.get(player) > temporaryInfluenceCounter.get(maxInfluencePlayer))
+                    maxInfluencePlayer = player;
+                else if (towerPlayer != null) {
+                    if (temporaryInfluenceCounter.get(player).equals(temporaryInfluenceCounter.get(maxInfluencePlayer)) && towerPlayer.equals(player))
+                        maxInfluencePlayer = player;
+                }
+            }
             islandToCheck.setMostInfluencePlayer(maxInfluencePlayer);
-            if(temporaryInfluenceCounter.get(maxInfluencePlayer).equals(temporaryInfluenceCounter.get(islandToCheck.getMostInfluencePlayer())))
-                maxInfluencePlayer = islandToCheck.getMostInfluencePlayer();
 
-
-
-            if(!(islandToCheck.getMostInfluencePlayer()==null)) {
+            if(!maxInfluencePlayer.getTowerColor().equals(islandToCheck.getTowerColor())) {
                 //Set new most influence tower
                 islandToCheck.getMostInfluencePlayer().getBoard().addTower();
                 //Set towers
                 islandToCheck.setTower();
                 gameField.mergeIslands(nodeID);
             }
+            else if (islandToCheck.getNumberOfTowers() == 0)
+                islandToCheck.setTower();
         }
+        towerPlayer = null;
     }
 
 

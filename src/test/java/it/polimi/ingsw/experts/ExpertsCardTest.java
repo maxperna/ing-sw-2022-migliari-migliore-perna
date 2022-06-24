@@ -203,6 +203,9 @@ public class ExpertsCardTest {
             fail();
         }
 
+        if(actualNodeMN+4 > 12)
+            actualNodeMN = actualNodeMN-12;
+
         assertEquals(actualNodeMN+4,gameTest.getGameField().getMotherNature().getNodeID());
 
         exp4.endEffect();
@@ -298,7 +301,7 @@ public class ExpertsCardTest {
         testNode.addStudent(Color.BLUE);
         try {
             gameTest.checkIslandInfluence(testNode.getNodeID());
-            assertEquals(testNode.getTowerColor(),p1.getTowerColor());
+            assertEquals(p1.getTowerColor(), testNode.getTowerColor());
 
         } catch (EndGameException e) {
             fail();
@@ -313,7 +316,7 @@ public class ExpertsCardTest {
         } catch (EndGameException e) {
             fail();
         }
-        assertEquals(testNode.getTowerColor(),p1.getTowerColor());
+        assertEquals(p1.getTowerColor(), testNode.getTowerColor());
 
         gameTest.coinHandler(p2,5);
 
@@ -365,7 +368,7 @@ public class ExpertsCardTest {
         }
 
         try {
-            exp7.useCard(p1,studentsToSwap,studentsToPick);
+            exp7.useCard(p1,studentsToPick, studentsToSwap);
         } catch (NotEnoughCoins | IllegalMove e) {
             fail();
         }
@@ -485,7 +488,7 @@ public class ExpertsCardTest {
         }
 
         //Trying card normally
-        assertEquals(testNode.getTowerColor(),p2.getTowerColor());  //p2 build tower
+        assertEquals(p2.getTowerColor(), testNode.getTowerColor());  //p2 build tower
         exp9.endEffect();
         assertNull(gameTest.getActiveExpertCard());
 
@@ -503,7 +506,7 @@ public class ExpertsCardTest {
             fail();
         }
 
-        assertEquals(testNode.getTowerColor(),p1.getTowerColor());
+        assertEquals(p1.getTowerColor(), testNode.getTowerColor());
 
 
     }
@@ -532,7 +535,7 @@ public class ExpertsCardTest {
         gameTest.coinHandler(p1,5);
 
         try {
-            exp10.useCard(p1,studentsInside,studentsEntry);
+            exp10.useCard(p1,studentsEntry,studentsInside);
         } catch (NotEnoughCoins e) {
             fail();
         } catch (NotOnBoardException e) {

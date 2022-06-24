@@ -31,22 +31,29 @@ public class Expert12 implements ExpertCard {
 
             for(Player player:currentGame.getPlayersList()) {
 
-                if (player.getBoard().getDiningRoom().get(colorToRemove) >= 3) {
+                if (player.getBoard().getDiningRoom().get(colorToRemove) > 3) {
                     for (int i = 0; i < 3; i++) {
                         studentToReinsert.add(colorToRemove);
                         player.getBoard().getDiningRoom().remove(colorToRemove);
                     }
-
                 }
+                else if (player.getBoard().getDiningRoom().get(colorToRemove) == 3) {
+                        studentToReinsert.add(colorToRemove);
+                        player.getBoard().getDiningRoom().remove(colorToRemove);
+                        player.getBoard().getDiningRoom().put(colorToRemove, 0);
+                    }
                 else {
                     for(int i=0;i<=player.getBoard().getDiningRoom().get(colorToRemove);i++) {
                         studentToReinsert.add(colorToRemove);
                         player.getBoard().getDiningRoom().remove(colorToRemove);
+                        player.getBoard().getDiningRoom().put(colorToRemove, 0);
                     }
                 }
                 currentGame.getPouch().addStudents(studentToReinsert);
             }
 
+
+            currentGame.checkInfluence(user, colorToRemove);
             currentGame.coinHandler(user,-this.cost);
             this.cost++;
             currentGame.setActiveExpertsCard(this);
