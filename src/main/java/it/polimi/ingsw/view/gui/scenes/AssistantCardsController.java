@@ -5,9 +5,13 @@ import it.polimi.ingsw.observer.ViewSubject;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
+
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -17,9 +21,6 @@ public class AssistantCardsController extends ViewSubject implements GenericScen
 
     ArrayList<AssistantCard> deck;
 
-    @FXML
-    BorderPane borderPane;
-
     public AssistantCardsController(ArrayList<AssistantCard> deck) {
         this.deck = deck;
     }
@@ -27,11 +28,18 @@ public class AssistantCardsController extends ViewSubject implements GenericScen
     @FXML
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        int numOfCards = 0;
+        HBox hBox = new HBox();
+        hBox.setAlignment(Pos.CENTER);
+        hBox.setSpacing(50);
 
-//        for(AssistantCard card : deck){
-//            ImageView img = new ImageView(card.getFrontImage());
-//            img.fitWidthProperty().bind(new SimpleDoubleProperty(((Stage) borderPane.getScene().getWindow()).getWidth()));
-//        }
+        for (AssistantCard card : deck) {
+            final ImageView imageView = new ImageView(new Image(card.getFrontImage(), 100.0, 100.0, true, false));
+            hBox.getChildren().add(imageView);
+            numOfCards++;
+        }
+
+
     }
 
 }
