@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.paint.Color;
 
 
 import java.net.URL;
@@ -202,6 +203,7 @@ public class TowerDeckSelectionControllerGeneric extends ViewSubject implements 
             druidDeck.setDisable(true);
             confirmButton.setDisable(true);
             errorMessage.setText("");
+            infoLabel.setTextFill(Color.BLACK);
             infoLabel.setText("Waiting for other players...");
             new Thread(() -> notifyListener(list -> list.chooseTowerColorAndDeck(selectedColor, selectedDeck))).start();
         }
