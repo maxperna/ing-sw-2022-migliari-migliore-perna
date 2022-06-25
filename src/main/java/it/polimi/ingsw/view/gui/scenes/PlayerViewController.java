@@ -146,12 +146,14 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
 
     /**Method to set the entry room of the board*/
     private void populateEntry(ArrayList<Color> entry) {
+        int k =0;
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < entry.size()/2+1; j++) {
                 if(!(i==0 && j==0)) {
-                    Color colorToAdd = entry.get(i);
+                    Color colorToAdd = entry.get(k);
                     ImageView student = studentGenerator(colorToAdd);
                     entryRoom.add(student, i, j);
+                    k++;
                 }
             }
         }
