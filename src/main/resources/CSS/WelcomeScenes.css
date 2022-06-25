@@ -15,3 +15,13 @@
     -fx-background-size: cover;
     -fx-background-repeat: no-repeat;
 }
+
+.font-style{
+    -fx-font-family: "Goudy Old Style";
+    -fx-font-size: 14px;
+}
+
+.font-style-big{
+    -fx-font-family: "Goudy Old Style";
+    -fx-font-size: 16px;
+}

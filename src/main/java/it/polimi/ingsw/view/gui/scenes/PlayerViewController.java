@@ -151,7 +151,7 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
                 if(!(i==0 && j==0)) {
                     Color colorToAdd = entry.get(i);
                     ImageView student = studentGenerator(colorToAdd);
-                    entryRoom.add(student, j, i);
+                    entryRoom.add(student, i, j);
                 }
             }
         }
@@ -206,7 +206,7 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
             for(int i=0;i<cloud.getStudents().size();i++){
                 j = i%2;
                 ImageView student = studentGenerator(cloud.getStudents().get(i));
-                cloudStruct.add(student,i,j);
+                cloudStruct.add(student,j,i);
             }
         }
 

@@ -14,7 +14,7 @@
          <left>
             <AnchorPane prefHeight="400.0" prefWidth="330.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label layoutX="14.0" layoutY="14.0" text="Choose your deck:">
+                  <Label layoutX="14.0" layoutY="14.0" styleClass="font-style-big" text="Choose your deck:">
                      <font>
                         <Font size="16.0" />
                      </font></Label>
@@ -44,7 +44,7 @@
          <right>
             <AnchorPane prefHeight="400.0" prefWidth="249.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label layoutX="14.0" layoutY="14.0" text="Choose your color:">
+                  <Label layoutX="14.0" layoutY="14.0" styleClass="font-style-big" text="Choose your color:">
                      <font>
                         <Font name="Goudy Old Style" size="16.0" />
                      </font></Label>
@@ -63,7 +63,7 @@
                         <Image url="@../images/Scontornate/grey_tower.png" />
                      </image>
                   </ImageView>
-                  <Button fx:id="confirmButton" layoutX="62.0" layoutY="341.0" mnemonicParsing="false" text="Confrim Selection">
+                  <Button fx:id="confirmButton" layoutX="62.0" layoutY="341.0" mnemonicParsing="false" styleClass="font-style" text="Confrim Selection">
                      <font>
                         <Font name="Goudy Old Style" size="14.0" />
                      </font></Button>

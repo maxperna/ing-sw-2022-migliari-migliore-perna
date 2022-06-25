@@ -8,16 +8,16 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="welcome-scene" stylesheets="@../CSS/WelcomeScenes.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scenes.NicknameInputControllerGeneric">
    <children>
-      <TextField fx:id="nickField" layoutX="211.0" layoutY="255.0" prefHeight="25.0" prefWidth="178.0" promptText="Insert your nickname">
+      <TextField fx:id="nickField" layoutX="211.0" layoutY="255.0" prefHeight="25.0" prefWidth="178.0" promptText="Insert your nickname" styleClass="font-style">
          <font>
             <Font name="Goudy Old Style" size="14.0" />
          </font></TextField>
-      <Button fx:id="sendNick" layoutX="269.0" layoutY="321.0" mnemonicParsing="false" text="Start">
+      <Button fx:id="sendNick" layoutX="269.0" layoutY="321.0" mnemonicParsing="false" styleClass="font-style-big" text="Start">
          <font>
             <Font name="Goudy Old Style" size="16.0" />
          </font></Button>
       <Label fx:id="errorOutPut" layoutX="211.0" layoutY="230.0" textFill="#ea0000" />
-      <Label layoutX="230.0" layoutY="229.0" text="Choose a nickname ">
+      <Label layoutX="230.0" layoutY="229.0" styleClass="font-style-big" text="Choose a nickname ">
          <font>
             <Font name="Goudy Old Style" size="16.0" />
          </font>
