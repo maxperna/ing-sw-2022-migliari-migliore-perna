@@ -667,6 +667,10 @@ public class Cli extends ViewSubject implements View {
         System.out.println(errorMessage);
     }
 
+    @Override
+    public void showExpertCards(ArrayList<ExpertCard> expertCard) {
+
+    }
 
 
     /**

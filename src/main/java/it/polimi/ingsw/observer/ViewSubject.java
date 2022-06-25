@@ -9,7 +9,7 @@ import java.util.function.Consumer;
  */
 public abstract class ViewSubject {
 
-    private List<ViewListener> list = new ArrayList<>();
+    protected final List<ViewListener> list = new ArrayList<>();
 
     public void addListener(ViewListener l) {
         list.add(l);

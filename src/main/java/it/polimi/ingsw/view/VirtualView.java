@@ -130,6 +130,11 @@ public class VirtualView implements View {
     }
 
     @Override
+    public void showExpertCards(ArrayList<ExpertCard> expertCard) {
+
+    }
+
+    @Override
     public void disconnect() {
         clientHandler.disconnect();
     }

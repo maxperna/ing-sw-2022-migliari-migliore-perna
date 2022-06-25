@@ -110,6 +110,10 @@ public class Gui extends ViewSubject implements View {
 
     }
 
+    @Override
+    public void showExpertCards(ArrayList<ExpertCard> expertCard) {
+
+    }
 
 
     @Override
@@ -162,6 +166,11 @@ public class Gui extends ViewSubject implements View {
 
     @Override
     public void sendNumberOfPlayers(int numberOfPlayers) {
+
+    }
+
+    @Override
+    public void showExpertCards(ArrayList<ExpertCard> allExpertCards, int numberOfCoins) {
 
     }
 

@@ -9,7 +9,7 @@ import javafx.scene.input.MouseEvent;
 
 import java.awt.*;
 
-public class WelcomeScreenController extends ViewSubject implements SceneControllerInt {
+public class WelcomeScreenController extends ViewSubject implements GenericSceneController {
 
     @FXML
     Button startButton;
@@ -20,6 +20,6 @@ public class WelcomeScreenController extends ViewSubject implements SceneControl
     }
 
     public void startButtonClick(Event event){
-        SceneController.changeMainPane(list, event,"LogInScene.fxml");
+        SceneController.changeRoot(list,"LogInScene.fxml");
     }
 }
