@@ -71,6 +71,7 @@ public enum MessageType {
     EXPERT_MODE_CONTROL,
     STUDENT_REQUEST,
     STUDENT_REPLY,
+    START_GAME
 
 
 }

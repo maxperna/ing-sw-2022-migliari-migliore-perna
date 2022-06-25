@@ -104,6 +104,8 @@ public interface View{
     @TestOnly
     void ActionPhaseTurn(Boolean expert);
 
+    void ActionPhaseTurn();
+
     void connectionRequest();
 
     /**
@@ -147,4 +149,6 @@ public interface View{
 
     void playExpertChoice();
     void clear();
+
+    void startGame();
 }

@@ -5,9 +5,19 @@ package it.polimi.ingsw.model;
  * @author Miglia
  */
 public enum TowerColor {
-    WHITE,
-    BLACK,
-    GRAY,
+    WHITE("images/Scontornate/white_tower.png"),
+    BLACK("images/Scontornate/black_tower.png"),
+    GRAY("images/Scontornate/grey_tower.png"),
 
-    EMPTY
+    EMPTY("");
+
+    private final String towerImg;
+
+    TowerColor(String towerImg){
+        this.towerImg = towerImg;
+    }
+
+    public String getTowerImg() {
+        return towerImg;
+    }
 }

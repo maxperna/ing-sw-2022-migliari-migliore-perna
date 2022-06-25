@@ -4,13 +4,23 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-image: url('images/BackIMG.jpeg')" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scenes.LoginGenericSceneController">
+<AnchorPane fx:id="mainPane" prefHeight="400.0" prefWidth="600.0" styleClass="welcome-scene" stylesheets="@../CSS/WelcomeScenes.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scenes.LoginGenericSceneController">
    <children>
-      <TextField fx:id="serverIPField" layoutX="51.0" layoutY="246.0" prefHeight="16.0" prefWidth="208.0" text="0.0.0.0" />
-      <TextField fx:id="serverPortField" layoutX="333.0" layoutY="246.0" prefHeight="25.0" prefWidth="208.0" style="-fx-background-color: #FFFFFF;" text="13000" />
-      <Label layoutX="51.0" layoutY="215.0" prefHeight="25.0" prefWidth="65.0" style="-fx-background-color: #FFFFFF;" text="Server IP" />
-      <Label layoutX="333.0" layoutY="215.0" prefHeight="25.0" prefWidth="65.0" style="-fx-background-color: #FFFFFF;" text="Server Port" />
-      <Button fx:id="connectionButton" layoutX="451.0" layoutY="318.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="84.0" text="Let's Play!!" />
+      <TextField fx:id="serverIPField" layoutX="51.0" layoutY="246.0" prefHeight="16.0" prefWidth="208.0" styleClass="font-style" text="0.0.0.0" />
+      <TextField fx:id="serverPortField" layoutX="333.0" layoutY="246.0" prefHeight="25.0" prefWidth="208.0" styleClass="font-style" text="13000" />
+      <Label layoutX="90.0" layoutY="215.0" prefHeight="25.0" prefWidth="65.0" styleClass="font-style-big" text="Server IP">
+         <font>
+            <Font name="Goudy Old Style" size="16.0" />
+         </font></Label>
+      <Label layoutX="391.0" layoutY="215.0" prefHeight="25.0" prefWidth="77.0" styleClass="font-style-big" text="Server Port">
+         <font>
+            <Font name="Goudy Old Style" size="16.0" />
+         </font></Label>
+      <Button fx:id="connectionButton" layoutX="451.0" layoutY="318.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="84.0" styleClass="font-style" text="Let's Play!!">
+         <font>
+            <Font name="Goudy Old Style" size="13.0" />
+         </font></Button>
    </children>
 </AnchorPane>

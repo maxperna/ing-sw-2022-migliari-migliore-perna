@@ -264,6 +264,9 @@ public class ClientController implements ViewListener, Listener {
                 NumberOfPlayersMessage numberOfPlayersMessage = (NumberOfPlayersMessage) receivedMessage;
                 numOfPlayers = numberOfPlayersMessage.getNumberOfPlayers();
                 break;
+            case START_GAME:
+                actionQueue.execute(view::startGame);
+                break;
             case CURRENT_PLAYER:
                 CurrentPlayerMessage currPlayer = (CurrentPlayerMessage) receivedMessage;
                 switch(currPlayer.getCurrentState()){

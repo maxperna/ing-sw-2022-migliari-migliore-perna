@@ -1184,6 +1184,11 @@ public class Cli extends ViewSubject implements View {
     }
 
     @Override
+    public void ActionPhaseTurn() {
+
+    }
+
+    @Override
     public void moveMotherNature() {
         System.out.println("Select the number of moves for Mother Nature: ");
 
@@ -1236,6 +1241,11 @@ public class Cli extends ViewSubject implements View {
     @Override
     public void clear() {
 
+    }
+
+    @Override
+    public void startGame() {
+        System.out.println("GAME STARTED!!");
     }
 
     private String intToString (Integer number) {
