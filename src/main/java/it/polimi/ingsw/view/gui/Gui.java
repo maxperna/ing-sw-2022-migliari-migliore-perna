@@ -4,15 +4,13 @@ import it.polimi.ingsw.controller.GameState;
 import it.polimi.ingsw.model.experts.*;
 import it.polimi.ingsw.model.gameField.Node;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.experts.ExpertCard;
-import it.polimi.ingsw.model.experts.ExpertID;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.observer.ViewSubject;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.gui.scenes.AssistantCardsController;
+import it.polimi.ingsw.view.gui.scenes.PlayerViewController;
 import it.polimi.ingsw.view.gui.scenes.TowerDeckSelectionControllerGeneric;
-import it.polimi.ingsw.view.gui.scenes.WelcomeScreenControllerGeneric;
 import javafx.application.Platform;
 
 import java.util.ArrayList;
@@ -44,6 +42,11 @@ public class Gui extends ViewSubject implements View {
         Platform.runLater(()->SceneController.changeRoot(list, towerDeckSelectionController, "TowerDeckSelection.fxml"));
     }
 
+    public void startGame(){
+        PlayerViewController pwc = new PlayerViewController();
+        Platform.runLater(()-> SceneController.changeRoot(list, pwc,"PlayerView.fxml"));
+        Platform.runLater(SceneController::setFullScreen);
+    }
     @Override
     public void showInitPlayer(int numberOfTowers, ArrayList<Color> entranceHall) {
 
@@ -51,13 +54,14 @@ public class Gui extends ViewSubject implements View {
 
     @Override
     public void showGameField(Map<Integer, Node> gameFieldMap) {
-        Platform.runLater(()-> SceneController.changeRoot(list, "PlayerView.fxml"));
-        Platform.runLater(SceneController::setFullScreen);
+        PlayerViewController pwc = getPWC();
+        Platform.runLater(()->pwc.populateIslands(gameFieldMap));
     }
 
     @Override
     public void showClouds(ArrayList<CloudTile> newClouds) {
-
+        PlayerViewController pwc = getPWC();
+        Platform.runLater(()->pwc.populateCloud(newClouds));
     }
 
     @Override
@@ -92,7 +96,8 @@ public class Gui extends ViewSubject implements View {
 
     @Override
     public void printBoard(Board board, String player) {
-
+        PlayerViewController pwc = getPWC();
+        Platform.runLater(()->pwc.populateBoard(board));
     }
 
     @Override
@@ -110,14 +115,10 @@ public class Gui extends ViewSubject implements View {
 
     }
 
+
+
     @Override
     public void showExpertCards(ArrayList<ExpertCard> expertCard) {
-
-    }
-
-
-    @Override
-    public void availableStudents(ArrayList<Color> availableStudents, MessageType movementType, int gameFieldSize) {
 
     }
 
@@ -138,7 +139,12 @@ public class Gui extends ViewSubject implements View {
     }
 
     @Override
-    public void ActionPhaseTurn(Boolean expert) {
+    public void ActionPhaseTurn(Boolean bool) {
+
+    }
+
+    @Override
+    public void ActionPhaseTurn() {
 
     }
 
@@ -149,33 +155,6 @@ public class Gui extends ViewSubject implements View {
 
     @Override
     public void selectStudent(ArrayList<Color> students, int islands) {
-
-    }
-
-    @Override
-    public void chooseAction(/*boolean expert*/) {
-
-    }
-
-    @Override
-    public void moveMotherNature() {
-
-    }
-
-    public void chooseCloudTile(int cloudID){}
-
-    @Override
-    public void sendNumberOfPlayers(int numberOfPlayers) {
-
-    }
-
-    @Override
-    public void showExpertCards(ArrayList<ExpertCard> allExpertCards, int numberOfCoins) {
-
-    }
-
-    @Override
-    public void clear() {
 
     }
 
@@ -196,6 +175,7 @@ public class Gui extends ViewSubject implements View {
 
     @Override
     public void playExpertType3(int cardID, Expert7 expert) {
+
     }
 
     @Override
@@ -218,6 +198,32 @@ public class Gui extends ViewSubject implements View {
 
     }
 
+    @Override
+    public void chooseAction(/*boolean expert*/) {
+        //notifyListener(list -> list.chooseAction(1));
+    }
+
+    @Override
+    public void moveMotherNature() {
+
+    }
+
+    public void chooseCloudTile(int cloudID){}
+
+    @Override
+    public void sendNumberOfPlayers(int numberOfPlayers) {
+
+    }
+
+    @Override
+    public void showExpertCards(ArrayList<ExpertCard> allExpertCards, int numberOfCoins) {
+
+    }
+
+    @Override
+    public void availableStudents(ArrayList<Color> availableStudents, MessageType movementType, int gameFieldSize) {
+
+    }
 
     @Override
     public void chooseExpertCard() {
@@ -234,4 +240,20 @@ public class Gui extends ViewSubject implements View {
 
     }
 
+    @Override
+    public void clear() {
+
+    }
+
+    private PlayerViewController getPWC() {
+        PlayerViewController pwc;
+        try {
+            pwc = (PlayerViewController) SceneController.currentController;
+        } catch (ClassCastException e) {
+            pwc = new PlayerViewController();
+            PlayerViewController finalPWC =pwc;
+            Platform.runLater(() -> SceneController.changeRoot(list,finalPWC, "PlayerView.fxml"));
+        }
+        return pwc;
+    }
 }

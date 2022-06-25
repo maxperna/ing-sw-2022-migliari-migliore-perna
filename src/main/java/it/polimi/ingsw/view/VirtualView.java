@@ -5,7 +5,6 @@ import it.polimi.ingsw.model.experts.*;
 import it.polimi.ingsw.model.gameField.Node;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.experts.ExpertCard;
-import it.polimi.ingsw.model.experts.ExpertID;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.network.messages.client_messages.GameParamRequest;
@@ -165,6 +164,11 @@ public class VirtualView implements View {
     public void ActionPhaseTurn(Boolean expert){}
 
     @Override
+    public void ActionPhaseTurn() {
+
+    }
+
+    @Override
     public void connectionRequest() {
 
     }
@@ -246,5 +250,9 @@ public class VirtualView implements View {
     @Override
     public void clear() {
 
+    }
+    @Override
+    public void startGame() {
+        clientHandler.sendMessage(new StartGameMessage());
     }
 }

@@ -1,0 +1,17 @@
+.welcome-scene{
+    -fx-background-image: url("../images/BackgroundScene.png");
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+}
+
+.tower-selection{
+    -fx-background-image: url("../images/BackgroundNOLogo.jpg");
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+}
+
+.welcome-main{
+    -fx-background-image: url("../images/BackgroundSceneMain.png");
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+}

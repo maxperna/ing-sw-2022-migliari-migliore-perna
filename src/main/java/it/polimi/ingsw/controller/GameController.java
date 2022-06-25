@@ -257,7 +257,9 @@ public class GameController implements PropertyChangeListener {
                     setListeners();
 
                     //broadcast the start of the preparationPhase
-                    broadcast("Start PreparationPhase");
+                    for(String nickname: viewMap.keySet())
+                        viewMap.get(nickname).startGame();
+
 
                     game.rechargeClouds();
 

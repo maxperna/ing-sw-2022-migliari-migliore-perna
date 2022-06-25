@@ -10,6 +10,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * @author Alessio Migliore
@@ -143,15 +144,8 @@ public class Node implements Serializable {
      * @param color color of the students you want to count
      * @return the number of students of a given color
      */
-    public int getColorInfluence(Color color){
-        int colorCounter = 0;
-        if(students.contains(color)) {
-            for (Color student : students) {                                           //iterates for all students
-                if (student.equals(color))                                          //checks if the student's color matches with given color
-                    colorCounter++;                                                 //increases color counter for that color
-            }
-        }
-        return colorCounter;
+    public Integer getColorInfluence(Color color){
+        return Collections.frequency(students,color);
     }
 
     /**
