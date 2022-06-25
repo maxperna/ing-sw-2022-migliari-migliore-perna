@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.GameState;
 import it.polimi.ingsw.model.experts.*;
 import it.polimi.ingsw.model.gameField.Node;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.MessageType;
 import org.jetbrains.annotations.TestOnly;
@@ -50,10 +51,6 @@ public interface View{
      */
     void showCurrentPlayer(String currentPlayer, GameState currentState);
 
-    /**Method to show all the experts, every player receives expertIDLists at the beginning of the game.
-     * @param expertIDList arrayList that contains all the experts in the game
-     */
-
     /**Each time a teacher changes every player receives his personal teacherList.
      * @param teacherList contains the teacher of the player
      */
@@ -97,6 +94,8 @@ public interface View{
     void showWinner(String winner);
 
     void showError(String errorMessage, ErrorType errorType);
+
+    void showExpertCards(ArrayList<ExpertCard> expertCard);
 
     void disconnect();
 
@@ -147,4 +146,5 @@ public interface View{
     void expertModeControl(boolean setExpertMode);
 
     void playExpertChoice();
+    void clear();
 }

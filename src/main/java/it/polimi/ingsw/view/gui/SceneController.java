@@ -1,75 +1,104 @@
 package it.polimi.ingsw.view.gui;
 
-import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.observer.ViewListener;
 import it.polimi.ingsw.observer.ViewSubject;
-import it.polimi.ingsw.view.gui.scenes.SceneControllerInt;
-import javafx.event.Event;
+import it.polimi.ingsw.view.gui.scenes.GenericSceneController;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.util.List;
 
 public class SceneController extends ViewSubject {
     public static Scene currentScene;
-    public static SceneControllerInt currentController;
+    public static GenericSceneController currentController;
 
-    public static Scene getCurrentScene() {
-        return currentScene;
-    }
+    public static void changeRoot(List<ViewListener> observerList, GenericSceneController controller, String FXML_path) {
 
-    public static SceneControllerInt getCurrentController() {
-        return currentController;
-    }
-
-    /**
-     * Method to change the current main scene
-     *
-     * @param controller controller of the scene
-     * @param scene      scene to use
-     * @param FXMLpath   path of the FXML path
-     */
-    public static void changeMainPane(SceneControllerInt controller, Scene scene, String FXMLpath) {
-        currentController = controller;
-        FXMLLoader loader = new FXMLLoader(SceneController.class.getResource("/fxml/" + FXMLpath));
-        loader.setController(controller);
-        currentController = controller;
-        Parent root = loader.getRoot();
-
-        currentScene = scene;
-        currentScene.setRoot(root);
-
-    }
-
-    public static <T> T changeMainPane(List<ViewListener> observerList, String fxml) {
-        return changeMainPane(observerList, currentScene, fxml);
-    }
-    public static <T> T changeMainPane(List<ViewListener> observerList, Event event, String fxml) {
-        Scene scene = ((Node) event.getSource()).getScene();
-        return changeMainPane(observerList, scene, fxml);
-    }
-
-
-    public static <T> T changeMainPane(List<ViewListener> observerList, Scene scene, String fxml) {
-        T controller = null;
-
+        FXMLLoader loader = new FXMLLoader();
         try {
-            FXMLLoader loader = new FXMLLoader(SceneController.class.getResource("/fxml/" + fxml));
-            Parent root = loader.load();
-            controller = loader.getController();
-            ((ViewSubject) controller).addAllListeners(observerList);
 
-            currentController = (SceneControllerInt) controller;
-            currentScene = scene;
-            currentScene.setRoot(root);
+            ((ViewSubject) controller).addAllListeners(observerList);
+            loader.setController(controller);
+            loader.setLocation(SceneController.class.getResource("/fxml/" + FXML_path));
+            Parent newRoot = loader.load();
+
+            currentController = controller;
+            currentScene.setRoot(newRoot);
+
         } catch (IOException e) {
             e.printStackTrace();
-            Client.LOGGER.severe(e.getMessage());
         }
-        return controller;
+
     }
+
+    public static void changeRoot(List<ViewListener> observerList, String FXML_path) {
+
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(SceneController.class.getResource("/fxml/" + FXML_path));
+
+        try {
+            Parent newRoot = loader.load();
+            GenericSceneController controller = loader.getController();
+            ((ViewSubject) controller).addAllListeners(observerList);
+            currentController = controller;
+
+            currentScene.setRoot(newRoot);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void showNewStage(List<ViewListener> observerList, GenericSceneController controller, String FXML_path, String title) {
+
+        FXMLLoader loader = new FXMLLoader();
+
+        try {
+            loader.setLocation(SceneController.class.getResource("/fxml/" + FXML_path));
+
+            ((ViewSubject) controller).addAllListeners(observerList);
+            loader.setController(controller);
+
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.setTitle(title);
+            stage.setScene(new Scene(root));
+            stage.setAlwaysOnTop(true);
+            stage.show();
+
+//            stage.setOnCloseRequest(event -> {
+//                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//                alert.setContentText("This window cannot be closed");
+//                alert.showAndWait();
+//                event.consume();
+//            });
+
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void setFullScreen() {
+        ((Stage) currentScene.getWindow()).setFullScreen(true);
+    }
+    public static void setCurrentScene(Scene currentScene) {
+        SceneController.currentScene = currentScene;
+    }
+
+    public static void setCurrentController(GenericSceneController currentController) {
+        SceneController.currentController = currentController;
+    }
+
+
 }
 

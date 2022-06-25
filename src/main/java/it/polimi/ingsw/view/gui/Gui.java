@@ -4,10 +4,15 @@ import it.polimi.ingsw.controller.GameState;
 import it.polimi.ingsw.model.experts.*;
 import it.polimi.ingsw.model.gameField.Node;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.experts.ExpertCard;
+import it.polimi.ingsw.model.experts.ExpertID;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.observer.ViewSubject;
 import it.polimi.ingsw.view.View;
+import it.polimi.ingsw.view.gui.scenes.AssistantCardsController;
+import it.polimi.ingsw.view.gui.scenes.TowerDeckSelectionControllerGeneric;
+import it.polimi.ingsw.view.gui.scenes.WelcomeScreenControllerGeneric;
 import javafx.application.Platform;
 
 import java.util.ArrayList;
@@ -22,17 +27,21 @@ public class Gui extends ViewSubject implements View {
 
     @Override
     public void askPlayerNickname() {
-        Platform.runLater(()->SceneController.changeMainPane(getList(),"NicknameInput.fxml"));
+        Platform.runLater(()->SceneController.changeRoot(list,"NicknameInput.fxml"));
     }
 
     @Override
     public void askGameParam() {
-        Platform.runLater(()->SceneController.changeMainPane(getList(),"GameParamScene.fxml"));
+        Platform.runLater(()->SceneController.changeRoot(list,"GameParamScene.fxml"));
     }
 
     @Override
     public void showRemainingTowerAndDeck(ArrayList<TowerColor> remainingTowers, ArrayList<DeckType> remainingDecks) {
+        TowerDeckSelectionControllerGeneric towerDeckSelectionController = new TowerDeckSelectionControllerGeneric();
+        towerDeckSelectionController.setRemainingTowers(remainingTowers);
+        towerDeckSelectionController.setRemainingDecks(remainingDecks);
 
+        Platform.runLater(()->SceneController.changeRoot(list, towerDeckSelectionController, "TowerDeckSelection.fxml"));
     }
 
     @Override
@@ -42,7 +51,8 @@ public class Gui extends ViewSubject implements View {
 
     @Override
     public void showGameField(Map<Integer, Node> gameFieldMap) {
-
+        Platform.runLater(()-> SceneController.changeRoot(list, "PlayerView.fxml"));
+        Platform.runLater(SceneController::setFullScreen);
     }
 
     @Override
@@ -101,10 +111,6 @@ public class Gui extends ViewSubject implements View {
     }
 
 
-    @Override
-    public void showExpertCards(ArrayList<ExpertCard> allExpertCards, int numberOfCoins) {
-
-    }
 
     @Override
     public void availableStudents(ArrayList<Color> availableStudents, MessageType movementType, int gameFieldSize) {
@@ -118,6 +124,12 @@ public class Gui extends ViewSubject implements View {
 
     @Override
     public void showAssistant(ArrayList<AssistantCard> deck) {
+        AssistantCardsController assistantCardsController = new AssistantCardsController(deck);
+        try {
+            Platform.runLater(()-> SceneController.showNewStage(list, assistantCardsController, "AssistantCardsScene.fxml", "Deck") );
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -137,6 +149,11 @@ public class Gui extends ViewSubject implements View {
     }
 
     @Override
+    public void chooseAction(/*boolean expert*/) {
+
+    }
+
+    @Override
     public void moveMotherNature() {
 
     }
@@ -145,6 +162,11 @@ public class Gui extends ViewSubject implements View {
 
     @Override
     public void sendNumberOfPlayers(int numberOfPlayers) {
+
+    }
+
+    @Override
+    public void clear() {
 
     }
 
@@ -187,10 +209,6 @@ public class Gui extends ViewSubject implements View {
 
     }
 
-    @Override
-    public void chooseAction() {
-
-    }
 
     @Override
     public void chooseExpertCard() {

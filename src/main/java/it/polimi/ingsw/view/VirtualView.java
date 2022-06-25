@@ -4,6 +4,8 @@ import it.polimi.ingsw.controller.GameState;
 import it.polimi.ingsw.model.experts.*;
 import it.polimi.ingsw.model.gameField.Node;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.experts.ExpertCard;
+import it.polimi.ingsw.model.experts.ExpertID;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.network.messages.client_messages.GameParamRequest;
@@ -97,7 +99,6 @@ public class VirtualView implements View {
     public void playExpertChoice() {
 
     }
-
     @Override
     public void updateTeachers(Map<Color, Boolean> teacherList) {
         clientHandler.sendMessage(new TeacherListMessage(teacherList));
@@ -151,7 +152,6 @@ public class VirtualView implements View {
     public void printBoard(Board board, String nickname) {
 
     }
-
     public ClientHandler getClientHandler() {
         return clientHandler;
     }
@@ -237,4 +237,9 @@ public class VirtualView implements View {
     }
 
 
+
+    @Override
+    public void clear() {
+
+    }
 }

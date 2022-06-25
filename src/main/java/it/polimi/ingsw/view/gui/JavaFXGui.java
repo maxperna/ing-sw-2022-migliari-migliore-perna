@@ -2,14 +2,15 @@ package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.controller.ClientController;
 import it.polimi.ingsw.network.client.Client;
-import it.polimi.ingsw.view.gui.scenes.LoginSceneController;
-import it.polimi.ingsw.view.gui.scenes.WelcomeScreenController;
+import it.polimi.ingsw.view.gui.scenes.WelcomeScreenControllerGeneric;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
@@ -21,7 +22,6 @@ public class JavaFXGui extends Application {
         Gui view = new Gui();
         ClientController clientController = new ClientController(view);
         view.addListener(clientController);
-        //Bisogna aggiungere anche degli observer
 
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/WelcomeScene.fxml"));
@@ -34,16 +34,18 @@ public class JavaFXGui extends Application {
             System.exit(1);
         }
 
-        WelcomeScreenController controller = loader.getController();
+        WelcomeScreenControllerGeneric controller = loader.getController();
         controller.addListener(clientController);
-
+        SceneController.setCurrentController(controller);
 
 
         Scene scene = new Scene(rootLayout);
         stage.setScene(scene);
+        SceneController.setCurrentScene(scene);
         stage.setTitle("Eryantis");
-        stage.setResizable(false);
+        stage.setResizable(true);
         stage.show();
+
 
     }
 
