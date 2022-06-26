@@ -200,7 +200,7 @@ public class Gui extends ViewSubject implements View {
 
     @Override
     public void chooseAction(/*boolean expert*/) {
-        notifyListener(list -> list.chooseAction(1));
+        //notifyListener(list -> list.chooseAction(1));
     }
 
     @Override
