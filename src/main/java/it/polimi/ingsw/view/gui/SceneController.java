@@ -69,18 +69,12 @@ public class SceneController extends ViewSubject {
             Parent root = loader.load();
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initStyle(StageStyle.UNDECORATED);
+            stage.initStyle(StageStyle.UTILITY);
             stage.setTitle(title);
             stage.setScene(new Scene(root));
             stage.setAlwaysOnTop(true);
             stage.show();
 
-//            stage.setOnCloseRequest(event -> {
-//                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-//                alert.setContentText("This window cannot be closed");
-//                alert.showAndWait();
-//                event.consume();
-//            });
 
         }catch (Exception e) {
             e.printStackTrace();

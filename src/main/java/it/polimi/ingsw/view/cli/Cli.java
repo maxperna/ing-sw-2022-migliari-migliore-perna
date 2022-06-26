@@ -843,9 +843,6 @@ public class Cli extends ViewSubject implements View {
         }
     }
 
-
-    public void catchAction(Message receivedMessage) {}
-
     /**
      * method called by selectStudent() to get the destination
      *
