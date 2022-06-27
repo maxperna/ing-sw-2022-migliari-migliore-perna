@@ -1,8 +1,10 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.Color;
+import it.polimi.ingsw.model.DeckType;
+import it.polimi.ingsw.model.TowerColor;
 import it.polimi.ingsw.model.experts.*;
-import it.polimi.ingsw.model.gameField.Node;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.client.ClientSocket;
 import it.polimi.ingsw.network.messages.Message;
@@ -380,13 +382,7 @@ public class ClientController implements ViewListener, Listener {
                 if(movedMN)
                     endTurn = true;
                 WorldChangeMessage worldChange = (WorldChangeMessage) receivedMessage;
-                Map<Integer, Node> gameFieldMap = worldChange.getGameFieldMap();
-                ArrayList<CloudTile> chargedClouds = worldChange.getChargedClouds();
-                Map<String, Board> boardMap = worldChange.getBoardMap();
-                String currentPlayer = worldChange.getCurrentPlayer();
-                ArrayList<ExpertCard> experts = worldChange.getExperts();
-                int numOfCoins = worldChange.getNumOfCoins();
-                actionQueue.execute(()-> view.worldUpdate(gameFieldMap, chargedClouds, boardMap, currentPlayer, experts, numOfCoins));
+                actionQueue.execute(()-> view.worldUpdate(worldChange.getGameFieldMap(),worldChange.getChargedClouds(),worldChange.getBoardMap(), worldChange.getCurrentPlayer(), worldChange.getExperts(),worldChange.getNumOfCoins()));
                 if(phase.equals(GameState.ACTION_PHASE) && worldChange.getCurrentPlayer().equals(nickname)) {
                     if(actionCounter > 0) {
                         actionQueue.execute(()->view.ActionPhaseTurn(expert_mode));  //still in action phase
@@ -462,6 +458,16 @@ public class ClientController implements ViewListener, Listener {
     private void decreaseActionCounter(){
         actionCounter--;
     }
+/*
+    private void defaultViewLayout(WorldChangeMessage message) {
+
+        view.clear();
+        view.showGameField(message.getGameFieldMap());
+        view.showClouds(message.getChargedClouds());
+        view.printBoard(message.getBoardMap().get(nickname), nickname);
+        view.showExpertCards(message.getExperts(), message.getNumOfCoins());
+
+    }*/
 
     public void askAction(Boolean expert_mode) {
         if(studentsMoved<3)

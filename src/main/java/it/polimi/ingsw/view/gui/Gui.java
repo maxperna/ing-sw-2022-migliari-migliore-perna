@@ -2,7 +2,7 @@ package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.controller.GameState;
 import it.polimi.ingsw.model.experts.*;
-import it.polimi.ingsw.model.gameField.Node;
+import it.polimi.ingsw.model.gameField.IsladNode;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.MessageType;
@@ -53,7 +53,7 @@ public class Gui extends ViewSubject implements View {
     }
 
     @Override
-    public void showGameField(Map<Integer, Node> gameFieldMap) {
+    public void showGameField(Map<Integer, IsladNode> gameFieldMap) {
         PlayerViewController pwc = getPWC();
         Platform.runLater(()->pwc.populateIslands(gameFieldMap));
     }
@@ -75,7 +75,7 @@ public class Gui extends ViewSubject implements View {
     }
 
     @Override
-    public void updateNode(Node updatedNode) {
+    public void updateNode(IsladNode updatedNode) {
 
     }
 
@@ -117,10 +117,11 @@ public class Gui extends ViewSubject implements View {
 
 
 
-    @Override
+    /*@Override
     public void showExpertCards(ArrayList<ExpertCard> expertCard) {
-
-    }
+        PlayerViewController pwc =getPWC();
+        Platform.runLater(()->pwc.setExp());
+    }*/
 
     @Override
     public void disconnect() {
@@ -246,8 +247,9 @@ public class Gui extends ViewSubject implements View {
     }
 
     @Override
-    public void worldUpdate(Map<Integer, Node> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap, String currentPlayer, ArrayList<ExpertCard> experts, int numOfCoins) {
-
+    public void worldUpdate(Map<Integer, IsladNode> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap,String currentPlayer, ArrayList<ExpertCard> experts, int numOfCoins) {
+        PlayerViewController pwc = getPWC();
+        Platform.runLater(()->pwc.updateGameField( gameFieldMap,chargedClouds, boardMap.get(currentPlayer), experts, numOfCoins));
     }
 
     private PlayerViewController getPWC() {
@@ -260,5 +262,10 @@ public class Gui extends ViewSubject implements View {
             Platform.runLater(() -> SceneController.changeRoot(list,finalPWC, "PlayerView.fxml"));
         }
         return pwc;
+    }
+
+    @Override
+    public void showExpertCards(ArrayList<ExpertCard> expertCard) {
+
     }
 }

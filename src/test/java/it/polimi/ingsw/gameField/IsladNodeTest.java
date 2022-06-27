@@ -11,7 +11,7 @@ import java.io.FileNotFoundException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
-class NodeTest {
+class IsladNodeTest {
 
     @DisplayName("Testing initial stopIsland parameter is false...")
     @Test

@@ -14,10 +14,10 @@ import java.util.Collections;
 
 /**
  * @author Alessio Migliore
- * class Node, used to create a doubly circular linked list of nodes, each node contains an Arraylist of islands, initially created with only 1 island
+ * class IsladNode, used to create a doubly circular linked list of nodes, each node contains an Arraylist of islands, initially created with only 1 island
  * can be considered as a superclass of IslandTile that contains pointers to create the linked list
  */
-public class Node implements Serializable {
+public class IsladNode implements Serializable {
     private int ID;
     private boolean motherNature;
     private final ArrayList<Color> students;
@@ -25,8 +25,8 @@ public class Node implements Serializable {
     private TowerColor tower;
     private boolean stop;            //put to true if stopped by assistant card #5
     private int towerCounter;
-    transient private Node next;
-    transient private Node prev;
+    transient private IsladNode next;
+    transient private IsladNode prev;
     transient private boolean ignoreTower;
     transient private final PropertyChangeSupport support;
 
@@ -35,7 +35,7 @@ public class Node implements Serializable {
      * method to set the previous node of a given node in the linked list
      * @param prev is the node that has to point to the new node
      */
-    public void setPreviousNode(Node prev) {
+    public void setPreviousNode(IsladNode prev) {
         this.prev = prev;
     }
 
@@ -43,11 +43,11 @@ public class Node implements Serializable {
      * method to set the pointer to the next node in the list
      * @param next is the node that has to be pointed by the new node
      */
-    public void setNextNode(Node next) {
+    public void setNextNode(IsladNode next) {
         this.next = next;
     }
 
-    public Node(int ID) {
+    public IsladNode(int ID) {
         this.ID = ID;
         this.next = null;
         this.prev = null;
@@ -63,14 +63,14 @@ public class Node implements Serializable {
     /**
      * @return the previous node pointed by this object
      */
-    public Node getPreviousNode() {
+    public IsladNode getPreviousNode() {
         return this.prev;
     }
 
     /**
      * @return return the next node pointed by this object
      */
-    public Node getNextNode() {
+    public IsladNode getNextNode() {
         return this.next;
     }
 

@@ -2,7 +2,7 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.controller.GameState;
 import it.polimi.ingsw.model.experts.*;
-import it.polimi.ingsw.model.gameField.Node;
+import it.polimi.ingsw.model.gameField.IsladNode;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.network.messages.ErrorType;
@@ -70,7 +70,7 @@ public class VirtualView implements View {
     }
 
     @Override
-    public void showGameField(Map<Integer, Node> gameFieldMap) {
+    public void showGameField(Map<Integer, IsladNode> gameFieldMap) {
         clientHandler.sendMessage(new GameFieldMessage(gameFieldMap));
     }
 
@@ -104,7 +104,7 @@ public class VirtualView implements View {
     }
 
     @Override
-    public void updateNode(Node updatedNode) {
+    public void updateNode(IsladNode updatedNode) {
         clientHandler.sendMessage(new UpdateNodeMessage(updatedNode));
     }
 
@@ -225,7 +225,7 @@ public class VirtualView implements View {
 
     }
 
-    public void worldUpdate(Map<Integer, Node> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap, String currentPlayer, ArrayList<ExpertCard> experts, int numOfCoins) {
+    public void worldUpdate(Map<Integer, IsladNode> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap, String currentPlayer, ArrayList<ExpertCard> experts, int numOfCoins) {
         clientHandler.sendMessage(new WorldChangeMessage(gameFieldMap, chargedClouds, boardMap, currentPlayer, experts, numOfCoins));
     }
 

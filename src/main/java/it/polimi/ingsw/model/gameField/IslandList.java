@@ -18,12 +18,12 @@ import java.util.Collections;
 
 /**
  * @author Alessio Migliore
- * class IslandList, composed of up to 12 objects Node, linked in a doubly circular linked list (DCLL)
+ * class IslandList, composed of up to 12 objects IsladNode, linked in a doubly circular linked list (DCLL)
  */
 
 
 public class IslandList implements Serializable {
-    private Node head;
+    private IsladNode head;
     private boolean changed;
     private final PropertyChangeSupport support;
 
@@ -93,7 +93,7 @@ public class IslandList implements Serializable {
             this.getIslandNode(newMergedIsland).mergeTowers(this.getIslandNode(islandToMerge).getNumberOfTowers());     //basically increases the number of towers on the node (can be referred as nodeDimension too)
             this.getIslandNode(islandToMerge).getNextNode().setPreviousNode(this.getIslandNode(newMergedIsland));       //setting the previous pointer of the next node pointed by the deleted node to point to the island that will remain (i.e. island 3 won't point to island 2 but to island 1)
             this.getIslandNode(newMergedIsland).setNextNode(this.getIslandNode(islandToMerge).getNextNode());           //setting the next pointer of the remaining node to skip the deleted node (i.e. node 2 won't point to node 3 but to node 4)
-            Node currNode = this.getIslandNode(newMergedIsland);                                                        //declaring a node used to iterate through the islandList to decrease the nodeID
+            IsladNode currNode = this.getIslandNode(newMergedIsland);                                                        //declaring a node used to iterate through the islandList to decrease the nodeID
             while (currNode.getNextNode().getNodeID() != 1) {                                                           //moves until it reaches the island 1
                 currNode.getNextNode().decreaseNodeID();                                                                //decrease the nodeID
                 currNode = currNode.getNextNode();
@@ -112,7 +112,7 @@ public class IslandList implements Serializable {
      */
     public int islandCounter() {
         int counter = 0;                                                                                                //counter variable to count the number of nodes inside the linked list
-        Node startingNode = this.getHeadNode();                                                                         //new node to move through the linked list
+        IsladNode startingNode = this.getHeadNode();                                                                         //new node to move through the linked list
 
         do {                                                                                                            //cycle to move through the linked list, used to check number of nodes inside the list with counter variable
             counter++;
@@ -127,8 +127,8 @@ public class IslandList implements Serializable {
      * @param head receives in input the starting node of the list
      * @return the last node in the list received in input
      */
-    public Node lastNode(Node head) {
-        Node startingNode = head;
+    public IsladNode lastNode(IsladNode head) {
+        IsladNode startingNode = head;
         while (startingNode.getNextNode() != null && startingNode.getNextNode() != head)                                //checks that the next node in order is not empty (linear list) and it's not the starting node (circular list)
             startingNode = startingNode.getNextNode();
         return startingNode;
@@ -143,7 +143,7 @@ public class IslandList implements Serializable {
     public void addStudent(int nodeID, Color student) throws IllegalMove {                                //method that adds a single student to a specific IslandTIle
         if (nodeID < 1 || nodeID > this.islandCounter())                                                                //checks that the islandID is valid
             throw new IllegalMove();
-        Node actualNode = this.getIslandNode(nodeID);
+        IsladNode actualNode = this.getIslandNode(nodeID);
         actualNode.addStudent(student);
     }
 
@@ -151,8 +151,8 @@ public class IslandList implements Serializable {
      * method to get motherNature position based by which island has the motherNature flag set on
      * @return a node containing motherNature
      */
-    public Node getMotherNature() {
-        Node startingNode = this.head;                                                                                  //starting from the head node
+    public IsladNode getMotherNature() {
+        IsladNode startingNode = this.head;                                                                                  //starting from the head node
         while (startingNode.getNextNode() != head && !startingNode.checkMotherNature()) {                               //iterate through all the list until we find the node with motherNature on
             startingNode = startingNode.getNextNode();
         }
@@ -163,7 +163,7 @@ public class IslandList implements Serializable {
      * method to get the starting point of the islandList
      * @return
      */
-    public Node getHeadNode() {
+    public IsladNode getHeadNode() {
         return this.head;
     }
 
@@ -172,7 +172,7 @@ public class IslandList implements Serializable {
      * @param moves number of islands that motherNature will move through
      */
     public void moveMotherNatureWithGivenMoves(int moves) throws EndGameException, InvalidParameterException {
-        Node actualNode = this.getMotherNature();                                                                       //starting from the head, it will have the motherNature flag on
+        IsladNode actualNode = this.getMotherNature();                                                                       //starting from the head, it will have the motherNature flag on
         actualNode.resetMotherNature();                                                                                 //reset the motherNature flag
         for(int index = 0; index<moves; index++) {                                                                      //move until we reach the desired island
             actualNode = actualNode.getNextNode();
@@ -183,13 +183,13 @@ public class IslandList implements Serializable {
     /**
      * method used to set motherNature flag of the node that contains the islandTile that matches the given ID
      * @param nodeID is the identifier for the island Tile
-     * @return a Node containing the selected island Tile
+     * @return a IsladNode containing the selected island Tile
      */
     @TestOnly
     public void moveMotherNatureToNodeID(int nodeID) throws InvalidParameterException, EndGameException{
         if(nodeID>this.islandCounter() || nodeID<1)
             throw new InvalidParameterException();
-        Node actualNode = this.getMotherNature();
+        IsladNode actualNode = this.getMotherNature();
         actualNode.resetMotherNature();
         actualNode = this.getIslandNode(nodeID);
         actualNode.setMotherNature();                                                                                   //set motherNature flag on
@@ -203,12 +203,12 @@ public class IslandList implements Serializable {
      * @return the node with given ID
      * @throws InvalidParameterException when ID in out of range 1-12
      */
-    public Node getIslandNode(int nodeID) throws InvalidParameterException{
+    public IsladNode getIslandNode(int nodeID) throws InvalidParameterException{
         if(nodeID < 1 || nodeID > this.islandCounter()) {
             throw new InvalidParameterException();
         }
 
-        Node actualNode = this.getHeadNode();
+        IsladNode actualNode = this.getHeadNode();
 
         while(actualNode.getNodeID() != nodeID) {
             actualNode = actualNode.getNextNode();
@@ -218,8 +218,8 @@ public class IslandList implements Serializable {
 
     private void addNode(int nodeID) {
 
-        Node tail;
-        Node newNode = new Node(nodeID);
+        IsladNode tail;
+        IsladNode newNode = new IsladNode(nodeID);
 
         if (head == null) {
             head = newNode;
@@ -244,7 +244,7 @@ public class IslandList implements Serializable {
      */
     public ArrayList<Color> getStudentsFromIslandNode(int nodeID) {
 
-        Node actualNode = this.getHeadNode();
+        IsladNode actualNode = this.getHeadNode();
 
         while(actualNode.getNodeID() != nodeID) {
             actualNode = actualNode.getNextNode();
@@ -285,7 +285,7 @@ public class IslandList implements Serializable {
     }
 
     public void ignoreTower(){
-        Node nextNode = head;
+        IsladNode nextNode = head;
         while(nextNode.getNextNode()!=head){
             nextNode.changeIgnoreTower();
             nextNode = nextNode.getNextNode();

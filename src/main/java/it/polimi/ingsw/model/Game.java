@@ -2,9 +2,8 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.EndGameException;
 import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
-import it.polimi.ingsw.model.experts.Expert10;
 import it.polimi.ingsw.model.gameField.IslandList;
-import it.polimi.ingsw.model.gameField.Node;
+import it.polimi.ingsw.model.gameField.IsladNode;
 import it.polimi.ingsw.model.experts.Expert5;
 import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.model.experts.ExpertsFactory;
@@ -195,7 +194,7 @@ public class Game implements Serializable {
      * @param nodeID island id to check the influence over
      */
     public void checkIslandInfluence(int nodeID) throws EndGameException {
-        Node islandToCheck = gameField.getIslandNode(nodeID);
+        IsladNode islandToCheck = gameField.getIslandNode(nodeID);
         HashMap<Player, Integer> temporaryInfluenceCounter = new HashMap<>();  //temporary influence counter
         Player towerPlayer = null;
         //if island has a deny card on it influence haven't to be calculated

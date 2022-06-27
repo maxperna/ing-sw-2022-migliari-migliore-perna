@@ -3,13 +3,10 @@ package it.polimi.ingsw.view.cli;
 import it.polimi.ingsw.controller.GameState;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.experts.*;
-import it.polimi.ingsw.model.gameField.Node;
+import it.polimi.ingsw.model.gameField.IsladNode;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.messages.ErrorType;
-import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
-import it.polimi.ingsw.observer.Listener;
-import it.polimi.ingsw.observer.ViewListener;
 import it.polimi.ingsw.observer.ViewSubject;
 import it.polimi.ingsw.view.View;
 
@@ -261,7 +258,7 @@ public class Cli extends ViewSubject implements View {
      * @param gameFieldMap map with the gameField
      */
     @Override
-    public void showGameField(Map<Integer, Node> gameFieldMap) {
+    public void showGameField(Map<Integer, IsladNode> gameFieldMap) {
         System.out.println();
         if (tutorial) {
             System.out.println("This is the game field: it shows the students set on every island, a yellow island indicates that mother nature is actually there,");
@@ -638,7 +635,7 @@ public class Cli extends ViewSubject implements View {
     public void updateTeachers(Map<Color, Boolean> teacherList) {
     }
 
-    public void updateNode(Node updatedNode) {
+    public void updateNode(IsladNode updatedNode) {
         System.out.println("A change happened on an island");
     }
 
@@ -1241,7 +1238,7 @@ public class Cli extends ViewSubject implements View {
     }
 
     @Override
-    public void worldUpdate(Map<Integer, Node> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap, String currentPlayer, ArrayList<ExpertCard> experts, int numOfCoins) {
+    public void worldUpdate(Map<Integer, IsladNode> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap, String currentPlayer, ArrayList<ExpertCard> experts, int numOfCoins) {
         clear();
         showGameField(gameFieldMap);
         showClouds(chargedClouds);

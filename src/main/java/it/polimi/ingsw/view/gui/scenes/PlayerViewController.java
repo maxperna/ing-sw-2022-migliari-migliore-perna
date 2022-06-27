@@ -5,6 +5,8 @@ import it.polimi.ingsw.model.CloudTile;
 import it.polimi.ingsw.model.Color;
 
 import it.polimi.ingsw.model.TowerColor;
+import it.polimi.ingsw.model.experts.ExpertCard;
+import it.polimi.ingsw.model.gameField.IsladNode;
 import it.polimi.ingsw.observer.ViewSubject;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -159,7 +161,11 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
         }
     }
 
-
+    public void updateGameField(Map<Integer, IsladNode> gameFieldMap, ArrayList<CloudTile> chargedClouds, Board board, ArrayList<ExpertCard> experts, int numOfCoins){
+        populateBoard(board);
+        populateIslands(gameFieldMap);
+        populateCloud(chargedClouds);
+    }
     public void populateBoard(Board board){
         populateEntry(board.getEntryRoom());
         createTowers(board.getTowerColor(),board.getNumOfTowers());
@@ -216,7 +222,7 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
 
     /**Method which modify the game field due to world update
      * @param islandsMap list of the islands sent by model*/
-    public void populateIslands(Map<Integer, it.polimi.ingsw.model.gameField.Node> islandsMap){
+    public void populateIslands(Map<Integer, IsladNode> islandsMap){
         //Find nodes that no longer exist in model and delete it
         Set<Integer> nodeDiff =  new HashSet<>(islandList.keySet());
         nodeDiff.removeAll(islandsMap.keySet());
@@ -225,7 +231,7 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
             gameField.getChildren().remove(islandList.get(idToDel));
         }
         for(int ID:islandsMap.keySet()){
-            it.polimi.ingsw.model.gameField.Node island = islandsMap.get(ID);
+            IsladNode island = islandsMap.get(ID);
             Set<Color> colorOnIsland = new HashSet<>(islandsMap.get(ID).getStudents());
             if(island.checkMotherNature()) {
                 previousMNPosition = ID;
@@ -274,7 +280,7 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
         Integer cloudIndex = 13;
         for (Node gameFieldEl : gameField.getChildren()) {
             //Setting grid as id in order to access directly to its component
-            if (gameFieldEl.getId() == null) {
+            if (!gameFieldEl.getId().equals("CLOUD")) {
                 GridPane islandStruct = (GridPane) ((StackPane) gameFieldEl).getChildren().get(0);
                 islandStruct.addEventHandler(MouseEvent.MOUSE_CLICKED, this::pickSelectedIsland);
                 islandStruct.setId(index.toString());
@@ -341,8 +347,6 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
 
         return teacher;
     }
-
-
 
 
     private void changeStudMovState(){

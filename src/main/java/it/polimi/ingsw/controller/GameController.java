@@ -1,7 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exceptions.*;
-import it.polimi.ingsw.model.gameField.Node;
+import it.polimi.ingsw.model.gameField.IsladNode;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.client_messages.*;
@@ -575,8 +575,8 @@ public class GameController implements PropertyChangeListener {
         return gameState;
     }
 
-    private Map<Integer, Node> generateGameFieldMap() {
-        Map<Integer, Node> gameFieldMap = new HashMap<>();
+    private Map<Integer, IsladNode> generateGameFieldMap() {
+        Map<Integer, IsladNode> gameFieldMap = new HashMap<>();
         for (int i = 1; i <= game.getGameField().size(); i++) {
             gameFieldMap.put(i, game.getGameField().getIslandNode(i));
         }

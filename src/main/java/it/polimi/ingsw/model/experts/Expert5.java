@@ -2,7 +2,7 @@ package it.polimi.ingsw.model.experts;
 
 import it.polimi.ingsw.exceptions.IllegalMove;
 import it.polimi.ingsw.exceptions.NotEnoughCoins;
-import it.polimi.ingsw.model.gameField.Node;
+import it.polimi.ingsw.model.gameField.IsladNode;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 
@@ -12,7 +12,7 @@ public class Expert5 implements ExpertCard {
 
     private final ExpertID ID = ExpertID.NODE_ID;
     private int stopAvailable;
-    private final ArrayList<Node> stoppedIsland;
+    private final ArrayList<IsladNode> stoppedIsland;
     private int cost = 2;
     private final Game currentGame;
     private final String description = "Place a stop card on an island; when Mother Nature reaches that island, skip the check influence phase and remove the stop card.";
@@ -35,7 +35,7 @@ public class Expert5 implements ExpertCard {
             currentGame.coinHandler(user,-this.cost);
             this.cost++;
             currentGame.setActiveExpertsCard(this);
-            Node targetIsland = currentGame.getGameField().getIslandNode(nodeID);
+            IsladNode targetIsland = currentGame.getGameField().getIslandNode(nodeID);
             targetIsland.stopIsland();
             stopAvailable--;
             stoppedIsland.add(targetIsland);
@@ -50,7 +50,7 @@ public class Expert5 implements ExpertCard {
         currentGame.setActiveExpertsCard(null);
     }
 
-    public void removeStop(Node stoppedNode){
+    public void removeStop(IsladNode stoppedNode){
         stoppedIsland.remove(stoppedNode);
         stoppedNode.removeStop();
         this.stopAvailable++;
@@ -58,7 +58,7 @@ public class Expert5 implements ExpertCard {
 
     /**Method to see the list of current stopped island
      * @return an ArrayList of Nodes*/
-    public ArrayList<Node> getStoppedIsland() {
+    public ArrayList<IsladNode> getStoppedIsland() {
         return stoppedIsland;
     }
 

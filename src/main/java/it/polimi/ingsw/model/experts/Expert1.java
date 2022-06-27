@@ -3,7 +3,7 @@ package it.polimi.ingsw.model.experts;
 import it.polimi.ingsw.exceptions.IllegalMove;
 import it.polimi.ingsw.exceptions.NotEnoughCoins;
 import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
-import it.polimi.ingsw.model.gameField.Node;
+import it.polimi.ingsw.model.gameField.IsladNode;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
@@ -42,7 +42,7 @@ public class Expert1 implements ExpertCard {
             this.cost++;
             currentGame.setActiveExpertsCard(this);
             if(studentsOnCard.remove(colorToSwap)) {
-                Node targetIsland = currentGame.getGameField().getIslandNode(nodeID);
+                IsladNode targetIsland = currentGame.getGameField().getIslandNode(nodeID);
                 targetIsland.addStudent(colorToSwap);
                 try {
                     studentsOnCard.addAll(currentGame.getPouch().randomDraw(1));

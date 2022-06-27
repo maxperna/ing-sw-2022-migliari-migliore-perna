@@ -2,7 +2,7 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.controller.GameState;
 import it.polimi.ingsw.model.experts.*;
-import it.polimi.ingsw.model.gameField.Node;
+import it.polimi.ingsw.model.gameField.IsladNode;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.network.messages.ErrorType;
@@ -39,7 +39,7 @@ public interface View{
      * every player receives a gameField map at the beginning of the game.
      * @param gameFieldMap map with the gameField
      */
-    void showGameField(Map<Integer, Node> gameFieldMap);
+    void showGameField(Map<Integer, IsladNode> gameFieldMap);
 
     /**Method to show all the clouds, every player receives newClouds at the beginning of the game.
      * @param newClouds arrayList that contains all the clouds in the game
@@ -59,7 +59,7 @@ public interface View{
     /**Each time a node changes every player receives the updated node.
      * @param updatedNode node with updated attributes
      */
-    void updateNode(Node updatedNode);   //we will use showGameField
+    void updateNode(IsladNode updatedNode);   //we will use showGameField
 
     /**Show a generic message to the players.
      * E.G. the preparation phase ends, all the players receive a "Action phase started" message
@@ -149,6 +149,6 @@ public interface View{
 
     void playExpertChoice();
     void clear();
-    void worldUpdate(Map<Integer, Node> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap, String currentPlayer, ArrayList<ExpertCard> experts, int numOfCoins);
+    void worldUpdate(Map<Integer, IsladNode> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap, String currentPlayer, ArrayList<ExpertCard> experts, int numOfCoins);
     void startGame();
 }
