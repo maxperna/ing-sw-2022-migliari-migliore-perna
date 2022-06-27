@@ -1241,6 +1241,15 @@ public class Cli extends ViewSubject implements View {
     }
 
     @Override
+    public void worldUpdate(Map<Integer, Node> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap, String currentPlayer, ArrayList<ExpertCard> experts, int numOfCoins) {
+        clear();
+        showGameField(gameFieldMap);
+        showClouds(chargedClouds);
+        printBoard(boardMap.get(currentPlayer), currentPlayer);
+        showExpertCards(experts, numOfCoins);
+    }
+
+    @Override
     public void startGame() {
         System.out.println("GAME STARTED!!");
     }

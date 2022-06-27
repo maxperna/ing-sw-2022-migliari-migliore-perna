@@ -45,7 +45,7 @@ public class Gui extends ViewSubject implements View {
     public void startGame(){
         PlayerViewController pwc = new PlayerViewController();
         Platform.runLater(()-> SceneController.changeRoot(list, pwc,"PlayerView.fxml"));
-        Platform.runLater(SceneController::setFullScreen);
+        //Platform.runLater(SceneController::setFullScreen);
     }
     @Override
     public void showInitPlayer(int numberOfTowers, ArrayList<Color> entranceHall) {
@@ -242,6 +242,11 @@ public class Gui extends ViewSubject implements View {
 
     @Override
     public void clear() {
+
+    }
+
+    @Override
+    public void worldUpdate(Map<Integer, Node> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap, String currentPlayer, ArrayList<ExpertCard> experts, int numOfCoins) {
 
     }
 
