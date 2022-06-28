@@ -92,6 +92,8 @@ public class AssistantCardsController extends ViewSubject implements GenericScen
 
     public void selectCard(int cardID) {
         this.notifyListener(list -> list.playAssistantCard(cardID));
+        Stage stage = (Stage) anchorPane.getScene().getWindow();
+        stage.close();
     }
 
     public void setDeck(ArrayList<AssistantCard> deck) {

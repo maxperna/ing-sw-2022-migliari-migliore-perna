@@ -136,7 +136,7 @@ public class Gui extends ViewSubject implements View {
         assistantCardsController.setDeck(deck);
 
         try {
-            Platform.runLater(()-> SceneController.showNewStage(list, assistantCardsController, "AssistantCardsScene.fxml", "Deck") );
+            Platform.runLater(()-> SceneController.showNewStage(list, assistantCardsController, "AssistantCardsScene.fxml") );
         }catch (Exception e) {
             e.printStackTrace();
         }
