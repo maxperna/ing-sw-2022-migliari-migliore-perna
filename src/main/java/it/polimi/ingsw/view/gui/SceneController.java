@@ -75,6 +75,7 @@ public class SceneController extends ViewSubject {
             stage.setTitle(title);
             stage.setScene(new Scene(root));
             stage.setAlwaysOnTop(true);
+            stage.setResizable(false);
             stage.show();
 
 
@@ -101,6 +102,7 @@ public class SceneController extends ViewSubject {
             stage.initStyle(StageStyle.UNDECORATED);
             stage.setScene(new Scene(root));
             stage.setAlwaysOnTop(true);
+            stage.setResizable(false);
             stage.show();
 
 

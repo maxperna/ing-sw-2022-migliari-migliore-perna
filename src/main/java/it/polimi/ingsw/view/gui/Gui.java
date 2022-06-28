@@ -9,6 +9,7 @@ import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.observer.ViewSubject;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.gui.scenes.AssistantCardsController;
+import it.polimi.ingsw.view.gui.scenes.BoardInfoSceneController;
 import it.polimi.ingsw.view.gui.scenes.PlayerViewController;
 import it.polimi.ingsw.view.gui.scenes.TowerDeckSelectionControllerGeneric;
 import javafx.application.Platform;
@@ -93,6 +94,12 @@ public class Gui extends ViewSubject implements View {
     @Override
     public void showBoard(Map<String, Board> boardMap) {
 
+        BoardInfoSceneController boardInfoSceneController = new BoardInfoSceneController(boardMap);
+        try {
+            Platform.runLater(() -> SceneController.showNewStage(list, boardInfoSceneController, "BoardInfoScene.fxml"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -133,6 +140,7 @@ public class Gui extends ViewSubject implements View {
 
     @Override
     public void showAssistant(ArrayList<AssistantCard> deck) {
+
         AssistantCardsController assistantCardsController = (AssistantCardsController) SceneController.popUpController;
         assistantCardsController.setDeck(deck);
 
@@ -205,7 +213,7 @@ public class Gui extends ViewSubject implements View {
 
     @Override
     public void chooseAction(/*boolean expert*/) {
-        notifyListener(list -> list.chooseAction(1));
+        notifyListener(list -> list.chooseAction(2));
     }
 
     @Override
