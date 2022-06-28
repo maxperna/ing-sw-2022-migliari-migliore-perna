@@ -96,7 +96,7 @@ public class Gui extends ViewSubject implements View {
 
         BoardInfoSceneController boardInfoSceneController = new BoardInfoSceneController(boardMap);
         try {
-            Platform.runLater(() -> SceneController.showNewStage(list, boardInfoSceneController, "BoardInfoScene.fxml"));
+            Platform.runLater(() -> SceneController.showNewStage(list, boardInfoSceneController, "BoardInfoScene.fxml", "BoardInfo"));
         } catch (Exception e) {
             e.printStackTrace();
         }

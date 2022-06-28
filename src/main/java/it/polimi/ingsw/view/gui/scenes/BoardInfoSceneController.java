@@ -53,7 +53,8 @@ public class BoardInfoSceneController extends ViewSubject implements GenericScen
             AnchorPane.setLeftAnchor(stackPane1, 2.0);
             AnchorPane.setRightAnchor(stackPane1, 2.0);
             AnchorPane.setBottomAnchor(stackPane1, 295.0);
-            createBoard(stackPane1);
+            ImageView boardImage = new ImageView(new Image("images/Plancia/Plancia_DEF.png", stackPane1.getWidth(), stackPane1.getHeight(), true, false));
+            stackPane1.getChildren().add(boardImage);
 
 
 

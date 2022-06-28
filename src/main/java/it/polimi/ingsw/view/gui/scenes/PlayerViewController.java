@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.gameField.IsladNode;
 import it.polimi.ingsw.observer.ViewSubject;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
