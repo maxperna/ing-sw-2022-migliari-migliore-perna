@@ -244,13 +244,6 @@ public class VirtualView implements View {
     public void availableStudents(ArrayList<Color> availableStudents, MessageType movementType, int gameFieldSize) {
         clientHandler.sendMessage(new AvailableStudentsReply(availableStudents, movementType, gameFieldSize));
     }
-
-
-
-    @Override
-    public void clear() {
-
-    }
     @Override
     public void startGame() {
         clientHandler.sendMessage(new StartGameMessage());

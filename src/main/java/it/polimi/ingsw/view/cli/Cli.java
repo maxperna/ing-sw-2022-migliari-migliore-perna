@@ -1233,13 +1233,8 @@ public class Cli extends ViewSubject implements View {
     }
 
     @Override
-    public void clear() {
-
-    }
-
-    @Override
     public void worldUpdate(Map<Integer, IsladNode> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap, String currentPlayer, ArrayList<ExpertCard> experts, int numOfCoins) {
-        clear();
+        clearCli();
         showGameField(gameFieldMap);
         showClouds(chargedClouds);
         printBoard(boardMap.get(currentPlayer), currentPlayer);

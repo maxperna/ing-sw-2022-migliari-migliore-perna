@@ -148,7 +148,6 @@ public interface View{
     void expertModeControl(boolean setExpertMode);
 
     void playExpertChoice();
-    void clear();
     void worldUpdate(Map<Integer, IsladNode> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap, String currentPlayer, ArrayList<ExpertCard> experts, int numOfCoins);
     void startGame();
 }
