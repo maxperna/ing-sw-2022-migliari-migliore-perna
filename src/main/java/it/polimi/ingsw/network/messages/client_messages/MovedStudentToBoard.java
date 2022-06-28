@@ -5,7 +5,7 @@ import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 
 /**
- * Message signaling the movement of a student into the dinner room
+ * Message notifying the movement of a student into the dinner room
  *
  * @author Massimo
  */

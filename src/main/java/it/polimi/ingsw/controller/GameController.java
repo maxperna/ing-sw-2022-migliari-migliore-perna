@@ -1,6 +1,5 @@
 package it.polimi.ingsw.controller;
 
-import com.sun.scenario.effect.light.DistantLight;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.gameField.IslandNode;
@@ -21,7 +20,7 @@ import static it.polimi.ingsw.network.messages.ErrorType.*;
 import static it.polimi.ingsw.network.messages.MessageType.*;
 
 /**
- * Class GameController
+ * Class GameController implementing the all the logic and communication between model and view
  *
  * @author Miglia
  */

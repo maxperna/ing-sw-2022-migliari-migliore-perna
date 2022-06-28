@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 
 /**
- * Method to create a deck complete of 10 assistants cards
+ * Class that contains initially 10 assistant cards
  *
  * @author Massimo
  */

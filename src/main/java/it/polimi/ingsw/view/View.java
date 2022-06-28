@@ -138,5 +138,4 @@ public interface View {
     void clear();
 
     void startGame();
-
 }

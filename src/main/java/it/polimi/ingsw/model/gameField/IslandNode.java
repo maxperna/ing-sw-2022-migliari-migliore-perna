@@ -13,9 +13,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
+ * Class IslandNode, used to create a doubly circular linked list of nodes
  * @author Alessio Migliore
- * class IsladNode, used to create a doubly circular linked list of nodes, each node contains an Arraylist of islands, initially created with only 1 island
- * can be considered as a superclass of IslandTile that contains pointers to create the linked list
  */
 public class IslandNode implements Serializable {
     private final ArrayList<Color> students;

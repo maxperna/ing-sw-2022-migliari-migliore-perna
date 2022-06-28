@@ -6,7 +6,7 @@ import it.polimi.ingsw.observer.Subject;
 import java.util.logging.Logger;
 
 /**
- * Interface defying client actions
+ * Interface defining client actions
  *
  * @author Massimo
  */
