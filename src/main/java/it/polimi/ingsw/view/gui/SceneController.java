@@ -18,6 +18,8 @@ public class SceneController extends ViewSubject {
     public static Scene currentScene;
     public static GenericSceneController currentController;
 
+    public static GenericSceneController popUpController;
+
     public static void changeRoot(List<ViewListener> observerList, GenericSceneController controller, String FXML_path) {
 
         FXMLLoader loader = new FXMLLoader();
@@ -65,6 +67,7 @@ public class SceneController extends ViewSubject {
 
             ((ViewSubject) controller).addAllListeners(observerList);
             loader.setController(controller);
+            popUpController = controller;
 
             Parent root = loader.load();
             Stage stage = new Stage();
@@ -92,7 +95,6 @@ public class SceneController extends ViewSubject {
     public static void setCurrentController(GenericSceneController currentController) {
         SceneController.currentController = currentController;
     }
-
 
 }
 

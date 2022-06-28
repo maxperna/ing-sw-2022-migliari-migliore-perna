@@ -102,7 +102,9 @@ public class Gui extends ViewSubject implements View {
 
     @Override
     public void showLastUsedCard(Map<String, AssistantCard> lastCard) {
-
+        AssistantCardsController assistantCardsController = new AssistantCardsController();
+        assistantCardsController.setLastCard(lastCard);
+        SceneController.popUpController = assistantCardsController;
     }
 
     @Override
@@ -130,13 +132,14 @@ public class Gui extends ViewSubject implements View {
 
     @Override
     public void showAssistant(ArrayList<AssistantCard> deck) {
-        AssistantCardsController assistantCardsController = new AssistantCardsController(deck);
+        AssistantCardsController assistantCardsController = (AssistantCardsController) SceneController.popUpController;
+        assistantCardsController.setDeck(deck);
+
         try {
             Platform.runLater(()-> SceneController.showNewStage(list, assistantCardsController, "AssistantCardsScene.fxml", "Deck") );
         }catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     @Override
@@ -201,7 +204,7 @@ public class Gui extends ViewSubject implements View {
 
     @Override
     public void chooseAction(/*boolean expert*/) {
-        //notifyListener(list -> list.chooseAction(1));
+        notifyListener(list -> list.chooseAction(1));
     }
 
     @Override
