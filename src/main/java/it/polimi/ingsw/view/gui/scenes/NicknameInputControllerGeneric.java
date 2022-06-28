@@ -17,7 +17,7 @@ public class NicknameInputControllerGeneric extends ViewSubject implements Gener
     Label errorOutPut;
 
     @FXML
-    public void initialize(){
+    public void initialize() {
         sendNick.setOnAction(actionEvent -> sendNickButtonClick());
         sendNick.setOnKeyPressed(keyEvent -> {
             if (keyEvent.getCode() == KeyCode.ENTER)
@@ -25,7 +25,7 @@ public class NicknameInputControllerGeneric extends ViewSubject implements Gener
         });
     }
 
-    public void sendNickButtonClick(){
+    public void sendNickButtonClick() {
 
         String nick = nickField.getText();
         sendNick.setDisable(true);
@@ -33,7 +33,7 @@ public class NicknameInputControllerGeneric extends ViewSubject implements Gener
 
     }
 
-    public void printErrorMessage (String error) {
+    public void printErrorMessage(String error) {
         errorOutPut.setText(error);
     }
 }

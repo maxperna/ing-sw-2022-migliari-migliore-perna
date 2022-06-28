@@ -10,50 +10,48 @@ import java.util.ArrayList;
 public class Expert7 implements ExpertCard {
 
     private final ExpertID ID = ExpertID.TWO_LIST_COLOR;
-    private int cost = 1;
     private final ArrayList<Color> studentsOnCard;
     private final Game currentGame;
     private final String description = "Choose up to 3 students from this card; switch them with the same number of students of your choice from your entrance hall";
-
     private final String IMG = "";            //front image of the card
+    private int cost = 1;
 
 
-    public Expert7(Game currentGame){
+    public Expert7(Game currentGame) {
         this.currentGame = currentGame;
         this.studentsOnCard = new ArrayList<>();
-        try{
+        try {
             studentsOnCard.addAll(currentGame.getPouch().randomDraw(6));
-        }
-        catch (NotEnoughStudentsException e){
+        } catch (NotEnoughStudentsException e) {
             e.printStackTrace();
         }
     }
+
     @Override
-    public void useCard(Player user, ArrayList<Color> studentToSwapCard, ArrayList<Color> studentToSwapBoard) throws NotEnoughCoins,IllegalMove {
-        if(user.getNumOfCoin()<this.cost){
+    public void useCard(Player user, ArrayList<Color> studentToSwapCard, ArrayList<Color> studentToSwapBoard) throws NotEnoughCoins, IllegalMove {
+        if (user.getNumOfCoin() < this.cost) {
             throw new NotEnoughCoins("You don't have enough coins to use this effect");
-        }
-        else{
-            currentGame.coinHandler(user,-this.cost);
+        } else {
+            currentGame.coinHandler(user, -this.cost);
             this.cost++;
             currentGame.setActiveExpertsCard(this);
             /*if(studentToSwapBoard.size()!=studentToSwapCard.size() || studentToSwapBoard.size()>3)
                 throw new IllegalMove("Not the same number of student");
-            */try {
-                for(Color colorToRM:studentToSwapCard)
-                this.studentsOnCard.remove(colorToRM);
+            */
+            try {
+                for (Color colorToRM : studentToSwapCard)
+                    this.studentsOnCard.remove(colorToRM);
                 this.studentsOnCard.addAll(user.getBoard().moveFromEntryRoom(studentToSwapBoard));
                 user.getBoard().addStudentsEntryRoom(studentToSwapCard);
-            }
-            catch (NotOnBoardException | NotEnoughSpace e){
+            } catch (NotOnBoardException | NotEnoughSpace e) {
                 this.studentsOnCard.addAll(studentToSwapCard);
                 this.studentsOnCard.removeAll(studentToSwapBoard);
 
-                for(Color student : studentToSwapCard)
+                for (Color student : studentToSwapCard)
                     user.getBoard().getEntryRoom().remove(student);
 
                 this.cost--;
-                currentGame.coinHandler(user,this.cost);
+                currentGame.coinHandler(user, this.cost);
                 throw new IllegalMove("No students on board");
             }
 
@@ -70,14 +68,17 @@ public class Expert7 implements ExpertCard {
         return this.cost;
     }
 
-    /**Method to get which students are on card
-     * @return an ArrayList of colors*/
+    /**
+     * Method to get which students are on card
+     *
+     * @return an ArrayList of colors
+     */
     public ArrayList<Color> getStudentsOnCard() {
         return studentsOnCard;
     }
 
     @Override
-    public ExpertID getExpType(){
+    public ExpertID getExpType() {
         return ID;
     }
 

@@ -1,10 +1,9 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.controller.GameState;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.experts.*;
 import it.polimi.ingsw.model.gameField.IsladNode;
-import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.network.messages.client_messages.GameParamRequest;
@@ -23,18 +22,18 @@ public class VirtualView implements View {
 
     private final ClientHandler clientHandler;
 
-    @Override
-    public void start() {
-    }
-
     /**
      * Constructor, creates a Virtual View
+     *
      * @param clientHandler, used to communicate with the client
      */
     public VirtualView(ClientHandler clientHandler) {
         this.clientHandler = clientHandler;
     }
 
+    @Override
+    public void start() {
+    }
 
     @Override
     public void askPlayerNickname() {
@@ -51,8 +50,9 @@ public class VirtualView implements View {
 
     /**
      * method that tells which type of towers and decks haven't been selected yet
+     *
      * @param remainingTowers list of the remaining towerColors
-     * @param remainingDecks list of the remaining deckTypes
+     * @param remainingDecks  list of the remaining deckTypes
      */
     @Override
     public void showRemainingTowerAndDeck(ArrayList<TowerColor> remainingTowers, ArrayList<DeckType> remainingDecks) {
@@ -98,6 +98,7 @@ public class VirtualView implements View {
     public void playExpertChoice() {
 
     }
+
     @Override
     public void updateTeachers(Map<Color, Boolean> teacherList) {
         clientHandler.sendMessage(new TeacherListMessage(teacherList));
@@ -142,13 +143,14 @@ public class VirtualView implements View {
     public void showAssistant(ArrayList<AssistantCard> cards) {
         clientHandler.sendMessage(new AssistantCardsMessage(cards));
     }
+
     @Override
-    public void showLastUsedCard (Map<String, AssistantCard> lastCardMap) {
+    public void showLastUsedCard(Map<String, AssistantCard> lastCardMap) {
         clientHandler.sendMessage(new LastCardMessage(lastCardMap));
     }
 
     @Override
-    public void showBoard (Map<String, Board> boardMap) {
+    public void showBoard(Map<String, Board> boardMap) {
         clientHandler.sendMessage(new BoardInfoMessage(boardMap));
     }
 
@@ -156,12 +158,14 @@ public class VirtualView implements View {
     public void printBoard(Board board, String nickname) {
 
     }
+
     public ClientHandler getClientHandler() {
         return clientHandler;
     }
 
     @Override
-    public void ActionPhaseTurn(Boolean expert){}
+    public void ActionPhaseTurn(Boolean expert) {
+    }
 
     @Override
     public void ActionPhaseTurn() {
@@ -218,7 +222,8 @@ public class VirtualView implements View {
 
     }
 
-    public void chooseAction(){}
+    public void chooseAction() {
+    }
 
     @Override
     public void moveMotherNature() {
@@ -229,14 +234,15 @@ public class VirtualView implements View {
         clientHandler.sendMessage(new WorldChangeMessage(gameFieldMap, chargedClouds, boardMap, currentPlayer, experts, numOfCoins));
     }
 
-    public void chooseCloudTile(int cloudID){}
+    public void chooseCloudTile(int cloudID) {
+    }
 
     @Override
     public void sendNumberOfPlayers(int numberOfPlayers) {
         clientHandler.sendMessage((new NumberOfPlayersMessage(numberOfPlayers)));
     }
 
-    public void setExpertMode(boolean expertMode){
+    public void setExpertMode(boolean expertMode) {
         clientHandler.sendMessage(new ExpertModeNotify(expertMode));
     }
 
@@ -244,6 +250,7 @@ public class VirtualView implements View {
     public void availableStudents(ArrayList<Color> availableStudents, MessageType movementType, int gameFieldSize) {
         clientHandler.sendMessage(new AvailableStudentsReply(availableStudents, movementType, gameFieldSize));
     }
+
     @Override
     public void startGame() {
         clientHandler.sendMessage(new StartGameMessage());

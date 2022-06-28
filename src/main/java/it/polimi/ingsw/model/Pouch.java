@@ -9,11 +9,13 @@ import java.util.Collections;
 
 /**
  * Class Pouch, Singleton, contains 120 students at the beginning of the game, the only way to call a Pouch is to use getInstance
+ *
  * @author Alessio Migliore
  */
 public class Pouch implements Serializable {
 
     private final ArrayList<Color> students = new ArrayList<>();
+
     public Pouch() {                                                                                                   //creates an instance of Pouch
 
         for (int i = 0; i < 24; i++) {
@@ -34,8 +36,8 @@ public class Pouch implements Serializable {
      * @return ArrayList of objects to be moved outside the pouch
      * @throws NotEnoughStudentsException there are less than the required elements in pouch
      */
-    public synchronized ArrayList<Color> randomDraw(int arrayListLength) throws NotEnoughStudentsException{
-        ArrayList<Color> studentsToBeMoved = new ArrayList <>();                                                        //new arrayList containing the number of students required
+    public synchronized ArrayList<Color> randomDraw(int arrayListLength) throws NotEnoughStudentsException {
+        ArrayList<Color> studentsToBeMoved = new ArrayList<>();                                                        //new arrayList containing the number of students required
 
         if (arrayListLength > students.size())                                                                          //checks that there are enough students in the pouch
             throw new NotEnoughStudentsException();
@@ -51,6 +53,7 @@ public class Pouch implements Serializable {
 
     /**
      * method used to add students to the pouch from an external source
+     *
      * @param students is an arraylist containing the students that are going to be moved inside the pouch
      */
     public void addStudents(ArrayList<Color> students) {

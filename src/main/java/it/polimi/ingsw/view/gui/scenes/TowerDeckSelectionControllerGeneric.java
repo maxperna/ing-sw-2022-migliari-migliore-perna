@@ -11,7 +11,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -20,10 +19,6 @@ import static it.polimi.ingsw.model.DeckType.*;
 
 public class TowerDeckSelectionControllerGeneric extends ViewSubject implements GenericSceneController, Initializable {
 
-    private ArrayList<TowerColor> remainingTowers;
-    private ArrayList<DeckType> remainingDecks;
-    private TowerColor selectedColor;
-    private DeckType selectedDeck;
     @FXML
     ImageView blackTower;
     @FXML
@@ -44,6 +39,10 @@ public class TowerDeckSelectionControllerGeneric extends ViewSubject implements 
     Label errorMessage;
     @FXML
     Label infoLabel;
+    private ArrayList<TowerColor> remainingTowers;
+    private ArrayList<DeckType> remainingDecks;
+    private TowerColor selectedColor;
+    private DeckType selectedDeck;
 
     @FXML
     @Override
@@ -53,16 +52,16 @@ public class TowerDeckSelectionControllerGeneric extends ViewSubject implements 
         selectedDeck = null;
         confirmButton.setOnAction(actionEvent -> confirmSelection());
         confirmButton.setOnKeyPressed(keyEvent -> {
-            if( keyEvent.getCode() == KeyCode.ENTER)
+            if (keyEvent.getCode() == KeyCode.ENTER)
                 confirmSelection();
         });
 
-        for(TowerColor color : TowerColor.values()) {
-            if(remainingTowers.contains(color)) {
+        for (TowerColor color : TowerColor.values()) {
+            if (remainingTowers.contains(color)) {
                 switch (color) {
                     case BLACK:
                         blackTower.setOnMouseClicked(mouseEvent -> {
-                            if(selectedColor == TowerColor.BLACK)
+                            if (selectedColor == TowerColor.BLACK)
                                 blackTower.setOpacity(1);
                             else
                                 blackTower.setOpacity(0.8);
@@ -72,7 +71,7 @@ public class TowerDeckSelectionControllerGeneric extends ViewSubject implements 
                         break;
                     case WHITE:
                         whiteTower.setOnMouseClicked(mouseEvent -> {
-                            if(selectedColor == TowerColor.WHITE)
+                            if (selectedColor == TowerColor.WHITE)
                                 whiteTower.setOpacity(1);
                             else
                                 whiteTower.setOpacity(0.8);
@@ -82,16 +81,15 @@ public class TowerDeckSelectionControllerGeneric extends ViewSubject implements 
                         break;
                     case GRAY:
                         grayTower.setOnMouseClicked(mouseEvent -> {
-                        if(selectedColor == TowerColor.GRAY)
-                            grayTower.setOpacity(1);
-                        else
-                            grayTower.setOpacity(0.8);
+                            if (selectedColor == TowerColor.GRAY)
+                                grayTower.setOpacity(1);
+                            else
+                                grayTower.setOpacity(0.8);
 
-                        towerSelection(TowerColor.GRAY);
-                    });
+                            towerSelection(TowerColor.GRAY);
+                        });
                 }
-            }
-            else {
+            } else {
                 switch (color) {
                     case BLACK:
                         blackTower.setOpacity(0.2);
@@ -105,22 +103,22 @@ public class TowerDeckSelectionControllerGeneric extends ViewSubject implements 
             }
         }
 
-        for(DeckType deckType : DeckType.values()) {
-            if(remainingDecks.contains(deckType)) {
+        for (DeckType deckType : DeckType.values()) {
+            if (remainingDecks.contains(deckType)) {
                 switch (deckType) {
                     case SAGE:
                         sageDeck.setOnMouseClicked(mouseEvent -> {
-                        if(selectedDeck == SAGE)
-                            sageDeck.setOpacity(1);
-                        else
-                            sageDeck.setOpacity(0.8);
+                            if (selectedDeck == SAGE)
+                                sageDeck.setOpacity(1);
+                            else
+                                sageDeck.setOpacity(0.8);
 
-                        deckSelection(SAGE);
-                    });
+                            deckSelection(SAGE);
+                        });
                         break;
                     case WITCH:
                         witchDeck.setOnMouseClicked(mouseEvent -> {
-                            if(selectedDeck == WITCH)
+                            if (selectedDeck == WITCH)
                                 witchDeck.setOpacity(1);
                             else
                                 witchDeck.setOpacity(0.8);
@@ -130,7 +128,7 @@ public class TowerDeckSelectionControllerGeneric extends ViewSubject implements 
                         break;
                     case KING:
                         kingDeck.setOnMouseClicked(mouseEvent -> {
-                            if(selectedDeck == KING)
+                            if (selectedDeck == KING)
                                 kingDeck.setOpacity(1);
                             else
                                 kingDeck.setOpacity(0.8);
@@ -140,7 +138,7 @@ public class TowerDeckSelectionControllerGeneric extends ViewSubject implements 
                         break;
                     case DRUID:
                         druidDeck.setOnMouseClicked(mouseEvent -> {
-                            if(selectedDeck == DRUID)
+                            if (selectedDeck == DRUID)
                                 druidDeck.setOpacity(1);
                             else
                                 druidDeck.setOpacity(0.8);
@@ -148,8 +146,7 @@ public class TowerDeckSelectionControllerGeneric extends ViewSubject implements 
                             deckSelection(DRUID);
                         });
                 }
-            }
-            else {
+            } else {
                 switch (deckType) {
                     case SAGE:
                         sageDeck.setOpacity(0.2);
@@ -169,9 +166,9 @@ public class TowerDeckSelectionControllerGeneric extends ViewSubject implements 
     }
 
 
-    public void towerSelection(TowerColor towerColor){
+    public void towerSelection(TowerColor towerColor) {
 
-        if(selectedColor == towerColor)
+        if (selectedColor == towerColor)
             selectedColor = null;
         else
             selectedColor = towerColor;
@@ -179,7 +176,7 @@ public class TowerDeckSelectionControllerGeneric extends ViewSubject implements 
 
     public void deckSelection(DeckType deckType) {
 
-        if(selectedDeck == deckType)
+        if (selectedDeck == deckType)
             selectedDeck = null;
         else
             selectedDeck = deckType;
@@ -187,11 +184,11 @@ public class TowerDeckSelectionControllerGeneric extends ViewSubject implements 
 
     public void confirmSelection() {
 
-        if(selectedDeck == null && selectedColor == null)
+        if (selectedDeck == null && selectedColor == null)
             errorMessage.setText("Select deck type and tower color");
-        else if(selectedDeck == null)
+        else if (selectedDeck == null)
             errorMessage.setText("Select a deck type");
-        else if(selectedColor == null)
+        else if (selectedColor == null)
             errorMessage.setText("Select a tower color");
         else {
             blackTower.setDisable(true);

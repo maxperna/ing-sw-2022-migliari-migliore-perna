@@ -1,8 +1,8 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exceptions.*;
-import it.polimi.ingsw.model.gameField.IsladNode;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.gameField.IsladNode;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.client_messages.*;
 import it.polimi.ingsw.network.messages.client_messages.ExpertMessages.*;
@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 
 import static it.polimi.ingsw.network.messages.ErrorType.*;
 import static it.polimi.ingsw.network.messages.MessageType.*;
+
 /**
  * Class GameController
  *
@@ -25,8 +26,8 @@ import static it.polimi.ingsw.network.messages.MessageType.*;
  */
 public class GameController implements PropertyChangeListener {
 
+    private final Map<String, VirtualView> viewMap;
     private Game game;
-    private final Map<String,VirtualView> viewMap;
     private TurnLogic turnLogic;
     private GameState gameState;
 
@@ -42,15 +43,16 @@ public class GameController implements PropertyChangeListener {
 
     /**
      * method to manage the received messages
+     *
      * @param receivedMessage received message
      */
-    public synchronized void onMessageReceived (Message receivedMessage) {
+    public synchronized void onMessageReceived(Message receivedMessage) {
 
         String senderPlayer = receivedMessage.getSenderPlayer();
 
-        switch (gameState)  {
+        switch (gameState) {
             case LOGIN: //creates the game
-                if(viewMap.containsKey(senderPlayer) && receivedMessage.getType() == GAMEPARAM)
+                if (viewMap.containsKey(senderPlayer) && receivedMessage.getType() == GAMEPARAM)
                     gameCreation(receivedMessage);
 
                 nextState();
@@ -65,10 +67,10 @@ public class GameController implements PropertyChangeListener {
                     createdPlayers.add(currentPlayer.getNickname());
 
                 List<String> diff = viewMap.keySet().stream()
-                    .filter(name -> !createdPlayers.contains(name))
-                    .collect(Collectors.toList());
+                        .filter(name -> !createdPlayers.contains(name))
+                        .collect(Collectors.toList());
 
-                if(!diff.isEmpty())
+                if (!diff.isEmpty())
                     viewMap.get(diff.get(0)).showRemainingTowerAndDeck(game.getAVAILABLE_TOWER_COLOR(), game.getAVAILABLE_DECK_TYPE());
 
                 nextState();
@@ -83,45 +85,39 @@ public class GameController implements PropertyChangeListener {
 
                     try {
                         //plays the card
-                        turnLogic.setPlayedCard(((PlayAssistantMessage)receivedMessage).getPlayedCard(), currentPlayer);
+                        turnLogic.setPlayedCard(((PlayAssistantMessage) receivedMessage).getPlayedCard(), currentPlayer);
                         //Manda ultima carta giocata a tutti i giocatori
                         nextState();
-                    }
-                    catch (CardAlreadyPlayed e) {
-                            viewMap.get(senderPlayer).showError("CardAlreadyPlayed", ASSISTANT_ERROR);
-                    }
-                    catch (InexistentCard e) {
-                            viewMap.get(senderPlayer).showError("Card not found", ASSISTANT_ERROR);
-                    }
-                    catch (EndGameException e) {
+                    } catch (CardAlreadyPlayed e) {
+                        viewMap.get(senderPlayer).showError("CardAlreadyPlayed", ASSISTANT_ERROR);
+                    } catch (InexistentCard e) {
+                        viewMap.get(senderPlayer).showError("Card not found", ASSISTANT_ERROR);
+                    } catch (EndGameException e) {
 
                         Player winner = game.getPlayersList().get(0);
                         Player equal = game.getPlayersList().get(0);
 
-                        for(Player player : game.getPlayersList()) {
-                            if(winner.getBoard().getNumOfTowers() > player.getBoard().getNumOfTowers())
+                        for (Player player : game.getPlayersList()) {
+                            if (winner.getBoard().getNumOfTowers() > player.getBoard().getNumOfTowers())
                                 winner = player;
-                            if(winner.getBoard().getNumOfTowers().equals(player.getBoard().getNumOfTowers()))
+                            if (winner.getBoard().getNumOfTowers().equals(player.getBoard().getNumOfTowers()))
                                 equal = player;
                         }
 
-                        if(!equal.equals(winner) && game.NUM_OF_PLAYERS != 4) {
+                        if (!equal.equals(winner) && game.NUM_OF_PLAYERS != 4) {
                             for (String nickName : viewMap.keySet()) {
                                 viewMap.get(nickName).showWinner("Patta");
                             }
-                        }
-                        else if (game.NUM_OF_PLAYERS == 4) {
-                            if(winner.getBoard().getTeamMate().equals(equal)){
+                        } else if (game.NUM_OF_PLAYERS == 4) {
+                            if (winner.getBoard().getTeamMate().equals(equal)) {
                                 for (String nickName : viewMap.keySet()) {
                                     viewMap.get(nickName).showWinner(winner.getNickname() + winner.getBoard().getTeamMate().getNickname());
                                 }
-                            }
-                            else
+                            } else
                                 for (String nickName : viewMap.keySet()) {
                                     viewMap.get(nickName).showWinner("Patta");
                                 }
-                        }
-                        else
+                        } else
                             for (String nickName : viewMap.keySet()) {
                                 viewMap.get(nickName).showWinner(winner.getNickname());
                             }
@@ -133,10 +129,10 @@ public class GameController implements PropertyChangeListener {
                 break;
 
             case ACTION_PHASE: //ActionPhaseLogic
-                if(receivedMessage.getType() == MOVE_TO_ISLAND) {
+                if (receivedMessage.getType() == MOVE_TO_ISLAND) {
 
-                    Color currentColor = ((MovedStudentToIsland)receivedMessage).getMovedStudent();
-                    int islandID = ((MovedStudentToIsland)receivedMessage).getTargetIsland();
+                    Color currentColor = ((MovedStudentToIsland) receivedMessage).getMovedStudent();
+                    int islandID = ((MovedStudentToIsland) receivedMessage).getTargetIsland();
 
                     try {
                         game.getPlayerByNickName(senderPlayer).getBoard().moveToIsland(currentColor, islandID);
@@ -148,36 +144,35 @@ public class GameController implements PropertyChangeListener {
 
                 }
 
-                if(receivedMessage.getType() == MOVE_TO_DINING) {
-                    Color studentMoved = ((MovedStudentToBoard)receivedMessage).getMovedStudent();
+                if (receivedMessage.getType() == MOVE_TO_DINING) {
+                    Color studentMoved = ((MovedStudentToBoard) receivedMessage).getMovedStudent();
 
-                        try {
-                            game.getPlayerByNickName(senderPlayer).getBoard().moveEntryToDiningRoom(studentMoved);
-                            game.checkInfluence(game.getPlayerByNickName(senderPlayer), studentMoved);
-                        } catch (NotOnBoardException e) {
-                            viewMap.get(senderPlayer).showError("Student not found", STUDENT_ERROR);
-                        } catch (NotEnoughSpace e) {
-                            viewMap.get(senderPlayer).showError("Not enoughSpace", STUDENT_ERROR);
-                        }
+                    try {
+                        game.getPlayerByNickName(senderPlayer).getBoard().moveEntryToDiningRoom(studentMoved);
+                        game.checkInfluence(game.getPlayerByNickName(senderPlayer), studentMoved);
+                    } catch (NotOnBoardException e) {
+                        viewMap.get(senderPlayer).showError("Student not found", STUDENT_ERROR);
+                    } catch (NotEnoughSpace e) {
+                        viewMap.get(senderPlayer).showError("Not enoughSpace", STUDENT_ERROR);
+                    }
                 }
 
-                if(receivedMessage.getType() == MOVE_MOTHER_NATURE){
-                    int motherNatureSteps = ((MoveMotherNatureMessage)receivedMessage).getNumOfSteps();
+                if (receivedMessage.getType() == MOVE_MOTHER_NATURE) {
+                    int motherNatureSteps = ((MoveMotherNatureMessage) receivedMessage).getNumOfSteps();
                     try {
-                        turnLogic.moveMotherNature(game.getPlayerByNickName(senderPlayer),motherNatureSteps);
-                    }
-                    catch (EndGameException e) {
+                        turnLogic.moveMotherNature(game.getPlayerByNickName(senderPlayer), motherNatureSteps);
+                    } catch (EndGameException e) {
                         for (String nickName : viewMap.keySet()) {
                             viewMap.get(nickName).showWinner(senderPlayer);
                         }
-                    }catch (IllegalMove IL){
+                    } catch (IllegalMove IL) {
                         viewMap.get(senderPlayer).showError("Too many steps", MOTHER_NATURE_ERROR);
                     }
                 }
 
-                if(receivedMessage.getType() == GET_CLOUD) {
+                if (receivedMessage.getType() == GET_CLOUD) {
                     try {
-                        int cloudID = ((GetCloudsMessage)receivedMessage).getCloudID();
+                        int cloudID = ((GetCloudsMessage) receivedMessage).getCloudID();
                         ArrayList<Color> extractedStudents = game.getCloudTiles().get(cloudID).moveStudents();
                         game.getPlayerByNickName(senderPlayer).getBoard().addStudentsEntryRoom(extractedStudents);
 
@@ -191,24 +186,23 @@ public class GameController implements PropertyChangeListener {
                 }
 
 
-                if(receivedMessage.getType() == PLAY_EXPERT_CARD) {
+                if (receivedMessage.getType() == PLAY_EXPERT_CARD) {
                     expertsHandling((PlayExpertCard) receivedMessage);
                 }
 
-                if(receivedMessage.getType() == STUDENT_REQUEST) {
-                    StudentsAvailableRequest studentsAvailableRequest = (StudentsAvailableRequest)receivedMessage;
+                if (receivedMessage.getType() == STUDENT_REQUEST) {
+                    StudentsAvailableRequest studentsAvailableRequest = (StudentsAvailableRequest) receivedMessage;
                     ArrayList<Color> availableStudents = new ArrayList<>(game.getPlayerByNickName(senderPlayer).getBoard().getEntryRoom());
                     viewMap.get(senderPlayer).availableStudents(availableStudents, studentsAvailableRequest.getTypeOfMovement(), game.getGameField().size());
                 }
 
 
                 showGameInfo(receivedMessage, senderPlayer);
-            break;
+                break;
 
         }
 
     }
-
 
 
     /**
@@ -218,14 +212,14 @@ public class GameController implements PropertyChangeListener {
 
         GameState nextState = gameState;
 
-        switch (gameState)  {
+        switch (gameState) {
             case LOGIN: //verifies that all the VirtualViews are set
-                if(game != null && viewMap.size() == game.NUM_OF_PLAYERS) {
+                if (game != null && viewMap.size() == game.NUM_OF_PLAYERS) {
                     broadcast("All players logged");
-                    Object firstKey = viewMap.keySet().toArray()[getGame().NUM_OF_PLAYERS-1];
-                    viewMap.get((String)firstKey).showRemainingTowerAndDeck(game.getAVAILABLE_TOWER_COLOR(),game.getAVAILABLE_DECK_TYPE());
+                    Object firstKey = viewMap.keySet().toArray()[getGame().NUM_OF_PLAYERS - 1];
+                    viewMap.get((String) firstKey).showRemainingTowerAndDeck(game.getAVAILABLE_TOWER_COLOR(), game.getAVAILABLE_DECK_TYPE());
 
-                    for(String nickName : viewMap.keySet())
+                    for (String nickName : viewMap.keySet())
                         viewMap.get(nickName).sendNumberOfPlayers(game.NUM_OF_PLAYERS);
 
                     nextState = GameState.CREATE_PLAYERS;
@@ -234,18 +228,17 @@ public class GameController implements PropertyChangeListener {
 
             case CREATE_PLAYERS: //verifies that all the Players are created
 
-                if(game.getPlayersList().size() == game.NUM_OF_PLAYERS) {
+                if (game.getPlayersList().size() == game.NUM_OF_PLAYERS) {
                     //sets first player
                     turnLogic.generatePreparationPhaseOrder();
                     //generates a GameFieldMap
 
                     //sends to each player the current situation on the board, giving also a coin if expert mode is on and the GameFieldMap
-                    for(Player currentPlayer : game.getPlayersList())
-                    {
+                    for (Player currentPlayer : game.getPlayersList()) {
                         VirtualView currentView = viewMap.get(currentPlayer.getNickname());
                         ArrayList<Color> currentEntranceHall = currentPlayer.getBoard().getEntryRoom();
 
-                        if(game.EXP_MODE)
+                        if (game.EXP_MODE)
                             game.coinHandler(currentPlayer, 1);
 
                         //message for init the player
@@ -257,7 +250,7 @@ public class GameController implements PropertyChangeListener {
                     setListeners();
 
                     //broadcast the start of the preparationPhase
-                    for(String nickname: viewMap.keySet())
+                    for (String nickname : viewMap.keySet())
                         viewMap.get(nickname).startGame();
 
 
@@ -278,21 +271,19 @@ public class GameController implements PropertyChangeListener {
 
             case PREPARATION_PHASE:
 
-                if(turnLogic.getCardsPlayed().size() == game.NUM_OF_PLAYERS) {
+                if (turnLogic.getCardsPlayed().size() == game.NUM_OF_PLAYERS) {
                     //Switches turnLogic in actionPhase
                     turnLogic.switchPhase();
                     viewMap.get(turnLogic.getActivePlayer().getNickname()).showCurrentPlayer(turnLogic.getActivePlayer().getNickname(), GameState.ACTION_PHASE);
                     broadcast("Start ActionPhase");
                     nextState = GameState.ACTION_PHASE;
 
-                }
-                else {
+                } else {
                     //Sends to the next player a message
                     Player nextPlayer = turnLogic.nextActivePlayer();
-                    if(nextPlayer != null) {
+                    if (nextPlayer != null) {
                         viewMap.get(turnLogic.getActivePlayer().getNickname()).showCurrentPlayer(turnLogic.getActivePlayer().getNickname(), gameState);
-                    }
-                    else
+                    } else
                         System.out.println("Qualcosa non va, non dovrebbe essere null questo valore");
                 }
                 break;
@@ -300,18 +291,16 @@ public class GameController implements PropertyChangeListener {
             case ACTION_PHASE:
                 viewMap.get(turnLogic.getActivePlayer().getNickname()).newCoin(turnLogic.getActivePlayer().getNickname(), game.getPlayerByNickName(turnLogic.getActivePlayer().getNickname()).getNumOfCoin());
                 Player nextPlayer = turnLogic.nextActivePlayer();
-                if(nextPlayer == null)
-                {
+                if (nextPlayer == null) {
                     turnLogic.switchPhase();
                     viewMap.get(turnLogic.getActivePlayer().getNickname()).showCurrentPlayer(turnLogic.getActivePlayer().getNickname(), GameState.PREPARATION_PHASE);
                     broadcast("Start PreparationPhase");
                     nextState = GameState.PREPARATION_PHASE;
                     game.rechargeClouds();
-                }
-                else
+                } else
                     viewMap.get(nextPlayer.getNickname()).showCurrentPlayer(turnLogic.getActivePlayer().getNickname(), gameState);
-                if(game.EXP_MODE)
-                    for(String nickname : viewMap.keySet())
+                if (game.EXP_MODE)
+                    for (String nickname : viewMap.keySet())
                         viewMap.get(nickname).expertModeControl(true);
                 break;
         }
@@ -320,6 +309,7 @@ public class GameController implements PropertyChangeListener {
 
     /**
      * method that creates the game
+     *
      * @param receivedMessage, must be a GameParam message, contains the game parameters
      */
     private void gameCreation(Message receivedMessage) {
@@ -332,9 +322,10 @@ public class GameController implements PropertyChangeListener {
 
     /**
      * method that creates players
+     *
      * @param receivedMessage, must be a CreatePlayerMessage, contains the player parameters
      */
-    private void playersCreationState(Message receivedMessage){
+    private void playersCreationState(Message receivedMessage) {
 
         String nick = receivedMessage.getSenderPlayer();
 
@@ -342,7 +333,7 @@ public class GameController implements PropertyChangeListener {
             if (receivedMessage.getType() == PLAYER_CREATION) {
                 DeckType DT = ((CreatePlayerMessage) receivedMessage).getChosenDeckType();
                 TowerColor TC = ((CreatePlayerMessage) receivedMessage).getChosenTowerColor();
-                game.addPlayer(nick,DT,TC);
+                game.addPlayer(nick, DT, TC);
             }
 
         } catch (FileNotFoundException e) {
@@ -350,9 +341,12 @@ public class GameController implements PropertyChangeListener {
         }
     }
 
-    /**Method to apply the right effect to the experts cards
-     * @param message play expert card message*/
-    public void expertsHandling(PlayExpertCard message){
+    /**
+     * Method to apply the right effect to the experts cards
+     *
+     * @param message play expert card message
+     */
+    public void expertsHandling(PlayExpertCard message) {
         Player player = game.getPlayerByNickName(message.getSenderPlayer());
         int playedCard = message.getPlayedCard();
         try {
@@ -406,11 +400,12 @@ public class GameController implements PropertyChangeListener {
                     break;
             }
 
-            for(String nickname : viewMap.keySet())
+            for (String nickname : viewMap.keySet())
                 viewMap.get(nickname).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), message.getSenderPlayer(), game.getExpertsCard(), game.getPlayerByNickName(nickname).getNumOfCoin());
             viewMap.get(message.getSenderPlayer()).expertModeControl(false);
 
-        } catch (IllegalMove | IndexOutOfBoundsException | IllegalArgumentException | NotEnoughCoins | NotOnBoardException e) {
+        } catch (IllegalMove | IndexOutOfBoundsException | IllegalArgumentException | NotEnoughCoins |
+                 NotOnBoardException e) {
             viewMap.get(message.getSenderPlayer()).showError(e.getMessage(), EXPERT_ERROR);
             viewMap.get(message.getSenderPlayer()).chooseExpertCard();
         }
@@ -419,16 +414,16 @@ public class GameController implements PropertyChangeListener {
 
     /**
      * method that associates a virtual view and a nickname
-     * @param nickName nickname of the player
+     *
+     * @param nickName    nickname of the player
      * @param virtualView virtual view of the player
      */
     public void logInHandler(String nickName, VirtualView virtualView) {
 
-        if(viewMap.isEmpty()) {
+        if (viewMap.isEmpty()) {
             viewMap.put(nickName, virtualView);
             viewMap.get(nickName).askGameParam();
-        }
-        else if (viewMap.size() <= game.NUM_OF_PLAYERS) {
+        } else if (viewMap.size() <= game.NUM_OF_PLAYERS) {
             viewMap.put(nickName, virtualView);
             onMessageReceived(new GenericMessage("SYNC"));
         }
@@ -437,13 +432,13 @@ public class GameController implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent event) {
 
-        if(event.getPropertyName().equals("UpdateCloud")) {
+        if (event.getPropertyName().equals("UpdateCloud")) {
             for (String nickName : viewMap.keySet()) {
-                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), turnLogic.getActivePlayer().getNickname(), game.getExpertsCard(), game.getPlayerByNickName(nickName).getNumOfCoin() );
+                viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), turnLogic.getActivePlayer().getNickname(), game.getExpertsCard(), game.getPlayerByNickName(nickName).getNumOfCoin());
             }
         }
 
-        if(event.getPropertyName().contains("UpdateNode")) {
+        if (event.getPropertyName().contains("UpdateNode")) {
 
 //            String value = event.getPropertyName();
 //            String intValue = value.replaceAll("\\D+","");
@@ -454,20 +449,20 @@ public class GameController implements PropertyChangeListener {
             }
         }
 
-        if(event.getPropertyName().equals("UpdateTeacher")) {
+        if (event.getPropertyName().equals("UpdateTeacher")) {
             for (String nickName : viewMap.keySet()) {
                 viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), turnLogic.getActivePlayer().getNickname(), game.getExpertsCard(), game.getPlayerByNickName(nickName).getNumOfCoin());
             }
         }
 
-        if(event.getPropertyName().equals("Merge")) {
+        if (event.getPropertyName().equals("Merge")) {
 
             for (String nickName : viewMap.keySet()) {
                 viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), turnLogic.getActivePlayer().getNickname(), game.getExpertsCard(), game.getPlayerByNickName(nickName).getNumOfCoin());
             }
         }
 
-        if(event.getPropertyName().contains("UpdateCoin-")) {
+        if (event.getPropertyName().contains("UpdateCoin-")) {
 
             String value = event.getPropertyName();
             String playerName = value.substring(11);
@@ -476,7 +471,7 @@ public class GameController implements PropertyChangeListener {
             }
         }
 
-        if(event.getPropertyName().contains("UpdateBoard")) {
+        if (event.getPropertyName().contains("UpdateBoard")) {
 //            String value = event.getPropertyName();
 //            String playerName = value.substring(11);
 //
@@ -491,42 +486,42 @@ public class GameController implements PropertyChangeListener {
 
     public void showGameInfo(Message messageReceived, String senderPlayer) {
 
-        if(messageReceived.getType() == SHOW_CLOUD)
+        if (messageReceived.getType() == SHOW_CLOUD)
             viewMap.get(senderPlayer).showClouds(game.getCloudTiles());
 
 
-        if(messageReceived.getType() == SHOW_BOARD) {
+        if (messageReceived.getType() == SHOW_BOARD) {
             Map<String, Board> boardMap = new HashMap<>();
 
-            for(Player currentPlayer : game.getPlayersList()) {
+            for (Player currentPlayer : game.getPlayersList()) {
                 boardMap.put(currentPlayer.getNickname(), currentPlayer.getBoard());
             }
 
             viewMap.get(senderPlayer).showBoard(boardMap);
         }
 
-        if(messageReceived.getType() == ASSISTANT_INFO)
+        if (messageReceived.getType() == ASSISTANT_INFO)
             viewMap.get(senderPlayer).showAssistant(game.getPlayerByNickName(senderPlayer).getDeck().getRemainingCards());
 
-        if(messageReceived.getType() == LAST_ASSISTANT) {
+        if (messageReceived.getType() == LAST_ASSISTANT) {
             Map<String, AssistantCard> lastCardMap = new HashMap<>();
 
-            for(Player currentPlayer : game.getPlayersList()) {
-                if(currentPlayer.getDeck().getLastCard() != null)
+            for (Player currentPlayer : game.getPlayersList()) {
+                if (currentPlayer.getDeck().getLastCard() != null)
                     lastCardMap.put(currentPlayer.getNickname(), currentPlayer.getDeck().getLastCard());
             }
 
             viewMap.get(senderPlayer).showLastUsedCard(lastCardMap);
         }
 
-        if(messageReceived.getType() == GAME_FIELD)
+        if (messageReceived.getType() == GAME_FIELD)
             viewMap.get(senderPlayer).showGameField(generateGameFieldMap());
 
-        if(messageReceived.getType() == GET_COINS) {
+        if (messageReceived.getType() == GET_COINS) {
             viewMap.get(senderPlayer).newCoin(senderPlayer, game.getPlayerByNickName(senderPlayer).getNumOfCoin());
         }
 
-        if(messageReceived.getType() == EXPERT_CARD_REQ) {
+        if (messageReceived.getType() == EXPERT_CARD_REQ) {
             viewMap.get(senderPlayer).showExpertCards(game.getExpertsCard(), game.getPlayerByNickName(senderPlayer).getNumOfCoin());
         }
 
@@ -534,6 +529,7 @@ public class GameController implements PropertyChangeListener {
 
     /**
      * method to convert int in gameMode
+     *
      * @param numOfPlayers number of players
      */
     private String fromIntToGameMode(int numOfPlayers) {
@@ -552,25 +548,29 @@ public class GameController implements PropertyChangeListener {
         }
     }
 
-    /**Check if a nickname is already taken
+    /**
+     * Check if a nickname is already taken
+     *
      * @param nickname nickname to verify the validity of
      * @return {@code true} if the choice is valid or {@code false} if is already taken
      */
-    public boolean checkNicknameValidity(String nickname){
+    public boolean checkNicknameValidity(String nickname) {
         return !viewMap.containsKey(nickname);
     }
 
     /**
      * method to send a broadCast Message
+     *
      * @param genericMessage message to broadCast
      */
     private void broadcast(String genericMessage) {
 
-        for (String nickname : viewMap.keySet()){
+        for (String nickname : viewMap.keySet()) {
             viewMap.get(nickname).showGenericMessage(genericMessage);
         }
 
     }
+
     public GameState getGameState() {
         return gameState;
     }
@@ -594,15 +594,15 @@ public class GameController implements PropertyChangeListener {
 
     public void setListeners() {
 
-        for(CloudTile currentCloud : game.getCloudTiles()) {
+        for (CloudTile currentCloud : game.getCloudTiles()) {
             currentCloud.addPropertyChangeListener(this);
         }
 
-        for(int i = 1; i < game.getGameField().size(); i ++) {
+        for (int i = 1; i < game.getGameField().size(); i++) {
             game.getGameField().getIslandNode(i).addPropertyChangeListener(this);
         }
 
-        for(Player currentPlayer : game.getPlayersList()) {
+        for (Player currentPlayer : game.getPlayersList()) {
             currentPlayer.getBoard().addPropertyChangeListener(this);
         }
 
@@ -634,7 +634,7 @@ public class GameController implements PropertyChangeListener {
     public Map<String, Board> generateBoardMap() {
 
         Map<String, Board> boardMap = new HashMap<>();
-        for(Player currentPlayer : game.getPlayersList())
+        for (Player currentPlayer : game.getPlayersList())
             boardMap.put(currentPlayer.getNickname(), currentPlayer.getBoard());
         return boardMap;
     }

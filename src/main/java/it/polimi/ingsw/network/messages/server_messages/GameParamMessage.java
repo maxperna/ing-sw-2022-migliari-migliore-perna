@@ -5,7 +5,8 @@ import it.polimi.ingsw.network.messages.MessageType;
 
 /**
  * Class GameParamMessage, the client sends this message to create a game.
- *  It contains the parameters to create a Game.
+ * It contains the parameters to create a Game.
+ *
  * @author Miglia
  */
 public class GameParamMessage extends Message {
@@ -22,6 +23,7 @@ public class GameParamMessage extends Message {
     public int getNumOfPlayers() {
         return numOfPlayers;
     }
+
     public boolean isExpertMode() {
         return expertMode;
     }

@@ -7,43 +7,40 @@ import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class Expert12 implements ExpertCard {
 
     private final ExpertID ID = ExpertID.COLOR;
-    private int cost = 3;
     private final Game currentGame;
     private final String IMG = "";            //front image of the card
     private final String description = "Choose a color; everyone this turn has to move to the pouch 3 students of that color from its dining room. If there are less than 3 students of that color, move all the students of that color";
+    private int cost = 3;
 
-    public Expert12(Game currentGame){
+    public Expert12(Game currentGame) {
         this.currentGame = currentGame;
     }
 
     @Override
     public void useCard(Player user, Color colorToRemove) throws NotEnoughCoins, NotOnBoardException {
-        if(user.getNumOfCoin()<cost) throw new NotEnoughCoins("You don't have enough coins to use this effect");
+        if (user.getNumOfCoin() < cost) throw new NotEnoughCoins("You don't have enough coins to use this effect");
 
-        else{
+        else {
             //Temporary list
             ArrayList<Color> studentToReinsert = new ArrayList<>();  //student to re-add to pouch
 
-            for(Player player:currentGame.getPlayersList()) {
+            for (Player player : currentGame.getPlayersList()) {
 
                 if (player.getBoard().getDiningRoom().get(colorToRemove) > 3) {
                     for (int i = 0; i < 3; i++) {
                         studentToReinsert.add(colorToRemove);
                         player.getBoard().getDiningRoom().remove(colorToRemove);
                     }
-                }
-                else if (player.getBoard().getDiningRoom().get(colorToRemove) == 3) {
-                        studentToReinsert.add(colorToRemove);
-                        player.getBoard().getDiningRoom().remove(colorToRemove);
-                        player.getBoard().getDiningRoom().put(colorToRemove, 0);
-                    }
-                else {
-                    for(int i=0;i<=player.getBoard().getDiningRoom().get(colorToRemove);i++) {
+                } else if (player.getBoard().getDiningRoom().get(colorToRemove) == 3) {
+                    studentToReinsert.add(colorToRemove);
+                    player.getBoard().getDiningRoom().remove(colorToRemove);
+                    player.getBoard().getDiningRoom().put(colorToRemove, 0);
+                } else {
+                    for (int i = 0; i <= player.getBoard().getDiningRoom().get(colorToRemove); i++) {
                         studentToReinsert.add(colorToRemove);
                         player.getBoard().getDiningRoom().remove(colorToRemove);
                         player.getBoard().getDiningRoom().put(colorToRemove, 0);
@@ -54,7 +51,7 @@ public class Expert12 implements ExpertCard {
 
 
             currentGame.checkInfluence(user, colorToRemove);
-            currentGame.coinHandler(user,-this.cost);
+            currentGame.coinHandler(user, -this.cost);
             this.cost++;
             currentGame.setActiveExpertsCard(this);
         }
@@ -71,7 +68,7 @@ public class Expert12 implements ExpertCard {
     }
 
     @Override
-    public ExpertID getExpType(){
+    public ExpertID getExpType() {
         return ID;
     }
 

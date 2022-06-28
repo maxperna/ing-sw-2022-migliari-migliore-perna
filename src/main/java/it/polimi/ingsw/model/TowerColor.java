@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 /**
  * Enum for the colors of the towers
+ *
  * @author Miglia
  */
 public enum TowerColor {
@@ -13,7 +14,7 @@ public enum TowerColor {
 
     private final String towerImg;
 
-    TowerColor(String towerImg){
+    TowerColor(String towerImg) {
         this.towerImg = towerImg;
     }
 

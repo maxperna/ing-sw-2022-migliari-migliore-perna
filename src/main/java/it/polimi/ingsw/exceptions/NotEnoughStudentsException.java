@@ -1,10 +1,11 @@
 package it.polimi.ingsw.exceptions;
 
-public class NotEnoughStudentsException extends Exception{
-    public NotEnoughStudentsException(){
+public class NotEnoughStudentsException extends Exception {
+    public NotEnoughStudentsException() {
         super();
     }
-    public NotEnoughStudentsException(String message){
+
+    public NotEnoughStudentsException(String message) {
         super(message);
     }
 }

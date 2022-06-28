@@ -16,7 +16,6 @@ public class CurrentPlayerMessage extends Message {
     }
 
 
-
     public String getCurrentPlayer() {
         return currentPlayer;
     }

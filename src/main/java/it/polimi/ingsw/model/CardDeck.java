@@ -11,7 +11,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 
-/**Method to create a deck complete of 10 assistants cards
+/**
+ * Method to create a deck complete of 10 assistants cards
+ *
  * @author Massimo
  */
 
@@ -21,7 +23,9 @@ public class CardDeck implements Serializable {
     private final ArrayList<AssistantCard> deck;
     private AssistantCard lastAssistantCardUsed;
 
-    /**CardDeck constructor, parse the 10 cards on a JSON file using GSON library for parse JSON file
+    /**
+     * CardDeck constructor, parse the 10 cards on a JSON file using GSON library for parse JSON file
+     *
      * @param deckCharacter character of the player deck
      */
     public CardDeck(DeckType deckCharacter) throws FileNotFoundException {
@@ -41,21 +45,21 @@ public class CardDeck implements Serializable {
         //Getting JSON array of assistant
         JsonArray assistantsJSONArray = cardJSONObject.get("assistantProfile").getAsJsonArray();
 
-        for(JsonElement assistantJSONElement: assistantsJSONArray){
+        for (JsonElement assistantJSONElement : assistantsJSONArray) {
 
             //Getting the fields of the assistant one by one
             JsonObject assistantJSONObject = assistantJSONElement.getAsJsonObject();
             int assistantActionNumber = assistantJSONObject.get("actionNumber").getAsInt();
             int assistantMNControl = assistantJSONObject.get("motherNatureControl").getAsInt();
-            String assistantFrontImage= assistantJSONObject.get("frontIMG").getAsString();
+            String assistantFrontImage = assistantJSONObject.get("frontIMG").getAsString();
 
             this.deck.add(new AssistantCard(assistantActionNumber, assistantMNControl, assistantFrontImage, backIMGPath, deckCharacter));
         }
     }
 
-    public void playCard(AssistantCard assistantCardPlayed) throws InexistentCard,EndGameException {
-        if(!deck.remove(assistantCardPlayed)){
-            if(deck.size()==0)
+    public void playCard(AssistantCard assistantCardPlayed) throws InexistentCard, EndGameException {
+        if (!deck.remove(assistantCardPlayed)) {
+            if (deck.size() == 0)
                 throw new EndGameException();
             throw new InexistentCard();
         }
@@ -63,15 +67,15 @@ public class CardDeck implements Serializable {
         lastAssistantCardUsed = assistantCardPlayed;
     }
 
-    public ArrayList<AssistantCard> getRemainingCards(){
+    public ArrayList<AssistantCard> getRemainingCards() {
         return deck;
     }
 
-    public DeckType getDeckType(){
+    public DeckType getDeckType() {
         return this.deckCharacter;
     }
 
-    public AssistantCard getLastCard(){
+    public AssistantCard getLastCard() {
         return lastAssistantCardUsed;
     }
 

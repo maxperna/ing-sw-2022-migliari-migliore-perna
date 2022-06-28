@@ -2,18 +2,16 @@ package it.polimi.ingsw.view.gui.scenes;
 
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.observer.ViewSubject;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -57,12 +55,12 @@ public class AssistantCardsController extends ViewSubject implements GenericScen
         AnchorPane.setLeftAnchor(deckSpace, 0.0);
         AnchorPane.setTopAnchor(deckSpace, 150.0);
 
-        for(AssistantCard card : deck) {
+        for (AssistantCard card : deck) {
             ImageView imageView = new ImageView(new Image(card.getFrontImage(), 140.0, 140.0, true, false));
             imageView.setId(String.valueOf(cardID));
             deckSpace.getChildren().add(imageView);
 
-            if(!lastCard.containsValue(card))
+            if (!lastCard.containsValue(card))
                 imageView.setOnMouseReleased(mouseEvent -> {
                     selectCard(Integer.parseInt(imageView.getId()));
                     imageView.setDisable(true);
@@ -70,7 +68,7 @@ public class AssistantCardsController extends ViewSubject implements GenericScen
             else
                 imageView.setOpacity(0.5);
 
-            cardID ++;
+            cardID++;
         }
 
         for (String nickName : lastCard.keySet()) {

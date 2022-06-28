@@ -23,37 +23,39 @@ public class GameParamGenericSceneController extends ViewSubject implements Gene
     Button startGame;
 
     @FXML
-    public void initialize(){
+    public void initialize() {
 
-        numOfPlayers.setItems(FXCollections.observableArrayList("Two","Three","Four"));
-        expertMode.addEventHandler(MouseEvent.MOUSE_ENTERED_TARGET,this::setExpertModeInfo);
-        expertMode.addEventHandler(MouseEvent.MOUSE_EXITED_TARGET,this::setExpertModeInfo);
+        numOfPlayers.setItems(FXCollections.observableArrayList("Two", "Three", "Four"));
+        expertMode.addEventHandler(MouseEvent.MOUSE_ENTERED_TARGET, this::setExpertModeInfo);
+        expertMode.addEventHandler(MouseEvent.MOUSE_EXITED_TARGET, this::setExpertModeInfo);
         startGame.setOnAction(actionEvent -> startGame());
         startGame.setOnKeyPressed(keyEvent -> {
-            if(keyEvent.getCode() == KeyCode.ENTER)
+            if (keyEvent.getCode() == KeyCode.ENTER)
                 startGame();
         });
     }
 
-    /**Method to show the hidden expert mode info*/
-    private void setExpertModeInfo(Event event){
+    /**
+     * Method to show the hidden expert mode info
+     */
+    private void setExpertModeInfo(Event event) {
         expModInfo.setVisible(!expModInfo.isVisible());
     }
 
-    private void startGame(){
+    private void startGame() {
         int playersNum;
-        if(numOfPlayers.getSelectionModel().getSelectedItem().equals(numOfPlayers.getItems().get(0)))
+        if (numOfPlayers.getSelectionModel().getSelectedItem().equals(numOfPlayers.getItems().get(0)))
             playersNum = 2;
-        else if (numOfPlayers.getSelectionModel().getSelectedItem().equals(numOfPlayers.getItems().get(1)) )
+        else if (numOfPlayers.getSelectionModel().getSelectedItem().equals(numOfPlayers.getItems().get(1)))
             playersNum = 3;
         else
-            playersNum= 4;
+            playersNum = 4;
 
         boolean expMode = expertMode.isSelected();
 
         startGame.setDisable(true);
         expertMode.setDisable(true);
         numOfPlayers.setDisable(true);
-        new Thread(()->notifyListener(l->l.sendGameParam(playersNum,expMode))).start();
+        new Thread(() -> notifyListener(l -> l.sendGameParam(playersNum, expMode))).start();
     }
 }

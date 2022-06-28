@@ -16,46 +16,51 @@ public class Player implements Serializable {
     private int numOfCoin;
 
 
-    public Player (String nickname,DeckType assistant,TowerColor towerColor, Game gameInfo) {
+    public Player(String nickname, DeckType assistant, TowerColor towerColor, Game gameInfo) {
 
-      this.nickname = nickname;
+        this.nickname = nickname;
         try {
             this.deck = new CardDeck(assistant);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
-        this.board = new Board(gameInfo,this,towerColor);
+        this.board = new Board(gameInfo, this, towerColor);
     }
 
-    public Player () {
+    public Player() {
         this.nickname = "Default";
         this.board = null;
         this.deck = null;
     }
 
-    public String getNickname(){
+    public String getNickname() {
         return this.nickname;
     }
 
 
-    public Board getBoard(){
+    public Board getBoard() {
         return this.board;
     }
 
 
-    /**Method to play a card from the player personal deck
+    /**
+     * Method to play a card from the player personal deck
+     *
      * @param assistantCardToPlay card the player wants to play
-     * @throws InexistentCard is the card is not present in the deck
+     * @throws InexistentCard   is the card is not present in the deck
      * @throws EndGameException if the deck is empty
-     * */
+     */
     public AssistantCard playCard(AssistantCard assistantCardToPlay) throws InexistentCard, EndGameException {
         deck.playCard(assistantCardToPlay);
         return assistantCardToPlay;
     }
 
-    /**Method to modify the amount of coin of a player
-     * @param quantity amount to add(if +) or subtract (if -)*/
-    public void addCoin(int quantity){
+    /**
+     * Method to modify the amount of coin of a player
+     *
+     * @param quantity amount to add(if +) or subtract (if -)
+     */
+    public void addCoin(int quantity) {
         this.numOfCoin = this.numOfCoin + quantity;
     }
 
@@ -63,7 +68,7 @@ public class Player implements Serializable {
         return this.board.getTowerColor();
     }
 
-    public int getNumOfCoin(){
+    public int getNumOfCoin() {
         return numOfCoin;
     }
 

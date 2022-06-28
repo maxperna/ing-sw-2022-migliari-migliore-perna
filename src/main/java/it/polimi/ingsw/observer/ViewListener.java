@@ -8,7 +8,6 @@ import it.polimi.ingsw.network.messages.MessageType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Extended interface of a Listener (old Observer) used to interact with the View, has to be implemented on every class that shares methods with the view, and on Client Controller to call the methods 1:1

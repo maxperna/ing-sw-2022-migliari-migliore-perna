@@ -78,7 +78,7 @@ public class SceneController extends ViewSubject {
             stage.show();
 
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -104,7 +104,7 @@ public class SceneController extends ViewSubject {
             stage.show();
 
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -113,6 +113,7 @@ public class SceneController extends ViewSubject {
     public static void setFullScreen() {
         ((Stage) currentScene.getWindow()).setFullScreen(true);
     }
+
     public static void setCurrentScene(Scene currentScene) {
         SceneController.currentScene = currentScene;
     }

@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 /**
  * Enum for the 4 kind of deck characters
+ *
  * @author Massimo
  */
 public enum DeckType {
@@ -14,7 +15,7 @@ public enum DeckType {
 
     private final String charactersName;
 
-    DeckType(String charactersName){
+    DeckType(String charactersName) {
         this.charactersName = charactersName;
     }
 

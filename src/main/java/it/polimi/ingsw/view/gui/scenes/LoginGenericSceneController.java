@@ -18,16 +18,16 @@ public class LoginGenericSceneController extends ViewSubject implements GenericS
     Button connectionButton;
 
     @FXML
-    public void initialize(){
+    public void initialize() {
         connectionButton.setOnAction(actionEvent -> connectionButtonClick());
 
         connectionButton.setOnKeyPressed(keyEvent -> {
-            if(keyEvent.getCode() == KeyCode.ENTER)
+            if (keyEvent.getCode() == KeyCode.ENTER)
                 connectionButtonClick();
         });
     }
 
-    private void connectionButtonClick(){
+    private void connectionButtonClick() {
 
         HashMap<String, String> connectionInfo = new HashMap<>();
         connectionInfo.put("address", serverIPField.getText());

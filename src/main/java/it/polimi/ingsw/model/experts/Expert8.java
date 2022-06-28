@@ -7,21 +7,21 @@ import it.polimi.ingsw.model.Player;
 public class Expert8 implements ExpertCard {
 
     private final ExpertID ID = ExpertID.USER_ONLY;
-    private int cost = 2;
     private final Game currentGame;
     private final String IMG = "";            //front image of the card
     private final String description = "During this turn, you get 2 extra influence points during the check influence phase";
+    private int cost = 2;
 
-    public Expert8(Game currentGame){
+    public Expert8(Game currentGame) {
         this.currentGame = currentGame;
     }
 
     @Override
     public void useCard(Player user) throws NotEnoughCoins {
-        if(user.getNumOfCoin()<this.cost)
+        if (user.getNumOfCoin() < this.cost)
             throw new NotEnoughCoins("You don't have enough coins to use this effect");
-        else{
-            currentGame.coinHandler(user,-this.cost);
+        else {
+            currentGame.coinHandler(user, -this.cost);
             this.cost++;
             currentGame.setActiveExpertsCard(this);
             currentGame.setPlayerHavingPlusTwo(user);
@@ -40,7 +40,7 @@ public class Expert8 implements ExpertCard {
     }
 
     @Override
-    public ExpertID getExpType(){
+    public ExpertID getExpType() {
         return ID;
     }
 

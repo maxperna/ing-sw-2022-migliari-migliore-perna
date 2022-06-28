@@ -3,26 +3,34 @@ package it.polimi.ingsw.view.gui.scenes;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.CloudTile;
 import it.polimi.ingsw.model.Color;
-
 import it.polimi.ingsw.model.TowerColor;
 import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.model.gameField.IsladNode;
 import it.polimi.ingsw.observer.ViewSubject;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static it.polimi.ingsw.model.Color.*;
 
 public class PlayerViewController extends ViewSubject implements GenericSceneController {
+    private final ImageView MN;
+    private final Map<Color, Node> teacherList;
+    private final Map<Integer, GridPane> islandList;
+    private final Map<Integer, GridPane> cloudList;
+    private final Map<Color, ArrayList<Node>> studentsOnDining;
+    private final Map<Integer, Map<String, AnchorPane>> islandConfig;
     @FXML
     AnchorPane gameField;
     @FXML
@@ -33,23 +41,13 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
     GridPane towerSpace;
     @FXML
     GridPane professorSpace;
-
-    private final ImageView MN;
-
-    private final Map<Color,Node> teacherList;
-    private final Map<Integer,GridPane> islandList;
-    private final Map<Integer,GridPane> cloudList;
-    private final Map<Color,ArrayList<Node>> studentsOnDining;
-    private final Map<Integer,Map<String,AnchorPane>> islandConfig;
-
     private boolean studentOnMovement;
     private boolean MNOnMovement;
     private int previousMNPosition;  //position of MN on island before movement
     private Node tempNode;
 
 
-
-    public PlayerViewController(){
+    public PlayerViewController() {
         teacherList = new ConcurrentHashMap<>();
         islandList = new ConcurrentHashMap<>();
         cloudList = new ConcurrentHashMap<>();
@@ -58,22 +56,24 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
         MN = new ImageView("images/Scontornate/mother_nature_pawn.png");
         MN.setFitWidth(52);
         MN.setFitHeight(71);
-        MN.addEventHandler(MouseEvent.MOUSE_CLICKED,this::startMNMovement);
+        MN.addEventHandler(MouseEvent.MOUSE_CLICKED, this::startMNMovement);
         MN.setVisible(false);
         MN.setDisable(true);
 
     }
 
     @FXML
-    public void initialize(){
+    public void initialize() {
         generateGameField();
-        diningRoom.addEventHandler(MouseEvent.MOUSE_CLICKED,this::moveStudentBoard);
+        diningRoom.addEventHandler(MouseEvent.MOUSE_CLICKED, this::moveStudentBoard);
     }
 
 
-    /**Method to move students from entry room to dining room*/
-    public void moveStudentBoard(MouseEvent event){
-        if(studentOnMovement) {
+    /**
+     * Method to move students from entry room to dining room
+     */
+    public void moveStudentBoard(MouseEvent event) {
+        if (studentOnMovement) {
             Color colorPicked = fromStringToColor(tempNode.getId());
             //Eventually initialize student map
             studentsOnDining.putIfAbsent(colorPicked, new ArrayList<>());
@@ -91,8 +91,10 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
         }
     }
 
-    /**Method to move a student or mn on a clicked island*/
-    public void pickSelectedIsland(MouseEvent event){
+    /**
+     * Method to move a student or mn on a clicked island
+     */
+    public void pickSelectedIsland(MouseEvent event) {
         try {
             Node clickedIsland = event.getPickResult().getIntersectedNode();
             int ID = Integer.parseInt(clickedIsland.getId());
@@ -117,41 +119,45 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
             } else if (MNOnMovement) {
                 int numOfSteps = ID - previousMNPosition;
 
-                if(numOfSteps>0){
+                if (numOfSteps > 0) {
                     changeMNonMovState();
                     event.consume();
                     // new Thread(()->notifyListener(l->l.moveMotherNature(numOfSteps))).start();
                 }
             }
-        }catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             //Clicking on another node I can remake my selection (both on MN and students)
             tempNode = null;
-            if(studentOnMovement)
+            if (studentOnMovement)
                 changeStudMovState();
-            if(MNOnMovement)
+            if (MNOnMovement)
                 changeMNonMovState();
 
         }
     }
 
-    /**Method to signal that a student has been picked*/
-    public void startMovement(MouseEvent event){
+    /**
+     * Method to signal that a student has been picked
+     */
+    public void startMovement(MouseEvent event) {
         tempNode = event.getPickResult().getIntersectedNode();
         changeStudMovState();
         event.consume();
     }
 
-    public void startMNMovement(MouseEvent event){
+    public void startMNMovement(MouseEvent event) {
         changeMNonMovState();
         event.consume();
     }
 
-    /**Method to set the entry room of the board*/
+    /**
+     * Method to set the entry room of the board
+     */
     private void populateEntry(ArrayList<Color> entry) {
-        int k =0;
+        int k = 0;
         for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < entry.size()/2+1; j++) {
-                if(!(i==0 && j==0)) {
+            for (int j = 0; j < entry.size() / 2 + 1; j++) {
+                if (!(i == 0 && j == 0)) {
                     Color colorToAdd = entry.get(k);
                     ImageView student = studentGenerator(colorToAdd);
                     entryRoom.add(student, i, j);
@@ -161,42 +167,43 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
         }
     }
 
-    public void updateGameField(Map<Integer, IsladNode> gameFieldMap, ArrayList<CloudTile> chargedClouds, Board board, ArrayList<ExpertCard> experts, int numOfCoins){
+    public void updateGameField(Map<Integer, IsladNode> gameFieldMap, ArrayList<CloudTile> chargedClouds, Board board, ArrayList<ExpertCard> experts, int numOfCoins) {
         populateBoard(board);
         populateIslands(gameFieldMap);
         populateCloud(chargedClouds);
     }
-    public void populateBoard(Board board){
+
+    public void populateBoard(Board board) {
         populateEntry(board.getEntryRoom());
-        createTowers(board.getTowerColor(),board.getNumOfTowers());
+        createTowers(board.getTowerColor(), board.getNumOfTowers());
         setTeachers(board.getTeachers());
     }
 
 
-    private void createTowers(TowerColor tower,int numOfTowers){
+    private void createTowers(TowerColor tower, int numOfTowers) {
         String towerImage = tower.getTowerImg();
-        for(int i=0;i<2;i++){
-            for(int j=0;j<numOfTowers/2;j++){
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < numOfTowers / 2; j++) {
                 ImageView towerIMGV = new ImageView(towerImage);
                 towerIMGV.setFitWidth(29);
                 towerIMGV.setFitHeight(69);
-                towerSpace.add(towerIMGV,i,j);
+                towerSpace.add(towerIMGV, i, j);
             }
         }
     }
-    private void setTeachers(Map<Color,Boolean> teachers){
 
-        for(Color color:teachers.keySet() ) {
-            if(teachers.get(color)) {
+    private void setTeachers(Map<Color, Boolean> teachers) {
+
+        for (Color color : teachers.keySet()) {
+            if (teachers.get(color)) {
                 ImageView teacherIMG = generateTeacher(color);
                 professorSpace.add(teacherIMG, 0, color.getBoardIndex());
                 teacherList.put(color, teacherIMG);  //adding node and references
-            }
-            else{
-                try{
+            } else {
+                try {
                     professorSpace.getChildren().remove(teacherList.get(color));
                     teacherList.remove(color);
-                }catch (Exception e){
+                } catch (Exception e) {
                     assert true;
                 }
             }
@@ -204,44 +211,49 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
     }
 
 
-
-    /**Method to populate cloud with student
-     * @param clouds array list of clouds*/
-    public void populateCloud(ArrayList<CloudTile> clouds){
-        for(CloudTile cloud:clouds){
+    /**
+     * Method to populate cloud with student
+     *
+     * @param clouds array list of clouds
+     */
+    public void populateCloud(ArrayList<CloudTile> clouds) {
+        for (CloudTile cloud : clouds) {
             GridPane cloudStruct = cloudList.get(cloud.getTileID());
             int j;
-            for(int i=0;i<cloud.getStudents().size();i++){
-                j = i%2;
+            for (int i = 0; i < cloud.getStudents().size(); i++) {
+                j = i % 2;
                 ImageView student = studentGenerator(cloud.getStudents().get(i));
-                cloudStruct.add(student,j,i);
+                cloudStruct.add(student, j, i);
             }
         }
 
     }
 
-    /**Method which modify the game field due to world update
-     * @param islandsMap list of the islands sent by model*/
-    public void populateIslands(Map<Integer, IsladNode> islandsMap){
+    /**
+     * Method which modify the game field due to world update
+     *
+     * @param islandsMap list of the islands sent by model
+     */
+    public void populateIslands(Map<Integer, IsladNode> islandsMap) {
         //Find nodes that no longer exist in model and delete it
-        Set<Integer> nodeDiff =  new HashSet<>(islandList.keySet());
+        Set<Integer> nodeDiff = new HashSet<>(islandList.keySet());
         nodeDiff.removeAll(islandsMap.keySet());
 
-        for (int idToDel:nodeDiff){
+        for (int idToDel : nodeDiff) {
             gameField.getChildren().remove(islandList.get(idToDel));
         }
-        for(int ID:islandsMap.keySet()){
+        for (int ID : islandsMap.keySet()) {
             IsladNode island = islandsMap.get(ID);
             Set<Color> colorOnIsland = new HashSet<>(islandsMap.get(ID).getStudents());
-            if(island.checkMotherNature()) {
+            if (island.checkMotherNature()) {
                 previousMNPosition = ID;
-                islandList.get(ID).add(MN,0,0);
+                islandList.get(ID).add(MN, 0, 0);
                 MN.setVisible(true);
             }
             /*if(island.isStopped())
                 islandList.get(ID).add();*/
             //Color counting
-            for(Color color:colorOnIsland){
+            for (Color color : colorOnIsland) {
                 islandConfig.get(ID).get(color.toString()).setVisible(true);
                 Label studentCount = (Label) islandConfig.get(ID).get(color.toString()).getChildren().get(0);
 
@@ -251,30 +263,41 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
         }
     }
 
-    /**Method to activate deactivate gameField(set disabled if enabled and vice-versa*/
-    public void changeGameFieldStatus(){
+    /**
+     * Method to activate deactivate gameField(set disabled if enabled and vice-versa
+     */
+    public void changeGameFieldStatus() {
         gameField.setDisable(!gameField.isDisabled());
     }
 
-    /**Method to activate or deactivate cloud selection*/
-    public void changeCloudStatus(){
-        for(int ID : cloudList.keySet())
+    /**
+     * Method to activate or deactivate cloud selection
+     */
+    public void changeCloudStatus() {
+        for (int ID : cloudList.keySet())
             cloudList.get(ID).getParent().setDisable(!cloudList.get(ID).isDisabled());
     }
-    /**Method to choice cloud from whom take the students*/
-    public void choiceCloud(MouseEvent event){
+
+    /**
+     * Method to choice cloud from whom take the students
+     */
+    public void choiceCloud(MouseEvent event) {
         Node clickedCloud = event.getPickResult().getIntersectedNode();
         int ID = Integer.parseInt(clickedCloud.getId());
         clickedCloud.setDisable(true);
         //new Thread(()->notifyListener(l->l.chooseCloudTile(ID))).start();
     }
 
-    /**Method to activate MN when it's time to move it*/
-    public void activateMN(){
+    /**
+     * Method to activate MN when it's time to move it
+     */
+    public void activateMN() {
         MN.setDisable(false);
     }
 
-    /**Method to generate the game field assigning island the correct id*/
+    /**
+     * Method to generate the game field assigning island the correct id
+     */
     public void generateGameField() {
         Integer index = 1;
         Integer cloudIndex = 13;
@@ -300,21 +323,20 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
 
                 islandConfig.put(index, tempConfig);
                 index++;
-            }
-            else {
+            } else {
 
                 GridPane cloudStruct = (GridPane) ((StackPane) gameFieldEl).getChildren().get(0);
                 cloudStruct.setId(cloudIndex.toString());
                 cloudStruct.getParent().setDisable(true);
-                cloudStruct.addEventHandler(MouseEvent.MOUSE_PRESSED,this::choiceCloud);
-                cloudList.put(cloudIndex%13,cloudStruct);
+                cloudStruct.addEventHandler(MouseEvent.MOUSE_PRESSED, this::choiceCloud);
+                cloudList.put(cloudIndex % 13, cloudStruct);
                 cloudIndex++;
             }
         }
     }
 
-    private Color fromStringToColor(String color){
-        switch (color){
+    private Color fromStringToColor(String color) {
+        switch (color) {
             case "GREEN":
                 return GREEN;
             case "RED":
@@ -330,17 +352,17 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
         }
     }
 
-    private ImageView studentGenerator(Color color){
+    private ImageView studentGenerator(Color color) {
         ImageView image = new ImageView(color.getStudImg());
         image.setFitWidth(36);
         image.setFitHeight(40);
-        image.addEventHandler(MouseEvent.MOUSE_CLICKED,this::startMovement);
+        image.addEventHandler(MouseEvent.MOUSE_CLICKED, this::startMovement);
         image.setId(color.toString());
 
         return image;
     }
 
-    private ImageView generateTeacher(Color color){
+    private ImageView generateTeacher(Color color) {
         ImageView teacher = new ImageView(color.getTeacherImg());
         teacher.setFitWidth(36);
         teacher.setFitHeight(40);
@@ -349,14 +371,13 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
     }
 
 
-    private void changeStudMovState(){
+    private void changeStudMovState() {
         studentOnMovement = !studentOnMovement;
     }
 
-    public void changeMNonMovState(){
+    public void changeMNonMovState() {
         MNOnMovement = !MNOnMovement;
     }
-
 
 
 }

@@ -8,6 +8,7 @@ public class MovedStudentToIsland extends Message {
 
     private final Color movedStudent;
     private final int targetIsland;
+
     public MovedStudentToIsland(String senderPlayer, Color movedStudent, int targetIsland) {
         super(MessageType.MOVE_TO_ISLAND, senderPlayer);
 
@@ -19,5 +20,7 @@ public class MovedStudentToIsland extends Message {
         return movedStudent;
     }
 
-    public int getTargetIsland() { return targetIsland; }
+    public int getTargetIsland() {
+        return targetIsland;
+    }
 }

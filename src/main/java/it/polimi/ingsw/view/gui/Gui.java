@@ -1,9 +1,9 @@
 package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.controller.GameState;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.experts.*;
 import it.polimi.ingsw.model.gameField.IsladNode;
-import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.observer.ViewSubject;
@@ -25,12 +25,12 @@ public class Gui extends ViewSubject implements View {
 
     @Override
     public void askPlayerNickname() {
-        Platform.runLater(()->SceneController.changeRoot(list,"NicknameInput.fxml"));
+        Platform.runLater(() -> SceneController.changeRoot(list, "NicknameInput.fxml"));
     }
 
     @Override
     public void askGameParam() {
-        Platform.runLater(()->SceneController.changeRoot(list,"GameParamScene.fxml"));
+        Platform.runLater(() -> SceneController.changeRoot(list, "GameParamScene.fxml"));
     }
 
     @Override
@@ -39,14 +39,15 @@ public class Gui extends ViewSubject implements View {
         towerDeckSelectionController.setRemainingTowers(remainingTowers);
         towerDeckSelectionController.setRemainingDecks(remainingDecks);
 
-        Platform.runLater(()->SceneController.changeRoot(list, towerDeckSelectionController, "TowerDeckSelection.fxml"));
+        Platform.runLater(() -> SceneController.changeRoot(list, towerDeckSelectionController, "TowerDeckSelection.fxml"));
     }
 
-    public void startGame(){
+    public void startGame() {
         PlayerViewController pwc = new PlayerViewController();
-        Platform.runLater(()-> SceneController.changeRoot(list, pwc,"PlayerView.fxml"));
+        Platform.runLater(() -> SceneController.changeRoot(list, pwc, "PlayerView.fxml"));
         //Platform.runLater(SceneController::setFullScreen);
     }
+
     @Override
     public void showInitPlayer(int numberOfTowers, ArrayList<Color> entranceHall) {
 
@@ -55,13 +56,13 @@ public class Gui extends ViewSubject implements View {
     @Override
     public void showGameField(Map<Integer, IsladNode> gameFieldMap) {
         PlayerViewController pwc = getPWC();
-        Platform.runLater(()->pwc.populateIslands(gameFieldMap));
+        Platform.runLater(() -> pwc.populateIslands(gameFieldMap));
     }
 
     @Override
     public void showClouds(ArrayList<CloudTile> newClouds) {
         PlayerViewController pwc = getPWC();
-        Platform.runLater(()->pwc.populateCloud(newClouds));
+        Platform.runLater(() -> pwc.populateCloud(newClouds));
     }
 
     @Override
@@ -97,7 +98,7 @@ public class Gui extends ViewSubject implements View {
     @Override
     public void printBoard(Board board, String player) {
         PlayerViewController pwc = getPWC();
-        Platform.runLater(()->pwc.populateBoard(board));
+        Platform.runLater(() -> pwc.populateBoard(board));
     }
 
     @Override
@@ -136,8 +137,8 @@ public class Gui extends ViewSubject implements View {
         assistantCardsController.setDeck(deck);
 
         try {
-            Platform.runLater(()-> SceneController.showNewStage(list, assistantCardsController, "AssistantCardsScene.fxml") );
-        }catch (Exception e) {
+            Platform.runLater(() -> SceneController.showNewStage(list, assistantCardsController, "AssistantCardsScene.fxml"));
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -212,7 +213,8 @@ public class Gui extends ViewSubject implements View {
 
     }
 
-    public void chooseCloudTile(int cloudID){}
+    public void chooseCloudTile(int cloudID) {
+    }
 
     @Override
     public void sendNumberOfPlayers(int numberOfPlayers) {
@@ -245,9 +247,9 @@ public class Gui extends ViewSubject implements View {
     }
 
     @Override
-    public void worldUpdate(Map<Integer, IsladNode> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap,String currentPlayer, ArrayList<ExpertCard> experts, int numOfCoins) {
+    public void worldUpdate(Map<Integer, IsladNode> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap, String currentPlayer, ArrayList<ExpertCard> experts, int numOfCoins) {
         PlayerViewController pwc = getPWC();
-        Platform.runLater(()->pwc.updateGameField( gameFieldMap,chargedClouds, boardMap.get(currentPlayer), experts, numOfCoins));
+        Platform.runLater(() -> pwc.updateGameField(gameFieldMap, chargedClouds, boardMap.get(currentPlayer), experts, numOfCoins));
     }
 
     private PlayerViewController getPWC() {
@@ -256,8 +258,8 @@ public class Gui extends ViewSubject implements View {
             pwc = (PlayerViewController) SceneController.currentController;
         } catch (ClassCastException e) {
             pwc = new PlayerViewController();
-            PlayerViewController finalPWC =pwc;
-            Platform.runLater(() -> SceneController.changeRoot(list,finalPWC, "PlayerView.fxml"));
+            PlayerViewController finalPWC = pwc;
+            Platform.runLater(() -> SceneController.changeRoot(list, finalPWC, "PlayerView.fxml"));
         }
         return pwc;
     }

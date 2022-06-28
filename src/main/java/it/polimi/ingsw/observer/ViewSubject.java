@@ -28,14 +28,13 @@ public abstract class ViewSubject {
     }
 
     protected void notifyListener(Consumer<ViewListener> lambda) {
-        for(ViewListener list : list)
+        for (ViewListener list : list)
             lambda.accept(list);
     }
 
-    public List<ViewListener> getList(){
+    public List<ViewListener> getList() {
         return list;
     }
-
 
 
 }

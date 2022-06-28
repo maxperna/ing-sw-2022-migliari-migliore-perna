@@ -18,9 +18,10 @@ import java.util.Collections;
  * can be considered as a superclass of IslandTile that contains pointers to create the linked list
  */
 public class IsladNode implements Serializable {
+    private final ArrayList<Color> students;
+    transient private final PropertyChangeSupport support;
     private int ID;
     private boolean motherNature;
-    private final ArrayList<Color> students;
     transient private Player mostInfluencePlayer;
     private TowerColor tower;
     private boolean stop;            //put to true if stopped by assistant card #5
@@ -28,24 +29,7 @@ public class IsladNode implements Serializable {
     transient private IsladNode next;
     transient private IsladNode prev;
     transient private boolean ignoreTower;
-    transient private final PropertyChangeSupport support;
 
-
-    /**
-     * method to set the previous node of a given node in the linked list
-     * @param prev is the node that has to point to the new node
-     */
-    public void setPreviousNode(IsladNode prev) {
-        this.prev = prev;
-    }
-
-    /**
-     * method to set the pointer to the next node in the list
-     * @param next is the node that has to be pointed by the new node
-     */
-    public void setNextNode(IsladNode next) {
-        this.next = next;
-    }
 
     public IsladNode(int ID) {
         this.ID = ID;
@@ -68,6 +52,15 @@ public class IsladNode implements Serializable {
     }
 
     /**
+     * method to set the previous node of a given node in the linked list
+     *
+     * @param prev is the node that has to point to the new node
+     */
+    public void setPreviousNode(IsladNode prev) {
+        this.prev = prev;
+    }
+
+    /**
      * @return return the next node pointed by this object
      */
     public IsladNode getNextNode() {
@@ -75,10 +68,23 @@ public class IsladNode implements Serializable {
     }
 
     /**
+     * method to set the pointer to the next node in the list
+     *
+     * @param next is the node that has to be pointed by the new node
+     */
+    public void setNextNode(IsladNode next) {
+        this.next = next;
+    }
+
+    /**
      * @return the ArrayList of islands, used when addIslands is called by mergeIslands
      */
     public ArrayList<Color> getStudents() {
         return this.students;
+    }
+
+    public void setStudents(ArrayList<Color> students) {
+        this.students.addAll(students);
     }
 
     /**
@@ -92,7 +98,7 @@ public class IsladNode implements Serializable {
     /**
      * method to reset motherNature flag when motherNature leaves
      */
-    public void resetMotherNature(){
+    public void resetMotherNature() {
         this.motherNature = false;
     }
 
@@ -112,17 +118,16 @@ public class IsladNode implements Serializable {
         this.stop = true;
     }
 
-    public void removeStop(){
+    public void removeStop() {
         this.stop = false;
     }
 
     /**
      * Method setTower, updates the tower attribute after tower construction or substitution
-     *
      */
     public void setTower() throws EndGameException {
 
-        if(mostInfluencePlayer != null) {
+        if (mostInfluencePlayer != null) {
             int oldCounter = towerCounter;
             this.tower = mostInfluencePlayer.getBoard().moveTower();
             towerCounter++;
@@ -133,33 +138,32 @@ public class IsladNode implements Serializable {
 
     /**
      * Method getTowerColor
+     *
      * @return color of placed tower
      */
-    public TowerColor getTowerColor(){
+    public TowerColor getTowerColor() {
         return this.tower;
     }
 
     /**
      * method to count students of a given color inside an island
+     *
      * @param color color of the students you want to count
      * @return the number of students of a given color
      */
-    public Integer getColorInfluence(Color color){
-        return Collections.frequency(students,color);
+    public Integer getColorInfluence(Color color) {
+        return Collections.frequency(students, color);
     }
 
     /**
      * method to add student
+     *
      * @param student pawn to be added on the island
      */
     public void addStudent(Color student) {
         ArrayList<Color> oldStudents = new ArrayList<>(students);
         students.add(student);
         support.firePropertyChange("UpdateNode " + ID, oldStudents, students);
-    }
-
-    public void setMostInfluencePlayer(Player player) {
-        this.mostInfluencePlayer = player;
     }
 
     public void mergeStudents(ArrayList<Color> students) {
@@ -170,27 +174,31 @@ public class IsladNode implements Serializable {
         return mostInfluencePlayer;
     }
 
+    public void setMostInfluencePlayer(Player player) {
+        this.mostInfluencePlayer = player;
+    }
+
     public void decreaseNodeID() {
         ID--;
     }
 
     public int getNumberOfTowers() {
-        if(!ignoreTower)
-                return this.towerCounter;
+        if (!ignoreTower)
+            return this.towerCounter;
         else
             return 0;
     }
 
     public void mergeTowers(int towers) {
-        this.towerCounter+=towers;
+        this.towerCounter += towers;
     }
 
-    public void changeIgnoreTower(){
+    public void changeIgnoreTower() {
         ignoreTower = !ignoreTower;
     }
 
     @TestOnly
-    public void setTowerTest (TowerColor color) {
+    public void setTowerTest(TowerColor color) {
         this.tower = color;
         this.towerCounter++;
     }
@@ -198,12 +206,9 @@ public class IsladNode implements Serializable {
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         support.addPropertyChangeListener(listener);
     }
+
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         support.removePropertyChangeListener(listener);
-    }
-
-    public void setStudents(ArrayList<Color> students){
-        this.students.addAll(students);
     }
 
     public void setMotherNature(boolean value) {

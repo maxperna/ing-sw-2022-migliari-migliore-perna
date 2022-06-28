@@ -2,7 +2,9 @@ package it.polimi.ingsw.model;
 
 import java.io.Serializable;
 
-/**Class to create a single passing parameters to its constructor, card ID is given by action number(unique for each deck)
+/**
+ * Class to create a single passing parameters to its constructor, card ID is given by action number(unique for each deck)
+ *
  * @author Massimo
  */
 public class AssistantCard implements Serializable {
@@ -21,7 +23,7 @@ public class AssistantCard implements Serializable {
      * @param backImage           path of the back image of the card
      * @param deckType
      */
-    public AssistantCard(int actionNumber, int motherNatureControl, String frontImage, String backImage, DeckType deckType){
+    public AssistantCard(int actionNumber, int motherNatureControl, String frontImage, String backImage, DeckType deckType) {
         this.actionNumber = actionNumber;
         this.motherNatureControl = motherNatureControl;
         this.frontImage = frontImage;

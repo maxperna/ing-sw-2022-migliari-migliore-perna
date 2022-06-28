@@ -10,27 +10,27 @@ public class Expert3 implements ExpertCard {
 
     private final ExpertID ID = ExpertID.NODE_ID;
     private final Game currentGame;
-    private int cost = 3;
     private final String IMG = "";            //front image of the card
     private final String description = "Choose an island and check the influence as if Mother Nature was there.";
+    private int cost = 3;
 
-    public Expert3(Game currentGame){
+    public Expert3(Game currentGame) {
         this.currentGame = currentGame;
     }
+
     @Override
     public void useCard(Player user, int targetIsland) throws NotEnoughCoins, IllegalMove {
-        if(user.getNumOfCoin()<this.cost){
+        if (user.getNumOfCoin() < this.cost) {
             throw new NotEnoughCoins("You don't have enough coins to use this effect");
-        }
-        else if (targetIsland > currentGame.getGameField().size())
+        } else if (targetIsland > currentGame.getGameField().size())
             throw new IllegalMove("This island doesn't exist anymore");
-        else{
-            currentGame.coinHandler(user,-this.cost);
+        else {
+            currentGame.coinHandler(user, -this.cost);
             this.cost++;
             currentGame.setActiveExpertsCard(this);
-            try{
-            currentGame.checkIslandInfluence(targetIsland);
-            }catch (EndGameException e ){
+            try {
+                currentGame.checkIslandInfluence(targetIsland);
+            } catch (EndGameException e) {
                 e.printStackTrace();
             }
 
@@ -48,7 +48,7 @@ public class Expert3 implements ExpertCard {
     }
 
     @Override
-    public ExpertID getExpType(){
+    public ExpertID getExpType() {
         return ID;
     }
 

@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 /**
  * Student Manager Interface
+ *
  * @author Miglia
  */
 public interface StudentManager {

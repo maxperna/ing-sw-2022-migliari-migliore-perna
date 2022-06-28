@@ -13,14 +13,15 @@ import java.util.ArrayList;
 public class Expert10 implements ExpertCard {
 
     private final ExpertID ID = ExpertID.TWO_LIST_COLOR;
-    private int cost = 1;
     private final String IMG = "";            //front image of the card
     private final Game currentGame;
     private final String description = "Switch up to 2 students from your entrance hall and your dining room";
+    private int cost = 1;
 
-    public Expert10(Game currentGame){
+    public Expert10(Game currentGame) {
         this.currentGame = currentGame;
     }
+
     @Override
     public void useCard(Player user, ArrayList<Color> toDiningRoom, ArrayList<Color> toEntryHall) throws NotEnoughCoins, IllegalArgumentException, NotOnBoardException, IndexOutOfBoundsException, IllegalMove {
 
@@ -31,24 +32,22 @@ public class Expert10 implements ExpertCard {
             sameColor = true;
 
 
-        if(user.getNumOfCoin()<cost){                                                                                   //checking that the player has the required number of coins
+        if (user.getNumOfCoin() < cost) {                                                                                   //checking that the player has the required number of coins
             throw new NotEnoughCoins("You don't have enough coins to use this effect\n");
-        }
-        else if (user.getBoard().getDiningRoom().isEmpty())                                                             //checking that there is at least a student inside the dining room
+        } else if (user.getBoard().getDiningRoom().isEmpty())                                                             //checking that there is at least a student inside the dining room
             throw new IllegalMove("There are no students inside the dining room\n");
-        else{
+        else {
             if (sameColor) {                                                                                            //checking that the dining room contains 2 students of the given color if those students share the same color
-                if(user.getBoard().getDiningRoom().get(toEntryHall.get(0)) < 2)
+                if (user.getBoard().getDiningRoom().get(toEntryHall.get(0)) < 2)
                     throw new NotOnBoardException("Some students are not available\n");
-            }
-            else {
-                for(Color student : toEntryHall) {                                                                      //checking that the dining room contains at least a student of the chosen color
-                    if(user.getBoard().getDiningRoom().get(student)==0)
+            } else {
+                for (Color student : toEntryHall) {                                                                      //checking that the dining room contains at least a student of the chosen color
+                    if (user.getBoard().getDiningRoom().get(student) == 0)
                         throw new NotOnBoardException("Some students are not available\n");
                 }
             }
 
-            for(Color student : toDiningRoom) {                                                                         //checking that the entry hall contains the students we want to move to the dining room
+            for (Color student : toDiningRoom) {                                                                         //checking that the entry hall contains the students we want to move to the dining room
                 if (!studentsOnHall.remove(student))
                     throw new NotOnBoardException("Some students are not available\n");
             }
@@ -67,11 +66,11 @@ public class Expert10 implements ExpertCard {
                 e.printStackTrace();
             }
 
-            for(Color color : Color.values()) {
+            for (Color color : Color.values()) {
                 currentGame.checkInfluence(user, color);
             }
 
-            currentGame.coinHandler(user,-this.cost);                                                                   //updating expert cost, player coins and expert activated
+            currentGame.coinHandler(user, -this.cost);                                                                   //updating expert cost, player coins and expert activated
             this.cost++;
             currentGame.setActiveExpertsCard(this);
 
@@ -122,7 +121,7 @@ public class Expert10 implements ExpertCard {
     }
 
     @Override
-    public ExpertID getExpType(){
+    public ExpertID getExpType() {
         return ID;
     }
 

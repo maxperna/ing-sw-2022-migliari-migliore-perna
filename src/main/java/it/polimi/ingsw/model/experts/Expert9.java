@@ -8,21 +8,21 @@ import it.polimi.ingsw.model.Player;
 public class Expert9 implements ExpertCard {
 
     private final ExpertID ID = ExpertID.COLOR;
-    private int cost = 3;
     private final String IMG = "";            //front image of the card
     private final Game currentGame;
     private final String description = "Choose a color; during this turn the students of that color are not counted during the check influence phase";
-    public Expert9(Game currentGame){
+    private int cost = 3;
+
+    public Expert9(Game currentGame) {
         this.currentGame = currentGame;
     }
 
     @Override
     public void useCard(Player user, Color colorToIgnore) throws NotEnoughCoins {
-        if(user.getNumOfCoin()<this.cost){
+        if (user.getNumOfCoin() < this.cost) {
             throw new NotEnoughCoins("You don't have enough coins to use this effect");
-        }
-        else{
-            currentGame.coinHandler(user,-this.cost);
+        } else {
+            currentGame.coinHandler(user, -this.cost);
             this.cost++;
             currentGame.setActiveExpertsCard(this);
             currentGame.setIgnoredColor(colorToIgnore);
@@ -42,7 +42,7 @@ public class Expert9 implements ExpertCard {
     }
 
     @Override
-    public ExpertID getExpType(){
+    public ExpertID getExpType() {
         return ID;
     }
 

@@ -8,19 +8,20 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-/**Class representing the virtual client on the server
- * @author Massimo*/
+/**
+ * Class representing the virtual client on the server
+ *
+ * @author Massimo
+ */
 public class ClientHandler implements Runnable {
     private final Socket clientSocket;
     private final Server_Socket serverSocket;
-
-    //IO STREAM
-    private ObjectOutputStream output;
-    private ObjectInputStream input;
     //STREAM LOCKER
     private final Object inputLock;
     private final Object outputLock;
-
+    //IO STREAM
+    private ObjectOutputStream output;
+    private ObjectInputStream input;
     private boolean connected;
 
     public ClientHandler(Server_Socket serverSocket, Socket clientSocket) {
@@ -61,7 +62,7 @@ public class ClientHandler implements Runnable {
         try {
             while (!Thread.currentThread().isInterrupted()) {
                 //Synchronization on the input
-                synchronized (this){
+                synchronized (this) {
                     Message receivedMessage = (Message) input.readObject();
                     if (receivedMessage.getType() == MessageType.LOGIN)
                         serverSocket.addClient(receivedMessage.getSenderPlayer(), this);
@@ -72,7 +73,7 @@ public class ClientHandler implements Runnable {
                     }
                 }
             }
-        } catch (ClassNotFoundException e){
+        } catch (ClassNotFoundException e) {
             Server.LOGGER.severe("Client input not valid");
         } catch (ClassCastException e) {
             e.printStackTrace();
@@ -104,12 +105,12 @@ public class ClientHandler implements Runnable {
      */
     public void sendMessage(Message messageToSend) {
         try {
-            synchronized (outputLock){
+            synchronized (outputLock) {
                 output.writeObject(messageToSend);
                 output.reset();
                 Server.LOGGER.info("Message sent " + messageToSend);
             }
-        }catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             Server.LOGGER.severe(e.getMessage());
             disconnect();

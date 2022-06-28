@@ -1,7 +1,6 @@
 package it.polimi.ingsw.observer;
 
 import it.polimi.ingsw.network.messages.Message;
-import it.polimi.ingsw.observer.Listener;
 
 import java.util.ArrayList;
 
@@ -14,22 +13,23 @@ public class Subject {
 
     public void addListener(Listener l) {
         list.add(l);
-    };
+    }
 
     public void removeListener(Listener l) {
         list.remove(l);
-    };
+    }
 
     public void addAllListeners(ArrayList<Listener> l) {
         list.addAll(l);
-    };
+    }
 
     public void removeAllListeners(ArrayList<Listener> l) {
         list.removeAll(l);
-    };
+    }
 
     public void notifyListener(Message message) {
-        for(Listener l : list)
+        for (Listener l : list)
             l.update(message);
-    };
+    }
+
 }

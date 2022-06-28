@@ -12,18 +12,18 @@ public class WelcomeScreenControllerGeneric extends ViewSubject implements Gener
     Button startButton;
 
     @FXML
-    public void initialize(){
+    public void initialize() {
 
         startButton.setOnAction(actionEvent -> startButtonClick());
 
         startButton.setOnKeyPressed(keyEvent -> {
-            if (keyEvent.getCode() == KeyCode.ENTER)  {
+            if (keyEvent.getCode() == KeyCode.ENTER) {
                 startButtonClick();
             }
         });
     }
 
-    public void startButtonClick(){
-        SceneController.changeRoot(list,"LogInScene.fxml");
+    public void startButtonClick() {
+        SceneController.changeRoot(list, "LogInScene.fxml");
     }
 }

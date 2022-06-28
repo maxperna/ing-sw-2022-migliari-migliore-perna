@@ -1,11 +1,12 @@
 package it.polimi.ingsw.exceptions;
 
-public class NotEnoughElements extends Exception{
+public class NotEnoughElements extends Exception {
 
-    public NotEnoughElements(){
+    public NotEnoughElements() {
         super();
     }
-    public NotEnoughElements(String message){
+
+    public NotEnoughElements(String message) {
         super(message);
     }
 }

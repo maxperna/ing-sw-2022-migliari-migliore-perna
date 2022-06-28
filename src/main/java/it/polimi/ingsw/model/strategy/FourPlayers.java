@@ -25,9 +25,9 @@ public class FourPlayers implements Strategy {
     @Override
     public Game generateGame(boolean expertMode) {
 
-        ArrayList<TowerColor> towerColors = new ArrayList<>(Arrays.asList(TowerColor.BLACK,TowerColor.WHITE,TowerColor.BLACK,TowerColor.WHITE));
+        ArrayList<TowerColor> towerColors = new ArrayList<>(Arrays.asList(TowerColor.BLACK, TowerColor.WHITE, TowerColor.BLACK, TowerColor.WHITE));
 
-        return new Game(numberOfPlayers,expertMode,maxTowers,maxStudentHall, towerColors);
+        return new Game(numberOfPlayers, expertMode, maxTowers, maxStudentHall, towerColors);
 
     }
 }
