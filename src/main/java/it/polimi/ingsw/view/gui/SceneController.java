@@ -75,7 +75,7 @@ public class SceneController extends ViewSubject {
             stage.setTitle(title);
             stage.setScene(new Scene(root));
             stage.setAlwaysOnTop(true);
-            stage.setResizable(false);
+            stage.setResizable(true);
             stage.show();
 
 

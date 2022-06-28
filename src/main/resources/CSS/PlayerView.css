@@ -8,8 +8,20 @@
     -fx-background-color: '#69bbea';
 }
 
-.island-pane{
+
+.island-pane1{
     -fx-background-image: url("../images/Scontornate/isola1.png");
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+.island-pane2{
+    -fx-background-image: url("../images/Scontornate/isola2.png");
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+.island-pane3{
+    -fx-background-image: url("../images/Scontornate/isola3.png");
     -fx-background-size: cover;
     -fx-background-position: center;
 }

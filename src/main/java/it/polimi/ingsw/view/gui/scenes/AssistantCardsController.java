@@ -89,7 +89,7 @@ public class AssistantCardsController extends ViewSubject implements GenericScen
     }
 
     public void selectCard(int cardID) {
-        this.notifyListener(list -> list.playAssistantCard(cardID));
+        new Thread(()->notifyListener(list -> list.playAssistantCard(cardID))).start();
         Stage stage = (Stage) anchorPane.getScene().getWindow();
         stage.close();
     }

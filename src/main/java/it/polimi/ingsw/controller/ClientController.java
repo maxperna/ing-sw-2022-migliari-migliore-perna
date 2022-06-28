@@ -457,7 +457,7 @@ public class ClientController implements ViewListener, Listener {
                 if (movedMN)
                     endTurn = true;
                 WorldChangeMessage worldChange = (WorldChangeMessage) receivedMessage;
-                actionQueue.execute(() -> defaultViewLayout(worldChange));
+                actionQueue.execute(() -> view.worldUpdate(worldChange.getGameFieldMap(), worldChange.getChargedClouds(), worldChange.getBoardMap(), worldChange.getCurrentPlayer(), worldChange.getExperts(), worldChange.getNumOfCoins()));
                 if (phase.equals(GameState.ACTION_PHASE) && worldChange.getCurrentPlayer().equals(nickname)) {
                     if (actionCounter > 0) {
                         actionQueue.execute(() -> view.ActionPhaseTurn(expert_mode));  //still in action phase
@@ -541,7 +541,7 @@ public class ClientController implements ViewListener, Listener {
      * Method that creates a series of requests to present the whole gameField
      * @param message is a message containing all the game layout info
      */
-    private void defaultViewLayout(WorldChangeMessage message) {
+    /*private void defaultViewLayout(WorldChangeMessage message) {
 
         view.clear();
         view.showGameField(message.getGameFieldMap());
@@ -549,7 +549,7 @@ public class ClientController implements ViewListener, Listener {
         view.printBoard(message.getBoardMap().get(nickname), nickname);
         view.showExpertCards(message.getExperts(), message.getNumOfCoins());
 
-    }
+    }*/
 
     /**
      * Method used to create a request based on the player's choice

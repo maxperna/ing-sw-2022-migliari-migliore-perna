@@ -182,7 +182,7 @@ public class IslandNode implements Serializable {
         ID--;
     }
 
-    public int getNumberOfTowers() {
+    public Integer getNumberOfTowers() {
         if (!ignoreTower)
             return this.towerCounter;
         else

@@ -1049,6 +1049,15 @@ public class Cli extends ViewSubject implements View {
         System.out.println("GAME STARTED!!");
     }
 
+    @Override
+    public void worldUpdate(Map<Integer, IslandNode> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap, String currentPlayer, ArrayList<ExpertCard> experts, int numOfCoins) {
+        clear();
+        showGameField(gameFieldMap);
+        showClouds(chargedClouds);
+        printBoard(boardMap.get(currentPlayer), currentPlayer);
+        showExpertCards(experts, numOfCoins);
+    }
+
 
     private String intToString(Integer number) {
         if (number < 10)
