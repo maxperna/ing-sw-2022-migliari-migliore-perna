@@ -46,7 +46,7 @@ public class Gui extends ViewSubject implements View {
     public void startGame() {
         PlayerViewController pwc = new PlayerViewController();
         Platform.runLater(() -> SceneController.changeRoot(list, pwc, "PlayerView.fxml"));
-        //Platform.runLater(SceneController::setFullScreen);
+        Platform.runLater(SceneController::setFullScreen);
     }
 
     @Override
@@ -189,7 +189,7 @@ public class Gui extends ViewSubject implements View {
 
     @Override
     public void chooseAction(/*boolean expert*/) {
-        notifyListener(list -> list.chooseAction(2));
+        getPWC().setPreparationPhaseChoiceBox();
     }
 
     @Override

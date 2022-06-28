@@ -7,8 +7,10 @@ import it.polimi.ingsw.model.TowerColor;
 import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.model.gameField.IslandNode;
 import it.polimi.ingsw.observer.ViewSubject;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -41,6 +43,8 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
     GridPane towerSpace;
     @FXML
     GridPane professorSpace;
+    @FXML
+    ChoiceBox<String> actionButton;
     private boolean studentOnMovement;
     private boolean MNOnMovement;
     private int previousMNPosition;  //position of MN on island before movement
@@ -333,6 +337,24 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
                 cloudIndex++;
             }
         }
+    }
+
+    public void setPreparationPhaseChoiceBox() {
+        actionButton.getItems().removeAll();
+        actionButton.setItems(FXCollections.observableArrayList("Play Card", "Show Boards"));
+        actionButton.setDisable(false);
+
+        actionButton.setOnAction(actionEvent -> {
+            String selection = actionButton.getSelectionModel().getSelectedItem();
+
+            if(selection.equals("Play Card")){
+                notifyListener(list -> list.chooseAction(1));
+                actionButton.getItems().remove(0);
+            }
+            else
+                notifyListener(list -> list.chooseAction(2));
+
+        });
     }
 
     private Color fromStringToColor(String color) {

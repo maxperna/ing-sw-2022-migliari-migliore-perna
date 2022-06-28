@@ -84,7 +84,7 @@
                   <Insets left="270.0" />
                </HBox.margin>
                <children>
-                  <ChoiceBox prefHeight="25.0" prefWidth="107.0" StackPane.alignment="CENTER" />
+                  <ChoiceBox fx:id="actionButton" prefHeight="25.0" prefWidth="107.0" StackPane.alignment="CENTER" />
                </children>
             </StackPane>
          </children>
