@@ -6,7 +6,7 @@ import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.gameField.IsladNode;
+import it.polimi.ingsw.model.gameField.IslandNode;
 
 import java.util.ArrayList;
 
@@ -43,7 +43,7 @@ public class Expert1 implements ExpertCard {
             this.cost++;
             currentGame.setActiveExpertsCard(this);
             if (studentsOnCard.remove(colorToSwap)) {
-                IsladNode targetIsland = currentGame.getGameField().getIslandNode(nodeID);
+                IslandNode targetIsland = currentGame.getGameField().getIslandNode(nodeID);
                 targetIsland.addStudent(colorToSwap);
                 try {
                     studentsOnCard.addAll(currentGame.getPouch().randomDraw(1));

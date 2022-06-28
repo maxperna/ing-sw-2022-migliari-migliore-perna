@@ -3,7 +3,7 @@ package it.polimi.ingsw.view.gui;
 import it.polimi.ingsw.controller.GameState;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.experts.*;
-import it.polimi.ingsw.model.gameField.IsladNode;
+import it.polimi.ingsw.model.gameField.IslandNode;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.observer.ViewSubject;
@@ -50,12 +50,7 @@ public class Gui extends ViewSubject implements View {
     }
 
     @Override
-    public void showInitPlayer(int numberOfTowers, ArrayList<Color> entranceHall) {
-
-    }
-
-    @Override
-    public void showGameField(Map<Integer, IsladNode> gameFieldMap) {
+    public void showGameField(Map<Integer, IslandNode> gameFieldMap) {
         PlayerViewController pwc = getPWC();
         Platform.runLater(() -> pwc.populateIslands(gameFieldMap));
     }
@@ -68,16 +63,6 @@ public class Gui extends ViewSubject implements View {
 
     @Override
     public void showCurrentPlayer(String currentPlayer, GameState currentState) {
-
-    }
-
-    @Override
-    public void updateTeachers(Map<Color, Boolean> teacherList) {
-
-    }
-
-    @Override
-    public void updateNode(IsladNode updatedNode) {
 
     }
 
@@ -157,19 +142,10 @@ public class Gui extends ViewSubject implements View {
     }
 
     @Override
-    public void ActionPhaseTurn() {
-
-    }
-
-    @Override
     public void connectionRequest() {
 
     }
 
-    @Override
-    public void selectStudent(ArrayList<Color> students, int islands) {
-
-    }
 
     @Override
     public void playExpertType2(int cardID, Expert9 expert) {
@@ -224,10 +200,6 @@ public class Gui extends ViewSubject implements View {
     public void chooseCloudTile(int cloudID) {
     }
 
-    @Override
-    public void sendNumberOfPlayers(int numberOfPlayers) {
-
-    }
 
     @Override
     public void showExpertCards(ArrayList<ExpertCard> allExpertCards, int numberOfCoins) {
@@ -245,17 +217,16 @@ public class Gui extends ViewSubject implements View {
     }
 
     @Override
-    public void expertModeControl(boolean setExpertMode) {
-
-    }
-
-    @Override
     public void playExpertChoice() {
 
     }
 
     @Override
-    public void worldUpdate(Map<Integer, IsladNode> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap, String currentPlayer, ArrayList<ExpertCard> experts, int numOfCoins) {
+    public void clear() {
+
+    }
+
+    public void worldUpdate(Map<Integer, IslandNode> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap, String currentPlayer, ArrayList<ExpertCard> experts, int numOfCoins) {
         PlayerViewController pwc = getPWC();
         Platform.runLater(() -> pwc.updateGameField(gameFieldMap, chargedClouds, boardMap.get(currentPlayer), experts, numOfCoins));
     }
@@ -272,8 +243,4 @@ public class Gui extends ViewSubject implements View {
         return pwc;
     }
 
-    @Override
-    public void showExpertCards(ArrayList<ExpertCard> expertCard) {
-
-    }
 }

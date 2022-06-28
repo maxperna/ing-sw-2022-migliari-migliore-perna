@@ -3,7 +3,7 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.controller.GameState;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.experts.*;
-import it.polimi.ingsw.model.gameField.IsladNode;
+import it.polimi.ingsw.model.gameField.IslandNode;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.network.messages.client_messages.GameParamRequest;
@@ -59,10 +59,6 @@ public class VirtualView implements View {
         clientHandler.sendMessage(new RemainingItemReply(remainingTowers, remainingDecks));
     }
 
-    @Override
-    public void showInitPlayer(int numberOfTowers, ArrayList<Color> entranceHall) {
-        clientHandler.sendMessage(new PlayerInitMessage(numberOfTowers, entranceHall));
-    }
 
     @Override
     public void showClouds(ArrayList<CloudTile> newClouds) {
@@ -70,7 +66,7 @@ public class VirtualView implements View {
     }
 
     @Override
-    public void showGameField(Map<Integer, IsladNode> gameFieldMap) {
+    public void showGameField(Map<Integer, IslandNode> gameFieldMap) {
         clientHandler.sendMessage(new GameFieldMessage(gameFieldMap));
     }
 
@@ -89,7 +85,6 @@ public class VirtualView implements View {
 
     }
 
-    @Override
     public void expertModeControl(boolean setExpertMode) {
         clientHandler.sendMessage(new ExpertModeControlMessage(setExpertMode));
     }
@@ -100,13 +95,8 @@ public class VirtualView implements View {
     }
 
     @Override
-    public void updateTeachers(Map<Color, Boolean> teacherList) {
-        clientHandler.sendMessage(new TeacherListMessage(teacherList));
-    }
+    public void clear() {
 
-    @Override
-    public void updateNode(IsladNode updatedNode) {
-        clientHandler.sendMessage(new UpdateNodeMessage(updatedNode));
     }
 
     @Override
@@ -129,10 +119,6 @@ public class VirtualView implements View {
         clientHandler.sendMessage(new ErrorMessage(errorMessage, errorType));
     }
 
-    @Override
-    public void showExpertCards(ArrayList<ExpertCard> expertCard) {
-
-    }
 
     @Override
     public void disconnect() {
@@ -167,20 +153,12 @@ public class VirtualView implements View {
     public void ActionPhaseTurn(Boolean expert) {
     }
 
-    @Override
-    public void ActionPhaseTurn() {
-
-    }
 
     @Override
     public void connectionRequest() {
 
     }
 
-    @Override
-    public void selectStudent(ArrayList<Color> students, int islands) {
-
-    }
 
     @Override
     public void playExpertType2(int cardID, Expert9 expert) {
@@ -230,17 +208,13 @@ public class VirtualView implements View {
 
     }
 
-    public void worldUpdate(Map<Integer, IsladNode> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap, String currentPlayer, ArrayList<ExpertCard> experts, int numOfCoins) {
+    public void worldUpdate(Map<Integer, IslandNode> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap, String currentPlayer, ArrayList<ExpertCard> experts, int numOfCoins) {
         clientHandler.sendMessage(new WorldChangeMessage(gameFieldMap, chargedClouds, boardMap, currentPlayer, experts, numOfCoins));
     }
 
     public void chooseCloudTile(int cloudID) {
     }
 
-    @Override
-    public void sendNumberOfPlayers(int numberOfPlayers) {
-        clientHandler.sendMessage((new NumberOfPlayersMessage(numberOfPlayers)));
-    }
 
     public void setExpertMode(boolean expertMode) {
         clientHandler.sendMessage(new ExpertModeNotify(expertMode));
@@ -254,5 +228,12 @@ public class VirtualView implements View {
     @Override
     public void startGame() {
         clientHandler.sendMessage(new StartGameMessage());
+    }
+
+    public void sendNumberOfPlayers(int num_of_players) {
+    }
+
+    public void showInitPlayer(int numberOfTowers, ArrayList<Color> entranceHall) {
+        clientHandler.sendMessage(new PlayerInitMessage(numberOfTowers, entranceHall));
     }
 }

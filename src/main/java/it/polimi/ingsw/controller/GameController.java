@@ -1,8 +1,9 @@
 package it.polimi.ingsw.controller;
 
+import com.sun.scenario.effect.light.DistantLight;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.gameField.IsladNode;
+import it.polimi.ingsw.model.gameField.IslandNode;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.client_messages.*;
 import it.polimi.ingsw.network.messages.client_messages.ExpertMessages.*;
@@ -26,8 +27,8 @@ import static it.polimi.ingsw.network.messages.MessageType.*;
  */
 public class GameController implements PropertyChangeListener {
 
-    private final Map<String, VirtualView> viewMap;
     private Game game;
+    private final Map<String, VirtualView> viewMap;
     private TurnLogic turnLogic;
     private GameState gameState;
 
@@ -42,7 +43,7 @@ public class GameController implements PropertyChangeListener {
     }
 
     /**
-     * method to manage the received messages
+     * Method to manage the received messages
      *
      * @param receivedMessage received message
      */
@@ -86,11 +87,11 @@ public class GameController implements PropertyChangeListener {
                     try {
                         //plays the card
                         turnLogic.setPlayedCard(((PlayAssistantMessage) receivedMessage).getPlayedCard(), currentPlayer);
-                        //Manda ultima carta giocata a tutti i giocatori
+                        //Sends last played card to every player
                         nextState();
                     } catch (CardAlreadyPlayed e) {
                         viewMap.get(senderPlayer).showError("CardAlreadyPlayed", ASSISTANT_ERROR);
-                    } catch (InexistentCard e) {
+                    } catch (NonexistentCard e) {
                         viewMap.get(senderPlayer).showError("Card not found", ASSISTANT_ERROR);
                     } catch (EndGameException e) {
 
@@ -206,7 +207,7 @@ public class GameController implements PropertyChangeListener {
 
 
     /**
-     * method to manage the switch between game states
+     * Method used to manage the switch between game states
      */
     private synchronized void nextState() {
 
@@ -284,7 +285,7 @@ public class GameController implements PropertyChangeListener {
                     if (nextPlayer != null) {
                         viewMap.get(turnLogic.getActivePlayer().getNickname()).showCurrentPlayer(turnLogic.getActivePlayer().getNickname(), gameState);
                     } else
-                        System.out.println("Qualcosa non va, non dovrebbe essere null questo valore");
+                        System.out.println("Something's wrong, this shouldn't be null");
                 }
                 break;
 
@@ -308,7 +309,7 @@ public class GameController implements PropertyChangeListener {
     }
 
     /**
-     * method that creates the game
+     * Method that creates the game
      *
      * @param receivedMessage, must be a GameParam message, contains the game parameters
      */
@@ -321,7 +322,7 @@ public class GameController implements PropertyChangeListener {
     }
 
     /**
-     * method that creates players
+     * Method that creates players
      *
      * @param receivedMessage, must be a CreatePlayerMessage, contains the player parameters
      */
@@ -350,30 +351,6 @@ public class GameController implements PropertyChangeListener {
         Player player = game.getPlayerByNickName(message.getSenderPlayer());
         int playedCard = message.getPlayedCard();
         try {
-           /* if(message instanceof PlayExpertCard1) {
-                turnLogic.playExpertCard(player, playedCard);
-                viewMap.get(message.getSenderPlayer()).ActionPhaseTurn(false);
-            }
-            else if(message instanceof PlayExpertCard2) {
-                PlayExpertCard2 castedMessage1 = (PlayExpertCard2) message;
-                turnLogic.playExpertCard(player, castedMessage1.getNodeID(), playedCard);
-                viewMap.get(message.getSenderPlayer()).ActionPhaseTurn(false);
-            }
-            else if(message instanceof PlayExpertCard3) {
-                PlayExpertCard3 castedMessage2 = (PlayExpertCard3) message;
-                turnLogic.playExpertCard(player, castedMessage2.getNodeID(), castedMessage2.getStudent(), playedCard);
-                viewMap.get(message.getSenderPlayer()).ActionPhaseTurn(false);
-            }
-            else if(message instanceof PlayExpertCard4) {
-                PlayExpertCard4 castedMessage3 = (PlayExpertCard4) message;
-                turnLogic.playExpertCard(player, castedMessage3.getStudent(), playedCard);
-                viewMap.get(message.getSenderPlayer()).ActionPhaseTurn(false);
-            }
-            else if(message instanceof PlayExpertCard5) {
-                PlayExpertCard5 castedMessage4 = (PlayExpertCard5) message;
-                turnLogic.playExpertCard(player, castedMessage4.getStudents1(), castedMessage4.getStudents2(), playedCard);
-                viewMap.get(message.getSenderPlayer()).ActionPhaseTurn(false);
-            }*/
             switch (message.getExpID()) {
                 case 1:
                     turnLogic.playExpertCard(player, playedCard);
@@ -404,8 +381,7 @@ public class GameController implements PropertyChangeListener {
                 viewMap.get(nickname).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), message.getSenderPlayer(), game.getExpertsCard(), game.getPlayerByNickName(nickname).getNumOfCoin());
             viewMap.get(message.getSenderPlayer()).expertModeControl(false);
 
-        } catch (IllegalMove | IndexOutOfBoundsException | IllegalArgumentException | NotEnoughCoins |
-                 NotOnBoardException e) {
+        } catch (IllegalMove | IndexOutOfBoundsException | IllegalArgumentException | NotEnoughCoins | NotOnBoardException e) {
             viewMap.get(message.getSenderPlayer()).showError(e.getMessage(), EXPERT_ERROR);
             viewMap.get(message.getSenderPlayer()).chooseExpertCard();
         }
@@ -413,7 +389,7 @@ public class GameController implements PropertyChangeListener {
     }
 
     /**
-     * method that associates a virtual view and a nickname
+     * Method that associates a virtual view and a nickname
      *
      * @param nickName    nickname of the player
      * @param virtualView virtual view of the player
@@ -429,6 +405,10 @@ public class GameController implements PropertyChangeListener {
         }
     }
 
+    /**
+     * Method used to notify a change on the model to every user
+     * @param event is the type of change that happened
+     */
     @Override
     public void propertyChange(PropertyChangeEvent event) {
 
@@ -439,11 +419,6 @@ public class GameController implements PropertyChangeListener {
         }
 
         if (event.getPropertyName().contains("UpdateNode")) {
-
-//            String value = event.getPropertyName();
-//            String intValue = value.replaceAll("\\D+","");
-//            int nodeID = Integer.parseInt(intValue);
-
             for (String nickName : viewMap.keySet()) {
                 viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), turnLogic.getActivePlayer().getNickname(), game.getExpertsCard(), game.getPlayerByNickName(nickName).getNumOfCoin());
             }
@@ -472,18 +447,17 @@ public class GameController implements PropertyChangeListener {
         }
 
         if (event.getPropertyName().contains("UpdateBoard")) {
-//            String value = event.getPropertyName();
-//            String playerName = value.substring(11);
-//
-//            if(!viewMap.containsKey(playerName))
-//                System.out.println("Non funziona la lettura da stringa");
-
             for (String nickName : viewMap.keySet()) {
                 viewMap.get(nickName).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(), turnLogic.getActivePlayer().getNickname(), game.getExpertsCard(), game.getPlayerByNickName(nickName).getNumOfCoin());
             }
         }
     }
 
+    /**
+     * Method used to send info from the model to the player requesting the parameter
+     * @param messageReceived is the message received by the senderPlayer
+     * @param senderPlayer is the player
+     */
     public void showGameInfo(Message messageReceived, String senderPlayer) {
 
         if (messageReceived.getType() == SHOW_CLOUD)
@@ -528,7 +502,7 @@ public class GameController implements PropertyChangeListener {
     }
 
     /**
-     * method to convert int in gameMode
+     * Method used to convert int in gameMode
      *
      * @param numOfPlayers number of players
      */
@@ -559,7 +533,7 @@ public class GameController implements PropertyChangeListener {
     }
 
     /**
-     * method to send a broadCast Message
+     * Method used to send a broadCast Message
      *
      * @param genericMessage message to broadCast
      */
@@ -571,12 +545,20 @@ public class GameController implements PropertyChangeListener {
 
     }
 
+    /**
+     * Getter used to get the gameState value
+     * @return the gameState
+     */
     public GameState getGameState() {
         return gameState;
     }
 
-    private Map<Integer, IsladNode> generateGameFieldMap() {
-        Map<Integer, IsladNode> gameFieldMap = new HashMap<>();
+    /**
+     * Method used to create the gameFieldMap
+     * @return the gameField as a map
+     */
+    private Map<Integer, IslandNode> generateGameFieldMap() {
+        Map<Integer, IslandNode> gameFieldMap = new HashMap<>();
         for (int i = 1; i <= game.getGameField().size(); i++) {
             gameFieldMap.put(i, game.getGameField().getIslandNode(i));
         }
@@ -584,14 +566,25 @@ public class GameController implements PropertyChangeListener {
     }
 
 
+    /**
+     * Setter for turnLogic parameter
+     * @param turnLogic is the class handling all the logic during a turn
+     */
     public void setTurnLogic(TurnLogic turnLogic) {
         this.turnLogic = turnLogic;
     }
 
+    /**
+     * Getter used to get the game created
+     * @return the Game created
+     */
     public Game getGame() {
         return game;
     }
 
+    /**
+     * Method used to add a propertyChangeListener to every island, cloud, board, game and gameField
+     */
     public void setListeners() {
 
         for (CloudTile currentCloud : game.getCloudTiles()) {
@@ -610,27 +603,12 @@ public class GameController implements PropertyChangeListener {
 
         game.getGameField().addPropertyChangeListener(this);
     }
-    /*
-    public void removeListeners() {
-
-        for(CloudTile currentCloud : game.getCloudTiles()) {
-            currentCloud.removePropertyChangeListener(this);
-        }
-
-        for(int i = 1; i < game.getGameField().size(); i ++) {
-            game.getGameField().getIslandNode(i).removePropertyChangeListener(this);
-        }
-
-        for(Player currentPlayer : game.getPlayersList()) {
-            currentPlayer.getBoard().removePropertyChangeListener(this);
-        }
-
-        game.removePropertyChangeListener(this);
-
-        game.getGameField().removePropertyChangeListener(this);
-    }*/
 
 
+    /**
+     * Method used to create the boardMap
+     * @return a map where every board is linked to its owner's nickname
+     */
     public Map<String, Board> generateBoardMap() {
 
         Map<String, Board> boardMap = new HashMap<>();

@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 /**
- * class used as an extension of Subject (the object that will send the notifies, old Observable), specific for the View, contains all methods used to interact to the view, uses lambdas to get access of methods
+ * Class used as an extension of Subject (the object that will send the notifies, old Observable), specific for the View, contains all methods used to interact to the view, uses lambdas to get access of methods
  */
 public abstract class ViewSubject {
 
@@ -23,7 +23,7 @@ public abstract class ViewSubject {
         list.addAll(l);
     }
 
-    public void removeAllListeners(List<Listener> l) {
+    public void removeAllListeners(List<ViewListener> l) {
         list.removeAll(l);
     }
 

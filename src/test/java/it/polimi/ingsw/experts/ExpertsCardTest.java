@@ -4,7 +4,7 @@ import it.polimi.ingsw.controller.TurnLogic;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.experts.*;
-import it.polimi.ingsw.model.gameField.IsladNode;
+import it.polimi.ingsw.model.gameField.IslandNode;
 import it.polimi.ingsw.model.gameField.IslandList;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,7 +25,7 @@ public class ExpertsCardTest {
     void expert1Test() throws FileNotFoundException {
         Expert1 exp1 = new Expert1(gameTest);
         ArrayList<Color> studentsOnCard = exp1.getStudentsOnCard();
-        IsladNode nodeTest = gameTest.getGameField().getIslandNode(2);
+        IslandNode nodeTest = gameTest.getGameField().getIslandNode(2);
         assertEquals(studentsOnCard.size(),4);
 
         gameTest.addPlayer("io",DeckType.SAGE,TowerColor.WHITE);
@@ -131,7 +131,7 @@ public class ExpertsCardTest {
 
         gameTest.coinHandler(p1,5);
 
-        IsladNode testNode = gameTest.getGameField().getIslandNode(2);
+        IslandNode testNode = gameTest.getGameField().getIslandNode(2);
 
         p1.getBoard().addToDiningTest(Color.BLUE);
         p1.getBoard().addToDiningTest(Color.BLUE);
@@ -174,7 +174,7 @@ public class ExpertsCardTest {
 
         try {
             turnLogicTest.setPlayedCard(3,p1);  //cart 3 maximum MN movement = 2
-        } catch (CardAlreadyPlayed | EndGameException | InexistentCard e) {
+        } catch (CardAlreadyPlayed | EndGameException | NonexistentCard e) {
             fail();
         }
 
@@ -226,7 +226,7 @@ public class ExpertsCardTest {
 
         gameTest.coinHandler(p1,5);
 
-        IsladNode nodeTest = gameTest.getGameField().getIslandNode(2);
+        IslandNode nodeTest = gameTest.getGameField().getIslandNode(2);
 
         //Check island is not stopped
         assertFalse(nodeTest.isStopped());
@@ -288,7 +288,7 @@ public class ExpertsCardTest {
 
         IslandList islandsTest = gameTest.getGameField();
         //Check for void note for test
-        IsladNode testNode = islandsTest.getIslandNode(1);
+        IslandNode testNode = islandsTest.getIslandNode(1);
         while(testNode.getStudents().size() != 0){
             testNode = testNode.getNextNode();
         }
@@ -423,7 +423,7 @@ public class ExpertsCardTest {
         gameTest.addPlayer("io",DeckType.DRUID,TowerColor.WHITE);
         gameTest.addPlayer("tu",DeckType.SAGE,TowerColor.BLACK);
 
-        IsladNode testNode = gameTest.getGameField().getIslandNode(2);
+        IslandNode testNode = gameTest.getGameField().getIslandNode(2);
 
         Player p1 = gameTest.getPlayersList().get(0);
         Player p2 = gameTest.getPlayersList().get(1);

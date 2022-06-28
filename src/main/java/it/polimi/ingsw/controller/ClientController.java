@@ -34,9 +34,9 @@ import static it.polimi.ingsw.network.messages.ErrorType.*;
 public class ClientController implements ViewListener, Listener {
 
     private final View view;
-    private final ExecutorService actionQueue;
     private Client client;
     private String nickname;
+    private final ExecutorService actionQueue;
     private GameState phase;
     private ArrayList<ExpertCard> expertCardsOnField = new ArrayList<>();
     private int actionCounter;
@@ -97,7 +97,9 @@ public class ClientController implements ViewListener, Listener {
         client.sendMessage(new GameParamMessage(this.nickname, numOfPlayers, expertMode));
     }
 
-    /***/
+    /**
+     * Method used to create a board request
+     */
     @Override
     public void getBoards() {
         client.sendMessage(new BoardInfoRequest(this.nickname));
@@ -127,6 +129,10 @@ public class ClientController implements ViewListener, Listener {
         client.sendMessage(new MovedStudentToIsland(nickname, student, nodeID));
     }
 
+    /**
+     * Method that evaluates what request will be sent to the server based on message type received
+     * @param type is the type of the message received
+     */
     @Override
     public void actionPhaseChoice(MessageType type) {
         if (type == MessageType.MOVE_TO_DINING || type == MessageType.MOVE_TO_ISLAND)
@@ -148,14 +154,6 @@ public class ClientController implements ViewListener, Listener {
     }
 
     /**
-     * Method to select multiple students on the view
-     *
-     * @param students selected students
-     */
-    public void selectStudentArray(ArrayList<Color> students) {
-    }
-
-    /**
      * Method used to play an assistant card
      *
      * @param playedCard selected card to play
@@ -165,11 +163,18 @@ public class ClientController implements ViewListener, Listener {
         client.sendMessage(new PlayAssistantMessage(nickname, playedCard));
     }
 
+    /**
+     * Method used to request clouds information to the server
+     */
     @Override
     public void cloudsRequest() {
         client.sendMessage(new ChargedCloudsRequest(nickname));
     }
 
+    /**
+     * Method used to create a message about mother nature movement
+     * @param numberOfSteps is the number of steps that mother nature will perform
+     */
     @Override
     public void moveMotherNature(int numberOfSteps) {
         movedMN = true;     //set the movement of MN
@@ -186,32 +191,60 @@ public class ClientController implements ViewListener, Listener {
         client.sendMessage(new ExpertCardRequest(nickname));
     }
 
+    /**
+     * Method used to send a gameField request to the server
+     **/
     @Override
     public void getGameField() {
         client.sendMessage((new GameFieldRequest(nickname)));
     }
 
-    //EXPERT CARD METHODS
+    /**
+     * Method to play an expert card that requires no additional parameters
+     * @param cardID is  the ID [0,1,2] that refers to the card played
+     **/
     @Override
     public void playExpertCard1(int cardID) {
         client.sendMessage(new PlayExpertCard1(nickname, cardID));
     }
 
+    /**
+     * Method to play an expert card that requires a node ID as parameter
+     * @param cardID is the ID [0,1,2] that refers to the card played
+     * @param nodeID is the ID of the chosen island
+     **/
     @Override
     public void playExpertCard2(int cardID, int nodeID) {
         client.sendMessage(new PlayExpertCard2(nickname, nodeID, cardID));
     }
 
+    /**
+     * Method to play an expert card that requires a node ID and a Color as parameters
+     * @param cardID is the ID [0,1,2] that refers to the card played
+     * @param nodeID is the ID of the chosen island
+     * @param student is the color chosen (can also refer to a student of that color, based on which expert has been played)
+     **/
     @Override
     public void playExpertCard3(int cardID, int nodeID, Color student) {
         client.sendMessage(new PlayExpertCard3(nickname, nodeID, student, cardID));
     }
 
+    /**
+     * Method to play an expert card that requires a color as parameter
+     * @param cardID is the ID [0,1,2] that refers to the card played
+     * @param student is the color chosen (can also refer to a student of that color, based on which expert has been played)
+     **/
     @Override
     public void playExpertCard4(int cardID, Color student) {
         client.sendMessage(new PlayExpertCard4(nickname, student, cardID));
     }
 
+    /**
+     * Method to play an expert card that requires two arrayLists of Color as parameters
+     * @param cardID is the ID [0,1,2] that refers to the card played
+     * @param student1 is the first arrayList of students, usually the ones that will be taken from an external source
+     * @param student2 is the second arrayList of students, usually tha ones that will be moved to an external source
+     **/
     @Override
     public void playExpertCard5(int cardID, ArrayList<Color> student1, ArrayList<Color> student2) {
         client.sendMessage(new PlayExpertCard5(nickname, student1, student2, cardID));
@@ -224,6 +257,9 @@ public class ClientController implements ViewListener, Listener {
         client.sendMessage(new AssistantInfoMessage(nickname));
     }
 
+    /**
+     * Method used to get last played card
+     */
     public void requestPlayedAssistants() {
         client.sendMessage(new LastCardRequest(nickname));
     }
@@ -272,13 +308,13 @@ public class ClientController implements ViewListener, Listener {
         }
     }
 
-    @Override
+    /**
+     * Method used to get the number of coins of the user
+     */
     public void getCoins() {
         client.sendMessage(new GetCoins(nickname));
     }
 
-    /*Aggiungere metodi per inviare messaggi
-     * client.sendMessage(Message)*/
 
     /**
      * Method handling the action on the base of the received message
@@ -421,7 +457,7 @@ public class ClientController implements ViewListener, Listener {
                 if (movedMN)
                     endTurn = true;
                 WorldChangeMessage worldChange = (WorldChangeMessage) receivedMessage;
-                actionQueue.execute(() -> view.worldUpdate(worldChange.getGameFieldMap(), worldChange.getChargedClouds(), worldChange.getBoardMap(), worldChange.getCurrentPlayer(), worldChange.getExperts(), worldChange.getNumOfCoins()));
+                actionQueue.execute(() -> defaultViewLayout(worldChange));
                 if (phase.equals(GameState.ACTION_PHASE) && worldChange.getCurrentPlayer().equals(nickname)) {
                     if (actionCounter > 0) {
                         actionQueue.execute(() -> view.ActionPhaseTurn(expert_mode));  //still in action phase
@@ -444,31 +480,32 @@ public class ClientController implements ViewListener, Listener {
                 ExpertModeNotify expert = (ExpertModeNotify) receivedMessage;
                 setExpertMode(expert.getExpertMode());
                 break;
-            /*CASE TYPE:
-             *   richiedere un aggiornamento alla view*/
         }
     }
 
+    /**
+     * Method used to create a message containing the TowerColor and DeckType chosen
+     * @param color is the towerColor
+     * @param deck is the deckType
+     */
     @Override
     public void chooseTowerColorAndDeck(TowerColor color, DeckType deck) {
         client.sendMessage(new CreatePlayerMessage(nickname, color, deck));
     }
 
-    @Override
-    public void chooseDestination(String destination) {
-
-    }
-
-    @Override
-    public void getPlayerInfo(String player) {
-
-    }
-
+    /**
+     * method used to read a message received from the objects observed
+     * @param message
+     */
     @Override
     public void update(Message message) {
         catchAction(message);
     }
 
+    /**
+     * Method used to create a request that matches the player's action
+     * @param i is the value chosen by the player
+     */
     @Override
     public void chooseAction(int i) {
         switch (i) {
@@ -499,7 +536,11 @@ public class ClientController implements ViewListener, Listener {
     private void decreaseActionCounter() {
         actionCounter--;
     }
-/*
+
+    /**
+     * Method that creates a series of requests to present the whole gameField
+     * @param message is a message containing all the game layout info
+     */
     private void defaultViewLayout(WorldChangeMessage message) {
 
         view.clear();
@@ -508,8 +549,12 @@ public class ClientController implements ViewListener, Listener {
         view.printBoard(message.getBoardMap().get(nickname), nickname);
         view.showExpertCards(message.getExperts(), message.getNumOfCoins());
 
-    }*/
+    }
 
+    /**
+     * Method used to create a request based on the player's choice
+     * @param expert_mode is a boolean that indicates if the expert mode is enabled or not (also used to lock the player from using more than an expert card)
+     */
     public void askAction(Boolean expert_mode) {
         if (studentsMoved < 3)
             view.ActionPhaseTurn(expert_mode);
@@ -517,6 +562,10 @@ public class ClientController implements ViewListener, Listener {
             view.playExpertChoice();
     }
 
+    /**
+     * Method used to set the boolean expertMode
+     * @param expertMode is the boolean received from the server
+     */
     @Override
     public void setExpertMode(Boolean expertMode) {
         this.expert_mode = expertMode;

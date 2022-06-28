@@ -5,7 +5,7 @@ import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
 import it.polimi.ingsw.model.experts.Expert5;
 import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.model.experts.ExpertsFactory;
-import it.polimi.ingsw.model.gameField.IsladNode;
+import it.polimi.ingsw.model.gameField.IslandNode;
 import it.polimi.ingsw.model.gameField.IslandList;
 import org.jetbrains.annotations.TestOnly;
 
@@ -197,10 +197,10 @@ public class Game implements Serializable {
      * @param nodeID island id to check the influence over
      */
     public void checkIslandInfluence(int nodeID) throws EndGameException {
-        IsladNode islandToCheck = gameField.getIslandNode(nodeID);
+        IslandNode islandToCheck = gameField.getIslandNode(nodeID);
         HashMap<Player, Integer> temporaryInfluenceCounter = new HashMap<>();  //temporary influence counter
         Player towerPlayer = null;
-        //if island has a deny card on it influence haven't to be calculated
+        //if island has a stop card on it influence haven't to be calculated
         if (!islandToCheck.isStopped()) {
             for (Color colorStudent : influenceMap.keySet()) {
                 Player playerToCheck = influenceMap.get(colorStudent).getPlayer();
@@ -276,7 +276,6 @@ public class Game implements Serializable {
             } else if (islandToCheck.getNumberOfTowers() == 0)
                 islandToCheck.setTower();
         }
-        towerPlayer = null;
     }
 
 
@@ -363,7 +362,7 @@ public class Game implements Serializable {
             if (currentPlayer.getNickname().equals(nickName))
                 return currentPlayer;
         }
-        throw new RuntimeException("PlayerNonTrovato");
+        throw new RuntimeException("Player Not Found");
     }
 
     public int getCoins() {

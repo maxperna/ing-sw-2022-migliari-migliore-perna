@@ -17,7 +17,7 @@ import java.util.Collections;
  * class IsladNode, used to create a doubly circular linked list of nodes, each node contains an Arraylist of islands, initially created with only 1 island
  * can be considered as a superclass of IslandTile that contains pointers to create the linked list
  */
-public class IsladNode implements Serializable {
+public class IslandNode implements Serializable {
     private final ArrayList<Color> students;
     transient private final PropertyChangeSupport support;
     private int ID;
@@ -26,12 +26,12 @@ public class IsladNode implements Serializable {
     private TowerColor tower;
     private boolean stop;            //put to true if stopped by assistant card #5
     private int towerCounter;
-    transient private IsladNode next;
-    transient private IsladNode prev;
+    transient private IslandNode next;
+    transient private IslandNode prev;
     transient private boolean ignoreTower;
 
 
-    public IsladNode(int ID) {
+    public IslandNode(int ID) {
         this.ID = ID;
         this.next = null;
         this.prev = null;
@@ -47,7 +47,7 @@ public class IsladNode implements Serializable {
     /**
      * @return the previous node pointed by this object
      */
-    public IsladNode getPreviousNode() {
+    public IslandNode getPreviousNode() {
         return this.prev;
     }
 
@@ -56,14 +56,14 @@ public class IsladNode implements Serializable {
      *
      * @param prev is the node that has to point to the new node
      */
-    public void setPreviousNode(IsladNode prev) {
+    public void setPreviousNode(IslandNode prev) {
         this.prev = prev;
     }
 
     /**
      * @return return the next node pointed by this object
      */
-    public IsladNode getNextNode() {
+    public IslandNode getNextNode() {
         return this.next;
     }
 
@@ -72,7 +72,7 @@ public class IsladNode implements Serializable {
      *
      * @param next is the node that has to be pointed by the new node
      */
-    public void setNextNode(IsladNode next) {
+    public void setNextNode(IslandNode next) {
         this.next = next;
     }
 

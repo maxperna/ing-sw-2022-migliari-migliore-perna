@@ -5,7 +5,7 @@ import it.polimi.ingsw.network.messages.Message;
 import java.util.ArrayList;
 
 /**
- * old Observable, contains the methods used to set up Listeners and updates them through a Message that can be read, you can change it since i haven't used it yet, can be used in substitution of lambdas
+ * Observable implementation that uses messages, contains the methods used to set up Listeners and updates them through a Message that can be read
  */
 public class Subject {
 

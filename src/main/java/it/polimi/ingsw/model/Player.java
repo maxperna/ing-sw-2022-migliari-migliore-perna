@@ -2,7 +2,7 @@ package it.polimi.ingsw.model;
 
 
 import it.polimi.ingsw.exceptions.EndGameException;
-import it.polimi.ingsw.exceptions.InexistentCard;
+import it.polimi.ingsw.exceptions.NonexistentCard;
 import org.jetbrains.annotations.TestOnly;
 
 import java.io.FileNotFoundException;
@@ -47,10 +47,10 @@ public class Player implements Serializable {
      * Method to play a card from the player personal deck
      *
      * @param assistantCardToPlay card the player wants to play
-     * @throws InexistentCard   is the card is not present in the deck
+     * @throws NonexistentCard   is the card is not present in the deck
      * @throws EndGameException if the deck is empty
      */
-    public AssistantCard playCard(AssistantCard assistantCardToPlay) throws InexistentCard, EndGameException {
+    public AssistantCard playCard(AssistantCard assistantCardToPlay) throws NonexistentCard, EndGameException {
         deck.playCard(assistantCardToPlay);
         return assistantCardToPlay;
     }

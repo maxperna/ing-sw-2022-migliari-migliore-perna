@@ -1,12 +1,11 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.controller.GameState;
-import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.experts.*;
-import it.polimi.ingsw.model.gameField.IsladNode;
+import it.polimi.ingsw.model.gameField.IslandNode;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.MessageType;
-import org.jetbrains.annotations.TestOnly;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -31,13 +30,6 @@ public interface View {
      */
     void showRemainingTowerAndDeck(ArrayList<TowerColor> remainingTowers, ArrayList<DeckType> remainingDecks);
 
-    /**
-     * Method that shows the initialized player, all the towers set and the students present in the entrance hall
-     *
-     * @param numberOfTowers starting number of towers
-     * @param entranceHall   array with all the students
-     */
-    void showInitPlayer(int numberOfTowers, ArrayList<Color> entranceHall); //probably unnecessary
 
     /**
      * Method to show the entire game field, contains a map with all the nodes and their ID as key,
@@ -45,7 +37,7 @@ public interface View {
      *
      * @param gameFieldMap map with the gameField
      */
-    void showGameField(Map<Integer, IsladNode> gameFieldMap);
+    void showGameField(Map<Integer, IslandNode> gameFieldMap);
 
     /**
      * Method to show all the clouds, every player receives newClouds at the beginning of the game.
@@ -61,23 +53,10 @@ public interface View {
      */
     void showCurrentPlayer(String currentPlayer, GameState currentState);
 
-    /**
-     * Each time a teacher changes every player receives his personal teacherList.
-     *
-     * @param teacherList contains the teacher of the player
-     */
-    void updateTeachers(Map<Color, Boolean> teacherList);
 
     /**
-     * Each time a node changes every player receives the updated node.
-     *
-     * @param updatedNode node with updated attributes
-     */
-    void updateNode(IsladNode updatedNode);   //we will use showGameField
-
-    /**
-     * Show a generic message to the players.
-     * E.G. the preparation phase ends, all the players receive a "Action phase started" message
+     * Shows a generic message to the players.
+     * E.G. the preparation phase ends, all the players receive an "Action phase started" message
      *
      * @param genericMessage contains message
      */
@@ -101,7 +80,7 @@ public interface View {
     /**
      * method used to print a specific board
      *
-     * @param board
+     * @param board is the board that will be printed
      */
     void printBoard(Board board, String player);
 
@@ -116,26 +95,13 @@ public interface View {
 
     void showError(String errorMessage, ErrorType errorType);
 
-    void showExpertCards(ArrayList<ExpertCard> expertCard);
-
     void disconnect();
 
     void showAssistant(ArrayList<AssistantCard> deck);
 
-    @TestOnly
     void ActionPhaseTurn(Boolean expert);
 
-    void ActionPhaseTurn();
-
     void connectionRequest();
-
-    /**
-     * method used to choose which student move and the destination
-     *
-     * @param students is the arraylist of available students
-     * @param islands  is the actual number of islands
-     */
-    void selectStudent(ArrayList<Color> students, int islands);
 
     void playExpertType2(int cardID, Expert9 expert);
 
@@ -159,19 +125,16 @@ public interface View {
 
     void chooseCloudTile(int cloudID);
 
-    void sendNumberOfPlayers(int numberOfPlayers);
-
     void showExpertCards(ArrayList<ExpertCard> allExpertCards, int numberOfCoins);
 
     void availableStudents(ArrayList<Color> availableStudents, MessageType movementType, int gameFieldSize);
 
     void chooseExpertCard();
 
-    void expertModeControl(boolean setExpertMode);
-
     void playExpertChoice();
 
-    void worldUpdate(Map<Integer, IsladNode> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap, String currentPlayer, ArrayList<ExpertCard> experts, int numOfCoins);
+    void clear();
 
     void startGame();
+
 }

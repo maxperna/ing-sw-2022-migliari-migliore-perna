@@ -2,7 +2,7 @@ package it.polimi.ingsw.model;
 
 import com.google.gson.*;
 import it.polimi.ingsw.exceptions.EndGameException;
-import it.polimi.ingsw.exceptions.InexistentCard;
+import it.polimi.ingsw.exceptions.NonexistentCard;
 import org.jetbrains.annotations.TestOnly;
 
 import java.io.FileNotFoundException;
@@ -24,7 +24,7 @@ public class CardDeck implements Serializable {
     private AssistantCard lastAssistantCardUsed;
 
     /**
-     * CardDeck constructor, parse the 10 cards on a JSON file using GSON library for parse JSON file
+     * CardDeck constructor, parse the 10 cards on a JSON file using GSON library
      *
      * @param deckCharacter character of the player deck
      */
@@ -57,11 +57,17 @@ public class CardDeck implements Serializable {
         }
     }
 
-    public void playCard(AssistantCard assistantCardPlayed) throws InexistentCard, EndGameException {
+    /**
+     * Method used to play an assistantCard
+     * @param assistantCardPlayed is the card played
+     * @throws NonexistentCard when the card is not available
+     * @throws EndGameException when there are no assistantCards left
+     */
+    public void playCard(AssistantCard assistantCardPlayed) throws NonexistentCard, EndGameException {
         if (!deck.remove(assistantCardPlayed)) {
             if (deck.size() == 0)
                 throw new EndGameException();
-            throw new InexistentCard();
+            throw new NonexistentCard();
         }
 
         lastAssistantCardUsed = assistantCardPlayed;

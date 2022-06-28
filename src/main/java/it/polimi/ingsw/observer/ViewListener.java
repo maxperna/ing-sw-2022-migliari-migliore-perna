@@ -41,11 +41,7 @@ public interface ViewListener {
 
     void playAssistantCard(int playedCard);
 
-    void chooseDestination(String destination);
-
     void cloudsRequest();
-
-    void getPlayerInfo(String player);
 
     void moveMotherNature(int numberOfSteps);
 

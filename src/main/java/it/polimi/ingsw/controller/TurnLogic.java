@@ -22,7 +22,10 @@ public class TurnLogic {
     private Player lastRoundFirstPlayer;       //first player to play last round, used to define the starting point of the round
     private String currentPhase;
 
-    //Default constructor
+    /**
+     * Default constructor
+     * @param currentGame is the game that the TurnLogic will control
+     */
     public TurnLogic(Game currentGame) {
         this.currentGame = currentGame;
         this.cardsPlayedActionNum = new HashMap<>();
@@ -76,7 +79,7 @@ public class TurnLogic {
      * @param player       player who used the card
      * @throws CardAlreadyPlayed if a player try to use a card already used by another player within the same round
      */
-    public void setPlayedCard(int actionNumber, Player player) throws CardAlreadyPlayed, InexistentCard, EndGameException {
+    public void setPlayedCard(int actionNumber, Player player) throws CardAlreadyPlayed, NonexistentCard, EndGameException {
         ArrayList<AssistantCard> assistantCards = player.getDeck().getRemainingCards();
         AssistantCard playedAssistantCard = null;
         for (AssistantCard card : assistantCards) {
@@ -84,7 +87,7 @@ public class TurnLogic {
                 playedAssistantCard = card;
         }
         if (playedAssistantCard == null) {
-            throw new InexistentCard("You already played this card");
+            throw new NonexistentCard("You already played this card");
         }
         if (!this.cardsPlayedActionNum.containsKey(playedAssistantCard.getActionNumber())) {
             this.cardsPlayedActionNum.put(playedAssistantCard.getActionNumber(), player);
@@ -162,9 +165,14 @@ public class TurnLogic {
 
     //ACTION PHASE PART
 
-    public void moveStudentOnBoard(Player player, Color color) {
+    /**
+     * Method used to move a student from the entryHall to the diningRoom of a given board
+     * @param player is the player that performs the action
+     * @param student is the student that will be moved
+     */
+    public void moveStudentOnBoard(Player player, Color student) {
         try {
-            player.getBoard().moveEntryToDiningRoom(color);
+            player.getBoard().moveEntryToDiningRoom(student);
         } catch (NotOnBoardException | NotEnoughSpace e) {
             throw new RuntimeException(e);
         }
@@ -172,6 +180,9 @@ public class TurnLogic {
 
     /**
      * Method to move mother nature over the island list
+     * @param numOfSteps is the number of steps that mother nature will perform
+     * @param player is the player who actually controls mother nature
+     * @throws IllegalMove when the number of steps is 0 or less, or when it's higher than the allowed number
      */
     public void moveMotherNature(Player player, int numOfSteps) throws IllegalMove, EndGameException {
         int allowedNumOfSteps = playedCard.get(player).getMotherNatureControl();
@@ -202,23 +213,65 @@ public class TurnLogic {
 
     }
 
+    /**
+     * Method to play an expert card that requires no additional parameters
+     * @param playedCard is  the ID [0,1,2] that refers to the card playedù
+     * @param player is the player who activated the expert effect
+     * @throws NotEnoughCoins when the player has less than the required coins to activate the effect
+     **/
     public void playExpertCard(Player player, int playedCard) throws NotEnoughCoins {
         currentGame.getExpertsCard().get(playedCard).useCard(player);
     }
 
+    /**
+     * Method to play an expert card that requires a node ID as parameter
+     * @param playedCard is the ID [0,1,2] that refers to the card played
+     * @param nodeId is the ID of the chosen island
+     * @param player is the player who activated the expert effect
+     * @throws NotEnoughCoins when the player has less than the required coins to activate the effect
+     * @throws IllegalMove when the nodeId is not inside the islandList
+     **/
     public void playExpertCard(Player player, int nodeId, int playedCard) throws IllegalMove, NotEnoughCoins {
         currentGame.getExpertsCard().get(playedCard).useCard(player, nodeId);
     }
 
+    /**
+     * Method to play an expert card that requires a node ID and a Color as parameters
+     * @param playedCard is the ID [0,1,2] that refers to the card played
+     * @param nodeId is the ID of the chosen island
+     * @param studentColor is the color chosen (can also refer to a student of that color, based on which expert has been played)
+     * @param player is the player who activated the expert effect
+     * @throws IllegalMove when the student is not available, or when the island is not available
+     * @throws NotEnoughCoins when the player has less than the required coins to activate the effect
+     **/
     public void playExpertCard(Player player, int nodeId, Color studentColor, int playedCard) throws IllegalMove, NotEnoughCoins {
         currentGame.getExpertsCard().get(playedCard).useCard(player, nodeId, studentColor);
     }
 
+    /**
+     * Method to play an expert card that requires a color as parameter
+     * @param playedCard is the ID [0,1,2] that refers to the card played
+     * @param student is the color chosen (can also refer to a student of that color, based on which expert has been played)
+     * @param playedCard is the ID [0,1,2] that refers to the card played
+     * @throws NotEnoughCoins when the player has less than the required coins to activate the effect
+     * @throws IllegalMove when the Color passed is not available on the card
+     * @throws NotOnBoardException when the Color passed is not available on player's board
+     **/
     public void playExpertCard(Player player, Color student, int playedCard) throws IllegalMove, NotEnoughCoins, NotOnBoardException {
         currentGame.getExpertsCard().get(playedCard).useCard(player, student);
     }
 
-    public void playExpertCard(Player player, ArrayList<Color> studentSet1, ArrayList<Color> studentSet2, int playedCard) throws IllegalMove, NotEnoughCoins, NotOnBoardException, IndexOutOfBoundsException {
+    /**
+     * Method to play an expert card that requires two arrayLists of Color as parameters
+     * @param playedCard is the ID [0,1,2] that refers to the card played
+     * @param studentSet1 is the first arrayList of students, usually the ones that will be taken from an external source
+     * @param studentSet2 is the second arrayList of students, usually tha ones that will be moved to an external source
+     * @param playedCard is the ID [0,1,2] that refers to the card played
+     * @throws NotEnoughCoins when the player has less than the required coins to activate the effect
+     * @throws IllegalMove when the player has less than the required coins to activate the effect
+     * @throws NotOnBoardException when the Color passed is not available on player's board
+     **/
+    public void playExpertCard(Player player, ArrayList<Color> studentSet1, ArrayList<Color> studentSet2, int playedCard) throws IllegalMove, NotEnoughCoins, NotOnBoardException {
         currentGame.getExpertsCard().get(playedCard).useCard(player, studentSet1, studentSet2);
     }
 

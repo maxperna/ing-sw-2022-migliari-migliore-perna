@@ -3,7 +3,7 @@ package it.polimi.ingsw.network.messages.server_messages;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.CloudTile;
 import it.polimi.ingsw.model.experts.ExpertCard;
-import it.polimi.ingsw.model.gameField.IsladNode;
+import it.polimi.ingsw.model.gameField.IslandNode;
 import it.polimi.ingsw.network.messages.Message;
 
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import static it.polimi.ingsw.network.messages.MessageType.WORLD_CHANGE;
 
 public class WorldChangeMessage extends Message {
 
-    private final Map<Integer, IsladNode> gameFieldMap;
+    private final Map<Integer, IslandNode> gameFieldMap;
 
     private final ArrayList<CloudTile> chargedClouds;
 
@@ -25,7 +25,7 @@ public class WorldChangeMessage extends Message {
 
     private final int numOfCoins;
 
-    public WorldChangeMessage(Map<Integer, IsladNode> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap, String currentPlayer, ArrayList<ExpertCard> experts, int numOfCoins) {
+    public WorldChangeMessage(Map<Integer, IslandNode> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap, String currentPlayer, ArrayList<ExpertCard> experts, int numOfCoins) {
         super(WORLD_CHANGE, "Server");
         this.gameFieldMap = gameFieldMap;
         this.chargedClouds = chargedClouds;
@@ -35,7 +35,7 @@ public class WorldChangeMessage extends Message {
         this.numOfCoins = numOfCoins;
     }
 
-    public Map<Integer, IsladNode> getGameFieldMap() {
+    public Map<Integer, IslandNode> getGameFieldMap() {
         return gameFieldMap;
     }
 
