@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * Class Cloud Tile, one for each player, contains MAX 3 students
+ * Class Cloud Tile, one for each player, contains max 3 students
  *
  * @author Alessio Migliore
  */

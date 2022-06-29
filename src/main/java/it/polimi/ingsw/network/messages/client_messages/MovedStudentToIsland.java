@@ -4,6 +4,10 @@ import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 
+
+/**
+ * Message notifying the movement of a student to an island
+ */
 public class MovedStudentToIsland extends Message {
 
     private final Color movedStudent;

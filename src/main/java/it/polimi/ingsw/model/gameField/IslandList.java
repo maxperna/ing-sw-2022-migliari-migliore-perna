@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
+ * Class IslandList, formed by up to 12 objects IslandNode, linked in a doubly circular linked list (DCLL)
  * @author Alessio Migliore
- * class IslandList, composed of up to 12 objects IsladNode, linked in a doubly circular linked list (DCLL)
  */
 
 

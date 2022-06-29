@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 /**
- * Class Game, every class created as its own unique gameID
+ * Class Game, every class created has its own unique gameID
  *
  * @author Miglia
  */

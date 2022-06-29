@@ -60,6 +60,8 @@ public class ExpertsCardTest {
         } catch (NotEnoughCoins | IllegalMove e) {
             fail();
         }
+        assertEquals(2, exp1.getCost());
+        assertEquals(ExpertID.NODE_ID_COLOR, exp1.getExpType());
     }
 
     @Test
@@ -117,6 +119,8 @@ public class ExpertsCardTest {
         } catch (NotEnoughCoins e) {
             fail();
         }
+        assertEquals(3, exp2.getCost());
+        assertEquals(ExpertID.USER_ONLY, exp2.getExpType());
 
     }
 
@@ -156,6 +160,8 @@ public class ExpertsCardTest {
 
         exp3.endEffect();
         assertNull(gameTest.getActiveExpertCard());
+        assertEquals(4, exp3.getCost());
+        assertEquals(ExpertID.NODE_ID, exp3.getExpType());
     }
 
     @Test
@@ -205,6 +211,8 @@ public class ExpertsCardTest {
 
         exp4.endEffect();
         assertNull(gameTest.getActiveExpertCard());
+        assertEquals(2, exp4.getCost());
+        assertEquals(ExpertID.USER_ONLY, exp4.getExpType());
     }
 
     @Test
@@ -265,6 +273,8 @@ public class ExpertsCardTest {
 
         exp5.endEffect();
         assertNull(gameTest.getActiveExpertCard());
+        assertEquals(3, exp5.getCost());
+        assertEquals(ExpertID.NODE_ID, exp5.getExpType());
 
 
     }
@@ -332,6 +342,8 @@ public class ExpertsCardTest {
 
         exp6.endEffect();
         assertNull(gameTest.getActiveExpertCard());
+        assertEquals(4, exp6.getCost());
+        assertEquals(ExpertID.USER_ONLY, exp6.getExpType());
     }
 
     @Test
@@ -414,6 +426,55 @@ public class ExpertsCardTest {
         } catch (IllegalMove e) {
             assert true;
         }
+        assertEquals(2, exp7.getCost());
+        assertEquals(ExpertID.TWO_LIST_COLOR, exp7.getExpType());
+
+    }
+
+    @Test
+    @DisplayName("Test expert 8")
+
+    void expert8Test() throws FileNotFoundException, IllegalMove, NotOnBoardException, EndGameException {
+        Expert8 exp8 = new Expert8(gameTest);
+
+        gameTest.addPlayer("io",DeckType.SAGE,TowerColor.WHITE);
+        gameTest.addPlayer("tu", DeckType.DRUID, TowerColor.BLACK);
+        Player p1 = gameTest.getPlayersList().get(0);
+        Player p2 = gameTest.getPlayersList().get(1);
+
+        //Mock experts card for inserting expert card 8
+        ArrayList<ExpertCard> mockCards = new ArrayList<>();
+        mockCards.add(exp8);
+        mockCards.add(new Expert3(gameTest));
+        mockCards.add(new Expert4(gameTest));
+
+        gameTest.setExpertsCardTest(mockCards);
+
+        gameTest.coinHandler(p1,5);
+
+        p1.getBoard().addToDiningTest(Color.BLUE);
+        p2.getBoard().addToDiningTest(Color.RED);
+
+        IslandNode nodeTest = gameTest.getGameField().getIslandNode(2);
+        p2.getBoard().addSingleStudent(Color.BLUE);
+        p2.getBoard().moveToIsland(Color.BLUE, 2);
+
+        //Check island is not stopped
+        assertFalse(nodeTest.isStopped());
+
+        try {
+            exp8.useCard(p1);
+        } catch (NotEnoughCoins e) {
+            fail();
+        }
+        gameTest.checkIslandInfluence(2);
+        assertEquals(p1, gameTest.getGameField().getIslandNode(2).getMostInfluencePlayer());
+
+        exp8.endEffect();
+        assertNull(gameTest.getActiveExpertCard());
+        assertEquals(3, exp8.getCost());
+        assertEquals(ExpertID.USER_ONLY, exp8.getExpType());
+
 
     }
 
@@ -502,12 +563,14 @@ public class ExpertsCardTest {
         }
 
         assertEquals(p1.getTowerColor(), testNode.getTowerColor());
+        assertEquals(5, exp9.getCost());
+        assertEquals(ExpertID.COLOR, exp9.getExpType());
 
 
     }
 
     @Test
-    @DisplayName("Expert 9 test ")
+    @DisplayName("Expert 10 test ")
     void expert10Test() throws FileNotFoundException {
         gameTest.addPlayer("io",DeckType.SAGE,TowerColor.BLACK);
 
@@ -550,7 +613,128 @@ public class ExpertsCardTest {
         for(Color color:studentsInside){
             assertTrue(mockEntryRoom.remove(color));
         }
+        assertEquals(2, exp10.getCost());
+        assertEquals(ExpertID.TWO_LIST_COLOR, exp10.getExpType());
+    }
+
+    @Test
+    @DisplayName("Test expert 11")
+
+    void expert11Test() throws FileNotFoundException {
+        Expert11 exp11 = new Expert11(gameTest);
+
+        gameTest.addPlayer("io",DeckType.SAGE,TowerColor.WHITE);
+        Player p1 = gameTest.getPlayersList().get(0);
+
+        //Mock experts card for inserting expert card 11
+        ArrayList<ExpertCard> mockCards = new ArrayList<>();
+        mockCards.add(exp11);
+        mockCards.add(new Expert3(gameTest));
+        mockCards.add(new Expert4(gameTest));
+
+        gameTest.setExpertsCardTest(mockCards);
+
+        gameTest.coinHandler(p1,5);
+
+        IslandNode nodeTest = gameTest.getGameField().getIslandNode(2);
+
+        //Check island is not stopped
+        assertFalse(nodeTest.isStopped());
+        if (exp11.getStudentsOnCard().contains(Color.RED)) {
+            try {
+                exp11.useCard(p1,Color.RED);
+            } catch (NotEnoughCoins | IllegalMove e) {
+                fail();
+            }
+            assertEquals(1, gameTest.getPlayerByNickName("io").getBoard().getDiningRoom().get(Color.RED));
+        }
+        else if (exp11.getStudentsOnCard().contains(Color.BLUE)) {
+            try {
+                exp11.useCard(p1,Color.BLUE);
+            } catch (NotEnoughCoins | IllegalMove e) {
+                fail();
+            }
+            assertEquals(1, gameTest.getPlayerByNickName("io").getBoard().getDiningRoom().get(Color.BLUE));
+        }
+        else if (exp11.getStudentsOnCard().contains(Color.YELLOW)) {
+            try {
+                exp11.useCard(p1,Color.YELLOW);
+            } catch (NotEnoughCoins | IllegalMove e) {
+                fail();
+            }
+            assertEquals(1, gameTest.getPlayerByNickName("io").getBoard().getDiningRoom().get(Color.YELLOW));
+        }
+        else if (exp11.getStudentsOnCard().contains(Color.PINK)) {
+            try {
+                exp11.useCard(p1,Color.PINK);
+            } catch (NotEnoughCoins | IllegalMove e) {
+                fail();
+            }
+            assertEquals(1, gameTest.getPlayerByNickName("io").getBoard().getDiningRoom().get(Color.PINK));
+        }
+        else if (exp11.getStudentsOnCard().contains(Color.GREEN)) {
+            try {
+                exp11.useCard(p1,Color.GREEN);
+            } catch (NotEnoughCoins | IllegalMove e) {
+                fail();
+            }
+            assertEquals(1, gameTest.getPlayerByNickName("io").getBoard().getDiningRoom().get(Color.GREEN));
+        }
+
+
+        exp11.endEffect();
+        assertNull(gameTest.getActiveExpertCard());
+        assertEquals(3, exp11.getCost());
+        assertEquals(ExpertID.COLOR, exp11.getExpType());
 
 
     }
+
+
+    @Test
+    @DisplayName("Test expert 12")
+
+    void expert12Test() throws FileNotFoundException, IllegalMove, NotOnBoardException, EndGameException {
+        Expert12 exp12 = new Expert12(gameTest);
+
+        gameTest.addPlayer("io",DeckType.SAGE,TowerColor.WHITE);
+        gameTest.addPlayer("tu", DeckType.DRUID, TowerColor.BLACK);
+        Player p1 = gameTest.getPlayersList().get(0);
+        Player p2 = gameTest.getPlayersList().get(1);
+
+        //Mock experts card for inserting expert card 8
+        ArrayList<ExpertCard> mockCards = new ArrayList<>();
+        mockCards.add(exp12);
+        mockCards.add(new Expert3(gameTest));
+        mockCards.add(new Expert4(gameTest));
+
+        gameTest.setExpertsCardTest(mockCards);
+
+        gameTest.coinHandler(p1,5);
+
+        p1.getBoard().addToDiningTest(Color.BLUE);
+        p1.getBoard().addToDiningTest(Color.BLUE);
+        p1.getBoard().addToDiningTest(Color.BLUE);
+        p2.getBoard().addToDiningTest(Color.BLUE);
+        p2.getBoard().addToDiningTest(Color.BLUE);
+        p2.getBoard().addToDiningTest(Color.BLUE);
+
+
+        try {
+            exp12.useCard(p1, Color.BLUE);
+        } catch (NotEnoughCoins e) {
+            fail();
+        }
+        gameTest.checkIslandInfluence(2);
+        assertEquals(0, gameTest.getPlayerByNickName(p1.getNickname()).getBoard().getDiningRoom().get(Color.BLUE));
+        assertEquals(0, gameTest.getPlayerByNickName(p2.getNickname()).getBoard().getDiningRoom().get(Color.BLUE));
+
+        exp12.endEffect();
+        assertNull(gameTest.getActiveExpertCard());
+        assertEquals(4, exp12.getCost());
+        assertEquals(ExpertID.COLOR, exp12.getExpType());
+
+
+    }
+
 }

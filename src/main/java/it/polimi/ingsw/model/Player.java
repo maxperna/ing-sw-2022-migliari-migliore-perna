@@ -8,6 +8,9 @@ import org.jetbrains.annotations.TestOnly;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
 
+/**
+ * Class that represents an active player, contains a reference to a board, a nickname, a cardDeck and the number of coins owned by the player
+ */
 public class Player implements Serializable {
 
     private final String nickname;

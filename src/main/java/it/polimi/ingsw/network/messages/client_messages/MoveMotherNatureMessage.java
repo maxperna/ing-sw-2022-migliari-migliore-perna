@@ -5,6 +5,9 @@ import it.polimi.ingsw.network.messages.MessageType;
 
 import java.util.UUID;
 
+/**
+ * Message used to notify the action of moving mother nature
+ */
 public class MoveMotherNatureMessage extends Message {
     private final int numOfSteps;
     UUID identifier = UUID.randomUUID();

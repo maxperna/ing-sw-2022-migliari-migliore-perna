@@ -3,6 +3,9 @@ package it.polimi.ingsw.network.messages.client_messages;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 
+/**
+ * Message used to request the CloudTiles
+ */
 public class GetCloudsMessage extends Message {
 
     private final int cloudID;

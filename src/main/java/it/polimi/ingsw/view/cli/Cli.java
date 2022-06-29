@@ -11,11 +11,14 @@ import it.polimi.ingsw.view.View;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
+/**
+ * Class containing all the methods used to generate a Command Line Interface (CLI)
+ * @author Alessio Migliore
+ */
 public class Cli extends ViewSubject implements View {
 
     private Thread threadReader;
@@ -31,6 +34,11 @@ public class Cli extends ViewSubject implements View {
         tutorial = true;
     }
 
+    /**
+     * Thread-safe version of an input reader
+     * @return a string read from input
+     * @throws ExecutionException when the action fails
+     */
     public String read() throws ExecutionException {
         FutureTask<String> futureTask = new FutureTask<>(new ThreadInputReader());
         threadReader = new Thread(futureTask);
@@ -49,7 +57,7 @@ public class Cli extends ViewSubject implements View {
 
 
     /**
-     * method used to start the CLI, calls the methods used to create a connection with server and to ask for player nickname
+     * Method used to start the CLI, calls the methods used to create a connection with server
      */
     @Override
     public void start() {
@@ -69,7 +77,7 @@ public class Cli extends ViewSubject implements View {
     }
 
     /**
-     * method used to get from input port and address required to connect to the server, notifies the controller with received values
+     * Method used to get from input port and address required to connect to the server, notifies the controller with received values
      */
     @Override
     public void connectionRequest() {
@@ -107,6 +115,10 @@ public class Cli extends ViewSubject implements View {
 
     }
 
+    /**
+     * Method used to print all the cards played in the previous turn
+     * @param cardMap is a map where each card is associated to the player's nickname
+     */
     @Override
     public void showLastUsedCard(Map<String, AssistantCard> cardMap) {
         for (String nickname : cardMap.keySet()) {
@@ -115,7 +127,7 @@ public class Cli extends ViewSubject implements View {
     }
 
     /**
-     * method used to get from input the player nickname
+     * Method used to get from input the player nickname
      */
     @Override
     public void askPlayerNickname() {
@@ -138,7 +150,7 @@ public class Cli extends ViewSubject implements View {
     }
 
     /**
-     * method called only on first player's interface to get the game parameters, like number of players and expert mode
+     * Method called only on first player's interface to get the game parameters, like number of players and expert mode
      */
     @Override
     public void askGameParam() {
@@ -186,7 +198,7 @@ public class Cli extends ViewSubject implements View {
     }
 
     /**
-     * method used to let player choose its deck and tower color based on a list of these parameters available
+     * Method used to let player choose its deck and tower color based on a list of these parameters available
      *
      * @param remainingTowers list of remaining available towerColor
      * @param remainingDecks  list of remaining available deckType
@@ -240,7 +252,7 @@ public class Cli extends ViewSubject implements View {
     }
 
     /**
-     * method used to print the island list and then to call the chooseBoard() method
+     * Method used to print the island list
      *
      * @param gameFieldMap map with the gameField
      */
@@ -259,7 +271,7 @@ public class Cli extends ViewSubject implements View {
         int increments = 0;
         String previousColor = ANSI_RESET;
 
-        if (gameFieldMap.size() > 8) {
+        if (gameFieldMap.size() > 8) {                                                                                  //basic implementation of the structure that the map will have
             while (max_column * max_row - max_column < gameFieldMap.size()) {
                 if (max_column >= max_row)
                     max_row++;
@@ -277,7 +289,7 @@ public class Cli extends ViewSubject implements View {
 
         ArrayList<Integer> index = new ArrayList<>();
 
-        switch (gameFieldMap.size()) {
+        switch (gameFieldMap.size()) {                                                                                  //index will contain a differently sorted list of integers based on the numbers of available islands
             case 3: {
                 index.add(1);
                 index.add(2);
@@ -597,7 +609,7 @@ public class Cli extends ViewSubject implements View {
     }
 
     /**
-     * method used to print the students inside all the cloud tiles
+     * Method used to print the students inside all the cloud tiles
      *
      * @param newClouds arrayList that contains all the clouds in the game
      */
@@ -613,23 +625,37 @@ public class Cli extends ViewSubject implements View {
         System.out.println();
     }
 
+    /**
+     * Method used to print info about the active player and the gamePhase
+     * @param currentPlayer nickName of the player that will play
+     * @param currentState
+     */
     @Override
     public void showCurrentPlayer(String currentPlayer, GameState currentState) {
         System.out.println("Active player: " + currentPlayer + "\nPhase: " + currentState.toString());
     }
 
+    /**
+     * Method used to print a generic message received from the server
+     * @param genericMessage contains message
+     */
     public void showGenericMessage(String genericMessage) {
         System.out.println(genericMessage);
         System.out.println();
     }
 
+    /**
+     * Method used to print the number of coins owned by the player
+     * @param player    is the player that modified his number of coins
+     * @param numOfCoin is the new value of coin of the player
+     */
     public void newCoin(String player, int numOfCoin) {
         System.out.println("Number of coins: " + numOfCoin);
         System.out.println();
     }
 
     /**
-     * method used to print the winning message
+     * Method used to print the winning message
      *
      * @param winner nickname of the winner
      */
@@ -638,6 +664,11 @@ public class Cli extends ViewSubject implements View {
         System.out.println("Congratulations! " + winner + " is the winner!");
     }
 
+    /**
+     * Method used to print an error message
+     * @param errorMessage is the error message
+     * @param errorType is the type of error
+     */
     @Override
     public void showError(String errorMessage, ErrorType errorType) {
         System.out.println(errorMessage);
@@ -645,7 +676,7 @@ public class Cli extends ViewSubject implements View {
 
 
     /**
-     * method used to print the description of each expert card
+     * Method used to print the description of each expert card
      */
     @Override
     public void showExpertCards(ArrayList<ExpertCard> allExpertCards, int numberOfCoins) {
@@ -674,6 +705,12 @@ public class Cli extends ViewSubject implements View {
         System.out.println();
     }
 
+    /**
+     * Method used to print a list of students, get from input the chosen student and call on the ClientController moveStudentToDinner() or moveStudentToIsland()
+     * @param availableStudents is a list of students (the entry hall students)
+     * @param movementType is the destination
+     * @param gameFieldSize
+     */
     @Override
     public void availableStudents(ArrayList<Color> availableStudents, MessageType movementType, int gameFieldSize) {
         System.out.println("\n\nAvailable students: ");
@@ -730,6 +767,10 @@ public class Cli extends ViewSubject implements View {
     public void disconnect() {
     }
 
+    /**
+     * Method used to print the available AssistantCards
+     * @param deck is the player's deck
+     */
     @Override
     public void showAssistant(ArrayList<AssistantCard> deck) {
         System.out.println();
@@ -800,6 +841,11 @@ public class Cli extends ViewSubject implements View {
         this.notifyListener((list) -> list.playAssistantCard(finalChoice));
     }
 
+    /**
+     * Method used to print a player's board
+     * @param board is the board that will be printed
+     * @param player is the board's owner
+     */
     @Override
     public void printBoard(Board board, String player) {
 
@@ -852,7 +898,7 @@ public class Cli extends ViewSubject implements View {
     }
 
     /**
-     * method used to print a given string with a given color
+     * Method used to print a given string with a given color
      *
      * @param color  is the color of the string that will be printed
      * @param string is the string that will be printed
@@ -875,7 +921,7 @@ public class Cli extends ViewSubject implements View {
     }
 
     /**
-     * method called by the method showBoard()
+     * Method called by the method showBoard()
      *
      * @param color      is the color of the row we are considering
      * @param numOfColor is the number of students of that given color that are set on the dining room
@@ -900,7 +946,7 @@ public class Cli extends ViewSubject implements View {
     }
 
     /**
-     * method used to get from the user the board he wants to check
+     * Method used to get from the user the board he wants to check
      *
      * @param boardMap is a map of all the available boards in the game
      */
@@ -947,12 +993,23 @@ public class Cli extends ViewSubject implements View {
 
     }
 
+    /**
+     * Method that checks what to print inside the entry hall
+     * @param studentID is the student position inside the entry hall
+     * @param board is the player's board
+     * @param string is the symbol used to print a student
+     * @return a string colored or "--"
+     */
     private String shouldPrintStudent(int studentID, Board board, String string) {
         if (studentID < board.getEntryRoom().size()) {
             return toColor(board.getEntryRoom().get(studentID), string);
         } else return "-- ";
     }
 
+    /**
+     * Method used to manage the actionPhaseTurn
+     * @param expert is a boolean that is used to eventually play the expert card
+     */
     @Override
     public void ActionPhaseTurn(Boolean expert) {
         int choice = 0;
@@ -1001,6 +1058,9 @@ public class Cli extends ViewSubject implements View {
         }
     }
 
+    /**
+     * Method used to ask the player the number of moves that mother nature will perform
+     */
     @Override
     public void moveMotherNature() {
         System.out.println("Select the number of moves for Mother Nature: ");
@@ -1014,7 +1074,10 @@ public class Cli extends ViewSubject implements View {
 
     }
 
-
+    /**
+     * Methode used to ask the player which cloudTile he wants to pick the students from
+     * @param cloudID is an int that identifies the cloud [0,1,2]
+     */
     public void chooseCloudTile(int cloudID) {
         int chosenCloud = 0;
         boolean valid = false;
@@ -1049,6 +1112,15 @@ public class Cli extends ViewSubject implements View {
         System.out.println("GAME STARTED!!");
     }
 
+    /**
+     * Method used to generate the default layout
+     * @param gameFieldMap is a map containing the islands
+     * @param chargedClouds is an arraylist containing all the infos about cloudTiles
+     * @param boardMap is a map of all the boards
+     * @param currentPlayer is the nickname of the actual player
+     * @param experts is an arraylist of expert cards
+     * @param numOfCoins is the number of coins owned by the player
+     */
     @Override
     public void worldUpdate(Map<Integer, IslandNode> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap, String currentPlayer, ArrayList<ExpertCard> experts, int numOfCoins) {
         clear();
@@ -1059,6 +1131,11 @@ public class Cli extends ViewSubject implements View {
     }
 
 
+    /**
+     * Method used to print all the int numbers from 0 to 99 with 2 numbers, to get a coherent graphic inside the island node
+     * @param number is the int that will be converted into a string
+     * @return a string representation of the number, that will be printed with a different color
+     */
     private String intToString(Integer number) {
         if (number < 10)
             return 0 + number.toString();
@@ -1066,6 +1143,11 @@ public class Cli extends ViewSubject implements View {
             return number.toString();
     }
 
+    /**
+     * Method called by lastUsedCards() to print a card matching its deck color
+     * @param card is the card that will be played
+     * @param nickname is the card's owner
+     */
     public void printLastCard(AssistantCard card, String nickname) {
         StringBuilder string = new StringBuilder();
         String cardColor = "";
@@ -1109,6 +1191,12 @@ public class Cli extends ViewSubject implements View {
         string.delete(0, string.capacity());
     }
 
+    /**
+     * method to play expert card 9
+     *
+     * @param cardID is the value [0,1,2] used by clientController to identify which expert card is being played
+     * @param expert is the expert card that is being played
+     */
     @Override
     public void playExpertType2(int cardID, Expert9 expert) {
         int chosenColor = 0;
@@ -1207,7 +1295,7 @@ public class Cli extends ViewSubject implements View {
     }
 
     /**
-     * method to play expert card 3
+     * method to play expert card 7
      *
      * @param cardID is the value [0,1,2] used by clientController to identify which expert card is being played
      * @param expert is the expert card that is being played
@@ -1427,6 +1515,12 @@ public class Cli extends ViewSubject implements View {
         notifyListener(list -> list.playExpertCard3(cardID, finalChosenID, expert.getStudentsOnCard().get(finalChosenStudent)));
     }
 
+    /**
+     * method to play expert card 5
+     *
+     * @param cardID is the value [0,1,2] used by clientController to identify which expert card is being played
+     * @param expert is the expert card that is being played
+     */
     public void playExpertType5(int cardID, Expert5 expert) {
 
         int chosenID = 0;
@@ -1443,6 +1537,9 @@ public class Cli extends ViewSubject implements View {
         notifyListener(list -> list.playExpertCard2(cardID, finalChosenID));
     }
 
+    /**
+     * Method used to ask the player what to do during preparation phase
+     */
     @Override
     public void chooseAction() {
         int chosenAction = 0;
@@ -1464,48 +1561,9 @@ public class Cli extends ViewSubject implements View {
         notifyListener(list -> list.chooseAction(finalChosenAction));
     }
 
-    public Color availableStudents(List<Color> availableColor) {
-        System.out.println("\n\nAvailable students: ");
-        Map<Integer, Color> indexColorMap = new HashMap<>();
-        int choice = 0;
-        int index = 1;
-
-        for (Color currentColor : availableColor) {
-            if (currentColor.equals(Color.RED)) {
-                System.out.println("[" + index + "] RED ");
-                index++;
-            }
-            if (currentColor.equals(Color.RED)) {
-                System.out.println("[" + index + "] PINK ");
-                index++;
-            }
-            if (currentColor.equals(Color.RED)) {
-                System.out.println("[" + index + "] GREEN ");
-                index++;
-            }
-            if (currentColor.equals(Color.RED)) {
-                System.out.println("[" + index + "] YELLOW ");
-                index++;
-            }
-            if (currentColor.equals(Color.RED)) {
-                System.out.println("[" + index + "] BLUE ");
-                index++;
-            }
-
-            indexColorMap.put(index, currentColor);
-        }
-
-        do {
-            try {
-                System.out.println("Choose: ");
-                choice = Integer.parseInt(read());
-            } catch (ExecutionException | NumberFormatException e) {
-                System.out.println("This student is not available");
-            }
-        } while (!indexColorMap.containsKey(choice));
-        return indexColorMap.get(choice);
-    }
-
+    /**
+     * Method used to choose the expert
+     */
     @Override
     public void chooseExpertCard() {
         int chosenExpert = 0;
@@ -1532,6 +1590,9 @@ public class Cli extends ViewSubject implements View {
     }
 
 
+    /**
+     * Method used to ask if the player wants to move mother nature and end its turn, or play an expert card
+     */
     public void playExpertChoice() {
         int choice = 0;
 
@@ -1572,6 +1633,11 @@ public class Cli extends ViewSubject implements View {
         }
     }
 
+    /**
+     * Method used to print the students placed on expert card 1
+     * @param expert is the expert card
+     * @param index is the student's position
+     */
     private void printStudentsInsideExpertCard(Expert1 expert, int index) {
         System.out.print("Expert [" + index + "]\nExpert card cost: " + expert.getCost() + "\nExpert card effect: " + expert.getExpDescription() + "\nStudents on this card: ");
         for (Color student : expert.getStudentsOnCard()) {
@@ -1580,6 +1646,11 @@ public class Cli extends ViewSubject implements View {
         System.out.println();
     }
 
+    /**
+     * Method used to print the students placed on expert card 7
+     * @param expert is the expert card
+     * @param index is the student's position
+     */
     private void printStudentsInsideExpertCard(Expert7 expert, int index) {
         System.out.print("Expert [" + index + "]\nExpert card cost: " + expert.getCost() + "\nExpert card effect: " + expert.getExpDescription() + "\nStudents on this card: ");
         for (Color student : expert.getStudentsOnCard()) {
@@ -1588,6 +1659,11 @@ public class Cli extends ViewSubject implements View {
         System.out.println();
     }
 
+    /**
+     * Method used to print the students placed on expert card 11
+     * @param expert is the expert card
+     * @param index is the student's position
+     */
     private void printStudentsInsideExpertCard(Expert11 expert, int index) {
         System.out.print("Expert [" + index + "]\nExpert card cost: " + expert.getCost() + "\nExpert card effect: " + expert.getExpDescription() + "\nStudents on this card: ");
         for (Color student : expert.getStudentsOnCard()) {
@@ -1595,5 +1671,4 @@ public class Cli extends ViewSubject implements View {
         }
         System.out.println();
     }
-
 }

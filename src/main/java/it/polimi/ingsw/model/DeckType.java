@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 /**
- * Enum for the 4 kind of deck characters
+ * Enum for the 4 types of deck characters
  *
  * @author Massimo
  */
