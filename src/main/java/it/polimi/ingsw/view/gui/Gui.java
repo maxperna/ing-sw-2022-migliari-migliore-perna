@@ -16,7 +16,6 @@ import javafx.application.Platform;
 
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
 
 public class Gui extends ViewSubject implements View {
 
@@ -138,9 +137,11 @@ public class Gui extends ViewSubject implements View {
         }
     }
 
+    /**Enable student movement*/
     @Override
     public void ActionPhaseTurn(Boolean bool) {
-
+        PlayerViewController pwc = getPWC();
+        Platform.runLater(()->pwc.switchStudentMovement());
     }
 
     @Override
@@ -197,10 +198,13 @@ public class Gui extends ViewSubject implements View {
 
     @Override
     public void moveMotherNature() {
-
+        PlayerViewController pwc = getPWC();
+        Platform.runLater(()-> pwc.switchMN());
     }
 
     public void chooseCloudTile(int cloudID) {
+        PlayerViewController pwc = getPWC();
+        Platform.runLater(()->pwc.changeCloudStatus());
     }
 
 
@@ -211,7 +215,7 @@ public class Gui extends ViewSubject implements View {
 
     @Override
     public void availableStudents(ArrayList<Color> availableStudents, MessageType movementType, int gameFieldSize) {
-
+        //Utile solo per CLI
     }
 
     @Override
@@ -232,6 +236,8 @@ public class Gui extends ViewSubject implements View {
     public void worldUpdate(Map<Integer, IslandNode> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap,String nick, String currentPlayer, ArrayList<ExpertCard> experts, int numOfCoins) {
         PlayerViewController pwc = getPWC();
         Platform.runLater(() -> pwc.updateGameField(gameFieldMap, chargedClouds, boardMap.get(nick), experts, numOfCoins));
+
+
     }
 
     private PlayerViewController getPWC() {

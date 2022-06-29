@@ -166,7 +166,7 @@ public class IslandList implements Serializable {
     /**
      * Method to get the starting point of the islandList
      *
-     * @return
+     * @return the starting point of the island list
      */
     public IslandNode getHeadNode() {
         return this.head;
@@ -190,7 +190,6 @@ public class IslandList implements Serializable {
      * Method used to set motherNature flag of the node that contains the islandTile that matches the given ID
      *
      * @param nodeID is the identifier for the island Tile
-     * @return a IsladNode containing the selected island Tile
      */
     @TestOnly
     public void moveMotherNatureToNodeID(int nodeID) throws InvalidParameterException, EndGameException {
@@ -226,7 +225,7 @@ public class IslandList implements Serializable {
 
     /**
      * Method used during the islandList creation to insert a new node
-     * @param nodeID
+     * @param nodeID is the id of the node that will be added
      */
     private void addNode(int nodeID) {
 
@@ -251,7 +250,7 @@ public class IslandList implements Serializable {
     /**
      * Method used to get the arrayList of students inside the node that matches the given ID
      *
-     * @param nodeID
+     * @param nodeID is the id of the node analyzed
      * @return the ArrayList containing the given islandID
      */
     public ArrayList<Color> getStudentsFromIslandNode(int nodeID) {
@@ -269,7 +268,7 @@ public class IslandList implements Serializable {
     /**
      * Method used to check towerColor on next and previous islands of a declared one, if one of them matches with islandID towerColor, calls merge()
      *
-     * @param islandID
+     * @param islandID is the id of the island that is going to be checked
      * @throws EndGameException from merge()
      */
     public void checkTowersForMerge(int islandID) throws EndGameException {
@@ -324,7 +323,7 @@ public class IslandList implements Serializable {
 
     /**
      * Method that returns the size of the island list
-     * @return
+     * @return the size of the island list
      */
     public int size() {
         return head.getPreviousNode().getNodeID();

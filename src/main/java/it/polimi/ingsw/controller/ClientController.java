@@ -330,7 +330,7 @@ public class ClientController implements ViewListener, Listener {
     public synchronized void catchAction(Message receivedMessage) {
 
         switch (receivedMessage.getType()) {
-            case GAMEPARAM_REQUEST:
+            case GAME_PARAM_REQUEST:
                 actionQueue.execute(view::askGameParam);
                 break;
             case NICK_REQ:
@@ -472,7 +472,7 @@ public class ClientController implements ViewListener, Listener {
                             expert_mode = false;
                         }
                         else if(!movedMN){
-                            actionQueue.execute(()->view.moveMotherNature());
+                            actionQueue.execute(view::moveMotherNature);
                         }
                     } else if (movedMN && endTurn) {
                         endTurn = false;
@@ -482,7 +482,7 @@ public class ClientController implements ViewListener, Listener {
                     }
                 }
                 break;
-            case GAMEPARAM:
+            case GAME_PARAM:
                 ExpertModeNotify expert = (ExpertModeNotify) receivedMessage;
                 setExpertMode(expert.getExpertMode());
                 break;
@@ -501,7 +501,7 @@ public class ClientController implements ViewListener, Listener {
 
     /**
      * method used to read a message received from the objects observed
-     * @param message
+     * @param message is the message received
      */
     @Override
     public void update(Message message) {
@@ -544,28 +544,14 @@ public class ClientController implements ViewListener, Listener {
     }
 
     /**
-     * Method that creates a series of requests to present the whole gameField
-     * @param message is a message containing all the game layout info
-     */
-    /*private void defaultViewLayout(WorldChangeMessage message) {
-
-        view.clear();
-        view.showGameField(message.getGameFieldMap());
-        view.showClouds(message.getChargedClouds());
-        view.printBoard(message.getBoardMap().get(nickname), nickname);
-        view.showExpertCards(message.getExperts(), message.getNumOfCoins());
-
-    }*/
-
-    /**
      * Method used to create a request based on the player's choice
      * @param expert_mode is a boolean that indicates if the expert mode is enabled or not (also used to lock the player from using more than an expert card)
      */
     public void askAction(Boolean expert_mode) {
         if (studentsMoved < 3)
-            view.ActionPhaseTurn(expert_mode);
+            actionQueue.execute(()->view.ActionPhaseTurn(expert_mode));
         else
-            view.playExpertChoice();
+            actionQueue.execute(()->view.playExpertChoice());
     }
 
     /**

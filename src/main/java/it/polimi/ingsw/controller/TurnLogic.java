@@ -216,7 +216,7 @@ public class TurnLogic {
 
     /**
      * Method to play an expert card that requires no additional parameters
-     * @param playedCard is  the ID [0,1,2] that refers to the card playedù
+     * @param playedCard is  the ID [0,1,2] that refers to the card played
      * @param player is the player who activated the expert effect
      * @throws NotEnoughCoins when the player has less than the required coins to activate the effect
      **/
@@ -253,7 +253,6 @@ public class TurnLogic {
      * Method to play an expert card that requires a color as parameter
      * @param playedCard is the ID [0,1,2] that refers to the card played
      * @param student is the color chosen (can also refer to a student of that color, based on which expert has been played)
-     * @param playedCard is the ID [0,1,2] that refers to the card played
      * @throws NotEnoughCoins when the player has less than the required coins to activate the effect
      * @throws IllegalMove when the Color passed is not available on the card
      * @throws NotOnBoardException when the Color passed is not available on player's board
@@ -267,7 +266,6 @@ public class TurnLogic {
      * @param playedCard is the ID [0,1,2] that refers to the card played
      * @param studentSet1 is the first arrayList of students, usually the ones that will be taken from an external source
      * @param studentSet2 is the second arrayList of students, usually tha ones that will be moved to an external source
-     * @param playedCard is the ID [0,1,2] that refers to the card played
      * @throws NotEnoughCoins when the player has less than the required coins to activate the effect
      * @throws IllegalMove when the player has less than the required coins to activate the effect
      * @throws NotOnBoardException when the Color passed is not available on player's board

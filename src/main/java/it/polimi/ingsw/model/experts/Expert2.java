@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model.experts;
 
-import it.polimi.ingsw.exceptions.IllegalMove;
 import it.polimi.ingsw.exceptions.NotEnoughCoins;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Game;
@@ -54,7 +53,7 @@ public class Expert2 implements ExpertCard {
             for (Color color : influenceMap.keySet()) {
                 if (user.getBoard().colorStudent(color) == influenceMap.get(color).getNumOfStudents() && influenceMap.get(color).getPlayer() != null) {
                     //keeping track of the affected player for each color
-                    affectedPlayer.put(color, influenceMap.get(color).getPlayer());   //ADJUST NULL POINTER EXCP
+                    affectedPlayer.put(color, influenceMap.get(color).getPlayer());   //ADJUST NULL POINTER EXCEXPTION
                     //Swap procedure
                     influenceMap.get(color).getPlayer().getBoard().removeTeacher(color);
                     user.getBoard().addTeachers(color);
