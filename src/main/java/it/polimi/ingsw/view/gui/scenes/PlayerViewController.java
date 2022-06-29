@@ -66,7 +66,7 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
         MN.setFitHeight(71);
         MN.addEventHandler(MouseEvent.MOUSE_CLICKED,this::startMNMovement);
         MN.setVisible(false);
-        MN.setDisable(true);
+        //MN.setDisable(true);
 
     }
 
@@ -138,6 +138,7 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
             if (studentOnMovement) {
 
                 Color colorPicked = fromStringToColor(tempNode.getId());
+                entryRoom.getChildren().remove(tempNode);
 
                 AnchorPane referringPane = islandConfig.get(ID).get(colorPicked.toString());
                 Label counter = (Label) referringPane.getChildren().get(0);
@@ -145,13 +146,12 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
                 tempValue++;
                 counter.setText((tempValue).toString());
                 referringPane.setVisible(true);
-                entryRoom.getChildren().remove(tempNode);
+
 
                 changeStudMovState();
                 event.consume();
 
-
-//                new Thread(()->notifyListener(l->l.moveStudentToIsland(colorPicked,ID))).start();
+                new Thread(()->notifyListener(l->l.moveStudentToIsland(colorPicked,ID))).start();
             } else if (MNOnMovement) {
                 int numOfSteps = ID - previousMNPosition;
 
@@ -187,8 +187,16 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
     /**Method to set the entry room of the board*/
     private void populateEntry(ArrayList<Color> entry) {
         int k =0;
+        int bound = entry.size();
+        entryRoom.getChildren().clear();
+        if(bound%2 == 1) {
+            bound = bound / 2;
+            bound = bound + 1;
+        }
+        else
+            bound = bound/2;
         for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < entry.size()/2+1; j++) {
+            for (int j = 0; j < bound; j++) {
                 if(!(i==0 && j==0)) {
                     Color colorToAdd = entry.get(k);
                     ImageView student = studentGenerator(colorToAdd);
@@ -248,6 +256,7 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
     public void populateCloud(ArrayList<CloudTile> clouds){
         for(CloudTile cloud:clouds){
             GridPane cloudStruct = cloudList.get(cloud.getTileID());
+            cloudStruct.getChildren().clear();
             int j;
             for(int i=0;i<cloud.getStudents().size();i++){
                 j = i%2;
@@ -273,8 +282,13 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
             Set<Color> colorOnIsland = new HashSet<>(islandsMap.get(ID).getStudents());
             if(island.checkMotherNature()) {
                 previousMNPosition = ID;
-                islandList.get(ID).add(MN,0,0);
-                MN.setVisible(true);
+                try {
+                    islandList.get(ID).add(MN,0,0);
+                    MN.setVisible(true);
+                }catch (IllegalArgumentException e){
+                    assert true;
+                }
+
             }
             if(island.isStopped()){
                 ImageView denyTile = new ImageView("images/Scontornate/deny_tile.png");
@@ -329,8 +343,8 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
     public void choiceCloud(MouseEvent event){
         Node clickedCloud = event.getPickResult().getIntersectedNode();
         int ID = Integer.parseInt(clickedCloud.getId());
-        clickedCloud.setDisable(true);
-        //new Thread(()->notifyListener(l->l.chooseCloudTile(ID))).start();
+        //clickedCloud.setDisable(true);
+        new Thread(()->notifyListener(l->l.chooseCloudTile(ID))).start();
     }
 
     /**Method to activate MN when it's time to move it*/
@@ -340,15 +354,14 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
 
     /**Method to generate the game field assigning island the correct id*/
     public void generateGameField() {
-        Integer index = 1;
-        Integer cloudIndex = 13;
+        Integer cloudIndex = 0;
         for (Node gameFieldEl : gameField.getChildren()) {
             //Setting grid as id in order to access directly to its component
-            if (!gameFieldEl.getId().equals("CLOUD")) {
+            if (gameFieldEl.getId() != null){
                 GridPane islandStruct = (GridPane) ((StackPane) gameFieldEl).getChildren().get(0);
                 islandStruct.addEventHandler(MouseEvent.MOUSE_CLICKED, this::pickSelectedIsland);
-                islandStruct.setId(index.toString());
-                islandList.put(index, islandStruct);
+                islandStruct.setId(gameFieldEl.getId());
+                islandList.put(Integer.parseInt(gameFieldEl.getId()), islandStruct);
                 //Island structure initialization
                 Map<String, AnchorPane> tempConfig = new ConcurrentHashMap<>();
                 for (Node configuration : islandStruct.getChildren()) {
@@ -362,16 +375,15 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
                     }
                 }
 
-                islandConfig.put(index, tempConfig);
-                index++;
+                islandConfig.put(Integer.parseInt(gameFieldEl.getId()), tempConfig);
             }
             else {
 
                 GridPane cloudStruct = (GridPane) ((StackPane) gameFieldEl).getChildren().get(0);
-                cloudStruct.setId(cloudIndex.toString());
-                cloudStruct.getParent().setDisable(true);
+                cloudStruct.setId(cloudIndex.toString());  //CLOUD#
+                //cloudStruct.getParent().setDisable(true);
                 cloudStruct.addEventHandler(MouseEvent.MOUSE_PRESSED,this::choiceCloud);
-                cloudList.put(cloudIndex%13,cloudStruct);
+                cloudList.put(cloudIndex,cloudStruct);
                 cloudIndex++;
             }
         }

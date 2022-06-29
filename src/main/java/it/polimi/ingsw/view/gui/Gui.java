@@ -228,9 +228,9 @@ public class Gui extends ViewSubject implements View {
 
     }
 
-    public void worldUpdate(Map<Integer, IslandNode> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap, String currentPlayer, ArrayList<ExpertCard> experts, int numOfCoins) {
+    public void worldUpdate(Map<Integer, IslandNode> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap,String nick, String currentPlayer, ArrayList<ExpertCard> experts, int numOfCoins) {
         PlayerViewController pwc = getPWC();
-        Platform.runLater(() -> pwc.updateGameField(gameFieldMap, chargedClouds, boardMap.get(currentPlayer), experts, numOfCoins));
+        Platform.runLater(() -> pwc.updateGameField(gameFieldMap, chargedClouds, boardMap.get(nick), experts, numOfCoins));
     }
 
     private PlayerViewController getPWC() {

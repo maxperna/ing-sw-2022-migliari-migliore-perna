@@ -63,7 +63,7 @@
     -fx-alignment: center;
 }
 
-#CLOUD{
+.cloud{
     -fx-background-image: url("../images/Scontornate/cloud.png");
     -fx-background-repeat: no-repeat;
     -fx-background-size: auto;

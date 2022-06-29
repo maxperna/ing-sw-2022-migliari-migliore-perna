@@ -457,7 +457,7 @@ public class ClientController implements ViewListener, Listener {
                 break;
             case WORLD_CHANGE:
                 WorldChangeMessage worldChange = (WorldChangeMessage) receivedMessage;
-                actionQueue.execute(() -> view.worldUpdate(worldChange.getGameFieldMap(), worldChange.getChargedClouds(), worldChange.getBoardMap(), worldChange.getCurrentPlayer(), worldChange.getExperts(), worldChange.getNumOfCoins()));
+                actionQueue.execute(() -> view.worldUpdate(worldChange.getGameFieldMap(), worldChange.getChargedClouds(), worldChange.getBoardMap(),nickname, worldChange.getCurrentPlayer(), worldChange.getExperts(), worldChange.getNumOfCoins()));
                 if (phase.equals(GameState.ACTION_PHASE) && worldChange.getCurrentPlayer().equals(nickname)) {
                     if (actionCounter > 0) {
                         actionQueue.execute(() -> view.ActionPhaseTurn(expert_mode));  //still in action phase

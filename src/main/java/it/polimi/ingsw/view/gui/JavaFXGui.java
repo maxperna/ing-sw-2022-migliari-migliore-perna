@@ -41,7 +41,7 @@ public class JavaFXGui extends Application {
         stage.setScene(scene);
         SceneController.setCurrentScene(scene);
         stage.setTitle("Eryantis");
-        stage.setResizable(false);
+        stage.setResizable(true);
         stage.show();
 
 
