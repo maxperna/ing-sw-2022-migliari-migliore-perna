@@ -73,7 +73,9 @@ public class SceneController extends ViewSubject {
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initStyle(StageStyle.UTILITY);
             stage.setTitle(title);
-            stage.setScene(new Scene(root));
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add("CSS/BoardInfo.css");
+            stage.setScene(scene);
             stage.setAlwaysOnTop(true);
             stage.setResizable(true);
             stage.show();

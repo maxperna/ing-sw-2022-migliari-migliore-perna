@@ -1,0 +1,10 @@
+.board{
+    -fx-background-image: url("../images/Plancia/Plancia_DEF.png") ;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+}
+
+.background{
+    -fx-background-color: '#69bbea';
+}

@@ -74,11 +74,10 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
     public void initialize(){
         generateGameField();
         diningRoom.addEventHandler(MouseEvent.MOUSE_CLICKED,this::moveStudentBoard);
-        actionButton.getItems().removeAll();
+        actionButton.getItems().clear();
         actionButton.setItems(FXCollections.observableArrayList("Play Card", "Show Boards"));
         Platform.runLater(() -> {
             SkinBase<ChoiceBox<String>> skin = (SkinBase<ChoiceBox<String>>) actionButton.getSkin();
-
             for (Node child : skin.getChildren()) {
                 if (child instanceof Label) {
                     Label label = (Label) child;
