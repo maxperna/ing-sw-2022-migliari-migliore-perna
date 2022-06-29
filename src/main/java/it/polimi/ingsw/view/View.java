@@ -121,7 +121,7 @@ public interface View {
 
     void playExpertType5(int cardID, Expert5 expert);
 
-    void chooseAction();
+    void chooseAction(boolean expertMode);
 
     void moveMotherNature();
 

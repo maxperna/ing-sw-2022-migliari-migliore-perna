@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -10,10 +10,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
 <BorderPane fx:id="bp" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="894.0" prefWidth="1315.0" styleClass="background" stylesheets="@../CSS/PlayerView.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <bottom>
-      <HBox alignment="CENTER" prefHeight="364.0" prefWidth="1314.0" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER" prefHeight="364.0" prefWidth="1314.0" spacing="100.0" BorderPane.alignment="CENTER">
          <children>
             <AnchorPane prefHeight="363.5" prefWidth="838.0" styleClass="grid-pane" stylesheets="@../CSS/PlayerView.css">
                <children>
@@ -79,14 +80,13 @@
                <HBox.margin>
                   <Insets />
                </HBox.margin></AnchorPane>
-            <StackPane prefHeight="150.0" prefWidth="200.0">
-               <HBox.margin>
-                  <Insets left="270.0" />
-               </HBox.margin>
+            <VBox id="buttonVBox" fx:id="buttonVBox" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0">
                <children>
-                  <ChoiceBox fx:id="actionButton" prefHeight="25.0" prefWidth="107.0" StackPane.alignment="CENTER" />
+                  <Button id="playCard" fx:id="playCardButton" mnemonicParsing="false" prefWidth="90.0" text="Play Card" />
+                  <Button id="showBoardsButton" fx:id="showBoardsButton" mnemonicParsing="false" prefWidth="90.0" text="Show Boards" />
+                  <Button id="playExpertButton" fx:id="playExpertButton" mnemonicParsing="false" prefWidth="90.0" text="Play Expert" />
                </children>
-            </StackPane>
+            </VBox>
          </children>
       </HBox>
    </bottom>

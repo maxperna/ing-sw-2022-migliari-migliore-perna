@@ -13,6 +13,7 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.SkinBase;
@@ -38,7 +39,13 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
     @FXML
     GridPane professorSpace;
     @FXML
-    ChoiceBox<String> actionButton;
+    VBox buttonVBox;
+    @FXML
+    Button playCardButton;
+    @FXML
+    Button showBoardsButton;
+    @FXML
+    Button playExpertButton;
 
     private final ImageView MN;
 
@@ -47,7 +54,7 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
     private final Map<Integer,GridPane> cloudList;
     private final Map<Color,ArrayList<Node>> studentsOnDining;
     private final Map<Integer,Map<String,AnchorPane>> islandConfig;
-
+    private boolean expertMode;
     private boolean studentOnMovement;
     private boolean MNOnMovement;
     private int previousMNPosition;  //position of MN on island before movement
@@ -67,43 +74,37 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
         MN.addEventHandler(MouseEvent.MOUSE_CLICKED,this::startMNMovement);
         MN.setVisible(false);
         //MN.setDisable(true);
-
     }
 
     @FXML
     public void initialize(){
         generateGameField();
         diningRoom.addEventHandler(MouseEvent.MOUSE_CLICKED,this::moveStudentBoard);
-        actionButton.getItems().clear();
-        actionButton.setItems(FXCollections.observableArrayList("Play Card", "Show Boards"));
-        Platform.runLater(() -> {
-            SkinBase<ChoiceBox<String>> skin = (SkinBase<ChoiceBox<String>>) actionButton.getSkin();
-            for (Node child : skin.getChildren()) {
-                if (child instanceof Label) {
-                    Label label = (Label) child;
-                    if (label.getText().isEmpty()) {
-                        label.setText("Select Move");
-                    }
-                    return;
-                }
-            }
+        for(Node node : buttonVBox.getChildren())
+            node.setDisable(true);
+
+        playCardButton.setOnAction(actionEvent -> {
+            new Thread(() -> notifyListener(l -> l.chooseAction(1))).start();
+            playCardButton.setDisable(true);
+            showBoardsButton.setDisable(true);
         });
-        actionButton.setDisable(true);
+
+        showBoardsButton.setOnAction(actionEvent -> {
+            new Thread(() -> notifyListener(l -> l.chooseAction(2))).start();
+        });
+
+        playExpertButton.setOnAction(actionEvent -> {
+            //esperti
+        });
     }
 
-    public void setPreparationPhaseChoiceBox(){
+    public void setPreparationPhaseChoiceBox(boolean expertMode){
 
-        actionButton.setDisable(false);
+        playCardButton.setDisable(false);
+        showBoardsButton.setDisable(false);
 
-        actionButton.setOnAction(actionEvent -> {
-            String selection = (String)actionButton.getSelectionModel().getSelectedItem();
-            if (selection.equals("Play Card")) {
-                new Thread(() -> notifyListener(l -> l.chooseAction(1))).start();
-                actionButton.getItems().remove(0);
-            } else
-                new Thread(() -> notifyListener(l -> l.chooseAction(2))).start();
-
-        });
+        if(expertMode)
+            playExpertButton.setDisable(false);
 
     }
 

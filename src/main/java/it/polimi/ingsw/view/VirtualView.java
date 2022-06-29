@@ -200,7 +200,8 @@ public class VirtualView implements View {
 
     }
 
-    public void chooseAction() {
+    @Override
+    public void chooseAction(boolean expertMode) {
     }
 
     @Override

@@ -1541,7 +1541,7 @@ public class Cli extends ViewSubject implements View {
      * Method used to ask the player what to do during preparation phase
      */
     @Override
-    public void chooseAction() {
+    public void chooseAction(boolean expertMode) {
         int chosenAction = 0;
         boolean valid = false;
         System.out.println("Write [1] to play your card, [2] to check the other boards");

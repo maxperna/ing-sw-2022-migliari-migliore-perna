@@ -348,7 +348,7 @@ public class ClientController implements ViewListener, Listener {
                 switch (currPlayer.getCurrentState()) {
                     case PREPARATION_PHASE:
                         phase = GameState.PREPARATION_PHASE;
-                        actionQueue.execute(view::chooseAction);
+                        actionQueue.execute(() -> view.chooseAction(expert_mode));
                         break;
                     case ACTION_PHASE:
                         phase = GameState.ACTION_PHASE;
@@ -393,7 +393,7 @@ public class ClientController implements ViewListener, Listener {
                     Map<String, Board> boardMap = ((BoardInfoMessage) receivedMessage).getBoardMap();
                     boardMap.remove(nickname);
                     actionQueue.execute(() -> view.showBoard(boardMap));
-                    actionQueue.execute(view::chooseAction);
+                    actionQueue.execute(() -> view.chooseAction(expert_mode));
                 } else {
                     BoardInfoMessage boardInfo = (BoardInfoMessage) receivedMessage;
                     actionQueue.execute(() -> view.showBoard(boardInfo.getBoardMap()));
