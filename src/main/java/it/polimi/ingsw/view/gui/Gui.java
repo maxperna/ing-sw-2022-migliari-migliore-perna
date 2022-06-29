@@ -46,8 +46,9 @@ public class Gui extends ViewSubject implements View {
 
     public void startGame() {
         PlayerViewController pwc = new PlayerViewController();
+        SceneController.setCurrentController(pwc);
         Platform.runLater(() -> SceneController.changeRoot(list, pwc, "PlayerView.fxml"));
-        Platform.runLater(SceneController::setFullScreen);
+        //Platform.runLater(SceneController::setFullScreen);
     }
 
     @Override
@@ -235,13 +236,7 @@ public class Gui extends ViewSubject implements View {
 
     private PlayerViewController getPWC() {
         PlayerViewController pwc;
-        try {
-            pwc = (PlayerViewController) SceneController.currentController;
-        } catch (ClassCastException e) {
-            pwc = new PlayerViewController();
-            PlayerViewController finalPWC = pwc;
-            Platform.runLater(() -> SceneController.changeRoot(list, finalPWC, "PlayerView.fxml"));
-        }
+        pwc = (PlayerViewController) SceneController.currentController;
         return pwc;
     }
 

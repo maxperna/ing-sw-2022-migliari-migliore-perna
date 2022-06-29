@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 import static it.polimi.ingsw.network.messages.ErrorType.*;
 import static it.polimi.ingsw.network.messages.MessageType.*;
 
+
 /**
  * Class GameController implementing the all the logic and communication between model and view
  *
