@@ -8,12 +8,14 @@ import it.polimi.ingsw.model.TowerColor;
 import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.model.gameField.IslandNode;
 import it.polimi.ingsw.observer.ViewSubject;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.SkinBase;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -36,7 +38,7 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
     @FXML
     GridPane professorSpace;
     @FXML
-    ChoiceBox actionButton;
+    ChoiceBox<String> actionButton;
 
     private final ImageView MN;
 
@@ -74,6 +76,19 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
         diningRoom.addEventHandler(MouseEvent.MOUSE_CLICKED,this::moveStudentBoard);
         actionButton.getItems().removeAll();
         actionButton.setItems(FXCollections.observableArrayList("Play Card", "Show Boards"));
+        Platform.runLater(() -> {
+            SkinBase<ChoiceBox<String>> skin = (SkinBase<ChoiceBox<String>>) actionButton.getSkin();
+
+            for (Node child : skin.getChildren()) {
+                if (child instanceof Label) {
+                    Label label = (Label) child;
+                    if (label.getText().isEmpty()) {
+                        label.setText("Select Move");
+                    }
+                    return;
+                }
+            }
+        });
         actionButton.setDisable(true);
     }
 

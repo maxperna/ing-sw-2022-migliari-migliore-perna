@@ -5,20 +5,27 @@ import it.polimi.ingsw.model.TowerColor;
 import it.polimi.ingsw.observer.ViewSubject;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static it.polimi.ingsw.model.DeckType.*;
+import static javafx.scene.input.KeyCode.D;
+import static javafx.scene.input.KeyCode.T;
 
 public class TowerDeckSelectionControllerGeneric extends ViewSubject implements GenericSceneController, Initializable {
 
+    @FXML
+    BorderPane borderPane;
     @FXML
     ImageView blackTower;
     @FXML
@@ -48,6 +55,9 @@ public class TowerDeckSelectionControllerGeneric extends ViewSubject implements 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        Map<DeckType, ImageView> deckTypeImageViewMap = generateDeckTypeMap();
+        Map<TowerColor, ImageView> towerColorMap = generateTowerColorMap();
+
         selectedColor = null;
         selectedDeck = null;
         confirmButton.setOnAction(actionEvent -> confirmSelection());
@@ -63,9 +73,12 @@ public class TowerDeckSelectionControllerGeneric extends ViewSubject implements 
                         blackTower.setOnMouseClicked(mouseEvent -> {
                             if (selectedColor == TowerColor.BLACK)
                                 blackTower.setOpacity(1);
-                            else
+                            else {
                                 blackTower.setOpacity(0.8);
-
+                                for (TowerColor resetColor : towerColorMap.keySet())
+                                    if(!resetColor.equals(TowerColor.BLACK))
+                                        towerColorMap.get(resetColor).setOpacity(1);
+                            }
                             towerSelection(TowerColor.BLACK);
                         });
                         break;
@@ -73,8 +86,12 @@ public class TowerDeckSelectionControllerGeneric extends ViewSubject implements 
                         whiteTower.setOnMouseClicked(mouseEvent -> {
                             if (selectedColor == TowerColor.WHITE)
                                 whiteTower.setOpacity(1);
-                            else
+                            else {
                                 whiteTower.setOpacity(0.8);
+                                for (TowerColor resetColor : towerColorMap.keySet())
+                                    if(!resetColor.equals(TowerColor.WHITE))
+                                        towerColorMap.get(resetColor).setOpacity(1);
+                            }
 
                             towerSelection(TowerColor.WHITE);
                         });
@@ -83,9 +100,12 @@ public class TowerDeckSelectionControllerGeneric extends ViewSubject implements 
                         grayTower.setOnMouseClicked(mouseEvent -> {
                             if (selectedColor == TowerColor.GRAY)
                                 grayTower.setOpacity(1);
-                            else
+                            else {
                                 grayTower.setOpacity(0.8);
-
+                                for (TowerColor resetColor : towerColorMap.keySet())
+                                    if(!resetColor.equals(TowerColor.GRAY))
+                                        towerColorMap.get(resetColor).setOpacity(1);
+                            }
                             towerSelection(TowerColor.GRAY);
                         });
                 }
@@ -93,12 +113,15 @@ public class TowerDeckSelectionControllerGeneric extends ViewSubject implements 
                 switch (color) {
                     case BLACK:
                         blackTower.setOpacity(0.2);
+                        towerColorMap.remove(TowerColor.BLACK);
                         break;
                     case WHITE:
+                        towerColorMap.remove(TowerColor.WHITE);
                         whiteTower.setOpacity(0.2);
                         break;
                     case GRAY:
                         grayTower.setOpacity(0.2);
+                        towerColorMap.remove(TowerColor.GRAY);
                 }
             }
         }
@@ -110,9 +133,12 @@ public class TowerDeckSelectionControllerGeneric extends ViewSubject implements 
                         sageDeck.setOnMouseClicked(mouseEvent -> {
                             if (selectedDeck == SAGE)
                                 sageDeck.setOpacity(1);
-                            else
+                            else {
                                 sageDeck.setOpacity(0.8);
-
+                                for (DeckType resetType : deckTypeImageViewMap.keySet())
+                                    if(!resetType.equals(SAGE))
+                                        deckTypeImageViewMap.get(resetType).setOpacity(1);
+                            }
                             deckSelection(SAGE);
                         });
                         break;
@@ -120,8 +146,12 @@ public class TowerDeckSelectionControllerGeneric extends ViewSubject implements 
                         witchDeck.setOnMouseClicked(mouseEvent -> {
                             if (selectedDeck == WITCH)
                                 witchDeck.setOpacity(1);
-                            else
+                            else {
                                 witchDeck.setOpacity(0.8);
+                                for (DeckType resetType : deckTypeImageViewMap.keySet())
+                                    if(!resetType.equals(WITCH))
+                                        deckTypeImageViewMap.get(resetType).setOpacity(1);
+                            }
 
                             deckSelection(WITCH);
                         });
@@ -130,9 +160,12 @@ public class TowerDeckSelectionControllerGeneric extends ViewSubject implements 
                         kingDeck.setOnMouseClicked(mouseEvent -> {
                             if (selectedDeck == KING)
                                 kingDeck.setOpacity(1);
-                            else
+                            else {
                                 kingDeck.setOpacity(0.8);
-
+                                for (DeckType resetType : deckTypeImageViewMap.keySet())
+                                    if(!resetType.equals(KING))
+                                        deckTypeImageViewMap.get(resetType).setOpacity(1);
+                            }
                             deckSelection(KING);
                         });
                         break;
@@ -140,9 +173,12 @@ public class TowerDeckSelectionControllerGeneric extends ViewSubject implements 
                         druidDeck.setOnMouseClicked(mouseEvent -> {
                             if (selectedDeck == DRUID)
                                 druidDeck.setOpacity(1);
-                            else
+                            else {
                                 druidDeck.setOpacity(0.8);
-
+                                for (DeckType resetType : deckTypeImageViewMap.keySet())
+                                    if(!resetType.equals(DRUID))
+                                        deckTypeImageViewMap.get(resetType).setOpacity(1);
+                            }
                             deckSelection(DRUID);
                         });
                 }
@@ -150,14 +186,18 @@ public class TowerDeckSelectionControllerGeneric extends ViewSubject implements 
                 switch (deckType) {
                     case SAGE:
                         sageDeck.setOpacity(0.2);
+                        deckTypeImageViewMap.remove(SAGE);
                         break;
                     case WITCH:
                         witchDeck.setOpacity(0.2);
+                        deckTypeImageViewMap.remove(WITCH);
                         break;
                     case KING:
                         kingDeck.setOpacity(0.2);
+                        deckTypeImageViewMap.remove(KING);
                         break;
                     case DRUID:
+                        deckTypeImageViewMap.remove(DRUID);
                         druidDeck.setOpacity(0.2);
                 }
             }
@@ -206,6 +246,10 @@ public class TowerDeckSelectionControllerGeneric extends ViewSubject implements 
         }
     }
 
+    public void opacityHandler(TowerColor color) {
+
+    }
+
     public void setRemainingTowers(ArrayList<TowerColor> remainingTowers) {
         this.remainingTowers = remainingTowers;
     }
@@ -214,5 +258,26 @@ public class TowerDeckSelectionControllerGeneric extends ViewSubject implements 
         this.remainingDecks = remainingDecks;
     }
 
+    private Map<TowerColor, ImageView> generateTowerColorMap() {
+
+        Map<TowerColor, ImageView> towerColorImageViewMap = new HashMap<>();
+
+        towerColorImageViewMap.put(TowerColor.BLACK, blackTower);
+        towerColorImageViewMap.put(TowerColor.WHITE, whiteTower);
+        towerColorImageViewMap.put(TowerColor.GRAY, grayTower);
+
+        return  towerColorImageViewMap;
+    }
+
+    private Map<DeckType, ImageView> generateDeckTypeMap() {
+        Map<DeckType, ImageView> deckTypeImageViewMap = new HashMap<>();
+
+        deckTypeImageViewMap.put(DRUID, druidDeck);
+        deckTypeImageViewMap.put(SAGE, sageDeck);
+        deckTypeImageViewMap.put(KING, kingDeck);
+        deckTypeImageViewMap.put(WITCH, witchDeck);
+
+        return deckTypeImageViewMap;
+    }
 
 }
