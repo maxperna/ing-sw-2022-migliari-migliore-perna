@@ -132,7 +132,10 @@
                               <Label id="LABEL" layoutX="39.0" layoutY="46.0" text="0" />
                            </children>
                         </AnchorPane>
-                        <AnchorPane id="TowerSpace" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" />
+                        <AnchorPane id="TowerSpace" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
+                           <children>
+                              <Label layoutX="73.0" layoutY="6.0" text="0" visible="false" />
+                           </children></AnchorPane>
                      </children>
                   </GridPane>
                </children>
@@ -176,7 +179,10 @@
                               <Label id="LABEL" layoutX="39.0" layoutY="46.0" text="0" />
                            </children>
                         </AnchorPane>
-                        <AnchorPane id="TowerSpace" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" />
+                        <AnchorPane id="TowerSpace" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
+                           <children>
+                              <Label layoutX="72.0" layoutY="5.0" text="0" visible="false" />
+                           </children></AnchorPane>
                      </children>
                   </GridPane>
                </children>
@@ -220,7 +226,10 @@
                               <Label id="LABEL" layoutX="39.0" layoutY="46.0" text="0" />
                            </children>
                         </AnchorPane>
-                        <AnchorPane id="TowerSpace" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" />
+                        <AnchorPane id="TowerSpace" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
+                           <children>
+                              <Label layoutX="72.0" layoutY="5.0" text="0" visible="false" />
+                           </children></AnchorPane>
                      </children>
                   </GridPane>
                </children>
@@ -264,7 +273,10 @@
                               <Label id="LABEL" layoutX="39.0" layoutY="46.0" text="0" />
                            </children>
                         </AnchorPane>
-                        <AnchorPane id="TowerSpace" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" />
+                        <AnchorPane id="TowerSpace" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
+                           <children>
+                              <Label layoutX="70.0" layoutY="5.0" text="0" visible="false" />
+                           </children></AnchorPane>
                      </children>
                   </GridPane>
                </children>
@@ -308,7 +320,10 @@
                               <Label id="LABEL" layoutX="39.0" layoutY="46.0" text="0" />
                            </children>
                         </AnchorPane>
-                        <AnchorPane id="TowerSpace" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" />
+                        <AnchorPane id="TowerSpace" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
+                           <children>
+                              <Label layoutX="72.0" layoutY="11.0" text="0" visible="false" />
+                           </children></AnchorPane>
                      </children>
                   </GridPane>
                </children>
@@ -352,7 +367,10 @@
                               <Label id="LABEL" layoutX="39.0" layoutY="46.0" text="0" />
                            </children>
                         </AnchorPane>
-                        <AnchorPane id="TowerSpace" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" />
+                        <AnchorPane id="TowerSpace" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
+                           <children>
+                              <Label layoutX="74.0" layoutY="2.0" text="0" visible="false" />
+                           </children></AnchorPane>
                      </children>
                   </GridPane>
                </children>
@@ -396,7 +414,10 @@
                               <Label id="LABEL" layoutX="39.0" layoutY="46.0" text="0" />
                            </children>
                         </AnchorPane>
-                        <AnchorPane id="TowerSpace" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" />
+                        <AnchorPane id="TowerSpace" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
+                           <children>
+                              <Label layoutX="73.0" layoutY="6.0" text="0" visible="false" />
+                           </children></AnchorPane>
                      </children>
                   </GridPane>
                </children>
@@ -440,7 +461,10 @@
                               <Label id="LABEL" layoutX="39.0" layoutY="46.0" text="0" />
                            </children>
                         </AnchorPane>
-                        <AnchorPane id="TowerSpace" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" />
+                        <AnchorPane id="TowerSpace" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
+                           <children>
+                              <Label layoutX="72.0" layoutY="3.0" text="0" visible="false" />
+                           </children></AnchorPane>
                      </children>
                   </GridPane>
                </children>
@@ -484,7 +508,10 @@
                               <Label id="LABEL" layoutX="39.0" layoutY="46.0" text="0" />
                            </children>
                         </AnchorPane>
-                        <AnchorPane id="TowerSpace" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" />
+                        <AnchorPane id="TowerSpace" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
+                           <children>
+                              <Label layoutX="71.0" layoutY="5.0" text="0" visible="false" />
+                           </children></AnchorPane>
                      </children>
                   </GridPane>
                </children>
@@ -528,7 +555,10 @@
                               <Label id="LABEL" layoutX="39.0" layoutY="46.0" text="0" />
                            </children>
                         </AnchorPane>
-                        <AnchorPane id="TowerSpace" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" />
+                        <AnchorPane id="TowerSpace" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
+                           <children>
+                              <Label layoutX="72.0" layoutY="10.0" text="0" visible="false" />
+                           </children></AnchorPane>
                      </children>
                   </GridPane>
                </children>
@@ -572,7 +602,10 @@
                               <Label id="LABEL" layoutX="39.0" layoutY="46.0" text="0" />
                            </children>
                         </AnchorPane>
-                        <AnchorPane id="TowerSpace" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" />
+                        <AnchorPane id="TowerSpace" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
+                           <children>
+                              <Label layoutX="74.0" layoutY="5.0" text="0" visible="false" />
+                           </children></AnchorPane>
                      </children>
                   </GridPane>
                </children>
@@ -616,12 +649,15 @@
                               <Label id="LABEL" layoutX="39.0" layoutY="46.0" text="0" />
                            </children>
                         </AnchorPane>
-                        <AnchorPane id="TowerSpace" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" />
+                        <AnchorPane id="TowerSpace" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
+                           <children>
+                              <Label layoutX="73.0" layoutY="7.0" text="0" visible="false" />
+                           </children></AnchorPane>
                      </children>
                   </GridPane>
                </children>
             </StackPane>
-            <StackPane id="CLOUD" layoutX="994.0" layoutY="255.0" prefHeight="150.0" prefWidth="167.0" AnchorPane.leftAnchor="994.0" AnchorPane.topAnchor="255.0">
+            <StackPane layoutX="994.0" layoutY="255.0" prefHeight="150.0" prefWidth="167.0" styleClass="cloud" AnchorPane.leftAnchor="994.0" AnchorPane.topAnchor="255.0">
                <children>
                   <GridPane>
                      <columnConstraints>
@@ -635,7 +671,7 @@
                   </GridPane>
                </children>
             </StackPane>
-            <StackPane id="CLOUD" layoutX="798.0" layoutY="255.0" prefHeight="150.0" prefWidth="167.0" AnchorPane.topAnchor="255.0">
+            <StackPane layoutX="798.0" layoutY="255.0" prefHeight="150.0" prefWidth="167.0" styleClass="cloud" AnchorPane.topAnchor="255.0">
                <children>
                   <GridPane>
                      <columnConstraints>
@@ -649,7 +685,7 @@
                   </GridPane>
                </children>
             </StackPane>
-            <StackPane id="CLOUD" layoutX="593.0" layoutY="255.0" prefHeight="150.0" prefWidth="167.0" AnchorPane.topAnchor="255.0">
+            <StackPane layoutX="593.0" layoutY="255.0" prefHeight="150.0" prefWidth="167.0" styleClass="cloud" AnchorPane.topAnchor="255.0">
                <children>
                   <GridPane>
                      <columnConstraints>
@@ -663,7 +699,7 @@
                   </GridPane>
                </children>
             </StackPane>
-            <StackPane id="CLOUD" layoutX="1182.0" layoutY="240.0" prefHeight="150.0" prefWidth="167.0" AnchorPane.topAnchor="255.0">
+            <StackPane layoutX="1182.0" layoutY="240.0" prefHeight="150.0" prefWidth="167.0" styleClass="cloud" AnchorPane.topAnchor="255.0">
                <children>
                   <GridPane>
                      <columnConstraints>
