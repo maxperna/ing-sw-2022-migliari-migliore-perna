@@ -16,7 +16,6 @@ import javafx.application.Platform;
 
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
 
 public class Gui extends ViewSubject implements View {
 

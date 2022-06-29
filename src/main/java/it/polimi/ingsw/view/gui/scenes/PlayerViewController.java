@@ -308,7 +308,7 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
                 TowerColor tColor = island.getTowerColor();
                 //Sostituisco la torre
                 if(islandConfig.get(ID).get("TowerSpace").lookup("#"+tColor.toString()) != null)
-                    islandConfig.get(ID).remove(islandConfig.get(ID).get("TowerSpace").lookup("#"+tColor.toString()));
+                    islandConfig.get(ID).remove(islandConfig.get(ID).get("TowerSpace").lookup("#"+tColor));
 
                 Label towerLabel = (Label) islandConfig.get(ID).get("TowerSpace").getChildren().get(0);
                 towerLabel.setText(island.getNumberOfTowers().toString());

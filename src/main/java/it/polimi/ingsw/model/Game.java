@@ -211,11 +211,10 @@ public class Game implements Serializable {
                     if (playerToCheck.getBoard().getTowerColor().equals(islandToCheck.getTowerColor())) {
                         if (!colorStudent.equals(colorToIgnore)) {
                             influenceOfPlayer = influenceOfPlayer + islandToCheck.getNumberOfTowers();
-                            towerPlayer = playerToCheck;
                         } else {
                             influenceOfPlayer = islandToCheck.getNumberOfTowers();
-                            towerPlayer = playerToCheck;
                         }
+                        towerPlayer = playerToCheck;
                     } else {
                         if (colorStudent.equals(colorToIgnore))
                             influenceOfPlayer = 0;

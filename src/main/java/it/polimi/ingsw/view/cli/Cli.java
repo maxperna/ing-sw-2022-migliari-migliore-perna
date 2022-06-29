@@ -628,7 +628,7 @@ public class Cli extends ViewSubject implements View {
     /**
      * Method used to print info about the active player and the gamePhase
      * @param currentPlayer nickName of the player that will play
-     * @param currentState
+     * @param currentState is the state of the game
      */
     @Override
     public void showCurrentPlayer(String currentPlayer, GameState currentState) {
@@ -709,7 +709,7 @@ public class Cli extends ViewSubject implements View {
      * Method used to print a list of students, get from input the chosen student and call on the ClientController moveStudentToDinner() or moveStudentToIsland()
      * @param availableStudents is a list of students (the entry hall students)
      * @param movementType is the destination
-     * @param gameFieldSize
+     * @param gameFieldSize is the size of the island list
      */
     @Override
     public void availableStudents(ArrayList<Color> availableStudents, MessageType movementType, int gameFieldSize) {
@@ -1260,7 +1260,7 @@ public class Cli extends ViewSubject implements View {
     /**
      * method to play expert card 12
      *
-     * @param @param cardID is the value [0,1,2] used by clientController to identify which expert card is being played
+     * @param cardID is the value [0,1,2] used by clientController to identify which expert card is being played
      * @param expert is the expert card that is being played
      */
     @Override
@@ -1629,7 +1629,7 @@ public class Cli extends ViewSubject implements View {
                 startProcess.waitFor();
             }
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
     }
 

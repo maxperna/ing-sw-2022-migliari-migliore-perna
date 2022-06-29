@@ -90,7 +90,7 @@ public class IslandNode implements Serializable {
 
     /**
      * Method used to place students on this island
-     * @param students
+     * @param students is an arraylist containing the students that will be placed on this node
      */
     public void setStudents(ArrayList<Color> students) {
         this.students.addAll(students);
@@ -195,7 +195,7 @@ public class IslandNode implements Serializable {
 
     /**
      * Method called during a merge, add all students from another island to this one
-     * @param students
+     * @param students are the students from the merged island that will be moved inside this island
      */
     public void mergeStudents(ArrayList<Color> students) {
         this.students.addAll(students);

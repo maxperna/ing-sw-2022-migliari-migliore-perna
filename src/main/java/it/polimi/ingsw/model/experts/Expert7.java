@@ -51,9 +51,6 @@ public class Expert7 implements ExpertCard {
             currentGame.coinHandler(user, -this.cost);
             this.cost++;
             currentGame.setActiveExpertsCard(this);
-            /*if(studentToSwapBoard.size()!=studentToSwapCard.size() || studentToSwapBoard.size()>3)
-                throw new IllegalMove("Not the same number of student");
-            */
             try {
                 for (Color colorToRM : studentToSwapCard)
                     this.studentsOnCard.remove(colorToRM);
