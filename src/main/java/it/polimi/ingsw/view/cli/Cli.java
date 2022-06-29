@@ -170,7 +170,6 @@ public class Cli extends ViewSubject implements View {
             } catch (NumberFormatException | ExecutionException e) {
                 System.out.println();
                 System.out.println("Error. Invalid input");
-                valid = false;
             }
         } while (!valid);
 
@@ -221,7 +220,6 @@ public class Cli extends ViewSubject implements View {
             } catch (ExecutionException | NumberFormatException e) {
                 System.out.println();
                 System.out.println("Error. Invalid input");
-                valid = false;
             }
         } while (!valid);
 
@@ -239,7 +237,6 @@ public class Cli extends ViewSubject implements View {
             } catch (ExecutionException | NumberFormatException e) {
                 System.out.println();
                 System.out.println("Error. Invalid input");
-                valid = false;
             }
         } while (!valid);
 
@@ -833,7 +830,6 @@ public class Cli extends ViewSubject implements View {
                     System.out.println("Error. Card not found");
             } catch (ExecutionException | NumberFormatException e) {
                 System.out.println("Error. Invalid input");
-                valid = false;
             }
         } while (!valid);
 
@@ -976,7 +972,6 @@ public class Cli extends ViewSubject implements View {
 
             } catch (ExecutionException | NumberFormatException e) {
                 System.out.println("Error. Invalid input");
-                valid = false;
             }
 
         } while (!valid);
@@ -1098,7 +1093,6 @@ public class Cli extends ViewSubject implements View {
 
             } catch (ExecutionException | NumberFormatException e) {
                 System.out.println("Error. Invalid parameter");
-                valid = false;
             }
 
         } while (!valid);
@@ -1554,7 +1548,6 @@ public class Cli extends ViewSubject implements View {
                     valid = true;
             } catch (ExecutionException | NumberFormatException e) {
                 System.out.println("Error. Invalid input.");
-                valid = false;
             }
         } while (!valid);
         int finalChosenAction = chosenAction;

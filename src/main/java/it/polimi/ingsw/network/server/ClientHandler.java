@@ -25,7 +25,7 @@ public class ClientHandler implements Runnable {
     private boolean connected;
 
     /**
-     * Deafult constructor
+     * Default constructor
      * @param serverSocket is the socket used to communicate with the server
      * @param clientSocket us the socket used to communicate wit the client
      */
@@ -74,7 +74,6 @@ public class ClientHandler implements Runnable {
                     Message receivedMessage = (Message) input.readObject();
                     if (receivedMessage.getType() == MessageType.LOGIN)
                         serverSocket.addClient(receivedMessage.getSenderPlayer(), this);
-//                  serverSocket.addClient(message.getNick,m.getColorTowe,m.getassistant,this);
                     else {
                         Server.LOGGER.info("Message received" + receivedMessage);
                         serverSocket.receiveMessage(receivedMessage);

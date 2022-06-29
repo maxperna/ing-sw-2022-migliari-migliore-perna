@@ -215,7 +215,7 @@ public class TurnLogic {
 
     /**
      * Method to play an expert card that requires no additional parameters
-     * @param playedCard is  the ID [0,1,2] that refers to the card playedù
+     * @param playedCard is  the ID [0,1,2] that refers to the card played
      * @param player is the player who activated the expert effect
      * @throws NotEnoughCoins when the player has less than the required coins to activate the effect
      **/

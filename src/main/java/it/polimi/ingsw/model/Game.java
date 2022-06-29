@@ -100,7 +100,7 @@ public class Game implements Serializable {
     }
 
     /**
-     * Method to add the player to the current game and automatically set the team mate
+     * Method to add the player to the current game and automatically set the teammate
      *
      * @param nickname   nickname of the player
      * @param assistant  assistant deck chosen
@@ -350,7 +350,7 @@ public class Game implements Serializable {
 
     /**
      * Getter
-     * @return the puch instance
+     * @return the pouch instance
      */
     public Pouch getPouch() {
         return pouch;

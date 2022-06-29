@@ -21,7 +21,7 @@ public class ClientSocket extends Client {
 
     private final ObjectOutputStream outputStream;
     private final ObjectInputStream inputStream;
-    private final ExecutorService readExecutionQueue;     //gestione thread in lettura
+    private final ExecutorService readExecutionQueue;     //manages reading input
 
     private final int SOCKET_TIMEOUT = 1000;
 

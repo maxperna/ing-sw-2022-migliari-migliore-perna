@@ -32,7 +32,7 @@ public class IslandNode implements Serializable {
 
     /**
      * Default constructor
-     * @param ID is the Id that will identify the island Node
+     * @param ID is the ID that will identify the island Node
      */
     public IslandNode(int ID) {
         this.ID = ID;

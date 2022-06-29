@@ -13,11 +13,11 @@ public enum MessageType {
     /**
      * Notify the end of loginPhase
      */
-    ENDLOGIN,
+    END_LOGIN,
     /**
      * Param to create game (only first LogIn)
      */
-    GAMEPARAM,
+    GAME_PARAM,
     /**
      * Request for assistant card deck
      */
@@ -26,7 +26,7 @@ public enum MessageType {
     /**
      * Request for game parameters
      */
-    GAMEPARAM_REQUEST,
+    GAME_PARAM_REQUEST,
     /**
      * Request for player creation parameters
      */

@@ -330,7 +330,7 @@ public class ClientController implements ViewListener, Listener {
     public synchronized void catchAction(Message receivedMessage) {
 
         switch (receivedMessage.getType()) {
-            case GAMEPARAM_REQUEST:
+            case GAME_PARAM_REQUEST:
                 actionQueue.execute(view::askGameParam);
                 break;
             case NICK_REQ:
@@ -482,7 +482,7 @@ public class ClientController implements ViewListener, Listener {
                     }
                 }
                 break;
-            case GAMEPARAM:
+            case GAME_PARAM:
                 ExpertModeNotify expert = (ExpertModeNotify) receivedMessage;
                 setExpertMode(expert.getExpertMode());
                 break;

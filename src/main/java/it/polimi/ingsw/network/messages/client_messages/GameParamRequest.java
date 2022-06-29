@@ -13,7 +13,7 @@ public class GameParamRequest extends Message {
 
     public GameParamRequest() {
 
-        super(MessageType.GAMEPARAM_REQUEST, "Sono Beppe Sala");
+        super(MessageType.GAME_PARAM_REQUEST, "Sono Beppe Sala");
 
     }
 }
