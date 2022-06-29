@@ -19,7 +19,7 @@ public class CloudTile implements Serializable {
     private ArrayList<Color> students;
 
     /**
-     * constructor
+     * Default constructor
      */
     public CloudTile(int ID) {
         this.tileID = ID;
@@ -28,18 +28,25 @@ public class CloudTile implements Serializable {
     }
 
     /**
+     * Getter
      * @return an Arraylist of Color that represents students on the cloud
      */
     public ArrayList<Color> getStudents() {
         return students;
     }
 
+    /**
+     * Method used to add 3 students to the cloud tile
+     * @param students are the students that will be moved to the cloud tile
+     */
     public void setStudents(ArrayList<Color> students) {
         this.students = students;
     }
 
     /**
+     * Method used to remove the students on a cloud tile
      * @throws EmptyCloudException when there are no students on the cloud
+     * @return the students removed
      */
     public synchronized ArrayList<Color> moveStudents() throws EmptyCloudException {
         if (students.isEmpty())
@@ -52,7 +59,7 @@ public class CloudTile implements Serializable {
     }
 
     /**
-     * method that returns the ID of the cloud
+     * Method that returns the ID of the cloud
      *
      * @return cloud ID
      */
@@ -60,10 +67,18 @@ public class CloudTile implements Serializable {
         return this.tileID;
     }
 
+    /**
+     * Method used to set a propertyChangeListener on this cloud
+     * @param listener is the listener that will notify all the changes
+     */
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         support.addPropertyChangeListener(listener);
     }
 
+    /**
+     * Method used to remove a listener
+     * @param listener listener to be removed
+     */
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         support.removePropertyChangeListener(listener);
     }

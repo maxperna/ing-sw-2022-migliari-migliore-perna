@@ -18,7 +18,13 @@ public class Player implements Serializable {
     private final CardDeck deck;
     private int numOfCoin;
 
-
+    /**
+     * Default constructor
+     * @param nickname is the player nickname
+     * @param assistant is the chosen deckType
+     * @param towerColor is the chosen tower color
+     * @param gameInfo is the game instance
+     */
     public Player(String nickname, DeckType assistant, TowerColor towerColor, Game gameInfo) {
 
         this.nickname = nickname;
@@ -36,11 +42,19 @@ public class Player implements Serializable {
         this.deck = null;
     }
 
+    /**
+     * Getter
+     * @return the player's nickname
+     */
     public String getNickname() {
         return this.nickname;
     }
 
 
+    /**
+     * Getter
+     * @return the player's board
+     */
     public Board getBoard() {
         return this.board;
     }
@@ -67,10 +81,18 @@ public class Player implements Serializable {
         this.numOfCoin = this.numOfCoin + quantity;
     }
 
+    /**
+     * Getter
+     * @return the player's towerColor
+     */
     public TowerColor getTowerColor() {
         return this.board.getTowerColor();
     }
 
+    /**
+     * Getter
+     * @return the number of player's coins
+     */
     public int getNumOfCoin() {
         return numOfCoin;
     }

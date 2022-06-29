@@ -8,17 +8,27 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * Class used to create a socket that will receive the messages from the clients
+ */
 public class Server_Socket implements Runnable {
     private final Server server;
     private final int port;
     ServerSocket socketServer;
 
-
+    /**
+     * Default constructor
+     * @param server is the server that will be listening on the chosen port
+     * @param portNum is the id of the port that will be used to handle the connection
+     */
     public Server_Socket(Server server, int portNum) {
         this.server = server;
         this.port = portNum;
     }
 
+    /**
+     * Method used to create the server socket and start the thread handling the connection
+     */
     @Override
     public void run() {
         try {

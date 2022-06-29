@@ -22,9 +22,6 @@ public interface ViewListener {
 
     void chooseCloudTile(int ID);
 
-    /**
-     * Method to get boards
-     */
     void getBoards();
 
     void moveStudentToIsland(Color student, int nodeID);

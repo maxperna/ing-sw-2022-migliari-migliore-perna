@@ -31,22 +31,42 @@ public class AssistantCard implements Serializable {
         this.deckType = deckType;
     }
 
+    /**
+     * Method used to get the action number of the card
+     * @return the action number used to determine the play order
+     */
     public int getActionNumber() {
         return actionNumber;
     }
 
+    /**
+     * Method used to get the number of mother nature moves allowed
+     * @return the max number of moves that mother nature can perform
+     */
     public int getMotherNatureControl() {
         return motherNatureControl;
     }
 
+    /**
+     * Method used to get the front image name
+     * @return the image name
+     */
     public String getFrontImage() {
         return frontImage;
     }
 
+    /**
+     * Method used to get the back image name
+     * @return the image name
+     */
     public String getBackImage() {
         return backImage;
     }
 
+    /**
+     * Method used to get the deckType
+     * @return the deckType
+     */
     public DeckType getDeckType() {
         return deckType;
     }

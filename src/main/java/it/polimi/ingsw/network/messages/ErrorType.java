@@ -5,6 +5,7 @@ public enum ErrorType {
     CONNECTION_ERROR,
 
     LOGIN_ERROR,
+
     STUDENT_ERROR,
 
     ASSISTANT_ERROR,

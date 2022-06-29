@@ -308,7 +308,7 @@ public class GameController implements PropertyChangeListener {
     }
 
     /**
-     * Method that creates the game
+     * Method that creates the game as a singleton
      *
      * @param receivedMessage, must be a GameParam message, contains the game parameters
      */

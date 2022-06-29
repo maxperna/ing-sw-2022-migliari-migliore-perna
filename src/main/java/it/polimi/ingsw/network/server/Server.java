@@ -12,6 +12,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
+/**
+ * Class used to create a server
+ */
 public class Server {
 
     public static final Logger LOGGER = Logger.getLogger(Server.class.getName());
@@ -20,6 +23,10 @@ public class Server {
     private final Object lock;
     private boolean firstConnection;
 
+    /**
+     * Default constructor
+     * @param gameController is the controller for the game logic
+     */
     public Server(GameController gameController) {
         this.gameController = gameController;
         this.virtualViewMap = Collections.synchronizedMap(new HashMap<>());
@@ -27,6 +34,11 @@ public class Server {
         this.firstConnection = true;
     }
 
+    /**
+     * Method used to create a new virtualView on the server
+     * @param nickname is the player's nickname
+     * @param clientHandler is the clientHandler used to communicate to the client
+     */
     public void addClient(String nickname, ClientHandler clientHandler) {
         VirtualView newVW = new VirtualView(clientHandler);
         if (gameController.getGameState().equals(GameState.LOGIN)) {

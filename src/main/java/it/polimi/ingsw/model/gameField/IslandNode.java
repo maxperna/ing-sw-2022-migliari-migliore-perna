@@ -30,6 +30,10 @@ public class IslandNode implements Serializable {
     transient private boolean ignoreTower;
 
 
+    /**
+     * Default constructor
+     * @param ID is the Id that will identify the island Node
+     */
     public IslandNode(int ID) {
         this.ID = ID;
         this.next = null;
@@ -44,6 +48,7 @@ public class IslandNode implements Serializable {
     }
 
     /**
+     * Method that is used to get the previous node in the list
      * @return the previous node pointed by this object
      */
     public IslandNode getPreviousNode() {
@@ -51,7 +56,7 @@ public class IslandNode implements Serializable {
     }
 
     /**
-     * method to set the previous node of a given node in the linked list
+     * Method to set the previous node of a given node in the linked list
      *
      * @param prev is the node that has to point to the new node
      */
@@ -60,6 +65,7 @@ public class IslandNode implements Serializable {
     }
 
     /**
+     * Method that is used to get the next node in the list
      * @return return the next node pointed by this object
      */
     public IslandNode getNextNode() {
@@ -67,8 +73,7 @@ public class IslandNode implements Serializable {
     }
 
     /**
-     * method to set the pointer to the next node in the list
-     *
+     * Method to set the pointer to the next node in the list
      * @param next is the node that has to be pointed by the new node
      */
     public void setNextNode(IslandNode next) {
@@ -76,18 +81,23 @@ public class IslandNode implements Serializable {
     }
 
     /**
-     * @return the ArrayList of islands, used when addIslands is called by mergeIslands
+     * Method used to get the students on this node
+     * @return the students set on this island
      */
     public ArrayList<Color> getStudents() {
         return this.students;
     }
 
+    /**
+     * Method used to place students on this island
+     * @param students
+     */
     public void setStudents(ArrayList<Color> students) {
         this.students.addAll(students);
     }
 
     /**
-     * method to set motherNature parameter when the island is visited
+     * Method used to set motherNature parameter when the island is visited
      */
     public void setMotherNature() {
         this.motherNature = true;
@@ -95,28 +105,46 @@ public class IslandNode implements Serializable {
     }
 
     /**
-     * method to reset motherNature flag when motherNature leaves
+     * Method used to reset motherNature flag when motherNature leaves
      */
     public void resetMotherNature() {
         this.motherNature = false;
     }
 
+    /**
+     * Methods used to check mother nature presence on this island
+     * @return a boolean that indicates mother nature presence
+     */
     public boolean checkMotherNature() {
         return motherNature;
     }
 
+    /**
+     * Method used to an island ID
+     * @return the identifier of the current island
+     */
     public int getNodeID() {
         return this.ID;
     }
 
+    /**
+     * Method used to get the stop status of an island
+     * @return a boolean indicating whether the island is stopped or not
+     */
     public boolean isStopped() {
         return this.stop;
     }
 
+    /**
+     * Method used to set the stop flag of this island to true
+     */
     public void stopIsland() {
         this.stop = true;
     }
 
+    /**
+     * Method used to set the stop flag of this island to false
+     */
     public void removeStop() {
         this.stop = false;
     }
@@ -165,22 +193,41 @@ public class IslandNode implements Serializable {
         support.firePropertyChange("UpdateNode " + ID, oldStudents, students);
     }
 
+    /**
+     * Method called during a merge, add all students from another island to this one
+     * @param students
+     */
     public void mergeStudents(ArrayList<Color> students) {
         this.students.addAll(students);
     }
 
+    /**
+     * Method used to get the player with the highest influence on this island
+     * @return the player with the highest influence
+     */
     public Player getMostInfluencePlayer() {
         return mostInfluencePlayer;
     }
 
+    /**
+     * Method used to set the most influence player on this island
+     * @param player the player with the highest influence
+     */
     public void setMostInfluencePlayer(Player player) {
         this.mostInfluencePlayer = player;
     }
 
+    /**
+     * Method called after a merge to reduce the id of all the islands remaining that had an id greater than the merged one
+     */
     public void decreaseNodeID() {
         ID--;
     }
 
+    /**
+     * Method used to get the number of towers on this island (2+ in case of merged islands)
+     * @return the number of towers
+     */
     public Integer getNumberOfTowers() {
         if (!ignoreTower)
             return this.towerCounter;
@@ -188,10 +235,17 @@ public class IslandNode implements Serializable {
             return 0;
     }
 
+    /**
+     * Method used to add the number of towers from the island that is going to be merged onto the new super island
+     * @param towers is  the number of towers that were on the old island that will be deleted after merge
+     */
     public void mergeTowers(int towers) {
         this.towerCounter += towers;
     }
 
+    /**
+     * Method used to reset the ignoreTower flag
+     */
     public void changeIgnoreTower() {
         ignoreTower = !ignoreTower;
     }
@@ -202,16 +256,20 @@ public class IslandNode implements Serializable {
         this.towerCounter++;
     }
 
+    /**
+     * Method used to set a propertyChangeListener on this island
+     * @param listener is the listener that will notify all the changes
+     */
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         support.addPropertyChangeListener(listener);
     }
 
+    /**
+     * Method used to remove a listener
+     * @param listener listener to be removed
+     */
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         support.removePropertyChangeListener(listener);
-    }
-
-    public void setMotherNature(boolean value) {
-        this.motherNature = value;
     }
 
 }

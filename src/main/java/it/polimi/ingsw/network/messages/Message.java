@@ -18,10 +18,18 @@ public abstract class Message implements Serializable {
         this.senderPlayer = senderPlayer;
     }
 
+    /**
+     * Getter
+     * @return the sender player
+     */
     public String getSenderPlayer() {
         return senderPlayer;
     }
 
+    /**
+     * Getter
+     * @return the message type
+     */
     public MessageType getType() {
         return type;
     }

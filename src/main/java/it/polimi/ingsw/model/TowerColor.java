@@ -14,10 +14,18 @@ public enum TowerColor {
 
     private final String towerImg;
 
+    /**
+     * Setter
+     * @param towerImg is the file name for the tower image
+     */
     TowerColor(String towerImg) {
         this.towerImg = towerImg;
     }
 
+    /**
+     * Getter
+     * @return the tower image
+     */
     public String getTowerImg() {
         return towerImg;
     }

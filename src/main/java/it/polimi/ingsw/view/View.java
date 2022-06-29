@@ -91,48 +91,148 @@ public interface View {
      */
     void showLastUsedCard(Map<String, AssistantCard> mapCard);
 
+    /**
+     * Method used to print the winning player
+     * @param winner winning player's nickname
+     */
     void showWinner(String winner);
 
+    /**
+     * method used to print an error message
+     * @param errorMessage message that will be printed
+     * @param errorType type of the error
+     */
     void showError(String errorMessage, ErrorType errorType);
 
+    /**
+     * Method used to handle the disconnection
+     */
     void disconnect();
 
+    /**
+     * Method used to print the assistant cards
+     * @param deck is the arraylist of available cards
+     */
     void showAssistant(ArrayList<AssistantCard> deck);
 
+    /**
+     * method used to manage the action phase
+     * @param expert indicates if expert mode is on
+     */
     void ActionPhaseTurn(Boolean expert);
 
+    /**
+     * Method used to handle the connection request
+     */
     void connectionRequest();
 
-    void worldUpdate(Map<Integer, IslandNode> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap,String nick, String currentPlayer, ArrayList<ExpertCard> experts, int numOfCoins);
-
+    /**
+     * Method used to ask the player all the parameters required to play expert 9
+     * @param cardID is the id [0,1,2] of the card
+     * @param expert is the expert card played
+     */
     void playExpertType2(int cardID, Expert9 expert);
 
+    /**
+     * Method used to ask the player all the parameters required to play expert 11
+     * @param cardID is the id [0,1,2] of the card
+     * @param expert is the expert card played
+     */
     void playExpertType2(int cardID, Expert11 expert);
 
+    /**
+     * Method used to ask the player all the parameters required to play expert 12
+     * @param cardID is the id [0,1,2] of the card
+     * @param expert is the expert card played
+     */
     void playExpertType2(int cardID, Expert12 expert);
 
+    /**
+     * Method used to ask the player all the parameters required to play expert 7
+     * @param cardID is the id [0,1,2] of the card
+     * @param expert is the expert card played
+     */
     void playExpertType3(int cardID, Expert7 expert);
 
+    /**
+     * Method used to ask the player all the parameters required to play expert 10
+     * @param cardID is the id [0,1,2] of the card
+     * @param expert is the expert card played
+     */
     void playExpertType3(int cardID, Expert10 expert);
 
+    /**
+     * Method used to ask the player all the parameters required to play expert 3
+     * @param cardID is the id [0,1,2] of the card
+     * @param expert is the expert card played
+     */
     void playExpertType4(int cardID, Expert3 expert);
 
+    /**
+     * Method used to ask the player all the parameters required to play expert 1
+     * @param cardID is the id [0,1,2] of the card
+     * @param expert is the expert card played
+     */
     void playExpertType5(int cardID, Expert1 expert);
 
+    /**
+     * Method used to ask the player all the parameters required to play expert 5
+     * @param cardID is the id [0,1,2] of the card
+     * @param expert is the expert card played
+     */
     void playExpertType5(int cardID, Expert5 expert);
 
+    /**
+     * Method used to ask the player to choose between checking other boards or playing an assistant card
+     */
     void chooseAction();
 
+    /**
+     * Method used to ask the player the number of moves that mother nature will perform
+     */
     void moveMotherNature();
 
+    /**
+     * Method used to print all the game field structure on the cli
+     * @param gameFieldMap is a map containing all the islands
+     * @param chargedClouds is an arraylist of clouds
+     * @param boardMap is a map containing all the boards
+     * @param currentPlayer is the nickname of the current player
+     * @param experts is an arraylist fo all the expert cards available during the game
+     * @param numOfCoins is an int showing the coins owned by the player
+     * @param nick is the nickname of the player
+     */
+    void worldUpdate(Map<Integer, IslandNode> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap, String nick, String currentPlayer, ArrayList<ExpertCard> experts, int numOfCoins);
+
+    /**
+     * Method used to ask the player which cloud he wants to take the students from
+     * @param cloudID is the number of clouds
+     */
     void chooseCloudTile(int cloudID);
 
+    /**
+     * Method used to print all the information about expert cards
+     * @param allExpertCards all 3 expert cards available
+     * @param numberOfCoins is the number of available coins
+     */
     void showExpertCards(ArrayList<ExpertCard> allExpertCards, int numberOfCoins);
 
+    /**
+     * Method used to ask the player to choose a student based on a list of available students
+     * @param availableStudents students available
+     * @param movementType destination of the movement
+     * @param gameFieldSize island list dimension
+     */
     void availableStudents(ArrayList<Color> availableStudents, MessageType movementType, int gameFieldSize);
 
+    /**
+     * Method used to ask the player which expert card he wants to play
+     */
     void chooseExpertCard();
 
+    /**
+     * Method used to ask the player if he wants to play an expert or move mother nature
+     */
     void playExpertChoice();
 
     void clear();

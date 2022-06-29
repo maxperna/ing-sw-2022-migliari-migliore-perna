@@ -1,6 +1,8 @@
 package it.polimi.ingsw.exceptions;
 
-//Exception thrown if the card is not present in the deck
+/**
+ * Exception thrown when the chosen card is not present in the card deck
+ */
 public class NonexistentCard extends Exception {
     public NonexistentCard() {
         super();
