@@ -131,6 +131,7 @@ public class TurnLogic {
         if (currentPhase.equals("PREPARATION")) {
             currentPhase = "ACTION";
             defineActionPhaseOrders();       //automatically start the action phase
+            clearLastCard();
         } else {
             endTurn();
             currentPhase = "PREPARATION";
@@ -275,6 +276,11 @@ public class TurnLogic {
         currentGame.getExpertsCard().get(playedCard).useCard(player, studentSet1, studentSet2);
     }
 
+    public void clearLastCard() {
+        for (Player player : currentGame.getPlayersList()) {
+            player.getDeck().setLastAssistantCardUsed(null);
+        }
+    }
 }
 
 
