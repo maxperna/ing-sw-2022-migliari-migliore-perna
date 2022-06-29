@@ -28,7 +28,7 @@ public class IslandList implements Serializable {
     private boolean changed;
 
     /**
-     * constructor
+     * Default constructor
      */
     public IslandList() {
 
@@ -72,7 +72,7 @@ public class IslandList implements Serializable {
 
 
     /**
-     * method to merge islands, it transfers the students to the final node
+     * Method to merge islands, it transfers the students to the final node
      *
      * @param newMergedIsland is the island that remains in the linked list
      * @param islandToMerge   is the island whose information is going to be moved inside the other island, this one will be cancelled by garbage collector
@@ -87,7 +87,7 @@ public class IslandList implements Serializable {
             this.lastNode(head).getPreviousNode().setNextNode(head);                                                    //setting the next pointer of the new last node in the list to point to the head (i.e. island 11 won't point to 12 but to 1)
             if (this.islandCounter() == 3)                                                                              //checks for EndGame conditions
                 throw new EndGameException();
-            head.setMotherNature(true);                                                                                     //for simplicity, motherNature will be set on island 1, so no nodeID changes for the rest of the list
+            head.setMotherNature();                                                                                     //for simplicity, motherNature will be set on island 1, so no nodeID changes for the rest of the list
         } else {                                                                                                          //normal condition, works when we call merge on i, i+1, i different from 1, lastNode
             this.getIslandNode(newMergedIsland).mergeStudents(this.getIslandNode(islandToMerge).getStudents());         //move students from the island that will be deleted to the one that will remain
             this.getIslandNode(newMergedIsland).mergeTowers(this.getIslandNode(islandToMerge).getNumberOfTowers());     //basically increases the number of towers on the node (can be referred as nodeDimension too)
@@ -100,14 +100,14 @@ public class IslandList implements Serializable {
             }
             if (this.islandCounter() == 3)                                                                              //checks for EndGame conditions
                 throw new EndGameException();
-            this.getIslandNode(newMergedIsland).setMotherNature(true);                                                      //for simplicity, motherNature will be set on the island with the minor ID number
+            this.getIslandNode(newMergedIsland).setMotherNature();                                                      //for simplicity, motherNature will be set on the island with the minor ID number
         }
         changed = true;
-        mergeIslands(newMergedIsland);                                                                              //calls the method recursively with the remaining island as the parameter to check if there are consequential merges available
+        checkTowersForMerge(newMergedIsland);                                                                              //calls the method recursively with the remaining island as the parameter to check if there are consequential merges available
     }
 
     /**
-     * method used to count elements inside a linked list (circular or not)
+     * Method used to count elements inside a linked list (circular or not)
      *
      * @return counter, an int that contains the number of nodes inside the list
      */
@@ -124,7 +124,7 @@ public class IslandList implements Serializable {
     }
 
     /**
-     * method that returns the last node in a list (circular or not)
+     * Method that returns the last node in a list (circular or not)
      *
      * @param head receives in input the starting node of the list
      * @return the last node in the list received in input
@@ -137,7 +137,7 @@ public class IslandList implements Serializable {
     }
 
     /**
-     * method to add a student to a given island
+     * Method to add a student to a given island
      *
      * @param nodeID  (0-11), identifies the island
      * @param student to be added
@@ -151,7 +151,7 @@ public class IslandList implements Serializable {
     }
 
     /**
-     * method to get motherNature position based by which island has the motherNature flag set on
+     * Method to get motherNature position based by which island has the motherNature flag set on
      *
      * @return a node containing motherNature
      */
@@ -164,7 +164,7 @@ public class IslandList implements Serializable {
     }
 
     /**
-     * method to get the starting point of the islandList
+     * Method to get the starting point of the islandList
      *
      * @return
      */
@@ -173,7 +173,7 @@ public class IslandList implements Serializable {
     }
 
     /**
-     * method used to move motherNature, can be used to randomly select the starting island
+     * Method used to move motherNature, can be used to randomly select the starting island
      *
      * @param moves number of islands that motherNature will move through
      */
@@ -187,7 +187,7 @@ public class IslandList implements Serializable {
     }
 
     /**
-     * method used to set motherNature flag of the node that contains the islandTile that matches the given ID
+     * Method used to set motherNature flag of the node that contains the islandTile that matches the given ID
      *
      * @param nodeID is the identifier for the island Tile
      * @return a IsladNode containing the selected island Tile
@@ -201,11 +201,11 @@ public class IslandList implements Serializable {
         actualNode = this.getIslandNode(nodeID);
         actualNode.setMotherNature();                                                                                   //set motherNature flag on
         actualNode.setTower();
-        mergeIslands(nodeID);                                                                                           //call mergeIslands
+        checkTowersForMerge(nodeID);                                                                                           //call mergeIslands
     }
 
     /**
-     * method used to get the node based on the given ID
+     * Method used to get the node based on the given ID
      *
      * @param nodeID is the ID of the node
      * @return the node with given ID
@@ -224,6 +224,10 @@ public class IslandList implements Serializable {
         return actualNode;                                                                                              //returns the node containing the island that matches the given ID
     }
 
+    /**
+     * Method used during the islandList creation to insert a new node
+     * @param nodeID
+     */
     private void addNode(int nodeID) {
 
         IslandNode tail;
@@ -245,7 +249,7 @@ public class IslandList implements Serializable {
     }
 
     /**
-     * method used to get the arrayList of students inside the node that matches the given ID
+     * Method used to get the arrayList of students inside the node that matches the given ID
      *
      * @param nodeID
      * @return the ArrayList containing the given islandID
@@ -263,15 +267,15 @@ public class IslandList implements Serializable {
 
 
     /**
-     * method used to check towerColor on next and previous islands of a declared one, if one of them matches with islandID towerColor, calls merge()
+     * Method used to check towerColor on next and previous islands of a declared one, if one of them matches with islandID towerColor, calls merge()
      *
      * @param islandID
      * @throws EndGameException from merge()
      */
-    public void mergeIslands(int islandID) throws EndGameException {
+    public void checkTowersForMerge(int islandID) throws EndGameException {
         if (this.getIslandNode(islandID).getTowerColor().equals(this.getIslandNode(islandID).getNextNode().getTowerColor()) && !this.getIslandNode(islandID).getTowerColor().equals(TowerColor.EMPTY)) {                                             //checks if the next node has the same towerColor of a given node, except EMPTY
             if (islandID > this.getIslandNode(islandID).getNextNode().getNodeID()) {                                                                                                                                                                 //checks which island has the larger ID, so that it calls the method with the correct order of parameters to avoid large and redundant merge() method
-                this.getIslandNode(islandID).getNextNode().setMotherNature(true);                                                                                                                                                                       //setting motherNature on the island with the smaller ID
+                this.getIslandNode(islandID).getNextNode().setMotherNature();                                                                                                                                                                       //setting motherNature on the island with the smaller ID
                 merge(this.getIslandNode(islandID).getNextNode().getNodeID(), islandID);                                                                                                                                                            //calls the merge() method if the given island has a match with the next one and the next one is the head
             } else
                 merge(islandID, this.getIslandNode(islandID).getNextNode().getNodeID());                                                                                                                                                            //calls the merge() method if the given island has a match with the next one and the next one isn't the head
@@ -280,7 +284,7 @@ public class IslandList implements Serializable {
             islandID = this.islandCounter();
         if (this.getIslandNode(islandID).getTowerColor().equals(this.getIslandNode(islandID).getPreviousNode().getTowerColor()) && !this.getIslandNode(islandID).getTowerColor().equals(TowerColor.EMPTY)) {                                         //checks if the previous node has the same towerColor of a given node, except EMPTY
             if (islandID > this.getIslandNode(islandID).getPreviousNode().getNodeID()) {                                                                                                                                                             //checks which island has the larger ID, so that it calls the method with the correct order of parameters to avoid large and redundant merge() method
-                this.getIslandNode(islandID).getPreviousNode().setMotherNature(true);                                                                                                                                                                   //setting motherNature on the island with the smaller ID
+                this.getIslandNode(islandID).getPreviousNode().setMotherNature();                                                                                                                                                                   //setting motherNature on the island with the smaller ID
                 merge(this.getIslandNode(islandID).getPreviousNode().getNodeID(), islandID);                                                                                                                                                        //calls the merge() method if the given island has a match with the previous one and the previous one isn't the tail
             } else
                 merge(islandID, this.getIslandNode(islandID).getPreviousNode().getNodeID());                                                                                                                                                        //calls the merge() method if the given island has a match with the previous one and the previous one is the tail
@@ -291,6 +295,9 @@ public class IslandList implements Serializable {
 
     }
 
+    /**
+     * Method used to ignore the number of towers during expert
+     */
     public void ignoreTower() {
         IslandNode nextNode = head;
         while (nextNode.getNextNode() != head) {
@@ -299,14 +306,26 @@ public class IslandList implements Serializable {
         }
     }
 
+    /**
+     * Method used to add a listener to the islandList
+     * @param listener that will notify every change happened
+     */
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         support.addPropertyChangeListener(listener);
     }
 
+    /**
+     * Method used to remove a listener to the islandList
+     * @param listener that will be removed
+     */
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         support.removePropertyChangeListener(listener);
     }
 
+    /**
+     * Method that returns the size of the island list
+     * @return
+     */
     public int size() {
         return head.getPreviousNode().getNodeID();
     }

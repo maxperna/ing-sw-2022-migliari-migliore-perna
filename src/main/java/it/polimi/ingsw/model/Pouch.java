@@ -13,12 +13,16 @@ import java.util.Collections;
  * @author Alessio Migliore
  */
 public class Pouch implements Serializable {
-
+    private static final int MAX_STUDENTS_PER_COLOR = 24;
     private final ArrayList<Color> students = new ArrayList<>();
 
+    /**
+     * Default constructor, automatically fills the puch with the correct number of students
+     */
     public Pouch() {                                                                                                   //creates an instance of Pouch
 
-        for (int i = 0; i < 24; i++) {
+
+        for (int i = 0; i < MAX_STUDENTS_PER_COLOR; i++) {
             students.add(Color.RED);
             students.add(Color.BLUE);
             students.add(Color.YELLOW);
@@ -52,7 +56,7 @@ public class Pouch implements Serializable {
     }
 
     /**
-     * method used to add students to the pouch from an external source
+     * Method used to add students to the pouch from an external source
      *
      * @param students is an arraylist containing the students that are going to be moved inside the pouch
      */
@@ -61,6 +65,7 @@ public class Pouch implements Serializable {
     }
 
     /**
+     * Getter
      * @return the number of remaining students inside the pouch
      */
     public int remainingStudents() {

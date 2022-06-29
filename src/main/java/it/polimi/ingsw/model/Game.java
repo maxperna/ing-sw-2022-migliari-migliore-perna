@@ -272,7 +272,7 @@ public class Game implements Serializable {
                 islandToCheck.getMostInfluencePlayer().getBoard().addTower();
                 //Set towers
                 islandToCheck.setTower();
-                gameField.mergeIslands(nodeID);
+                gameField.checkTowersForMerge(nodeID);
             } else if (islandToCheck.getNumberOfTowers() == 0)
                 islandToCheck.setTower();
         }
@@ -349,14 +349,27 @@ public class Game implements Serializable {
         return playersList;
     }
 
+    /**
+     * Getter
+     * @return the puch instance
+     */
     public Pouch getPouch() {
         return pouch;
     }
 
+    /**
+     * Getter
+     * @return all the cloud tiles
+     */
     public ArrayList<CloudTile> getCloudTiles() {
         return cloudTiles;
     }
 
+    /**
+     * Getter
+     * @param nickName is the nickname of the player required
+     * @return the player whose nickname matches the required one
+     */
     public Player getPlayerByNickName(String nickName) {
         for (Player currentPlayer : playersList) {
             if (currentPlayer.getNickname().equals(nickName))
@@ -365,37 +378,66 @@ public class Game implements Serializable {
         throw new RuntimeException("Player Not Found");
     }
 
+    /**
+     * Getter
+     * @return the number of coins available
+     */
     public int getCoins() {
         return coins;
     }
 
+    /**
+     * Getter
+     * @return the expert cards available
+     */
     public ArrayList<ExpertCard> getExpertsCard() {
         return expertsCard;
     }
 
+    /**
+     * Getter
+     * @return the tower colors that are still available
+     */
     public ArrayList<TowerColor> getAVAILABLE_TOWER_COLOR() {
         return AVAILABLE_TOWER_COLOR;
     }
 
+    /**
+     * Getter
+     * @return the deck types that are still available
+     */
     public ArrayList<DeckType> getAVAILABLE_DECK_TYPE() {
         return AVAILABLE_DECK_TYPE;
     }
 
+    /**
+     * Method used to set a propertyChangeListener on this instance of game
+     * @param listener is the listener that will notify all the changes
+     */
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         support.addPropertyChangeListener(listener);
     }
 
+    /**
+     * Method used to remove a listener
+     * @param listener listener to be removed
+     */
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         support.removePropertyChangeListener(listener);
     }
 
     /**
      * Method to activate an expert card
+     * @param activeExpertCard  is the expert card that has been activated
      */
     public void setActiveExpertsCard(ExpertCard activeExpertCard) {
         this.activeExpertCard = activeExpertCard;
     }
 
+    /**
+     * Getter
+     * @return the expert card currently active
+     */
     public ExpertCard getActiveExpertCard() {
         return activeExpertCard;
     }
@@ -407,7 +449,7 @@ public class Game implements Serializable {
     }
 
     /**
-     * Class used for define a new type of data for influence map(tuple)
+     * Class used to define a new type of data for influence map(tuple)
      */
     public static class Pair<Player, Integer> {
         private Player player;

@@ -30,6 +30,12 @@ public class Board implements Serializable, StudentManager {
     private ArrayList<Color> entryRoom;    //list of student in the outer room
 
 
+    /**
+     * Default constructor
+     * @param currentGame is the instance of the game
+     * @param owner is the board player
+     * @param towerColor is the color of the towers linked to this board
+     */
     public Board(Game currentGame, Player owner, TowerColor towerColor) {
 
         this.maxStudentHall = currentGame.MAX_STUDENTS_ENTRANCE;
@@ -56,17 +62,18 @@ public class Board implements Serializable, StudentManager {
         this.support = new PropertyChangeSupport(this);
     }
 
+    /**
+     * Getter
+     * @return the students inside the entry room
+     */
     public ArrayList<Color> getEntryRoom() {
         return entryRoom;
     }
 
     /**
-     * Method to move student from the cloud tile to outer hall
+     * Method used to get the number of the remaining towers
+     * @return the number of the remaining towers
      */
-    public void setEntryRoom(ArrayList<Color> entryRoom) {
-        this.entryRoom = entryRoom;
-    }
-
     public Integer getNumOfTowers() {
         return numberOfTowers;
     }
@@ -222,14 +229,26 @@ public class Board implements Serializable, StudentManager {
         numberOfTowers++;
     }
 
+    /**
+     * Method used to get information on the teachers owned by the player
+     * @return a map containing all the teachers owned
+     */
     public Map<Color, Boolean> getTeachers() {
         return teachers;
     }
 
+    /**
+     * Method used to get the tower color
+     * @return the tower color of this board
+     */
     public TowerColor getTowerColor() {
         return towerColor;
     }
 
+    /**
+     * Method used to get the nickname of the teammate
+     * @return the nickname of the teammate
+     */
     public Player getTeamMate() {
         return teamMate;
     }
@@ -247,14 +266,26 @@ public class Board implements Serializable, StudentManager {
         }
     }
 
+    /**
+     * Method used to set a propertyChangeListener on this board
+     * @param listener is the listener that will notify all the changes
+     */
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         support.addPropertyChangeListener(listener);
     }
 
+    /**
+     * Method used to remove a listener
+     * @param listener listener to be removed
+     */
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         support.removePropertyChangeListener(listener);
     }
 
+    /**
+     * Method used to get information on the students inside the dining room
+     * @return a map containing all the students inside the dining room
+     */
     public Map<Color, Integer> getDiningRoom() {
         return diningRoom;
     }
@@ -281,6 +312,10 @@ public class Board implements Serializable, StudentManager {
         this.diningRoom.put(student, diningRoom.get(student) + 1);
     }
 
+    /**
+     * Method to get the max number of students inside the entry hall
+     * @return the max number of students inside the entry hall
+     */
     public int getMaxStudentHall() {
         return maxStudentHall;
     }

@@ -8,6 +8,11 @@ import it.polimi.ingsw.model.gameField.IslandNode;
 
 import java.util.ArrayList;
 
+/**
+ * Class implementing assistant card 3 having the following effect: place a stop card omn a chosen island
+ *
+ * @author Massimo
+ */
 public class Expert5 implements ExpertCard {
 
     private final ExpertID ID = ExpertID.NODE_ID;
@@ -18,12 +23,23 @@ public class Expert5 implements ExpertCard {
     private int stopAvailable;
     private int cost = 2;
 
+    /**
+     * Default constructor
+     * @param currentGame is the game this card is associated to
+     */
     public Expert5(Game currentGame) {
         this.stoppedIsland = new ArrayList<>();
         this.stopAvailable = 4;
         this.currentGame = currentGame;
     }
 
+    /**
+     * Method used to activate Expert2 effect
+     * @param user is the player who activated the effect
+     * @param nodeID is the chosen island where the stop card will be set
+     * @throws NotEnoughCoins when the player doesn't have the required number of coins
+     * @throws IllegalMove when the island is not available or there are no stop cards available
+     */
     @Override
     public void useCard(Player user, int nodeID) throws NotEnoughCoins, IllegalMove {
         if (user.getNumOfCoin() < cost) {
@@ -42,12 +58,19 @@ public class Expert5 implements ExpertCard {
             throw new IllegalMove("There aren't more deny card");
     }
 
+    /**
+     * Method used to end the effect activated by this expert card
+     */
     @Override
     public void endEffect() {
         //remove the stop on the card
         currentGame.setActiveExpertsCard(null);
     }
 
+    /**
+     * Method used to remove a stop card from the island
+     * @param stoppedNode is the island that was previously stopped
+     */
     public void removeStop(IslandNode stoppedNode) {
         stoppedIsland.remove(stoppedNode);
         stoppedNode.removeStop();
@@ -72,16 +95,28 @@ public class Expert5 implements ExpertCard {
         return stopAvailable;
     }
 
+    /**
+     * Method used to get this card cost
+     * @return the number of coins required
+     */
     @Override
     public int getCost() {
         return this.cost;
     }
 
+    /**
+     * Method used to get the expert ID
+     * @return an enum defining the required parameters to use this card
+     */
     @Override
     public ExpertID getExpType() {
         return ID;
     }
 
+    /**
+     * Method used to get the expert description
+     * @return a string describing the expert effect
+     */
     @Override
     public String getExpDescription() {
         return description;

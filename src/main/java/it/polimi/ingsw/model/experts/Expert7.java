@@ -7,6 +7,11 @@ import it.polimi.ingsw.model.Player;
 
 import java.util.ArrayList;
 
+/**
+ * Class implementing assistant card 7 having the following effect: swap up to 3 students from this card with your entry room
+ *
+ * @author Massimo
+ */
 public class Expert7 implements ExpertCard {
 
     private final ExpertID ID = ExpertID.TWO_LIST_COLOR;
@@ -16,7 +21,10 @@ public class Expert7 implements ExpertCard {
     private final String IMG = "";            //front image of the card
     private int cost = 1;
 
-
+    /**
+     * Default constructor
+     * @param currentGame is the game this card is associated to
+     */
     public Expert7(Game currentGame) {
         this.currentGame = currentGame;
         this.studentsOnCard = new ArrayList<>();
@@ -27,6 +35,14 @@ public class Expert7 implements ExpertCard {
         }
     }
 
+    /**
+     * Method used to activate Expert2 effect
+     * @param user is the player who activated the effect
+     * @throws NotEnoughCoins when the player doesn't have the required number of coins
+     * @throws IllegalMove when one of the students is not available
+     * @param studentToSwapBoard is an arraylist of students that will be moved to the card
+     * @param studentToSwapCard is an arraylist of students that will be moved to the board
+     */
     @Override
     public void useCard(Player user, ArrayList<Color> studentToSwapCard, ArrayList<Color> studentToSwapBoard) throws NotEnoughCoins, IllegalMove {
         if (user.getNumOfCoin() < this.cost) {
@@ -58,11 +74,18 @@ public class Expert7 implements ExpertCard {
         }
     }
 
+    /**
+     * Method used to end the effect activated by this expert card
+     */
     @Override
     public void endEffect() {
         currentGame.setActiveExpertsCard(null);
     }
 
+    /**
+     * Method used to get this card cost
+     * @return the number of coins required
+     */
     @Override
     public int getCost() {
         return this.cost;
@@ -77,11 +100,19 @@ public class Expert7 implements ExpertCard {
         return studentsOnCard;
     }
 
+    /**
+     * Method used to get the expert ID
+     * @return an enum defining the required parameters to use this card
+     */
     @Override
     public ExpertID getExpType() {
         return ID;
     }
 
+    /**
+     * Method used to get the expert description
+     * @return a string describing the expert effect
+     */
     @Override
     public String getExpDescription() {
         return description;

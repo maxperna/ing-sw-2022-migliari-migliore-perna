@@ -24,6 +24,11 @@ public class ClientHandler implements Runnable {
     private ObjectInputStream input;
     private boolean connected;
 
+    /**
+     * Deafult constructor
+     * @param serverSocket is the socket used to communicate with the server
+     * @param clientSocket us the socket used to communicate wit the client
+     */
     public ClientHandler(Server_Socket serverSocket, Socket clientSocket) {
         this.serverSocket = serverSocket;
         this.clientSocket = clientSocket;
@@ -42,6 +47,9 @@ public class ClientHandler implements Runnable {
     }
 
 
+    /**
+     * Method used to start the thread
+     */
     @Override
     public void run() {
         try {

@@ -159,7 +159,6 @@ public class VirtualView implements View {
 
     }
 
-
     @Override
     public void playExpertType2(int cardID, Expert9 expert) {
 
@@ -206,11 +205,12 @@ public class VirtualView implements View {
 
     @Override
     public void moveMotherNature() {
-
     }
 
+    @Override
     public void worldUpdate(Map<Integer, IslandNode> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap, String nick,String currentPlayer, ArrayList<ExpertCard> experts, int numOfCoins) {
         clientHandler.sendMessage(new WorldChangeMessage(gameFieldMap, chargedClouds, boardMap, currentPlayer, experts, numOfCoins));
+
     }
 
     public void chooseCloudTile(int cloudID) {

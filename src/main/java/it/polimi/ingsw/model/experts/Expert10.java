@@ -10,6 +10,11 @@ import it.polimi.ingsw.model.Player;
 
 import java.util.ArrayList;
 
+/**
+ * Class implementing assistant card 10 having the following effect: switch up to 2 students between your entrance hall and your dining room
+ *
+ * @author Massimo
+ */
 public class Expert10 implements ExpertCard {
 
     private final ExpertID ID = ExpertID.TWO_LIST_COLOR;
@@ -18,12 +23,25 @@ public class Expert10 implements ExpertCard {
     private final String description = "Switch up to 2 students from your entrance hall and your dining room";
     private int cost = 1;
 
+    /**
+     * Default constructor
+     * @param currentGame is the game this card is associated to
+     */
     public Expert10(Game currentGame) {
         this.currentGame = currentGame;
     }
 
+    /**
+     * Method used to activate Expert10 effect
+     * @param user is the player who activated the effect
+     * @throws NotEnoughCoins when the player doesn't have the required number of coins
+     * @throws IllegalMove when the dining room is empty
+     * @throws NotOnBoardException when a student isn't available
+     * @param toDiningRoom is an arraylist of students that will be moved to the dining room
+     * @param toEntryHall is an arraylist of students that will be moved to the entry hall
+     */
     @Override
-    public void useCard(Player user, ArrayList<Color> toDiningRoom, ArrayList<Color> toEntryHall) throws NotEnoughCoins, IllegalArgumentException, NotOnBoardException, IndexOutOfBoundsException, IllegalMove {
+    public void useCard(Player user, ArrayList<Color> toDiningRoom, ArrayList<Color> toEntryHall) throws NotEnoughCoins, NotOnBoardException, IllegalMove {
 
         boolean sameColor = false;
         ArrayList<Color> studentsOnHall = user.getBoard().getEntryRoom();                                               //copy of the entry hall
@@ -73,58 +91,39 @@ public class Expert10 implements ExpertCard {
             currentGame.coinHandler(user, -this.cost);                                                                   //updating expert cost, player coins and expert activated
             this.cost++;
             currentGame.setActiveExpertsCard(this);
-
-
-
-
-
-            /*int i = 0;
-            Color previousColor = toDiningRoom.get(i);
-            for(Color color: toEntryHall){
-                if(i==1 && color.equals(previousColor))
-                    if(user.getBoard().getDiningRoom().get(color)<toEntryHall.size()) {
-                        currentGame.coinHandler(user,this.cost);
-                        this.cost--;
-                        throw new IllegalArgumentException("There are not enough students inside the dining room");
-                    }
-
-                else
-                    if(user.getBoard().getDiningRoom().get(color)==0) {
-                        currentGame.coinHandler(user,this.cost);
-                        this.cost--;
-                        throw new IllegalArgumentException("There are no students inside the dining room");
-                    }
-                i++;
-            }
-
-            try {
-                ArrayList<Color> colorOutside = new ArrayList<>(user.getBoard().moveFromEntryRoom(toDiningRoom));   //removing students from the outside
-                ArrayList<Color> colorInside = new ArrayList<>(user.getBoard().moveFromDiningRoom(toEntryHall));      //removing students from the inside
-
-                user.getBoard().addStudentsDiningRoom(colorOutside);
-                user.getBoard().addStudentsEntryRoom(colorInside);
-            }
-            catch (NotEnoughSpace e){
-                e.printStackTrace();
-            }*/
         }
     }
 
+    /**
+     * Method used to end the effect activated by this expert card
+     */
     @Override
     public void endEffect() {
         currentGame.setActiveExpertsCard(null);
     }
 
+    /**
+     * Method used to get this card cost
+     * @return the number of coins required
+     */
     @Override
     public int getCost() {
         return this.cost;
     }
 
+    /**
+     * Method used to get the expert ID
+     * @return an enum defining the required parameters to use this card
+     */
     @Override
     public ExpertID getExpType() {
         return ID;
     }
 
+    /**
+     * Method used to get the expert description
+     * @return a string describing the expert effect
+     */
     @Override
     public String getExpDescription() {
         return description;

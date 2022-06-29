@@ -47,6 +47,10 @@ public class ClientController implements ViewListener, Listener {
 
     private int numOfPlayers;
 
+    /**
+     * Default constructor
+     * @param view is the view associated to the ClientController
+     */
     public ClientController(View view) {
         this.view = view;
         this.actionQueue = Executors.newSingleThreadExecutor();

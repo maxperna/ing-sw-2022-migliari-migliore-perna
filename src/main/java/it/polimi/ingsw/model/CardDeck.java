@@ -73,14 +73,26 @@ public class CardDeck implements Serializable {
         lastAssistantCardUsed = assistantCardPlayed;
     }
 
+    /**
+     * Method used to get all the remaining cards
+     * @return the remaining cards
+     */
     public ArrayList<AssistantCard> getRemainingCards() {
         return deck;
     }
 
+    /**
+     * Method used to get the deckType
+     * @return the deckType
+     */
     public DeckType getDeckType() {
         return this.deckCharacter;
     }
 
+    /**
+     * Method used to get the last played card
+     * @return the last played card
+     */
     public AssistantCard getLastCard() {
         return lastAssistantCardUsed;
     }
