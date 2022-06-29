@@ -3,22 +3,16 @@ package it.polimi.ingsw.view.gui.scenes;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.TowerColor;
-import it.polimi.ingsw.observer.ViewListener;
 import it.polimi.ingsw.observer.ViewSubject;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.util.Pair;
-import org.jetbrains.annotations.TestOnly;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -47,13 +41,28 @@ public class BoardInfoSceneController extends ViewSubject implements GenericScen
         for (String nickName : boardMap.keySet())
             pairList.add(new Pair<>(nickName, boardMap.get(nickName)));
 
-        if(boardMap.size() == 1){
+        if(pairList.size() >= 1) {
             container.lookup("#board2").setVisible(false);
             container.lookup("#board3").setVisible(false);
 
             AnchorPane node = (AnchorPane) container.lookup("#board1");
             populateBoard(pairList.get(0).getValue(), node);
             label00.setText(pairList.get(0).getKey());
+        }
+        if(pairList.size() >= 2) {
+            container.lookup("#board2").setVisible(true);
+            container.lookup("#board3").setVisible(false);
+
+            AnchorPane node = (AnchorPane) container.lookup("#board2");
+            populateBoard(pairList.get(1).getValue(), node);
+            label01.setText(pairList.get(1).getKey());
+        }
+        if(pairList.size() == 3) {
+            container.lookup("#board3").setVisible(true);
+
+            AnchorPane node = (AnchorPane) container.lookup("#board3");
+            populateBoard(pairList.get(2).getValue(), node);
+            label10.setText(pairList.get(2).getKey());
         }
     }
 
@@ -62,12 +71,21 @@ public class BoardInfoSceneController extends ViewSubject implements GenericScen
         populateEntry(board.getEntryRoom(), (GridPane) pane.lookup("#entryRoom"));
         createTowers(board.getTowerColor(),board.getNumOfTowers(), (GridPane) pane.lookup("#towerSpace"));
         setTeachers(board.getTeachers(), (GridPane) pane.lookup("#professorSpace"));
+        populateDiningRoom(board.getDiningRoom(), (GridPane) pane.lookup("#diningRoom"));
     }
 
     private void populateEntry(ArrayList<Color> entry, GridPane room) {
         int k =0;
+        int bound = entry.size();
+        room.getChildren().clear();
+        if(bound%2 == 1) {
+            bound = bound / 2;
+            bound = bound + 1;
+        }
+        else
+            bound = bound/2;
         for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < entry.size()/2+1; j++) {
+            for (int j = 0; j < bound; j++) {
                 if(!(i==0 && j==0)) {
                     Color colorToAdd = entry.get(k);
                     ImageView student = studentGenerator(colorToAdd);
@@ -78,6 +96,15 @@ public class BoardInfoSceneController extends ViewSubject implements GenericScen
         }
     }
 
+    private void populateDiningRoom(Map<Color, Integer> studentMap, GridPane diningRoom) {
+        for(Color color : studentMap.keySet()) {
+            for(int i = 0; i < studentMap.get(color); i ++) {
+                ImageView student = studentGenerator(color);
+                diningRoom.add(student, i, color.getBoardIndex());
+            }
+        }
+
+    }
     private void createTowers(TowerColor tower,int numOfTowers, GridPane towerSpace){
         String towerImage = tower.getTowerImg();
         for(int i=0;i<2;i++){

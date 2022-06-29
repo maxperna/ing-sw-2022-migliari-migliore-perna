@@ -79,7 +79,7 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                   </GridPane>
-                  <Label fx:id="label00" layoutX="9.0" layoutY="25.0">
+                  <Label fx:id="label00" layoutX="11.0" layoutY="14.0">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -145,7 +145,7 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                   </GridPane>
-                  <Label fx:id="label01" layoutX="14.0" layoutY="29.0">
+                  <Label fx:id="label01" layoutX="14.0" layoutY="14.0">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -213,7 +213,7 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                   </GridPane>
-                  <Label fx:id="label10" layoutX="15.0" layoutY="25.0">
+                  <Label fx:id="label10" layoutX="14.0" layoutY="14.0">
                      <font>
                         <Font size="18.0" />
                      </font>
