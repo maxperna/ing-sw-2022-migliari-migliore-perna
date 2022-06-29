@@ -97,6 +97,10 @@ public class CardDeck implements Serializable {
         return lastAssistantCardUsed;
     }
 
+    public void setLastAssistantCardUsed(AssistantCard lastAssistantCardUsed) {
+        this.lastAssistantCardUsed = lastAssistantCardUsed;
+    }
+
     @TestOnly
     public ArrayList<AssistantCard> getDeck() {
         return deck;

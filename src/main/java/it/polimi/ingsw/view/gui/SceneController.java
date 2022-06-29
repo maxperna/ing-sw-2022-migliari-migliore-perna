@@ -74,7 +74,7 @@ public class SceneController extends ViewSubject {
             stage.initStyle(StageStyle.UTILITY);
             stage.setTitle(title);
             Scene scene = new Scene(root);
-            scene.getStylesheets().add("CSS/BoardInfo.css");
+            scene.getStylesheets().add("CSS/PopUpStyle.css");
             stage.setScene(scene);
             stage.setAlwaysOnTop(true);
             stage.setResizable(true);
@@ -102,7 +102,8 @@ public class SceneController extends ViewSubject {
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initStyle(StageStyle.UNDECORATED);
-            stage.setScene(new Scene(root));
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add("CSS/PopUpStyle.css");
             stage.setAlwaysOnTop(true);
             stage.setResizable(false);
             stage.show();
