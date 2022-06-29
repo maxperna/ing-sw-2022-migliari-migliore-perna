@@ -8,11 +8,9 @@ import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.observer.ViewSubject;
 import it.polimi.ingsw.view.View;
-import it.polimi.ingsw.view.gui.scenes.AssistantCardsController;
-import it.polimi.ingsw.view.gui.scenes.BoardInfoSceneController;
-import it.polimi.ingsw.view.gui.scenes.PlayerViewController;
-import it.polimi.ingsw.view.gui.scenes.TowerDeckSelectionControllerGeneric;
+import it.polimi.ingsw.view.gui.scenes.*;
 import javafx.application.Platform;
+import javafx.stage.Popup;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -210,7 +208,9 @@ public class Gui extends ViewSubject implements View {
 
     @Override
     public void showExpertCards(ArrayList<ExpertCard> allExpertCards, int numberOfCoins) {
-
+        ExpertCardSceneController exsx = new ExpertCardSceneController();
+        exsx.setExpertCards(allExpertCards);
+        Platform.runLater(()->SceneController.showNewStage(list,exsx,"ExpertsCardScene.fxml","Experts"));
     }
 
     @Override
@@ -235,7 +235,7 @@ public class Gui extends ViewSubject implements View {
 
     public void worldUpdate(Map<Integer, IslandNode> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap,String nick, String currentPlayer, ArrayList<ExpertCard> experts, int numOfCoins) {
         PlayerViewController pwc = getPWC();
-        Platform.runLater(() -> pwc.updateGameField(gameFieldMap, chargedClouds, boardMap.get(nick), experts, numOfCoins));
+        Platform.runLater(() -> pwc.updateGameField(gameFieldMap, chargedClouds, boardMap.get(nick),currentPlayer, experts, numOfCoins));
 
 
     }

@@ -3,6 +3,7 @@ package it.polimi.ingsw.observer;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.DeckType;
 import it.polimi.ingsw.model.TowerColor;
+import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 
@@ -65,4 +66,6 @@ public interface ViewListener {
     void askAction(Boolean expert_mode);
 
     void setExpertMode(Boolean expertMode);
+
+    void guiExpertShow(ArrayList<ExpertCard> expCards);
 }

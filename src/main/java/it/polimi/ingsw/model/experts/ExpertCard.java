@@ -101,4 +101,8 @@ public interface ExpertCard extends Serializable {
      */
 
     String getExpDescription();
+
+    /**Method to get the image of the expert
+     *@return a path to expert Image*/
+    String getIMG();
 }
