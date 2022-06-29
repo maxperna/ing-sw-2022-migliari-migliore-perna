@@ -53,7 +53,7 @@ public class GameController implements PropertyChangeListener {
 
         switch (gameState) {
             case LOGIN: //creates the game
-                if (viewMap.containsKey(senderPlayer) && receivedMessage.getType() == GAMEPARAM)
+                if (viewMap.containsKey(senderPlayer) && receivedMessage.getType() == GAME_PARAM)
                     gameCreation(receivedMessage);
 
                 nextState();

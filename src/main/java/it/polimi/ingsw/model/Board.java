@@ -309,7 +309,6 @@ public class Board implements Serializable, StudentManager {
     }
 
     @TestOnly
-    /**Add a student pawn directly to dning room(TEST ONLY)*/
     public void addToDiningTest(Color student) {
         this.diningRoom.put(student, diningRoom.get(student) + 1);
     }

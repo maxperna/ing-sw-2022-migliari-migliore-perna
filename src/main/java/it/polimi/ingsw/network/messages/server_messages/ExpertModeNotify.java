@@ -11,7 +11,7 @@ public class ExpertModeNotify extends Message {
 
 
     public ExpertModeNotify(Boolean expertMode) {
-        super(MessageType.GAMEPARAM, "Server");
+        super(MessageType.GAME_PARAM, "Server");
         this.expertMode = expertMode;
     }
 

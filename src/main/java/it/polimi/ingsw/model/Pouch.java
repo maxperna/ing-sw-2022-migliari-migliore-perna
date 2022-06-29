@@ -17,7 +17,7 @@ public class Pouch implements Serializable {
     private final ArrayList<Color> students = new ArrayList<>();
 
     /**
-     * Default constructor, automatically fills the puch with the correct number of students
+     * Default constructor, automatically fills the pouch with the correct number of students
      */
     public Pouch() {                                                                                                   //creates an instance of Pouch
 

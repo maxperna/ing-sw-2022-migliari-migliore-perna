@@ -100,7 +100,7 @@ public class Game implements Serializable {
     }
 
     /**
-     * Method to add the player to the current game and automatically set the team mate
+     * Method to add the player to the current game and automatically set the teammate
      *
      * @param nickname   nickname of the player
      * @param assistant  assistant deck chosen
@@ -211,11 +211,10 @@ public class Game implements Serializable {
                     if (playerToCheck.getBoard().getTowerColor().equals(islandToCheck.getTowerColor())) {
                         if (!colorStudent.equals(colorToIgnore)) {
                             influenceOfPlayer = influenceOfPlayer + islandToCheck.getNumberOfTowers();
-                            towerPlayer = playerToCheck;
                         } else {
                             influenceOfPlayer = islandToCheck.getNumberOfTowers();
-                            towerPlayer = playerToCheck;
                         }
+                        towerPlayer = playerToCheck;
                     } else {
                         if (colorStudent.equals(colorToIgnore))
                             influenceOfPlayer = 0;
@@ -351,7 +350,7 @@ public class Game implements Serializable {
 
     /**
      * Getter
-     * @return the puch instance
+     * @return the pouch instance
      */
     public Pouch getPouch() {
         return pouch;

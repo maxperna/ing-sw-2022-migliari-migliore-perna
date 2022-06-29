@@ -15,7 +15,7 @@ public class GameParamMessage extends Message {
     private final boolean expertMode;
 
     public GameParamMessage(String senderPlayer, int numOfPlayers, boolean expertMode) {
-        super(MessageType.GAMEPARAM, senderPlayer);
+        super(MessageType.GAME_PARAM, senderPlayer);
         this.numOfPlayers = numOfPlayers;
         this.expertMode = expertMode;
     }

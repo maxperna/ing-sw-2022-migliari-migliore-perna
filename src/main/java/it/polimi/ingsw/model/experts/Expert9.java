@@ -29,7 +29,7 @@ public class Expert9 implements ExpertCard {
     /**
      * Method used to activate Expert9 effect
      * @param user is the player who activated the effect
-     * @param colorToIgnore is the color of the students that will be ignore during the check influence
+     * @param colorToIgnore is the color of the students that will be ignored during the check influence
      * @throws NotEnoughCoins when the player doesn't have the required number of coins
      */
     @Override

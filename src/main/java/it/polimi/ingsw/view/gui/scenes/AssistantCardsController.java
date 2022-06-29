@@ -12,7 +12,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,14 +22,12 @@ public class AssistantCardsController extends ViewSubject implements GenericScen
 
     ArrayList<AssistantCard> deck;
     Map<String, AssistantCard> lastCard;
-    boolean isReady;
     @FXML
     AnchorPane anchorPane;
 
     public AssistantCardsController() {
         this.deck = new ArrayList<>();
         this.lastCard = new HashMap<>();
-        isReady = false;
     }
 
     @FXML
@@ -96,7 +93,6 @@ public class AssistantCardsController extends ViewSubject implements GenericScen
 
     public void setDeck(ArrayList<AssistantCard> deck) {
         this.deck = deck;
-        isReady = true;
     }
 
     public void setLastCard(Map<String, AssistantCard> lastCard) {

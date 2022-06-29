@@ -32,7 +32,7 @@ public class IslandNode implements Serializable {
 
     /**
      * Default constructor
-     * @param ID is the Id that will identify the island Node
+     * @param ID is the ID that will identify the island Node
      */
     public IslandNode(int ID) {
         this.ID = ID;
@@ -90,7 +90,7 @@ public class IslandNode implements Serializable {
 
     /**
      * Method used to place students on this island
-     * @param students
+     * @param students is an arraylist containing the students that will be placed on this node
      */
     public void setStudents(ArrayList<Color> students) {
         this.students.addAll(students);
@@ -195,7 +195,7 @@ public class IslandNode implements Serializable {
 
     /**
      * Method called during a merge, add all students from another island to this one
-     * @param students
+     * @param students are the students from the merged island that will be moved inside this island
      */
     public void mergeStudents(ArrayList<Color> students) {
         this.students.addAll(students);

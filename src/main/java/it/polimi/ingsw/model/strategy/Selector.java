@@ -3,7 +3,7 @@ package it.polimi.ingsw.model.strategy;
 import it.polimi.ingsw.model.Game;
 
 /**
- * Class Selector, it allows to select which strategy to implement for creating new games
+ * Class Selector, it allows selecting which strategy to implement for creating new games
  *
  * @author Miglia
  */

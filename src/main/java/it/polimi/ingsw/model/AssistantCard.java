@@ -21,7 +21,7 @@ public class AssistantCard implements Serializable {
      * @param motherNatureControl number in the top right corner card
      * @param frontImage          path of the front image of the card
      * @param backImage           path of the back image of the card
-     * @param deckType
+     * @param deckType            type of the deck chosen
      */
     public AssistantCard(int actionNumber, int motherNatureControl, String frontImage, String backImage, DeckType deckType) {
         this.actionNumber = actionNumber;
