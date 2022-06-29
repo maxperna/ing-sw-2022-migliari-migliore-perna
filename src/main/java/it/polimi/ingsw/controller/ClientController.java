@@ -563,9 +563,9 @@ public class ClientController implements ViewListener, Listener {
      */
     public void askAction(Boolean expert_mode) {
         if (studentsMoved < 3)
-            view.ActionPhaseTurn(expert_mode);
+            actionQueue.execute(()->view.ActionPhaseTurn(expert_mode));
         else
-            view.playExpertChoice();
+            actionQueue.execute(()->view.playExpertChoice());
     }
 
     /**
