@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.model.gameField.IslandNode;
 import it.polimi.ingsw.observer.ViewSubject;
 import javafx.collections.FXCollections;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 
@@ -72,25 +73,22 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
     public void initialize(){
         generateGameField();
         diningRoom.addEventHandler(MouseEvent.MOUSE_CLICKED,this::moveStudentBoard);
-        actionButton.getItems().removeAll();
         actionButton.setItems(FXCollections.observableArrayList("Play Card", "Show Boards"));
+        actionButton.setOnAction(e->preparationPhaseAction());
         actionButton.setDisable(true);
     }
 
     public void setPreparationPhaseChoiceBox(){
-
         actionButton.setDisable(false);
+    }
+    public void preparationPhaseAction(){
 
-        actionButton.setOnAction(actionEvent -> {
-            String selection = (String)actionButton.getSelectionModel().getSelectedItem();
-            if (selection.equals("Play Card")) {
-                new Thread(() -> notifyListener(l -> l.chooseAction(1))).start();
-                actionButton.getItems().remove(0);
+        String selection = (String) actionButton.getValue();
+        if (selection.equals("Play Card")) {
+            new Thread(() -> notifyListener(l -> l.chooseAction(1))).start();
+            actionButton.getItems().remove(0);
             } else
                 new Thread(() -> notifyListener(l -> l.chooseAction(2))).start();
-
-        });
-
     }
 
 
@@ -279,7 +277,7 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
                 TowerColor tColor = island.getTowerColor();
                 //Sostituisco la torre
                 if(islandConfig.get(ID).get("TowerSpace").lookup("#"+tColor.toString()) != null)
-                    islandConfig.get(ID).remove(islandConfig.get(ID).get("TowerSpace").lookup("#"+tColor.toString()));
+                    islandConfig.get(ID).remove(islandConfig.get(ID).get("TowerSpace").lookup("#"+ tColor));
 
                 Label towerLabel = (Label) islandConfig.get(ID).get("TowerSpace").getChildren().get(0);
                 towerLabel.setText(island.getNumberOfTowers().toString());
