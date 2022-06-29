@@ -16,6 +16,7 @@ import javafx.application.Platform;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
 
 public class Gui extends ViewSubject implements View {
 
@@ -190,7 +191,7 @@ public class Gui extends ViewSubject implements View {
     @Override
     public void chooseAction(/*boolean expert*/) {
         PlayerViewController pwc = getPWC();
-        Platform.runLater(()->pwc.setPreparationPhaseChoiceBox());
+        Platform.runLater(pwc::setPreparationPhaseChoiceBox);
     }
 
     @Override

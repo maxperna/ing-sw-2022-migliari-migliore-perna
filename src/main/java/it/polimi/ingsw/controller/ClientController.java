@@ -178,6 +178,7 @@ public class ClientController implements ViewListener, Listener {
     @Override
     public void moveMotherNature(int numberOfSteps) {
         movedMN = true;     //set the movement of MN
+        endTurn = true;
         client.sendMessage(new MoveMotherNatureMessage(nickname, numberOfSteps));
 
 
@@ -440,6 +441,7 @@ public class ClientController implements ViewListener, Listener {
                 }
                 if (error.getTypeError() == MOTHER_NATURE_ERROR) {
                     movedMN = false;
+                    endTurn = false;
                     actionQueue.execute(view::moveMotherNature);
 
                 }
@@ -454,8 +456,6 @@ public class ClientController implements ViewListener, Listener {
 
                 break;
             case WORLD_CHANGE:
-                if (movedMN)
-                    endTurn = true;
                 WorldChangeMessage worldChange = (WorldChangeMessage) receivedMessage;
                 actionQueue.execute(() -> view.worldUpdate(worldChange.getGameFieldMap(), worldChange.getChargedClouds(), worldChange.getBoardMap(), worldChange.getCurrentPlayer(), worldChange.getExperts(), worldChange.getNumOfCoins()));
                 if (phase.equals(GameState.ACTION_PHASE) && worldChange.getCurrentPlayer().equals(nickname)) {
@@ -467,11 +467,13 @@ public class ClientController implements ViewListener, Listener {
                             actionQueue.execute(((Cli) view)::playExpertChoice);
                             expert_mode = false;
                         }
+                        else if(!movedMN){
+                            actionQueue.execute(()->view.moveMotherNature());
+                        }
                     } else if (movedMN && endTurn) {
                         endTurn = false;
                         actionQueue.execute(() -> view.chooseCloudTile(worldChange.getChargedClouds().size()));
                         actionQueue.execute(() -> view.showGenericMessage("Turn ended, waiting for other players"));
-                        movedMN = false;
                         studentsMoved = 0;
                     }
                 }
