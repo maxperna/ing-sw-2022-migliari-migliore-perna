@@ -11,7 +11,6 @@ import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.gui.scenes.*;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
-import javafx.stage.Popup;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -148,9 +147,12 @@ public class Gui extends ViewSubject implements View {
 
     /**Enable student movement*/
     @Override
-    public void actionPhaseTurn(Boolean bool) {
+    public void actionPhaseTurn(Boolean expertPlayed) {
+
+        ExpertCardSceneController excs = (ExpertCardSceneController) SceneController.popUpController;
+        excs.makeCardAvailable(!expertPlayed);
         PlayerViewController pwc = getPWC();
-        Platform.runLater(()->pwc.switchStudentMovement());
+        Platform.runLater(()->pwc.switchStudentMovementStatus());
     }
 
     @Override
@@ -202,24 +204,24 @@ public class Gui extends ViewSubject implements View {
     @Override
     public void chooseAction() {
         PlayerViewController pwc = getPWC();
-        Platform.runLater(() -> pwc.setPreparationPhaseChoiceBox());
+        Platform.runLater(pwc::setPreparationPhaseChoiceBox);
     }
 
     @Override
     public void moveMotherNature() {
         PlayerViewController pwc = getPWC();
-        Platform.runLater(()-> pwc.switchMN());
+        Platform.runLater(pwc::switchMNStatus);
     }
 
     public void chooseCloudTile(int cloudID) {
         PlayerViewController pwc = getPWC();
-        Platform.runLater(()->pwc.changeCloudStatus());
+        Platform.runLater(pwc::switchCloudStatus);
     }
 
 
     @Override
     public void showExpertCards(ArrayList<ExpertCard> allExpertCards, int numberOfCoins) {
-        ExpertCardSceneController exsx = new ExpertCardSceneController();
+        ExpertCardSceneController exsx = new ExpertCardSceneController(allExpertCards);
         exsx.setExpertCards(allExpertCards);
         Platform.runLater(()->SceneController.showNewStage(list,exsx, PopUpType.EXPERT, "ExpertsCardScene.fxml","Experts"));
     }
@@ -235,8 +237,11 @@ public class Gui extends ViewSubject implements View {
     }
 
     @Override
-    public void playExpertChoice(boolean expertPlayed) {
-
+    public void moveMNplusExpert(boolean expertPlayed) {
+        PlayerViewController pwc = getPWC();
+        ExpertCardSceneController excs = (ExpertCardSceneController) SceneController.popUpController;
+        excs.makeCardAvailable(!expertPlayed);
+        Platform.runLater(pwc::switchMNStatus);
     }
 
     @Override

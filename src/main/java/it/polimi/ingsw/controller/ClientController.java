@@ -458,7 +458,7 @@ public class ClientController implements ViewListener, Listener {
                 }
                 else if(!movedMN){
                     if(expertMode)
-                        actionQueue.execute(()-> view.playExpertChoice(expertPlayed));
+                        actionQueue.execute(()-> view.moveMNplusExpert(expertPlayed));
                     else
                         actionQueue.execute(view::moveMotherNature);
                 }
@@ -514,12 +514,12 @@ public class ClientController implements ViewListener, Listener {
         if (!studentsMoved)
             actionQueue.execute(()->view.actionPhaseTurn(expertPlayed));
         else
-            actionQueue.execute(()->view.playExpertChoice(expertPlayed));
+            actionQueue.execute(()->view.moveMNplusExpert(expertPlayed));
     }
 
 
     @Override
-    public void guiExpertShow(ArrayList<ExpertCard> expertCards){
+    public void guiExpertShow(ArrayList<ExpertCard> expertCards,boolean expertPlayed){
         Gui gui = (Gui) view;
         gui.showExpertCards(expertCards,0);
     }

@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
@@ -31,10 +32,17 @@ public class ExpertCardSceneController extends ViewSubject implements GenericSce
     @FXML
     Label description3;
 
-    private ArrayList<ExpertCard> expertCards;
+    private boolean available;
+    private final ArrayList<ExpertCard> expertCards;
+
+    public ExpertCardSceneController(ArrayList<ExpertCard> experts,boolean expertPlayed ){
+        this.expertCards = experts;
+        this.available = expertPlayed;
+    }
 
     @FXML
     public void initialize(){
+
         //Image setting
         exp1IMG.setImage(new Image(expertCards.get(0).getIMG()));
         exp1IMG.setId("0");
@@ -59,17 +67,24 @@ public class ExpertCardSceneController extends ViewSubject implements GenericSce
 
 
     public void playExpert(MouseEvent event){
-        int cardID = Integer.parseInt(event.getPickResult().getIntersectedNode().getId());
-        event.consume();
-        new Thread(()->notifyListener(list-> list.applyExpertEffect(cardID))).start();
+        if(available) {
+            int cardID = Integer.parseInt(event.getPickResult().getIntersectedNode().getId());
+            event.consume();
+            new Thread(() -> notifyListener(list -> list.applyExpertEffect(cardID))).start();
+            close();
+        }
+        else
+            event.consume();
 
-    }
-    public void setExpertCards(ArrayList<ExpertCard> expertCards) {
-        this.expertCards = expertCards;
     }
 
     @Override
     public void close() {
+        ((Stage) exp1IMG.getParent().getScene().getWindow()).close();
+    }
 
+    /**Method to set if is possible to play an expert card*/
+    public void makeCardAvailable(boolean available){
+        this.available = available;
     }
 }

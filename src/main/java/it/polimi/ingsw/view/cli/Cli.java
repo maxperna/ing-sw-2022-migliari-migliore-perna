@@ -1596,7 +1596,7 @@ public class Cli extends ViewSubject implements View {
     /**
      * Method used to ask if the player wants to move mother nature and end its turn, or play an expert card
      */
-    public void playExpertChoice(boolean expertPlayed) {
+    public void moveMNplusExpert(boolean expertPlayed) {
         int choice = 0;
         String text;
         if(expertPlayed)
