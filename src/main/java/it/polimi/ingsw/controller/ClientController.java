@@ -97,6 +97,8 @@ public class ClientController implements ViewListener, Listener {
     @Override
     public void sendGameParam(int numOfPlayers, boolean expertMode) {
         this.expertMode = expertMode;
+        if(!expertMode)
+            expertPlayed=true;
         client.sendMessage(new GameParamMessage(this.nickname, numOfPlayers, expertMode));
     }
 
@@ -349,7 +351,8 @@ public class ClientController implements ViewListener, Listener {
                         break;
                     case ACTION_PHASE:
                         phase = GameState.ACTION_PHASE;
-                        expertPlayed = false;
+                        if(expertMode)
+                            expertPlayed = false;
                         studentsMoved = false;
                         movedMN = false;
                         endTurn = false;

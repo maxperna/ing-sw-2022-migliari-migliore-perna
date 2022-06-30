@@ -155,6 +155,7 @@ public class IslandNode implements Serializable {
     public void setTower() throws EndGameException {
 
         if (mostInfluencePlayer != null) {
+            mostInfluencePlayer.getBoard().moveTower();
             int oldCounter = towerCounter;
             this.tower = mostInfluencePlayer.getBoard().moveTower();
             towerCounter++;
