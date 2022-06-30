@@ -349,8 +349,9 @@ public class ClientController implements ViewListener, Listener {
                         break;
                     case ACTION_PHASE:
                         phase = GameState.ACTION_PHASE;
-
-
+                        expert_mode = false;
+                        studentsMoved = false;
+                        movedMN = false;
                         endTurn = false;
                         actionQueue.execute(() -> view.ActionPhaseTurn(expert_mode));
                         break;
@@ -456,8 +457,7 @@ public class ClientController implements ViewListener, Listener {
                 if (phase.equals(GameState.ACTION_PHASE) && worldChange.getCurrentPlayer().equals(nickname)) {
                     if (!studentsMoved) {
                         actionQueue.execute(() -> view.ActionPhaseTurn(expert_mode));  //still in action phase
-                    } else if (studentsMoved && !endTurn) {         //finished students moves
-
+                    } else if (!endTurn) {         //finished students moves
                         if (expert_mode) {                       //possibility of play expert card after students moves
                             actionQueue.execute(((Cli) view)::playExpertChoice);
                             expert_mode = false;
@@ -465,7 +465,7 @@ public class ClientController implements ViewListener, Listener {
                         else if(!movedMN){
                             actionQueue.execute(view::moveMotherNature);
                         }
-                    } else if (movedMN && endTurn) {
+                    } else if (movedMN) {
                         endTurn = false;
                         actionQueue.execute(() -> view.chooseCloudTile(worldChange.getChargedClouds().size()));
                         actionQueue.execute(() -> view.showGenericMessage("Turn ended, waiting for other players"));
