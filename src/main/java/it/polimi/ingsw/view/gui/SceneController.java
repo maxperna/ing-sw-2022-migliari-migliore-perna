@@ -19,6 +19,8 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -167,16 +169,30 @@ public class SceneController extends ViewSubject {
         SceneController.currentController = currentController;
     }
 
-    public static synchronized void playSound(final List<String> audioFiles) {
-        new Thread(() -> {
-            try {
-                Clip sound = AudioSystem.getClip();
-                sound.open(AudioSystem.getAudioInputStream(new File("src/main/resources/audio/"+audioFiles.get(0))));
-                sound.start();
-            } catch (Exception e) {
-                System.err.println(e.getMessage());
+    public static synchronized void playSound() {
+
+        List<String> audioFiles = new ArrayList<>();
+        File folder = new File("src/main/resources/audio");
+        File[] listOfFiles = folder.listFiles();
+
+        if(listOfFiles != null) {
+            for (File listOfFile : listOfFiles) {
+                if (listOfFile.isFile() && listOfFile.getName().contains(".wav")) {
+                    audioFiles.add(listOfFile.getName());
+                }
             }
-        }).start();
+            Collections.shuffle(audioFiles);
+
+            new Thread(() -> {
+                try {
+                    Clip sound = AudioSystem.getClip();
+                    sound.open(AudioSystem.getAudioInputStream(new File("src/main/resources/audio/" + audioFiles.get(0))));
+                    sound.start();
+                } catch (Exception e) {
+                    System.err.println(e.getMessage());
+                }
+            }).start();
+        }
     }
 
 }

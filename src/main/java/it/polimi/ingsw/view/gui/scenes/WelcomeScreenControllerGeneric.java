@@ -41,22 +41,10 @@ public class WelcomeScreenControllerGeneric extends ViewSubject implements Gener
                 startButtonClick();
             }
         });
-
-        File folder = new File("src/main/resources/audio");
-        File[] listOfFiles = folder.listFiles();
-
-        if(listOfFiles != null) {
-            for (File listOfFile : listOfFiles) {
-                if (listOfFile.isFile() && listOfFile.getName().contains(".wav")) {
-                    audioFiles.add(listOfFile.getName());
-                }
-            }
-            Collections.shuffle(audioFiles);
-        }
     }
 
     public void startButtonClick() {
-        SceneController.playSound(audioFiles);
+        SceneController.playSound();
         SceneController.changeRoot(list, "LogInScene.fxml");
     }
 
