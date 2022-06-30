@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.gameField.IslandNode;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.client_messages.*;
 import it.polimi.ingsw.network.messages.client_messages.ExpertMessages.*;
-import it.polimi.ingsw.network.messages.server_messages.GameParamMessage;
+import it.polimi.ingsw.network.messages.client_messages.GameParamMessage;
 import it.polimi.ingsw.network.messages.server_messages.GenericMessage;
 import it.polimi.ingsw.view.VirtualView;
 
@@ -134,9 +134,10 @@ public class GameController implements PropertyChangeListener {
 
                     Color currentColor = ((MovedStudentToIsland) receivedMessage).getMovedStudent();
                     int islandID = ((MovedStudentToIsland) receivedMessage).getTargetIsland();
-
                     try {
                         game.getPlayerByNickName(senderPlayer).getBoard().moveToIsland(currentColor, islandID);
+                        turnLogic.studentMoved();
+                        viewMap.get(senderPlayer).availableAction(turnLogic.allStudentMoved(), turnLogic.isMotherNatureMoved(), turnLogic.isExpertPlayed());
                     } catch (NotOnBoardException e) {
                         viewMap.get(senderPlayer).showError("Student not found", STUDENT_ERROR);
                     } catch (IllegalMove e) {
@@ -151,6 +152,8 @@ public class GameController implements PropertyChangeListener {
                     try {
                         game.getPlayerByNickName(senderPlayer).getBoard().moveEntryToDiningRoom(studentMoved);
                         game.checkInfluence(game.getPlayerByNickName(senderPlayer), studentMoved);
+                        turnLogic.studentMoved();
+                        viewMap.get(senderPlayer).availableAction(turnLogic.allStudentMoved(), turnLogic.isMotherNatureMoved(), turnLogic.isExpertPlayed());
                     } catch (NotOnBoardException e) {
                         viewMap.get(senderPlayer).showError("Student not found", STUDENT_ERROR);
                     } catch (NotEnoughSpace e) {
@@ -162,6 +165,9 @@ public class GameController implements PropertyChangeListener {
                     int motherNatureSteps = ((MoveMotherNatureMessage) receivedMessage).getNumOfSteps();
                     try {
                         turnLogic.moveMotherNature(game.getPlayerByNickName(senderPlayer), motherNatureSteps);
+                        turnLogic.MotherNatureMoved();
+                        viewMap.get(senderPlayer).availableAction(turnLogic.allStudentMoved(), turnLogic.isMotherNatureMoved(), turnLogic.isExpertPlayed());
+
                     } catch (EndGameException e) {
                         for (String nickName : viewMap.keySet()) {
                             viewMap.get(nickName).showWinner(senderPlayer);
@@ -221,7 +227,7 @@ public class GameController implements PropertyChangeListener {
                     viewMap.get((String) firstKey).showRemainingTowerAndDeck(game.getAVAILABLE_TOWER_COLOR(), game.getAVAILABLE_DECK_TYPE());
 
                     for (String nickName : viewMap.keySet())
-                        viewMap.get(nickName).sendNumberOfPlayers(game.NUM_OF_PLAYERS);
+                        viewMap.get(nickName).sendNumberOfPlayers(game.NUM_OF_PLAYERS, game.EXP_MODE);
 
                     nextState = GameState.CREATE_PLAYERS;
                 }
@@ -262,10 +268,6 @@ public class GameController implements PropertyChangeListener {
                     viewMap.get(currentPlayer).showCurrentPlayer(currentPlayer, GameState.PREPARATION_PHASE);
 
                     nextState = GameState.PREPARATION_PHASE;
-
-                    for (String nickName : viewMap.keySet()) {
-                        viewMap.get(nickName).setExpertMode(game.EXP_MODE);
-                    }
 
                 }
                 break;
@@ -374,8 +376,9 @@ public class GameController implements PropertyChangeListener {
                     assert message instanceof PlayExpertCard5;
                     PlayExpertCard5 castedMessage4 = (PlayExpertCard5) message;
                     turnLogic.playExpertCard(player, castedMessage4.getStudents1(), castedMessage4.getStudents2(), playedCard);
-                    break;
             }
+
+            viewMap.get(message.getSenderPlayer()).availableAction(turnLogic.allStudentMoved(), turnLogic.isMotherNatureMoved(), turnLogic.isExpertPlayed());
 
             for (String nickname : viewMap.keySet())
                 viewMap.get(nickname).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(),"", message.getSenderPlayer(), game.getExpertsCard(), game.getPlayerByNickName(nickname).getNumOfCoin());

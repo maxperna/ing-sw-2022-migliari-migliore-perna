@@ -1006,7 +1006,7 @@ public class Cli extends ViewSubject implements View {
      * @param expert is a boolean that is used to eventually play the expert card
      */
     @Override
-    public void ActionPhaseTurn(Boolean expert) {
+    public void actionPhaseTurn(Boolean expert) {
         int choice = 0;
         boolean valid = false;
 
@@ -1104,6 +1104,16 @@ public class Cli extends ViewSubject implements View {
     @Override
     public void startGame() {
         System.out.println("GAME STARTED!!");
+    }
+
+    @Override
+    public void availableAction(boolean allStudentsMoved, boolean motherNatureMoved, boolean expertPlayed) {
+
+    }
+
+    @Override
+    public void sendNumberOfPlayers(int num_of_players, boolean expertMode) {
+
     }
 
     /**

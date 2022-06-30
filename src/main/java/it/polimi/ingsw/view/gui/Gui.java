@@ -50,6 +50,16 @@ public class Gui extends ViewSubject implements View {
     }
 
     @Override
+    public void availableAction(boolean allStudentsMoved, boolean motherNatureMoved, boolean expertPlayed) {
+
+    }
+
+    @Override
+    public void sendNumberOfPlayers(int num_of_players, boolean expertMode) {
+
+    }
+
+    @Override
     public void showGameField(Map<Integer, IslandNode> gameFieldMap) {
         PlayerViewController pwc = getPWC();
         Platform.runLater(() -> pwc.populateIslands(gameFieldMap));
@@ -138,7 +148,7 @@ public class Gui extends ViewSubject implements View {
 
     /**Enable student movement*/
     @Override
-    public void ActionPhaseTurn(Boolean bool) {
+    public void actionPhaseTurn(Boolean bool) {
         PlayerViewController pwc = getPWC();
         Platform.runLater(()->pwc.switchStudentMovement());
     }

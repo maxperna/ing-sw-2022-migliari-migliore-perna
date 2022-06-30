@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.experts.Expert4;
 
 import java.util.*;
+import java.util.logging.Logger;
 
 /**
  * Class to handle all the logic inside a round such as the playing orders and to set the current active player
@@ -21,6 +22,8 @@ public class TurnLogic {
     private final Queue<Player> playersOrders;  //Players order is a FIFO structure(both for playing orders and action phase)
     private Player lastRoundFirstPlayer;       //first player to play last round, used to define the starting point of the round
     private String currentPhase;
+    private int studentsMoved;
+    private boolean motherNatureMoved;
 
     /**
      * Default constructor
@@ -53,6 +56,7 @@ public class TurnLogic {
             e.printStackTrace();
             return null;
         }
+        resetCounters();
         return getActivePlayer();
     }
 
@@ -278,6 +282,46 @@ public class TurnLogic {
         for (Player player : currentGame.getPlayersList()) {
             player.getDeck().setLastAssistantCardUsed(null);
         }
+    }
+
+    private void resetCounters() {
+        this.studentsMoved = 0;
+        this.motherNatureMoved = false;
+    }
+
+    public void studentMoved() {
+        studentsMoved ++;
+    }
+
+    public boolean allStudentMoved() {
+        if(studentsMoved == 3)
+            return true;
+        else if(studentsMoved > 3) {
+            Logger.getLogger("Pino").warning("Sono stati mossi 3+ studenti");
+            return true;
+        }
+        else
+            return false;
+    }
+    public int getStudentsMoved() {
+        return studentsMoved;
+    }
+
+    public boolean isMotherNatureMoved() {
+        return motherNatureMoved;
+    }
+
+    public void MotherNatureMoved() {
+        if (!motherNatureMoved) {
+            motherNatureMoved = true;
+        }
+        else {
+            System.out.println("Hai giocato 2 volte madre natura");
+        }
+    }
+
+    public boolean isExpertPlayed() {
+        return currentGame.getActiveExpertCard() != null;
     }
 }
 
