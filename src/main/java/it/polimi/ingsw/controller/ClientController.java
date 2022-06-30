@@ -469,8 +469,13 @@ public class ClientController implements ViewListener, Listener {
                     } else if (actionCounter == 0 && !endTurn) {         //finished students moves
 
                         if (expert_mode) {                       //possibility of play expert card after students moves
-                            actionQueue.execute(((Cli) view)::playExpertChoice);
-                            expert_mode = false;
+                            try {
+                                actionQueue.execute(((Cli) view)::playExpertChoice);
+                                expert_mode = false;
+                            }catch (ClassCastException e)
+                            {
+                                expert_mode = false;
+                            }
                         }
                         else if(!movedMN){
                             actionQueue.execute(view::moveMotherNature);
@@ -549,7 +554,7 @@ public class ClientController implements ViewListener, Listener {
      * @param expert_mode is a boolean that indicates if the expert mode is enabled or not (also used to lock the player from using more than an expert card)
      */
     public void askAction(Boolean expert_mode) {
-        if (studentsMoved < 3)
+        if (studentsMoved<3)
             actionQueue.execute(()->view.ActionPhaseTurn(expert_mode));
         else
             actionQueue.execute(()->view.playExpertChoice());

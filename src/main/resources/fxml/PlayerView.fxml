@@ -120,7 +120,7 @@
    <center>
       <AnchorPane fx:id="gameField" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <StackPane id="4" layoutX="540.0" layoutY="410.0" prefHeight="230.0" prefWidth="270.0" styleClass="island-pane1" AnchorPane.leftAnchor="830.0" AnchorPane.topAnchor="400.0">
+            <StackPane id="10" layoutX="540.0" layoutY="410.0" prefHeight="230.0" prefWidth="270.0" styleClass="island-pane1" AnchorPane.leftAnchor="830.0" AnchorPane.topAnchor="400.0">
                <children>
                   <GridPane prefHeight="230.0" prefWidth="222.0" styleClass="island-pane" stylesheets="@../CSS/PlayerView.css">
                      <columnConstraints>
@@ -161,13 +161,60 @@
                         </AnchorPane>
                         <AnchorPane id="TowerSpace" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
                            <children>
-                              <Label layoutX="73.0" layoutY="6.0" text="0" visible="false" />
+                              <Label layoutX="73.0" layoutY="6.0" style="-fx-background-color: white;" text="0" visible="false" />
                            </children></AnchorPane>
                      </children>
                   </GridPane>
                </children>
             </StackPane>
-            <StackPane id="3" layoutX="840.0" layoutY="410.0" prefHeight="230.0" prefWidth="270.0" styleClass="island-pane2" AnchorPane.leftAnchor="530.0" AnchorPane.topAnchor="400.0">
+            <StackPane id="11" layoutX="840.0" layoutY="410.0" prefHeight="230.0" prefWidth="270.0" styleClass="island-pane2" AnchorPane.leftAnchor="530.0" AnchorPane.topAnchor="400.0">
+               <children>
+                  <GridPane prefHeight="230.0" prefWidth="222.0" styleClass="island-pane" stylesheets="@../CSS/PlayerView.css">
+                     <columnConstraints>
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <AnchorPane id="RED" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+                           <children>
+                              <Label id="LABEL" layoutX="42.0" layoutY="55.0" text="0" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane id="GREEN" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                           <children>
+                              <Label id="LABEL" layoutX="42.0" layoutY="46.0" text="0" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane id="PINK" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <children>
+                              <Label id="LABEL" layoutX="42.0" layoutY="46.0" text="0" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane id="BLUE" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                           <children>
+                              <Label id="LABEL" layoutX="41.0" layoutY="49.0" text="0" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane id="YELLOW" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <children>
+                              <Label id="LABEL" layoutX="39.0" layoutY="46.0" text="0" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane id="TowerSpace" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
+                           <children>
+                              <Label layoutX="72.0" layoutY="5.0" style="-fx-background-color: white;" text="0" visible="false" />
+                           </children></AnchorPane>
+                     </children>
+                  </GridPane>
+               </children>
+            </StackPane>
+            <StackPane id="12" layoutX="540.0" layoutY="410.0" prefHeight="230.0" prefWidth="270.0" styleClass="island-pane2" AnchorPane.leftAnchor="230.0" AnchorPane.topAnchor="400.0">
                <children>
                   <GridPane prefHeight="230.0" prefWidth="222.0" styleClass="island-pane" stylesheets="@../CSS/PlayerView.css">
                      <columnConstraints>
@@ -214,7 +261,7 @@
                   </GridPane>
                </children>
             </StackPane>
-            <StackPane id="2" layoutX="540.0" layoutY="410.0" prefHeight="230.0" prefWidth="270.0" styleClass="island-pane2" AnchorPane.leftAnchor="230.0" AnchorPane.topAnchor="400.0">
+            <StackPane id="9" layoutX="840.0" layoutY="410.0" prefHeight="230.0" prefWidth="270.0" styleClass="island-pane3" AnchorPane.leftAnchor="1130.0" AnchorPane.topAnchor="400.0">
                <children>
                   <GridPane prefHeight="230.0" prefWidth="222.0" styleClass="island-pane" stylesheets="@../CSS/PlayerView.css">
                      <columnConstraints>
@@ -255,54 +302,7 @@
                         </AnchorPane>
                         <AnchorPane id="TowerSpace" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
                            <children>
-                              <Label layoutX="72.0" layoutY="5.0" text="0" visible="false" />
-                           </children></AnchorPane>
-                     </children>
-                  </GridPane>
-               </children>
-            </StackPane>
-            <StackPane id="5" layoutX="840.0" layoutY="410.0" prefHeight="230.0" prefWidth="270.0" styleClass="island-pane3" AnchorPane.leftAnchor="1130.0" AnchorPane.topAnchor="400.0">
-               <children>
-                  <GridPane prefHeight="230.0" prefWidth="222.0" styleClass="island-pane" stylesheets="@../CSS/PlayerView.css">
-                     <columnConstraints>
-                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                     </rowConstraints>
-                     <children>
-                        <AnchorPane id="RED" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
-                           <children>
-                              <Label id="LABEL" layoutX="42.0" layoutY="55.0" text="0" />
-                           </children>
-                        </AnchorPane>
-                        <AnchorPane id="GREEN" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
-                           <children>
-                              <Label id="LABEL" layoutX="42.0" layoutY="46.0" text="0" />
-                           </children>
-                        </AnchorPane>
-                        <AnchorPane id="PINK" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                           <children>
-                              <Label id="LABEL" layoutX="42.0" layoutY="46.0" text="0" />
-                           </children>
-                        </AnchorPane>
-                        <AnchorPane id="BLUE" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                           <children>
-                              <Label id="LABEL" layoutX="41.0" layoutY="49.0" text="0" />
-                           </children>
-                        </AnchorPane>
-                        <AnchorPane id="YELLOW" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                           <children>
-                              <Label id="LABEL" layoutX="39.0" layoutY="46.0" text="0" />
-                           </children>
-                        </AnchorPane>
-                        <AnchorPane id="TowerSpace" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
-                           <children>
-                              <Label layoutX="70.0" layoutY="5.0" text="0" visible="false" />
+                              <Label layoutX="70.0" layoutY="5.0" style="-fx-background-color: white;" text="0" visible="false" />
                            </children></AnchorPane>
                      </children>
                   </GridPane>
@@ -349,13 +349,13 @@
                         </AnchorPane>
                         <AnchorPane id="TowerSpace" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
                            <children>
-                              <Label layoutX="72.0" layoutY="11.0" text="0" visible="false" />
+                              <Label layoutX="72.0" layoutY="11.0" style="-fx-background-color: white;" text="0" visible="false" />
                            </children></AnchorPane>
                      </children>
                   </GridPane>
                </children>
             </StackPane>
-            <StackPane id="8" layoutX="1625.0" layoutY="225.0" prefHeight="230.0" prefWidth="270.0" styleClass="island-pane3" AnchorPane.leftAnchor="1430.0" AnchorPane.topAnchor="1.0">
+            <StackPane id="6" layoutX="1625.0" layoutY="225.0" prefHeight="230.0" prefWidth="270.0" styleClass="island-pane3" AnchorPane.leftAnchor="1430.0" AnchorPane.topAnchor="1.0">
                <children>
                   <GridPane prefHeight="230.0" prefWidth="222.0" styleClass="island-pane" stylesheets="@../CSS/PlayerView.css">
                      <columnConstraints>
@@ -396,13 +396,13 @@
                         </AnchorPane>
                         <AnchorPane id="TowerSpace" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
                            <children>
-                              <Label layoutX="74.0" layoutY="2.0" text="0" visible="false" />
+                              <Label layoutX="74.0" layoutY="2.0" style="-fx-background-color: white;" text="0" visible="false" />
                            </children></AnchorPane>
                      </children>
                   </GridPane>
                </children>
             </StackPane>
-            <StackPane id="9" layoutX="1440.0" layoutY="11.0" prefHeight="230.0" prefWidth="270.0" styleClass="island-pane1" AnchorPane.leftAnchor="1130.0" AnchorPane.topAnchor="1.0">
+            <StackPane id="5" layoutX="1440.0" layoutY="11.0" prefHeight="230.0" prefWidth="270.0" styleClass="island-pane1" AnchorPane.leftAnchor="1130.0" AnchorPane.topAnchor="1.0">
                <children>
                   <GridPane prefHeight="230.0" prefWidth="222.0" styleClass="island-pane" stylesheets="@../CSS/PlayerView.css">
                      <columnConstraints>
@@ -443,13 +443,13 @@
                         </AnchorPane>
                         <AnchorPane id="TowerSpace" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
                            <children>
-                              <Label layoutX="73.0" layoutY="6.0" text="0" visible="false" />
+                              <Label layoutX="73.0" layoutY="6.0" style="-fx-background-color: white;" text="0" visible="false" />
                            </children></AnchorPane>
                      </children>
                   </GridPane>
                </children>
             </StackPane>
-            <StackPane id="10" layoutX="1140.0" layoutY="11.0" prefHeight="230.0" prefWidth="270.0" styleClass="island-pane3" AnchorPane.leftAnchor="830.0" AnchorPane.topAnchor="1.0">
+            <StackPane id="4" layoutX="1140.0" layoutY="11.0" prefHeight="230.0" prefWidth="270.0" styleClass="island-pane3" AnchorPane.leftAnchor="830.0" AnchorPane.topAnchor="1.0">
                <children>
                   <GridPane prefHeight="230.0" prefWidth="222.0" styleClass="island-pane" stylesheets="@../CSS/PlayerView.css">
                      <columnConstraints>
@@ -490,13 +490,13 @@
                         </AnchorPane>
                         <AnchorPane id="TowerSpace" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
                            <children>
-                              <Label layoutX="72.0" layoutY="3.0" text="0" visible="false" />
+                              <Label layoutX="72.0" layoutY="3.0" style="-fx-background-color: white;" text="0" visible="false" />
                            </children></AnchorPane>
                      </children>
                   </GridPane>
                </children>
             </StackPane>
-            <StackPane id="11" layoutX="840.0" layoutY="11.0" prefHeight="230.0" prefWidth="270.0" styleClass="island-pane2" AnchorPane.leftAnchor="530.0" AnchorPane.topAnchor="1.0">
+            <StackPane id="3" layoutX="840.0" layoutY="11.0" prefHeight="230.0" prefWidth="270.0" styleClass="island-pane2" AnchorPane.leftAnchor="530.0" AnchorPane.topAnchor="1.0">
                <children>
                   <GridPane prefHeight="230.0" prefWidth="222.0" styleClass="island-pane" stylesheets="@../CSS/PlayerView.css">
                      <columnConstraints>
@@ -537,13 +537,13 @@
                         </AnchorPane>
                         <AnchorPane id="TowerSpace" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
                            <children>
-                              <Label layoutX="71.0" layoutY="5.0" text="0" visible="false" />
+                              <Label layoutX="71.0" layoutY="5.0" style="-fx-background-color: white;" text="0" visible="false" />
                            </children></AnchorPane>
                      </children>
                   </GridPane>
                </children>
             </StackPane>
-            <StackPane id="12" layoutX="540.0" layoutY="11.0" prefHeight="230.0" prefWidth="270.0" styleClass="island-pane3" AnchorPane.leftAnchor="230.0" AnchorPane.topAnchor="1.0">
+            <StackPane id="2" layoutX="540.0" layoutY="11.0" prefHeight="230.0" prefWidth="270.0" styleClass="island-pane3" AnchorPane.leftAnchor="230.0" AnchorPane.topAnchor="1.0">
                <children>
                   <GridPane prefHeight="230.0" prefWidth="222.0" styleClass="island-pane" stylesheets="@../CSS/PlayerView.css">
                      <columnConstraints>
@@ -584,7 +584,7 @@
                         </AnchorPane>
                         <AnchorPane id="TowerSpace" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
                            <children>
-                              <Label layoutX="72.0" layoutY="10.0" text="0" visible="false" />
+                              <Label layoutX="72.0" layoutY="10.0" style="-fx-background-color: white;" text="0" visible="false" />
                            </children></AnchorPane>
                      </children>
                   </GridPane>
@@ -631,13 +631,13 @@
                         </AnchorPane>
                         <AnchorPane id="TowerSpace" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
                            <children>
-                              <Label layoutX="74.0" layoutY="5.0" text="0" visible="false" />
+                              <Label layoutX="74.0" layoutY="5.0" style="-fx-background-color: white;" text="0" visible="false" />
                            </children></AnchorPane>
                      </children>
                   </GridPane>
                </children>
             </StackPane>
-            <StackPane id="6" layoutX="1140.0" layoutY="410.0" prefHeight="230.0" prefWidth="270.0" styleClass="island-pane3" AnchorPane.leftAnchor="1430.0" AnchorPane.topAnchor="400.0">
+            <StackPane id="8" layoutX="1140.0" layoutY="410.0" prefHeight="230.0" prefWidth="270.0" styleClass="island-pane3" AnchorPane.leftAnchor="1430.0" AnchorPane.topAnchor="400.0">
                <children>
                   <GridPane prefHeight="230.0" prefWidth="222.0" styleClass="island-pane" stylesheets="@../CSS/PlayerView.css">
                      <columnConstraints>
@@ -678,7 +678,7 @@
                         </AnchorPane>
                         <AnchorPane id="TowerSpace" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
                            <children>
-                              <Label layoutX="73.0" layoutY="7.0" text="0" visible="false" />
+                              <Label layoutX="73.0" layoutY="7.0" style="-fx-background-color: white;" text="0" visible="false" />
                            </children></AnchorPane>
                      </children>
                   </GridPane>

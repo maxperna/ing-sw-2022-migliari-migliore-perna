@@ -237,6 +237,7 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
 
     private void createTowers(TowerColor tower,int numOfTowers){
         String towerImage = tower.getTowerImg();
+        towerSpace.getChildren().clear();
         int placedElement = 0;
         int bound = numOfTowers/2;
         if(bound%2==1)
@@ -300,7 +301,9 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
         nodeDiff.removeAll(islandsMap.keySet());
 
         for (int idToDel:nodeDiff){
-            gameField.getChildren().remove(islandList.get(idToDel));
+            gameField.getChildren().remove(islandList.get(idToDel).getParent());
+            islandList.remove(idToDel);
+            islandConfig.remove(idToDel);
         }
         for(int ID:islandsMap.keySet()){
             IslandNode island = islandsMap.get(ID);
@@ -336,14 +339,15 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
                     islandConfig.get(ID).remove(islandConfig.get(ID).get("TowerSpace").lookup("#"+tColor));
 
                 Label towerLabel = (Label) islandConfig.get(ID).get("TowerSpace").getChildren().get(0);
+                islandConfig.get(ID).get("TowerSpace").setVisible(true);
                 towerLabel.setText(island.getNumberOfTowers().toString());
+                towerLabel.setVisible(true);
                 ImageView towerToAdd = new ImageView(island.getTowerColor().getTowerImg());
                 towerToAdd.setId(island.getTowerColor().toString());
                 towerToAdd.setFitWidth(41);
                 towerToAdd.setFitHeight(63);
-                towerToAdd.setDisable(true);
                 islandConfig.get(ID).get("TowerSpace").getChildren().add(towerToAdd);
-                towerLabel.setVisible(true);
+
 
             }
             for(Color color:colorOnIsland){
@@ -396,8 +400,9 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
                     tempConfig.put(configuration.getId(), (AnchorPane) configuration);
                     try {
                         Label counter = (Label) ((AnchorPane) configuration).getChildren().get(0);
-                        if (counter.getText().equals("0"))
+                        if (counter.getText().equals("0")) {
                             configuration.setVisible(false); //initially no student is on island
+                        }
                     } catch (ClassCastException | IndexOutOfBoundsException e) {
                         configuration.setVisible(false); //initially no student is on island
                     }
