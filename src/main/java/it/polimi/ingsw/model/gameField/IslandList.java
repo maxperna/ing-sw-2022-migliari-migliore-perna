@@ -11,23 +11,24 @@ import org.jetbrains.annotations.TestOnly;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.Serializable;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Collections;
 
 /**
+ * Class IslandList, formed by up to 12 objects IslandNode, linked in a doubly circular linked list (DCLL)
  * @author Alessio Migliore
- * class IslandList, composed of up to 12 objects Node, linked in a doubly circular linked list (DCLL)
  */
 
 
-public class IslandList {
-    private Node head;
-    private boolean changed;
+public class IslandList implements Serializable {
     private final PropertyChangeSupport support;
+    private IslandNode head;
+    private boolean changed;
 
     /**
-     * constructor
+     * Default constructor
      */
     public IslandList() {
 
@@ -35,7 +36,7 @@ public class IslandList {
         int noStudentTile = (int) Math.floor(Math.random() * (6) + 1);                                                  //randomly chooses two islands with an ID difference of 6
 
         //array of students for initialising the islands
-        ArrayList <Color> studentToBePlaced = new ArrayList <>();
+        ArrayList<Color> studentToBePlaced = new ArrayList<>();
         for (int j = 0; j < 2; j++) {
             studentToBePlaced.add(Color.RED);
             studentToBePlaced.add(Color.GREEN);
@@ -45,13 +46,13 @@ public class IslandList {
         }
 
         //Creates the list with dim elements
-        for(int i = 1; i <= Game.MAX_TILE; i++) {
+        for (int i = 1; i <= Game.MAX_TILE; i++) {
 
             addNode(i);
 
             if ((i != noStudentTile) & (i != noStudentTile + 6)) {
                 try {
-                    getIslandNode(i).setStudents(GameManager.drawFromPool(1,studentToBePlaced));
+                    getIslandNode(i).setStudents(GameManager.drawFromPool(1, studentToBePlaced));
                 } catch (NotEnoughElements e) {
                     e.printStackTrace();
                 }
@@ -71,12 +72,13 @@ public class IslandList {
 
 
     /**
-     * method to merge islands, it transfers the students to the final node
+     * Method to merge islands, it transfers the students to the final node
+     *
      * @param newMergedIsland is the island that remains in the linked list
      * @param islandToMerge   is the island whose information is going to be moved inside the other island, this one will be cancelled by garbage collector
      * @throws EndGameException when there are exactly 3 islands left inside the list
      */
-    private void merge (int newMergedIsland, int islandToMerge) throws EndGameException, InvalidParameterException {    //limit condition, works when the method has to merge the first and last node of the list
+    private void merge(int newMergedIsland, int islandToMerge) throws EndGameException, InvalidParameterException {    //limit condition, works when the method has to merge the first and last node of the list
         //calls the method recursively with the remaining island as the parameter to check if there are consequential merges available
         if ((newMergedIsland == 1 && islandToMerge == this.lastNode(head).getNodeID())) {
             head.mergeStudents(this.lastNode(head).getStudents());                                                      //move students from the island that will be deleted to the one that will remain
@@ -85,73 +87,76 @@ public class IslandList {
             this.lastNode(head).getPreviousNode().setNextNode(head);                                                    //setting the next pointer of the new last node in the list to point to the head (i.e. island 11 won't point to 12 but to 1)
             if (this.islandCounter() == 3)                                                                              //checks for EndGame conditions
                 throw new EndGameException();
-            head.setMotherNature(true);                                                                                     //for simplicity, motherNature will be set on island 1, so no nodeID changes for the rest of the list
-        }
-        else {                                                                                                          //normal condition, works when we call merge on i, i+1, i different from 1, lastNode
+            head.setMotherNature();                                                                                     //for simplicity, motherNature will be set on island 1, so no nodeID changes for the rest of the list
+        } else {                                                                                                          //normal condition, works when we call merge on i, i+1, i different from 1, lastNode
             this.getIslandNode(newMergedIsland).mergeStudents(this.getIslandNode(islandToMerge).getStudents());         //move students from the island that will be deleted to the one that will remain
             this.getIslandNode(newMergedIsland).mergeTowers(this.getIslandNode(islandToMerge).getNumberOfTowers());     //basically increases the number of towers on the node (can be referred as nodeDimension too)
             this.getIslandNode(islandToMerge).getNextNode().setPreviousNode(this.getIslandNode(newMergedIsland));       //setting the previous pointer of the next node pointed by the deleted node to point to the island that will remain (i.e. island 3 won't point to island 2 but to island 1)
             this.getIslandNode(newMergedIsland).setNextNode(this.getIslandNode(islandToMerge).getNextNode());           //setting the next pointer of the remaining node to skip the deleted node (i.e. node 2 won't point to node 3 but to node 4)
-            Node currNode = this.getIslandNode(newMergedIsland);                                                        //declaring a node used to iterate through the islandList to decrease the nodeID
+            IslandNode currNode = this.getIslandNode(newMergedIsland);                                                        //declaring a node used to iterate through the islandList to decrease the nodeID
             while (currNode.getNextNode().getNodeID() != 1) {                                                           //moves until it reaches the island 1
                 currNode.getNextNode().decreaseNodeID();                                                                //decrease the nodeID
                 currNode = currNode.getNextNode();
             }
             if (this.islandCounter() == 3)                                                                              //checks for EndGame conditions
                 throw new EndGameException();
-            this.getIslandNode(newMergedIsland).setMotherNature(true);                                                      //for simplicity, motherNature will be set on the island with the minor ID number
+            this.getIslandNode(newMergedIsland).setMotherNature();                                                      //for simplicity, motherNature will be set on the island with the minor ID number
         }
         changed = true;
-        mergeIslands(newMergedIsland);                                                                              //calls the method recursively with the remaining island as the parameter to check if there are consequential merges available
+        checkTowersForMerge(newMergedIsland);                                                                              //calls the method recursively with the remaining island as the parameter to check if there are consequential merges available
     }
 
     /**
-     * method used to count elements inside a linked list (circular or not)
+     * Method used to count elements inside a linked list (circular or not)
+     *
      * @return counter, an int that contains the number of nodes inside the list
      */
     public int islandCounter() {
         int counter = 0;                                                                                                //counter variable to count the number of nodes inside the linked list
-        Node startingNode = this.getHeadNode();                                                                         //new node to move through the linked list
+        IslandNode startingNode = this.getHeadNode();                                                                         //new node to move through the linked list
 
-        do {                                                                                                            //cycle to move through the linked list, used to check number of nodes inside the list with counter variable
+        do
+        {                                                                                                            //cycle to move through the linked list, used to check number of nodes inside the list with counter variable
             counter++;
             startingNode = startingNode.getNextNode();
-        }while (startingNode.getNextNode() != null && !startingNode.equals(head));
+        } while (startingNode.getNextNode() != null && !startingNode.equals(head));
         return counter;
     }
 
     /**
-     * method that returns the last node in a list (circular or not)
+     * Method that returns the last node in a list (circular or not)
      *
      * @param head receives in input the starting node of the list
      * @return the last node in the list received in input
      */
-    public Node lastNode(Node head) {
-        Node startingNode = head;
+    public IslandNode lastNode(IslandNode head) {
+        IslandNode startingNode = head;
         while (startingNode.getNextNode() != null && startingNode.getNextNode() != head)                                //checks that the next node in order is not empty (linear list) and it's not the starting node (circular list)
             startingNode = startingNode.getNextNode();
         return startingNode;
     }
 
     /**
-     * method to add a student to a given island
-     * @param nodeID (0-11), identifies the island
-     * @param student  to be added
+     * Method to add a student to a given island
+     *
+     * @param nodeID  (0-11), identifies the island
+     * @param student to be added
      * @throws InvalidParameterException when islandID is invalid
      */
     public void addStudent(int nodeID, Color student) throws IllegalMove {                                //method that adds a single student to a specific IslandTIle
         if (nodeID < 1 || nodeID > this.islandCounter())                                                                //checks that the islandID is valid
             throw new IllegalMove();
-        Node actualNode = this.getIslandNode(nodeID);
+        IslandNode actualNode = this.getIslandNode(nodeID);
         actualNode.addStudent(student);
     }
 
     /**
-     * method to get motherNature position based by which island has the motherNature flag set on
+     * Method to get motherNature position based by which island has the motherNature flag set on
+     *
      * @return a node containing motherNature
      */
-    public Node getMotherNature() {
-        Node startingNode = this.head;                                                                                  //starting from the head node
+    public IslandNode getMotherNature() {
+        IslandNode startingNode = this.head;                                                                                  //starting from the head node
         while (startingNode.getNextNode() != head && !startingNode.checkMotherNature()) {                               //iterate through all the list until we find the node with motherNature on
             startingNode = startingNode.getNextNode();
         }
@@ -159,73 +164,79 @@ public class IslandList {
     }
 
     /**
-     * method to get the starting point of the islandList
-     * @return
+     * Method to get the starting point of the islandList
+     *
+     * @return the starting point of the island list
      */
-    public Node getHeadNode() {
+    public IslandNode getHeadNode() {
         return this.head;
     }
 
     /**
-     * method used to move motherNature, can be used to randomly select the starting island
+     * Method used to move motherNature, can be used to randomly select the starting island
+     *
      * @param moves number of islands that motherNature will move through
      */
     public void moveMotherNatureWithGivenMoves(int moves) throws EndGameException, InvalidParameterException {
-        Node actualNode = this.getMotherNature();                                                                       //starting from the head, it will have the motherNature flag on
+        IslandNode actualNode = this.getMotherNature();                                                                       //starting from the head, it will have the motherNature flag on
         actualNode.resetMotherNature();                                                                                 //reset the motherNature flag
-        for(int index = 0; index<moves; index++) {                                                                      //move until we reach the desired island
+        for (int index = 0; index < moves; index++) {                                                                      //move until we reach the desired island
             actualNode = actualNode.getNextNode();
         }
         actualNode.setMotherNature();                                                                                   //set motherNature flag on
     }
 
     /**
-     * method used to set motherNature flag of the node that contains the islandTile that matches the given ID
+     * Method used to set motherNature flag of the node that contains the islandTile that matches the given ID
+     *
      * @param nodeID is the identifier for the island Tile
-     * @return a Node containing the selected island Tile
      */
     @TestOnly
-    public void moveMotherNatureToNodeID(int nodeID) throws InvalidParameterException, EndGameException{
-        if(nodeID>this.islandCounter() || nodeID<1)
+    public void moveMotherNatureToNodeID(int nodeID) throws InvalidParameterException, EndGameException {
+        if (nodeID > this.islandCounter() || nodeID < 1)
             throw new InvalidParameterException();
-        Node actualNode = this.getMotherNature();
+        IslandNode actualNode = this.getMotherNature();
         actualNode.resetMotherNature();
         actualNode = this.getIslandNode(nodeID);
         actualNode.setMotherNature();                                                                                   //set motherNature flag on
         actualNode.setTower();
-        mergeIslands(nodeID);                                                                                           //call mergeIslands
+        checkTowersForMerge(nodeID);                                                                                           //call mergeIslands
     }
 
     /**
-     * method used to get the node based on the given ID
+     * Method used to get the node based on the given ID
+     *
      * @param nodeID is the ID of the node
      * @return the node with given ID
      * @throws InvalidParameterException when ID in out of range 1-12
      */
-    public Node getIslandNode(int nodeID) throws InvalidParameterException{
-        if(nodeID < 1 || nodeID > this.islandCounter()) {
+    public IslandNode getIslandNode(int nodeID) throws InvalidParameterException {
+        if (nodeID < 1 || nodeID > this.islandCounter()) {
             throw new InvalidParameterException();
         }
 
-        Node actualNode = this.getHeadNode();
+        IslandNode actualNode = this.getHeadNode();
 
-        while(actualNode.getNodeID() != nodeID) {
+        while (actualNode.getNodeID() != nodeID) {
             actualNode = actualNode.getNextNode();
         }
         return actualNode;                                                                                              //returns the node containing the island that matches the given ID
     }
 
+    /**
+     * Method used during the islandList creation to insert a new node
+     * @param nodeID is the id of the node that will be added
+     */
     private void addNode(int nodeID) {
 
-        Node tail;
-        Node newNode = new Node(nodeID);
+        IslandNode tail;
+        IslandNode newNode = new IslandNode(nodeID);
 
         if (head == null) {
             head = newNode;
             head.setNextNode(head);
             head.setPreviousNode(head);
-        }
-        else {
+        } else {
             tail = head.getPreviousNode(); //always the last node
 
             newNode.setPreviousNode(tail);
@@ -237,15 +248,16 @@ public class IslandList {
     }
 
     /**
-     * method used to get the arrayList of students inside the node that matches the given ID
-     * @param nodeID
-     * @return  the ArrayList containing the given islandID
+     * Method used to get the arrayList of students inside the node that matches the given ID
+     *
+     * @param nodeID is the id of the node analyzed
+     * @return the ArrayList containing the given islandID
      */
     public ArrayList<Color> getStudentsFromIslandNode(int nodeID) {
 
-        Node actualNode = this.getHeadNode();
+        IslandNode actualNode = this.getHeadNode();
 
-        while(actualNode.getNodeID() != nodeID) {
+        while (actualNode.getNodeID() != nodeID) {
             actualNode = actualNode.getNextNode();
         }
         //returns the node containing the island that matches the given ID
@@ -254,61 +266,75 @@ public class IslandList {
 
 
     /**
-     * method used to check towerColor on next and previous islands of a declared one, if one of them matches with islandID towerColor, calls merge()
-     * @param islandID
+     * Method used to check towerColor on next and previous islands of a declared one, if one of them matches with islandID towerColor, calls merge()
+     *
+     * @param islandID is the id of the island that is going to be checked
      * @throws EndGameException from merge()
      */
-    public void mergeIslands(int islandID) throws EndGameException {
-        if(this.getIslandNode(islandID).getTowerColor().equals(this.getIslandNode(islandID).getNextNode().getTowerColor()) && !this.getIslandNode(islandID).getTowerColor().equals(TowerColor.EMPTY)) {                                             //checks if the next node has the same towerColor of a given node, except EMPTY
-            if(islandID > this.getIslandNode(islandID).getNextNode().getNodeID()) {                                                                                                                                                                 //checks which island has the larger ID, so that it calls the method with the correct order of parameters to avoid large and redundant merge() method
-                this.getIslandNode(islandID).getNextNode().setMotherNature(true);                                                                                                                                                                       //setting motherNature on the island with the smaller ID
+    public void checkTowersForMerge(int islandID) throws EndGameException {
+        if (this.getIslandNode(islandID).getTowerColor().equals(this.getIslandNode(islandID).getNextNode().getTowerColor()) && !this.getIslandNode(islandID).getTowerColor().equals(TowerColor.EMPTY)) {                                             //checks if the next node has the same towerColor of a given node, except EMPTY
+            if (islandID > this.getIslandNode(islandID).getNextNode().getNodeID()) {                                                                                                                                                                 //checks which island has the larger ID, so that it calls the method with the correct order of parameters to avoid large and redundant merge() method
+                this.getIslandNode(islandID).getNextNode().setMotherNature();                                                                                                                                                                       //setting motherNature on the island with the smaller ID
                 merge(this.getIslandNode(islandID).getNextNode().getNodeID(), islandID);                                                                                                                                                            //calls the merge() method if the given island has a match with the next one and the next one is the head
-            }
-            else
+            } else
                 merge(islandID, this.getIslandNode(islandID).getNextNode().getNodeID());                                                                                                                                                            //calls the merge() method if the given island has a match with the next one and the next one isn't the head
         }
-        if(islandID>this.islandCounter())                                                                                                                                                                                                           //since the condition is checked possibly after a merge, if the method was called on the last node, its ID has to be decreased to match the fact that there is one less island on the list
+        if (islandID > this.islandCounter())                                                                                                                                                                                                           //since the condition is checked possibly after a merge, if the method was called on the last node, its ID has to be decreased to match the fact that there is one less island on the list
             islandID = this.islandCounter();
-        if(this.getIslandNode(islandID).getTowerColor().equals(this.getIslandNode(islandID).getPreviousNode().getTowerColor()) && !this.getIslandNode(islandID).getTowerColor().equals(TowerColor.EMPTY)) {                                         //checks if the previous node has the same towerColor of a given node, except EMPTY
-            if(islandID > this.getIslandNode(islandID).getPreviousNode().getNodeID()) {                                                                                                                                                             //checks which island has the larger ID, so that it calls the method with the correct order of parameters to avoid large and redundant merge() method
-                this.getIslandNode(islandID).getPreviousNode().setMotherNature(true);                                                                                                                                                                   //setting motherNature on the island with the smaller ID
+        if (this.getIslandNode(islandID).getTowerColor().equals(this.getIslandNode(islandID).getPreviousNode().getTowerColor()) && !this.getIslandNode(islandID).getTowerColor().equals(TowerColor.EMPTY)) {                                         //checks if the previous node has the same towerColor of a given node, except EMPTY
+            if (islandID > this.getIslandNode(islandID).getPreviousNode().getNodeID()) {                                                                                                                                                             //checks which island has the larger ID, so that it calls the method with the correct order of parameters to avoid large and redundant merge() method
+                this.getIslandNode(islandID).getPreviousNode().setMotherNature();                                                                                                                                                                   //setting motherNature on the island with the smaller ID
                 merge(this.getIslandNode(islandID).getPreviousNode().getNodeID(), islandID);                                                                                                                                                        //calls the merge() method if the given island has a match with the previous one and the previous one isn't the tail
-            }
-            else
+            } else
                 merge(islandID, this.getIslandNode(islandID).getPreviousNode().getNodeID());                                                                                                                                                        //calls the merge() method if the given island has a match with the previous one and the previous one is the tail
         }
 
-        if(changed)
+        if (changed)
             support.firePropertyChange("Merge", false, true);
 
     }
 
-    public void ignoreTower(){
-        Node nextNode = head;
-        while(nextNode.getNextNode()!=head){
+    /**
+     * Method used to ignore the number of towers during expert
+     */
+    public void ignoreTower() {
+        IslandNode nextNode = head;
+        while (nextNode.getNextNode() != head) {
             nextNode.changeIgnoreTower();
             nextNode = nextNode.getNextNode();
         }
     }
 
+    /**
+     * Method used to add a listener to the islandList
+     * @param listener that will notify every change happened
+     */
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         support.addPropertyChangeListener(listener);
     }
+
+    /**
+     * Method used to remove a listener to the islandList
+     * @param listener that will be removed
+     */
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         support.removePropertyChangeListener(listener);
     }
 
+    /**
+     * Method that returns the size of the island list
+     * @return the size of the island list
+     */
     public int size() {
         return head.getPreviousNode().getNodeID();
     }
 
     @TestOnly
     public boolean hasChanged() {
-        if(changed) {
+        if (changed) {
             changed = false;
             return true;
-        }
-        else
+        } else
             return changed;
 
     }

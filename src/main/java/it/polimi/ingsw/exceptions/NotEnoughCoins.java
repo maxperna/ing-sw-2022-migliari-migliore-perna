@@ -1,10 +1,14 @@
 package it.polimi.ingsw.exceptions;
 
-public class NotEnoughCoins extends Exception{
-    public NotEnoughCoins(){
+/**
+ * Exception thrown when a player doesn't have the required number of coins to activate an expert effect
+ */
+public class NotEnoughCoins extends Exception {
+    public NotEnoughCoins() {
         super();
     }
-    public NotEnoughCoins(String message){
+
+    public NotEnoughCoins(String message) {
         super(message);
     }
 }

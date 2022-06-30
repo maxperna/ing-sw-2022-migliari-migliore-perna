@@ -21,8 +21,6 @@ public class GameManager {
 
     private static GameManager gameManager = null;
     private final ArrayList<Game> gamesList;
-    private final ArrayList<GameController> controllerList;
-
 
 
     /**
@@ -30,7 +28,7 @@ public class GameManager {
      */
     private GameManager() {
         this.gamesList = new ArrayList<>();
-        this.controllerList = new ArrayList<>();
+        ArrayList<GameController> controllerList = new ArrayList<>();
     }
 
     /**
@@ -72,9 +70,14 @@ public class GameManager {
         return randomDraw;
     }
 
+    public static void setNull() {
+        gameManager = null;
+    }
+
     /**
      * Method used to initialize the games
-     * @param gameMode used to select the number of player in the game
+     *
+     * @param gameMode   used to select the number of player in the game
      * @param expertMode selector for expert mode
      */
     public synchronized Game initGame(@NotNull String gameMode, boolean expertMode) {
@@ -107,7 +110,6 @@ public class GameManager {
         return game;
     }
 
-
     /**
      * Getter
      *
@@ -129,10 +131,6 @@ public class GameManager {
             throw new ArrayIndexOutOfBoundsException();
 
         return GameManager.getInstance().getGamesList().get(i);
-    }
-
-    public static void setNull() {
-        gameManager = null;
     }
 
 

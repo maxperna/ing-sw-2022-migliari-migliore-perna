@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.EndGameException;
-import it.polimi.ingsw.exceptions.InexistentCard;
+import it.polimi.ingsw.exceptions.NonexistentCard;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -30,7 +30,7 @@ public class AssistantCardDeckTest {
                 assertEquals(deck.getRemainingCards().size(),9);     //check on the removal
 
             }
-            catch (InexistentCard e){
+            catch (NonexistentCard e){
                 e.printStackTrace();
                 fail();
             }
@@ -60,7 +60,7 @@ public class AssistantCardDeckTest {
             e.printStackTrace();
             assertEquals(deck.getRemainingCards().size(),0);
         }
-        catch (InexistentCard e){
+        catch (NonexistentCard e){
             e.printStackTrace();
             fail();
         }

@@ -9,14 +9,15 @@ import java.util.UUID;
 
 /**
  * Class CreatePlayerMessage, the client sends this message to create a player in the game.
- *  It contains the parameters to create a Player.
+ * It contains the parameters to create a Player.
+ *
  * @author Miglia
  */
 public class CreatePlayerMessage extends Message {
 
-    UUID identifier = UUID.randomUUID();
     private final TowerColor chosenTowerColor;
     private final DeckType chosenDeckType;
+    UUID identifier = UUID.randomUUID();
 
     public CreatePlayerMessage(String senderPlayer, TowerColor chosenTowerColor, DeckType chosenDeckType) {
         super(MessageType.PLAYER_CREATION, senderPlayer);

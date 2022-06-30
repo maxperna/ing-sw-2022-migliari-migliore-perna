@@ -4,8 +4,11 @@ import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 
-/**Message signaling the movement of a student into the dinner room
- * @author Massimo */
+/**
+ * Message notifying the movement of a student into the dinner room
+ *
+ * @author Massimo
+ */
 public class MovedStudentToBoard extends Message {
 
     private final Color movedStudent;

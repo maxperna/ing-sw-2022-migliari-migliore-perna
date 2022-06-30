@@ -5,16 +5,19 @@ import it.polimi.ingsw.network.messages.MessageType;
 
 import java.util.UUID;
 
+/**
+ * Message used to notify the chosen assistant card
+ */
 public class PlayAssistantMessage extends Message {
-    UUID identifier = UUID.randomUUID();
     private final int playedCard;
+    UUID identifier = UUID.randomUUID();
 
-    public PlayAssistantMessage(String senderPlayer, int playedCard){
-        super(MessageType.PLAY_ASSISTANT_CARD,senderPlayer);
+    public PlayAssistantMessage(String senderPlayer, int playedCard) {
+        super(MessageType.PLAY_ASSISTANT_CARD, senderPlayer);
         this.playedCard = playedCard;
     }
 
-    public int getPlayedCard(){
+    public int getPlayedCard() {
         return playedCard;
     }
 }

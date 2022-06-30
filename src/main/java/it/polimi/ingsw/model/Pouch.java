@@ -2,20 +2,27 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.NotEnoughStudentsException;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
 
 /**
  * Class Pouch, Singleton, contains 120 students at the beginning of the game, the only way to call a Pouch is to use getInstance
+ *
  * @author Alessio Migliore
  */
-public class Pouch {
-
+public class Pouch implements Serializable {
+    private static final int MAX_STUDENTS_PER_COLOR = 24;
     private final ArrayList<Color> students = new ArrayList<>();
+
+    /**
+     * Default constructor, automatically fills the pouch with the correct number of students
+     */
     public Pouch() {                                                                                                   //creates an instance of Pouch
 
-        for (int i = 0; i < 24; i++) {
+
+        for (int i = 0; i < MAX_STUDENTS_PER_COLOR; i++) {
             students.add(Color.RED);
             students.add(Color.BLUE);
             students.add(Color.YELLOW);
@@ -33,8 +40,8 @@ public class Pouch {
      * @return ArrayList of objects to be moved outside the pouch
      * @throws NotEnoughStudentsException there are less than the required elements in pouch
      */
-    public synchronized ArrayList<Color> randomDraw(int arrayListLength) throws NotEnoughStudentsException{
-        ArrayList<Color> studentsToBeMoved = new ArrayList <>();                                                        //new arrayList containing the number of students required
+    public synchronized ArrayList<Color> randomDraw(int arrayListLength) throws NotEnoughStudentsException {
+        ArrayList<Color> studentsToBeMoved = new ArrayList<>();                                                        //new arrayList containing the number of students required
 
         if (arrayListLength > students.size())                                                                          //checks that there are enough students in the pouch
             throw new NotEnoughStudentsException();
@@ -49,7 +56,8 @@ public class Pouch {
     }
 
     /**
-     * method used to add students to the pouch from an external source
+     * Method used to add students to the pouch from an external source
+     *
      * @param students is an arraylist containing the students that are going to be moved inside the pouch
      */
     public void addStudents(ArrayList<Color> students) {
@@ -57,6 +65,7 @@ public class Pouch {
     }
 
     /**
+     * Getter
      * @return the number of remaining students inside the pouch
      */
     public int remainingStudents() {

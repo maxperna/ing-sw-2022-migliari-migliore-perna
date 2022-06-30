@@ -8,21 +8,27 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-/**Class representing the virtual client on the server
- * @author Massimo*/
+/**
+ * Class representing the virtual client on the server
+ *
+ * @author Massimo
+ */
 public class ClientHandler implements Runnable {
     private final Socket clientSocket;
     private final Server_Socket serverSocket;
-
-    //IO STREAM
-    private ObjectOutputStream output;
-    private ObjectInputStream input;
     //STREAM LOCKER
     private final Object inputLock;
     private final Object outputLock;
-
+    //IO STREAM
+    private ObjectOutputStream output;
+    private ObjectInputStream input;
     private boolean connected;
 
+    /**
+     * Default constructor
+     * @param serverSocket is the socket used to communicate with the server
+     * @param clientSocket us the socket used to communicate wit the client
+     */
     public ClientHandler(Server_Socket serverSocket, Socket clientSocket) {
         this.serverSocket = serverSocket;
         this.clientSocket = clientSocket;
@@ -41,6 +47,9 @@ public class ClientHandler implements Runnable {
     }
 
 
+    /**
+     * Method used to start the thread
+     */
     @Override
     public void run() {
         try {
@@ -54,26 +63,27 @@ public class ClientHandler implements Runnable {
     /**
      * Client messages listening handler
      *
-     * @throws IOException if the are problem with the socket
+     * @throws IOException if there are problem with the socket
      */
     private void handleClientConnection() throws IOException {
 
         try {
             while (!Thread.currentThread().isInterrupted()) {
                 //Synchronization on the input
-                synchronized (inputLock) {
+                synchronized (this) {
                     Message receivedMessage = (Message) input.readObject();
                     if (receivedMessage.getType() == MessageType.LOGIN)
                         serverSocket.addClient(receivedMessage.getSenderPlayer(), this);
-//                  serverSocket.addClient(message.getNick,m.getColorTowe,m.getassistant,this);
                     else {
                         Server.LOGGER.info("Message received" + receivedMessage);
                         serverSocket.receiveMessage(receivedMessage);
                     }
                 }
             }
-        } catch (ClassNotFoundException | ClassCastException e) {
+        } catch (ClassNotFoundException e) {
             Server.LOGGER.severe("Client input not valid");
+        } catch (ClassCastException e) {
+            e.printStackTrace();
         }
         clientSocket.close();
     }
@@ -102,12 +112,13 @@ public class ClientHandler implements Runnable {
      */
     public void sendMessage(Message messageToSend) {
         try {
-            synchronized (outputLock){
+            synchronized (outputLock) {
                 output.writeObject(messageToSend);
                 output.reset();
                 Server.LOGGER.info("Message sent " + messageToSend);
             }
-        }catch(IOException e) {
+        } catch (IOException e) {
+            e.printStackTrace();
             Server.LOGGER.severe(e.getMessage());
             disconnect();
         }

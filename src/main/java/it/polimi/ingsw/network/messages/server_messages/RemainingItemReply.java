@@ -10,15 +10,15 @@ import java.util.UUID;
 
 /**
  * Class RemainingItemReply, the controller sends this message to all the players that are still not have been created.
- *  It contains a list of the remaining items.
+ * It contains a list of the remaining items.
+ *
  * @author Miglia
  */
 public class RemainingItemReply extends Message {
 
-    UUID identifier = UUID.randomUUID();
-
     private final ArrayList<TowerColor> remainingTowers;
     private final ArrayList<DeckType> reamingDecks;
+    UUID identifier = UUID.randomUUID();
 
     public RemainingItemReply(ArrayList<TowerColor> remainingTowers, ArrayList<DeckType> remainingDecks) {
         super(MessageType.REMAINING_ITEM, "Sono Beppe Sala");
@@ -35,10 +35,10 @@ public class RemainingItemReply extends Message {
     }
 
     public static class ExpertCardPlay extends Message {
-        UUID identifier = UUID.randomUUID();
         private final int expertToPlay;
+        UUID identifier = UUID.randomUUID();
 
-        public ExpertCardPlay(String user, int expertToPlay){
+        public ExpertCardPlay(String user, int expertToPlay) {
             super(MessageType.PLAY_EXPERT_CARD, user);
             this.expertToPlay = expertToPlay;
         }

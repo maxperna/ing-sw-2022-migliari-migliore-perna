@@ -1,10 +1,14 @@
 package it.polimi.ingsw.exceptions;
 
-public class EmptyCloudException extends Exception{
-    public EmptyCloudException(){
+/**
+ * Exception thrown when the chosen cloud tile is empty
+ */
+public class EmptyCloudException extends Exception {
+    public EmptyCloudException() {
         super();
     }
-    public EmptyCloudException(String message){
+
+    public EmptyCloudException(String message) {
         super(message);
     }
 }

@@ -4,10 +4,15 @@ import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 
+
+/**
+ * Message notifying the movement of a student to an island
+ */
 public class MovedStudentToIsland extends Message {
 
     private final Color movedStudent;
     private final int targetIsland;
+
     public MovedStudentToIsland(String senderPlayer, Color movedStudent, int targetIsland) {
         super(MessageType.MOVE_TO_ISLAND, senderPlayer);
 
@@ -19,5 +24,7 @@ public class MovedStudentToIsland extends Message {
         return movedStudent;
     }
 
-    public int getTargetIsland() { return targetIsland; }
+    public int getTargetIsland() {
+        return targetIsland;
+    }
 }

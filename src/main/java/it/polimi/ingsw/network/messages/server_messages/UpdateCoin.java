@@ -7,6 +7,7 @@ public class UpdateCoin extends Message {
 
     private final String nickName;
     private final int coinValue;
+
     public UpdateCoin(String nickName, int coinValue) {
         super(MessageType.UPDATE_COIN, "Server");
 

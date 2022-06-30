@@ -8,36 +8,48 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * Class Cloud Tile, one for each player, contains MAX 3 students
+ * Class Cloud Tile, one for each player, contains max 3 students
+ *
  * @author Alessio Migliore
  */
 public class CloudTile implements Serializable {
 
     private final int tileID;
-    private ArrayList<Color> students;
     final transient private PropertyChangeSupport support;
+    private ArrayList<Color> students;
 
     /**
-     * constructor
+     * Default constructor
      */
-    public CloudTile(int ID){
+    public CloudTile(int ID) {
         this.tileID = ID;
         this.students = new ArrayList<>();
         this.support = new PropertyChangeSupport(this);
     }
 
     /**
+     * Getter
      * @return an Arraylist of Color that represents students on the cloud
      */
-    public ArrayList<Color> getStudents(){
-            return students;
+    public ArrayList<Color> getStudents() {
+        return students;
     }
 
     /**
-     * @throws EmptyCloudException when there are no students on the cloud
+     * Method used to add 3 students to the cloud tile
+     * @param students are the students that will be moved to the cloud tile
      */
-    public synchronized ArrayList<Color> moveStudents() throws EmptyCloudException{
-        if(students.isEmpty())
+    public void setStudents(ArrayList<Color> students) {
+        this.students = students;
+    }
+
+    /**
+     * Method used to remove the students on a cloud tile
+     * @throws EmptyCloudException when there are no students on the cloud
+     * @return the students removed
+     */
+    public synchronized ArrayList<Color> moveStudents() throws EmptyCloudException {
+        if (students.isEmpty())
             throw new EmptyCloudException();
         else {
             ArrayList<Color> studentsReturned = new ArrayList<>(students);                      //creates an ArrayList in which all students are copied
@@ -47,20 +59,26 @@ public class CloudTile implements Serializable {
     }
 
     /**
-     * method that returns the ID of the cloud
+     * Method that returns the ID of the cloud
+     *
      * @return cloud ID
      */
-    public int getTileID (){
+    public int getTileID() {
         return this.tileID;
     }
 
-    public void setStudents(ArrayList<Color> students) {
-        this.students = students;
-    }
-
+    /**
+     * Method used to set a propertyChangeListener on this cloud
+     * @param listener is the listener that will notify all the changes
+     */
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         support.addPropertyChangeListener(listener);
     }
+
+    /**
+     * Method used to remove a listener
+     * @param listener listener to be removed
+     */
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         support.removePropertyChangeListener(listener);
     }

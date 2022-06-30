@@ -1,0 +1,71 @@
+.grid-pane{
+    -fx-background-image: url("../images/Plancia/Plancia_DEF.png") ;
+    -fx-background-position: center;
+    -fx-background-size: stretch;
+}
+
+.background{
+    -fx-background-color: '#69bbea';
+}
+
+
+.island-pane1{
+    -fx-background-image: url("../images/Scontornate/isola1.png");
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+.island-pane2{
+    -fx-background-image: url("../images/Scontornate/isola2.png");
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+.island-pane3{
+    -fx-background-image: url("../images/Scontornate/isola3.png");
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+#PINK{
+    -fx-background-image: url("../images/Scontornate/pink_stud.png");
+    -fx-background-size: auto 50px 48px;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+}
+#RED{
+    -fx-background-image: url("../images/Scontornate/red_stud.png");
+    -fx-background-size: auto 50px 48px;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+
+}
+#BLUE{
+    -fx-background-image: url("../images/Scontornate/blue_stud.png");
+    -fx-background-size: auto 50px 48px;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+}
+#YELLOW{
+    -fx-background-image: url("../images/Scontornate/yellow_stud.png");
+    -fx-background-size: auto 50px 48px;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+}
+#GREEN{
+    -fx-background-image: url("../images/Scontornate/green_stud.png");
+    -fx-background-size: auto 50px 48px;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+}
+
+#LABEL{
+    -fx-background-color: #ffffff;
+    -fx-alignment: center;
+}
+
+.cloud{
+    -fx-background-image: url("../images/Scontornate/cloud.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: auto;
+    -fx-background-position: center;
+}

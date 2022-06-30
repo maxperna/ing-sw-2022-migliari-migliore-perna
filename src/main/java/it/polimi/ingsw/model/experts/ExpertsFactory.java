@@ -6,45 +6,49 @@ import java.util.ArrayList;
 import java.util.Random;
 
 
-/**Factory singleton class for draw three assistant from the assistant cards deck, if three assistant are already been
+/**
+ * Factory singleton class for draw three assistant from the assistant cards deck, if three assistant are already been
  * called returns the three already generated
- * @author  Massimo
- * */
+ *
+ * @author Massimo
+ */
 public class ExpertsFactory {
 
-    private final Game currentGame;
     private static ExpertsFactory instance = null;
+    private final Game currentGame;
     ArrayList<ExpertCard> calledExpert;   //assistant already generated
 
-    private ExpertsFactory(Game currentGame){
+    private ExpertsFactory(Game currentGame) {
         this.currentGame = currentGame;
     }
 
-    public static ExpertsFactory createFactory(Game currentGame){
-        if(instance == null)
+    public static ExpertsFactory createFactory(Game currentGame) {
+        if (instance == null)
             instance = new ExpertsFactory(currentGame);
 
         return instance;
     }
-    /**Assistant card drawer to pick randomly three assistant cards generating three different random number from 0 to 11,
+
+    /**
+     * Assistant card drawer to pick randomly three assistant cards generating three different random number from 0 to 11,
      *
      * @return an array list of three ExpertCard
-     * */
-    private ArrayList<ExpertCard> generateExperts(){
+     */
+    private ArrayList<ExpertCard> generateExperts() {
 
         calledExpert = new ArrayList<>();
         ArrayList<Integer> numbersGenerated = new ArrayList<>();     //list containing numbers already generated
         Random randomGenerator = new Random();
-        for(int i=0;i<3;i++){
+        for (int i = 0; i < 3; i++) {
             int randomDraw;
-            do{
+            do {
                 randomDraw = randomGenerator.nextInt(12);
-            }while(numbersGenerated.contains(randomDraw));         //check if the number is not already in the list
+            } while (numbersGenerated.contains(randomDraw));         //check if the number is not already in the list
             numbersGenerated.add(randomDraw);
 
             ExpertCard generatedCard;
 
-            switch (randomDraw){
+            switch (randomDraw) {
                 case 0:
                     generatedCard = new Expert1(this.currentGame);
                     break;
@@ -90,13 +94,14 @@ public class ExpertsFactory {
         return calledExpert;
     }
 
-    /**Method to implements singleton
+    /**
+     * Method to implements singleton
+     *
      * @return a list of three ExpertCard or call the generator if it doesn't exist
-     * */
-    public ArrayList<ExpertCard> drawExperts(){
-        if(calledExpert == null){
+     */
+    public ArrayList<ExpertCard> drawExperts() {
+        if (calledExpert == null) {
             return generateExperts();
-        }
-        else return calledExpert;
+        } else return calledExpert;
     }
 }

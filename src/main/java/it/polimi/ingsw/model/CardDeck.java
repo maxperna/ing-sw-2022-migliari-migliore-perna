@@ -2,31 +2,36 @@ package it.polimi.ingsw.model;
 
 import com.google.gson.*;
 import it.polimi.ingsw.exceptions.EndGameException;
-import it.polimi.ingsw.exceptions.InexistentCard;
+import it.polimi.ingsw.exceptions.NonexistentCard;
 import org.jetbrains.annotations.TestOnly;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
-/**Method to create a deck complete of 10 assistants cards
+/**
+ * Class that contains initially 10 assistant cards
+ *
  * @author Massimo
  */
 
-public class CardDeck {
+public class CardDeck implements Serializable {
 
     private final DeckType deckCharacter;
     private final ArrayList<AssistantCard> deck;
     private AssistantCard lastAssistantCardUsed;
 
-    /**CardDeck constructor, parse the 10 cards on a JSON file using GSON library for parse JSON file
+    /**
+     * CardDeck constructor, parse the 10 cards on a JSON file using GSON library
+     *
      * @param deckCharacter character of the player deck
      */
     public CardDeck(DeckType deckCharacter) throws FileNotFoundException {
         this.deckCharacter = deckCharacter;
         this.deck = new ArrayList<>();
-        //Creating a gson desarialization object
+        //Creating a gson deserialization object
         Gson gson = new Gson();
 
         //JSON reader from file
@@ -40,38 +45,60 @@ public class CardDeck {
         //Getting JSON array of assistant
         JsonArray assistantsJSONArray = cardJSONObject.get("assistantProfile").getAsJsonArray();
 
-        for(JsonElement assistantJSONElement: assistantsJSONArray){
+        for (JsonElement assistantJSONElement : assistantsJSONArray) {
 
             //Getting the fields of the assistant one by one
             JsonObject assistantJSONObject = assistantJSONElement.getAsJsonObject();
             int assistantActionNumber = assistantJSONObject.get("actionNumber").getAsInt();
-            int assistantMNControl = assistantJSONObject.get("actionNumber").getAsInt();
-            String assistantFrontImage= assistantJSONObject.get("frontIMG").getAsString();
+            int assistantMNControl = assistantJSONObject.get("motherNatureControl").getAsInt();
+            String assistantFrontImage = assistantJSONObject.get("frontIMG").getAsString();
 
-            this.deck.add(new AssistantCard(assistantActionNumber,assistantMNControl,assistantFrontImage,backIMGPath, deckCharacter));
+            this.deck.add(new AssistantCard(assistantActionNumber, assistantMNControl, assistantFrontImage, backIMGPath, deckCharacter));
         }
     }
 
-    public void playCard(AssistantCard assistantCardPlayed) throws InexistentCard,EndGameException {
-        if(!deck.remove(assistantCardPlayed)){
-            if(deck.size()==0)
+    /**
+     * Method used to play an assistantCard
+     * @param assistantCardPlayed is the card played
+     * @throws NonexistentCard when the card is not available
+     * @throws EndGameException when there are no assistantCards left
+     */
+    public void playCard(AssistantCard assistantCardPlayed) throws NonexistentCard, EndGameException {
+        if (!deck.remove(assistantCardPlayed)) {
+            if (deck.size() == 0)
                 throw new EndGameException();
-            throw new InexistentCard();
+            throw new NonexistentCard();
         }
 
         lastAssistantCardUsed = assistantCardPlayed;
     }
 
-    public ArrayList<AssistantCard> getRemainingCards(){
+    /**
+     * Method used to get all the remaining cards
+     * @return the remaining cards
+     */
+    public ArrayList<AssistantCard> getRemainingCards() {
         return deck;
     }
 
-    public DeckType getDeckType(){
+    /**
+     * Method used to get the deckType
+     * @return the deckType
+     */
+    public DeckType getDeckType() {
         return this.deckCharacter;
     }
 
-    public AssistantCard getLastCard(){
+    /**
+     * Method used to get the last played card
+     * @return the last played card
+     */
+    public AssistantCard getLastCard() {
         return lastAssistantCardUsed;
+    }
+
+    public void setLastAssistantCardUsed(AssistantCard lastAssistantCardUsed) {
+        this.lastAssistantCardUsed = lastAssistantCardUsed;
     }
 
     @TestOnly
