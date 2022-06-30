@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.experts.Expert4;
 
 import java.util.*;
+import java.util.logging.Logger;
 
 /**
  * Class to handle all the logic inside a round such as the playing orders and to set the current active player
@@ -21,6 +22,9 @@ public class TurnLogic {
     private final Queue<Player> playersOrders;  //Players order is a FIFO structure(both for playing orders and action phase)
     private Player lastRoundFirstPlayer;       //first player to play last round, used to define the starting point of the round
     private String currentPhase;
+    private int studentsMoved;
+    private boolean motherNatureMoved;
+    private final int maxMovementsPossible;     //max num of students which can be moved
 
     /**
      * Default constructor
@@ -32,6 +36,10 @@ public class TurnLogic {
         this.playedCard = new HashMap<>();
         this.playersOrders = new LinkedList<>();
         this.currentPhase = "PREPARATION";       //Always start in preparation phase
+        if(currentGame.NUM_OF_PLAYERS == 3)
+            maxMovementsPossible = 4;
+        else
+            maxMovementsPossible =3;
     }
 
     /**
@@ -53,6 +61,7 @@ public class TurnLogic {
             e.printStackTrace();
             return null;
         }
+        resetCounters();
         return getActivePlayer();
     }
 
@@ -148,17 +157,10 @@ public class TurnLogic {
         playedCard.clear();
     }
 
-    public String getCurrentPhase() {
-        return currentPhase;
-    }
-
     public Player getActivePlayer() {
         return playersOrders.peek();
     }
 
-    public Queue<Player> getPlayersOrders() {
-        return playersOrders;
-    }
 
     public Map<Integer, Player> getCardsPlayed() {
         return cardsPlayedActionNum;
@@ -166,18 +168,7 @@ public class TurnLogic {
 
     //ACTION PHASE PART
 
-    /**
-     * Method used to move a student from the entryHall to the diningRoom of a given board
-     * @param player is the player that performs the action
-     * @param student is the student that will be moved
-     */
-    public void moveStudentOnBoard(Player player, Color student) {
-        try {
-            player.getBoard().moveEntryToDiningRoom(student);
-        } catch (NotOnBoardException | NotEnoughSpace e) {
-            throw new RuntimeException(e);
-        }
-    }
+
 
     /**
      * Method to move mother nature over the island list
@@ -203,14 +194,16 @@ public class TurnLogic {
 
     }
 
+    /**Method to move the students from chosen cloud to entry room of a player
+     * @param player player target of the students movement
+     * @param cloudID selected cloud to pick students from
+     * @throws EmptyCloudException if the cloud is empty
+     * @throws NotEnoughSpace if the entry room is already full
+     **/
+    public void chooseCloudTile(Player player, int cloudID) throws EmptyCloudException, NotEnoughSpace {
 
-    public void chooseCloudTile(Player player, int cloudID) {
-        try {
-            ArrayList<Color> pickedStudents = new ArrayList<>(currentGame.getCloudTiles().get(cloudID).getStudents());
-            player.getBoard().addStudentsEntryRoom(pickedStudents);
-        } catch (NotEnoughSpace e) {
-            e.printStackTrace();
-        }
+        ArrayList<Color> pickedStudents = new ArrayList<>(currentGame.getCloudTiles().get(cloudID).moveStudents());
+        player.getBoard().addStudentsEntryRoom(pickedStudents);
 
     }
 
@@ -278,6 +271,43 @@ public class TurnLogic {
         for (Player player : currentGame.getPlayersList()) {
             player.getDeck().setLastAssistantCardUsed(null);
         }
+    }
+
+    private void resetCounters() {
+        this.studentsMoved = 0;
+        this.motherNatureMoved = false;
+    }
+
+    public void studentMoved() {
+        studentsMoved ++;
+    }
+
+    public boolean allStudentMoved() {
+        if(studentsMoved == maxMovementsPossible)
+            return true;
+        else if(studentsMoved > maxMovementsPossible) {
+            Logger.getLogger("Pino").warning("Sono stati mossi 3+ studenti(4+ se 3 giocatori)");
+            return true;
+        }
+        else
+            return false;
+    }
+
+    public boolean isMotherNatureMoved() {
+        return motherNatureMoved;
+    }
+
+    public void MotherNatureMoved() {
+        if (!motherNatureMoved) {
+            motherNatureMoved = true;
+        }
+        else {
+            System.out.println("Hai giocato 2 volte madre natura");
+        }
+    }
+
+    public boolean isExpertPlayed() {
+        return currentGame.getActiveExpertCard() != null;
     }
 }
 

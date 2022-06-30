@@ -126,5 +126,7 @@ public enum MessageType {
 
     STUDENT_REPLY,
 
-    START_GAME
+    START_GAME,
+
+    AVAILABLE_ACTION
 }

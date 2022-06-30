@@ -85,12 +85,9 @@ public class VirtualView implements View {
 
     }
 
-    public void expertModeControl(boolean setExpertMode) {
-        clientHandler.sendMessage(new ExpertModeControlMessage(setExpertMode));
-    }
 
     @Override
-    public void playExpertChoice() {
+    public void moveMNplusExpert(boolean expertChoice) {
 
     }
 
@@ -150,7 +147,7 @@ public class VirtualView implements View {
     }
 
     @Override
-    public void ActionPhaseTurn(Boolean expert) {
+    public void actionPhaseTurn(Boolean expert) {
     }
 
 
@@ -200,7 +197,7 @@ public class VirtualView implements View {
     }
 
     @Override
-    public void chooseAction(boolean expertMode) {
+    public void chooseAction() {
     }
 
     @Override
@@ -216,11 +213,6 @@ public class VirtualView implements View {
     public void chooseCloudTile(int cloudID) {
     }
 
-
-    public void setExpertMode(boolean expertMode) {
-        clientHandler.sendMessage(new ExpertModeNotify(expertMode));
-    }
-
     @Override
     public void availableStudents(ArrayList<Color> availableStudents, MessageType movementType, int gameFieldSize) {
         clientHandler.sendMessage(new AvailableStudentsReply(availableStudents, movementType, gameFieldSize));
@@ -231,7 +223,13 @@ public class VirtualView implements View {
         clientHandler.sendMessage(new StartGameMessage());
     }
 
-    public void sendNumberOfPlayers(int num_of_players) {
+    @Override
+    public void availableAction(boolean allStudentsMoved, boolean motherNatureMoved, boolean expertPlayed) {
+        clientHandler.sendMessage(new AvailableActionMessage(allStudentsMoved, motherNatureMoved, expertPlayed));
+    }
+
+    public void sendNumberOfPlayers(int num_of_players, boolean expertMode) {
+        clientHandler.sendMessage(new NumberOfPlayersMessage(num_of_players, expertMode));
     }
 
     public void showInitPlayer(int numberOfTowers, ArrayList<Color> entranceHall) {

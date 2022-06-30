@@ -119,7 +119,7 @@ public interface View {
      * method used to manage the action phase
      * @param expert indicates if expert mode is on
      */
-    void ActionPhaseTurn(Boolean expert);
+    void actionPhaseTurn(Boolean expert);
 
     /**
      * Method used to handle the connection request
@@ -185,7 +185,7 @@ public interface View {
     /**
      * Method used to ask the player to choose between checking other boards or playing an assistant card
      */
-    void chooseAction(boolean expertMode);
+    void chooseAction();
 
     /**
      * Method used to ask the player the number of moves that mother nature will perform
@@ -233,9 +233,13 @@ public interface View {
     /**
      * Method used to ask the player if he wants to play an expert or move mother nature
      */
-    void playExpertChoice();
+    void moveMNplusExpert(boolean expertPlayed);
 
     void clear();
 
     void startGame();
+
+    void availableAction(boolean allStudentsMoved, boolean motherNatureMoved, boolean expertPlayed);
+
+    void sendNumberOfPlayers(int num_of_players, boolean expertMode);
 }
