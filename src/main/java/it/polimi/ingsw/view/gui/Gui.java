@@ -148,9 +148,6 @@ public class Gui extends ViewSubject implements View {
     /**Enable student movement*/
     @Override
     public void actionPhaseTurn(Boolean expertPlayed) {
-
-        ExpertCardSceneController excs = (ExpertCardSceneController) SceneController.popUpController;
-        excs.makeCardAvailable(!expertPlayed);
         PlayerViewController pwc = getPWC();
         Platform.runLater(()->pwc.switchStudentMovementStatus());
     }
@@ -220,9 +217,8 @@ public class Gui extends ViewSubject implements View {
 
 
     @Override
-    public void showExpertCards(ArrayList<ExpertCard> allExpertCards, int numberOfCoins) {
-        ExpertCardSceneController exsx = new ExpertCardSceneController(allExpertCards);
-        exsx.setExpertCards(allExpertCards);
+    public void showExpertCards(ArrayList<ExpertCard> allExpertCards,boolean expertPlayed, int numberOfCoins) {
+        ExpertCardSceneController exsx = new ExpertCardSceneController(allExpertCards,expertPlayed);
         Platform.runLater(()->SceneController.showNewStage(list,exsx, PopUpType.EXPERT, "ExpertsCardScene.fxml","Experts"));
     }
 
@@ -239,8 +235,6 @@ public class Gui extends ViewSubject implements View {
     @Override
     public void moveMNplusExpert(boolean expertPlayed) {
         PlayerViewController pwc = getPWC();
-        ExpertCardSceneController excs = (ExpertCardSceneController) SceneController.popUpController;
-        excs.makeCardAvailable(!expertPlayed);
         Platform.runLater(pwc::switchMNStatus);
     }
 

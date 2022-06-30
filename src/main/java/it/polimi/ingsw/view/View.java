@@ -215,7 +215,7 @@ public interface View {
      * @param allExpertCards all 3 expert cards available
      * @param numberOfCoins is the number of available coins
      */
-    void showExpertCards(ArrayList<ExpertCard> allExpertCards, int numberOfCoins);
+    void showExpertCards(ArrayList<ExpertCard> allExpertCards,boolean expertPlayed ,int numberOfCoins);
 
     /**
      * Method used to ask the player to choose a student based on a list of available students

@@ -82,6 +82,7 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
         generateGameField();
         switchStudentMovementStatus();
         switchCloudStatus();
+        playExpertButton.setDisable(true);
 
         diningRoom.addEventHandler(MouseEvent.MOUSE_CLICKED,this::moveStudentBoard);
         for(Node node : buttonVBox.getChildren())
@@ -107,7 +108,7 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
         playCardButton.setDisable(false);
         showBoardsButton.setDisable(false);
 
-        if(!expertMode)
+        if(expertMode)
             playExpertButton.setDisable(false);
 
     }
@@ -198,7 +199,7 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
     /**Method to update the game info due to a world change message, updating gamefield and boards*/
     public void updateGameField(Map<Integer, IslandNode> gameFieldMap, ArrayList<CloudTile> chargedClouds, Board board, String currentPlayer,ArrayList<ExpertCard> experts, int numOfCoins){
         currentPlayerLabel.setText(currentPlayer);
-        if(experts!=null) {
+        if(experts.size()>0) {
             numOfCoinLabel.setText(Integer.toString(numOfCoins));
             expertMode = true;
         }

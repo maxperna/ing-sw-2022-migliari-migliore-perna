@@ -676,7 +676,7 @@ public class Cli extends ViewSubject implements View {
      * Method used to print the description of each expert card
      */
     @Override
-    public void showExpertCards(ArrayList<ExpertCard> allExpertCards, int numberOfCoins) {
+    public void showExpertCards(ArrayList<ExpertCard> allExpertCards,boolean expertPlayed, int numberOfCoins) {
         int index = 1;
 
         for (ExpertCard expert : allExpertCards) {
@@ -1131,7 +1131,7 @@ public class Cli extends ViewSubject implements View {
         showGameField(gameFieldMap);
         showClouds(chargedClouds);
         printBoard(boardMap.get(nick), nick);
-        showExpertCards(experts, numOfCoins);
+        showExpertCards(experts, true,numOfCoins);
     }
 
 

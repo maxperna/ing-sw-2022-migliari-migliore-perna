@@ -521,7 +521,7 @@ public class ClientController implements ViewListener, Listener {
     @Override
     public void guiExpertShow(ArrayList<ExpertCard> expertCards,boolean expertPlayed){
         Gui gui = (Gui) view;
-        gui.showExpertCards(expertCards,0);
+        gui.showExpertCards(expertCards,expertPlayed,0);
     }
 
     private void setBooleanControl(boolean allStudentsMoved, boolean motherNatureMoved, boolean expertPlayed) {

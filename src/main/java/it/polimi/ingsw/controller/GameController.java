@@ -495,7 +495,7 @@ public class GameController implements PropertyChangeListener {
         }
 
         if (messageReceived.getType() == EXPERT_CARD_REQ) {
-            viewMap.get(senderPlayer).showExpertCards(game.getExpertsCard(), game.getPlayerByNickName(senderPlayer).getNumOfCoin());
+            viewMap.get(senderPlayer).showExpertCards(game.getExpertsCard(),true,game.getPlayerByNickName(senderPlayer).getNumOfCoin());
         }
 
     }

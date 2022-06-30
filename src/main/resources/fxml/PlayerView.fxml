@@ -255,7 +255,7 @@
                         </AnchorPane>
                         <AnchorPane id="TowerSpace" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
                            <children>
-                              <Label layoutX="72.0" layoutY="5.0" text="0" visible="false" />
+                              <Label layoutX="72.0" layoutY="5.0" style="-fx-background-color: white;" text="0" visible="false" />
                            </children></AnchorPane>
                      </children>
                   </GridPane>

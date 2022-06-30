@@ -76,7 +76,7 @@ public class VirtualView implements View {
     }
 
     @Override
-    public void showExpertCards(ArrayList<ExpertCard> expertList, int numberOfCoins) {
+    public void showExpertCards(ArrayList<ExpertCard> expertList,boolean expertPlayed, int numberOfCoins) {
         clientHandler.sendMessage(new ExpertCardReply(expertList, numberOfCoins));
     }
 
