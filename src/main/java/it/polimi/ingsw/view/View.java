@@ -233,7 +233,7 @@ public interface View {
     /**
      * Method used to ask the player if he wants to play an expert or move mother nature
      */
-    void playExpertChoice(boolean expertPlayed);
+    void moveMNplusExpert(boolean expertPlayed);
 
     void clear();
 

@@ -87,7 +87,7 @@ public class VirtualView implements View {
 
 
     @Override
-    public void playExpertChoice(boolean expertChoice) {
+    public void moveMNplusExpert(boolean expertChoice) {
 
     }
 
