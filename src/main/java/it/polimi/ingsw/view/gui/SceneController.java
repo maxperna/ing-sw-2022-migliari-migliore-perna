@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.gui;
 import it.polimi.ingsw.observer.ViewListener;
 import it.polimi.ingsw.observer.ViewSubject;
 import it.polimi.ingsw.view.gui.scenes.GenericSceneController;
+import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -132,6 +133,19 @@ public class SceneController extends ViewSubject {
 
     public static void showMessage(Alert.AlertType alertType, String message) {
         Alert alert = new Alert(alertType, message);
+        Thread thread = new Thread(() -> {
+            try {
+                // Wait for 0.5 secs
+                Thread.sleep(500);
+                if (alert.isShowing()) {
+                    Platform.runLater(alert::close);
+                }
+            } catch (Exception exp) {
+                exp.printStackTrace();
+            }
+        });
+        thread.setDaemon(true);
+        thread.start();
         alert.showAndWait();
     }
 

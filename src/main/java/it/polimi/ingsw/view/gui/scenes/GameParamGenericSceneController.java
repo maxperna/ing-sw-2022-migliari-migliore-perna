@@ -58,7 +58,7 @@ public class GameParamGenericSceneController extends ViewSubject implements Gene
         numOfPlayers.setDisable(true);
         new Thread(() -> notifyListener(l -> l.sendGameParam(playersNum, expMode))).start();
 
-        Platform.runLater(() -> SceneController.showNewStage(list, new VeryImportantController(), PopUpType.DEFAULT, "VeryImportantPopUPp.fxml"));
+        Platform.runLater(() -> SceneController.changeRoot(list, new VeryImportantController(),"VeryImportantPopUPp.fxml"));
     }
 
     @Override
