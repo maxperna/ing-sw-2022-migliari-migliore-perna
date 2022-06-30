@@ -131,56 +131,56 @@ public interface View {
      * @param cardID is the id [0,1,2] of the card
      * @param expert is the expert card played
      */
-    void playExpertType2(int cardID, Expert9 expert);
+    void playExpert9(int cardID, Expert9 expert);
 
     /**
      * Method used to ask the player all the parameters required to play expert 11
      * @param cardID is the id [0,1,2] of the card
      * @param expert is the expert card played
      */
-    void playExpertType2(int cardID, Expert11 expert);
+    void playExpert11(int cardID, Expert11 expert);
 
     /**
      * Method used to ask the player all the parameters required to play expert 12
      * @param cardID is the id [0,1,2] of the card
      * @param expert is the expert card played
      */
-    void playExpertType2(int cardID, Expert12 expert);
+    void playExpert12(int cardID, Expert12 expert);
 
     /**
      * Method used to ask the player all the parameters required to play expert 7
      * @param cardID is the id [0,1,2] of the card
      * @param expert is the expert card played
      */
-    void playExpertType3(int cardID, Expert7 expert);
+    void playExpert7(int cardID, Expert7 expert);
 
     /**
      * Method used to ask the player all the parameters required to play expert 10
      * @param cardID is the id [0,1,2] of the card
      * @param expert is the expert card played
      */
-    void playExpertType3(int cardID, Expert10 expert);
+    void playExpert10(int cardID, Expert10 expert);
 
     /**
      * Method used to ask the player all the parameters required to play expert 3
      * @param cardID is the id [0,1,2] of the card
      * @param expert is the expert card played
      */
-    void playExpertType4(int cardID, Expert3 expert);
+    void playExpert3(int cardID, Expert3 expert);
 
     /**
      * Method used to ask the player all the parameters required to play expert 1
      * @param cardID is the id [0,1,2] of the card
      * @param expert is the expert card played
      */
-    void playExpertType5(int cardID, Expert1 expert);
+    void playExpert1(int cardID, Expert1 expert);
 
     /**
      * Method used to ask the player all the parameters required to play expert 5
      * @param cardID is the id [0,1,2] of the card
      * @param expert is the expert card played
      */
-    void playExpertType5(int cardID, Expert5 expert);
+    void playExpert5(int cardID, Expert5 expert);
 
     /**
      * Method used to ask the player to choose between checking other boards or playing an assistant card

@@ -54,7 +54,7 @@ public class ClientController implements ViewListener, Listener {
         this.view = view;
         this.actionQueue = Executors.newSingleThreadExecutor();
         this.phase = GameState.PREPARATION_PHASE;
-        this.expertPlayed = false;
+        this.expertPlayed = true;
         this.studentsMoved = false;
         this.movedMN = false;
         this.endTurn = false;
@@ -97,8 +97,6 @@ public class ClientController implements ViewListener, Listener {
     @Override
     public void sendGameParam(int numOfPlayers, boolean expertMode) {
         this.expertMode = expertMode;
-        if(!expertMode)
-            expertPlayed=true;
         client.sendMessage(new GameParamMessage(this.nickname, numOfPlayers, expertMode));
     }
 
@@ -278,30 +276,30 @@ public class ClientController implements ViewListener, Listener {
                 break;
             case COLOR: {
                 if (expertCardsOnField.get(cardID) instanceof Expert9)
-                    view.playExpertType2(cardID, (Expert9) expertCardsOnField.get(cardID));
+                    actionQueue.execute(()->view.playExpert9(cardID, (Expert9) expertCardsOnField.get(cardID)));
                 else if (expertCardsOnField.get(cardID) instanceof Expert11)
-                    view.playExpertType2(cardID, (Expert11) expertCardsOnField.get(cardID));
+                    actionQueue.execute(()->view.playExpert11(cardID, (Expert11) expertCardsOnField.get(cardID)));
                 else if (expertCardsOnField.get(cardID) instanceof Expert12)
-                    view.playExpertType2(cardID, (Expert12) expertCardsOnField.get(cardID));
+                    actionQueue.execute(()->view.playExpert12(cardID, (Expert12) expertCardsOnField.get(cardID)));
             }
             break;
             case TWO_LIST_COLOR: {
                 if (expertCardsOnField.get(cardID) instanceof Expert7)
-                    view.playExpertType3(cardID, (Expert7) expertCardsOnField.get(cardID));
+                    actionQueue.execute(()->view.playExpert7(cardID, (Expert7) expertCardsOnField.get(cardID)));
                 else if (expertCardsOnField.get(cardID) instanceof Expert10)
-                    view.playExpertType3(cardID, (Expert10) expertCardsOnField.get(cardID));
+                    actionQueue.execute(()->view.playExpert10(cardID, (Expert10) expertCardsOnField.get(cardID)));
             }
             break;
             case NODE_ID_COLOR: {
                 if (expertCardsOnField.get(cardID) instanceof Expert1)
-                    view.playExpertType5(cardID, (Expert1) expertCardsOnField.get(cardID));
+                    actionQueue.execute(()->view.playExpert1(cardID, (Expert1) expertCardsOnField.get(cardID)));
             }
             break;
             case NODE_ID: {
                 if (expertCardsOnField.get(cardID) instanceof Expert3)
-                    view.playExpertType4(cardID, (Expert3) expertCardsOnField.get(cardID));
+                    actionQueue.execute(()->view.playExpert3(cardID, (Expert3) expertCardsOnField.get(cardID)));
                 else if (expertCardsOnField.get(cardID) instanceof Expert5)
-                    view.playExpertType5(cardID, (Expert5) expertCardsOnField.get(cardID));
+                    actionQueue.execute(()->view.playExpert5(cardID, (Expert5) expertCardsOnField.get(cardID)));
             }
             break;
         }
@@ -530,7 +528,10 @@ public class ClientController implements ViewListener, Listener {
     private void setBooleanControl(boolean allStudentsMoved, boolean motherNatureMoved, boolean expertPlayed) {
         this.studentsMoved = allStudentsMoved;
         this.movedMN = motherNatureMoved;
-        this.expertPlayed = expertPlayed;
+        if(expertMode)
+            this.expertPlayed = expertPlayed;
+        else
+            this.expertPlayed = true;
     }
 
 }

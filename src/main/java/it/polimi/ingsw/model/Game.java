@@ -264,12 +264,13 @@ public class Game implements Serializable {
                         maxInfluencePlayer = player;
                 }
             }
-            islandToCheck.setMostInfluencePlayer(maxInfluencePlayer);
 
             if (!maxInfluencePlayer.getTowerColor().equals(islandToCheck.getTowerColor())) {
                 //Set new most influence tower
-                islandToCheck.getMostInfluencePlayer().getBoard().addTower();
+                if(!islandToCheck.getTowerColor().equals(TowerColor.EMPTY))
+                    islandToCheck.getMostInfluencePlayer().getBoard().addTower();
                 //Set towers
+                islandToCheck.setMostInfluencePlayer(maxInfluencePlayer);
                 islandToCheck.setTower();
                 gameField.checkTowersForMerge(nodeID);
             } else if (islandToCheck.getNumberOfTowers() == 0)

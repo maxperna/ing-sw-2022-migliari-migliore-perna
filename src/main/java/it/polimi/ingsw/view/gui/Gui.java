@@ -159,42 +159,42 @@ public class Gui extends ViewSubject implements View {
 
 
     @Override
-    public void playExpertType2(int cardID, Expert9 expert) {
+    public void playExpert9(int cardID, Expert9 expert) {
 
     }
 
     @Override
-    public void playExpertType2(int cardID, Expert11 expert) {
+    public void playExpert11(int cardID, Expert11 expert) {
 
     }
 
     @Override
-    public void playExpertType2(int cardID, Expert12 expert) {
+    public void playExpert12(int cardID, Expert12 expert) {
 
     }
 
     @Override
-    public void playExpertType3(int cardID, Expert7 expert) {
+    public void playExpert7(int cardID, Expert7 expert) {
 
     }
 
     @Override
-    public void playExpertType3(int cardID, Expert10 expert) {
+    public void playExpert10(int cardID, Expert10 expert) {
 
     }
 
     @Override
-    public void playExpertType4(int cardID, Expert3 expert) {
+    public void playExpert3(int cardID, Expert3 expert) {
 
     }
 
     @Override
-    public void playExpertType5(int cardID, Expert1 expert) {
+    public void playExpert1(int cardID, Expert1 expert) {
 
     }
 
     @Override
-    public void playExpertType5(int cardID, Expert5 expert) {
+    public void playExpert5(int cardID, Expert5 expert) {
 
     }
 
