@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.experts.Expert4;
 
 import java.util.*;
+import java.util.logging.Logger;
 
 /**
  * Class to handle all the logic inside a round such as the playing orders and to set the current active player
@@ -288,11 +289,19 @@ public class TurnLogic {
         this.motherNatureMoved = false;
     }
 
+    public void studentMoved() {
+        studentsMoved ++;
+    }
+
     public boolean allStudentMoved() {
         if(studentsMoved == 3)
             return true;
-        studentsMoved ++;
-        return false;
+        else if(studentsMoved > 3) {
+            Logger.getLogger("Pino").warning("Sono stati mossi 3+ studenti");
+            return true;
+        }
+        else
+            return false;
     }
     public int getStudentsMoved() {
         return studentsMoved;

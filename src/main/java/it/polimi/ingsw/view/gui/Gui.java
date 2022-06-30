@@ -143,7 +143,7 @@ public class Gui extends ViewSubject implements View {
 
     /**Enable student movement*/
     @Override
-    public void ActionPhaseTurn(Boolean bool) {
+    public void actionPhaseTurn(Boolean bool) {
         PlayerViewController pwc = getPWC();
         Platform.runLater(()->pwc.switchStudentMovement());
     }

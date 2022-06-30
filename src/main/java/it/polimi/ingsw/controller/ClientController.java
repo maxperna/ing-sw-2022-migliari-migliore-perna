@@ -15,7 +15,6 @@ import it.polimi.ingsw.network.messages.server_messages.*;
 import it.polimi.ingsw.observer.Listener;
 import it.polimi.ingsw.observer.ViewListener;
 import it.polimi.ingsw.view.View;
-import it.polimi.ingsw.view.cli.Cli;
 import it.polimi.ingsw.view.gui.Gui;
 
 import java.io.IOException;
@@ -44,7 +43,6 @@ public class ClientController implements ViewListener, Listener {
     private boolean studentsMoved;
     private boolean movedMN;
     private boolean endTurn;
-
     private int numOfPlayers;
 
     /**
@@ -353,7 +351,7 @@ public class ClientController implements ViewListener, Listener {
                         studentsMoved = false;
                         movedMN = false;
                         endTurn = false;
-                        actionQueue.execute(() -> view.ActionPhaseTurn(expert_mode));
+                        actionQueue.execute(() -> view.actionPhaseTurn(expert_mode));
                         break;
 
                 }
@@ -431,10 +429,10 @@ public class ClientController implements ViewListener, Listener {
                 }
                 //Action phase error handling
                 if (error.getTypeError() == STUDENT_ERROR) {
-                    actionQueue.execute(() -> view.ActionPhaseTurn(expert_mode));
+                    actionQueue.execute(() -> view.actionPhaseTurn(expert_mode));
                 }
                 if (error.getTypeError() == ASSISTANT_ERROR) {
-                    requestAssistants();
+                    actionQueue.execute(this::requestAssistants);
                 }
                 if (error.getTypeError() == MOTHER_NATURE_ERROR) {
                     endTurn = false;
@@ -446,7 +444,6 @@ public class ClientController implements ViewListener, Listener {
                     actionQueue.execute(this::cloudsRequest);
                 }
                 if (error.getTypeError() == EXPERT_ERROR) {
-                    expert_mode = true;
                     actionQueue.execute(this::getExpertsCard);
                 }
 
@@ -454,23 +451,6 @@ public class ClientController implements ViewListener, Listener {
             case WORLD_CHANGE:
                 WorldChangeMessage worldChange = (WorldChangeMessage) receivedMessage;
                 actionQueue.execute(() -> view.worldUpdate(worldChange.getGameFieldMap(), worldChange.getChargedClouds(), worldChange.getBoardMap(),nickname, worldChange.getCurrentPlayer(), worldChange.getExperts(), worldChange.getNumOfCoins()));
-                if (phase.equals(GameState.ACTION_PHASE) && worldChange.getCurrentPlayer().equals(nickname)) {
-                    if (!studentsMoved) {
-                        actionQueue.execute(() -> view.ActionPhaseTurn(expert_mode));  //still in action phase
-                    } else if (!endTurn) {         //finished students moves
-                        if (expert_mode) {                       //possibility of play expert card after students moves
-                            actionQueue.execute(((Cli) view)::playExpertChoice);
-                            expert_mode = false;
-                        }
-                        else if(!movedMN){
-                            actionQueue.execute(view::moveMotherNature);
-                        }
-                    } else if (movedMN) {
-                        endTurn = false;
-                        actionQueue.execute(() -> view.chooseCloudTile(worldChange.getChargedClouds().size()));
-                        actionQueue.execute(() -> view.showGenericMessage("Turn ended, waiting for other players"));
-                    }
-                }
                 break;
             case GAME_PARAM:
                 ExpertModeNotify expert = (ExpertModeNotify) receivedMessage;
@@ -479,6 +459,15 @@ public class ClientController implements ViewListener, Listener {
             case AVAILABLE_ACTION:
                 AvailableActionMessage availableActionMessage = (AvailableActionMessage) receivedMessage;
                 setBooleanControl(availableActionMessage.areAllStudentsMoved(), availableActionMessage.isMotherNatureMoved(), availableActionMessage.isExpertPlayed());
+                if(!studentsMoved){
+                    actionQueue.execute(() -> view.actionPhaseTurn(expert_mode));
+                }
+                else if(!movedMN){
+                    actionQueue.execute(()-> view.moveMotherNature());
+                }
+                else {
+                    actionQueue.execute(() -> view.chooseCloudTile(numOfPlayers));
+                }
         }
     }
 
@@ -535,7 +524,7 @@ public class ClientController implements ViewListener, Listener {
      */
     public void askAction(Boolean expert_mode) {
         if (!studentsMoved)
-            actionQueue.execute(()->view.ActionPhaseTurn(expert_mode));
+            actionQueue.execute(()->view.actionPhaseTurn(expert_mode));
         else
             actionQueue.execute(()->view.playExpertChoice());
     }

@@ -1006,7 +1006,7 @@ public class Cli extends ViewSubject implements View {
      * @param expert is a boolean that is used to eventually play the expert card
      */
     @Override
-    public void ActionPhaseTurn(Boolean expert) {
+    public void actionPhaseTurn(Boolean expert) {
         int choice = 0;
         boolean valid = false;
 
