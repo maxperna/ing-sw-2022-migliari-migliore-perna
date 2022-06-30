@@ -17,13 +17,13 @@ public class IntHolder implements Serializable {
     }
 
     public void decreaseValue() throws EndGameException {
-        if(value < 0)
-            throw new IllegalStateException("Valore torri Negativo");
-
         value --;
 
         if(value == 0)
             throw new EndGameException();
+
+        if(value < 0)
+            throw new IllegalStateException("Valore torri Negativo");
     }
 
     public int getValue() {

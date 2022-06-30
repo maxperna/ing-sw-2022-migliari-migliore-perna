@@ -1,11 +1,9 @@
 package it.polimi.ingsw.view.gui;
 
-import com.sun.tools.javac.Main;
 import it.polimi.ingsw.observer.ViewListener;
 import it.polimi.ingsw.observer.ViewSubject;
 import it.polimi.ingsw.view.gui.scenes.GenericSceneController;
 import javafx.application.Platform;
-import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -14,7 +12,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import java.io.File;
@@ -22,13 +19,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 public class SceneController extends ViewSubject {
     public static Scene currentScene;
     public static GenericSceneController currentController;
     public static GenericSceneController popUpController;
     public static GenericSceneController expertController;
+
+    public static Scene currentPopUpScene;
 
     public static void changeRoot(List<ViewListener> observerList, GenericSceneController controller, String FXML_path) {
 
@@ -74,7 +72,7 @@ public class SceneController extends ViewSubject {
 
     }
 
-    public static void showNewStage(List<ViewListener> observerList, GenericSceneController controller, PopUpType type, String FXML_path, String title) {
+    public static void showNewPopUp(List<ViewListener> observerList, GenericSceneController controller, PopUpType type, String FXML_path, String title) {
 
         FXMLLoader loader = new FXMLLoader();
 
@@ -98,6 +96,7 @@ public class SceneController extends ViewSubject {
             stage.setScene(scene);
             stage.setAlwaysOnTop(true);
             stage.setResizable(true);
+            currentPopUpScene = scene;
             stage.show();
 
 
@@ -107,7 +106,7 @@ public class SceneController extends ViewSubject {
 
     }
 
-    public static void showNewStage(List<ViewListener> observerList, GenericSceneController controller, PopUpType type, String FXML_path) {
+    public static void showNewPopUp(List<ViewListener> observerList, GenericSceneController controller, PopUpType type, String FXML_path) {
 
         FXMLLoader loader = new FXMLLoader();
 
@@ -130,6 +129,7 @@ public class SceneController extends ViewSubject {
             stage.setScene(scene);
             stage.setAlwaysOnTop(true);
             stage.setResizable(false);
+            currentPopUpScene = scene;
             stage.show();
 
 
@@ -139,12 +139,50 @@ public class SceneController extends ViewSubject {
 
     }
 
+    public static void changePopUpRoot(List<ViewListener> observerList, GenericSceneController controller, String FXML_path) {
+
+        FXMLLoader loader = new FXMLLoader();
+
+        try {
+            loader.setLocation(SceneController.class.getResource("/fxml/" + FXML_path));
+
+            ((ViewSubject) controller).addAllListeners(observerList);
+            loader.setController(controller);
+            Parent newRoot = loader.load();
+            popUpController = controller;
+            currentPopUpScene.setRoot(newRoot);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void changePopUpRoot(List<ViewListener> observerList, String FXML_path) {
+
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(SceneController.class.getResource("/fxml/" + FXML_path));
+
+        try {
+            ((ViewSubject) popUpController).addAllListeners(observerList);
+            loader.setController(popUpController);
+            Parent newRoot = loader.load();
+
+
+            currentPopUpScene.setRoot(newRoot);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
     public static void showMessage(Alert.AlertType alertType, String message) {
         Alert alert = new Alert(alertType, message);
         Thread thread = new Thread(() -> {
             try {
-                // Wait for 0.5 secs
-                Thread.sleep(500);
+                // Wait for 1 sec
+                Thread.sleep(1000);
                 if (alert.isShowing()) {
                     Platform.runLater(alert::close);
                 }
