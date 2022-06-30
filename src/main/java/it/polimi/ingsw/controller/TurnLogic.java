@@ -21,6 +21,8 @@ public class TurnLogic {
     private final Queue<Player> playersOrders;  //Players order is a FIFO structure(both for playing orders and action phase)
     private Player lastRoundFirstPlayer;       //first player to play last round, used to define the starting point of the round
     private String currentPhase;
+    private int studentsMoved;
+    private boolean motherNatureMoved;
 
     /**
      * Default constructor
@@ -53,6 +55,7 @@ public class TurnLogic {
             e.printStackTrace();
             return null;
         }
+        resetCounters();
         return getActivePlayer();
     }
 
@@ -278,6 +281,38 @@ public class TurnLogic {
         for (Player player : currentGame.getPlayersList()) {
             player.getDeck().setLastAssistantCardUsed(null);
         }
+    }
+
+    private void resetCounters() {
+        this.studentsMoved = 0;
+        this.motherNatureMoved = false;
+    }
+
+    public boolean allStudentMoved() {
+        if(studentsMoved == 3)
+            return true;
+        studentsMoved ++;
+        return false;
+    }
+    public int getStudentsMoved() {
+        return studentsMoved;
+    }
+
+    public boolean isMotherNatureMoved() {
+        return motherNatureMoved;
+    }
+
+    public void MotherNatureMoved() {
+        if (!motherNatureMoved) {
+            motherNatureMoved = true;
+        }
+        else {
+            System.out.println("Hai giocato 2 volte madre natura");
+        }
+    }
+
+    public boolean isExpertPlayed() {
+        return currentGame.getActiveExpertCard() != null;
     }
 }
 

@@ -238,4 +238,6 @@ public interface View {
     void clear();
 
     void startGame();
+
+    void availableAction(boolean allStudentsMoved, boolean motherNatureMoved, boolean expertPlayed);
 }

@@ -1106,6 +1106,11 @@ public class Cli extends ViewSubject implements View {
         System.out.println("GAME STARTED!!");
     }
 
+    @Override
+    public void availableAction(boolean allStudentsMoved, boolean motherNatureMoved, boolean expertPlayed) {
+
+    }
+
     /**
      * Method used to generate the default layout
      * @param gameFieldMap is a map containing the islands

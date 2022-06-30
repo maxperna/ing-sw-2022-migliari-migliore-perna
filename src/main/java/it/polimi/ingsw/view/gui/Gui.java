@@ -50,6 +50,11 @@ public class Gui extends ViewSubject implements View {
     }
 
     @Override
+    public void availableAction(boolean allStudentsMoved, boolean motherNatureMoved, boolean expertPlayed) {
+
+    }
+
+    @Override
     public void showGameField(Map<Integer, IslandNode> gameFieldMap) {
         PlayerViewController pwc = getPWC();
         Platform.runLater(() -> pwc.populateIslands(gameFieldMap));

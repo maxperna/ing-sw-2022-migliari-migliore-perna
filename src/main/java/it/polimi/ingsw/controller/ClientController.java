@@ -40,9 +40,8 @@ public class ClientController implements ViewListener, Listener {
     private final ExecutorService actionQueue;
     private GameState phase;
     private ArrayList<ExpertCard> expertCardsOnField = new ArrayList<>();
-    private int actionCounter;
     private boolean expert_mode;
-    private int studentsMoved;
+    private boolean studentsMoved;
     private boolean movedMN;
     private boolean endTurn;
 
@@ -57,7 +56,7 @@ public class ClientController implements ViewListener, Listener {
         this.actionQueue = Executors.newSingleThreadExecutor();
         this.phase = GameState.PREPARATION_PHASE;
         this.expert_mode = false;
-        this.studentsMoved = 0;
+        this.studentsMoved = false;
         this.movedMN = false;
         this.endTurn = false;
     }
@@ -129,8 +128,6 @@ public class ClientController implements ViewListener, Listener {
      */
     @Override
     public void moveStudentToIsland(Color student, int nodeID) {
-        decreaseActionCounter();
-        studentsMoved++;
         client.sendMessage(new MovedStudentToIsland(nickname, student, nodeID));
     }
 
@@ -153,8 +150,6 @@ public class ClientController implements ViewListener, Listener {
      */
     @Override
     public void moveStudentToDinner(Color student) {
-        decreaseActionCounter();
-        studentsMoved++;
         client.sendMessage(new MovedStudentToBoard(nickname, student));
     }
 
@@ -182,11 +177,8 @@ public class ClientController implements ViewListener, Listener {
      */
     @Override
     public void moveMotherNature(int numberOfSteps) {
-        movedMN = true;     //set the movement of MN
         endTurn = true;
         client.sendMessage(new MoveMotherNatureMessage(nickname, numberOfSteps));
-
-
     }
 
     /**
@@ -357,7 +349,7 @@ public class ClientController implements ViewListener, Listener {
                         break;
                     case ACTION_PHASE:
                         phase = GameState.ACTION_PHASE;
-                        actionCounter = resetCounter();
+
 
                         endTurn = false;
                         actionQueue.execute(() -> view.ActionPhaseTurn(expert_mode));
@@ -438,14 +430,12 @@ public class ClientController implements ViewListener, Listener {
                 }
                 //Action phase error handling
                 if (error.getTypeError() == STUDENT_ERROR) {
-                    actionCounter++;
                     actionQueue.execute(() -> view.ActionPhaseTurn(expert_mode));
                 }
                 if (error.getTypeError() == ASSISTANT_ERROR) {
                     requestAssistants();
                 }
                 if (error.getTypeError() == MOTHER_NATURE_ERROR) {
-                    movedMN = false;
                     endTurn = false;
                     actionQueue.execute(view::moveMotherNature);
 
@@ -464,9 +454,9 @@ public class ClientController implements ViewListener, Listener {
                 WorldChangeMessage worldChange = (WorldChangeMessage) receivedMessage;
                 actionQueue.execute(() -> view.worldUpdate(worldChange.getGameFieldMap(), worldChange.getChargedClouds(), worldChange.getBoardMap(),nickname, worldChange.getCurrentPlayer(), worldChange.getExperts(), worldChange.getNumOfCoins()));
                 if (phase.equals(GameState.ACTION_PHASE) && worldChange.getCurrentPlayer().equals(nickname)) {
-                    if (actionCounter > 0) {
+                    if (!studentsMoved) {
                         actionQueue.execute(() -> view.ActionPhaseTurn(expert_mode));  //still in action phase
-                    } else if (actionCounter == 0 && !endTurn) {         //finished students moves
+                    } else if (studentsMoved && !endTurn) {         //finished students moves
 
                         if (expert_mode) {                       //possibility of play expert card after students moves
                             actionQueue.execute(((Cli) view)::playExpertChoice);
@@ -479,14 +469,16 @@ public class ClientController implements ViewListener, Listener {
                         endTurn = false;
                         actionQueue.execute(() -> view.chooseCloudTile(worldChange.getChargedClouds().size()));
                         actionQueue.execute(() -> view.showGenericMessage("Turn ended, waiting for other players"));
-                        studentsMoved = 0;
                     }
                 }
                 break;
             case GAME_PARAM:
                 ExpertModeNotify expert = (ExpertModeNotify) receivedMessage;
-                setExpertMode(expert.getExpertMode());
+                expert_mode = expert.getExpertMode();
                 break;
+            case AVAILABLE_ACTION:
+                AvailableActionMessage availableActionMessage = (AvailableActionMessage) receivedMessage;
+                setBooleanControl(availableActionMessage.areAllStudentsMoved(), availableActionMessage.isMotherNatureMoved(), availableActionMessage.isExpertPlayed());
         }
     }
 
@@ -538,36 +530,27 @@ public class ClientController implements ViewListener, Listener {
     }
 
     /**
-     * Method to decrease the action counter for each action requiring it
-     */
-    private void decreaseActionCounter() {
-        actionCounter--;
-    }
-
-    /**
      * Method used to create a request based on the player's choice
      * @param expert_mode is a boolean that indicates if the expert mode is enabled or not (also used to lock the player from using more than an expert card)
      */
     public void askAction(Boolean expert_mode) {
-        if (studentsMoved < 3)
+        if (!studentsMoved)
             actionQueue.execute(()->view.ActionPhaseTurn(expert_mode));
         else
             actionQueue.execute(()->view.playExpertChoice());
     }
 
-    /**
-     * Method used to set the boolean expertMode
-     * @param expertMode is the boolean received from the server
-     */
-    @Override
-    public void setExpertMode(Boolean expertMode) {
-        this.expert_mode = expertMode;
-    }
 
     @Override
     public void guiExpertShow(ArrayList<ExpertCard> expertCards){
         Gui gui = (Gui) view;
         gui.showExpertCards(expertCards,0);
+    }
+
+    private void setBooleanControl(boolean allStudentsMoved, boolean motherNatureMoved, boolean expertPlayed) {
+        this.studentsMoved = allStudentsMoved;
+        this.movedMN = motherNatureMoved;
+        this.expert_mode = expertPlayed;
     }
 
 }

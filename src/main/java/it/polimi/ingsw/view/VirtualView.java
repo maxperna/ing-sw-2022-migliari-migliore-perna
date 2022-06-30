@@ -231,6 +231,11 @@ public class VirtualView implements View {
         clientHandler.sendMessage(new StartGameMessage());
     }
 
+    @Override
+    public void availableAction(boolean allStudentsMoved, boolean motherNatureMoved, boolean expertPlayed) {
+        clientHandler.sendMessage(new AvailableActionMessage(allStudentsMoved, motherNatureMoved, expertPlayed));
+    }
+
     public void sendNumberOfPlayers(int num_of_players) {
     }
 
