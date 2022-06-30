@@ -37,4 +37,8 @@ public class LoginGenericSceneController extends ViewSubject implements GenericS
 
     }
 
+    @Override
+    public void close() {
+
+    }
 }

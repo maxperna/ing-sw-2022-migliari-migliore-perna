@@ -20,4 +20,9 @@ public class WelcomeScreenController extends ViewSubject implements GenericScene
     public void startButtonClick(Event event) {
         SceneController.changeRoot(list, "LogInScene.fxml");
     }
+
+    @Override
+    public void close() {
+
+    }
 }

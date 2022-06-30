@@ -36,4 +36,9 @@ public class NicknameInputControllerGeneric extends ViewSubject implements Gener
     public void printErrorMessage(String error) {
         errorOutPut.setText(error);
     }
+
+    @Override
+    public void close() {
+
+    }
 }

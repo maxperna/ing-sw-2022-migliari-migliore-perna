@@ -67,4 +67,9 @@ public class ExpertCardSceneController extends ViewSubject implements GenericSce
     public void setExpertCards(ArrayList<ExpertCard> expertCards) {
         this.expertCards = expertCards;
     }
+
+    @Override
+    public void close() {
+
+    }
 }

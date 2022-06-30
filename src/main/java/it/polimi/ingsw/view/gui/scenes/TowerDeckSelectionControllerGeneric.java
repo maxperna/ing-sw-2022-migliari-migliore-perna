@@ -278,4 +278,8 @@ public class TowerDeckSelectionControllerGeneric extends ViewSubject implements 
         return deckTypeImageViewMap;
     }
 
+    @Override
+    public void close() {
+
+    }
 }

@@ -98,4 +98,9 @@ public class AssistantCardsController extends ViewSubject implements GenericScen
     public void setLastCard(Map<String, AssistantCard> lastCard) {
         this.lastCard = lastCard;
     }
+
+    @Override
+    public void close() {
+
+    }
 }

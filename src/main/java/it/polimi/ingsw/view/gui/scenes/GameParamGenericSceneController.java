@@ -1,15 +1,13 @@
 package it.polimi.ingsw.view.gui.scenes;
 
 import it.polimi.ingsw.observer.ViewSubject;
+import it.polimi.ingsw.view.gui.PopUpType;
 import it.polimi.ingsw.view.gui.SceneController;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 
@@ -60,6 +58,11 @@ public class GameParamGenericSceneController extends ViewSubject implements Gene
         numOfPlayers.setDisable(true);
         new Thread(() -> notifyListener(l -> l.sendGameParam(playersNum, expMode))).start();
 
+        Platform.runLater(() -> SceneController.showNewStage(list, new VeryImportantController(), PopUpType.DEFAULT, "VeryImportantPopUPp.fxml"));
+    }
+
+    @Override
+    public void close() {
 
     }
 }

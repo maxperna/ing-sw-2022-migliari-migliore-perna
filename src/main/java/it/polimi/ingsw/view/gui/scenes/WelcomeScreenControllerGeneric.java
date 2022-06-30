@@ -26,4 +26,9 @@ public class WelcomeScreenControllerGeneric extends ViewSubject implements Gener
     public void startButtonClick() {
         SceneController.changeRoot(list, "LogInScene.fxml");
     }
+
+    @Override
+    public void close() {
+
+    }
 }

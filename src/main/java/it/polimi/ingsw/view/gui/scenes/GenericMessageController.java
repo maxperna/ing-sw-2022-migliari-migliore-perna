@@ -16,4 +16,9 @@ public class GenericMessageController extends ViewSubject implements GenericScen
     public void initialize(){
         messageBox.setText(message);
     }
+
+    @Override
+    public void close() {
+
+    }
 }

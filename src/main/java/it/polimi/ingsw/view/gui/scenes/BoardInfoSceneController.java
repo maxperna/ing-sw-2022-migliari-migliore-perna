@@ -143,4 +143,9 @@ public class BoardInfoSceneController extends ViewSubject implements GenericScen
 
         return teacher;
     }
+
+    @Override
+    public void close() {
+
+    }
 }

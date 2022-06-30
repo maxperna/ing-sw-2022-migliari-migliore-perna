@@ -34,6 +34,9 @@ public class SceneController extends ViewSubject {
             currentController = controller;
             currentScene.setRoot(newRoot);
 
+            if(popUpController != null)
+                popUpController.close();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -52,6 +55,9 @@ public class SceneController extends ViewSubject {
             currentController = controller;
 
             currentScene.setRoot(newRoot);
+
+            if(popUpController != null)
+                popUpController.close();
 
         } catch (IOException e) {
             e.printStackTrace();

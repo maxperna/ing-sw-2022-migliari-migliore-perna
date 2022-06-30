@@ -463,6 +463,8 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
     }
 
 
+    @Override
+    public void close() {
 
-
+    }
 }
