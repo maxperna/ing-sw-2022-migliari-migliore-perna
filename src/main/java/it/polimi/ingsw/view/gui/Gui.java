@@ -55,6 +55,11 @@ public class Gui extends ViewSubject implements View {
     }
 
     @Override
+    public void sendNumberOfPlayers(int num_of_players, boolean expertMode) {
+
+    }
+
+    @Override
     public void showGameField(Map<Integer, IslandNode> gameFieldMap) {
         PlayerViewController pwc = getPWC();
         Platform.runLater(() -> pwc.populateIslands(gameFieldMap));

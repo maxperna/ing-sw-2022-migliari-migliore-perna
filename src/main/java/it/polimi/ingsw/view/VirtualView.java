@@ -216,11 +216,6 @@ public class VirtualView implements View {
     public void chooseCloudTile(int cloudID) {
     }
 
-
-    public void setExpertMode(boolean expertMode) {
-        clientHandler.sendMessage(new ExpertModeNotify(expertMode));
-    }
-
     @Override
     public void availableStudents(ArrayList<Color> availableStudents, MessageType movementType, int gameFieldSize) {
         clientHandler.sendMessage(new AvailableStudentsReply(availableStudents, movementType, gameFieldSize));
@@ -236,7 +231,8 @@ public class VirtualView implements View {
         clientHandler.sendMessage(new AvailableActionMessage(allStudentsMoved, motherNatureMoved, expertPlayed));
     }
 
-    public void sendNumberOfPlayers(int num_of_players) {
+    public void sendNumberOfPlayers(int num_of_players, boolean expertMode) {
+        clientHandler.sendMessage(new NumberOfPlayersMessage(num_of_players, expertMode));
     }
 
     public void showInitPlayer(int numberOfTowers, ArrayList<Color> entranceHall) {

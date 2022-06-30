@@ -39,7 +39,8 @@ public class ClientController implements ViewListener, Listener {
     private final ExecutorService actionQueue;
     private GameState phase;
     private ArrayList<ExpertCard> expertCardsOnField = new ArrayList<>();
-    private boolean expert_mode;
+    private boolean expertMode;
+    private boolean expertPlayed;
     private boolean studentsMoved;
     private boolean movedMN;
     private boolean endTurn;
@@ -53,7 +54,7 @@ public class ClientController implements ViewListener, Listener {
         this.view = view;
         this.actionQueue = Executors.newSingleThreadExecutor();
         this.phase = GameState.PREPARATION_PHASE;
-        this.expert_mode = false;
+        this.expertPlayed = false;
         this.studentsMoved = false;
         this.movedMN = false;
         this.endTurn = false;
@@ -95,7 +96,7 @@ public class ClientController implements ViewListener, Listener {
      */
     @Override
     public void sendGameParam(int numOfPlayers, boolean expertMode) {
-        this.expert_mode = expertMode;
+        this.expertPlayed = expertMode;
         client.sendMessage(new GameParamMessage(this.nickname, numOfPlayers, expertMode));
     }
 
@@ -334,6 +335,7 @@ public class ClientController implements ViewListener, Listener {
             case NUMBER_PLAYERS:
                 NumberOfPlayersMessage numberOfPlayersMessage = (NumberOfPlayersMessage) receivedMessage;
                 numOfPlayers = numberOfPlayersMessage.getNumberOfPlayers();
+                expertMode = numberOfPlayersMessage.isExpertMode();
                 break;
             case START_GAME:
                 actionQueue.execute(view::startGame);
@@ -343,15 +345,15 @@ public class ClientController implements ViewListener, Listener {
                 switch (currPlayer.getCurrentState()) {
                     case PREPARATION_PHASE:
                         phase = GameState.PREPARATION_PHASE;
-                        actionQueue.execute(() -> view.chooseAction(expert_mode));
+                        actionQueue.execute(() -> view.chooseAction(expertMode));
                         break;
                     case ACTION_PHASE:
                         phase = GameState.ACTION_PHASE;
-                        expert_mode = false;
+                        expertPlayed = false;
                         studentsMoved = false;
                         movedMN = false;
                         endTurn = false;
-                        actionQueue.execute(() -> view.actionPhaseTurn(expert_mode));
+                        actionQueue.execute(() -> view.actionPhaseTurn(expertMode));
                         break;
 
                 }
@@ -389,7 +391,7 @@ public class ClientController implements ViewListener, Listener {
                     Map<String, Board> boardMap = ((BoardInfoMessage) receivedMessage).getBoardMap();
                     boardMap.remove(nickname);
                     actionQueue.execute(() -> view.showBoard(boardMap));
-                    actionQueue.execute(() -> view.chooseAction(expert_mode));
+                    actionQueue.execute(() -> view.chooseAction(expertPlayed));
                 } else {
                     BoardInfoMessage boardInfo = (BoardInfoMessage) receivedMessage;
                     actionQueue.execute(() -> view.showBoard(boardInfo.getBoardMap()));
@@ -406,7 +408,7 @@ public class ClientController implements ViewListener, Listener {
                 break;
             case EXPERT_MODE_CONTROL:
                 ExpertModeControlMessage expertModeControlMessage = (ExpertModeControlMessage) receivedMessage;
-                expert_mode = expertModeControlMessage.isSetExpertMode();
+                expertPlayed = expertModeControlMessage.isSetExpertMode();
                 break;
             case LAST_ASSISTANT:
                 LastCardMessage lastCardMessage = (LastCardMessage) receivedMessage;
@@ -429,7 +431,7 @@ public class ClientController implements ViewListener, Listener {
                 }
                 //Action phase error handling
                 if (error.getTypeError() == STUDENT_ERROR) {
-                    actionQueue.execute(() -> view.actionPhaseTurn(expert_mode));
+                    actionQueue.execute(() -> view.actionPhaseTurn(expertPlayed));
                 }
                 if (error.getTypeError() == ASSISTANT_ERROR) {
                     actionQueue.execute(this::requestAssistants);
@@ -452,15 +454,11 @@ public class ClientController implements ViewListener, Listener {
                 WorldChangeMessage worldChange = (WorldChangeMessage) receivedMessage;
                 actionQueue.execute(() -> view.worldUpdate(worldChange.getGameFieldMap(), worldChange.getChargedClouds(), worldChange.getBoardMap(),nickname, worldChange.getCurrentPlayer(), worldChange.getExperts(), worldChange.getNumOfCoins()));
                 break;
-            case GAME_PARAM:
-                ExpertModeNotify expert = (ExpertModeNotify) receivedMessage;
-                expert_mode = expert.getExpertMode();
-                break;
             case AVAILABLE_ACTION:
                 AvailableActionMessage availableActionMessage = (AvailableActionMessage) receivedMessage;
                 setBooleanControl(availableActionMessage.areAllStudentsMoved(), availableActionMessage.isMotherNatureMoved(), availableActionMessage.isExpertPlayed());
                 if(!studentsMoved){
-                    actionQueue.execute(() -> view.actionPhaseTurn(expert_mode));
+                    actionQueue.execute(() -> view.actionPhaseTurn(expertPlayed));
                 }
                 else if(!movedMN){
                     actionQueue.execute(()-> view.moveMotherNature());
@@ -539,7 +537,7 @@ public class ClientController implements ViewListener, Listener {
     private void setBooleanControl(boolean allStudentsMoved, boolean motherNatureMoved, boolean expertPlayed) {
         this.studentsMoved = allStudentsMoved;
         this.movedMN = motherNatureMoved;
-        this.expert_mode = expertPlayed;
+        this.expertPlayed = expertPlayed;
     }
 
 }

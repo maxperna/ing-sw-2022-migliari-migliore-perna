@@ -1111,6 +1111,11 @@ public class Cli extends ViewSubject implements View {
 
     }
 
+    @Override
+    public void sendNumberOfPlayers(int num_of_players, boolean expertMode) {
+
+    }
+
     /**
      * Method used to generate the default layout
      * @param gameFieldMap is a map containing the islands

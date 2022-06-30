@@ -240,4 +240,6 @@ public interface View {
     void startGame();
 
     void availableAction(boolean allStudentsMoved, boolean motherNatureMoved, boolean expertPlayed);
+
+    void sendNumberOfPlayers(int num_of_players, boolean expertMode);
 }

@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.gameField.IslandNode;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.client_messages.*;
 import it.polimi.ingsw.network.messages.client_messages.ExpertMessages.*;
-import it.polimi.ingsw.network.messages.server_messages.GameParamMessage;
+import it.polimi.ingsw.network.messages.client_messages.GameParamMessage;
 import it.polimi.ingsw.network.messages.server_messages.GenericMessage;
 import it.polimi.ingsw.view.VirtualView;
 
@@ -227,7 +227,7 @@ public class GameController implements PropertyChangeListener {
                     viewMap.get((String) firstKey).showRemainingTowerAndDeck(game.getAVAILABLE_TOWER_COLOR(), game.getAVAILABLE_DECK_TYPE());
 
                     for (String nickName : viewMap.keySet())
-                        viewMap.get(nickName).sendNumberOfPlayers(game.NUM_OF_PLAYERS);
+                        viewMap.get(nickName).sendNumberOfPlayers(game.NUM_OF_PLAYERS, game.EXP_MODE);
 
                     nextState = GameState.CREATE_PLAYERS;
                 }
@@ -268,10 +268,6 @@ public class GameController implements PropertyChangeListener {
                     viewMap.get(currentPlayer).showCurrentPlayer(currentPlayer, GameState.PREPARATION_PHASE);
 
                     nextState = GameState.PREPARATION_PHASE;
-
-                    for (String nickName : viewMap.keySet()) {
-                        viewMap.get(nickName).setExpertMode(game.EXP_MODE);
-                    }
 
                 }
                 break;
