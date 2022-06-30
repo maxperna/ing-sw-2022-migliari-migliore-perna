@@ -174,7 +174,8 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
             }
         }catch (NumberFormatException e){
             //Clicking on another node I can remake my selection (both on MN and students)
-            tempNode.setOpacity(1);
+            if(tempNode!=null)
+                tempNode.setOpacity(1);
             tempNode = null;
             if(studentOnMovement)
                 changeStudMovState();

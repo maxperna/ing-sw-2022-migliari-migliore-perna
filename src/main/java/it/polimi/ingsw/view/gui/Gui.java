@@ -68,7 +68,7 @@ public class Gui extends ViewSubject implements View {
 
     @Override
     public void showGenericMessage(String genericMessage) {
-
+        Platform.runLater(()->SceneController.showMessage(Alert.AlertType.INFORMATION,genericMessage));
     }
 
     @Override

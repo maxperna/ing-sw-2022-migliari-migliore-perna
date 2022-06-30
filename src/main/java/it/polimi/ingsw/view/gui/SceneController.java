@@ -112,6 +112,7 @@ public class SceneController extends ViewSubject {
             stage.initStyle(StageStyle.UNDECORATED);
             Scene scene = new Scene(root);
             scene.getStylesheets().add("CSS/PopUpStyle.css");
+            stage.setScene(scene);
             stage.setAlwaysOnTop(true);
             stage.setResizable(false);
             stage.show();
