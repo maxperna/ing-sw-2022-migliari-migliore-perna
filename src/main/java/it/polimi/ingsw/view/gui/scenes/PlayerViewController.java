@@ -7,17 +7,22 @@ import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.TowerColor;
 import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.model.gameField.IslandNode;
+import it.polimi.ingsw.observer.ViewListener;
 import it.polimi.ingsw.observer.ViewSubject;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.stage.Popup;
 
 
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -42,6 +47,10 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
     Button showBoardsButton;
     @FXML
     Button playExpertButton;
+    @FXML
+    Label currentPlayerLabel;
+    @FXML
+    Label numOfCoinLabel;
 
     private final ImageView MN;
 
@@ -55,6 +64,7 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
     private boolean MNOnMovement;
     private int previousMNPosition;  //position of MN on island before movement
     private Node tempNode;
+    private ArrayList<ExpertCard> expertsCard;
 
 
 
@@ -92,8 +102,8 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
             new Thread(() -> notifyListener(l -> l.chooseAction(2))).start();
         });
 
-        playExpertButton.setOnAction(actionEvent -> {
-            //esperti
+        playExpertButton.setOnAction(actionEvent->{
+            new Thread(()->notifyListener(l->l.guiExpertShow(expertsCard))).start();
         });
     }
 
@@ -207,8 +217,12 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
         }
     }
 
-
-    public void updateGameField(Map<Integer, IslandNode> gameFieldMap, ArrayList<CloudTile> chargedClouds, Board board, ArrayList<ExpertCard> experts, int numOfCoins){
+    /**Method to update the game info due to a world change message, updating gamefield and boards*/
+    public void updateGameField(Map<Integer, IslandNode> gameFieldMap, ArrayList<CloudTile> chargedClouds, Board board, String currentPlayer,ArrayList<ExpertCard> experts, int numOfCoins){
+        currentPlayerLabel.setText(currentPlayer);
+        if(experts!=null)
+            numOfCoinLabel.setText(Integer.toString(numOfCoins));
+        expertsCard = experts;
         populateBoard(board);
         populateIslands(gameFieldMap);
         populateCloud(chargedClouds);
@@ -237,8 +251,8 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
                 j++;
                 placedElement++;
             }
-            }
         }
+    }
     private void setTeachers(Map<Color,Boolean> teachers){
 
         for(Color color:teachers.keySet() ) {
@@ -446,6 +460,7 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
     public void changeMNonMovState(){
         MNOnMovement = !MNOnMovement;
     }
+
 
 
 

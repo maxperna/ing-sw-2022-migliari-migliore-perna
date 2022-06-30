@@ -12,7 +12,7 @@ import it.polimi.ingsw.model.Player;
 public class Expert4 implements ExpertCard {
 
     private final ExpertID ID = ExpertID.USER_ONLY;
-    private final String IMG = "";            //front image of the card
+    private final String IMG = "images/Personaggi/CarteTOT_front4.jpg";            //front image of the card
     private final Game currentGame;
     private final String description = "You can move Mother Nature up to 2 more islands over the limit shown on the action card";
     private int cost = 1;
@@ -73,5 +73,10 @@ public class Expert4 implements ExpertCard {
     @Override
     public String getExpDescription() {
         return description;
+    }
+
+    @Override
+    public String getIMG() {
+        return IMG;
     }
 }

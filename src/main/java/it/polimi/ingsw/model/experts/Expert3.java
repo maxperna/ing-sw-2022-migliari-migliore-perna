@@ -15,7 +15,7 @@ public class Expert3 implements ExpertCard {
 
     private final ExpertID ID = ExpertID.NODE_ID;
     private final Game currentGame;
-    private final String IMG = "";            //front image of the card
+    private final String IMG = "images/Personaggi/CarteTOT_front3.jpg";            //front image of the card
     private final String description = "Choose an island and check the influence as if Mother Nature was there.";
     private int cost = 3;
 
@@ -86,6 +86,11 @@ public class Expert3 implements ExpertCard {
     @Override
     public String getExpDescription() {
         return description;
+    }
+
+    @Override
+    public String getIMG() {
+        return IMG;
     }
 
 }

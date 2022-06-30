@@ -16,6 +16,7 @@ import it.polimi.ingsw.observer.Listener;
 import it.polimi.ingsw.observer.ViewListener;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.cli.Cli;
+import it.polimi.ingsw.view.gui.Gui;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -561,6 +562,12 @@ public class ClientController implements ViewListener, Listener {
     @Override
     public void setExpertMode(Boolean expertMode) {
         this.expert_mode = expertMode;
+    }
+
+    @Override
+    public void guiExpertShow(ArrayList<ExpertCard> expertCards){
+        Gui gui = (Gui) view;
+        gui.showExpertCards(expertCards,0);
     }
 
 }

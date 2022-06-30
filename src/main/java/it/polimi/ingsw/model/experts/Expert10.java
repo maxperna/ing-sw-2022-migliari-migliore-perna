@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class Expert10 implements ExpertCard {
 
     private final ExpertID ID = ExpertID.TWO_LIST_COLOR;
-    private final String IMG = "";            //front image of the card
+    private final String IMG = "images/Personaggi/CarteTOT_front10.jpg";            //front image of the card
     private final Game currentGame;
     private final String description = "Switch up to 2 students from your entrance hall and your dining room";
     private int cost = 1;
@@ -127,5 +127,10 @@ public class Expert10 implements ExpertCard {
     @Override
     public String getExpDescription() {
         return description;
+    }
+
+    @Override
+    public String getIMG() {
+        return IMG;
     }
 }
