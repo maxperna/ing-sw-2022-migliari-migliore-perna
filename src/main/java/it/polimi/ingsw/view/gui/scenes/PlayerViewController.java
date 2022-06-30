@@ -50,10 +50,10 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
     private final ImageView MN;
 
     private final Map<Color,Node> teacherList;
-    private final Map<Integer,GridPane> islandList;
+    private  Map<Integer,GridPane> islandList;
     private final Map<Integer,GridPane> cloudList;
     private final Map<Color,ArrayList<Node>> studentsOnDining;
-    private final Map<Integer,Map<String,AnchorPane>> islandConfig;
+    private  Map<Integer,Map<String,AnchorPane>> islandConfig;
     private boolean expertMode;
     private boolean studentOnMovement;
     private boolean MNOnMovement;
@@ -299,10 +299,14 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
         Set<Integer> nodeDiff =  new HashSet<>(islandList.keySet());
         nodeDiff.removeAll(islandsMap.keySet());
 
-        for (int idToDel:nodeDiff){
+        if(nodeDiff.size()>0){
+            refactorGameField(nodeDiff);
+            /*
             gameField.getChildren().remove(islandList.get(idToDel).getParent());
             islandList.remove(idToDel);
             islandConfig.remove(idToDel);
+            */
+
         }
         for(int ID:islandsMap.keySet()){
             IslandNode island = islandsMap.get(ID);
@@ -360,7 +364,34 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
     }
 
 
+    /**Method to refactor the gamefield after a merge, reassigning correct id to nodes
+     * @param deletedNode node that no longer exists*/
+    private void refactorGameField(Set<Integer> deletedNode){
+        for(Integer nodeId:deletedNode){
+            Node nodeToDelete = islandList.get(nodeId).getParent();     //anchor pane to delete
+            gameField.getChildren().remove(nodeToDelete);
+            islandList.remove(nodeId);
+            islandConfig.remove(nodeId);
 
+            //Temp map to reassign value in maps
+            Map<Integer,GridPane> tempIslandMap = new ConcurrentHashMap<>();
+            Map<Integer,Map<String,AnchorPane>>  tempIslandMapConfig = new ConcurrentHashMap<>();
+            Integer newIndex = 1;
+
+            for(Integer islandID:islandList.keySet()){
+                islandList.get(islandID).getParent().setId(newIndex.toString());    //rearraging island id
+                //Rearraging island map
+                tempIslandMap.put(newIndex,islandList.get(islandID));
+                tempIslandMapConfig.put(newIndex,islandConfig.get(islandID));
+                newIndex++;
+            }
+
+            islandList = tempIslandMap;
+            islandConfig = tempIslandMapConfig;
+
+        }
+
+    }
     /**Method to activate or deactivate cloud selection*/
     public void switchCloudStatus(){
         for(int ID : cloudList.keySet())

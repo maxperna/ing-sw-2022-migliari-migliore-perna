@@ -1202,7 +1202,7 @@ public class Cli extends ViewSubject implements View {
      * @param expert is the expert card that is being played
      */
     @Override
-    public void playExpertType2(int cardID, Expert9 expert) {
+    public void playExpert9(int cardID, Expert9 expert) {
         int chosenColor = 0;
         System.out.println("Choose a color: [1] RED, [2] PINK, [3] GREEN, [4] YELLOW, [5] BLUE");
         do {
@@ -1240,7 +1240,7 @@ public class Cli extends ViewSubject implements View {
      * @param expert is the expert card that is being played
      */
     @Override
-    public void playExpertType2(int cardID, Expert11 expert) {
+    public void playExpert11(int cardID, Expert11 expert) {
         int index;
         int chosenStudent = 0;
         do {
@@ -1268,7 +1268,7 @@ public class Cli extends ViewSubject implements View {
      * @param expert is the expert card that is being played
      */
     @Override
-    public void playExpertType2(int cardID, Expert12 expert) {
+    public void playExpert12(int cardID, Expert12 expert) {
         int chosenColor = 0;
         System.out.println("Choose a color: [1] RED, [2] PINK, [3] GREEN, [4] YELLOW, [5] BLUE");
         do {
@@ -1305,7 +1305,7 @@ public class Cli extends ViewSubject implements View {
      * @param expert is the expert card that is being played
      */
     @Override
-    public void playExpertType3(int cardID, Expert7 expert) {
+    public void playExpert7(int cardID, Expert7 expert) {
         ArrayList<Color> toCard = new ArrayList<>();
         ArrayList<Color> toEntryHall = new ArrayList<>();
         int chosenColor = 0;
@@ -1380,7 +1380,7 @@ public class Cli extends ViewSubject implements View {
      * @param expert is the expert card that is being played
      */
     @Override
-    public void playExpertType3(int cardID, Expert10 expert) {
+    public void playExpert10(int cardID, Expert10 expert) {
         ArrayList<Color> toDiningRoom = new ArrayList<>();
         ArrayList<Color> toEntryHall = new ArrayList<>();
         int chosenColor = 0;
@@ -1462,7 +1462,7 @@ public class Cli extends ViewSubject implements View {
      * @param expert is the expert card that is being played
      */
     @Override
-    public void playExpertType4(int cardID, Expert3 expert) {
+    public void playExpert3(int cardID, Expert3 expert) {
         int chosenID = 0;
         System.out.println("Choose the island you want to use the effect on: ");
         do {
@@ -1485,7 +1485,7 @@ public class Cli extends ViewSubject implements View {
      * @param expert is the expert card that is being played
      */
     @Override
-    public void playExpertType5(int cardID, Expert1 expert) {
+    public void playExpert1(int cardID, Expert1 expert) {
         int index;
         int chosenStudent = 0;
 
@@ -1519,13 +1519,14 @@ public class Cli extends ViewSubject implements View {
         notifyListener(list -> list.playExpertCard3(cardID, finalChosenID, expert.getStudentsOnCard().get(finalChosenStudent)));
     }
 
+
     /**
      * method to play expert card 5
      *
      * @param cardID is the value [0,1,2] used by clientController to identify which expert card is being played
      * @param expert is the expert card that is being played
      */
-    public void playExpertType5(int cardID, Expert5 expert) {
+    public void playExpert5(int cardID, Expert5 expert) {
 
         int chosenID = 0;
 
