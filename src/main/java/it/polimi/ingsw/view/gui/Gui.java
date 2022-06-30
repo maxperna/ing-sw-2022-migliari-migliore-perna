@@ -13,6 +13,7 @@ import it.polimi.ingsw.view.gui.scenes.BoardInfoSceneController;
 import it.polimi.ingsw.view.gui.scenes.PlayerViewController;
 import it.polimi.ingsw.view.gui.scenes.TowerDeckSelectionControllerGeneric;
 import javafx.application.Platform;
+import javafx.scene.control.Alert;
 
 import java.util.ArrayList;
 import java.util.Map;

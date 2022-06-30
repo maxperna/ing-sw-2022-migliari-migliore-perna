@@ -3,9 +3,11 @@ package it.polimi.ingsw.view.gui;
 import it.polimi.ingsw.observer.ViewListener;
 import it.polimi.ingsw.observer.ViewSubject;
 import it.polimi.ingsw.view.gui.scenes.GenericSceneController;
+import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -113,6 +115,11 @@ public class SceneController extends ViewSubject {
             e.printStackTrace();
         }
 
+    }
+
+    public static void showMessage(Alert.AlertType alertType, String message) {
+        Alert alert = new Alert(alertType, message);
+        alert.showAndWait();
     }
 
     public static void setFullScreen() {

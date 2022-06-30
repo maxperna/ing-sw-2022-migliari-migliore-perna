@@ -1,6 +1,8 @@
 package it.polimi.ingsw.view.gui.scenes;
 
 import it.polimi.ingsw.observer.ViewSubject;
+import it.polimi.ingsw.view.gui.SceneController;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -57,5 +59,7 @@ public class GameParamGenericSceneController extends ViewSubject implements Gene
         expertMode.setDisable(true);
         numOfPlayers.setDisable(true);
         new Thread(() -> notifyListener(l -> l.sendGameParam(playersNum, expMode))).start();
+
+
     }
 }
