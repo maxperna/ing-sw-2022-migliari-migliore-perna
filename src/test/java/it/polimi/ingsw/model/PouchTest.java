@@ -35,7 +35,7 @@ class PouchTest {
         GameManager game = GameManager.getInstance();
         game.initGame("TwoPlayers",false);
 
-        if(input == 120) {
+        if(input == 121) {
             assertThrows(NotEnoughStudentsException.class, () -> {
                 game.getGame(0).getPouch().randomDraw(input);
             });

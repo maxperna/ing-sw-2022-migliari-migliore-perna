@@ -45,7 +45,7 @@ public class ExpertsCardTest {
             //Check activation
             assertEquals(gameTest.getActiveExpertCard().getClass().getName(),exp1.getClass().getName());
             //Check effect
-            if(colorAlreadyonIsl !=null && colorAlreadyonIsl.equals(colorTest)){
+            if(gameTest.getGameField().getIslandNode(2).getStudents().size() == 2 && colorAlreadyonIsl.equals(colorTest)){
                 //if is present another color on the island and it is the same
                 assertEquals(2,nodeTest.getColorInfluence(colorTest));
             }
