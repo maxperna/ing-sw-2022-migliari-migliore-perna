@@ -180,8 +180,8 @@ public class GameController implements PropertyChangeListener {
                 if (receivedMessage.getType() == GET_CLOUD) {
                     try {
                         int cloudID = ((GetCloudsMessage) receivedMessage).getCloudID();
-                        ArrayList<Color> extractedStudents = game.getCloudTiles().get(cloudID).moveStudents();
-                        game.getPlayerByNickName(senderPlayer).getBoard().addStudentsEntryRoom(extractedStudents);
+
+                        turnLogic.chooseCloudTile(game.getPlayerByNickName(senderPlayer),cloudID);
 
                         nextState();
                     } catch (EmptyCloudException e) {
@@ -302,9 +302,6 @@ public class GameController implements PropertyChangeListener {
                     game.rechargeClouds();
                 } else
                     viewMap.get(nextPlayer.getNickname()).showCurrentPlayer(turnLogic.getActivePlayer().getNickname(), gameState);
-                if (game.EXP_MODE)
-                    for (String nickname : viewMap.keySet())
-                        viewMap.get(nickname).expertModeControl(true);
                 break;
         }
         gameState = nextState;
@@ -382,7 +379,6 @@ public class GameController implements PropertyChangeListener {
 
             for (String nickname : viewMap.keySet())
                 viewMap.get(nickname).worldUpdate(generateGameFieldMap(), game.getCloudTiles(), generateBoardMap(),"", message.getSenderPlayer(), game.getExpertsCard(), game.getPlayerByNickName(nickname).getNumOfCoin());
-            viewMap.get(message.getSenderPlayer()).expertModeControl(false);
 
         } catch (IllegalMove | IndexOutOfBoundsException | IllegalArgumentException | NotEnoughCoins | NotOnBoardException e) {
             viewMap.get(message.getSenderPlayer()).showError(e.getMessage(), EXPERT_ERROR);

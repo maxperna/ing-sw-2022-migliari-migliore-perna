@@ -96,7 +96,7 @@ public class ClientController implements ViewListener, Listener {
      */
     @Override
     public void sendGameParam(int numOfPlayers, boolean expertMode) {
-        this.expertPlayed = expertMode;
+        this.expertMode = expertMode;
         client.sendMessage(new GameParamMessage(this.nickname, numOfPlayers, expertMode));
     }
 
@@ -345,7 +345,7 @@ public class ClientController implements ViewListener, Listener {
                 switch (currPlayer.getCurrentState()) {
                     case PREPARATION_PHASE:
                         phase = GameState.PREPARATION_PHASE;
-                        actionQueue.execute(() -> view.chooseAction(expertMode));
+                        actionQueue.execute(view::chooseAction);
                         break;
                     case ACTION_PHASE:
                         phase = GameState.ACTION_PHASE;
@@ -353,7 +353,7 @@ public class ClientController implements ViewListener, Listener {
                         studentsMoved = false;
                         movedMN = false;
                         endTurn = false;
-                        actionQueue.execute(() -> view.actionPhaseTurn(expertMode));
+                        actionQueue.execute(() -> view.actionPhaseTurn(expertPlayed));
                         break;
 
                 }
@@ -391,7 +391,7 @@ public class ClientController implements ViewListener, Listener {
                     Map<String, Board> boardMap = ((BoardInfoMessage) receivedMessage).getBoardMap();
                     boardMap.remove(nickname);
                     actionQueue.execute(() -> view.showBoard(boardMap));
-                    actionQueue.execute(() -> view.chooseAction(expertPlayed));
+                    actionQueue.execute(view::chooseAction);
                 } else {
                     BoardInfoMessage boardInfo = (BoardInfoMessage) receivedMessage;
                     actionQueue.execute(() -> view.showBoard(boardInfo.getBoardMap()));
@@ -405,10 +405,6 @@ public class ClientController implements ViewListener, Listener {
             case EXPERT_CARD_REPLY:
                 expertCardsOnField = ((ExpertCardReply) receivedMessage).getExpertID();
                 actionQueue.execute(view::chooseExpertCard);
-                break;
-            case EXPERT_MODE_CONTROL:
-                ExpertModeControlMessage expertModeControlMessage = (ExpertModeControlMessage) receivedMessage;
-                expertPlayed = expertModeControlMessage.isSetExpertMode();
                 break;
             case LAST_ASSISTANT:
                 LastCardMessage lastCardMessage = (LastCardMessage) receivedMessage;
@@ -461,7 +457,10 @@ public class ClientController implements ViewListener, Listener {
                     actionQueue.execute(() -> view.actionPhaseTurn(expertPlayed));
                 }
                 else if(!movedMN){
-                    actionQueue.execute(()-> view.moveMotherNature());
+                    if(expertMode)
+                        actionQueue.execute(()-> view.playExpertChoice(expertPlayed));
+                    else
+                        actionQueue.execute(view::moveMotherNature);
                 }
                 else {
                     actionQueue.execute(() -> view.chooseCloudTile(numOfPlayers));
@@ -506,15 +505,6 @@ public class ClientController implements ViewListener, Listener {
         }
     }
 
-    /**
-     * method to set the maximum num of movements depending on num of players
-     */
-    private int resetCounter() {
-        if (numOfPlayers == 3)
-            return 4;
-        else
-            return 3;
-    }
 
     /**
      * Method used to create a request based on the player's choice
@@ -522,9 +512,9 @@ public class ClientController implements ViewListener, Listener {
      */
     public void askAction(Boolean expert_mode) {
         if (!studentsMoved)
-            actionQueue.execute(()->view.actionPhaseTurn(expert_mode));
+            actionQueue.execute(()->view.actionPhaseTurn(expertPlayed));
         else
-            actionQueue.execute(()->view.playExpertChoice());
+            actionQueue.execute(()->view.playExpertChoice(expertPlayed));
     }
 
 

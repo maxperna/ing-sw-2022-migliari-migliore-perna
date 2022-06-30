@@ -107,7 +107,7 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
         });
     }
 
-    public void setPreparationPhaseChoiceBox(boolean expertMode){
+    public void setPreparationPhaseChoiceBox(){
 
         playCardButton.setDisable(false);
         showBoardsButton.setDisable(false);

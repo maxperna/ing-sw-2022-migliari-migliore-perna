@@ -1003,14 +1003,14 @@ public class Cli extends ViewSubject implements View {
 
     /**
      * Method used to manage the actionPhaseTurn
-     * @param expert is a boolean that is used to eventually play the expert card
+     * @param expertPlayed is a boolean that is used to eventually play the expert card
      */
     @Override
-    public void actionPhaseTurn(Boolean expert) {
+    public void actionPhaseTurn(Boolean expertPlayed) {
         int choice = 0;
         boolean valid = false;
 
-        if (expert) {
+        if (!expertPlayed) {
             do {
                 System.out.println("\nWrite [1] to move a student to the dining room, [2] to move it on an island, [3] to play an expert card");
                 try {
@@ -1545,7 +1545,7 @@ public class Cli extends ViewSubject implements View {
      * Method used to ask the player what to do during preparation phase
      */
     @Override
-    public void chooseAction(boolean expertMode) {
+    public void chooseAction() {
         int chosenAction = 0;
         boolean valid = false;
         System.out.println("Write [1] to play your card, [2] to check the other boards");
@@ -1596,18 +1596,24 @@ public class Cli extends ViewSubject implements View {
     /**
      * Method used to ask if the player wants to move mother nature and end its turn, or play an expert card
      */
-    public void playExpertChoice() {
+    public void playExpertChoice(boolean expertPlayed) {
         int choice = 0;
+        String text;
+        if(expertPlayed)
+            text = "Write [1] to move Mother Nature";
+        else
+            text = "Write [1] to move Mother Nature, [2] to play an Expert";
+
 
         do {
-            System.out.println("Write [1] to move Mother Nature, [2] to play an Expert");
+            System.out.println(text);
             try {
                 choice = Integer.parseInt(read());
             } catch (ExecutionException | NumberFormatException e) {
                 System.out.println("Error. Invalid input");
             }
         }
-        while (!(choice == 1 || choice == 2));
+        while (!(choice == 1 || (choice == 2 &&(!expertPlayed))));
 
         final int finalChoice = choice;
 
