@@ -18,8 +18,8 @@ import java.util.List;
 public class SceneController extends ViewSubject {
     public static Scene currentScene;
     public static GenericSceneController currentController;
-
     public static GenericSceneController popUpController;
+    public static GenericSceneController expertController;
 
     public static void changeRoot(List<ViewListener> observerList, GenericSceneController controller, String FXML_path) {
 
@@ -59,7 +59,7 @@ public class SceneController extends ViewSubject {
 
     }
 
-    public static void showNewStage(List<ViewListener> observerList, GenericSceneController controller, String FXML_path, String title) {
+    public static void showNewStage(List<ViewListener> observerList, GenericSceneController controller, PopUpType type, String FXML_path, String title) {
 
         FXMLLoader loader = new FXMLLoader();
 
@@ -68,7 +68,10 @@ public class SceneController extends ViewSubject {
 
             ((ViewSubject) controller).addAllListeners(observerList);
             loader.setController(controller);
-            popUpController = controller;
+            if(type == PopUpType.DEFAULT)
+                popUpController = controller;
+            else
+                expertController = controller;
 
             Parent root = loader.load();
             Stage stage = new Stage();
@@ -89,7 +92,7 @@ public class SceneController extends ViewSubject {
 
     }
 
-    public static void showNewStage(List<ViewListener> observerList, GenericSceneController controller, String FXML_path) {
+    public static void showNewStage(List<ViewListener> observerList, GenericSceneController controller, PopUpType type, String FXML_path) {
 
         FXMLLoader loader = new FXMLLoader();
 
@@ -98,7 +101,10 @@ public class SceneController extends ViewSubject {
 
             ((ViewSubject) controller).addAllListeners(observerList);
             loader.setController(controller);
-            popUpController = controller;
+            if(type == PopUpType.DEFAULT)
+                popUpController = controller;
+            else
+                expertController = controller;
 
             Parent root = loader.load();
             Stage stage = new Stage();

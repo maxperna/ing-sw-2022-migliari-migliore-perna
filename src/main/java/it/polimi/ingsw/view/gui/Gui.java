@@ -81,7 +81,7 @@ public class Gui extends ViewSubject implements View {
 
         BoardInfoSceneController boardInfoSceneController = new BoardInfoSceneController(boardMap);
         try {
-            Platform.runLater(() -> SceneController.showNewStage(list, boardInfoSceneController, "BoardInfoScene.fxml", "BoardInfo"));
+            Platform.runLater(() -> SceneController.showNewStage(list, boardInfoSceneController, PopUpType.DEFAULT, "BoardInfoScene.fxml", "BoardInfo"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -130,7 +130,7 @@ public class Gui extends ViewSubject implements View {
         assistantCardsController.setDeck(deck);
 
         try {
-            Platform.runLater(() -> SceneController.showNewStage(list, assistantCardsController, "AssistantCardsScene.fxml"));
+            Platform.runLater(() -> SceneController.showNewStage(list, assistantCardsController, PopUpType.DEFAULT, "AssistantCardsScene.fxml"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -211,7 +211,7 @@ public class Gui extends ViewSubject implements View {
     public void showExpertCards(ArrayList<ExpertCard> allExpertCards, int numberOfCoins) {
         ExpertCardSceneController exsx = new ExpertCardSceneController();
         exsx.setExpertCards(allExpertCards);
-        Platform.runLater(()->SceneController.showNewStage(list,exsx,"ExpertsCardScene.fxml","Experts"));
+        Platform.runLater(()->SceneController.showNewStage(list,exsx, PopUpType.EXPERT, "ExpertsCardScene.fxml","Experts"));
     }
 
     @Override
