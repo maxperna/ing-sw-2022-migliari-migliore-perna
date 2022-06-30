@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.gui.scenes;
 
 import it.polimi.ingsw.observer.ViewSubject;
 import it.polimi.ingsw.view.gui.SceneController;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
@@ -45,7 +46,7 @@ public class WelcomeScreenControllerGeneric extends ViewSubject implements Gener
 
     public void startButtonClick() {
         SceneController.playSound();
-        SceneController.changeRoot(list, "LogInScene.fxml");
+        Platform.runLater(() -> SceneController.changeRoot(list, "LogInScene.fxml"));
     }
 
     @Override
