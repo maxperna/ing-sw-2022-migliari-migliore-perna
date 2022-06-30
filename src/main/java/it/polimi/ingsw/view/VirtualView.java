@@ -85,12 +85,9 @@ public class VirtualView implements View {
 
     }
 
-    public void expertModeControl(boolean setExpertMode) {
-        clientHandler.sendMessage(new ExpertModeControlMessage(setExpertMode));
-    }
 
     @Override
-    public void playExpertChoice() {
+    public void playExpertChoice(boolean expertChoice) {
 
     }
 
@@ -200,7 +197,7 @@ public class VirtualView implements View {
     }
 
     @Override
-    public void chooseAction(boolean expertMode) {
+    public void chooseAction() {
     }
 
     @Override

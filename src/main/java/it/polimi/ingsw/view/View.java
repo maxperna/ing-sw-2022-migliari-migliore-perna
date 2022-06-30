@@ -185,7 +185,7 @@ public interface View {
     /**
      * Method used to ask the player to choose between checking other boards or playing an assistant card
      */
-    void chooseAction(boolean expertMode);
+    void chooseAction();
 
     /**
      * Method used to ask the player the number of moves that mother nature will perform
@@ -233,7 +233,7 @@ public interface View {
     /**
      * Method used to ask the player if he wants to play an expert or move mother nature
      */
-    void playExpertChoice();
+    void playExpertChoice(boolean expertPlayed);
 
     void clear();
 

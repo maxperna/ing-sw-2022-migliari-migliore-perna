@@ -200,9 +200,9 @@ public class Gui extends ViewSubject implements View {
     }
 
     @Override
-    public void chooseAction(boolean expertMode) {
+    public void chooseAction() {
         PlayerViewController pwc = getPWC();
-        Platform.runLater(() -> pwc.setPreparationPhaseChoiceBox(expertMode));
+        Platform.runLater(() -> pwc.setPreparationPhaseChoiceBox());
     }
 
     @Override
@@ -235,7 +235,7 @@ public class Gui extends ViewSubject implements View {
     }
 
     @Override
-    public void playExpertChoice() {
+    public void playExpertChoice(boolean expertPlayed) {
 
     }
 
