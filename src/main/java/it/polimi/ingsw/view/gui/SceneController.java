@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.gui;
 
+import com.sun.tools.javac.Main;
 import it.polimi.ingsw.observer.ViewListener;
 import it.polimi.ingsw.observer.ViewSubject;
 import it.polimi.ingsw.view.gui.scenes.GenericSceneController;
@@ -13,8 +14,13 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 public class SceneController extends ViewSubject {
     public static Scene currentScene;
@@ -159,6 +165,18 @@ public class SceneController extends ViewSubject {
 
     public static void setCurrentController(GenericSceneController currentController) {
         SceneController.currentController = currentController;
+    }
+
+    public static synchronized void playSound(final List<String> audioFiles) {
+        new Thread(() -> {
+            try {
+                Clip sound = AudioSystem.getClip();
+                sound.open(AudioSystem.getAudioInputStream(new File("src/main/resources/audio/"+audioFiles.get(0))));
+                sound.start();
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+            }
+        }).start();
     }
 
 }
