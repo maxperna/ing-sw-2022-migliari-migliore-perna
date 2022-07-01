@@ -46,7 +46,13 @@
       </dependency>
   </dependencies>
 
+
   <build>
+    <resources>
+      <resource>
+        <directory>src/main/java/it/polimi/ingsw/Assets</directory>
+      </resource>
+    </resources>
     <plugins>
       <!-- Compiler plugin, sets the Java version -->
       <plugin>

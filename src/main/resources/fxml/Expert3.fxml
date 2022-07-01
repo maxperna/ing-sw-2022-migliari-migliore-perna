@@ -17,10 +17,10 @@
    <children>
       <ImageView fitHeight="383.0" fitWidth="407.0" layoutX="67.0" layoutY="76.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="70.0">
          <image>
-            <Image url="@../images/Personaggi/CarteTOT_front5.jpg" />
+            <Image url="@../images/Personaggi/CarteTOT_front3.jpg" />
          </image>
       </ImageView>
-      <Text layoutX="436.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Place a stop card on an island; when Mother Nature reaches that island, skip the check influence phase and remove the stop card." wrappingWidth="452.13671875" AnchorPane.leftAnchor="436.0" AnchorPane.topAnchor="25.0">
+      <Text layoutX="436.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose an island and check the influence as if Mother Nature was there." wrappingWidth="452.13671875" AnchorPane.leftAnchor="436.0" AnchorPane.topAnchor="25.0">
          <font>
             <Font name="Goudy Old Style" size="24.0" />
          </font>
