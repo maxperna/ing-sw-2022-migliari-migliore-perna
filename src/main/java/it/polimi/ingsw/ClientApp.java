@@ -7,7 +7,7 @@ import javafx.application.Application;
 
 public class ClientApp {
     public static void main(String[] args) {
-        boolean Cli = true;
+        boolean Cli = false;
 
         for (String param : args) {
             if (param.equals("-c") || param.equals("--cli")) {
