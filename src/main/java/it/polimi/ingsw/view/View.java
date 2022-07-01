@@ -117,9 +117,11 @@ public interface View {
 
     /**
      * method used to manage the action phase
-     * @param expert indicates if expert mode is on
+     *
+     * @param expert      indicates if expert mode is on
+     * @param studentMove
      */
-    void actionPhaseTurn(Boolean expert);
+    void actionPhaseTurn(Boolean expert, boolean studentMove);
 
     /**
      * Method used to handle the connection request

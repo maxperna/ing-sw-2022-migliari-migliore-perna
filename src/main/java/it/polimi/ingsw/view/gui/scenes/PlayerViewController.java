@@ -82,7 +82,7 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
     public void initialize(){
         MN.setDisable(true);
         generateGameField();
-        switchStudentMovementStatus();
+        entryRoom.setDisable(true);
         switchCloudStatus();
         playExpertButton.setDisable(true);
 
@@ -125,7 +125,7 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
             tempNode = null;
             event.consume();
             entryRoom.getChildren().remove(tempNode);
-            switchStudentMovementStatus();
+            entryRoom.setDisable(true);
             changeStudMovState();
             new Thread(()->notifyListener(l->l.moveStudentToDinner(colorPicked))).start();
 
@@ -153,7 +153,7 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
 
                 event.consume();
                 changeStudMovState();
-                switchStudentMovementStatus();
+                entryRoom.setDisable(true);
                 new Thread(()->notifyListener(l->l.moveStudentToIsland(colorPicked,ID))).start();
 
 
@@ -275,19 +275,12 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
     }
     private void setTeachers(Map<Color,Boolean> teachers){
 
+        professorSpace.getChildren().clear();
         for(Color color:teachers.keySet() ) {
             if(teachers.get(color)) {
                 ImageView teacherIMG = generateTeacher(color);
                 professorSpace.add(teacherIMG, 0, color.getBoardIndex());
                 teacherList.put(color, teacherIMG);  //adding node and references
-            }
-            else{
-                try{
-                    professorSpace.getChildren().remove(teacherList.get(color));
-                    teacherList.remove(color);
-                }catch (Exception e){
-                    assert true;
-                }
             }
         }
     }
@@ -429,8 +422,8 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
         MN.setDisable(false);
     }
     /**Switch the activation of the selection of the students on the board entry room*/
-    public void switchStudentMovementStatus(){
-        entryRoom.setDisable(!entryRoom.isDisabled());
+    public void switchStudentMovementStatus(boolean studentMove){
+        entryRoom.setDisable(studentMove);
     }
 
     /**Method to generate the game field assigning island the correct id*/

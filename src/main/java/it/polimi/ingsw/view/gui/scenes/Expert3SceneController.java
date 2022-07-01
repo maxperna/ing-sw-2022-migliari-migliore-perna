@@ -1,33 +1,28 @@
 package it.polimi.ingsw.view.gui.scenes;
 
 import it.polimi.ingsw.model.Color;
-import it.polimi.ingsw.model.TowerColor;
-import it.polimi.ingsw.model.experts.Expert5;
+import it.polimi.ingsw.model.experts.Expert3;
 import it.polimi.ingsw.model.gameField.IslandNode;
 import it.polimi.ingsw.observer.ViewSubject;
-import it.polimi.ingsw.view.gui.SceneController;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import java.net.URL;
-import java.util.*;
-import java.util.logging.Logger;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
-public class Expert5SceneController extends ViewSubject implements GenericSceneController{
+public class Expert3SceneController extends ViewSubject implements GenericSceneController {
 
     private Map<Integer, IslandNode> islandList;
     private final int cardID;
-    private final Expert5 card;
+    private final Expert3 card;
 
     @FXML
     AnchorPane ParentNode;
@@ -38,7 +33,7 @@ public class Expert5SceneController extends ViewSubject implements GenericSceneC
     @FXML
     Button chooseIsland;
 
-    public Expert5SceneController( int cardID, Expert5 card) {
+    public Expert3SceneController( int cardID, Expert3 card) {
         this.islandList = card.getIslandList();
         this.cardID = cardID;
         this.card = card;
@@ -82,3 +77,4 @@ public class Expert5SceneController extends ViewSubject implements GenericSceneC
         ((Stage) ParentNode.getScene().getWindow()).close();
     }
 }
+

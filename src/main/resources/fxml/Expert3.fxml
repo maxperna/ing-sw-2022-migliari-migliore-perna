@@ -78,10 +78,5 @@
             </GridPane>
          </children>
       </StackPane>
-      <Text layoutX="436.0" layoutY="257.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choice Island">
-         <font>
-            <Font name="Goudy Old Style" size="14.0" />
-         </font>
-      </Text>
    </children>
 </AnchorPane>

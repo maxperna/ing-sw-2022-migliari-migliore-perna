@@ -147,9 +147,9 @@ public class Gui extends ViewSubject implements View {
 
     /**Enable student movement*/
     @Override
-    public void actionPhaseTurn(Boolean expertPlayed) {
+    public void actionPhaseTurn(Boolean expertPlayed, boolean studentMove) {
         PlayerViewController pwc = getPWC();
-        Platform.runLater(pwc::switchStudentMovementStatus);
+        Platform.runLater(()->pwc.switchStudentMovementStatus(studentMove));
     }
 
     @Override
@@ -189,17 +189,19 @@ public class Gui extends ViewSubject implements View {
 
     @Override
     public void playExpert3(int cardID, Expert3 expert) {
-
+        Expert3SceneController exp3 = new Expert3SceneController(cardID, expert);
+        Platform.runLater(()->SceneController.showNewPopUp(list,exp3,ChangeType.EXPERT,"Expert3.fxml"));
     }
 
     @Override
     public void playExpert1(int cardID, Expert1 expert) {
-
+        Expert1SceneController exp1 = new Expert1SceneController(cardID, expert);
+        Platform.runLater(()->SceneController.showNewPopUp(list,exp1,ChangeType.EXPERT,"Expert1.fxml"));
     }
 
     @Override
     public void playExpert5(int cardID, Expert5 expert) {
-        Expert5SceneController exp5 = new Expert5SceneController(expert.getIslandList(), getPWC().getIslandNodes(), cardID, expert);
+        Expert5SceneController exp5 = new Expert5SceneController(cardID, expert);
         Platform.runLater(()->SceneController.showNewPopUp(list,exp5,ChangeType.EXPERT,"Expert5.fxml"));
     }
 

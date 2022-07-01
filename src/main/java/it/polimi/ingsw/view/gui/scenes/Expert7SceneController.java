@@ -36,23 +36,26 @@ public class Expert7SceneController extends ViewSubject implements GenericSceneC
 
         entryRoomSwap = new ArrayList<>();
         cardSwap = new ArrayList<>();
-        SwapButton.addEventHandler(MouseEvent.MOUSE_CLICKED,this::playExpert);
     }
 
     @FXML
     public void initialize(){
+        SwapButton.addEventHandler(MouseEvent.MOUSE_CLICKED,this::playExpert);
         for(Color student : card.getStudentsOnCard()){
             ImageView studToPlace = new ImageView(student.getStudImg());
             studToPlace.setId(student.toString());
             studToPlace.setFitWidth(46);
             studToPlace.setFitHeight(70);
+            StudentsOnCard.getChildren().add(studToPlace);
             studToPlace.addEventHandler(MouseEvent.MOUSE_CLICKED,this::selectCard);
         }
-        for(Color student : card.getStudentsOnCard()){
+        for(Color student : card.getEntryRoom()){
             ImageView studToPlace = new ImageView(student.getStudImg());
             studToPlace.setId(student.toString());
             studToPlace.setFitWidth(40);
             studToPlace.setFitHeight(65);
+            EntryRoom.getChildren().add(studToPlace);
+
             studToPlace.addEventHandler(MouseEvent.MOUSE_CLICKED,this::selectEntry);
         }
     }

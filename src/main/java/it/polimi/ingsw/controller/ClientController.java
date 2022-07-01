@@ -355,7 +355,7 @@ public class ClientController implements ViewListener, Listener {
                         studentsMoved = false;
                         movedMN = false;
                         endTurn = false;
-                        actionQueue.execute(() -> view.actionPhaseTurn(expertPlayed));
+                        actionQueue.execute(() -> view.actionPhaseTurn(expertPlayed,studentsMoved ));
                         break;
 
                 }
@@ -429,7 +429,7 @@ public class ClientController implements ViewListener, Listener {
                 }
                 //Action phase error handling
                 if (error.getTypeError() == STUDENT_ERROR) {
-                    actionQueue.execute(() -> view.actionPhaseTurn(expertPlayed));
+                    actionQueue.execute(() -> view.actionPhaseTurn(expertPlayed,studentsMoved ));
                 }
                 if (error.getTypeError() == ASSISTANT_ERROR) {
                     actionQueue.execute(this::requestAssistants);
@@ -458,7 +458,7 @@ public class ClientController implements ViewListener, Listener {
                 setBooleanControl(availableActionMessage.areAllStudentsMoved(), availableActionMessage.isMotherNatureMoved(), availableActionMessage.isExpertPlayed());
                 System.out.println("allStudentMoved: " + studentsMoved + "- MotherNature: " + movedMN + "- ExpertPlayed: " + expertPlayed);
                 if(!studentsMoved){
-                    actionQueue.execute(() -> view.actionPhaseTurn(expertPlayed));
+                    actionQueue.execute(() -> view.actionPhaseTurn(expertPlayed,studentsMoved));
                 }
                 else if(!movedMN){
                     if(expertMode)
@@ -516,7 +516,7 @@ public class ClientController implements ViewListener, Listener {
      */
     public void askAction(Boolean expert_mode) {
         if (!studentsMoved)
-            actionQueue.execute(()->view.actionPhaseTurn(expertPlayed));
+            actionQueue.execute(()->view.actionPhaseTurn(expertPlayed,studentsMoved ));
         else
             actionQueue.execute(()->view.moveMNplusExpert(expertPlayed));
     }

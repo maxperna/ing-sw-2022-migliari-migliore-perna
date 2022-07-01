@@ -147,7 +147,7 @@ public class VirtualView implements View {
     }
 
     @Override
-    public void actionPhaseTurn(Boolean expert) {
+    public void actionPhaseTurn(Boolean expert, boolean studentMove) {
     }
 
 

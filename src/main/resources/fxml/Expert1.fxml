@@ -8,6 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
@@ -17,15 +18,15 @@
    <children>
       <ImageView fitHeight="383.0" fitWidth="407.0" layoutX="67.0" layoutY="76.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="70.0">
          <image>
-            <Image url="@../images/Personaggi/CarteTOT_front5.jpg" />
+            <Image url="@../images/Personaggi/CarteTOT_front.jpg" />
          </image>
       </ImageView>
-      <Text layoutX="436.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Place a stop card on an island; when Mother Nature reaches that island, skip the check influence phase and remove the stop card." wrappingWidth="452.13671875" AnchorPane.leftAnchor="436.0" AnchorPane.topAnchor="25.0">
+      <Text layoutX="436.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose one of the students on this card and place it on one island, then draw a student from the pouch and place it on this card" wrappingWidth="452.13671875" AnchorPane.leftAnchor="436.0" AnchorPane.topAnchor="25.0">
          <font>
             <Font name="Goudy Old Style" size="24.0" />
          </font>
       </Text>
-      <Button fx:id="chooseIsland" layoutX="662.0" layoutY="453.0" mnemonicParsing="false" text="Choose Island">
+      <Button fx:id="chooseIsland" layoutX="761.0" layoutY="453.0" mnemonicParsing="false" text="Choose Island">
          <font>
             <Font name="Goudy Old Style" size="18.0" />
          </font></Button>
@@ -78,9 +79,15 @@
             </GridPane>
          </children>
       </StackPane>
-      <Text layoutX="436.0" layoutY="257.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choice Island">
+      <Text layoutX="436.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choice Island">
          <font>
             <Font name="Goudy Old Style" size="14.0" />
+         </font>
+      </Text>
+      <HBox fx:id="StudentSpace" layoutX="355.0" layoutY="395.0" prefHeight="76.0" prefWidth="290.0" style="-fx-background-color: grey;" />
+      <Text layoutX="355.0" layoutY="380.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose student">
+         <font>
+            <Font name="Goudy Old Style" size="24.0" />
          </font>
       </Text>
    </children>
