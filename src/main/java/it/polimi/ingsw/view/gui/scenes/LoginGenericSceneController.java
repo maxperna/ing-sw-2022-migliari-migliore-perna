@@ -34,7 +34,6 @@ public class LoginGenericSceneController extends ViewSubject implements GenericS
         connectionInfo.put("port", serverPortField.getText());
         new Thread(() -> notifyListener(l -> l.connectionRequest(connectionInfo))).start();
 
-
     }
 
     @Override

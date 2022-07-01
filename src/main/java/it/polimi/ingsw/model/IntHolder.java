@@ -20,7 +20,7 @@ public class IntHolder implements Serializable {
         if(value < 0)
             throw new IllegalStateException("Valore torri Negativo");
 
-        value = value-1;
+        value --;
 
         if(value == 0)
             throw new EndGameException();
