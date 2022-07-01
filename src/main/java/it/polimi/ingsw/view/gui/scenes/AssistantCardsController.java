@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 
 public class AssistantCardsController extends ViewSubject implements GenericSceneController, Initializable {
 
@@ -86,6 +87,7 @@ public class AssistantCardsController extends ViewSubject implements GenericScen
     }
 
     public void selectCard(int cardID) {
+        Logger.getLogger("ASSISTANT CARD").info("Played card"+cardID);
         new Thread(()->notifyListener(list -> list.playAssistantCard(cardID))).start();
         Stage stage = (Stage) anchorPane.getScene().getWindow();
         stage.close();

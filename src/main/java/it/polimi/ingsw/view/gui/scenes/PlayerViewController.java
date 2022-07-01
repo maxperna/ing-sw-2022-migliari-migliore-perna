@@ -80,7 +80,7 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
 
     @FXML
     public void initialize(){
-        switchMNStatus(false);
+        MN.setDisable(true);
         generateGameField();
         switchStudentMovementStatus();
         switchCloudStatus();
@@ -167,7 +167,7 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
                 changeMNonMovState();
                 event.consume();
                 MN.setOpacity(1);
-                switchMNStatus(false);
+                MN.setDisable(true);
                 int finalNumOfSteps = numOfSteps;
                 new Thread(()->notifyListener(l->l.moveMotherNature(finalNumOfSteps))).start();
                 Logger.getLogger("PWC").info("MN moved with steps "+finalNumOfSteps);
@@ -425,9 +425,8 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
     }
 
     /**Method to activate MN when it's time to move it*/
-    public void switchMNStatus(boolean expertPlayed){
-        if(!expertPlayed)
-            MN.setDisable(!MN.isDisabled());
+    public void enableMNMovement(){
+        MN.setDisable(false);
     }
     /**Switch the activation of the selection of the students on the board entry room*/
     public void switchStudentMovementStatus(){

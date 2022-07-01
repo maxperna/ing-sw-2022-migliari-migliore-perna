@@ -212,7 +212,7 @@ public class Gui extends ViewSubject implements View {
     @Override
     public void moveMotherNature() {
         PlayerViewController pwc = getPWC();
-        Platform.runLater(()->pwc.switchMNStatus(false));    //used to move MN not in expert mode
+        Platform.runLater(pwc::enableMNMovement);    //used to move MN not in expert mode
     }
 
     public void chooseCloudTile(int cloudID) {
@@ -240,7 +240,7 @@ public class Gui extends ViewSubject implements View {
     @Override
     public void moveMNplusExpert(boolean expertPlayed) {
         PlayerViewController pwc = getPWC();
-        Platform.runLater(()->pwc.switchMNStatus(expertPlayed));
+        Platform.runLater(()->pwc.enableMNMovement());
     }
 
     @Override

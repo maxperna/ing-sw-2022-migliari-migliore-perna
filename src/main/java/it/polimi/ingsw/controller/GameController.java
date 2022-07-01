@@ -15,6 +15,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.FileNotFoundException;
 import java.util.*;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static it.polimi.ingsw.network.messages.ErrorType.*;
@@ -92,8 +93,10 @@ public class GameController implements PropertyChangeListener {
                         nextState();
                     } catch (CardAlreadyPlayed e) {
                         viewMap.get(senderPlayer).showError("CardAlreadyPlayed", ASSISTANT_ERROR);
+                        Logger.getLogger("ERROR ASSISTANT").warning(e.getMessage());
                     } catch (NonexistentCard e) {
                         viewMap.get(senderPlayer).showError("Card not found", ASSISTANT_ERROR);
+                        Logger.getLogger("ERROR ASSISTANT").warning(e.getMessage());
                     } catch (EndGameException e) {
 
                         Player winner = game.getPlayersList().get(0);
