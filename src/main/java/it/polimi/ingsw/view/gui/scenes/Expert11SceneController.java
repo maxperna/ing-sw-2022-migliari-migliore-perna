@@ -11,7 +11,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
-
+/**
+ * Class controlling the panel that shows all the info required to play expert11
+ */
 public class Expert11SceneController extends ViewSubject implements GenericSceneController {
 
     @FXML
@@ -22,11 +24,19 @@ public class Expert11SceneController extends ViewSubject implements GenericScene
     private final int cardID;
     private final Expert11 card;
 
+    /**
+     * Default constructor
+     * @param cardID is the ID of the expertCard played
+     * @param card is the expert card
+     */
     public Expert11SceneController(int cardID,Expert11 card) {
         this.cardID = cardID;
         this.card = card;
     }
 
+    /**
+     * Method used to add the events
+     */
     @FXML
     public void initialize(){
         for(Color student:card.getStudentsOnCard()){
@@ -39,6 +49,10 @@ public class Expert11SceneController extends ViewSubject implements GenericScene
         }
     }
 
+    /**
+     * Method used to notify the chosen color
+     * @param event is the event registered on the panel
+     */
     public void choiceStudent(MouseEvent event){
         Node selectedColor = event.getPickResult().getIntersectedNode();
         event.consume();

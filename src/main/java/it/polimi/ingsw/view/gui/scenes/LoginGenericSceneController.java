@@ -8,6 +8,9 @@ import javafx.scene.input.KeyCode;
 
 import java.util.HashMap;
 
+/**
+ * Class used to generate the panel that asks for the connection info
+ */
 public class LoginGenericSceneController extends ViewSubject implements GenericSceneController {
 
     @FXML
@@ -17,6 +20,9 @@ public class LoginGenericSceneController extends ViewSubject implements GenericS
     @FXML
     Button connectionButton;
 
+    /**
+     * Method used to initialize the panel by setting all the events
+     */
     @FXML
     public void initialize() {
         connectionButton.setOnAction(actionEvent -> connectionButtonClick());
@@ -27,6 +33,9 @@ public class LoginGenericSceneController extends ViewSubject implements GenericS
         });
     }
 
+    /**
+     * Method that notifies all the connection parameters
+     */
     private void connectionButtonClick() {
 
         HashMap<String, String> connectionInfo = new HashMap<>();

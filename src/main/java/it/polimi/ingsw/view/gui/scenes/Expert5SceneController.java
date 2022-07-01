@@ -23,6 +23,9 @@ import java.net.URL;
 import java.util.*;
 import java.util.logging.Logger;
 
+/**
+ * Class controlling the panel that shows all the info required to play expert5
+ */
 public class Expert5SceneController extends ViewSubject implements GenericSceneController{
 
     private Map<Integer, IslandNode> islandList;
@@ -38,12 +41,20 @@ public class Expert5SceneController extends ViewSubject implements GenericSceneC
     @FXML
     Button chooseIsland;
 
+    /**
+     * Default constructor
+     * @param cardID is the ID of the expertCard played
+     * @param card is the expert card
+     */
     public Expert5SceneController( int cardID, Expert5 card) {
         this.islandList = card.getIslandList();
         this.cardID = cardID;
         this.card = card;
     }
 
+    /**
+     * Method used to add the events
+     */
     public void initialize() {
 
         IslandSelector.setItems(FXCollections.observableArrayList(islandList.keySet()));
@@ -52,12 +63,18 @@ public class Expert5SceneController extends ViewSubject implements GenericSceneC
         Island.setVisible(false);
     }
 
-
+    /**
+     * Method used to acquire the island where the student will be placed
+     * @param event is the event registered by the panel
+     */
     public void choiceIsland(MouseEvent event){
         renderIsland();
         event.consume();
     }
 
+    /**
+     * Method used to show the effect of the expert on the island chosen
+     */
     private void renderIsland(){
         int ID = (int)IslandSelector.getValue();
         IslandNode nodeToRender = islandList.get(ID);
@@ -72,6 +89,10 @@ public class Expert5SceneController extends ViewSubject implements GenericSceneC
 
     }
 
+    /**
+     * Method used to notify to the controller all the parameters required to play this expert
+     * @param event is the event registered by the panel
+     */
     public void playExpert(MouseEvent event){
         new Thread(()->notifyListener(l->l.playExpertCard2(cardID,(int)IslandSelector.getValue()))).start();
         event.consume();

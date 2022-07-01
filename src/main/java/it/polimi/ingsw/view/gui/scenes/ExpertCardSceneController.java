@@ -11,6 +11,9 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
+/**
+ * Class controlling the panel showing the expert cards
+ */
 public class ExpertCardSceneController extends ViewSubject implements GenericSceneController {
     @FXML
     ImageView exp1IMG;
@@ -42,12 +45,21 @@ public class ExpertCardSceneController extends ViewSubject implements GenericSce
     private final ArrayList<ExpertCard> expertCards;
     private final int numOfCoins;
 
+    /**
+     * Default controller
+     * @param experts is an arraylist of available expert cards
+     * @param expertPlayed is a boolean checking that the player hasn't already played the expert card
+     * @param numOfCoins is the number of available coins
+     */
     public ExpertCardSceneController(ArrayList<ExpertCard> experts,boolean expertPlayed,int numOfCoins ){
         this.expertCards = experts;
         this.expertPlayed = expertPlayed;
         this.numOfCoins = numOfCoins;
     }
 
+    /**
+     * Method used to initialize the panel, setting the events and the images
+     */
     @FXML
     public void initialize(){
 
@@ -73,7 +85,10 @@ public class ExpertCardSceneController extends ViewSubject implements GenericSce
         description3.setText(expertCards.get(2).getExpDescription());
     }
 
-
+    /**
+     * Method used to notify the chosen expert card
+     * @param event is the registered event
+     */
     public void playExpert(MouseEvent event){
         if(!expertPlayed) {
             int cardID = Integer.parseInt(event.getPickResult().getIntersectedNode().getId());

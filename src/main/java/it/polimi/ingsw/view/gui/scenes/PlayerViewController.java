@@ -25,6 +25,9 @@ import java.util.logging.Logger;
 import static it.polimi.ingsw.model.Color.*;
 import static java.lang.Math.abs;
 
+/**
+ * Class that manages all the interactions on the gameField
+ */
 public class PlayerViewController extends ViewSubject implements GenericSceneController {
     @FXML
     AnchorPane gameField;
@@ -64,7 +67,9 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
     private ArrayList<Node> islandNodes;
 
 
-
+    /**
+     * Default constructor
+     */
     public PlayerViewController(){
         teacherList = new ConcurrentHashMap<>();
         islandList = new ConcurrentHashMap<>();
@@ -78,6 +83,9 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
         MN.setVisible(false);
     }
 
+    /**
+     * Method used to initialize the panel by setting all the events
+     */
     @FXML
     public void initialize(){
         MN.setDisable(true);
@@ -106,6 +114,9 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
 
     }
 
+    /**
+     * Method used to manage the available buttons during preparation phase
+     */
     public void setPreparationPhaseChoiceBox(){
 
         playCardButton.setDisable(false);
@@ -196,6 +207,10 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
         event.consume();
     }
 
+    /**
+     * Method used to notify mother nature movement
+     * @param event
+     */
     public void startMNMovement(MouseEvent event){
         MN.setOpacity(0.8);
         changeMNonMovState();
@@ -216,6 +231,11 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
         populateIslands(gameFieldMap);
         populateCloud(chargedClouds);
     }
+
+    /**
+     * Method used to fill the board with the students that are set based on the model board
+     * @param board is the player's board
+     */
     public void populateBoard(Board board){
         populateEntry(board.getEntryRoom());
         popoulateDining(board.getDiningRoom());
@@ -223,7 +243,10 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
         setTeachers(board.getTeachers());
     }
 
-    /**Method to set the entry room of the board*/
+    /**
+     * Method called by populateBoard() to set the students inside the entry room
+     * @param entry is an arrayList containing all the students that will be placed on the entry room
+     */
     private void populateEntry(ArrayList<Color> entry) {
         int placedElements = 0;
         int bound = (entry.size() / 2)+1;
@@ -242,6 +265,10 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
         }
     }
 
+    /**
+     * Method called by populateBoard() to set the students inside the dining room
+     * @param dining is a map containing all the students that are placed inside the dining room
+     */
     private void popoulateDining(Map<Color,Integer> dining){
         for(Color color : dining.keySet()) {
             for(int i = 0; i < dining.get(color); i ++) {
@@ -252,7 +279,11 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
         }
     }
 
-
+    /**
+     * Method called by populateBoard() to set all the available towers
+     * @param tower is the color associated to this board's towers
+     * @param numOfTowers is the number of available towers
+     * */
     private void createTowers(TowerColor tower,int numOfTowers){
         String towerImage = tower.getTowerImg();
         towerSpace.getChildren().clear();
@@ -273,6 +304,11 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
             }
         }
     }
+
+    /**
+     * Method called by populateBoard() to set all the owned teachers
+     * @param teachers is a map containing information about all the owned teachers
+     */
     private void setTeachers(Map<Color,Boolean> teachers){
 
         professorSpace.getChildren().clear();
@@ -483,6 +519,11 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
         }
     }
 
+    /**
+     * Method called by populateDiningRoom() and populateEntryRoom(), used to print the students inside the board
+     * @param color is the color of the student that will be printed
+     * @return the modified imageView
+     */
     private ImageView studentGenerator(Color color){
         ImageView image = new ImageView(color.getStudImg());
         image.setFitWidth(36);
@@ -492,6 +533,11 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
         return image;
     }
 
+    /**
+     * Method called by populateTeacher(), used to print the teachers inside the board
+     * @param color is the color of the teacher owned by the player
+     * @return the modified imageView
+     */
     private ImageView generateTeacher(Color color){
         ImageView teacher = new ImageView(color.getTeacherImg());
         teacher.setFitWidth(36);

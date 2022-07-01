@@ -7,6 +7,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 
+/**
+ * Class generating a panel that asks for player's nickname
+ */
 public class NicknameInputControllerGeneric extends ViewSubject implements GenericSceneController {
 
     @FXML
@@ -16,6 +19,9 @@ public class NicknameInputControllerGeneric extends ViewSubject implements Gener
     @FXML
     Label errorOutPut;
 
+    /**
+     * Method used to set all the events
+     */
     @FXML
     public void initialize() {
         sendNick.setOnAction(actionEvent -> sendNickButtonClick());
@@ -25,6 +31,9 @@ public class NicknameInputControllerGeneric extends ViewSubject implements Gener
         });
     }
 
+    /**
+     * Method used to send the acquired nickname
+     */
     public void sendNickButtonClick() {
 
         String nick = nickField.getText();
@@ -33,6 +42,10 @@ public class NicknameInputControllerGeneric extends ViewSubject implements Gener
 
     }
 
+    /**
+     * Method used to print an error message
+     * @param error is the error message
+     */
     public void printErrorMessage(String error) {
         errorOutPut.setText(error);
     }

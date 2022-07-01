@@ -21,6 +21,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
+/**
+ * Class used to manage the transitons between different scenes
+ */
 public class SceneController extends ViewSubject {
     public static Scene currentScene;
     public static GenericSceneController currentController;
@@ -30,10 +33,16 @@ public class SceneController extends ViewSubject {
     public static GenericSceneController expertController;
 
 
+    /**
+     * Method used to change the root panel
+     */
     public static void changeRoot(List<ViewListener> observerList, GenericSceneController controller, String FXML_path) {
         actualChangeRoot(observerList, controller, FXML_path, ChangeType.DEFAULT);
     }
 
+    /**
+     * Method used to change the root panel
+     */
     public static void changeRoot(List<ViewListener> observerList, String FXML_path) {
         actualChangeRoot(observerList, null, FXML_path, ChangeType.DEFAULT);
     }
@@ -46,6 +55,9 @@ public class SceneController extends ViewSubject {
         actualChangeRoot(observerList, controller, FXML_path, ChangeType.EXPERT);
     }
 
+    /**
+     * Method used to show a pop up message
+     */
     public static void showNewPopUp(List<ViewListener> observerList, GenericSceneController controller, ChangeType type, String FXML_path, String title) {
 
         FXMLLoader loader = new FXMLLoader();
@@ -85,6 +97,9 @@ public class SceneController extends ViewSubject {
 
     }
 
+    /**
+     * Method used to show a pop up message
+     */
     public static void showNewPopUp(List<ViewListener> observerList, GenericSceneController controller, ChangeType type, String FXML_path) {
 
         FXMLLoader loader = new FXMLLoader();
@@ -124,6 +139,9 @@ public class SceneController extends ViewSubject {
 
     }
 
+    /**
+     * Method used to show a message
+     */
     public static void showMessage(Alert.AlertType alertType, String message) {
         Alert alert = new Alert(alertType, message);
         Thread thread = new Thread(() -> {
@@ -197,6 +215,10 @@ public class SceneController extends ViewSubject {
         ((Stage) currentScene.getWindow()).setFullScreen(true);
     }
 
+    /**
+     * Method used to set a scene
+     * @param currentScene scene the will be set
+     */
     public static void setCurrentScene(Scene currentScene) {
         SceneController.currentScene = currentScene;
     }
@@ -205,6 +227,9 @@ public class SceneController extends ViewSubject {
         SceneController.currentController = currentController;
     }
 
+    /**
+     * Method used to play a sound
+     */
     public static synchronized void playSound() {
 
         List<String> audioFiles = new ArrayList<>();

@@ -23,6 +23,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Class controlling the panel that shows all the info required to play expert1
+ */
 public class Expert1SceneController extends ViewSubject implements GenericSceneController {
 
     private Map<Integer, IslandNode> islandList;
@@ -42,6 +45,11 @@ public class Expert1SceneController extends ViewSubject implements GenericSceneC
     @FXML
     HBox StudentSpace;
 
+    /**
+     * Default constructor
+     * @param cardID is the ID of the expertCard played
+     * @param card is the expert card
+     */
     public Expert1SceneController( int cardID, Expert1 card) {
         this.islandList = card.getIslandMap();
         this.studentsOnCard = card.getStudentsOnCard();
@@ -49,6 +57,9 @@ public class Expert1SceneController extends ViewSubject implements GenericSceneC
         this.card = card;
     }
 
+    /**
+     * Method used to set the students over this panel, adds the event handlers
+     */
     public void initialize() {
 
         IslandSelector.setItems(FXCollections.observableArrayList(islandList.keySet()));
@@ -65,6 +76,10 @@ public class Expert1SceneController extends ViewSubject implements GenericSceneC
         }
     }
 
+    /**
+     * Method used to select the student from the card
+     * @param event is the action event registered by the panel
+     */
     public void selectStudent(MouseEvent event){
         Node selectedColor = event.getPickResult().getIntersectedNode();
         event.consume();
@@ -82,11 +97,18 @@ public class Expert1SceneController extends ViewSubject implements GenericSceneC
             colorPicked = Color.YELLOW;
     }
 
+    /**
+     * Method used to acquire the island where the student will be placed
+     * @param event is the event registered by the panel
+     */
     public void choiceIsland(MouseEvent event){
         renderIsland();
         event.consume();
     }
 
+    /**
+     * Method used to show the effect of the expert on the island chosen
+     */
     private void renderIsland(){
         int ID = (int)IslandSelector.getValue();
         IslandNode nodeToRender = islandList.get(ID);
@@ -101,6 +123,10 @@ public class Expert1SceneController extends ViewSubject implements GenericSceneC
 
     }
 
+    /**
+     * Method used to notify to the controller all the parameters required to play this expert
+     * @param event is the event registered by the panel
+     */
     public void playExpert(MouseEvent event){
         new Thread(()->notifyListener(l->l.playExpertCard3(cardID,(int)IslandSelector.getValue(),colorPicked))).start();
         event.consume();

@@ -20,6 +20,9 @@ import static it.polimi.ingsw.model.DeckType.*;
 import static javafx.scene.input.KeyCode.D;
 import static javafx.scene.input.KeyCode.T;
 
+/**
+ * Class generating the panel that asks for player's towerColor and deck
+ */
 public class TowerDeckSelectionControllerGeneric extends ViewSubject implements GenericSceneController, Initializable {
 
     @FXML
@@ -49,6 +52,11 @@ public class TowerDeckSelectionControllerGeneric extends ViewSubject implements 
     private TowerColor selectedColor;
     private DeckType selectedDeck;
 
+    /**
+     * Default constructor
+     * @param url
+     * @param resourceBundle
+     */
     @FXML
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -204,6 +212,10 @@ public class TowerDeckSelectionControllerGeneric extends ViewSubject implements 
     }
 
 
+    /**
+     * Method used to validate input
+     * @param towerColor is the chosen tower color
+     */
     public void towerSelection(TowerColor towerColor) {
 
         if (selectedColor == towerColor)
@@ -212,6 +224,10 @@ public class TowerDeckSelectionControllerGeneric extends ViewSubject implements 
             selectedColor = towerColor;
     }
 
+    /**
+     * Method used to validate input
+     * @param deckType is the chosen deck
+     */
     public void deckSelection(DeckType deckType) {
 
         if (selectedDeck == deckType)
@@ -220,6 +236,9 @@ public class TowerDeckSelectionControllerGeneric extends ViewSubject implements 
             selectedDeck = deckType;
     }
 
+    /**
+     * Method used to hide remaining options after a player made its choice, notifies the chosen values
+     */
     public void confirmSelection() {
 
         if (selectedDeck == null && selectedColor == null)
@@ -248,14 +267,26 @@ public class TowerDeckSelectionControllerGeneric extends ViewSubject implements 
 
     }
 
+    /**
+     * Method used to set remaining tower colors
+     * @param remainingTowers are the remaining tower colors
+     */
     public void setRemainingTowers(ArrayList<TowerColor> remainingTowers) {
         this.remainingTowers = remainingTowers;
     }
 
+    /**
+     * Method used to set remaining decks
+     * @param remainingDecks are the remaining decks
+     */
     public void setRemainingDecks(ArrayList<DeckType> remainingDecks) {
         this.remainingDecks = remainingDecks;
     }
 
+    /**
+     * Method used to create a map containing all the available tower colors
+     * @return
+     */
     private Map<TowerColor, ImageView> generateTowerColorMap() {
 
         Map<TowerColor, ImageView> towerColorImageViewMap = new HashMap<>();
@@ -267,6 +298,10 @@ public class TowerDeckSelectionControllerGeneric extends ViewSubject implements 
         return  towerColorImageViewMap;
     }
 
+    /**
+     * Method used to create a map containing all the available decks
+     * @return
+     */
     private Map<DeckType, ImageView> generateDeckTypeMap() {
         Map<DeckType, ImageView> deckTypeImageViewMap = new HashMap<>();
 

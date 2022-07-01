@@ -16,6 +16,9 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+/**
+ * Class that controls the panel showing the islandList
+ */
 public class ChooseIslandSceneController extends ViewSubject implements GenericSceneController, Initializable {
 
     private Map<Integer, IslandNode> islandList;
@@ -26,6 +29,13 @@ public class ChooseIslandSceneController extends ViewSubject implements GenericS
     @FXML
     GridPane gridPane;
 
+    /**
+     * Default constructor
+     * @param islandList is a map containing all the available islands
+     * @param islandNodes is an arraylist of all the islands
+     * @param cardID is the action number of the played student card
+     * @param card is the expert card played that modifies the number of mother nature moves allowed
+     */
     public ChooseIslandSceneController(Map<Integer, IslandNode> islandList, ArrayList<Node> islandNodes, int cardID, Expert5 card) {
         this.islandList = islandList;
         this.islandNodes = islandNodes;
@@ -33,6 +43,11 @@ public class ChooseIslandSceneController extends ViewSubject implements GenericS
         this.card = card;
     }
 
+    /**
+     * Method used to initialize the panel showing the islandList
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         int column = 0;
@@ -52,6 +67,10 @@ public class ChooseIslandSceneController extends ViewSubject implements GenericS
         }
     }
 
+    /**
+     * Method used to notify which is the destination of mother nature
+     * @param nodeId
+     */
    public void selectIsland(int nodeId) {
        new Thread(()->notifyListener(l->l.playExpertCard2(cardID, nodeId))).start();
        close();

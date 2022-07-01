@@ -20,6 +20,9 @@ import java.util.List;
 import java.util.stream.Stream;
 import java.io.File;
 
+/**
+ * Classn used to generate the panel that welcomes the player
+ */
 public class WelcomeScreenControllerGeneric extends ViewSubject implements GenericSceneController {
 
     @FXML
@@ -27,11 +30,17 @@ public class WelcomeScreenControllerGeneric extends ViewSubject implements Gener
 
     List<String> audioFiles;
 
+    /**
+     * Default constructor
+     */
     public WelcomeScreenControllerGeneric()
     {
         this.audioFiles = new ArrayList<>();
     }
 
+    /**
+     * Method used to initialize the panel by setting the events
+     */
     @FXML
     public void initialize() {
 
@@ -44,6 +53,9 @@ public class WelcomeScreenControllerGeneric extends ViewSubject implements Gener
         });
     }
 
+    /**
+     * Method used to manage the action and to call the change root
+     */
     public void startButtonClick() {
         SceneController.playSound();
         Platform.runLater(() -> SceneController.changeRoot(list, "LogInScene.fxml"));

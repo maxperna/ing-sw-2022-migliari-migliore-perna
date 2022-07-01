@@ -14,6 +14,9 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
+/**
+ * Class controlling the panel that shows all the info required to play expert7
+ */
 public class Expert7SceneController extends ViewSubject implements GenericSceneController {
     @FXML
     AnchorPane ParentNode;
@@ -30,6 +33,11 @@ public class Expert7SceneController extends ViewSubject implements GenericSceneC
     private final int cardID;
     private final Expert7 card;
 
+    /**
+     * Default constructor
+     * @param cardID is the ID of the expertCard played
+     * @param card is the expert card
+     */
     public Expert7SceneController(int cardID, Expert7 card){
         this.cardID = cardID;
         this.card = card;
@@ -38,6 +46,9 @@ public class Expert7SceneController extends ViewSubject implements GenericSceneC
         cardSwap = new ArrayList<>();
     }
 
+    /**
+     * Method used to add the events
+     */
     @FXML
     public void initialize(){
         SwapButton.addEventHandler(MouseEvent.MOUSE_CLICKED,this::playExpert);
@@ -60,7 +71,10 @@ public class Expert7SceneController extends ViewSubject implements GenericSceneC
         }
     }
 
-    /**Method to select students on entry room*/
+    /**
+     * Method to select students on entry room
+     * @param event is the event registered by the panel
+     */
     public void selectEntry(MouseEvent event){
         if(entryRoomSwap.size()<3) {
             Node selectedNode = event.getPickResult().getIntersectedNode();
@@ -70,7 +84,10 @@ public class Expert7SceneController extends ViewSubject implements GenericSceneC
         }
 
     }
-    /**Method to select students on card*/
+    /**
+     * Method to select students on card
+     * @param event is the event registered by the panel
+     */
     public void selectCard(MouseEvent event){
         if(cardSwap.size()<3) {
             Node selectedNode = event.getPickResult().getIntersectedNode();
@@ -80,12 +97,21 @@ public class Expert7SceneController extends ViewSubject implements GenericSceneC
         }
     }
 
+    /**
+     * Method used to notify to the controller all the parameters required to play this expert
+     * @param event is the event registered by the panel
+     */
     public void playExpert(MouseEvent event){
         event.consume();
         new Thread(()->notifyListener(l->l.playExpertCard5(cardID,cardSwap,entryRoomSwap))).start();
         close();
     }
 
+    /**
+     * Method called by selectEntry() to convert the chosen color into the corresponding enum
+     * @param selectedColor is the node containing the chosen color
+     * @return the enum that matches the chosen color
+     */
     private Color convertColor(Node selectedColor){
 
         Color colorPicked;

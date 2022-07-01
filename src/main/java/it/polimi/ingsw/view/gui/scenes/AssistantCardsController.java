@@ -21,6 +21,9 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
+/**
+ * Class that controls the panel used to show and to play the assistant card
+ */
 public class AssistantCardsController extends ViewSubject implements GenericSceneController, Initializable {
 
     ArrayList<AssistantCard> deck;
@@ -32,11 +35,19 @@ public class AssistantCardsController extends ViewSubject implements GenericScen
     @FXML
     TilePane tilePane;
 
+    /**
+     * Default constructor
+     */
     public AssistantCardsController() {
         this.deck = new ArrayList<>();
         this.lastCard = new HashMap<>();
     }
 
+    /**
+     * Method used to initialize the pane containing the assistant cards
+     * @param url is the path of the objects required by the method
+     * @param resourceBundle is a container for all the required objects
+     */
     @FXML
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -81,6 +92,10 @@ public class AssistantCardsController extends ViewSubject implements GenericScen
 
     }
 
+    /**
+     * Method used to select the assistant card from all the available cards
+     * @param cardID is an ID that is used to identify the chosen card (it's the card action number)
+     */
     public void selectCard(int cardID) {
         Logger.getLogger("ASSISTANT CARD").info("Played card"+cardID);
         new Thread(()->notifyListener(list -> list.playAssistantCard(cardID))).start();
@@ -88,10 +103,18 @@ public class AssistantCardsController extends ViewSubject implements GenericScen
         stage.close();
     }
 
+    /**
+     * Setter
+     * @param deck deck owned by the player
+     */
     public void setDeck(ArrayList<AssistantCard> deck) {
         this.deck = deck;
     }
 
+    /**
+     * Setter
+     * @param lastCard map containing all the cards played in the previous turn
+     */
     public void setLastCard(Map<String, AssistantCard> lastCard) {
         this.lastCard = lastCard;
     }

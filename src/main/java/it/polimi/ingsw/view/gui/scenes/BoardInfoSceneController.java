@@ -16,6 +16,9 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+/**
+ * Class that controls the panel showing the player's board
+ */
 public class BoardInfoSceneController extends ViewSubject implements GenericSceneController, Initializable {
 
     Map<String, Board> boardMap;
@@ -30,10 +33,19 @@ public class BoardInfoSceneController extends ViewSubject implements GenericScen
     @FXML
     Label label10;
 
+    /**
+     * Default boardScene controller
+     * @param boardMap is a map containing all the available boards
+     */
     public BoardInfoSceneController(Map<String, Board> boardMap) {
         this.boardMap = boardMap;
     }
 
+    /**
+     * Method used to initialize the panel showing the player's board
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ArrayList<Pair<String, Board>> pairList = new ArrayList<>();
@@ -66,6 +78,11 @@ public class BoardInfoSceneController extends ViewSubject implements GenericScen
         }
     }
 
+    /**
+     * Method used to fill the board with the students that are set based on the model board
+     * @param board is the player's board
+     * @param pane is the pane that will be used to show the board
+     */
     public void populateBoard(Board board, AnchorPane pane){
 
         populateEntry(board.getEntryRoom(), (GridPane) pane.lookup("#entryRoom"));
@@ -74,6 +91,11 @@ public class BoardInfoSceneController extends ViewSubject implements GenericScen
         populateDiningRoom(board.getDiningRoom(), (GridPane) pane.lookup("#diningRoom"));
     }
 
+    /**
+     * Method called by populateBoard() to set the students inside the entry room
+     * @param entry is an arrayList containing all the students that will be placed on the entry room
+     * @param room is the gridPane dividing the pane in different zones, one per student inside the entry room
+     */
     private void populateEntry(ArrayList<Color> entry, GridPane room) {
         int k =0;
         int bound = entry.size();
@@ -96,6 +118,11 @@ public class BoardInfoSceneController extends ViewSubject implements GenericScen
         }
     }
 
+    /**
+     * Method called by populateBoard() to set the students inside the dining room
+     * @param studentMap is a map containing all the students that are placed inside the dining room
+     * @param diningRoom is the gridPane dividing the dining room in different zones, one per student inside the dining room
+     */
     private void populateDiningRoom(Map<Color, Integer> studentMap, GridPane diningRoom) {
         for(Color color : studentMap.keySet()) {
             for(int i = 0; i < studentMap.get(color); i ++) {
@@ -103,8 +130,14 @@ public class BoardInfoSceneController extends ViewSubject implements GenericScen
                 diningRoom.add(student, i, color.getBoardIndex());
             }
         }
-
     }
+
+    /**
+     * Method called by populateBoard() to set all the available towers
+     * @param tower is the color associated to this board's towers
+     * @param numOfTowers is the number of available towers
+     * @param towerSpace is the gridPane dividing the pane into different zones, one per tower
+     */
     private void createTowers(TowerColor tower,int numOfTowers, GridPane towerSpace){
         String towerImage = tower.getTowerImg();
         for(int i=0;i<2;i++){
@@ -117,6 +150,11 @@ public class BoardInfoSceneController extends ViewSubject implements GenericScen
         }
     }
 
+    /**
+     * Method called by populateBoard() to set all the owned teachers
+     * @param teachers is a map containing information about all the owned teachers
+     * @param professorSpace is the gridPane dividing the teacher's area in different zones, one per teacher
+     */
     private void setTeachers(Map<Color,Boolean> teachers, GridPane professorSpace){
 
         for(Color color:teachers.keySet() ) {
@@ -127,6 +165,11 @@ public class BoardInfoSceneController extends ViewSubject implements GenericScen
         }
     }
 
+    /**
+     * Method called by populateDiningRoom() and populateEntryRoom(), used to print the students inside the board
+     * @param color is the color of the student that will be printed
+     * @return the modified imageView
+     */
     private ImageView studentGenerator(Color color){
         ImageView image = new ImageView(color.getStudImg());
         image.setFitWidth(25);
@@ -136,6 +179,11 @@ public class BoardInfoSceneController extends ViewSubject implements GenericScen
         return image;
     }
 
+    /**
+     * Method called by populateTeacher(), used to print the teachers inside the board
+     * @param color is the color of the teacher owned by the player
+     * @return the modified imageView
+     */
     private ImageView generateTeacher(Color color){
         ImageView teacher = new ImageView(color.getTeacherImg());
         teacher.setFitWidth(25);

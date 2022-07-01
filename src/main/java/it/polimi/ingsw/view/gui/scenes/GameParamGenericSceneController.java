@@ -10,6 +10,9 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * Class controlling the panel used to ask the game parameters to the first player
+ */
 public class GameParamGenericSceneController extends ViewSubject implements GenericSceneController {
 
     @FXML
@@ -21,6 +24,9 @@ public class GameParamGenericSceneController extends ViewSubject implements Gene
     @FXML
     Button startGame;
 
+    /**
+     * Method used to initialize the panel by adding all the events and sending all the notifies
+     */
     @FXML
     public void initialize() {
 
@@ -41,6 +47,9 @@ public class GameParamGenericSceneController extends ViewSubject implements Gene
         expModInfo.setVisible(!expModInfo.isVisible());
     }
 
+    /**
+     * Method used to notify the game parameters to the game controller
+     */
     private void startGame() {
         int playersNum;
         if (numOfPlayers.getSelectionModel().getSelectedItem().equals(numOfPlayers.getItems().get(0)))
