@@ -17,7 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Expert2 implements ExpertCard {
 
     private final ExpertID ID = ExpertID.USER_ONLY;
-    private final String IMG = "images/Personaggi/CarteTOT_front12.jpg";
+    private final String IMG = "images/Personaggi/CarteTOT_front2.jpg";
     private final Game currentGame;
     private final String description = "During this turn you can take control of professors even if you only match the maximum number of students of that color on your board";
     private final ConcurrentHashMap<Color, Player> affectedPlayer;   //hashmap to keep track of the affected players

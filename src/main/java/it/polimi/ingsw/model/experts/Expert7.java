@@ -19,7 +19,7 @@ public class Expert7 implements ExpertCard {
     private final Game currentGame;
     private ArrayList<Color> entryRoom;
     private final String description = "Choose up to 3 students from this card; switch them with the same number of students of your choice from your entrance hall";
-    private final String IMG = "images/Personaggi/CarteTOT_front6.jpg";            //front image of the card
+    private final String IMG = "images/Personaggi/CarteTOT_front7.jpg";            //front image of the card
     private int cost = 1;
 
     /**

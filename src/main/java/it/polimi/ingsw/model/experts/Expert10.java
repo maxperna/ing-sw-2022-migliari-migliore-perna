@@ -19,7 +19,7 @@ import java.util.Map;
 public class Expert10 implements ExpertCard {
 
     private final ExpertID ID = ExpertID.TWO_LIST_COLOR;
-    private final String IMG = "images/Personaggi/CarteTOT_front9.jpg";            //front image of the card
+    private final String IMG = "images/Personaggi/CarteTOT_front10.jpg";            //front image of the card
     private final Game currentGame;
     private ArrayList<Color> entryRoom;
     private Map<Color,Integer> diningRoom;

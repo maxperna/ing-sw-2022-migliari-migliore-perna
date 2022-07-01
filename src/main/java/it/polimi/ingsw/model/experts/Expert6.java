@@ -13,7 +13,7 @@ public class Expert6 implements ExpertCard {
 
     private final ExpertID ID = ExpertID.USER_ONLY;
     private final Game currentGame;
-    private final String IMG = "images/Personaggi/CarteTOT_front5.jpg";            //front image of the card
+    private final String IMG = "images/Personaggi/CarteTOT_front6.jpg";            //front image of the card
     private final String description = "During the check influence phase, the towers are not included";
     private int cost = 3;
 

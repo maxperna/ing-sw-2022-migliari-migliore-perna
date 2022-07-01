@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 /**
- * Class implementing assistant card 3 having the following effect: place a stop card omn a chosen island
+ * Class implementing assistant card 3 having the following effect: place a stop card on a chosen island
  *
  * @author Massimo
  */
@@ -21,7 +21,7 @@ public class Expert5 implements ExpertCard {
     private Map<Integer,IslandNode> islandList;
     private final Game currentGame;
     private final String description = "Place a stop card on an island; when Mother Nature reaches that island, skip the check influence phase and remove the stop card.";
-    private final String IMG = "images/Personaggi/CarteTOT_front4.jpg";            //front image of the card
+    private final String IMG = "images/Personaggi/CarteTOT_front5.jpg";            //front image of the card
     private int stopAvailable;
     private int cost = 2;
 

@@ -19,7 +19,7 @@ public class Expert3 implements ExpertCard {
     private final ExpertID ID = ExpertID.NODE_ID;
     private final Game currentGame;
     private Map<Integer, IslandNode> islandList;
-    private final String IMG = "images/Personaggi/CarteTOT_front2.jpg";            //front image of the card
+    private final String IMG = "images/Personaggi/CarteTOT_front3.jpg";            //front image of the card
     private final String description = "Choose an island and check the influence as if Mother Nature was there.";
     private int cost = 3;
 

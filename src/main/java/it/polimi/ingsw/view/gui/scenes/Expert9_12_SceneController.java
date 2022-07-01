@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 /**Used for expert 12 as well*/
 public class Expert9_12_SceneController extends ViewSubject implements GenericSceneController {
     @FXML
-    AnchorPane parentNode;
+    AnchorPane ParentNode;
     @FXML
     ImageView Blue;
     @FXML
@@ -66,6 +66,6 @@ public class Expert9_12_SceneController extends ViewSubject implements GenericSc
 
     @Override
     public void close() {
-        ((Stage) parentNode.getScene().getWindow()).close();
+        ((Stage) ParentNode.getScene().getWindow()).close();
     }
 }
