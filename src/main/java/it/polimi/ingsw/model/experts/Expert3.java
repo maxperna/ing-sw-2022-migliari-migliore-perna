@@ -93,4 +93,6 @@ public class Expert3 implements ExpertCard {
         return IMG;
     }
 
+    @Override
+    public void makeGameSnap(){}
 }

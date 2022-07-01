@@ -9,6 +9,8 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.gameField.IslandNode;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Class implementing Expert1: move a student from this card to a chosen island
@@ -22,6 +24,7 @@ public class Expert1 implements ExpertCard {
     private final ArrayList<Color> studentsOnCard = new ArrayList<>();
     private final String IMG = "images/Personaggi/CarteTOT_front.jpg";            //front image of the card
     private final Game currentGame;
+    private final Map<Integer,IslandNode>islandMap;
     private final String description = "Choose one of the students on this card and place it on one island, then draw a student from the pouch and place it on this card";
     private int cost = 1;
 
@@ -30,6 +33,7 @@ public class Expert1 implements ExpertCard {
      * @param currentGame is the game this card is associated to
      */
     public Expert1(Game currentGame) {
+        this.islandMap = new HashMap<>();
         this.currentGame = currentGame;
         try {
             this.studentsOnCard.addAll(this.currentGame.getPouch().randomDraw(4));
@@ -117,6 +121,11 @@ public class Expert1 implements ExpertCard {
     @Override
     public String getExpDescription() {
         return description;
+    }
+
+    @Override
+    public void makeGameSnap() {
+        this.islandMap = currentGame.getGameField();
     }
 
     @Override

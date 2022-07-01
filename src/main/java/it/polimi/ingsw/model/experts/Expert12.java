@@ -110,4 +110,6 @@ public class Expert12 implements ExpertCard {
     public String getIMG() {
         return IMG;
     }
+    @Override
+    public void makeGameSnap(){}
 }

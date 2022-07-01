@@ -133,4 +133,7 @@ public class Expert10 implements ExpertCard {
     public String getIMG() {
         return IMG;
     }
+
+    @Override
+    public void makeGameSnap(){}
 }

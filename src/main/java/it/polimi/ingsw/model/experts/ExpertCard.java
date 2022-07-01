@@ -99,8 +99,10 @@ public interface ExpertCard extends Serializable {
     /**
      * Method used to get the description of the expertCard
      */
-
     String getExpDescription();
+
+    /**Method to load necessary parameters  to play expert card*/
+    void makeGameSnap();
 
     /**Method to get the image of the expert
      *@return a path to expert Image*/
