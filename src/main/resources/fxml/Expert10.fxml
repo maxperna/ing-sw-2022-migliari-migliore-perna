@@ -15,18 +15,18 @@
             <Image url="@../images/Personaggi/CarteTOT_front10.jpg" />
          </image>
       </ImageView>
-      <HBox fx:id="StudentsOnCard" alignment="CENTER" layoutX="445.0" layoutY="212.0" prefHeight="100.0" prefWidth="213.0" spacing="25.0" style="-fx-background-color: grey;" />
+      <HBox fx:id="EntryRoom" alignment="CENTER" layoutX="445.0" layoutY="212.0" prefHeight="100.0" prefWidth="418.0" spacing="25.0" style="-fx-background-color: grey;" />
       <Text layoutX="445.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your entry room" wrappingWidth="347.63671875">
          <font>
             <Font name="Goudy Old Style" size="24.0" />
          </font>
       </Text>
-      <Text layoutX="436.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose up to 3 students from this card; switch them with the same number of students of your choice from your entrance hall" wrappingWidth="452.13671875" AnchorPane.leftAnchor="436.0" AnchorPane.topAnchor="26.0">
+      <Text layoutX="436.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Switch up to 2 students from your entrance hall and your dining roomSwitch up to 2 students from your entrance hall and your dining room" wrappingWidth="452.13671875" AnchorPane.leftAnchor="436.0" AnchorPane.topAnchor="26.0">
          <font>
             <Font name="Goudy Old Style" size="24.0" />
          </font>
       </Text>
-      <HBox fx:id="EntryRoom" alignment="CENTER" layoutX="445.0" layoutY="403.0" prefHeight="100.0" prefWidth="213.0" spacing="25.0" style="-fx-background-color: grey;" />
+      <HBox fx:id="DiningRoom" alignment="CENTER" layoutX="445.0" layoutY="403.0" prefHeight="100.0" prefWidth="418.0" spacing="25.0" style="-fx-background-color: grey;" />
       <Text layoutX="445.0" layoutY="387.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your dining room" wrappingWidth="347.63671875">
          <font>
             <Font name="Goudy Old Style" size="24.0" />
