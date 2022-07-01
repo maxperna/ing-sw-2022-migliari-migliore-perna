@@ -426,7 +426,6 @@ public class ExpertsCardTest {
         } catch (IllegalMove e) {
             assert true;
         }
-        assertEquals(2, exp7.getCost());
         assertEquals(ExpertID.TWO_LIST_COLOR, exp7.getExpType());
 
     }
