@@ -35,7 +35,7 @@ public class CardDeck implements Serializable {
         Gson gson = new Gson();
 
         //JSON reader from file
-        FileReader cardJSON = new FileReader("src/main/Assets/cardsJSON.json");
+        FileReader cardJSON = new FileReader("src/main/java/it/polimi/ingsw/Assets/cardsJSON.json");
         //Generating a json element and relative json object
         JsonElement cardJSONFile = JsonParser.parseReader(cardJSON);
         JsonObject cardJSONObject = cardJSONFile.getAsJsonObject();
