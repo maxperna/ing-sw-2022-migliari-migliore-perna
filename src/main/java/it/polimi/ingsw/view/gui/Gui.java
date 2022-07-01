@@ -199,7 +199,8 @@ public class Gui extends ViewSubject implements View {
 
     @Override
     public void playExpert5(int cardID, Expert5 expert) {
-
+        Expert5SceneController exp5 = new Expert5SceneController(expert.getIslandList(), getPWC().getIslandNodes(), cardID, expert);
+        Platform.runLater(()->SceneController.showNewPopUp(list,exp5,ChangeType.EXPERT,"Expert5.fxml"));
     }
 
     @Override

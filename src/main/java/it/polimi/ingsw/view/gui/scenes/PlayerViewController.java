@@ -50,7 +50,6 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
     Label numOfCoinLabel;
 
     private final ImageView MN;
-
     private final Map<Color,Node> teacherList;
     private  Map<Integer,GridPane> islandList;
     private final Map<Integer,GridPane> cloudList;
@@ -62,6 +61,7 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
     private Node tempNode;
     private ArrayList<ExpertCard> expertsCard;
     private int numOfCoins;
+    private ArrayList<Node> islandNodes;
 
 
 
@@ -70,6 +70,7 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
         islandList = new ConcurrentHashMap<>();
         cloudList = new ConcurrentHashMap<>();
         islandConfig = new ConcurrentHashMap<>();
+        islandNodes = new ArrayList<>();
         MN = new ImageView("images/Scontornate/mother_nature_pawn.png");
         MN.setFitWidth(52);
         MN.setFitHeight(71);
@@ -95,9 +96,14 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
             showBoardsButton.setDisable(true);
         });
 
+        for(int i = 1; i <= islandList.size(); i++) {
+            Node island = gameField.lookup("#"+i);
+            islandNodes.add(island);
+        }
         showBoardsButton.setOnAction(actionEvent -> new Thread(() -> notifyListener(l -> l.chooseAction(2))).start());
 
         playExpertButton.setOnAction(actionEvent-> new Thread(()->notifyListener(l->l.guiExpertShow(expertsCard,false,numOfCoins))).start());
+
     }
 
     public void setPreparationPhaseChoiceBox(){
@@ -512,6 +518,9 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
         MNOnMovement = !MNOnMovement;
     }
 
+    public ArrayList<Node> getIslandNodes() {
+        return new ArrayList<>(islandNodes);
+    }
 
     @Override
     public void close() {
