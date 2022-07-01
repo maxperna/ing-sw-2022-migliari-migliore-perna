@@ -2,11 +2,13 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.client_messages.*;
 import it.polimi.ingsw.network.messages.client_messages.ExpertMessages.*;
 import it.polimi.ingsw.network.messages.client_messages.GameParamMessage;
 import it.polimi.ingsw.network.messages.server_messages.GenericMessage;
+import it.polimi.ingsw.observer.ViewSubject;
 import it.polimi.ingsw.view.VirtualView;
 
 import java.beans.PropertyChangeEvent;
@@ -495,7 +497,12 @@ public class GameController implements PropertyChangeListener {
 
         if (messageReceived.getType() == EXPERT_CARD_REQ) {
 
-            viewMap.get(senderPlayer).showExpertCards(game.getExpertsCard(),true,game.getPlayerByNickName(senderPlayer).getNumOfCoin());
+            ArrayList<ExpertCard> expertCards = game.getExpertsCard();
+
+            for(ExpertCard expertCard : expertCards)
+                expertCard.makeGameSnap(game.getPlayerByNickName(senderPlayer));
+
+            viewMap.get(senderPlayer).showExpertCards(expertCards,true,game.getPlayerByNickName(senderPlayer).getNumOfCoin());
         }
 
     }

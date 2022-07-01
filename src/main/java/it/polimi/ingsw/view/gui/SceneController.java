@@ -19,60 +19,34 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class SceneController extends ViewSubject {
     public static Scene currentScene;
     public static GenericSceneController currentController;
+    public static Scene currentPopUpScene;
     public static GenericSceneController popUpController;
+    public static Scene currentExpertScene;
     public static GenericSceneController expertController;
 
-    public static Scene currentPopUpScene;
 
     public static void changeRoot(List<ViewListener> observerList, GenericSceneController controller, String FXML_path) {
-
-        FXMLLoader loader = new FXMLLoader();
-        try {
-
-            ((ViewSubject) controller).addAllListeners(observerList);
-            loader.setController(controller);
-            loader.setLocation(SceneController.class.getResource("/fxml/" + FXML_path));
-            Parent newRoot = loader.load();
-
-            currentController = controller;
-            currentScene.setRoot(newRoot);
-
-            if(popUpController != null)
-                popUpController.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        actualChangeRoot(observerList, controller, FXML_path, ChangeType.DEFAULT);
     }
 
     public static void changeRoot(List<ViewListener> observerList, String FXML_path) {
-
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(SceneController.class.getResource("/fxml/" + FXML_path));
-
-        try {
-            Parent newRoot = loader.load();
-            GenericSceneController controller = loader.getController();
-            ((ViewSubject) controller).addAllListeners(observerList);
-            currentController = controller;
-
-            currentScene.setRoot(newRoot);
-
-            if(popUpController != null)
-                popUpController.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        actualChangeRoot(observerList, null, FXML_path, ChangeType.DEFAULT);
     }
 
-    public static void showNewPopUp(List<ViewListener> observerList, GenericSceneController controller, PopUpType type, String FXML_path, String title) {
+    public static void changePopUpRoot(List<ViewListener> observerList, GenericSceneController controller, String FXML_path) {
+        actualChangeRoot(observerList, controller, FXML_path, ChangeType.POPUP);
+    }
+
+    public static void changeExpertRoot(List<ViewListener> observerList, GenericSceneController controller, String FXML_path) {
+        actualChangeRoot(observerList, controller, FXML_path, ChangeType.EXPERT);
+    }
+
+    public static void showNewPopUp(List<ViewListener> observerList, GenericSceneController controller, ChangeType type, String FXML_path, String title) {
 
         FXMLLoader loader = new FXMLLoader();
 
@@ -81,9 +55,10 @@ public class SceneController extends ViewSubject {
 
             ((ViewSubject) controller).addAllListeners(observerList);
             loader.setController(controller);
-            if(type == PopUpType.DEFAULT)
+
+            if(type == ChangeType.POPUP)
                 popUpController = controller;
-            else
+            else if(type == ChangeType.EXPERT)
                 expertController = controller;
 
             Parent root = loader.load();
@@ -96,7 +71,11 @@ public class SceneController extends ViewSubject {
             stage.setScene(scene);
             stage.setAlwaysOnTop(true);
             stage.setResizable(true);
-            currentPopUpScene = scene;
+
+            if(type == ChangeType.POPUP)
+                currentPopUpScene = scene;
+            else if(type == ChangeType.EXPERT)
+                currentExpertScene = scene;
             stage.show();
 
 
@@ -106,7 +85,7 @@ public class SceneController extends ViewSubject {
 
     }
 
-    public static void showNewPopUp(List<ViewListener> observerList, GenericSceneController controller, PopUpType type, String FXML_path) {
+    public static void showNewPopUp(List<ViewListener> observerList, GenericSceneController controller, ChangeType type, String FXML_path) {
 
         FXMLLoader loader = new FXMLLoader();
 
@@ -115,9 +94,10 @@ public class SceneController extends ViewSubject {
 
             ((ViewSubject) controller).addAllListeners(observerList);
             loader.setController(controller);
-            if(type == PopUpType.DEFAULT)
+
+            if(type == ChangeType.POPUP)
                 popUpController = controller;
-            else
+            else if(type == ChangeType.EXPERT)
                 expertController = controller;
 
             Parent root = loader.load();
@@ -129,7 +109,12 @@ public class SceneController extends ViewSubject {
             stage.setScene(scene);
             stage.setAlwaysOnTop(true);
             stage.setResizable(false);
-            currentPopUpScene = scene;
+
+            if(type == ChangeType.POPUP)
+                currentPopUpScene = scene;
+            else if(type == ChangeType.EXPERT)
+                currentExpertScene = scene;
+
             stage.show();
 
 
@@ -138,25 +123,6 @@ public class SceneController extends ViewSubject {
         }
 
     }
-
-    public static void changePopUpRoot(List<ViewListener> observerList, GenericSceneController controller, String FXML_path) {
-
-        FXMLLoader loader = new FXMLLoader();
-
-        try {
-            loader.setLocation(SceneController.class.getResource("/fxml/" + FXML_path));
-
-            ((ViewSubject) controller).addAllListeners(observerList);
-            loader.setController(controller);
-            Parent newRoot = loader.load();
-            popUpController = controller;
-            currentPopUpScene.setRoot(newRoot);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
 
     public static void showMessage(Alert.AlertType alertType, String message) {
         Alert alert = new Alert(alertType, message);
@@ -174,6 +140,57 @@ public class SceneController extends ViewSubject {
         thread.setDaemon(true);
         thread.start();
         alert.showAndWait();
+    }
+
+    private static void actualChangeRoot(List<ViewListener> observerList, GenericSceneController controller, String FXML_path, ChangeType type) {
+
+        GenericSceneController actualController;
+        Parent newRoot;
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(SceneController.class.getResource("/fxml/" + FXML_path));
+
+            if(controller == null) {
+                newRoot = loader.load();
+                actualController = loader.getController();
+                ((ViewSubject) actualController).addAllListeners(observerList);
+            }
+            else {
+                actualController = controller;
+                ((ViewSubject) actualController).addAllListeners(observerList);
+                loader.setController(controller);
+                newRoot = loader.load();
+            }
+
+
+            switch (type) {
+                case DEFAULT:
+                    currentController = actualController;
+                    if(currentScene != null)
+                        currentScene.setRoot(newRoot);
+                    else
+                        Logger.getLogger("SceneControllerError").warning("You did not set a scene");
+                    break;
+                case POPUP:
+                    popUpController = actualController;
+                    if(currentPopUpScene != null)
+                        currentPopUpScene.setRoot(newRoot);
+                    else
+                        Logger.getLogger("SceneControllerError").warning("You did not set a scene");
+                    break;
+                case EXPERT:
+                    expertController = actualController;
+                    if(currentExpertScene != null)
+                        currentExpertScene.setRoot(newRoot);
+                    else
+                        Logger.getLogger("SceneControllerError").warning("You did not set a scene");
+            }
+
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void setFullScreen() {

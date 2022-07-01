@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.gui;
 
-public enum PopUpType {
+public enum ChangeType {
     DEFAULT,
+    POPUP,
     EXPERT
 }

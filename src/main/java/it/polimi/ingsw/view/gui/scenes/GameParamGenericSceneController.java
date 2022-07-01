@@ -1,7 +1,6 @@
 package it.polimi.ingsw.view.gui.scenes;
 
 import it.polimi.ingsw.observer.ViewSubject;
-import it.polimi.ingsw.view.gui.PopUpType;
 import it.polimi.ingsw.view.gui.SceneController;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
