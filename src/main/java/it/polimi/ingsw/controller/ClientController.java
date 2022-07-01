@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Logger;
 
 import static it.polimi.ingsw.network.messages.ErrorType.*;
 
@@ -453,6 +454,7 @@ public class ClientController implements ViewListener, Listener {
                 break;
             case AVAILABLE_ACTION:
                 AvailableActionMessage availableActionMessage = (AvailableActionMessage) receivedMessage;
+                Logger.getLogger("GUI").info("Expert played "+availableActionMessage.isExpertPlayed());
                 setBooleanControl(availableActionMessage.areAllStudentsMoved(), availableActionMessage.isMotherNatureMoved(), availableActionMessage.isExpertPlayed());
                 if(!studentsMoved){
                     actionQueue.execute(() -> view.actionPhaseTurn(expertPlayed));
@@ -520,9 +522,10 @@ public class ClientController implements ViewListener, Listener {
 
 
     @Override
-    public void guiExpertShow(ArrayList<ExpertCard> expertCards,boolean expertPlayed){
+    public void guiExpertShow(ArrayList<ExpertCard> expertCards,boolean expertPlayed,int numOfCoins){
         Gui gui = (Gui) view;
-        gui.showExpertCards(expertCards,expertPlayed,0);
+        getExpertsCard();
+        gui.showExpertCards(expertCards,expertPlayed,numOfCoins);
     }
 
     private void setBooleanControl(boolean allStudentsMoved, boolean motherNatureMoved, boolean expertPlayed) {

@@ -21,6 +21,11 @@
                   <Font name="Goudy Old Style" size="14.0" />
                </font>
             </Label>
+            <Label fx:id="alert1" layoutX="124.0" layoutY="375.0" text="Not enough coins!" textFill="#d30909" visible="false">
+               <font>
+                  <Font name="Goudy Old Style" size="14.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
       <AnchorPane layoutX="306.0" layoutY="10.0" prefHeight="535.0" prefWidth="317.0">
@@ -36,6 +41,11 @@
                   <Font name="Goudy Old Style" size="14.0" />
                </font>
             </Label>
+            <Label fx:id="alert2" layoutX="118.0" layoutY="375.0" text="Not enough coins!" textFill="#d30909" visible="false">
+               <font>
+                  <Font name="Goudy Old Style" size="14.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
       <AnchorPane layoutX="475.0" layoutY="10.0" prefHeight="535.0" prefWidth="317.0">
@@ -47,6 +57,11 @@
                </font>
             </Label>
             <Label fx:id="cost3" layoutX="124.0" layoutY="323.0" prefHeight="37.0" prefWidth="42.0" text="Label">
+               <font>
+                  <Font name="Goudy Old Style" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="alert3" layoutX="124.0" layoutY="375.0" text="Not enough coins!" textFill="#d30909" visible="false">
                <font>
                   <Font name="Goudy Old Style" size="14.0" />
                </font>

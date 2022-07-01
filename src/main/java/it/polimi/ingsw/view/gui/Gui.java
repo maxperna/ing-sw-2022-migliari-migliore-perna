@@ -149,7 +149,7 @@ public class Gui extends ViewSubject implements View {
     @Override
     public void actionPhaseTurn(Boolean expertPlayed) {
         PlayerViewController pwc = getPWC();
-        Platform.runLater(()->pwc.switchStudentMovementStatus());
+        Platform.runLater(pwc::switchStudentMovementStatus);
     }
 
     @Override
@@ -160,17 +160,20 @@ public class Gui extends ViewSubject implements View {
 
     @Override
     public void playExpert9(int cardID, Expert9 expert) {
-
+        Expert9_12_SceneController exp9 = new Expert9_12_SceneController(cardID);
+        Platform.runLater(()->SceneController.showNewStage(list,exp9,PopUpType.EXPERT,"Expert9.fxml"));
     }
 
     @Override
     public void playExpert11(int cardID, Expert11 expert) {
-
+        Expert11SceneController exp11 = new Expert11SceneController(cardID,expert);
+        Platform.runLater(()->SceneController.showNewStage(list,exp11,PopUpType.EXPERT,"Expert11.fxml"));
     }
 
     @Override
     public void playExpert12(int cardID, Expert12 expert) {
-
+        Expert9_12_SceneController exp9 = new Expert9_12_SceneController(cardID);
+        Platform.runLater(()->SceneController.showNewStage(list,exp9,PopUpType.EXPERT,"Expert12.fxml"));
     }
 
     @Override
@@ -207,7 +210,7 @@ public class Gui extends ViewSubject implements View {
     @Override
     public void moveMotherNature() {
         PlayerViewController pwc = getPWC();
-        Platform.runLater(pwc::switchMNStatus);
+        Platform.runLater(()->pwc.switchMNStatus(false));    //used to move MN not in expert mode
     }
 
     public void chooseCloudTile(int cloudID) {
@@ -217,8 +220,8 @@ public class Gui extends ViewSubject implements View {
 
 
     @Override
-    public void showExpertCards(ArrayList<ExpertCard> allExpertCards,boolean expertPlayed, int numberOfCoins) {
-        ExpertCardSceneController exsx = new ExpertCardSceneController(allExpertCards,expertPlayed);
+    public void showExpertCards(ArrayList<ExpertCard> allExpertCards,boolean expertPlayed, int numOfCoins) {
+        ExpertCardSceneController exsx = new ExpertCardSceneController(allExpertCards,expertPlayed,numOfCoins);
         Platform.runLater(()->SceneController.showNewStage(list,exsx, PopUpType.EXPERT, "ExpertsCardScene.fxml","Experts"));
     }
 
@@ -235,7 +238,7 @@ public class Gui extends ViewSubject implements View {
     @Override
     public void moveMNplusExpert(boolean expertPlayed) {
         PlayerViewController pwc = getPWC();
-        Platform.runLater(pwc::switchMNStatus);
+        Platform.runLater(()->pwc.switchMNStatus(expertPlayed));
     }
 
     @Override

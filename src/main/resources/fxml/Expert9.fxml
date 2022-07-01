@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="ParentNode" prefHeight="535.0" prefWidth="909.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fitHeight="383.0" fitWidth="407.0" layoutX="67.0" layoutY="76.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="70.0">
+         <image>
+            <Image url="@../images/Personaggi/CarteTOT_front9.jpg" />
+         </image>
+      </ImageView>
+      <HBox alignment="CENTER" layoutX="445.0" layoutY="320.0" prefHeight="100.0" prefWidth="435.0" spacing="25.0" style="-fx-background-color: grey;">
+         <children>
+            <ImageView fx:id="Blue" fitHeight="88.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/Scontornate/blue_stud.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Red" fitHeight="88.0" fitWidth="58.0" layoutX="199.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/Scontornate/red_stud.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Yellow" fitHeight="88.0" fitWidth="58.0" layoutX="228.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/Scontornate/yellow_stud.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Pink" fitHeight="88.0" fitWidth="58.0" layoutX="257.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/Scontornate/pink_stud.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Green" fitHeight="88.0" fitWidth="58.0" layoutX="286.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/Scontornate/green_stud.png" />
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
+      <Text layoutX="445.0" layoutY="260.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pick a color to ignore during influence calculus" wrappingWidth="347.63671875">
+         <font>
+            <Font name="Goudy Old Style" size="24.0" />
+         </font>
+      </Text>
+      <Text layoutX="436.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose a color; during this turn the students of that color are not counted during the check influence phase" wrappingWidth="452.13671875" AnchorPane.leftAnchor="436.0" AnchorPane.topAnchor="26.0">
+         <font>
+            <Font name="Goudy Old Style" size="24.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>

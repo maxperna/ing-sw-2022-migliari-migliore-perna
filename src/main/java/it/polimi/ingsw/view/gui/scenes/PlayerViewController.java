@@ -20,6 +20,7 @@ import javafx.scene.layout.*;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Logger;
 
 import static it.polimi.ingsw.model.Color.*;
 
@@ -60,6 +61,7 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
     private int previousMNPosition;  //position of MN on island before movement
     private Node tempNode;
     private ArrayList<ExpertCard> expertsCard;
+    private int numOfCoins;
 
 
 
@@ -78,7 +80,7 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
 
     @FXML
     public void initialize(){
-        switchMNStatus();
+        switchMNStatus(false);
         generateGameField();
         switchStudentMovementStatus();
         switchCloudStatus();
@@ -99,7 +101,7 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
         });
 
         playExpertButton.setOnAction(actionEvent->{
-            new Thread(()->notifyListener(l->l.guiExpertShow(expertsCard,true))).start();
+            new Thread(()->notifyListener(l->l.guiExpertShow(expertsCard,false,numOfCoins))).start();
         });
     }
 
@@ -118,20 +120,26 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
     public void moveStudentBoard(MouseEvent event){
         if(studentOnMovement) {
             Color colorPicked = fromStringToColor(tempNode.getId());
+            tempNode.setDisable(true);
+            tempNode = null;
             //Eventually initialize student map
+            /*
             studentsOnDining.putIfAbsent(colorPicked, new ArrayList<>());
 
             diningRoom.add(tempNode, studentsOnDining.get(colorPicked).size(), colorPicked.getBoardIndex());
             //Adding student as list of node, could be useful for expert implementation
             ArrayList<Node> currentStud = studentsOnDining.get(colorPicked);
-            tempNode.setDisable(true);
+
             currentStud.add(tempNode);
             studentsOnDining.put(colorPicked, currentStud);
-            changeStudMovState();
+            changeStudMovState();*/
 
             event.consume();
-            new Thread(()->notifyListener(l->l.moveStudentToDinner(colorPicked))).start();
+            entryRoom.getChildren().remove(tempNode);
             switchStudentMovementStatus();
+            changeStudMovState();
+            new Thread(()->notifyListener(l->l.moveStudentToDinner(colorPicked))).start();
+
         }
     }
 
@@ -140,9 +148,10 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
         try {
             Node clickedIsland = event.getPickResult().getIntersectedNode();
             int ID = Integer.parseInt(clickedIsland.getId());
-
+            Logger.getLogger("PWC").info("island id "+ID);
             if (studentOnMovement) {
 
+                Logger.getLogger("PWC").info("PWC stud moving");
                 Color colorPicked = fromStringToColor(tempNode.getId());
                 entryRoom.getChildren().remove(tempNode);
 
@@ -155,17 +164,20 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
 
                 event.consume();
                 changeStudMovState();
-                new Thread(()->notifyListener(l->l.moveStudentToIsland(colorPicked,ID))).start();
                 switchStudentMovementStatus();
+                new Thread(()->notifyListener(l->l.moveStudentToIsland(colorPicked,ID))).start();
+
             } else if (MNOnMovement) {
                 int numOfSteps = ID - previousMNPosition;
-
+                Logger.getLogger("PWC").info("MN moving");
                 if(numOfSteps>0){
                     changeMNonMovState();
                     event.consume();
                     MN.setOpacity(1);
+                    switchMNStatus(false);
                     new Thread(()->notifyListener(l->l.moveMotherNature(numOfSteps))).start();
-                    switchMNStatus();
+                    Logger.getLogger("PWC").info("MN moved");
+
                 }
             }
         }catch (NumberFormatException e){
@@ -175,9 +187,10 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
             tempNode = null;
             if(studentOnMovement)
                 changeStudMovState();
-            if(MNOnMovement)
+            if(MNOnMovement) {
                 changeMNonMovState();
-
+                Logger.getLogger("PWC").info("MN deselected");
+            }
         }
     }
 
@@ -201,6 +214,7 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
         currentPlayerLabel.setText(currentPlayer);
         if(experts.size()>0) {
             numOfCoinLabel.setText(Integer.toString(numOfCoins));
+            this.numOfCoins = numOfCoins;
             expertMode = true;
         }
         expertsCard = experts;
@@ -210,6 +224,7 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
     }
     public void populateBoard(Board board){
         populateEntry(board.getEntryRoom());
+        popoulateDining(board.getDiningRoom());
         createTowers(board.getTowerColor(),board.getNumOfTowers());
         setTeachers(board.getTeachers());
     }
@@ -229,6 +244,16 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
                     placedElements++;
                 }
                 j++;
+            }
+        }
+    }
+
+    private void popoulateDining(Map<Color,Integer> dining){
+        for(Color color : dining.keySet()) {
+            for(int i = 0; i < dining.get(color); i ++) {
+                ImageView student = studentGenerator(color);
+                student.setDisable(true);
+                diningRoom.add(student, i, color.getBoardIndex());
             }
         }
     }
@@ -406,8 +431,9 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
     }
 
     /**Method to activate MN when it's time to move it*/
-    public void switchMNStatus(){
-        MN.setDisable(!MN.isDisabled());
+    public void switchMNStatus(boolean expertPlayed){
+        if(!expertPlayed)
+            MN.setDisable(!MN.isDisabled());
     }
     /**Switch the activation of the selection of the students on the board entry room*/
     public void switchStudentMovementStatus(){
@@ -432,9 +458,11 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
                         Label counter = (Label) ((AnchorPane) configuration).getChildren().get(0);
                         if (counter.getText().equals("0")) {
                             configuration.setVisible(false); //initially no student is on island
+                            configuration.setDisable(true);
                         }
                     } catch (ClassCastException | IndexOutOfBoundsException e) {
                         configuration.setVisible(false); //initially no student is on island
+                        configuration.setDisable(true);
                     }
                 }
 
@@ -475,7 +503,6 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
         image.setFitHeight(40);
         image.addEventHandler(MouseEvent.MOUSE_CLICKED,this::startStudentMovement);
         image.setId(color.toString());
-
         return image;
     }
 

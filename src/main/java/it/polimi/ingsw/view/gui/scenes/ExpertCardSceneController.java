@@ -3,7 +3,6 @@ package it.polimi.ingsw.view.gui.scenes;
 import it.polimi.ingsw.model.experts.ExpertCard;
 import it.polimi.ingsw.observer.ViewSubject;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -32,12 +31,21 @@ public class ExpertCardSceneController extends ViewSubject implements GenericSce
     @FXML
     Label description3;
 
-    private boolean available;
-    private final ArrayList<ExpertCard> expertCards;
+    @FXML
+    Label alert1;
+    @FXML
+    Label alert2;
+    @FXML
+    Label alert3;
 
-    public ExpertCardSceneController(ArrayList<ExpertCard> experts,boolean expertPlayed ){
+    private boolean expertPlayed;
+    private final ArrayList<ExpertCard> expertCards;
+    private final int numOfCoins;
+
+    public ExpertCardSceneController(ArrayList<ExpertCard> experts,boolean expertPlayed,int numOfCoins ){
         this.expertCards = experts;
-        this.available = expertPlayed;
+        this.expertPlayed = expertPlayed;
+        this.numOfCoins = numOfCoins;
     }
 
     @FXML
@@ -49,12 +57,12 @@ public class ExpertCardSceneController extends ViewSubject implements GenericSce
         exp1IMG.setOnMousePressed(this::playExpert);
 
         exp2IMG.setImage(new Image(expertCards.get(1).getIMG()));
-        exp1IMG.setId("1");
-        exp1IMG.setOnMousePressed(this::playExpert);
+        exp2IMG.setId("1");
+        exp2IMG.setOnMousePressed(this::playExpert);
 
         exp3IMG.setImage(new Image(expertCards.get(2).getIMG()));
-        exp1IMG.setId("2");
-        exp1IMG.setOnMousePressed(this::playExpert);
+        exp3IMG.setId("2");
+        exp3IMG.setOnMousePressed(this::playExpert);
         //Cost setting
         cost1.setText("Cost: "+expertCards.get(0).getCost());
         cost2.setText("Cost: "+expertCards.get(1).getCost());
@@ -67,11 +75,23 @@ public class ExpertCardSceneController extends ViewSubject implements GenericSce
 
 
     public void playExpert(MouseEvent event){
-        if(available) {
+        if(!expertPlayed) {
             int cardID = Integer.parseInt(event.getPickResult().getIntersectedNode().getId());
             event.consume();
-            new Thread(() -> notifyListener(list -> list.applyExpertEffect(cardID))).start();
-            close();
+            if(expertCards.get(cardID).getCost()<=numOfCoins) {
+                new Thread(() -> notifyListener(list -> list.applyExpertEffect(cardID))).start();
+                close();
+            }
+            else{
+                if(cardID == 0)
+                    alert1.setVisible(true);
+                else if(cardID ==1)
+                    alert2.setVisible(true);
+                else
+                    alert3.setVisible(true);
+
+                event.consume();
+            }
         }
         else
             event.consume();
@@ -85,6 +105,6 @@ public class ExpertCardSceneController extends ViewSubject implements GenericSce
 
     /**Method to set if is possible to play an expert card*/
     public void makeCardAvailable(boolean available){
-        this.available = available;
+        this.expertPlayed = available;
     }
 }
