@@ -87,22 +87,22 @@ public class Cli extends ViewSubject implements View {
         String address = "0.0.0.0";
         String port = "13000";
         System.out.println("Choose the server address: [" + defaultAddress + "]");
-        /*try {
+        try {
             address = read();
         } catch (ExecutionException e) {
             e.printStackTrace();
-        }*/
+        }
         if (address.equals(""))
             serverInfo.put("address", defaultAddress);
         else
             serverInfo.put("address", address);
 
         System.out.println("Choose the server port: [" + defaultPort + "]");
-        /*try {
+        try {
             port = read();
         } catch (ExecutionException e) {
             e.printStackTrace();
-        }*/
+        }
         if (port == null)
             serverInfo.put("port", defaultPort);
         else
