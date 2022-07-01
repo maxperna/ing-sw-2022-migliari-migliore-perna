@@ -12,11 +12,11 @@
    <children>
       <ImageView fitHeight="383.0" fitWidth="407.0" layoutX="67.0" layoutY="76.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="70.0">
          <image>
-            <Image url="@../images/Personaggi/CarteTOT_front7.jpg" />
+            <Image url="@../images/Personaggi/CarteTOT_front10.jpg" />
          </image>
       </ImageView>
-      <HBox fx:id="StudentsOnCard" alignment="CENTER" layoutX="445.0" layoutY="212.0" prefHeight="100.0" prefWidth="435.0" spacing="25.0" style="-fx-background-color: grey;" />
-      <Text layoutX="445.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Students on card" wrappingWidth="347.63671875">
+      <HBox fx:id="StudentsOnCard" alignment="CENTER" layoutX="445.0" layoutY="212.0" prefHeight="100.0" prefWidth="213.0" spacing="25.0" style="-fx-background-color: grey;" />
+      <Text layoutX="445.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your entry room" wrappingWidth="347.63671875">
          <font>
             <Font name="Goudy Old Style" size="24.0" />
          </font>
@@ -26,8 +26,8 @@
             <Font name="Goudy Old Style" size="24.0" />
          </font>
       </Text>
-      <HBox fx:id="EntryRoom" alignment="CENTER" layoutX="445.0" layoutY="403.0" prefHeight="100.0" prefWidth="435.0" spacing="25.0" style="-fx-background-color: grey;" />
-      <Text layoutX="445.0" layoutY="387.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your entry room" wrappingWidth="347.63671875">
+      <HBox fx:id="EntryRoom" alignment="CENTER" layoutX="445.0" layoutY="403.0" prefHeight="100.0" prefWidth="213.0" spacing="25.0" style="-fx-background-color: grey;" />
+      <Text layoutX="445.0" layoutY="387.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your dining room" wrappingWidth="347.63671875">
          <font>
             <Font name="Goudy Old Style" size="24.0" />
          </font>
