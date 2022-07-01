@@ -184,7 +184,8 @@ public class Gui extends ViewSubject implements View {
 
     @Override
     public void playExpert10(int cardID, Expert10 expert) {
-
+        Expert10SceneController exp10 = new Expert10SceneController(cardID,expert);
+        Platform.runLater(()->SceneController.showNewPopUp(list,exp10,ChangeType.EXPERT,"Expert10.fxml"));
     }
 
     @Override

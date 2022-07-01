@@ -1,12 +1,10 @@
 package it.polimi.ingsw.model;
 
-import com.google.gson.*;
 import it.polimi.ingsw.exceptions.EndGameException;
 import it.polimi.ingsw.exceptions.NonexistentCard;
 import org.jetbrains.annotations.TestOnly;
 
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -31,11 +29,11 @@ public class CardDeck implements Serializable {
     public CardDeck(DeckType deckCharacter) throws FileNotFoundException {
         this.deckCharacter = deckCharacter;
         this.deck = new ArrayList<>();
+        /*
         //Creating a gson deserialization object
-        Gson gson = new Gson();
 
         //JSON reader from file
-        FileReader cardJSON = new FileReader("src/main/java/it/polimi/ingsw/Assets/cardsJSON.json");
+        FileReader cardJSON = new FileReader("src/main/resources/images/Scontornate/cardsJSON.json");
         //Generating a json element and relative json object
         JsonElement cardJSONFile = JsonParser.parseReader(cardJSON);
         JsonObject cardJSONObject = cardJSONFile.getAsJsonObject();
@@ -45,15 +43,16 @@ public class CardDeck implements Serializable {
         //Getting JSON array of assistant
         JsonArray assistantsJSONArray = cardJSONObject.get("assistantProfile").getAsJsonArray();
 
-        for (JsonElement assistantJSONElement : assistantsJSONArray) {
+        String frontIMG = "images/Assistenti/3x/Assistente.png";*/
+        for (Integer i=1;i<=10;i++) {
 
-            //Getting the fields of the assistant one by one
-            JsonObject assistantJSONObject = assistantJSONElement.getAsJsonObject();
-            int assistantActionNumber = assistantJSONObject.get("actionNumber").getAsInt();
-            int assistantMNControl = assistantJSONObject.get("motherNatureControl").getAsInt();
-            String assistantFrontImage = assistantJSONObject.get("frontIMG").getAsString();
+            int assistantActionNumber = i;
+            int assistantMNControl = i/2;
+            if(i%2 != 0)
+                assistantMNControl = assistantMNControl+1;
+            String assistantFrontImage = "images/Assistenti/3x/Assistente"+i.toString()+".png";
 
-            this.deck.add(new AssistantCard(assistantActionNumber, assistantMNControl, assistantFrontImage, backIMGPath, deckCharacter));
+            this.deck.add(new AssistantCard(assistantActionNumber, assistantMNControl, assistantFrontImage, "", deckCharacter));
         }
     }
 

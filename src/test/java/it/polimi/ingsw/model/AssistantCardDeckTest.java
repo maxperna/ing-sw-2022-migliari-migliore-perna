@@ -22,7 +22,6 @@ public class AssistantCardDeckTest {
             assertEquals(deck.getRemainingCards().size(),10);
             assertEquals(deck.getRemainingCards().get(4).getActionNumber(),5);
             assertEquals(deck.getDeckType(),parameter);
-            assertEquals(deck.getRemainingCards().get(3).getBackImage(),"1");   //1 stand for druid
             try{
                 deck.playCard(deck.getRemainingCards().get(6)); //play a card and remove it
                 assertEquals(deck.getLastCard().getActionNumber(),7);            //check if the removed card is correct
