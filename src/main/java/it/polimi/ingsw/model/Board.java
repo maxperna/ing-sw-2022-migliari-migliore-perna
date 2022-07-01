@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**Implementation of the player board, handling all the movements of the students from the outside hall to the
-*island or the inner hall or from the cloud tile to the outside hall
+* island or the inner hall or from the cloud tile to the outside hall
 * @author Massimo
 */
 public class Board implements Serializable, StudentManager  {
