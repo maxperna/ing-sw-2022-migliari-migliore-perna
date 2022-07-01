@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.gameField.IslandNode;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Class implementing assistant card 3 having the following effect: place a stop card omn a chosen island
@@ -17,6 +18,7 @@ public class Expert5 implements ExpertCard {
 
     private final ExpertID ID = ExpertID.NODE_ID;
     private final ArrayList<IslandNode> stoppedIsland;
+    private Map<Integer,IslandNode> islandList;
     private final Game currentGame;
     private final String description = "Place a stop card on an island; when Mother Nature reaches that island, skip the check influence phase and remove the stop card.";
     private final String IMG = "images/Personaggi/CarteTOT_front4.jpg";            //front image of the card
@@ -127,5 +129,11 @@ public class Expert5 implements ExpertCard {
     }
 
     @Override
-    public void makeGameSnap(){}
+    public void makeGameSnap(Player user){
+        this.islandList = currentGame.generateGameFieldMap();
+    }
+
+    public Map<Integer, IslandNode> getIslandList() {
+        return islandList;
+    }
 }

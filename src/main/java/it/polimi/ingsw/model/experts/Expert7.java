@@ -17,6 +17,7 @@ public class Expert7 implements ExpertCard {
     private final ExpertID ID = ExpertID.TWO_LIST_COLOR;
     private final ArrayList<Color> studentsOnCard;
     private final Game currentGame;
+    private ArrayList<Color> entryRoom;
     private final String description = "Choose up to 3 students from this card; switch them with the same number of students of your choice from your entrance hall";
     private final String IMG = "images/Personaggi/CarteTOT_front6.jpg";            //front image of the card
     private int cost = 1;
@@ -121,5 +122,11 @@ public class Expert7 implements ExpertCard {
     }
 
     @Override
-    public void makeGameSnap(){}
+    public void makeGameSnap(Player user){
+        this.entryRoom = user.getBoard().getEntryRoom();
+    }
+
+    public ArrayList<Color> getEntryRoom() {
+        return entryRoom;
+    }
 }

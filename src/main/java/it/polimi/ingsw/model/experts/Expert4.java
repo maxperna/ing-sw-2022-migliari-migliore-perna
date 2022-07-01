@@ -81,5 +81,5 @@ public class Expert4 implements ExpertCard {
     }
 
     @Override
-    public void makeGameSnap(){}
+    public void makeGameSnap(Player user){}
 }

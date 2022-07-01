@@ -111,5 +111,5 @@ public class Expert12 implements ExpertCard {
         return IMG;
     }
     @Override
-    public void makeGameSnap(){}
+    public void makeGameSnap(Player user){}
 }

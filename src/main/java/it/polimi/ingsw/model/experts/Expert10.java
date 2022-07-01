@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Class implementing assistant card 10 having the following effect: switch up to 2 students between your entrance hall and your dining room
@@ -20,6 +21,8 @@ public class Expert10 implements ExpertCard {
     private final ExpertID ID = ExpertID.TWO_LIST_COLOR;
     private final String IMG = "images/Personaggi/CarteTOT_front9.jpg";            //front image of the card
     private final Game currentGame;
+    private ArrayList<Color> entryRoom;
+    private Map<Color,Integer> diningRoom;
     private final String description = "Switch up to 2 students from your entrance hall and your dining room";
     private int cost = 1;
 
@@ -135,5 +138,16 @@ public class Expert10 implements ExpertCard {
     }
 
     @Override
-    public void makeGameSnap(){}
+    public void makeGameSnap(Player user){
+        this.diningRoom = user.getBoard().getDiningRoom();
+        this.entryRoom = user.getBoard().getEntryRoom();
+    }
+
+    public ArrayList<Color> getEntryRoom() {
+        return entryRoom;
+    }
+
+    public Map<Color, Integer> getDiningRoom() {
+        return diningRoom;
+    }
 }

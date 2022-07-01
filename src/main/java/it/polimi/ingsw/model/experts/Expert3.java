@@ -5,6 +5,9 @@ import it.polimi.ingsw.exceptions.IllegalMove;
 import it.polimi.ingsw.exceptions.NotEnoughCoins;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.gameField.IslandNode;
+
+import java.util.Map;
 
 /**
  * Class implementing assistant card 5 having the following effect: choose an island and check the influence as if mother nature was there
@@ -15,6 +18,7 @@ public class Expert3 implements ExpertCard {
 
     private final ExpertID ID = ExpertID.NODE_ID;
     private final Game currentGame;
+    private Map<Integer, IslandNode> islandList;
     private final String IMG = "images/Personaggi/CarteTOT_front2.jpg";            //front image of the card
     private final String description = "Choose an island and check the influence as if Mother Nature was there.";
     private int cost = 3;
@@ -94,5 +98,11 @@ public class Expert3 implements ExpertCard {
     }
 
     @Override
-    public void makeGameSnap(){}
+    public void makeGameSnap(Player user){
+        this.islandList = currentGame.generateGameFieldMap();
+    }
+
+    public Map<Integer, IslandNode> getIslandList() {
+        return islandList;
+    }
 }
