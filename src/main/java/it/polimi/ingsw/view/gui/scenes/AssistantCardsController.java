@@ -11,6 +11,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.TilePane;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ArrayList;
@@ -25,6 +27,10 @@ public class AssistantCardsController extends ViewSubject implements GenericScen
     Map<String, AssistantCard> lastCard;
     @FXML
     AnchorPane anchorPane;
+    @FXML
+    HBox lastCardHbox;
+    @FXML
+    TilePane tilePane;
 
     public AssistantCardsController() {
         this.deck = new ArrayList<>();
@@ -34,34 +40,21 @@ public class AssistantCardsController extends ViewSubject implements GenericScen
     @FXML
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        int cardID = 1;
-        HBox deckSpace = new HBox();
-        deckSpace.setAlignment(Pos.CENTER);
-        deckSpace.setSpacing(1.4);
+        int cardID = 0;
 
-        HBox lastCardSpace = new HBox();
-        lastCardSpace.setAlignment(Pos.CENTER_LEFT);
-        anchorPane.getChildren().add(lastCardSpace);
-        AnchorPane.setBottomAnchor(lastCardSpace, 151.0);
-        AnchorPane.setRightAnchor(lastCardSpace, 0.0);
-        AnchorPane.setLeftAnchor(lastCardSpace, 0.0);
-        AnchorPane.setTopAnchor(lastCardSpace, 0.0);
-
-        anchorPane.getChildren().add(deckSpace);
-        AnchorPane.setBottomAnchor(deckSpace, 0.0);
-        AnchorPane.setRightAnchor(deckSpace, 0.0);
-        AnchorPane.setLeftAnchor(deckSpace, 0.0);
-        AnchorPane.setTopAnchor(deckSpace, 150.0);
+        tilePane.setHgap(10);
+        tilePane.setVgap(10);
 
         for (AssistantCard card : deck) {
-            ImageView imageView = new ImageView(new Image(card.getFrontImage(), 140.0, 140.0, true, false));
+            ImageView imageView = new ImageView(new Image(card.getFrontImage(), 150.0, 150.0, true, false));
             imageView.setId(String.valueOf(cardID));
-            deckSpace.getChildren().add(imageView);
+            tilePane.getChildren().add(imageView);
 
             if (!lastCard.containsValue(card))
                 imageView.setOnMouseReleased(mouseEvent -> {
                     selectCard(Integer.parseInt(imageView.getId()));
                     imageView.setDisable(true);
+                    mouseEvent.consume();
                 });
             else
                 imageView.setOpacity(0.5);
@@ -73,15 +66,17 @@ public class AssistantCardsController extends ViewSubject implements GenericScen
             AssistantCard card = lastCard.get(nickName);
 
             StackPane stackPane = new StackPane();
-            ImageView imageView = new ImageView(new Image(card.getFrontImage(), 100.0, 100.0, true, false));
+            ImageView imageView = new ImageView(new Image(card.getFrontImage(), 110.0, 110.0, true, false));
             stackPane.setPrefHeight(imageView.getY());
             stackPane.setPrefWidth(imageView.getX());
-
+            Label player = new Label(nickName);
+            player.setFont(new Font("Goudy Old Style", 12));
             stackPane.getChildren().addAll(
                     imageView,
-                    new Label(nickName));
+                    player
+                    );
 
-            lastCardSpace.getChildren().add(stackPane);
+            lastCardHbox.getChildren().add(stackPane);
         }
 
     }

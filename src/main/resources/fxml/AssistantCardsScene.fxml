@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.TilePane?>
+<?import javafx.scene.text.Font?>
 
-
-<AnchorPane fx:id="anchorPane" prefHeight="300.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" />
+<AnchorPane fx:id="anchorPane" prefHeight="700.0" prefWidth="800.0" styleClass="background2" stylesheets="@../CSS/PopUpStyle.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TilePane fx:id="tilePane" alignment="CENTER" layoutX="10.0" layoutY="236.0" prefHeight="459.0" prefWidth="780.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="250.0" />
+      <HBox fx:id="lastCardHbox" alignment="CENTER_LEFT" layoutX="300.0" layoutY="86.0" prefHeight="192.0" prefWidth="200.0" spacing="15.0" AnchorPane.bottomAnchor="470.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="30.0" />
+      <Label layoutX="10.0" layoutY="14.0" text="Played cards" AnchorPane.leftAnchor="10.0">
+         <font>
+            <Font name="Goudy Old Style Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="10.0" layoutY="230.0" text="Choose an assistant " AnchorPane.leftAnchor="10.0">
+         <font>
+            <Font name="Goudy Old Style Bold" size="15.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

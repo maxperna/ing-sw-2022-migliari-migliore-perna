@@ -91,10 +91,11 @@ public class TurnLogic {
     public void setPlayedCard(int actionNumber, Player player) throws CardAlreadyPlayed, NonexistentCard, EndGameException {
         ArrayList<AssistantCard> assistantCards = player.getDeck().getRemainingCards();
         AssistantCard playedAssistantCard = null;
-        for (AssistantCard card : assistantCards) {
-            if (card.getActionNumber() == actionNumber)
-                playedAssistantCard = card;
-        }
+        playedAssistantCard = assistantCards.get(actionNumber);
+//        for (AssistantCard card : assistantCards) {
+//            if (card.getActionNumber() == actionNumber)
+//                playedAssistantCard = card;
+//        }
         if (playedAssistantCard == null) {
             throw new NonexistentCard("You already played this card");
         }
