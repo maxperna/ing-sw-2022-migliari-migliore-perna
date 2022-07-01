@@ -90,7 +90,7 @@ public class Gui extends ViewSubject implements View {
 
         BoardInfoSceneController boardInfoSceneController = new BoardInfoSceneController(boardMap);
         try {
-            Platform.runLater(() -> SceneController.showNewStage(list, boardInfoSceneController, PopUpType.DEFAULT, "BoardInfoScene.fxml", "BoardInfo"));
+            Platform.runLater(() -> SceneController.showNewPopUp(list, boardInfoSceneController, PopUpType.DEFAULT, "BoardInfoScene.fxml", "BoardInfo"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -139,7 +139,7 @@ public class Gui extends ViewSubject implements View {
         assistantCardsController.setDeck(deck);
 
         try {
-            Platform.runLater(() -> SceneController.showNewStage(list, assistantCardsController, PopUpType.DEFAULT, "AssistantCardsScene.fxml"));
+            Platform.runLater(() -> SceneController.showNewPopUp(list, assistantCardsController, PopUpType.DEFAULT, "AssistantCardsScene.fxml"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -161,19 +161,19 @@ public class Gui extends ViewSubject implements View {
     @Override
     public void playExpert9(int cardID, Expert9 expert) {
         Expert9_12_SceneController exp9 = new Expert9_12_SceneController(cardID);
-        Platform.runLater(()->SceneController.showNewStage(list,exp9,PopUpType.EXPERT,"Expert9.fxml"));
+        Platform.runLater(()->SceneController.showNewPopUp(list,exp9,PopUpType.EXPERT,"Expert9.fxml"));
     }
 
     @Override
     public void playExpert11(int cardID, Expert11 expert) {
         Expert11SceneController exp11 = new Expert11SceneController(cardID,expert);
-        Platform.runLater(()->SceneController.showNewStage(list,exp11,PopUpType.EXPERT,"Expert11.fxml"));
+        Platform.runLater(()->SceneController.showNewPopUp(list,exp11,PopUpType.EXPERT,"Expert11.fxml"));
     }
 
     @Override
     public void playExpert12(int cardID, Expert12 expert) {
         Expert9_12_SceneController exp9 = new Expert9_12_SceneController(cardID);
-        Platform.runLater(()->SceneController.showNewStage(list,exp9,PopUpType.EXPERT,"Expert12.fxml"));
+        Platform.runLater(()->SceneController.showNewPopUp(list,exp9,PopUpType.EXPERT,"Expert12.fxml"));
     }
 
     @Override
@@ -222,7 +222,7 @@ public class Gui extends ViewSubject implements View {
     @Override
     public void showExpertCards(ArrayList<ExpertCard> allExpertCards,boolean expertPlayed, int numOfCoins) {
         ExpertCardSceneController exsx = new ExpertCardSceneController(allExpertCards,expertPlayed,numOfCoins);
-        Platform.runLater(()->SceneController.showNewStage(list,exsx, PopUpType.EXPERT, "ExpertsCardScene.fxml","Experts"));
+        Platform.runLater(()->SceneController.showNewPopUp(list,exsx, PopUpType.EXPERT, "ExpertsCardScene.fxml","Experts"));
     }
 
     @Override
