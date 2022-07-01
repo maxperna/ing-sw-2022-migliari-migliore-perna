@@ -157,25 +157,6 @@ public class SceneController extends ViewSubject {
         }
     }
 
-    public static void changePopUpRoot(List<ViewListener> observerList, String FXML_path) {
-
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(SceneController.class.getResource("/fxml/" + FXML_path));
-
-        try {
-            ((ViewSubject) popUpController).addAllListeners(observerList);
-            loader.setController(popUpController);
-            Parent newRoot = loader.load();
-
-
-            currentPopUpScene.setRoot(newRoot);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
 
     public static void showMessage(Alert.AlertType alertType, String message) {
         Alert alert = new Alert(alertType, message);

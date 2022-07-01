@@ -13,10 +13,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Class Game, every class created has its own unique gameID
@@ -446,6 +443,19 @@ public class Game implements Serializable {
     public void setExpertsCardTest(ArrayList<ExpertCard> testCard) {
         this.expertsCard.clear();
         this.expertsCard.addAll(testCard);
+    }
+
+    /**
+     * Method used to create the gameFieldMap
+     *
+     * @return the gameField as a map
+     */
+    public Map<Integer, IslandNode> generateGameFieldMap() {
+        Map<Integer, IslandNode> gameFieldMap = new HashMap<>();
+        for (int i = 1; i <= getGameField().size(); i++) {
+            gameFieldMap.put(i, getGameField().getIslandNode(i));
+        }
+        return gameFieldMap;
     }
 
     /**
