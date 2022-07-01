@@ -23,6 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
 import static it.polimi.ingsw.model.Color.*;
+import static java.lang.Math.abs;
 
 public class PlayerViewController extends ViewSubject implements GenericSceneController {
     @FXML
@@ -53,7 +54,6 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
     private final Map<Color,Node> teacherList;
     private  Map<Integer,GridPane> islandList;
     private final Map<Integer,GridPane> cloudList;
-    private final Map<Color,ArrayList<Node>> studentsOnDining;
     private  Map<Integer,Map<String,AnchorPane>> islandConfig;
     private boolean expertMode;
     private boolean studentOnMovement;
@@ -70,7 +70,6 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
         islandList = new ConcurrentHashMap<>();
         cloudList = new ConcurrentHashMap<>();
         islandConfig = new ConcurrentHashMap<>();
-        studentsOnDining = new ConcurrentHashMap<>();
         MN = new ImageView("images/Scontornate/mother_nature_pawn.png");
         MN.setFitWidth(52);
         MN.setFitHeight(71);
@@ -96,13 +95,9 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
             showBoardsButton.setDisable(true);
         });
 
-        showBoardsButton.setOnAction(actionEvent -> {
-            new Thread(() -> notifyListener(l -> l.chooseAction(2))).start();
-        });
+        showBoardsButton.setOnAction(actionEvent -> new Thread(() -> notifyListener(l -> l.chooseAction(2))).start());
 
-        playExpertButton.setOnAction(actionEvent->{
-            new Thread(()->notifyListener(l->l.guiExpertShow(expertsCard,false,numOfCoins))).start();
-        });
+        playExpertButton.setOnAction(actionEvent-> new Thread(()->notifyListener(l->l.guiExpertShow(expertsCard,false,numOfCoins))).start());
     }
 
     public void setPreparationPhaseChoiceBox(){
@@ -168,17 +163,21 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
                 new Thread(()->notifyListener(l->l.moveStudentToIsland(colorPicked,ID))).start();
 
             } else if (MNOnMovement) {
-                int numOfSteps = ID - previousMNPosition;
-                Logger.getLogger("PWC").info("MN moving");
-                if(numOfSteps>0){
-                    changeMNonMovState();
-                    event.consume();
-                    MN.setOpacity(1);
-                    switchMNStatus(false);
-                    new Thread(()->notifyListener(l->l.moveMotherNature(numOfSteps))).start();
-                    Logger.getLogger("PWC").info("MN moved");
+                int numOfSteps =ID - previousMNPosition;   //avoiding problem passing from 12 to 1
+                if(numOfSteps<0)
+                    numOfSteps = islandList.size()%(abs(numOfSteps));
 
-                }
+                Logger.getLogger("PWC").info("MN moving");
+
+                changeMNonMovState();
+                event.consume();
+                MN.setOpacity(1);
+                switchMNStatus(false);
+                int finalNumOfSteps = numOfSteps;
+                new Thread(()->notifyListener(l->l.moveMotherNature(finalNumOfSteps))).start();
+                Logger.getLogger("PWC").info("MN moved with steps "+finalNumOfSteps);
+
+
             }
         }catch (NumberFormatException e){
             //Clicking on another node I can remake my selection (both on MN and students)
@@ -326,12 +325,6 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
 
         if(nodeDiff.size()>0){
             refactorGameField(nodeDiff);
-            /*
-            gameField.getChildren().remove(islandList.get(idToDel).getParent());
-            islandList.remove(idToDel);
-            islandConfig.remove(idToDel);
-            */
-
         }
         for(int ID:islandsMap.keySet()){
             IslandNode island = islandsMap.get(ID);
@@ -359,6 +352,12 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
                     islandList.get(ID).getChildren().remove(islandList.get(ID).lookup("#deny"));
             }
 
+            Label towerLabel = (Label) islandConfig.get(ID).get("TowerSpace").getChildren().get(0);
+            towerLabel.setText("0");
+            try {
+                islandConfig.get(ID).get("TowerSpace").getChildren().remove(1);
+            }catch (IndexOutOfBoundsException e){}
+
             //Color counting
             if(!island.getTowerColor().equals(TowerColor.EMPTY)){
                 TowerColor tColor = island.getTowerColor();
@@ -366,7 +365,7 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
                 if(islandConfig.get(ID).get("TowerSpace").lookup("#"+tColor.toString()) != null)
                     islandConfig.get(ID).remove(islandConfig.get(ID).get("TowerSpace").lookup("#"+tColor));
 
-                Label towerLabel = (Label) islandConfig.get(ID).get("TowerSpace").getChildren().get(0);
+
                 islandConfig.get(ID).get("TowerSpace").setVisible(true);
                 towerLabel.setText(island.getNumberOfTowers().toString());
                 towerLabel.setVisible(true);
