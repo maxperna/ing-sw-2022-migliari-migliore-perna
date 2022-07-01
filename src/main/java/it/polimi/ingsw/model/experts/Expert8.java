@@ -13,7 +13,7 @@ public class Expert8 implements ExpertCard {
 
     private final ExpertID ID = ExpertID.USER_ONLY;
     private final Game currentGame;
-    private final String IMG = "images/Personaggi/CarteTOT_front8.jpg";            //front image of the card
+    private final String IMG = "images/Personaggi/CarteTOT_front7.jpg";            //front image of the card
     private final String description = "During this turn, you get 2 extra influence points during the check influence phase";
     private int cost = 2;
 

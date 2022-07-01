@@ -16,7 +16,7 @@ public class Expert12 implements ExpertCard {
 
     private final ExpertID ID = ExpertID.COLOR;
     private final Game currentGame;
-    private final String IMG = "images/Personaggi/CarteTOT_front12.jpg";            //front image of the card
+    private final String IMG = "images/Personaggi/CarteTOT_front11.jpg";            //front image of the card
     private final String description = "Choose a color; everyone this turn has to move to the pouch 3 students of that color from its dining room. If there are less than 3 students of that color, move all the students of that color";
     private int cost = 3;
 
