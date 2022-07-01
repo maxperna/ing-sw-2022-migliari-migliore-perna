@@ -456,6 +456,7 @@ public class ClientController implements ViewListener, Listener {
                 AvailableActionMessage availableActionMessage = (AvailableActionMessage) receivedMessage;
                 Logger.getLogger("GUI").info("Expert played "+availableActionMessage.isExpertPlayed());
                 setBooleanControl(availableActionMessage.areAllStudentsMoved(), availableActionMessage.isMotherNatureMoved(), availableActionMessage.isExpertPlayed());
+                System.out.println("allStudentMoved: " + studentsMoved + "- MotherNature: " + movedMN + "- ExpertPlayed: " + expertPlayed);
                 if(!studentsMoved){
                     actionQueue.execute(() -> view.actionPhaseTurn(expertPlayed));
                 }
