@@ -117,18 +117,6 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
             Color colorPicked = fromStringToColor(tempNode.getId());
             tempNode.setDisable(true);
             tempNode = null;
-            //Eventually initialize student map
-            /*
-            studentsOnDining.putIfAbsent(colorPicked, new ArrayList<>());
-
-            diningRoom.add(tempNode, studentsOnDining.get(colorPicked).size(), colorPicked.getBoardIndex());
-            //Adding student as list of node, could be useful for expert implementation
-            ArrayList<Node> currentStud = studentsOnDining.get(colorPicked);
-
-            currentStud.add(tempNode);
-            studentsOnDining.put(colorPicked, currentStud);
-            changeStudMovState();*/
-
             event.consume();
             entryRoom.getChildren().remove(tempNode);
             switchStudentMovementStatus();
@@ -161,6 +149,7 @@ public class PlayerViewController extends ViewSubject implements GenericSceneCon
                 changeStudMovState();
                 switchStudentMovementStatus();
                 new Thread(()->notifyListener(l->l.moveStudentToIsland(colorPicked,ID))).start();
+
 
             } else if (MNOnMovement) {
                 int numOfSteps =ID - previousMNPosition;   //avoiding problem passing from 12 to 1

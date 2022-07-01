@@ -120,9 +120,10 @@ public class Board implements Serializable, StudentManager  {
         if(!entryRoom.contains(color)) throw new NotOnBoardException();
         else{
             try {
-                currentGame.getGameField().addStudent(nodeID, color);
                 entryRoom.remove(color);
+                currentGame.getGameField().addStudent(nodeID, color);
             }catch (IllegalMove e) {
+                entryRoom.add(color);
                 throw new IllegalMove();
             }
         }
