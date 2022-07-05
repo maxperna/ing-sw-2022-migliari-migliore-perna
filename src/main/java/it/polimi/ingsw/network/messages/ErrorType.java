@@ -16,5 +16,6 @@ public enum ErrorType {
 
     PLAYER_CREATION_ERROR,
 
-    EXPERT_ERROR
+    EXPERT_ERROR,
+    CLOSED_CONNECTION
 }

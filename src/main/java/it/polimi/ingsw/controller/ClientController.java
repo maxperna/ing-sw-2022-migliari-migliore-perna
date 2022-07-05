@@ -23,7 +23,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.logging.Logger;
 
 import static it.polimi.ingsw.network.messages.ErrorType.*;
 
@@ -35,9 +34,9 @@ import static it.polimi.ingsw.network.messages.ErrorType.*;
 public class ClientController implements ViewListener, Listener {
 
     private final View view;
+    private final ExecutorService actionQueue;
     private Client client;
     private String nickname;
-    private final ExecutorService actionQueue;
     private GameState phase;
     private ArrayList<ExpertCard> expertCardsOnField = new ArrayList<>();
     private boolean expertMode;
@@ -49,6 +48,7 @@ public class ClientController implements ViewListener, Listener {
 
     /**
      * Default constructor
+     *
      * @param view is the view associated to the ClientController
      */
     public ClientController(View view) {
@@ -133,6 +133,7 @@ public class ClientController implements ViewListener, Listener {
 
     /**
      * Method that evaluates what request will be sent to the server based on message type received
+     *
      * @param type is the type of the message received
      */
     @Override
@@ -173,6 +174,7 @@ public class ClientController implements ViewListener, Listener {
 
     /**
      * Method used to create a message about mother nature movement
+     *
      * @param numberOfSteps is the number of steps that mother nature will perform
      */
     @Override
@@ -199,6 +201,7 @@ public class ClientController implements ViewListener, Listener {
 
     /**
      * Method to play an expert card that requires no additional parameters
+     *
      * @param cardID is  the ID [0,1,2] that refers to the card played
      **/
     @Override
@@ -208,6 +211,7 @@ public class ClientController implements ViewListener, Listener {
 
     /**
      * Method to play an expert card that requires a node ID as parameter
+     *
      * @param cardID is the ID [0,1,2] that refers to the card played
      * @param nodeID is the ID of the chosen island
      **/
@@ -218,8 +222,9 @@ public class ClientController implements ViewListener, Listener {
 
     /**
      * Method to play an expert card that requires a node ID and a Color as parameters
-     * @param cardID is the ID [0,1,2] that refers to the card played
-     * @param nodeID is the ID of the chosen island
+     *
+     * @param cardID  is the ID [0,1,2] that refers to the card played
+     * @param nodeID  is the ID of the chosen island
      * @param student is the color chosen (can also refer to a student of that color, based on which expert has been played)
      **/
     @Override
@@ -229,7 +234,8 @@ public class ClientController implements ViewListener, Listener {
 
     /**
      * Method to play an expert card that requires a color as parameter
-     * @param cardID is the ID [0,1,2] that refers to the card played
+     *
+     * @param cardID  is the ID [0,1,2] that refers to the card played
      * @param student is the color chosen (can also refer to a student of that color, based on which expert has been played)
      **/
     @Override
@@ -239,7 +245,8 @@ public class ClientController implements ViewListener, Listener {
 
     /**
      * Method to play an expert card that requires two arrayLists of Color as parameters
-     * @param cardID is the ID [0,1,2] that refers to the card played
+     *
+     * @param cardID   is the ID [0,1,2] that refers to the card played
      * @param student1 is the first arrayList of students, usually the ones that will be taken from an external source
      * @param student2 is the second arrayList of students, usually tha ones that will be moved to an external source
      **/
@@ -277,30 +284,30 @@ public class ClientController implements ViewListener, Listener {
                 break;
             case COLOR: {
                 if (expertCardsOnField.get(cardID) instanceof Expert9)
-                    actionQueue.execute(()->view.playExpert9(cardID, (Expert9) expertCardsOnField.get(cardID)));
+                    actionQueue.execute(() -> view.playExpert9(cardID, (Expert9) expertCardsOnField.get(cardID)));
                 else if (expertCardsOnField.get(cardID) instanceof Expert11)
-                    actionQueue.execute(()->view.playExpert11(cardID, (Expert11) expertCardsOnField.get(cardID)));
+                    actionQueue.execute(() -> view.playExpert11(cardID, (Expert11) expertCardsOnField.get(cardID)));
                 else if (expertCardsOnField.get(cardID) instanceof Expert12)
-                    actionQueue.execute(()->view.playExpert12(cardID, (Expert12) expertCardsOnField.get(cardID)));
+                    actionQueue.execute(() -> view.playExpert12(cardID, (Expert12) expertCardsOnField.get(cardID)));
             }
             break;
             case TWO_LIST_COLOR: {
                 if (expertCardsOnField.get(cardID) instanceof Expert7)
-                    actionQueue.execute(()->view.playExpert7(cardID, (Expert7) expertCardsOnField.get(cardID)));
+                    actionQueue.execute(() -> view.playExpert7(cardID, (Expert7) expertCardsOnField.get(cardID)));
                 else if (expertCardsOnField.get(cardID) instanceof Expert10)
-                    actionQueue.execute(()->view.playExpert10(cardID, (Expert10) expertCardsOnField.get(cardID)));
+                    actionQueue.execute(() -> view.playExpert10(cardID, (Expert10) expertCardsOnField.get(cardID)));
             }
             break;
             case NODE_ID_COLOR: {
                 if (expertCardsOnField.get(cardID) instanceof Expert1)
-                    actionQueue.execute(()->view.playExpert1(cardID, (Expert1) expertCardsOnField.get(cardID)));
+                    actionQueue.execute(() -> view.playExpert1(cardID, (Expert1) expertCardsOnField.get(cardID)));
             }
             break;
             case NODE_ID: {
                 if (expertCardsOnField.get(cardID) instanceof Expert3)
-                    actionQueue.execute(()->view.playExpert3(cardID, (Expert3) expertCardsOnField.get(cardID)));
+                    actionQueue.execute(() -> view.playExpert3(cardID, (Expert3) expertCardsOnField.get(cardID)));
                 else if (expertCardsOnField.get(cardID) instanceof Expert5)
-                    actionQueue.execute(()->view.playExpert5(cardID, (Expert5) expertCardsOnField.get(cardID)));
+                    actionQueue.execute(() -> view.playExpert5(cardID, (Expert5) expertCardsOnField.get(cardID)));
             }
             break;
         }
@@ -350,12 +357,12 @@ public class ClientController implements ViewListener, Listener {
                         break;
                     case ACTION_PHASE:
                         phase = GameState.ACTION_PHASE;
-                        if(expertMode)
+                        if (expertMode)
                             expertPlayed = false;
                         studentsMoved = false;
                         movedMN = false;
                         endTurn = false;
-                        actionQueue.execute(() -> view.actionPhaseTurn(expertPlayed,studentsMoved ));
+                        actionQueue.execute(() -> view.actionPhaseTurn(expertPlayed, studentsMoved));
                         break;
 
                 }
@@ -429,7 +436,7 @@ public class ClientController implements ViewListener, Listener {
                 }
                 //Action phase error handling
                 if (error.getTypeError() == STUDENT_ERROR) {
-                    actionQueue.execute(() -> view.actionPhaseTurn(expertPlayed,studentsMoved ));
+                    actionQueue.execute(() -> view.actionPhaseTurn(expertPlayed, studentsMoved));
                 }
                 if (error.getTypeError() == ASSISTANT_ERROR) {
                     actionQueue.execute(this::requestAssistants);
@@ -446,27 +453,27 @@ public class ClientController implements ViewListener, Listener {
                 if (error.getTypeError() == EXPERT_ERROR) {
                     actionQueue.execute(this::getExpertsCard);
                 }
+                if(error.getTypeError() == CLOSED_CONNECTION){
+                    actionQueue.execute(view::disconnect);
+                }
 
                 break;
             case WORLD_CHANGE:
                 WorldChangeMessage worldChange = (WorldChangeMessage) receivedMessage;
-                actionQueue.execute(() -> view.worldUpdate(worldChange.getGameFieldMap(), worldChange.getChargedClouds(), worldChange.getBoardMap(),nickname, worldChange.getCurrentPlayer(), worldChange.getExperts(), worldChange.getNumOfCoins()));
+                actionQueue.execute(() -> view.worldUpdate(worldChange.getGameFieldMap(), worldChange.getChargedClouds(), worldChange.getBoardMap(), nickname, worldChange.getCurrentPlayer(), worldChange.getExperts(), worldChange.getNumOfCoins()));
                 break;
             case AVAILABLE_ACTION:
                 AvailableActionMessage availableActionMessage = (AvailableActionMessage) receivedMessage;
-                Logger.getLogger("GUI").info("Expert played "+availableActionMessage.isExpertPlayed());
                 setBooleanControl(availableActionMessage.areAllStudentsMoved(), availableActionMessage.isMotherNatureMoved(), availableActionMessage.isExpertPlayed());
                 System.out.println("allStudentMoved: " + studentsMoved + "- MotherNature: " + movedMN + "- ExpertPlayed: " + expertPlayed);
-                if(!studentsMoved){
-                    actionQueue.execute(() -> view.actionPhaseTurn(expertPlayed,studentsMoved));
-                }
-                else if(!movedMN){
-                    if(expertMode)
-                        actionQueue.execute(()-> view.moveMNplusExpert(expertPlayed));
+                if (!studentsMoved) {
+                    actionQueue.execute(() -> view.actionPhaseTurn(expertPlayed, studentsMoved));
+                } else if (!movedMN) {
+                    if (expertMode)
+                        actionQueue.execute(() -> view.moveMNplusExpert(expertPlayed));
                     else
                         actionQueue.execute(view::moveMotherNature);
-                }
-                else {
+                } else {
                     actionQueue.execute(() -> view.chooseCloudTile(numOfPlayers));
                 }
         }
@@ -474,8 +481,9 @@ public class ClientController implements ViewListener, Listener {
 
     /**
      * Method used to create a message containing the TowerColor and DeckType chosen
+     *
      * @param color is the towerColor
-     * @param deck is the deckType
+     * @param deck  is the deckType
      */
     @Override
     public void chooseTowerColorAndDeck(TowerColor color, DeckType deck) {
@@ -484,6 +492,7 @@ public class ClientController implements ViewListener, Listener {
 
     /**
      * method used to read a message received from the objects observed
+     *
      * @param message is the message received
      */
     @Override
@@ -493,6 +502,7 @@ public class ClientController implements ViewListener, Listener {
 
     /**
      * Method used to create a request that matches the player's action
+     *
      * @param i is the value chosen by the player
      */
     @Override
@@ -512,27 +522,28 @@ public class ClientController implements ViewListener, Listener {
 
     /**
      * Method used to create a request based on the player's choice
+     *
      * @param expert_mode is a boolean that indicates if the expert mode is enabled or not (also used to lock the player from using more than an expert card)
      */
     public void askAction(Boolean expert_mode) {
         if (!studentsMoved)
-            actionQueue.execute(()->view.actionPhaseTurn(expertPlayed,studentsMoved ));
+            actionQueue.execute(() -> view.actionPhaseTurn(expertPlayed, studentsMoved));
         else
-            actionQueue.execute(()->view.moveMNplusExpert(expertPlayed));
+            actionQueue.execute(() -> view.moveMNplusExpert(expertPlayed));
     }
 
 
     @Override
-    public void guiExpertShow(ArrayList<ExpertCard> expertCards,boolean expertPlayed,int numOfCoins){
+    public void guiExpertShow(ArrayList<ExpertCard> expertCards, boolean expertPlayed, int numOfCoins) {
         Gui gui = (Gui) view;
         getExpertsCard();
-        gui.showExpertCards(expertCards,expertPlayed,numOfCoins);
+        gui.showExpertCards(expertCards, expertPlayed, numOfCoins);
     }
 
     private void setBooleanControl(boolean allStudentsMoved, boolean motherNatureMoved, boolean expertPlayed) {
         this.studentsMoved = allStudentsMoved;
         this.movedMN = motherNatureMoved;
-        if(expertMode)
+        if (expertMode)
             this.expertPlayed = expertPlayed;
         else
             this.expertPlayed = true;

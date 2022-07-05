@@ -1,9 +1,9 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.controller.GameState;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.experts.*;
 import it.polimi.ingsw.model.gameField.IslandNode;
-import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.MessageType;
 
@@ -93,14 +93,16 @@ public interface View {
 
     /**
      * Method used to print the winning player
+     *
      * @param winner winning player's nickname
      */
     void showWinner(String winner);
 
     /**
      * method used to print an error message
+     *
      * @param errorMessage message that will be printed
-     * @param errorType type of the error
+     * @param errorType    type of the error
      */
     void showError(String errorMessage, ErrorType errorType);
 
@@ -111,6 +113,7 @@ public interface View {
 
     /**
      * Method used to print the assistant cards
+     *
      * @param deck is the arraylist of available cards
      */
     void showAssistant(ArrayList<AssistantCard> deck);
@@ -130,6 +133,7 @@ public interface View {
 
     /**
      * Method used to ask the player all the parameters required to play expert 9
+     *
      * @param cardID is the id [0,1,2] of the card
      * @param expert is the expert card played
      */
@@ -137,6 +141,7 @@ public interface View {
 
     /**
      * Method used to ask the player all the parameters required to play expert 11
+     *
      * @param cardID is the id [0,1,2] of the card
      * @param expert is the expert card played
      */
@@ -144,6 +149,7 @@ public interface View {
 
     /**
      * Method used to ask the player all the parameters required to play expert 12
+     *
      * @param cardID is the id [0,1,2] of the card
      * @param expert is the expert card played
      */
@@ -151,6 +157,7 @@ public interface View {
 
     /**
      * Method used to ask the player all the parameters required to play expert 7
+     *
      * @param cardID is the id [0,1,2] of the card
      * @param expert is the expert card played
      */
@@ -158,6 +165,7 @@ public interface View {
 
     /**
      * Method used to ask the player all the parameters required to play expert 10
+     *
      * @param cardID is the id [0,1,2] of the card
      * @param expert is the expert card played
      */
@@ -165,6 +173,7 @@ public interface View {
 
     /**
      * Method used to ask the player all the parameters required to play expert 3
+     *
      * @param cardID is the id [0,1,2] of the card
      * @param expert is the expert card played
      */
@@ -172,6 +181,7 @@ public interface View {
 
     /**
      * Method used to ask the player all the parameters required to play expert 1
+     *
      * @param cardID is the id [0,1,2] of the card
      * @param expert is the expert card played
      */
@@ -179,6 +189,7 @@ public interface View {
 
     /**
      * Method used to ask the player all the parameters required to play expert 5
+     *
      * @param cardID is the id [0,1,2] of the card
      * @param expert is the expert card played
      */
@@ -196,34 +207,38 @@ public interface View {
 
     /**
      * Method used to print all the game field structure on the cli
-     * @param gameFieldMap is a map containing all the islands
+     *
+     * @param gameFieldMap  is a map containing all the islands
      * @param chargedClouds is an arraylist of clouds
-     * @param boardMap is a map containing all the boards
+     * @param boardMap      is a map containing all the boards
      * @param currentPlayer is the nickname of the current player
-     * @param experts is an arraylist fo all the expert cards available during the game
-     * @param numOfCoins is an int showing the coins owned by the player
-     * @param nick is the nickname of the player
+     * @param experts       is an arraylist fo all the expert cards available during the game
+     * @param numOfCoins    is an int showing the coins owned by the player
+     * @param nick          is the nickname of the player
      */
     void worldUpdate(Map<Integer, IslandNode> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap, String nick, String currentPlayer, ArrayList<ExpertCard> experts, int numOfCoins);
 
     /**
      * Method used to ask the player which cloud he wants to take the students from
+     *
      * @param cloudID is the number of clouds
      */
     void chooseCloudTile(int cloudID);
 
     /**
      * Method used to print all the information about expert cards
+     *
      * @param allExpertCards all 3 expert cards available
-     * @param numberOfCoins is the number of available coins
+     * @param numberOfCoins  is the number of available coins
      */
-    void showExpertCards(ArrayList<ExpertCard> allExpertCards,boolean expertPlayed ,int numberOfCoins);
+    void showExpertCards(ArrayList<ExpertCard> allExpertCards, boolean expertPlayed, int numberOfCoins);
 
     /**
      * Method used to ask the player to choose a student based on a list of available students
+     *
      * @param availableStudents students available
-     * @param movementType destination of the movement
-     * @param gameFieldSize island list dimension
+     * @param movementType      destination of the movement
+     * @param gameFieldSize     island list dimension
      */
     void availableStudents(ArrayList<Color> availableStudents, MessageType movementType, int gameFieldSize);
 
@@ -244,4 +259,5 @@ public interface View {
     void availableAction(boolean allStudentsMoved, boolean motherNatureMoved, boolean expertPlayed);
 
     void sendNumberOfPlayers(int num_of_players, boolean expertMode);
+
 }

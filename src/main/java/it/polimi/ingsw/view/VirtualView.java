@@ -76,7 +76,7 @@ public class VirtualView implements View {
     }
 
     @Override
-    public void showExpertCards(ArrayList<ExpertCard> expertList,boolean expertPlayed, int numberOfCoins) {
+    public void showExpertCards(ArrayList<ExpertCard> expertList, boolean expertPlayed, int numberOfCoins) {
         clientHandler.sendMessage(new ExpertCardReply(expertList, numberOfCoins));
     }
 
@@ -119,7 +119,7 @@ public class VirtualView implements View {
 
     @Override
     public void disconnect() {
-        clientHandler.disconnect();
+        clientHandler.sendMessage(new ErrorMessage("CLOSING CONNECTION",ErrorType.CLOSED_CONNECTION));
     }
 
     @Override
@@ -205,7 +205,7 @@ public class VirtualView implements View {
     }
 
     @Override
-    public void worldUpdate(Map<Integer, IslandNode> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap, String nick,String currentPlayer, ArrayList<ExpertCard> experts, int numOfCoins) {
+    public void worldUpdate(Map<Integer, IslandNode> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap, String nick, String currentPlayer, ArrayList<ExpertCard> experts, int numOfCoins) {
         clientHandler.sendMessage(new WorldChangeMessage(gameFieldMap, chargedClouds, boardMap, currentPlayer, experts, numOfCoins));
 
     }
@@ -235,4 +235,5 @@ public class VirtualView implements View {
     public void showInitPlayer(int numberOfTowers, ArrayList<Color> entranceHall) {
         clientHandler.sendMessage(new PlayerInitMessage(numberOfTowers, entranceHall));
     }
+
 }

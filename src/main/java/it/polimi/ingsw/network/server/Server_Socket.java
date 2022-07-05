@@ -18,7 +18,8 @@ public class Server_Socket implements Runnable {
 
     /**
      * Default constructor
-     * @param server is the server that will be listening on the chosen port
+     *
+     * @param server  is the server that will be listening on the chosen port
      * @param portNum is the id of the port that will be used to handle the connection
      */
     public Server_Socket(Server server, int portNum) {
@@ -76,5 +77,8 @@ public class Server_Socket implements Runnable {
         server.receivedMessage(receivedMessage);
     }
 
+    public void disconnect(ClientHandler CH){
+        server.disconnect(CH);
+    }
 
 }

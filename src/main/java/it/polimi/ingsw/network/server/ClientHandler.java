@@ -26,6 +26,7 @@ public class ClientHandler implements Runnable {
 
     /**
      * Default constructor
+     *
      * @param serverSocket is the socket used to communicate with the server
      * @param clientSocket us the socket used to communicate wit the client
      */
@@ -56,7 +57,7 @@ public class ClientHandler implements Runnable {
             handleClientConnection();
         } catch (IOException e) {
             Server.LOGGER.severe(clientSocket.getInetAddress() + "connection dropped");
-            disconnect();
+            disconnect(this);
         }
     }
 
@@ -91,11 +92,14 @@ public class ClientHandler implements Runnable {
     /**
      * Client disconnection routine
      */
-    public void disconnect() {
+    public void disconnect(ClientHandler CH) {
         if (connected) {
             try {
-                if (!clientSocket.isClosed())
+                if (!clientSocket.isClosed()){
                     clientSocket.close();
+                    serverSocket.disconnect(this);
+                }
+
             } catch (IOException e) {
                 Server.LOGGER.severe(e.getMessage());
             }
@@ -120,7 +124,7 @@ public class ClientHandler implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
             Server.LOGGER.severe(e.getMessage());
-            disconnect();
+            disconnect(this);
         }
     }
 }

@@ -11,6 +11,7 @@ import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.gui.scenes.*;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -94,8 +95,9 @@ public class Gui extends ViewSubject implements View {
 
     /**
      * Method used to print info about the active player and the gamePhase
+     *
      * @param currentPlayer nickName of the player that will play
-     * @param currentState is the state of the game
+     * @param currentState  is the state of the game
      */
     @Override
     public void showCurrentPlayer(String currentPlayer, GameState currentState) {
@@ -104,15 +106,17 @@ public class Gui extends ViewSubject implements View {
 
     /**
      * Method used to print a generic message received from the server
+     *
      * @param genericMessage contains message
      */
     @Override
     public void showGenericMessage(String genericMessage) {
-        Platform.runLater(()->SceneController.showMessage(Alert.AlertType.INFORMATION,genericMessage));
+        Platform.runLater(() -> SceneController.showMessage(Alert.AlertType.INFORMATION, genericMessage));
     }
 
     /**
      * Method used to print the number of coins owned by the player
+     *
      * @param player    is the player that modified his number of coins
      * @param numOfCoin is the new value of coin of the player
      */
@@ -139,7 +143,8 @@ public class Gui extends ViewSubject implements View {
 
     /**
      * Method used to print a player's board
-     * @param board is the board that will be printed
+     *
+     * @param board  is the board that will be printed
      * @param player is the board's owner
      */
     @Override
@@ -150,6 +155,7 @@ public class Gui extends ViewSubject implements View {
 
     /**
      * Method used to print all the cards played in the previous turn
+     *
      * @param lastCard is a map where each card is associated to the player's nickname
      */
     @Override
@@ -171,8 +177,9 @@ public class Gui extends ViewSubject implements View {
 
     /**
      * Method used to print an error message
+     *
      * @param errorMessage is the error message
-     * @param errorType is the type of error
+     * @param errorType    is the type of error
      */
     @Override
     public void showError(String errorMessage, ErrorType errorType) {
@@ -189,11 +196,13 @@ public class Gui extends ViewSubject implements View {
 
     @Override
     public void disconnect() {
-
+        Platform.runLater(()->showGenericMessage("CONNECTION CLOSING DUE TO A DISCONNECTION"));
+        Platform.runLater(()->((Stage) SceneController.currentScene.getWindow()).close());
     }
 
     /**
      * Method used to print the available AssistantCards
+     *
      * @param deck is the player's deck
      */
     @Override
@@ -209,11 +218,13 @@ public class Gui extends ViewSubject implements View {
         }
     }
 
-    /**Enable student movement*/
+    /**
+     * Enable student movement
+     */
     @Override
     public void actionPhaseTurn(Boolean expertPlayed, boolean studentMove) {
         PlayerViewController pwc = getPWC();
-        Platform.runLater(()->pwc.switchStudentMovementStatus(studentMove));
+        Platform.runLater(() -> pwc.switchStudentMovementStatus(studentMove));
     }
 
     /**
@@ -233,7 +244,7 @@ public class Gui extends ViewSubject implements View {
     @Override
     public void playExpert9(int cardID, Expert9 expert) {
         Expert9_12_SceneController exp9 = new Expert9_12_SceneController(cardID);
-        Platform.runLater(()->SceneController.showNewPopUp(list,exp9,ChangeType.EXPERT,"Expert9.fxml"));
+        Platform.runLater(() -> SceneController.showNewPopUp(list, exp9, ChangeType.EXPERT, "Expert9.fxml"));
     }
 
     /**
@@ -244,8 +255,8 @@ public class Gui extends ViewSubject implements View {
      */
     @Override
     public void playExpert11(int cardID, Expert11 expert) {
-        Expert11SceneController exp11 = new Expert11SceneController(cardID,expert);
-        Platform.runLater(()->SceneController.showNewPopUp(list,exp11,ChangeType.EXPERT,"Expert11.fxml"));
+        Expert11SceneController exp11 = new Expert11SceneController(cardID, expert);
+        Platform.runLater(() -> SceneController.showNewPopUp(list, exp11, ChangeType.EXPERT, "Expert11.fxml"));
     }
 
     /**
@@ -257,7 +268,7 @@ public class Gui extends ViewSubject implements View {
     @Override
     public void playExpert12(int cardID, Expert12 expert) {
         Expert9_12_SceneController exp9 = new Expert9_12_SceneController(cardID);
-        Platform.runLater(()->SceneController.showNewPopUp(list,exp9,ChangeType.EXPERT,"Expert12.fxml"));
+        Platform.runLater(() -> SceneController.showNewPopUp(list, exp9, ChangeType.EXPERT, "Expert12.fxml"));
     }
 
     /**
@@ -268,8 +279,8 @@ public class Gui extends ViewSubject implements View {
      */
     @Override
     public void playExpert7(int cardID, Expert7 expert) {
-        Expert7SceneController exp7 = new Expert7SceneController(cardID,expert);
-        Platform.runLater(()->SceneController.showNewPopUp(list,exp7,ChangeType.EXPERT,"Expert7.fxml"));
+        Expert7SceneController exp7 = new Expert7SceneController(cardID, expert);
+        Platform.runLater(() -> SceneController.showNewPopUp(list, exp7, ChangeType.EXPERT, "Expert7.fxml"));
     }
 
     /**
@@ -280,8 +291,8 @@ public class Gui extends ViewSubject implements View {
      */
     @Override
     public void playExpert10(int cardID, Expert10 expert) {
-        Expert10SceneController exp10 = new Expert10SceneController(cardID,expert);
-        Platform.runLater(()->SceneController.showNewPopUp(list,exp10,ChangeType.EXPERT,"Expert10.fxml"));
+        Expert10SceneController exp10 = new Expert10SceneController(cardID, expert);
+        Platform.runLater(() -> SceneController.showNewPopUp(list, exp10, ChangeType.EXPERT, "Expert10.fxml"));
     }
 
     /**
@@ -293,7 +304,7 @@ public class Gui extends ViewSubject implements View {
     @Override
     public void playExpert3(int cardID, Expert3 expert) {
         Expert3SceneController exp3 = new Expert3SceneController(cardID, expert);
-        Platform.runLater(()->SceneController.showNewPopUp(list,exp3,ChangeType.EXPERT,"Expert3.fxml"));
+        Platform.runLater(() -> SceneController.showNewPopUp(list, exp3, ChangeType.EXPERT, "Expert3.fxml"));
     }
 
     /**
@@ -305,7 +316,7 @@ public class Gui extends ViewSubject implements View {
     @Override
     public void playExpert1(int cardID, Expert1 expert) {
         Expert1SceneController exp1 = new Expert1SceneController(cardID, expert);
-        Platform.runLater(()->SceneController.showNewPopUp(list,exp1,ChangeType.EXPERT,"Expert1.fxml"));
+        Platform.runLater(() -> SceneController.showNewPopUp(list, exp1, ChangeType.EXPERT, "Expert1.fxml"));
     }
 
     /**
@@ -317,7 +328,7 @@ public class Gui extends ViewSubject implements View {
     @Override
     public void playExpert5(int cardID, Expert5 expert) {
         Expert5SceneController exp5 = new Expert5SceneController(cardID, expert);
-        Platform.runLater(()->SceneController.showNewPopUp(list,exp5,ChangeType.EXPERT,"Expert5.fxml"));
+        Platform.runLater(() -> SceneController.showNewPopUp(list, exp5, ChangeType.EXPERT, "Expert5.fxml"));
     }
 
     /**
@@ -342,9 +353,9 @@ public class Gui extends ViewSubject implements View {
 
 
     @Override
-    public void showExpertCards(ArrayList<ExpertCard> allExpertCards,boolean expertPlayed, int numOfCoins) {
-        ExpertCardSceneController exsx = new ExpertCardSceneController(allExpertCards,expertPlayed,numOfCoins);
-        Platform.runLater(()->SceneController.showNewPopUp(list,exsx, ChangeType.EXPERT, "ExpertsCardScene.fxml","Experts"));
+    public void showExpertCards(ArrayList<ExpertCard> allExpertCards, boolean expertPlayed, int numOfCoins) {
+        ExpertCardSceneController exsx = new ExpertCardSceneController(allExpertCards, expertPlayed, numOfCoins);
+        Platform.runLater(() -> SceneController.showNewPopUp(list, exsx, ChangeType.EXPERT, "ExpertsCardScene.fxml", "Experts"));
     }
 
     @Override
@@ -366,7 +377,7 @@ public class Gui extends ViewSubject implements View {
     @Override
     public void moveMNplusExpert(boolean expertPlayed) {
         PlayerViewController pwc = getPWC();
-        Platform.runLater(()->pwc.enableMNMovement());
+        Platform.runLater(() -> pwc.enableMNMovement());
     }
 
     @Override
@@ -376,16 +387,17 @@ public class Gui extends ViewSubject implements View {
 
     /**
      * Method used to generate the default layout
-     * @param gameFieldMap is a map containing the islands
+     *
+     * @param gameFieldMap  is a map containing the islands
      * @param chargedClouds is an arraylist containing all the infos about cloudTiles
-     * @param boardMap is a map of all the boards
+     * @param boardMap      is a map of all the boards
      * @param currentPlayer is the nickname of the actual player
-     * @param experts is an arraylist of expert cards
-     * @param numOfCoins is the number of coins owned by the player
+     * @param experts       is an arraylist of expert cards
+     * @param numOfCoins    is the number of coins owned by the player
      */
-    public void worldUpdate(Map<Integer, IslandNode> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap,String nick, String currentPlayer, ArrayList<ExpertCard> experts, int numOfCoins) {
+    public void worldUpdate(Map<Integer, IslandNode> gameFieldMap, ArrayList<CloudTile> chargedClouds, Map<String, Board> boardMap, String nick, String currentPlayer, ArrayList<ExpertCard> experts, int numOfCoins) {
         PlayerViewController pwc = getPWC();
-        Platform.runLater(() -> pwc.updateGameField(gameFieldMap, chargedClouds, boardMap.get(nick),currentPlayer, experts, numOfCoins));
+        Platform.runLater(() -> pwc.updateGameField(gameFieldMap, chargedClouds, boardMap.get(nick), currentPlayer, experts, numOfCoins));
 
 
     }

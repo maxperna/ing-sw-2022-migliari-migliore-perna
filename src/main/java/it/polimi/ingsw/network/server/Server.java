@@ -7,6 +7,7 @@ import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.server_messages.ErrorMessage;
 import it.polimi.ingsw.view.VirtualView;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,6 +26,7 @@ public class Server {
 
     /**
      * Default constructor
+     *
      * @param gameController is the controller for the game logic
      */
     public Server(GameController gameController) {
@@ -36,7 +38,8 @@ public class Server {
 
     /**
      * Method used to create a new virtualView on the server
-     * @param nickname is the player's nickname
+     *
+     * @param nickname      is the player's nickname
      * @param clientHandler is the clientHandler used to communicate to the client
      */
     public void addClient(String nickname, ClientHandler clientHandler) {
@@ -64,6 +67,15 @@ public class Server {
      */
     public void receivedMessage(Message receivedMessage) {
         gameController.onMessageReceived(receivedMessage);
+    }
+
+    public void disconnect(ClientHandler CliHan){
+        virtualViewMap.remove(CliHan);
+        for(ClientHandler CH :virtualViewMap.keySet()){
+            virtualViewMap.get(CH).disconnect();
+        }
+        virtualViewMap.clear();
+        System.exit(1);
     }
 
 }

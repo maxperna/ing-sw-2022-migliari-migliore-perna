@@ -65,5 +65,5 @@ public interface ViewListener {
 
     void askAction(Boolean expert_mode);
 
-    void guiExpertShow(ArrayList<ExpertCard> expCards,boolean expertPlayed,int numOfcoins);
+    void guiExpertShow(ArrayList<ExpertCard> expCards, boolean expertPlayed, int numOfcoins);
 }
