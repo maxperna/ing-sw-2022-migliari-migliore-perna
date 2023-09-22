@@ -1,5 +1,5 @@
 # ing-sw-2022-migliari-migliore-perna
-Progetto Ingegneria del SW a.a. 2022 gruppo Perna,Migliari,Migliore
+Progetto Ingegneria del Software Politecnico di Milano a.a. 2022 gruppo Perna,Migliari,Migliore
 
 I jar si trovano nella cartella deliverables della branch main
 Per poterli eseguire è sufficiente trovare il path dei jar e lanciatli con il comando Java -jar [nome jar] (più eventuali parametri)
